@@ -4,8 +4,8 @@ import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../features/model/branch_model/branch_model.dart';
-import '../../../../features/model/facility_model/facility_model.dart';
+import '../../../../../features/dashboard/Admin/store_page/model/branch_model/branch_model_dashboard.dart';
+import '../../../../../../../features/dashboard/Admin/store_page/model/facility_model/facility_model.dart';
 import 'facility_tab_state.dart';
 
 class FacilityTabCubit extends Cubit<FacilityTabState> {
@@ -48,10 +48,10 @@ class FacilityTabCubit extends Cubit<FacilityTabState> {
   }
 
   /////////// Branches ///////////
-  final List<BranchModel> branches = [];
+  final List<BranchModelDashboard> branches = [];
   int? editingIndex;
   bool isAddingBranch = true;
-  void addBranch(BranchModel branch) {
+  void addBranch(BranchModelDashboard branch) {
     branches.add(branch);
     isAddingBranch = false;
     emit(ChangeIndexState());
@@ -63,7 +63,7 @@ class FacilityTabCubit extends Cubit<FacilityTabState> {
     emit(ChangeIndexState());
   }
 
-  void updateBranch(BranchModel updatedBranch) {
+  void updateBranch(BranchModelDashboard updatedBranch) {
     branches[editingIndex!] = updatedBranch;
     editingIndex = null;
     isAddingBranch = false;

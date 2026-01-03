@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../core/theming/text_styles.dart';
 import '../../../core/theming/colors.dart';
 import '../../../core/theming/fonts.dart';
+
 class CustomContainer extends StatelessWidget {
   final String? text;
   final bool isSelected;
@@ -39,12 +40,15 @@ class CustomContainer extends StatelessWidget {
       child: Container(
         height: containerHeight,
         width: containerWidth,
-        padding: padding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        padding:
+            padding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         decoration: BoxDecoration(
           color: containerColor ?? AppColors.whiteColor,
           border: border ??
               Border.all(
-                color: isSelected ? AppColors.orangeColor : AppColors.lightGreyColor,
+                color: isSelected
+                    ? AppColors.orangeColor
+                    : AppColors.lightGreyColor,
               ),
           borderRadius: borderRadius ?? BorderRadius.circular(24),
           boxShadow: boxShadow,
@@ -55,7 +59,7 @@ class CustomContainer extends StatelessWidget {
               textSize: 14,
               textAlign: TextAlign.center,
               fontWeightIndex: FontSelectionData.regularFontFamily,
-              textColor: textColor ?? AppColors.whiteColor ,
+              textColor: textColor ?? AppColors.whiteColor,
             ),
       ),
     );
