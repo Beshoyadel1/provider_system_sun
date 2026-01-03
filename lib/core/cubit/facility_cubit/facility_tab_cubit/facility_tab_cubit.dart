@@ -4,11 +4,9 @@ import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../model/branch_model/branch_model.dart';
-import '../../../../model/facility_model/facility_model.dart';
+import '../../../../features/model/branch_model/branch_model.dart';
+import '../../../../features/model/facility_model/facility_model.dart';
 import 'facility_tab_state.dart';
-
-
 
 class FacilityTabCubit extends Cubit<FacilityTabState> {
   FacilityTabCubit() : super(FacilityDataState());
@@ -137,9 +135,6 @@ class FacilityTabCubit extends Cubit<FacilityTabState> {
     uploadedFileNames.remove(type);
     emit(IdentityDeletedState());
   }
-
-
-
 
 }
 

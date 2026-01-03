@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../../model/general_models/general_model.dart';
-import '../../../model/general_models/pages_model.dart';
+import '../../../features/model/general_models/general_model.dart';
+import '../../../features/model/general_models/pages_model.dart';
 import 'app_states.dart';
 
 class AppCubit extends Cubit<AppStates> {

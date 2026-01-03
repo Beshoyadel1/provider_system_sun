@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import '../../../../../../features/view/auth_page/login_page/login_page.dart';
 import '../../../../../../core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
-import '../../../../../../view/auth_page/login_page/login_page.dart';
 import '../../../../../../features/dashboard/Admin/logout_dashboard/first_screen_logout_dashboard/screens/last_two_button_in_logout_dashboard.dart';
 import '../../../../../../features/dashboard/Admin/logout_dashboard/first_screen_logout_dashboard/screens/first_part_in_logout_dashboard.dart';
 import '../../../../../../core/theming/colors.dart';
@@ -28,13 +28,13 @@ class LogoutDashboard extends StatelessWidget {
           child:Column(
             spacing: 10,
             children: [
-              FirstPartInLogoutDashboard(),
+              const FirstPartInLogoutDashboard(),
               LastTwoButtonInLogoutDashboard(
                 onTapConfirm: (){
                   Navigator.pop(context);
                   Navigator.of(context).push(
                     NavigateToPageWidget(
-                      LoginPage(),
+                      const LoginPage(),
                     ),
                   );
                 },

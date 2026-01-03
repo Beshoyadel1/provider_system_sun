@@ -2,13 +2,13 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import '../../../features/view/auth_page/login_page/login_page.dart';
 import '../../../core/cubit/app_cubit/app_cubit.dart';
 import '../../../core/language/language_cubit/language_cubit.dart';
 import '../../../core/language/language_cubit/language_states.dart';
 import '../../../core/theming/colors.dart';
 import '../../../core/language/language.dart';
 import '../../../core/setup_git_it.dart';
-import 'view/auth_page/login_page/login_page.dart';
 
 
 final GlobalKey<ScaffoldState> scaffoldKeyDrawer = GlobalKey<ScaffoldState>();

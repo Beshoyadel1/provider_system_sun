@@ -17,14 +17,14 @@ import '../../../features/dashboard/Admin/advertisements/first_screen_advertisem
 import '../../../core/language/language_constant.dart';
 import '../../../core/theming/assets.dart';
 import '../../../features/dashboard/Admin/permissions/first_screen_permissions/first_screen_permissions.dart';
-import '../../../model/general_models/pages_model.dart';
-import '../../../view/Internal_services_page/ui/Internal_and_services_statistics_page.dart';
-import '../../../view/Internal_services_page/ui/internal_orders_page.dart';
-import '../../../view/cars_haraj_page/ui/car_haraj_orders_page.dart';
-import '../../../view/cars_haraj_page/ui/cars_haraj_statistics_page.dart';
-import '../../../view/dashboard_page/dashboard_page.dart';
-import '../../../view/store_page/store_widgets/car_model_widget/car_model_widget.dart';
-import '../../../view/store_page/store_widgets/facility_account/facility_account.dart';
+import '../../../features/model/general_models/pages_model.dart';
+import '../../../features/view/Internal_services_page/ui/Internal_and_services_statistics_page.dart';
+import '../../../features/view/Internal_services_page/ui/internal_orders_page.dart';
+import '../../../features/view/cars_haraj_page/ui/car_haraj_orders_page.dart';
+import '../../../features/view/cars_haraj_page/ui/cars_haraj_statistics_page.dart';
+import '../../../features/view/dashboard_page/dashboard_page.dart';
+import '../../../features/view/store_page/store_widgets/car_model_widget/car_model_widget.dart';
+import '../../../features/view/store_page/store_widgets/facility_account/facility_account.dart';
 
 class AppStatesApi {
   static const String phoneExist = 'PhoneExist';
