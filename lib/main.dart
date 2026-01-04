@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import '../../../features/dashboard/Admin/auth_page/login_page/login_page.dart';
+import '../../../features/auth_page/login_page/login_page.dart';
 import '../../../core/cubit/app_cubit/app_cubit.dart';
 import '../../../core/language/language_cubit/language_cubit.dart';
 import '../../../core/language/language_cubit/language_states.dart';
