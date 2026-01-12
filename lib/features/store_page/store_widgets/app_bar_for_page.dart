@@ -25,43 +25,49 @@ class _AppBarForPageState extends State<AppBarForPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     bool isMobile = size.width <= ValuesOfAllApp.mobileWidth;
-    return  BlocBuilder<AppCubit, AppStates>(
-        buildWhen: (previous, current) {
-          return current is ChangeSelectedPageIndexState || current is HideMenuState;
-        },
-        builder: (context, AppStates state) {
-          return Container(
-            padding: const EdgeInsetsDirectional.symmetric(horizontal: 10),
-            decoration: const BoxDecoration(
-              color: AppColors.whiteColor,
-              border: Border(
-                bottom: BorderSide(color: AppColors.scaffoldColor , width: 2),
+    return BlocBuilder<AppCubit, AppStates>(buildWhen: (previous, current) {
+      return current is ChangeSelectedPageIndexState ||
+          current is HideMenuState;
+    }, builder: (context, AppStates state) {
+      return Container(
+        padding: const EdgeInsetsDirectional.symmetric(horizontal: 10),
+        decoration: const BoxDecoration(
+          color: AppColors.whiteColor,
+          border: Border(
+            bottom: BorderSide(color: AppColors.scaffoldColor, width: 2),
+          ),
+        ),
+        child: Row(
+          spacing: 10,
+          children: [
+            Expanded(
+              child: Container(
+                padding: const EdgeInsetsDirectional.symmetric(horizontal: 10),
+                alignment: AlignmentDirectional.centerStart,
+                width: double.infinity,
+                height: 60,
+                child: const TextInAppWidget(
+                  text: AppLanguageKeys.facilityManagementKey,
+                  textSize: 20,
+                  textColor: AppColors.darkColor,
+                  fontWeightIndex: FontSelectionData.mediumFontFamily,
+                ),
               ),
             ),
-            child: Row(
-              spacing: 10,
-              children: [
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsetsDirectional.symmetric(horizontal: 10),
-                    alignment: AlignmentDirectional.centerStart,
-                    width: double.infinity,
-                    height: 60,
-                    child: const TextInAppWidget(
-                      text: AppLanguageKeys.facilityManagementKey,
-                      textSize: 20,
-                      textColor: AppColors.darkColor,
-                      fontWeightIndex: FontSelectionData.mediumFontFamily,
-                    ),
-                  ),
-                ),
-                Image.asset(AppImageKeys.notification, width: 40, height: 40,),
-                Image.asset(AppImageKeys.profileImage, width: 50, height: 48,),
-                const ChangeLanguageButton()
-              ],
+            Image.asset(
+              AppImageKeys.notification,
+              width: 40,
+              height: 40,
             ),
-          );
-        }
-    );
+            Image.asset(
+              AppImageKeys.profileImage,
+              width: 50,
+              height: 48,
+            ),
+            const ChangeLanguageButton()
+          ],
+        ),
+      );
+    });
   }
 }

@@ -8,28 +8,26 @@ import '../../../../../../../core/theming/text_styles.dart';
 class ContainerDetailsWidget extends StatelessWidget {
   final String? title;
   final void Function()? onTap;
-  final Color? backGroundColor,textColor,borderColor;
-  const ContainerDetailsWidget({
-    super.key,
-    this.onTap,
-    this.title,
-    this.textColor,
-    this.borderColor,
-    this.backGroundColor
-  });
+  final Color? backGroundColor, textColor, borderColor;
+
+  const ContainerDetailsWidget(
+      {super.key,
+      this.onTap,
+      this.title,
+      this.textColor,
+      this.borderColor,
+      this.backGroundColor});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap:onTap,
+      onTap: onTap,
       child: Container(
-        padding: EdgeInsetsGeometry.symmetric(vertical: 5,horizontal: 15),
+        padding: EdgeInsetsGeometry.symmetric(vertical: 5, horizontal: 15),
         decoration: BoxDecoration(
-          color: backGroundColor??AppColors.whiteColor,
+          color: backGroundColor ?? AppColors.whiteColor,
           borderRadius: BorderRadius.all(Radius.circular(20)),
-          border: Border.all(
-              color: borderColor??AppColors.orangeColor
-          ),
+          border: Border.all(color: borderColor ?? AppColors.orangeColor),
           boxShadow: [
             BoxShadow(
               color: AppColors.darkColor.withOpacity(0.1),
@@ -40,10 +38,10 @@ class ContainerDetailsWidget extends StatelessWidget {
         ),
         child: Center(
           child: TextInAppWidget(
-            text:title??AppLanguageKeys.details,
+            text: title ?? AppLanguageKeys.details,
             textSize: 12,
             fontWeightIndex: FontSelectionData.regularFontFamily,
-            textColor:textColor??AppColors.orangeColor,
+            textColor: textColor ?? AppColors.orangeColor,
           ),
         ),
       ),

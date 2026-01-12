@@ -4,7 +4,6 @@ import '../../../../../../core/theming/colors.dart';
 import '../../../../../../core/theming/fonts.dart';
 import '../../../../../../core/theming/text_styles.dart';
 
-
 class FirstTitleInListDataFirstScreenAdvertisements extends StatelessWidget {
   const FirstTitleInListDataFirstScreenAdvertisements({super.key});
 
@@ -15,16 +14,16 @@ class FirstTitleInListDataFirstScreenAdvertisements extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         TextInAppWidget(
-          text:AppLanguageKeys.bannerImage,
+          text: AppLanguageKeys.bannerImage,
           textSize: 16,
           fontWeightIndex: FontSelectionData.mediumFontFamily,
-          textColor:AppColors.blackColor,
+          textColor: AppColors.blackColor,
         ),
         TextInAppWidget(
-          text:AppLanguageKeys.bannerSizeNote,
+          text: AppLanguageKeys.bannerSizeNote,
           textSize: 13,
           fontWeightIndex: FontSelectionData.regularFontFamily,
-          textColor:AppColors.blackColor,
+          textColor: AppColors.blackColor,
         )
       ],
     );

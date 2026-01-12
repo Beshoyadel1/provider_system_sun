@@ -10,10 +10,10 @@ class TitleSelectYearModel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextInAppWidget(
-      text:AppLanguageKeys.selectModelYears,
+      text: AppLanguageKeys.selectModelYears,
       textSize: 18,
       fontWeightIndex: FontSelectionData.regularFontFamily,
-      textColor:AppColors.greyColor,
+      textColor: AppColors.greyColor,
     );
   }
 }

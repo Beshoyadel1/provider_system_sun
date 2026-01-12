@@ -36,10 +36,10 @@ class ContainerEditDeleteInCarModelWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               TextInAppWidget(
-                text:'السيارات المضافة 1',
+                text: 'السيارات المضافة 1',
                 textSize: 15,
                 fontWeightIndex: FontSelectionData.regularFontFamily,
-                textColor:AppColors.blackColor,
+                textColor: AppColors.blackColor,
               ),
               Row(
                 spacing: 5,
@@ -51,18 +51,18 @@ class ContainerEditDeleteInCarModelWidget extends StatelessWidget {
             ],
           ),
           TextInAppWidget(
-            text:'بي ان دبليو',
+            text: 'بي ان دبليو',
             textSize: 15,
             fontWeightIndex: FontSelectionData.regularFontFamily,
-            textColor:AppColors.greyColor,
+            textColor: AppColors.greyColor,
           ),
           Row(
             spacing: 10,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               ContainerWhiteImageTextWidget(
-                  text: 'BMW',
-                  imagePath: AppImageKeys.car1,
+                text: 'BMW',
+                imagePath: AppImageKeys.car1,
               ),
               ContainerWhiteImageTextWidget(
                 text: 'BMW',

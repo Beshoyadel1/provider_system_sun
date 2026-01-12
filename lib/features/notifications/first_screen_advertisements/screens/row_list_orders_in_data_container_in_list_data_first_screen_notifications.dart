@@ -6,7 +6,8 @@ import '../../../../../../features/notifications/first_screen_advertisements/log
 
 class RowListOrdersInDataContainerInListDataFirstScreenNotifications
     extends StatelessWidget {
-  const RowListOrdersInDataContainerInListDataFirstScreenNotifications({super.key});
+  const RowListOrdersInDataContainerInListDataFirstScreenNotifications(
+      {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,10 +16,9 @@ class RowListOrdersInDataContainerInListDataFirstScreenNotifications
 
     return BlocProvider(
       create: (_) => SelectOrderNotificationCubit(),
-      child: isTab? DesignWebInRowListOrdersInDataContainerInListDataFirstScreenNotifications()
-          :
-      DesignMobileInRowListOrdersInDataContainerInListDataFirstScreenNotifications(),
+      child: isTab
+          ? DesignWebInRowListOrdersInDataContainerInListDataFirstScreenNotifications()
+          : DesignMobileInRowListOrdersInDataContainerInListDataFirstScreenNotifications(),
     );
   }
 }
-

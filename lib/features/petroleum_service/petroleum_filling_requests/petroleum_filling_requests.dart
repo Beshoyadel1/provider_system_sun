@@ -6,7 +6,6 @@ import '../../../../../../../../features/Petroleum_Service/Petroleum_Filling_Req
 import '../../../../../core/utilies/map_of_all_app.dart';
 import '../../../../../core/theming/colors.dart';
 
-
 class PetroleumFillingRequests extends StatelessWidget {
   const PetroleumFillingRequests({super.key});
 
@@ -14,44 +13,44 @@ class PetroleumFillingRequests extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     bool isMobile = size.width <= ValuesOfAllApp.mobileWidth;
-    bool isTabletCustom = size.width > ValuesOfAllApp.mobileWidth && size.width <= ValuesOfAllApp.customTabWidth;
+    bool isTabletCustom = size.width > ValuesOfAllApp.mobileWidth &&
+        size.width <= ValuesOfAllApp.customTabWidth;
     bool isTab = size.width > ValuesOfAllApp.tabWidth;
 
     return Scaffold(
-      backgroundColor: AppColors.scaffoldColor,
-      body: SafeArea(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Expanded(
-              flex: 3,
-              child: Padding(
-                padding:  EdgeInsets.all(20),
-                child: SingleChildScrollView(
-                  child: ListDataPetroleumFillingRequests(),
-                ),
-              ),
-            ),
-            if ((!isMobile))
+        backgroundColor: AppColors.scaffoldColor,
+        body: SafeArea(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               const Expanded(
-                flex: 2,
+                flex: 3,
                 child: Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: EdgeInsets.all(20),
                   child: SingleChildScrollView(
-                    child: Column(
-                      spacing: 20,
-                      children: [
-                        DesignDigramForPetroleum(),
-                        DesignCraveDigramForPetroleum(),
-                      ],
-                    ),
+                    child: ListDataPetroleumFillingRequests(),
                   ),
                 ),
               ),
-          ],
-        ),
-      )
-    );
+              if ((!isMobile))
+                const Expanded(
+                  flex: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        spacing: 20,
+                        children: [
+                          DesignDigramForPetroleum(),
+                          DesignCraveDigramForPetroleum(),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ));
   }
 }

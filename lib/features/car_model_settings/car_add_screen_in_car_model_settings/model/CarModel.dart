@@ -1,9 +1,9 @@
 import '../../../../../../core/theming/assets.dart';
 
-
 class CarModel {
   final String name;
   final String imagePath;
+
   CarModel({required this.name, required this.imagePath});
 
   static final carCategory = [
@@ -43,6 +43,4 @@ class CarModel {
     CarModel(name: 'سكودا', imagePath: AppImageKeys.logo12),
     CarModel(name: 'اوبل', imagePath: AppImageKeys.logo13),
   ];
-
 }
-

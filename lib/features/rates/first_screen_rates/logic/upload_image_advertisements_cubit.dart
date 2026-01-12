@@ -3,7 +3,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'upload_image_advertisements_state.dart';
 
-class UploadImageAdvertisementsCubit extends Cubit<UploadImageAdvertisementsState> {
+class UploadImageAdvertisementsCubit
+    extends Cubit<UploadImageAdvertisementsState> {
   UploadImageAdvertisementsCubit() : super(UploadImageInitial());
 
   Future<void> pickImage() async {

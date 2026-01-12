@@ -6,9 +6,9 @@ import '../../../../../core/theming/colors.dart';
 import '../../../../../core/theming/fonts.dart';
 import '../../../../../core/theming/text_styles.dart';
 
-
 class CarImageTextInSettingWidget extends StatefulWidget {
-  final String imagePath,text;
+  final String imagePath, text;
+
   const CarImageTextInSettingWidget({
     super.key,
     required this.imagePath,
@@ -16,10 +16,12 @@ class CarImageTextInSettingWidget extends StatefulWidget {
   });
 
   @override
-  State<CarImageTextInSettingWidget> createState() => _CarImageTextInSettingWidgetState();
+  State<CarImageTextInSettingWidget> createState() =>
+      _CarImageTextInSettingWidgetState();
 }
 
-class _CarImageTextInSettingWidgetState extends State<CarImageTextInSettingWidget> {
+class _CarImageTextInSettingWidgetState
+    extends State<CarImageTextInSettingWidget> {
   late TextEditingController textFormController2;
 
   @override
@@ -27,6 +29,7 @@ class _CarImageTextInSettingWidgetState extends State<CarImageTextInSettingWidge
     super.initState();
     textFormController2 = TextEditingController();
   }
+
   @override
   Widget build(BuildContext context) {
     return Flexible(
@@ -57,7 +60,8 @@ class _CarImageTextInSettingWidgetState extends State<CarImageTextInSettingWidge
               textSize: 10,
               textFormWidth: 200,
               textFormHeight: 35,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             ),
           ),
         ],

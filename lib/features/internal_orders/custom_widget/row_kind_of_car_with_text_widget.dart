@@ -4,7 +4,8 @@ import '../../../../../../../core/theming/fonts.dart';
 import '../../../../../../../core/theming/text_styles.dart';
 
 class RowKindOfCarWithTextWidget extends StatelessWidget {
-  final String imagePath,textCar,title;
+  final String imagePath, textCar, title;
+
   const RowKindOfCarWithTextWidget({
     super.key,
     required this.imagePath,
@@ -22,22 +23,24 @@ class RowKindOfCarWithTextWidget extends StatelessWidget {
             spacing: 5,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset(imagePath,),
+              Image.asset(
+                imagePath,
+              ),
               TextInAppWidget(
-                text:textCar,
+                text: textCar,
                 textSize: 11,
                 fontWeightIndex: FontSelectionData.mediumFontFamily,
-                textColor:AppColors.blackColor,
+                textColor: AppColors.blackColor,
               )
             ],
           ),
         ),
         Flexible(
           child: TextInAppWidget(
-            text:title,
+            text: title,
             textSize: 10,
             fontWeightIndex: FontSelectionData.mediumFontFamily,
-            textColor:AppColors.blackColor,
+            textColor: AppColors.blackColor,
           ),
         ),
       ],

@@ -16,26 +16,17 @@ class CategoriesOfSpareParts extends StatelessWidget {
       spacing: 20,
       children: [
         TextInAppWidget(
-          text:AppLanguageKeys.carCategory,
+          text: AppLanguageKeys.carCategory,
           textSize: 16,
           fontWeightIndex: FontSelectionData.regularFontFamily,
-          textColor:AppColors.orangeColor,
+          textColor: AppColors.orangeColor,
         ),
         Row(
           spacing: 10,
           children: [
-            ColumnImageTextWidget(
-                imagePath: AppImageKeys.car500,
-                text: 'GTR'
-            ),
-            ColumnImageTextWidget(
-                imagePath: AppImageKeys.car500,
-                text: 'GTR'
-            ),
-            ColumnImageTextWidget(
-                imagePath: AppImageKeys.car500,
-                text: 'GTR'
-            ),
+            ColumnImageTextWidget(imagePath: AppImageKeys.car500, text: 'GTR'),
+            ColumnImageTextWidget(imagePath: AppImageKeys.car500, text: 'GTR'),
+            ColumnImageTextWidget(imagePath: AppImageKeys.car500, text: 'GTR'),
           ],
         )
       ],

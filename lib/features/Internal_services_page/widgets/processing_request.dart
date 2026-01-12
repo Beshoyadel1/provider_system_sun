@@ -7,6 +7,8 @@ class ProcessingRequest extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CreateNewOrder(textButton: AppLanguageKeys.orderCompletionKey,isProcessingRequest: true);
+    return const CreateNewOrder(
+        textButton: AppLanguageKeys.orderCompletionKey,
+        isProcessingRequest: true);
   }
 }

@@ -14,7 +14,6 @@ class DataContainerInListDataFirstScreenServiceSetting extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Column(
@@ -23,13 +22,13 @@ class DataContainerInListDataFirstScreenServiceSetting extends StatelessWidget {
         children: [
           const FirstRowInDataContainerInListDataFirstScreenServiceSetting(
             text1: AppLanguageKeys.nissanServiceSettings,
-            text2:AppLanguageKeys.serviceSettingsDetails,
+            text2: AppLanguageKeys.serviceSettingsDetails,
           ),
           ContainerInDataContainerInListDataFirstScreenServiceSettingWidget(
             imagePath: AppImageKeys.car1_service,
             title: AppLanguageKeys.internalServices,
             isTaskEdit: true,
-            onTap: (){
+            onTap: () {
               Navigator.pop(context);
               Navigator.of(context).push(
                 NavigateToPageWidget(
@@ -42,7 +41,7 @@ class DataContainerInListDataFirstScreenServiceSetting extends StatelessWidget {
             imagePath: AppImageKeys.car2_service,
             title: AppLanguageKeys.mobileAndTransportServices,
             isTaskEdit: true,
-            onTap: (){
+            onTap: () {
               Navigator.pop(context);
               Navigator.of(context).push(
                 NavigateToPageWidget(
@@ -54,8 +53,7 @@ class DataContainerInListDataFirstScreenServiceSetting extends StatelessWidget {
           ContainerInDataContainerInListDataFirstScreenServiceSettingWidget(
             imagePath: AppImageKeys.car3_service,
             title: AppLanguageKeys.carSpareParts,
-
-            onTap: (){
+            onTap: () {
               Navigator.pop(context);
               Navigator.of(context).push(
                 NavigateToPageWidget(
@@ -67,7 +65,7 @@ class DataContainerInListDataFirstScreenServiceSetting extends StatelessWidget {
           ContainerInDataContainerInListDataFirstScreenServiceSettingWidget(
             imagePath: AppImageKeys.car4_service,
             title: AppLanguageKeys.sharedPackages,
-            onTap: (){
+            onTap: () {
               Navigator.pop(context);
               Navigator.of(context).push(
                 NavigateToPageWidget(

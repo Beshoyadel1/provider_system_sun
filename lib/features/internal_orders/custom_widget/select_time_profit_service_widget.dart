@@ -9,28 +9,29 @@ class SelectTimeProfitServiceWidget extends StatefulWidget {
   final String hint;
   final List<String>? options;
   final bool isTime;
-  final Color? backGroundColor, textColor,borderColor;
-  final double? height, width,borderRadius,textSize;
+  final Color? backGroundColor, textColor, borderColor;
+  final double? height, width, borderRadius, textSize;
 
-  const SelectTimeProfitServiceWidget({
-    super.key,
-    required this.hint,
-    this.options,
-    this.isTime = false,
-    this.textColor,
-    this.backGroundColor,
-    this.width,
-    this.height,
-    this.borderColor,
-    this.borderRadius,
-    this.textSize
-  });
+  const SelectTimeProfitServiceWidget(
+      {super.key,
+      required this.hint,
+      this.options,
+      this.isTime = false,
+      this.textColor,
+      this.backGroundColor,
+      this.width,
+      this.height,
+      this.borderColor,
+      this.borderRadius,
+      this.textSize});
 
   @override
-  State<SelectTimeProfitServiceWidget> createState() => _SelectTimeProfitServiceWidgetState();
+  State<SelectTimeProfitServiceWidget> createState() =>
+      _SelectTimeProfitServiceWidgetState();
 }
 
-class _SelectTimeProfitServiceWidgetState extends State<SelectTimeProfitServiceWidget> {
+class _SelectTimeProfitServiceWidgetState
+    extends State<SelectTimeProfitServiceWidget> {
   final TextEditingController textFormController = TextEditingController();
 
   Future<void> _selectDate(BuildContext context) async {
@@ -44,7 +45,7 @@ class _SelectTimeProfitServiceWidgetState extends State<SelectTimeProfitServiceW
     if (pickedDate != null) {
       setState(() {
         textFormController.text =
-        "${pickedDate.day.toString().padLeft(2, '0')}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.year}";
+            "${pickedDate.day.toString().padLeft(2, '0')}/${pickedDate.month.toString().padLeft(2, '0')}/${pickedDate.year}";
       });
     }
   }
@@ -59,8 +60,8 @@ class _SelectTimeProfitServiceWidgetState extends State<SelectTimeProfitServiceW
           return GestureDetector(
             onTap: widget.isTime
                 ? () async {
-              await _selectDate(context);
-            }
+                    await _selectDate(context);
+                  }
                 : null,
             child: SizedBox(
               height: widget.height ?? 35,
@@ -70,72 +71,74 @@ class _SelectTimeProfitServiceWidgetState extends State<SelectTimeProfitServiceW
                   filled: true,
                   fillColor: widget.backGroundColor ?? AppColors.blueColor,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(widget.borderRadius?? 25),
+                    borderRadius:
+                        BorderRadius.circular(widget.borderRadius ?? 25),
                     borderSide: widget.borderColor != null
                         ? BorderSide(color: widget.borderColor!)
                         : BorderSide.none,
                   ),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 ),
                 child: widget.isTime
                     ? Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: TextInAppWidget(
-                        text: textFormController.text.isEmpty
-                            ? widget.hint
-                            : textFormController.text,
-                        textSize: widget.textSize??13,
-                        fontWeightIndex:
-                        FontSelectionData.regularFontFamily,
-                        textColor:
-                        widget.textColor ?? AppColors.whiteColor,
-                      ),
-                    ),
-                    Icon(Icons.calendar_today,
-                        color: widget.textColor ?? AppColors.whiteColor,
-                        size: widget.textSize??13),
-                  ],
-                )
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: TextInAppWidget(
+                              text: textFormController.text.isEmpty
+                                  ? widget.hint
+                                  : textFormController.text,
+                              textSize: widget.textSize ?? 13,
+                              fontWeightIndex:
+                                  FontSelectionData.regularFontFamily,
+                              textColor:
+                                  widget.textColor ?? AppColors.whiteColor,
+                            ),
+                          ),
+                          Icon(Icons.calendar_today,
+                              color: widget.textColor ?? AppColors.whiteColor,
+                              size: widget.textSize ?? 13),
+                        ],
+                      )
                     : DropdownButtonHideUnderline(
-                  child: DropdownButton<String>(
-                    isExpanded: true,
-                    dropdownColor:
-                    widget.backGroundColor ?? AppColors.blueColor,
-                    value: selectedOption,
-                    hint: TextInAppWidget(
-                      text: widget.hint,
-                      textSize: 13,
-                      fontWeightIndex:
-                      FontSelectionData.regularFontFamily,
-                      textColor:
-                      widget.textColor ?? AppColors.whiteColor,
-                    ),
-                    items: widget.options!
-                        .map(
-                          (option) => DropdownMenuItem(
-                        value: option,
-                        child: TextInAppWidget(
-                          text: option,
-                          textSize: widget.textSize??13,
-                          fontWeightIndex:
-                          FontSelectionData.regularFontFamily,
-                          textColor: widget.textColor ??
-                              AppColors.whiteColor,
+                        child: DropdownButton<String>(
+                          isExpanded: true,
+                          dropdownColor:
+                              widget.backGroundColor ?? AppColors.blueColor,
+                          value: selectedOption,
+                          hint: TextInAppWidget(
+                            text: widget.hint,
+                            textSize: 13,
+                            fontWeightIndex:
+                                FontSelectionData.regularFontFamily,
+                            textColor: widget.textColor ?? AppColors.whiteColor,
+                          ),
+                          items: widget.options!
+                              .map(
+                                (option) => DropdownMenuItem(
+                                  value: option,
+                                  child: TextInAppWidget(
+                                    text: option,
+                                    textSize: widget.textSize ?? 13,
+                                    fontWeightIndex:
+                                        FontSelectionData.regularFontFamily,
+                                    textColor: widget.textColor ??
+                                        AppColors.whiteColor,
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                          iconEnabledColor:
+                              widget.textColor ?? AppColors.whiteColor,
+                          onChanged: (value) {
+                            context
+                                .read<OptionDashboardCubit>()
+                                .selectOption(value);
+                            textFormController.text = value ?? "";
+                          },
                         ),
                       ),
-                    )
-                        .toList(),
-                    iconEnabledColor: widget.textColor ?? AppColors.whiteColor,
-                    onChanged: (value) {
-                      context
-                          .read<OptionDashboardCubit>()
-                          .selectOption(value);
-                      textFormController.text = value ?? "";
-                    },
-                  ),
-                ),
               ),
             ),
           );

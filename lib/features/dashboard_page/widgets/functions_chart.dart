@@ -8,8 +8,9 @@ import '../../../../../core/theming/formate.dart';
 import '../../../../../core/theming/text_styles.dart';
 
 OverlayEntry? overlayEntry;
-void showTooltipOverlay(BuildContext context, Offset globalPosition, LineBarSpot spot) {
 
+void showTooltipOverlay(
+    BuildContext context, Offset globalPosition, LineBarSpot spot) {
   removeOverlay();
   final overlay = Overlay.of(context);
   if (overlay == null) return;
@@ -21,8 +22,10 @@ void showTooltipOverlay(BuildContext context, Offset globalPosition, LineBarSpot
 
   overlayEntry = OverlayEntry(
     builder: (context) => Positioned(
-      left: left.clamp(8.0, MediaQuery.of(context).size.width - tooltipWidth - 8.0),
-      top: top.clamp(8.0, MediaQuery.of(context).size.height - tooltipHeight - 8.0),
+      left: left.clamp(
+          8.0, MediaQuery.of(context).size.width - tooltipWidth - 8.0),
+      top: top.clamp(
+          8.0, MediaQuery.of(context).size.height - tooltipHeight - 8.0),
       width: tooltipWidth,
       height: tooltipHeight,
       child: Material(
@@ -47,14 +50,20 @@ void showTooltipOverlay(BuildContext context, Offset globalPosition, LineBarSpot
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TextInAppWidget(text: '${spot.x.toInt() > 0 ? formatDateFromMilliseconds(spot.x.toInt()) : ''}',
-                  textColor: AppColors.darkColor,fontWeightIndex: FontSelectionData.regularFontFamily,textSize: 14,
+                TextInAppWidget(
+                  text:
+                      '${spot.x.toInt() > 0 ? formatDateFromMilliseconds(spot.x.toInt()) : ''}',
+                  textColor: AppColors.darkColor,
+                  fontWeightIndex: FontSelectionData.regularFontFamily,
+                  textSize: 14,
                 ),
                 const SizedBox(height: 4),
-                TextInAppWidget(text:  '${spot.y.toInt()} ريال',
-                  textColor: AppColors.seaBlueColor,fontWeightIndex: FontSelectionData.regularFontFamily,textSize: 14,
+                TextInAppWidget(
+                  text: '${spot.y.toInt()} ريال',
+                  textColor: AppColors.seaBlueColor,
+                  fontWeightIndex: FontSelectionData.regularFontFamily,
+                  textSize: 14,
                 ),
-
               ],
             ),
           ),
@@ -65,9 +74,6 @@ void showTooltipOverlay(BuildContext context, Offset globalPosition, LineBarSpot
 
   overlay.insert(overlayEntry!);
 }
-
-
-
 
 void removeOverlay() {
   if (overlayEntry != null) {

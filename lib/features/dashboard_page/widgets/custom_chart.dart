@@ -7,16 +7,19 @@ import '../../../../../core/pages_widgets/general_widgets/custom_container.dart'
 import '../../../../../core/theming/text_styles.dart';
 
 class CustomChart extends StatelessWidget {
-  const CustomChart({super.key, required this.image, required this.imageBackground});
-final String image;
-final Color imageBackground;
+  const CustomChart(
+      {super.key, required this.image, required this.imageBackground});
+
+  final String image;
+  final Color imageBackground;
 
   @override
   Widget build(BuildContext context) {
-    return  CustomContainer(
+    return CustomContainer(
       containerWidth: 280,
       containerHeight: 260,
-      isSelected: false, onTap: (){},
+      isSelected: false,
+      onTap: () {},
       borderRadius: BorderRadius.circular(20),
       typeWidget: Column(
         spacing: 20,
@@ -35,7 +38,6 @@ final Color imageBackground;
                   color: imageBackground,
                 ),
               ),
-
               const Column(
                 spacing: 4,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,7 +47,6 @@ final Color imageBackground;
                     textSize: 16,
                     fontWeightIndex: FontSelectionData.regularFontFamily,
                   ),
-
                   TextInAppWidget(
                     text: AppLanguageKeys.ordersCountKey,
                     textColor: AppColors.orangeColor,
@@ -67,12 +68,25 @@ final Color imageBackground;
           Row(
             spacing: 5,
             children: [
-              TextInAppWidget(text: AppLanguageKeys.priceKey,textSize: 18,fontWeightIndex: FontSelectionData.regularFontFamily,textColor:  imageBackground,),
+              TextInAppWidget(
+                text: AppLanguageKeys.priceKey,
+                textSize: 18,
+                fontWeightIndex: FontSelectionData.regularFontFamily,
+                textColor: imageBackground,
+              ),
               const Spacer(),
-              Image.asset(AppImageKeys.vector,height:18 ,width:18 ,color:imageBackground,),
-
-              const TextInAppWidget(text: AppLanguageKeys.increasePercentKey,textSize: 14,fontWeightIndex: FontSelectionData.regularFontFamily,textColor: AppColors.darkColor,),
-
+              Image.asset(
+                AppImageKeys.vector,
+                height: 18,
+                width: 18,
+                color: imageBackground,
+              ),
+              const TextInAppWidget(
+                text: AppLanguageKeys.increasePercentKey,
+                textSize: 14,
+                fontWeightIndex: FontSelectionData.regularFontFamily,
+                textColor: AppColors.darkColor,
+              ),
             ],
           )
         ],

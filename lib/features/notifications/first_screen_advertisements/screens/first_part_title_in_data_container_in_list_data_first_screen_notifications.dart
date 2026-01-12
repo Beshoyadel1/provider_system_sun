@@ -4,8 +4,10 @@ import '../../../../../../core/theming/colors.dart';
 import '../../../../../../core/theming/fonts.dart';
 import '../../../../../../core/theming/text_styles.dart';
 
-class FirstPartTitleInDataContainerInListDataFirstScreenNotifications extends StatelessWidget {
-  const FirstPartTitleInDataContainerInListDataFirstScreenNotifications({super.key});
+class FirstPartTitleInDataContainerInListDataFirstScreenNotifications
+    extends StatelessWidget {
+  const FirstPartTitleInDataContainerInListDataFirstScreenNotifications(
+      {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,16 +16,16 @@ class FirstPartTitleInDataContainerInListDataFirstScreenNotifications extends St
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextInAppWidget(
-          text:AppLanguageKeys.allOrders,
+          text: AppLanguageKeys.allOrders,
           textSize: 16,
           fontWeightIndex: FontSelectionData.mediumFontFamily,
-          textColor:AppColors.blackColor,
+          textColor: AppColors.blackColor,
         ),
         TextInAppWidget(
-          text:AppLanguageKeys.ordersListFromServices,
+          text: AppLanguageKeys.ordersListFromServices,
           textSize: 13,
           fontWeightIndex: FontSelectionData.regularFontFamily,
-          textColor:AppColors.blackColor,
+          textColor: AppColors.blackColor,
         )
       ],
     );

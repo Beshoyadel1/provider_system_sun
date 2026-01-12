@@ -38,7 +38,6 @@ class AddBranchUI extends StatelessWidget {
           fontWeightIndex: FontSelectionData.mediumFontFamily,
         ),
         const SizedBox(height: 30),
-
         TextFormFieldWidget(
           textFormController: textController,
           text: AppLanguageKeys.branchAddressKey,
@@ -58,7 +57,6 @@ class AddBranchUI extends StatelessWidget {
             }
           },
         ),
-
         const SizedBox(height: 30),
         const TextInAppWidget(
           text: AppLanguageKeys.confirmBranchLocationKey,
@@ -98,4 +96,3 @@ class AddBranchUI extends StatelessWidget {
     );
   }
 }
-

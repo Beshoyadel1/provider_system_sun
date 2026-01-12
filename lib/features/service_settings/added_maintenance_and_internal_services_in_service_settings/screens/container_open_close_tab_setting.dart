@@ -8,33 +8,37 @@ import '../../../../../../features/service_settings/added_maintenance_and_intern
 
 class ContainerOpenCloseTabSetting extends StatelessWidget {
   final bool? isDoneTask;
+
   const ContainerOpenCloseTabSetting({
     super.key,
-    this.isDoneTask=false
+    this.isDoneTask = false
   });
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DetailsContainerSettingCubit, DetailsContainerSettingState>(
-        buildWhen: (previous, current) => previous.isExpanded != current.isExpanded,
+    return BlocBuilder<
+        DetailsContainerSettingCubit,
+        DetailsContainerSettingState>(
+        buildWhen: (previous, current) =>
+        previous.isExpanded != current.isExpanded,
         builder: (context, state) {
-        return Container(
-          decoration: BoxDecoration(
-            color:isDoneTask!? AppColors.orangeColor:AppColors.greyColor,
-            shape: BoxShape.circle,
-          ),
-          child: IconButton(
-            onPressed: () =>
-                context.read<DetailsContainerSettingCubit>().toggle(),
-            icon: Icon(
-              state.isExpanded
-                  ? Icons.keyboard_arrow_up
-                  : Icons.keyboard_arrow_down,
-              color: AppColors.whiteColor,
+          return Container(
+            decoration: BoxDecoration(
+              color: isDoneTask! ? AppColors.orangeColor : AppColors.greyColor,
+              shape: BoxShape.circle,
             ),
-          ),
-        );
-      }
+            child: IconButton(
+              onPressed: () =>
+                  context.read<DetailsContainerSettingCubit>().toggle(),
+              icon: Icon(
+                state.isExpanded
+                    ? Icons.keyboard_arrow_up
+                    : Icons.keyboard_arrow_down,
+                color: AppColors.whiteColor,
+              ),
+            ),
+          );
+        }
     );
   }
 }

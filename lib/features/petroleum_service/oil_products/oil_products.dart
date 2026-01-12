@@ -12,38 +12,37 @@ class OilProducts extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     bool isMobile = size.width <= 1360;
-    bool isTabletCustom = size.width > ValuesOfAllApp.mobileWidth && size.width <= ValuesOfAllApp.customTabWidth;
+    bool isTabletCustom = size.width > ValuesOfAllApp.mobileWidth &&
+        size.width <= ValuesOfAllApp.customTabWidth;
     bool isTab = size.width > ValuesOfAllApp.tabWidth;
 
     return Scaffold(
-      backgroundColor: AppColors.scaffoldColor,
-      body: SafeArea(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Expanded(
-              flex: 3,
-              child: Padding(
-                padding:  EdgeInsets.all(20),
-                child: SingleChildScrollView(
-                  child: ListDataOilProducts(),
-                ),
-              ),
-            ),
-            if ((!isMobile))
+        backgroundColor: AppColors.scaffoldColor,
+        body: SafeArea(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               const Expanded(
-                flex: 2,
+                flex: 3,
                 child: Padding(
-                  padding:  EdgeInsets.all(10.0),
+                  padding: EdgeInsets.all(20),
                   child: SingleChildScrollView(
-                    child: ContainerDesignListAddProductOil()
+                    child: ListDataOilProducts(),
                   ),
                 ),
               ),
-          ],
-        ),
-      )
-    );
+              if ((!isMobile))
+                const Expanded(
+                  flex: 2,
+                  child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: SingleChildScrollView(
+                        child: ContainerDesignListAddProductOil()),
+                  ),
+                ),
+            ],
+          ),
+        ));
   }
 }

@@ -11,21 +11,34 @@ class EmployeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  CustomContainer(
-
+    return CustomContainer(
         containerHeight: 64,
         padding: const EdgeInsets.all(0),
         borderRadius: BorderRadius.circular(10),
-        isSelected: false, onTap: (){},
-        typeWidget:ListTile(
+        isSelected: false,
+        onTap: () {},
+        typeWidget: ListTile(
           leading: CircleAvatar(
             radius: 20,
             backgroundColor: AppColors.veryLightOrangeColor.withAlpha(100),
-            child: Image.asset(AppImageKeys.profileImage,height:18 ,width:18 ),
+            child:
+                Image.asset(AppImageKeys.profileImage, height: 18, width: 18),
           ),
-          title: const TextInAppWidget(text: AppLanguageKeys.jobTitleKey,textSize: 10,fontWeightIndex: FontSelectionData.regularFontFamily,),
-          subtitle: const TextInAppWidget(text: AppLanguageKeys.employeeNameKey,textSize: 12,fontWeightIndex: FontSelectionData.regularFontFamily,),
-          trailing: const TextInAppWidget(text: AppLanguageKeys.requestsCountKey,textSize: 12,fontWeightIndex: FontSelectionData.regularFontFamily,),
-        ) );
+          title: const TextInAppWidget(
+            text: AppLanguageKeys.jobTitleKey,
+            textSize: 10,
+            fontWeightIndex: FontSelectionData.regularFontFamily,
+          ),
+          subtitle: const TextInAppWidget(
+            text: AppLanguageKeys.employeeNameKey,
+            textSize: 12,
+            fontWeightIndex: FontSelectionData.regularFontFamily,
+          ),
+          trailing: const TextInAppWidget(
+            text: AppLanguageKeys.requestsCountKey,
+            textSize: 12,
+            fontWeightIndex: FontSelectionData.regularFontFamily,
+          ),
+        ));
   }
 }

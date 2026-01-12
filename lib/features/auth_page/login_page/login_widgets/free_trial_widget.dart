@@ -19,9 +19,7 @@ class FreeTrialWidget extends StatelessWidget {
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
           hoverColor: Colors.transparent,
-          onTap: () {
-
-          },
+          onTap: () {},
           child: SizedBox(
             width: context.read<AppCubit>().isAllAppLanguageArabic ? 150 : 100,
             child: const Column(
@@ -32,7 +30,10 @@ class FreeTrialWidget extends StatelessWidget {
                   fontWeightIndex: FontSelectionData.semiBoldFontFamily,
                   textColor: AppColors.scaffoldColor,
                 ),
-                Divider(color: AppColors.scaffoldColor, thickness: 1,),
+                Divider(
+                  color: AppColors.scaffoldColor,
+                  thickness: 1,
+                ),
               ],
             ),
           ),

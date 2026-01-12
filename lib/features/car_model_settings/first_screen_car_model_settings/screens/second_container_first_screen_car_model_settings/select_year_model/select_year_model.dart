@@ -19,16 +19,16 @@ class SelectYearModel extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextInAppWidget(
-                text:AppLanguageKeys.from,
+                text: AppLanguageKeys.from,
                 textSize: 13,
                 fontWeightIndex: FontSelectionData.regularFontFamily,
-                textColor:AppColors.blackColor,
+                textColor: AppColors.blackColor,
               ),
               SelectTimeProfitServiceWidget(
                 hint: '',
                 backGroundColor: AppColors.whiteColor,
                 textColor: AppColors.greyColor,
-                borderColor:AppColors.greyColor,
+                borderColor: AppColors.greyColor,
                 width: 250,
                 options: ['2000', '2001', '2002', '2003', '2004', '2005'],
               ),
@@ -41,16 +41,16 @@ class SelectYearModel extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextInAppWidget(
-                text:AppLanguageKeys.to,
+                text: AppLanguageKeys.to,
                 textSize: 13,
                 fontWeightIndex: FontSelectionData.regularFontFamily,
-                textColor:AppColors.blackColor,
+                textColor: AppColors.blackColor,
               ),
               SelectTimeProfitServiceWidget(
                 hint: '',
                 backGroundColor: AppColors.whiteColor,
                 textColor: AppColors.greyColor,
-                borderColor:AppColors.greyColor,
+                borderColor: AppColors.greyColor,
                 width: 250,
                 options: ['2000', '2001', '2002', '2003', '2004', '2005'],
               ),

@@ -12,19 +12,27 @@ class ServicesStatistics extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
-        containerWidth: 375,
-        isSelected: false,
-        onTap: (){},
-        typeWidget: const Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextInAppWidget(text: AppLanguageKeys.internalServicesStatsKey, textSize: 16, fontWeightIndex: FontSelectionData.regularFontFamily,),
-            SelectDateWidget(),
-            SizedBox(height: 30,),
-            DonutChartAndLegend(),
-            SizedBox(height: 20,),
-          ],
-        ),
+      containerWidth: 375,
+      isSelected: false,
+      onTap: () {},
+      typeWidget: const Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextInAppWidget(
+            text: AppLanguageKeys.internalServicesStatsKey,
+            textSize: 16,
+            fontWeightIndex: FontSelectionData.regularFontFamily,
+          ),
+          SelectDateWidget(),
+          SizedBox(
+            height: 30,
+          ),
+          DonutChartAndLegend(),
+          SizedBox(
+            height: 20,
+          ),
+        ],
+      ),
     );
   }
 }

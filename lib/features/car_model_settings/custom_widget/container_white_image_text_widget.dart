@@ -5,7 +5,8 @@ import '../../../../../../core/theming/fonts.dart';
 import '../../../../../../core/theming/text_styles.dart';
 
 class ContainerWhiteImageTextWidget extends StatelessWidget {
-  final String imagePath,text;
+  final String imagePath, text;
+
   const ContainerWhiteImageTextWidget({
     super.key,
     required this.text,
@@ -30,12 +31,12 @@ class ContainerWhiteImageTextWidget extends StatelessWidget {
       child: Column(
         spacing: 5,
         children: [
-          Image.asset(imagePath,width: 50,),
+          Image.asset(imagePath, width: 50,),
           TextInAppWidget(
-            text:text,
+            text: text,
             textSize: 13,
             fontWeightIndex: FontSelectionData.regularFontFamily,
-            textColor:AppColors.blackColor,
+            textColor: AppColors.blackColor,
           ),
         ],
       ),

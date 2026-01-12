@@ -40,8 +40,7 @@ class ChooseCategory extends StatelessWidget {
                     child: TextInAppWidget(
                         text: AppLanguageKeys.allCategoriesKey,
                         textSize: 12,
-                        fontWeightIndex:
-                        FontSelectionData.regularFontFamily,
+                        fontWeightIndex: FontSelectionData.regularFontFamily,
                         textColor: AppColors.orangeColor))),
             Expanded(
               child: Builder(
@@ -68,7 +67,6 @@ class ChooseCategory extends StatelessWidget {
                 },
               ),
             )
-
           ],
         ),
       ],

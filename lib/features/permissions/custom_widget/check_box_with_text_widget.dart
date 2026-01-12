@@ -59,9 +59,8 @@ class CheckBoxWithText extends StatelessWidget {
                   text: text,
                   textSize: 11,
                   fontWeightIndex: FontSelectionData.regularFontFamily,
-                  textColor: isChecked
-                      ? AppColors.blackColor
-                      : AppColors.greyColor,
+                  textColor:
+                      isChecked ? AppColors.blackColor : AppColors.greyColor,
                 ),
             ],
           );

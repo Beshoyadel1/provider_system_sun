@@ -15,18 +15,21 @@ class FirstPartInLogoutDashboard extends StatelessWidget {
       spacing: 20,
       children: [
         TextInAppWidget(
-          text:AppLanguageKeys.logout,
+          text: AppLanguageKeys.logout,
           textSize: 20,
           fontWeightIndex: FontSelectionData.semiBoldFontFamily,
-          textColor:AppColors.blackColor,
+          textColor: AppColors.blackColor,
         ),
         TextInAppWidget(
-          text:AppLanguageKeys.confirmLogout,
+          text: AppLanguageKeys.confirmLogout,
           textSize: 12,
           fontWeightIndex: FontSelectionData.semiBoldFontFamily,
-          textColor:AppColors.blackColor,
+          textColor: AppColors.blackColor,
         ),
-        Image.asset(AppImageKeys.logout,width: 100,)
+        Image.asset(
+          AppImageKeys.logout,
+          width: 100,
+        )
       ],
     );
   }

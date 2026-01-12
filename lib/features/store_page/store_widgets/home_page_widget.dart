@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../../core/theming/colors.dart';
 
-
 class HomePageWidget extends StatelessWidget {
   const HomePageWidget({super.key});
 
@@ -15,7 +14,7 @@ class HomePageWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             border: Border.all(color: AppColors.scaffoldColor),
           ),
-            // child: const ClassOfWrapData()
+          // child: const ClassOfWrapData()
         ),
       ],
     );

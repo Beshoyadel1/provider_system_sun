@@ -10,9 +10,9 @@ import '../../../../../core/theming/fonts.dart';
 import '../../../../../core/theming/text_styles.dart';
 import '../../../../../core/language/language_constant.dart';
 
-
 class BranchesAddedUi extends StatelessWidget {
   const BranchesAddedUi({super.key, required this.state});
+
   final FacilityTabState state;
 
   @override
@@ -55,8 +55,7 @@ class BranchesAddedUi extends StatelessWidget {
                       TextInAppWidget(
                         text: branch.name,
                         textSize: 16,
-                        fontWeightIndex:
-                        FontSelectionData.boldFontFamily,
+                        fontWeightIndex: FontSelectionData.boldFontFamily,
                       ),
                     ],
                   ),
@@ -65,7 +64,9 @@ class BranchesAddedUi extends StatelessWidget {
                 CustomContainer(
                   isSelected: false,
                   onTap: () {
-                    context.read<FacilityTabCubit>().editBranch(branches.indexOf(branch));
+                    context
+                        .read<FacilityTabCubit>()
+                        .editBranch(branches.indexOf(branch));
                   },
                   containerColor: AppColors.darkGreyColor,
                   containerWidth: 162,
@@ -87,18 +88,15 @@ class BranchesAddedUi extends StatelessWidget {
                     ],
                   ),
                 ),
-
               ],
             ),
           );
         }),
         CustomAddButton(
           width: 198,
-
           text: AppLanguageKeys.addNewBranchKey,
           onTap: () => context.read<FacilityTabCubit>().goToAddBranches(),
         ),
-
       ],
     );
   }

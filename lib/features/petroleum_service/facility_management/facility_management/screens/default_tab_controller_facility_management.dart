@@ -12,10 +12,12 @@ class DefaultTabControllerFacilityManagement extends StatefulWidget {
   const DefaultTabControllerFacilityManagement({super.key});
 
   @override
-  State<DefaultTabControllerFacilityManagement> createState() => _DefaultTabControllerFacilityManagementState();
+  State<DefaultTabControllerFacilityManagement> createState() =>
+      _DefaultTabControllerFacilityManagementState();
 }
 
-class _DefaultTabControllerFacilityManagementState extends State<DefaultTabControllerFacilityManagement> {
+class _DefaultTabControllerFacilityManagementState
+    extends State<DefaultTabControllerFacilityManagement> {
   late TabInsuranceNewOffersCubit cubit;
 
   @override
@@ -23,6 +25,7 @@ class _DefaultTabControllerFacilityManagementState extends State<DefaultTabContr
     super.initState();
     cubit = context.read<TabInsuranceNewOffersCubit>();
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TabInsuranceNewOffersCubit, TabInsuranceNewOffersState>(
@@ -61,6 +64,7 @@ class _DefaultTabControllerFacilityManagementState extends State<DefaultTabContr
     );
   }
 }
+
 final List<Widget> widgetInsuranceOffers = const [
   EstablishmentData(),
   EstablishmentData(),

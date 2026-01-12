@@ -10,40 +10,56 @@ import 'message_numbers.dart';
 
 class AvailableCars extends StatelessWidget {
   const AvailableCars({super.key, this.spacing, required this.onTap});
+
   final double? spacing;
   final VoidCallback onTap;
+
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
-
       isSelected: false,
       onTap: () {},
       borderRadius: BorderRadius.circular(12),
       typeWidget: Center(
         child: Wrap(
-          spacing:spacing??35,
+          spacing: spacing ?? 35,
           runSpacing: 10,
           crossAxisAlignment: WrapCrossAlignment.center,
           alignment: WrapAlignment.center,
           children: [
-            const TextInAppWidget(text: '1#', textSize: 16, textColor: AppColors.darkColor),
+            const TextInAppWidget(
+                text: '1#', textSize: 16, textColor: AppColors.darkColor),
             const CarModel(),
             const OrderState(),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Image.asset(AppImageKeys.nesan, width: 30, height: 34, fit: BoxFit.contain,),
-                const TextInAppWidget(text: 'نيسان', textSize: 14, textColor: AppColors.darkColor),
+                Image.asset(
+                  AppImageKeys.nesan,
+                  width: 30,
+                  height: 34,
+                  fit: BoxFit.contain,
+                ),
+                const TextInAppWidget(
+                    text: 'نيسان',
+                    textSize: 14,
+                    textColor: AppColors.darkColor),
               ],
             ),
             MessageNumbers(),
-            const  Column(
+            const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                TextInAppWidget(text:'سعر السيارة ', textSize: 14, textColor:AppColors.darkColor),
-                TextInAppWidget(text: AppLanguageKeys.priceKey, textSize: 14, textColor: AppColors.darkColor),
+                TextInAppWidget(
+                    text: 'سعر السيارة ',
+                    textSize: 14,
+                    textColor: AppColors.darkColor),
+                TextInAppWidget(
+                    text: AppLanguageKeys.priceKey,
+                    textSize: 14,
+                    textColor: AppColors.darkColor),
               ],
             ),
             CustomContainer(
@@ -54,7 +70,11 @@ class AvailableCars extends StatelessWidget {
               onTap: onTap,
               padding: EdgeInsets.zero,
               typeWidget: const Center(
-                child: TextInAppWidget(text: AppLanguageKeys.detailsKey, textSize: 14, textColor: AppColors.orangeColor),),
+                child: TextInAppWidget(
+                    text: AppLanguageKeys.detailsKey,
+                    textSize: 14,
+                    textColor: AppColors.orangeColor),
+              ),
             ),
           ],
         ),

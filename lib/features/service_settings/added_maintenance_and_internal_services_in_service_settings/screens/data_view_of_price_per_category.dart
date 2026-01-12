@@ -12,15 +12,17 @@ class DataViewOfPricePerCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery
+        .of(context)
+        .size;
     bool isMobile = size.width <= ValuesOfAllApp.mobileWidth;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       child: Column(
         spacing: 10,
         children: [
-          isMobile?
+          isMobile ?
           ListMobileOfDataViewOfPricePerCategory()
               :
           ListWebOfDataViewOfPricePerCategory(),
@@ -33,7 +35,7 @@ class DataViewOfPricePerCategory extends StatelessWidget {
                   color: AppColors.orangeColor,
                   text: AppLanguageKeys.add,
                   icon: CupertinoIcons.add,
-                  onTap: (){},
+                  onTap: () {},
                 ),
               ),
             ],

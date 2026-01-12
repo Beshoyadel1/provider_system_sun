@@ -3,8 +3,10 @@ import '../../../../../../core/language/language_constant.dart';
 import '../../../../../../core/theming/assets.dart';
 import '../../../../../../features/internal_orders/custom_widget/Container_of_second_part_data_container_in_list_data_first_screen_internal_orders_widget.dart';
 
-class ListDataViewItemsInDataContainerInListDataFirstScreenNotifications extends StatelessWidget {
-  const ListDataViewItemsInDataContainerInListDataFirstScreenNotifications({super.key});
+class ListDataViewItemsInDataContainerInListDataFirstScreenNotifications
+    extends StatelessWidget {
+  const ListDataViewItemsInDataContainerInListDataFirstScreenNotifications(
+      {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +24,8 @@ class ListDataViewItemsInDataContainerInListDataFirstScreenNotifications extends
             imagePathPart3: AppImageKeys.person22,
             titlePart3: AppLanguageKeys.jobName,
             subTitlePart3: 'أحمد محمود محمد',
-            timePart5:'1/1/2025',
-            pricePart6: '500'
-        ),
+            timePart5: '1/1/2025',
+            pricePart6: '500'),
         ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidget(
             imagePathPart1: AppImageKeys.service33,
             titlePart1: AppLanguageKeys.internalServices,
@@ -36,9 +37,8 @@ class ListDataViewItemsInDataContainerInListDataFirstScreenNotifications extends
             titlePart3: AppLanguageKeys.jobName,
             subTitlePart3: 'أحمد محمود محمد',
             isNewOrderPart4: true,
-            timePart5:'1/1/2025',
-            pricePart6: '500'
-        ),
+            timePart5: '1/1/2025',
+            pricePart6: '500'),
         ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidget(
             imagePathPart1: AppImageKeys.service33,
             titlePart1: AppLanguageKeys.internalServices,
@@ -50,9 +50,8 @@ class ListDataViewItemsInDataContainerInListDataFirstScreenNotifications extends
             titlePart3: AppLanguageKeys.jobName,
             subTitlePart3: 'أحمد محمود محمد',
             isRejectPart4: true,
-            timePart5:'1/1/2025',
-            pricePart6: '500'
-        ),
+            timePart5: '1/1/2025',
+            pricePart6: '500'),
         ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidget(
             imagePathPart1: AppImageKeys.service33,
             titlePart1: AppLanguageKeys.internalServices,
@@ -64,9 +63,8 @@ class ListDataViewItemsInDataContainerInListDataFirstScreenNotifications extends
             titlePart3: AppLanguageKeys.jobName,
             subTitlePart3: 'أحمد محمود محمد',
             isAcceptPart4: true,
-            timePart5:'1/1/2025',
-            pricePart6: '500'
-        ),
+            timePart5: '1/1/2025',
+            pricePart6: '500'),
         ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidget(
             imagePathPart1: AppImageKeys.service33,
             titlePart1: AppLanguageKeys.internalServices,
@@ -77,9 +75,8 @@ class ListDataViewItemsInDataContainerInListDataFirstScreenNotifications extends
             imagePathPart3: AppImageKeys.person22,
             titlePart3: AppLanguageKeys.jobName,
             subTitlePart3: 'أحمد محمود محمد',
-            timePart5:'1/1/2025',
-            pricePart6: '500'
-        ),
+            timePart5: '1/1/2025',
+            pricePart6: '500'),
         ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidget(
             imagePathPart1: AppImageKeys.service33,
             titlePart1: AppLanguageKeys.internalServices,
@@ -91,9 +88,8 @@ class ListDataViewItemsInDataContainerInListDataFirstScreenNotifications extends
             titlePart3: AppLanguageKeys.jobName,
             subTitlePart3: 'أحمد محمود محمد',
             isNewOrderPart4: true,
-            timePart5:'1/1/2025',
-            pricePart6: '500'
-        ),
+            timePart5: '1/1/2025',
+            pricePart6: '500'),
         ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidget(
             imagePathPart1: AppImageKeys.service33,
             titlePart1: AppLanguageKeys.internalServices,
@@ -105,9 +101,8 @@ class ListDataViewItemsInDataContainerInListDataFirstScreenNotifications extends
             titlePart3: AppLanguageKeys.jobName,
             subTitlePart3: 'أحمد محمود محمد',
             isRejectPart4: true,
-            timePart5:'1/1/2025',
-            pricePart6: '500'
-        ),
+            timePart5: '1/1/2025',
+            pricePart6: '500'),
         ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidget(
             imagePathPart1: AppImageKeys.service33,
             titlePart1: AppLanguageKeys.internalServices,
@@ -119,9 +114,8 @@ class ListDataViewItemsInDataContainerInListDataFirstScreenNotifications extends
             titlePart3: AppLanguageKeys.jobName,
             subTitlePart3: 'أحمد محمود محمد',
             isAcceptPart4: true,
-            timePart5:'1/1/2025',
-            pricePart6: '500'
-        ),
+            timePart5: '1/1/2025',
+            pricePart6: '500'),
       ],
     );
   }

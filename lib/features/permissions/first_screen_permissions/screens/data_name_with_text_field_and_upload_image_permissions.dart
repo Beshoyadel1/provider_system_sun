@@ -10,10 +10,8 @@ class DataNameWithTextFieldAndUploadImagePermissions extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     bool isMobile = size.width <= ValuesOfAllApp.mobileWidth;
-    return isMobile ?
-    MobileOfDataContainerInListDataFirstScreenPermissions()
-        :
-    WebOfDataContainerInListDataFirstScreenPermissions()
-    ;
+    return isMobile
+        ? MobileOfDataContainerInListDataFirstScreenPermissions()
+        : WebOfDataContainerInListDataFirstScreenPermissions();
   }
 }

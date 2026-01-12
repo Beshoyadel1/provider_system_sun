@@ -74,16 +74,14 @@ class ButtonWidget extends StatelessWidget {
           border: boxShape != null
               ? null
               : borderColor == null
-              ? null
-              : Border.all(
-            color: borderColor!,
-            width: borderWidth ?? 1,
-          ),
+                  ? null
+                  : Border.all(
+                      color: borderColor!,
+                      width: borderWidth ?? 1,
+                    ),
           shape: boxShape ?? BoxShape.rectangle,
         ),
-        child: isColumn == true
-            ? _buildColumnContent()
-            : _buildRowContent(),
+        child: isColumn == true ? _buildColumnContent() : _buildRowContent(),
       ),
     );
   }
@@ -100,7 +98,6 @@ class ButtonWidget extends StatelessWidget {
             color: iconColor ?? Colors.white,
             size: iconSize ?? 20,
           ),
-
         if (isFirstImageText && image != null) ...[
           Image.asset(
             image!,
@@ -110,7 +107,6 @@ class ButtonWidget extends StatelessWidget {
           ),
           const SizedBox(height: 6),
         ],
-
         if (text != null)
           Flexible(
             child: SizedBox(
@@ -127,7 +123,6 @@ class ButtonWidget extends StatelessWidget {
               ),
             ),
           ),
-
         if (!isFirstImageText && image != null) ...[
           const SizedBox(height: 6),
           Image.asset(
@@ -153,9 +148,7 @@ class ButtonWidget extends StatelessWidget {
             color: iconColor ?? Colors.white,
             size: iconSize ?? 20,
           ),
-
         if (widthInButton == true) const SizedBox(width: 8),
-
         if (isFirstImageText && image != null) ...[
           const SizedBox(width: 6),
           Image.asset(
@@ -165,7 +158,6 @@ class ButtonWidget extends StatelessWidget {
             width: imageWidth ?? 16,
           ),
         ],
-
         if (text != null)
           Flexible(
             child: TextInAppWidget(
@@ -177,7 +169,6 @@ class ButtonWidget extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-
         if (!isFirstImageText && image != null) ...[
           const SizedBox(width: 6),
           Image.asset(

@@ -15,10 +15,12 @@ class CommunicationAndPoliciesPagesScreen extends StatefulWidget {
   const CommunicationAndPoliciesPagesScreen({super.key});
 
   @override
-  State<CommunicationAndPoliciesPagesScreen> createState() => _CommunicationAndPoliciesPagesScreenState();
+  State<CommunicationAndPoliciesPagesScreen> createState() =>
+      _CommunicationAndPoliciesPagesScreenState();
 }
 
-class _CommunicationAndPoliciesPagesScreenState extends State<CommunicationAndPoliciesPagesScreen> {
+class _CommunicationAndPoliciesPagesScreenState
+    extends State<CommunicationAndPoliciesPagesScreen> {
   late TabInsuranceNewOffersCubit cubit;
 
   @override
@@ -26,6 +28,7 @@ class _CommunicationAndPoliciesPagesScreenState extends State<CommunicationAndPo
     super.initState();
     cubit = context.read<TabInsuranceNewOffersCubit>();
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TabInsuranceNewOffersCubit, TabInsuranceNewOffersState>(
@@ -64,6 +67,7 @@ class _CommunicationAndPoliciesPagesScreenState extends State<CommunicationAndPo
     );
   }
 }
+
 final List<Widget> widgetInsuranceOffers = const [
   ContactUs(),
   AboutSun(),

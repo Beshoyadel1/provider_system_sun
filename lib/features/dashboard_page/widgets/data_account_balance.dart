@@ -11,16 +11,29 @@ class DataAccountBalance extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return     CustomContainer(
-      padding: const EdgeInsets.all(0),
-      isSelected: false,
-      onTap: () {  },
-      borderRadius: BorderRadius.circular(10),
-      typeWidget: ListTile(
-        leading:  Image.asset(AppImageKeys.maintenance,height:34 ,width:34 ),
-        title: const TextInAppWidget(text: AppLanguageKeys.maintenanceAndRepairKey,textSize: 12,fontWeightIndex: FontSelectionData.regularFontFamily,textColor: AppColors.orangeColor,),
-        subtitle: const TextInAppWidget(text: AppLanguageKeys.revenueFromOrderKey,textSize: 14,fontWeightIndex: FontSelectionData.regularFontFamily,textColor: AppColors.darkColor),
-        trailing: const TextInAppWidget(text:AppLanguageKeys.priceKey,textSize: 16,fontWeightIndex: FontSelectionData.regularFontFamily,textColor: AppColors.greenColor),
-      ));
+    return CustomContainer(
+        padding: const EdgeInsets.all(0),
+        isSelected: false,
+        onTap: () {},
+        borderRadius: BorderRadius.circular(10),
+        typeWidget: ListTile(
+          leading: Image.asset(AppImageKeys.maintenance, height: 34, width: 34),
+          title: const TextInAppWidget(
+            text: AppLanguageKeys.maintenanceAndRepairKey,
+            textSize: 12,
+            fontWeightIndex: FontSelectionData.regularFontFamily,
+            textColor: AppColors.orangeColor,
+          ),
+          subtitle: const TextInAppWidget(
+              text: AppLanguageKeys.revenueFromOrderKey,
+              textSize: 14,
+              fontWeightIndex: FontSelectionData.regularFontFamily,
+              textColor: AppColors.darkColor),
+          trailing: const TextInAppWidget(
+              text: AppLanguageKeys.priceKey,
+              textSize: 16,
+              fontWeightIndex: FontSelectionData.regularFontFamily,
+              textColor: AppColors.greenColor),
+        ));
   }
 }

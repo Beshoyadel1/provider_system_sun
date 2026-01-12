@@ -11,7 +11,8 @@ class ListDataOilProducts extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     bool isMobile = size.width <= 1360;
-    bool isTabletCustom = size.width > ValuesOfAllApp.mobileWidth && size.width <= ValuesOfAllApp.customTabWidth;
+    bool isTabletCustom = size.width > ValuesOfAllApp.mobileWidth &&
+        size.width <= ValuesOfAllApp.customTabWidth;
     bool isTab = size.width > ValuesOfAllApp.tabWidth;
     return Column(
       spacing: 10,
@@ -19,10 +20,8 @@ class ListDataOilProducts extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         const ContainerDesignListOilProducts(),
-         if ((isMobile))
-           const ContainerDesignListAddProductOil(),
+        if ((isMobile)) const ContainerDesignListAddProductOil(),
       ],
     );
   }
 }
-

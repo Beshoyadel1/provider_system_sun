@@ -6,12 +6,22 @@ import '../../../../../../../../features/internal_orders/custom_widget/container
 import '../../../../../../../../features/internal_orders/custom_widget/row_image_with_title_orange_and_sub_title_black_widget.dart';
 import '../../../../../../../../features/internal_orders/custom_widget/row_kind_of_car_with_text_widget.dart';
 
-class MobileSecondPartDataContainerInListDataFirstScreenInternalOrders extends StatelessWidget {
+class MobileSecondPartDataContainerInListDataFirstScreenInternalOrders
+    extends StatelessWidget {
+  final String imagePathPart1,
+      titlePart1,
+      subTitlePart1,
+      imagePathPart2,
+      textCarPart2,
+      titlePart2,
+      imagePathPart3,
+      titlePart3,
+      subTitlePart3,
+      timePart5,
+      pricePart6;
 
-  final String imagePathPart1,titlePart1,subTitlePart1,imagePathPart2,textCarPart2,titlePart2,
-      imagePathPart3,titlePart3,subTitlePart3,timePart5,pricePart6;
+  final bool? isNewOrderPart4, isAcceptPart4, isRejectPart4;
 
-  final bool? isNewOrderPart4,isAcceptPart4,isRejectPart4;
   const MobileSecondPartDataContainerInListDataFirstScreenInternalOrders({
     super.key,
     required this.imagePathPart1,
@@ -23,9 +33,9 @@ class MobileSecondPartDataContainerInListDataFirstScreenInternalOrders extends S
     required this.imagePathPart3,
     required this.titlePart3,
     required this.subTitlePart3,
-    this.isAcceptPart4=false,
-    this.isNewOrderPart4=false,
-    this.isRejectPart4=false,
+    this.isAcceptPart4 = false,
+    this.isNewOrderPart4 = false,
+    this.isRejectPart4 = false,
     required this.timePart5,
     required this.pricePart6,
   });
@@ -83,15 +93,13 @@ class MobileSecondPartDataContainerInListDataFirstScreenInternalOrders extends S
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Flexible(child: ColumnDateOrderWithTimeWidget(time: timePart5)),
-            Flexible(child: ColumnPriceOrderWidget(price:pricePart6)),
+            Flexible(child: ColumnPriceOrderWidget(price: pricePart6)),
           ],
         ),
         Row(
           spacing: 10,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(child: ContainerDetailsWidget())
-          ],
+          children: [Expanded(child: ContainerDetailsWidget())],
         ),
       ],
     );

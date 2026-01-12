@@ -10,34 +10,38 @@ class LoginImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return    Expanded(
+    return Expanded(
         child: Stack(
-          alignment: Alignment.center,
+      alignment: Alignment.center,
+      children: [
+        ColorFiltered(
+          colorFilter: ColorFilter.mode(
+            AppColors.darkColor.withAlpha(190),
+            BlendMode.darken,
+          ),
+          child: Image.asset(
+            AppImageKeys.loginImage,
+            height: double.infinity,
+            width: double.infinity,
+            fit: BoxFit.fill,
+          ),
+        ),
+        Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            ColorFiltered(
-              colorFilter: ColorFilter.mode(
-                AppColors.darkColor.withAlpha(190),
-                BlendMode.darken,
-              ),
-              child: Image.asset(
-                AppImageKeys.loginImage,
-                height: double.infinity,
-                width: double.infinity,
-                fit: BoxFit.fill,
-              ),
-            ),
-
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Image.asset(AppImageKeys.sarWhiteLogo, height: 60, width: 60, fit: BoxFit.fill),
-                const SizedBox(height: 8),
-                const TextInAppWidget(text: AppLanguageKeys.introTextKey,textColor: AppColors.whiteColor,textSize: 22,
-                  fontWeightIndex: FontSelectionData.boldFontFamily,textAlign: TextAlign.center,)
-              ],
-            ),
+            Image.asset(AppImageKeys.sarWhiteLogo,
+                height: 60, width: 60, fit: BoxFit.fill),
+            const SizedBox(height: 8),
+            const TextInAppWidget(
+              text: AppLanguageKeys.introTextKey,
+              textColor: AppColors.whiteColor,
+              textSize: 22,
+              fontWeightIndex: FontSelectionData.boldFontFamily,
+              textAlign: TextAlign.center,
+            )
           ],
-        )
-    );
+        ),
+      ],
+    ));
   }
 }

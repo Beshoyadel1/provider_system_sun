@@ -4,6 +4,7 @@ import '../../first_screen_car_model_settings/screens/first_title_in_first_conta
 
 class DataContainerInListDataServiceSettingsCarModel extends StatelessWidget {
   const DataContainerInListDataServiceSettingsCarModel({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Padding(

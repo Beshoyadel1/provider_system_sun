@@ -7,156 +7,146 @@ import '../../../../../../../../features/permissions/custom_widget/text_with_con
 import '../../../../../../../../core/language/language_constant.dart';
 import '../../../../../../../../features/permissions/custom_widget/text_with_text_form_field_as_column_widget.dart';
 
-class OtherDataDataContainerInListDataAddSparePartsInServiceSettings extends StatelessWidget {
-  const OtherDataDataContainerInListDataAddSparePartsInServiceSettings({super.key});
+class OtherDataDataContainerInListDataAddSparePartsInServiceSettings
+    extends StatelessWidget {
+  const OtherDataDataContainerInListDataAddSparePartsInServiceSettings(
+      {super.key});
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-       bool isTab = size.width > 590;
-    return isTab? Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: 30,
-      children: [
-        Row(
-          spacing: 5,
-          children: [
-            TextWithTextFormFieldAsColumnWidget(
-                text: AppLanguageKeys.partName,
-                hint: '',
-            ),
-            TextWithTextFormFieldAsColumnWidget(
-              text: AppLanguageKeys.spareCategory,
-              hint: '',
-
-              options: [
-                'فئة الغيار2'
-                ,'فئة الغيار1'
-                ,'فئة الغيار3'
-              ],
-            ),
-            TextWithTextFormFieldAsColumnWidget(
-              text: AppLanguageKeys.price,
-              hint: '',
-
-            ),
-            TextWithContainerAsColumnWidget(
-              title: AppLanguageKeys.sparePartImage,
-              textContainer: AppLanguageKeys.writeText,
-            ),
-          ],
-        ),
-        Row(
-           crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 5,
+    bool isTab = size.width > 590;
+    return isTab
+        ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 30,
             children: [
-              TextWithTextFormFieldAsColumnWidget(
-                text: AppLanguageKeys.productDetails,
-                hint: '',
-                maxLines: 5,
-              ),
-              TextWithTextFormFieldAsColumnWidget(
-                text: AppLanguageKeys.totalPartsInStock,
-                hint: '',
-                options: [
-                  'totalPartsInStock5',
-                  'totalPartsInStock1',
-                  'totalPartsInStock2'
+              Row(
+                spacing: 5,
+                children: [
+                  TextWithTextFormFieldAsColumnWidget(
+                    text: AppLanguageKeys.partName,
+                    hint: '',
+                  ),
+                  TextWithTextFormFieldAsColumnWidget(
+                    text: AppLanguageKeys.spareCategory,
+                    hint: '',
+                    options: ['فئة الغيار2', 'فئة الغيار1', 'فئة الغيار3'],
+                  ),
+                  TextWithTextFormFieldAsColumnWidget(
+                    text: AppLanguageKeys.price,
+                    hint: '',
+                  ),
+                  TextWithContainerAsColumnWidget(
+                    title: AppLanguageKeys.sparePartImage,
+                    textContainer: AppLanguageKeys.writeText,
+                  ),
                 ],
               ),
-              TextWithTextFormFieldAsColumnWidget(
-                text: AppLanguageKeys.numberOfSizesIfAvailable,
-                hint: '',
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 5,
+                children: [
+                  TextWithTextFormFieldAsColumnWidget(
+                    text: AppLanguageKeys.productDetails,
+                    hint: '',
+                    maxLines: 5,
+                  ),
+                  TextWithTextFormFieldAsColumnWidget(
+                    text: AppLanguageKeys.totalPartsInStock,
+                    hint: '',
+                    options: [
+                      'totalPartsInStock5',
+                      'totalPartsInStock1',
+                      'totalPartsInStock2'
+                    ],
+                  ),
+                  TextWithTextFormFieldAsColumnWidget(
+                    text: AppLanguageKeys.numberOfSizesIfAvailable,
+                    hint: '',
+                  ),
+                ],
               ),
+              LastButtonInListDataFirstScreenAdvertisements(
+                text: AppLanguageKeys.save,
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.of(context).push(NavigateToPageWidget(
+                      const EditDeleteSparePartsInServiceSettings()));
+                },
+              )
             ],
-          ),
-        LastButtonInListDataFirstScreenAdvertisements(
-          text: AppLanguageKeys.save,
-          onTap: (){
-            Navigator.pop(context);
-            Navigator.of(context).push(NavigateToPageWidget(const EditDeleteSparePartsInServiceSettings()));
-
-          },
-        )
-      ],
-    ):
-              Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: 30,
-      children: [
-        Row(
-          spacing: 5,
-          children: [
-            TextWithTextFormFieldAsColumnWidget(
-              text: AppLanguageKeys.partName,
-              hint: '',
-            ),
-            TextWithTextFormFieldAsColumnWidget(
-              text: AppLanguageKeys.spareCategory,
-              hint: '',
-
-              options: [
-                'فئة الغيار2'
-                ,'فئة الغيار1'
-                ,'فئة الغيار3'
-              ],
-            ),
-
-          ],
-        ),
-        Row(
-          spacing: 5,
-          children: [
-            TextWithTextFormFieldAsColumnWidget(
-              text: AppLanguageKeys.price,
-              hint: '',
-
-            ),
-            TextWithContainerAsColumnWidget(
-              title: AppLanguageKeys.sparePartImage,
-              textContainer: AppLanguageKeys.writeText,
-            ),
-          ],
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: 5,
-          children: [
-            TextWithTextFormFieldAsColumnWidget(
-              text: AppLanguageKeys.productDetails,
-              hint: '',
-              maxLines: 5,
-            ),
-            TextWithTextFormFieldAsColumnWidget(
-              text: AppLanguageKeys.totalPartsInStock,
-              hint: '',
-              options: [
-                'totalPartsInStock5',
-                'totalPartsInStock1',
-                'totalPartsInStock2'
-              ],
-            ),
-          ],
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: 5,
-          children: [
-            TextWithTextFormFieldAsColumnWidget(
-              text: AppLanguageKeys.numberOfSizesIfAvailable,
-              hint: '',
-            ),
-          ],
-        ),
-        LastButtonInListDataFirstScreenAdvertisements(
-          text: AppLanguageKeys.save,
-          onTap: (){
-            Navigator.pop(context);
-            Navigator.of(context).push(NavigateToPageWidget(const EditDeleteSparePartsInServiceSettings()));
-
-          },
-        )
-      ],
-    );
+          )
+        : Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 30,
+            children: [
+              Row(
+                spacing: 5,
+                children: [
+                  TextWithTextFormFieldAsColumnWidget(
+                    text: AppLanguageKeys.partName,
+                    hint: '',
+                  ),
+                  TextWithTextFormFieldAsColumnWidget(
+                    text: AppLanguageKeys.spareCategory,
+                    hint: '',
+                    options: ['فئة الغيار2', 'فئة الغيار1', 'فئة الغيار3'],
+                  ),
+                ],
+              ),
+              Row(
+                spacing: 5,
+                children: [
+                  TextWithTextFormFieldAsColumnWidget(
+                    text: AppLanguageKeys.price,
+                    hint: '',
+                  ),
+                  TextWithContainerAsColumnWidget(
+                    title: AppLanguageKeys.sparePartImage,
+                    textContainer: AppLanguageKeys.writeText,
+                  ),
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 5,
+                children: [
+                  TextWithTextFormFieldAsColumnWidget(
+                    text: AppLanguageKeys.productDetails,
+                    hint: '',
+                    maxLines: 5,
+                  ),
+                  TextWithTextFormFieldAsColumnWidget(
+                    text: AppLanguageKeys.totalPartsInStock,
+                    hint: '',
+                    options: [
+                      'totalPartsInStock5',
+                      'totalPartsInStock1',
+                      'totalPartsInStock2'
+                    ],
+                  ),
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 5,
+                children: [
+                  TextWithTextFormFieldAsColumnWidget(
+                    text: AppLanguageKeys.numberOfSizesIfAvailable,
+                    hint: '',
+                  ),
+                ],
+              ),
+              LastButtonInListDataFirstScreenAdvertisements(
+                text: AppLanguageKeys.save,
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.of(context).push(NavigateToPageWidget(
+                      const EditDeleteSparePartsInServiceSettings()));
+                },
+              )
+            ],
+          );
   }
 }

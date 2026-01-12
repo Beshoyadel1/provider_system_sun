@@ -5,15 +5,16 @@ import '../../../../../../features/service_settings/first_screen_service_setting
 import '../../../../../../core/language/language_constant.dart';
 import '../../../../../../core/theming/colors.dart';
 
-
 class DataViewOfUnifiedPriceForAll extends StatefulWidget {
   const DataViewOfUnifiedPriceForAll({super.key});
 
   @override
-  State<DataViewOfUnifiedPriceForAll> createState() => _DataViewOfUnifiedPriceForAllState();
+  State<DataViewOfUnifiedPriceForAll> createState() =>
+      _DataViewOfUnifiedPriceForAllState();
 }
 
-class _DataViewOfUnifiedPriceForAllState extends State<DataViewOfUnifiedPriceForAll> {
+class _DataViewOfUnifiedPriceForAllState
+    extends State<DataViewOfUnifiedPriceForAll> {
   late TextEditingController textFormController2;
 
   @override
@@ -21,10 +22,11 @@ class _DataViewOfUnifiedPriceForAllState extends State<DataViewOfUnifiedPriceFor
     super.initState();
     textFormController2 = TextEditingController();
   }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       child: Column(
         spacing: 10,
         children: [
@@ -37,7 +39,8 @@ class _DataViewOfUnifiedPriceForAllState extends State<DataViewOfUnifiedPriceFor
             hintTextColor: AppColors.orangeColor,
             textSize: 15,
             textFormWidth: 400,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           ),
           Row(
             children: [
@@ -47,7 +50,7 @@ class _DataViewOfUnifiedPriceForAllState extends State<DataViewOfUnifiedPriceFor
                   color: AppColors.orangeColor,
                   text: AppLanguageKeys.add,
                   icon: CupertinoIcons.add,
-                  onTap: (){},
+                  onTap: () {},
                 ),
               ),
             ],

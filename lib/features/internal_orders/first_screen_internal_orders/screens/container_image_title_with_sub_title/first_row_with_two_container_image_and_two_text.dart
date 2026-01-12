@@ -3,7 +3,6 @@ import '../../../../../../../core/language/language_constant.dart';
 import '../../../custom_widget/container_with_image_container_and_two_text_widget.dart';
 import '../../../../../../../core/theming/assets.dart';
 
-
 class FirstRowWithTwoContainerImageAndTwoText extends StatelessWidget {
   const FirstRowWithTwoContainerImageAndTwoText({super.key});
 
@@ -15,13 +14,11 @@ class FirstRowWithTwoContainerImageAndTwoText extends StatelessWidget {
         ContainerWithImageContainerAndTwoTextWidget(
             imagePath: AppImageKeys.service33,
             title: AppLanguageKeys.maintenanceAndRepair,
-            subTitle: '0 طلب'
-        ),
+            subTitle: '0 طلب'),
         ContainerWithImageContainerAndTwoTextWidget(
             imagePath: AppImageKeys.service33,
             title: AppLanguageKeys.maintenanceAndRepair,
-            subTitle: '0 طلب'
-        ),
+            subTitle: '0 طلب'),
       ],
     );
   }

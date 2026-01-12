@@ -15,26 +15,24 @@ class MobileListViewDataContainerCarSparePartsDetails extends StatelessWidget {
           children: [
             Expanded(
                 child: ContainerCarSparePartsDetailsWidget(
-                  countProductRemain:'باقي 5 قطع',
-                  imagePathLogoCar:AppImageKeys.logo12,
-                  imageProduct:AppImageKeys.spare_parts,
-                  priceProduct:'500',
-                  textKindProduct:'اكسسوارات',
-                  textNameCar:'صني',
-                  textNameProduct:'أسم قطع الغيار',
-                )
-            ),
+              countProductRemain: 'باقي 5 قطع',
+              imagePathLogoCar: AppImageKeys.logo12,
+              imageProduct: AppImageKeys.spare_parts,
+              priceProduct: '500',
+              textKindProduct: 'اكسسوارات',
+              textNameCar: 'صني',
+              textNameProduct: 'أسم قطع الغيار',
+            )),
             Expanded(
                 child: ContainerCarSparePartsDetailsWidget(
-                  countProductRemain:'باقي 5 قطع',
-                  imagePathLogoCar:AppImageKeys.logo12,
-                  imageProduct:AppImageKeys.spare_parts,
-                  priceProduct:'500',
-                  textKindProduct:'اكسسوارات',
-                  textNameCar:'صني',
-                  textNameProduct:'أسم قطع الغيار',
-                )
-            ),
+              countProductRemain: 'باقي 5 قطع',
+              imagePathLogoCar: AppImageKeys.logo12,
+              imageProduct: AppImageKeys.spare_parts,
+              priceProduct: '500',
+              textKindProduct: 'اكسسوارات',
+              textNameCar: 'صني',
+              textNameProduct: 'أسم قطع الغيار',
+            )),
           ],
         ),
         Row(
@@ -42,26 +40,24 @@ class MobileListViewDataContainerCarSparePartsDetails extends StatelessWidget {
           children: [
             Expanded(
                 child: ContainerCarSparePartsDetailsWidget(
-                  countProductRemain:'باقي 5 قطع',
-                  imagePathLogoCar:AppImageKeys.logo12,
-                  imageProduct:AppImageKeys.spare_parts,
-                  priceProduct:'500',
-                  textKindProduct:'اكسسوارات',
-                  textNameCar:'صني',
-                  textNameProduct:'أسم قطع الغيار',
-                )
-            ),
+              countProductRemain: 'باقي 5 قطع',
+              imagePathLogoCar: AppImageKeys.logo12,
+              imageProduct: AppImageKeys.spare_parts,
+              priceProduct: '500',
+              textKindProduct: 'اكسسوارات',
+              textNameCar: 'صني',
+              textNameProduct: 'أسم قطع الغيار',
+            )),
             Expanded(
                 child: ContainerCarSparePartsDetailsWidget(
-                  countProductRemain:'باقي 5 قطع',
-                  imagePathLogoCar:AppImageKeys.logo12,
-                  imageProduct:AppImageKeys.spare_parts,
-                  priceProduct:'500',
-                  textKindProduct:'اكسسوارات',
-                  textNameCar:'صني',
-                  textNameProduct:'أسم قطع الغيار',
-                )
-            ),
+              countProductRemain: 'باقي 5 قطع',
+              imagePathLogoCar: AppImageKeys.logo12,
+              imageProduct: AppImageKeys.spare_parts,
+              priceProduct: '500',
+              textKindProduct: 'اكسسوارات',
+              textNameCar: 'صني',
+              textNameProduct: 'أسم قطع الغيار',
+            )),
           ],
         ),
         Row(
@@ -69,26 +65,24 @@ class MobileListViewDataContainerCarSparePartsDetails extends StatelessWidget {
           children: [
             Expanded(
                 child: ContainerCarSparePartsDetailsWidget(
-                  countProductRemain:'باقي 5 قطع',
-                  imagePathLogoCar:AppImageKeys.logo12,
-                  imageProduct:AppImageKeys.spare_parts,
-                  priceProduct:'500',
-                  textKindProduct:'اكسسوارات',
-                  textNameCar:'صني',
-                  textNameProduct:'أسم قطع الغيار',
-                )
-            ),
+              countProductRemain: 'باقي 5 قطع',
+              imagePathLogoCar: AppImageKeys.logo12,
+              imageProduct: AppImageKeys.spare_parts,
+              priceProduct: '500',
+              textKindProduct: 'اكسسوارات',
+              textNameCar: 'صني',
+              textNameProduct: 'أسم قطع الغيار',
+            )),
             Expanded(
                 child: ContainerCarSparePartsDetailsWidget(
-                  countProductRemain:'باقي 5 قطع',
-                  imagePathLogoCar:AppImageKeys.logo12,
-                  imageProduct:AppImageKeys.spare_parts,
-                  priceProduct:'500',
-                  textKindProduct:'اكسسوارات',
-                  textNameCar:'صني',
-                  textNameProduct:'أسم قطع الغيار',
-                )
-            ),
+              countProductRemain: 'باقي 5 قطع',
+              imagePathLogoCar: AppImageKeys.logo12,
+              imageProduct: AppImageKeys.spare_parts,
+              priceProduct: '500',
+              textKindProduct: 'اكسسوارات',
+              textNameCar: 'صني',
+              textNameProduct: 'أسم قطع الغيار',
+            )),
           ],
         ),
       ],

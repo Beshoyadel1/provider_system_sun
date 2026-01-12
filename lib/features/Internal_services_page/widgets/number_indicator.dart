@@ -3,8 +3,10 @@ import '../../../../../core/theming/colors.dart';
 
 class NumberIndicator extends StatelessWidget {
   NumberIndicator({super.key});
+
   final int totalPages = 10;
   final ValueNotifier<int> currentPage = ValueNotifier<int>(1);
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -31,17 +33,26 @@ class NumberIndicator extends StatelessWidget {
                   }
                 }
                 return GestureDetector(
-                  onTap: () {currentPage.value = number;},
+                  onTap: () {
+                    currentPage.value = number;
+                  },
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 5),
                     width: 35,
                     height: 35,
                     decoration: BoxDecoration(
-                      color: isSelected ?  AppColors.orangeColor:  AppColors.greyColor,
+                      color: isSelected
+                          ? AppColors.orangeColor
+                          : AppColors.greyColor,
                       shape: BoxShape.circle,
                     ),
                     alignment: Alignment.center,
-                    child: Text("$number", style:  const TextStyle(color:  AppColors.whiteColor, fontSize: 14,),
+                    child: Text(
+                      "$number",
+                      style: const TextStyle(
+                        color: AppColors.whiteColor,
+                        fontSize: 14,
+                      ),
                     ),
                   ),
                 );

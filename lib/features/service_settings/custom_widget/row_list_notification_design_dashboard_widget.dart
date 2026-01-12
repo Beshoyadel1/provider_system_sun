@@ -5,13 +5,14 @@ import '../../../../../../core/theming/fonts.dart';
 import '../../../../../../core/theming/text_styles.dart';
 
 class RowListNotificationDesignDashboardWidget extends StatelessWidget {
-  final String imagePath,textOrange,textBlack,numberRequest;
-  final bool? isAccept,isReject,isNewOrder;
+  final String imagePath, textOrange, textBlack, numberRequest;
+  final bool? isAccept, isReject, isNewOrder;
+
   const RowListNotificationDesignDashboardWidget({
     super.key,
-    this.isAccept=false,
-    this.isReject=false,
-    this.isNewOrder=false,
+    this.isAccept = false,
+    this.isReject = false,
+    this.isNewOrder = false,
     required this.imagePath,
     required this.textBlack,
     required this.textOrange,
@@ -69,5 +70,4 @@ class RowListNotificationDesignDashboardWidget extends StatelessWidget {
       ],
     );
   }
-
 }

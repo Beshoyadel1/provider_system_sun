@@ -13,9 +13,9 @@ class ContainerListCarDataServiceSetting extends StatelessWidget {
       spacing: 10,
       children: [
         ContainerListCarDataServiceSettingWidget(
-            imagePath: AppImageKeys.logo10,
-            nameModel: 'نيسان (جميع الفئات)',
-          onTap: (){
+          imagePath: AppImageKeys.logo10,
+          nameModel: 'نيسان (جميع الفئات)',
+          onTap: () {
             Navigator.pop(context);
             Navigator.of(context).push(
               NavigateToPageWidget(
@@ -25,9 +25,7 @@ class ContainerListCarDataServiceSetting extends StatelessWidget {
           },
         ),
         ContainerListCarDataServiceSettingWidget(
-            imagePath: AppImageKeys.logo12,
-            nameModel: '(4 Model) BMW '
-        ),
+            imagePath: AppImageKeys.logo12, nameModel: '(4 Model) BMW '),
       ],
     );
   }

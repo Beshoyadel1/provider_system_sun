@@ -7,14 +7,15 @@ import '../../../../../../core/language/language_constant.dart';
 import '../../../../../../core/theming/assets.dart';
 
 
-class DataContainerInListDataInternalMaintenanceAndServicesInServiceSettings extends StatelessWidget {
-  const DataContainerInListDataInternalMaintenanceAndServicesInServiceSettings({super.key});
+class DataContainerInListDataInternalMaintenanceAndServicesInServiceSettings
+    extends StatelessWidget {
+  const DataContainerInListDataInternalMaintenanceAndServicesInServiceSettings(
+      {super.key});
 
   @override
   Widget build(BuildContext context) {
-
     return const Padding(
-      padding:  EdgeInsets.all(15.0),
+      padding: EdgeInsets.all(15.0),
       child: Column(
         spacing: 30,
         crossAxisAlignment: CrossAxisAlignment.start,

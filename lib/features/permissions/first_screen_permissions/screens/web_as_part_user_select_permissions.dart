@@ -9,12 +9,12 @@ class WebAsPartUserSelectPermissions extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        CheckBoxWithText(text:AppLanguageKeys.statistics ),
-        CheckBoxWithText(text:AppLanguageKeys.servicesSettings ),
-        CheckBoxWithText(text:AppLanguageKeys.carModelSettings ),
-        CheckBoxWithText(text:AppLanguageKeys.accountManagement ),
-        CheckBoxWithText(text:AppLanguageKeys.permissionsManagement ),
-        CheckBoxWithText(text:AppLanguageKeys.organizationManagement ),
+        CheckBoxWithText(text: AppLanguageKeys.statistics),
+        CheckBoxWithText(text: AppLanguageKeys.servicesSettings),
+        CheckBoxWithText(text: AppLanguageKeys.carModelSettings),
+        CheckBoxWithText(text: AppLanguageKeys.accountManagement),
+        CheckBoxWithText(text: AppLanguageKeys.permissionsManagement),
+        CheckBoxWithText(text: AppLanguageKeys.organizationManagement),
       ],
     );
   }

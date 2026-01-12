@@ -13,10 +13,12 @@ import 'services_setting_ui.dart';
 
 class BodyCarModel extends StatelessWidget {
   const BodyCarModel({super.key, required this.state});
-final CarModelState state;
+
+  final CarModelState state;
+
   @override
   Widget build(BuildContext context) {
-    return  Column(
+    return Column(
       spacing: 10,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -26,14 +28,21 @@ final CarModelState state;
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 20,),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   TextInAppWidget(
-                    text:state is CarModelAddingNew? AppLanguageKeys.carModelsKey:  AppLanguageKeys.defineModelsKey,
+                    text: state is CarModelAddingNew
+                        ? AppLanguageKeys.carModelsKey
+                        : AppLanguageKeys.defineModelsKey,
                     textSize: 22,
                     fontWeightIndex: FontSelectionData.mediumFontFamily,
-                    textColor: AppColors.darkColor,),
+                    textColor: AppColors.darkColor,
+                  ),
                   TextInAppWidget(
-                    text: state is CarModelAddingNew?AppLanguageKeys.serviceSettingsDetailsKey:AppLanguageKeys.multipleCarsKey,
+                    text: state is CarModelAddingNew
+                        ? AppLanguageKeys.serviceSettingsDetailsKey
+                        : AppLanguageKeys.multipleCarsKey,
                     textSize: 16,
                     fontWeightIndex: FontSelectionData.regularFontFamily,
                     textColor: AppColors.darkColor,
@@ -42,10 +51,12 @@ final CarModelState state;
               ),
             ),
             const Spacer(),
-            if(state is CarModelAddingNew)
+            if (state is CarModelAddingNew)
               CustomAddButton(
                 width: 186,
-                text: AppLanguageKeys.addNewCarKey, onTap: () {  }, )
+                text: AppLanguageKeys.addNewCarKey,
+                onTap: () {},
+              )
           ],
         ),
         const SizedBox(height: 5),

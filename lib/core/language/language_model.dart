@@ -3,7 +3,7 @@ class LanguageModel {
   String? enName;
   int? number;
 
-  LanguageModel({ this.arName , this.enName , this.number });
+  LanguageModel({this.arName, this.enName, this.number});
 
   LanguageModel.fromJson(Map<String, dynamic> json) {
     arName = json['arName'];

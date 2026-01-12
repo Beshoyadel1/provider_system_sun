@@ -1,4 +1,3 @@
-
 class DetailsContainerSettingState {
   final bool isExpanded;
   final int? selectedOption;

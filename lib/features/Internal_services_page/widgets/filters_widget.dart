@@ -5,29 +5,30 @@ import '../../../../../core/theming/colors.dart';
 import '../../../../../core/pages_widgets/general_widgets/custom_container.dart';
 import '../../../../../core/theming/text_styles.dart';
 
-
 class FiltersOrdersWidget extends StatelessWidget {
-   FiltersOrdersWidget({super.key, required this.filterOptions});
-   final List<filterOrdersModel> filterOptions;
-  late final ValueNotifier<List<filterOrdersModel>> filterOptionsNotifier = ValueNotifier(filterOptions);
+  FiltersOrdersWidget({super.key, required this.filterOptions});
+
+  final List<filterOrdersModel> filterOptions;
+  late final ValueNotifier<List<filterOrdersModel>> filterOptionsNotifier =
+      ValueNotifier(filterOptions);
+
   @override
   Widget build(BuildContext context) {
-    return
-      SizedBox(
-        width: double.infinity,
-        child: Wrap(
-          alignment: WrapAlignment.spaceBetween,
-          crossAxisAlignment: WrapCrossAlignment.end,
-          spacing: 10,
-          runSpacing: 10,
-          children: [
-            Wrap(
-                spacing: 15,
-                runSpacing: 5,
-                alignment: WrapAlignment.spaceBetween,
-                crossAxisAlignment: WrapCrossAlignment.end,
-                children: [
-                  ...List.generate(filterOptions.length, (index) {
+    return SizedBox(
+      width: double.infinity,
+      child: Wrap(
+        alignment: WrapAlignment.spaceBetween,
+        crossAxisAlignment: WrapCrossAlignment.end,
+        spacing: 10,
+        runSpacing: 10,
+        children: [
+          Wrap(
+              spacing: 15,
+              runSpacing: 5,
+              alignment: WrapAlignment.spaceBetween,
+              crossAxisAlignment: WrapCrossAlignment.end,
+              children: [
+                ...List.generate(filterOptions.length, (index) {
                   return ValueListenableBuilder<List<filterOrdersModel>>(
                     valueListenable: filterOptionsNotifier,
                     builder: (context, options, _) {
@@ -41,21 +42,31 @@ class FiltersOrdersWidget extends StatelessWidget {
                           }
                           filterOptionsNotifier.value = [...options];
                         },
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 5),
                         containerColor: option.isSelected
                             ? AppColors.orangeColor
                             : AppColors.greyColor,
                         border: const Border(),
                         typeWidget: Center(
-                          child: TextInAppWidget(text: option.text, textSize: 16, textColor: AppColors.whiteColor,),
+                          child: TextInAppWidget(
+                            text: option.text,
+                            textSize: 16,
+                            textColor: AppColors.whiteColor,
+                          ),
                         ),
                       );
                     },
                   );
-                }
-                )]),
-            const TextInAppWidget(text: AppLanguageKeys.priceKey, textSize: 20, textColor: AppColors.orangeColor,),
-          ],
-        ),);
+                })
+              ]),
+          const TextInAppWidget(
+            text: AppLanguageKeys.priceKey,
+            textSize: 20,
+            textColor: AppColors.orangeColor,
+          ),
+        ],
+      ),
+    );
   }
 }

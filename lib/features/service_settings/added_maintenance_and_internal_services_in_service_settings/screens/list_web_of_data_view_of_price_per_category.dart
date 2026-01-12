@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../../../../features/service_settings/custom_widget/custom_row_list_of_data_view_of_price_per_category.dart';
 import '../../../../../../core/theming/assets.dart';
 
-
 class ListWebOfDataViewOfPricePerCategory extends StatelessWidget {
   const ListWebOfDataViewOfPricePerCategory({super.key});
 
@@ -18,32 +17,28 @@ class ListWebOfDataViewOfPricePerCategory extends StatelessWidget {
             text2: 'GTR',
             imagePath2: AppImageKeys.car501,
             text3: 'Koni',
-            imagePath3: AppImageKeys.car502
-        ),
+            imagePath3: AppImageKeys.car502),
         CustomRowListOfDataViewOfPricePerCategory(
             text1: 'Ariya',
             imagePath1: AppImageKeys.car500,
             text2: 'GTR',
             imagePath2: AppImageKeys.car501,
             text3: 'Koni',
-            imagePath3: AppImageKeys.car502
-        ),
+            imagePath3: AppImageKeys.car502),
         CustomRowListOfDataViewOfPricePerCategory(
             text1: 'Ariya',
             imagePath1: AppImageKeys.car500,
             text2: 'GTR',
             imagePath2: AppImageKeys.car501,
             text3: 'Koni',
-            imagePath3: AppImageKeys.car502
-        ),
+            imagePath3: AppImageKeys.car502),
         CustomRowListOfDataViewOfPricePerCategory(
             text1: 'Ariya',
             imagePath1: AppImageKeys.car500,
             text2: 'GTR',
             imagePath2: AppImageKeys.car501,
             text3: 'Koni',
-            imagePath3: AppImageKeys.car502
-        ),
+            imagePath3: AppImageKeys.car502),
       ],
     );
   }

@@ -8,7 +8,6 @@ import '../../../../../../../core/pages_widgets/general_widgets/custom_container
 import '../../../../../../../core/theming/text_styles.dart';
 import '../../../../../../../core/language/language_constant.dart';
 
-
 import '../../identity_image.dart';
 
 class IdentityContent extends StatelessWidget {
@@ -29,29 +28,30 @@ class IdentityContent extends StatelessWidget {
               fontWeightIndex: FontSelectionData.regularFontFamily,
             ),
             const SizedBox(height: 10),
-           isUploaded? IdentityImage(isUploaded: isUploaded, cubit: cubit)
-               :CustomContainer(
-             containerWidth: 150,
-             isSelected: false,
-             border: const Border(),
-             onTap: () {
-               if (!isUploaded) {
-                 cubit.uploadImage();
-               }
-             },
-             containerColor:  AppColors.darkGreyColor,
-             typeWidget: const Center(
-               child: Column(
-                 children: [
-                   TextInAppWidget(
-                     text: AppLanguageKeys.attachIdentityKey,
-                     textSize: 14,
-                     textColor: AppColors.whiteColor,
-                   ),
-                 ],
-               ),
-             ),
-           ),
+            isUploaded
+                ? IdentityImage(isUploaded: isUploaded, cubit: cubit)
+                : CustomContainer(
+                    containerWidth: 150,
+                    isSelected: false,
+                    border: const Border(),
+                    onTap: () {
+                      if (!isUploaded) {
+                        cubit.uploadImage();
+                      }
+                    },
+                    containerColor: AppColors.darkGreyColor,
+                    typeWidget: const Center(
+                      child: Column(
+                        children: [
+                          TextInAppWidget(
+                            text: AppLanguageKeys.attachIdentityKey,
+                            textSize: 14,
+                            textColor: AppColors.whiteColor,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
             const SizedBox(height: 8),
             if (!isUploaded)
               const TextInAppWidget(
@@ -65,5 +65,3 @@ class IdentityContent extends StatelessWidget {
     );
   }
 }
-
-

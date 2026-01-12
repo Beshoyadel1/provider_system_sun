@@ -6,9 +6,6 @@ import '../../../../../core/theming/colors.dart';
 import 'sign_up_sizes_widget/sign_up_mobile_widget.dart';
 import 'sign_up_sizes_widget/sign_up_web_widget.dart';
 
-
-
-
 class SignUpPage extends StatelessWidget {
   const SignUpPage({super.key});
 
@@ -23,10 +20,10 @@ class SignUpPage extends StatelessWidget {
           decoration: const BoxDecoration(
             color: AppColors.scaffoldColor,
           ),
-          child: isMobile ? const SignUpMobileWidget() : const SignUpWebWidget(),
+          child:
+              isMobile ? const SignUpMobileWidget() : const SignUpWebWidget(),
         ),
       ),
     );
   }
 }
-

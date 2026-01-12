@@ -1,4 +1,3 @@
-
 class ChartModel {
   final DateTime date;
   final double value;
@@ -30,4 +29,3 @@ List<ChartModel> get sampleData {
   }
   return data;
 }
-

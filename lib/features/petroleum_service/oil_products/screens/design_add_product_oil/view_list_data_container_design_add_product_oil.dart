@@ -3,17 +3,15 @@ import '../../../../../../../../features/Petroleum_Service/Oil_Products/screens/
 import '../../../../../../../../features/Petroleum_Service/Oil_Products/screens/design_add_product_oil/tab_view_list_data_container_design_add_product_oil.dart';
 
 class ViewListDataContainerDesignAddProductOil extends StatelessWidget {
-  final double? sizeTab,sizeCustomTab;
-  const ViewListDataContainerDesignAddProductOil({
-    super.key,
-    this.sizeCustomTab,
-    this.sizeTab
-  });
+  final double? sizeTab, sizeCustomTab;
+
+  const ViewListDataContainerDesignAddProductOil(
+      {super.key, this.sizeCustomTab, this.sizeTab});
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    final bool isMobile = size.width <= (sizeCustomTab??500);
+    final bool isMobile = size.width <= (sizeCustomTab ?? 500);
     const int itemCount = 10;
     return ListView.separated(
       padding: EdgeInsets.zero,
@@ -25,6 +23,7 @@ class ViewListDataContainerDesignAddProductOil extends StatelessWidget {
     );
   }
 }
+
 Widget _buildCard(bool isMobile) {
   final child = isMobile
       ? const MobileViewListDataContainerDesignAddProductOil()

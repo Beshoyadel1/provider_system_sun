@@ -4,7 +4,7 @@ class CheckBoxModel {
   String? enName;
   bool? value;
 
-  CheckBoxModel({ this.id, this.arName, this.enName, this.value});
+  CheckBoxModel({this.id, this.arName, this.enName, this.value});
 
   CheckBoxModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];

@@ -17,8 +17,8 @@ class TabsWidget extends StatelessWidget {
           spacing: 10,
           runSpacing: 10,
           children: List.generate(facilityTabs.length, (index) {
-
-            final isSelected = context.read<FacilityTabCubit>().selectedIndex == index;
+            final isSelected =
+                context.read<FacilityTabCubit>().selectedIndex == index;
 
             return ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 150),
@@ -29,9 +29,8 @@ class TabsWidget extends StatelessWidget {
                 padding: isSelected
                     ? const EdgeInsets.symmetric(horizontal: 10, vertical: 5)
                     : const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                containerColor: isSelected
-                    ? AppColors.orangeColor
-                    : AppColors.greyColor,
+                containerColor:
+                    isSelected ? AppColors.orangeColor : AppColors.greyColor,
                 border: const Border(),
               ),
             );

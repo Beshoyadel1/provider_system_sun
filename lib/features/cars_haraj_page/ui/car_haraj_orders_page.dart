@@ -7,19 +7,19 @@ import '../widgets/car_orders_page.dart';
 
 class CarHarajOrdersPage extends StatelessWidget {
   const CarHarajOrdersPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
         create: (_) => NewOrdersCubit(),
         child: BlocBuilder<NewOrdersCubit, NewOrdersState>(
             builder: (context, state) {
-              final cubit = context.read<NewOrdersCubit>();
-              if (state is NewOrdersInitial) {
-                return CarOrdersPage(cubit:cubit);
-              } else {
-                return const CarOrderDetailsPage();
-              }
-            }));
+          final cubit = context.read<NewOrdersCubit>();
+          if (state is NewOrdersInitial) {
+            return CarOrdersPage(cubit: cubit);
+          } else {
+            return const CarOrderDetailsPage();
+          }
+        }));
   }
 }
-

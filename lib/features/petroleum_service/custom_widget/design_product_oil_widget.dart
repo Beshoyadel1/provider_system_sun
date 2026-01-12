@@ -7,18 +7,18 @@ import '../../../../../../../../core/theming/assets.dart';
 import '../../../../../../../../core/theming/colors.dart';
 
 class DesignProductOilWidget extends StatelessWidget {
-  const DesignProductOilWidget({super.key,});
+  const DesignProductOilWidget({
+    super.key,
+  });
+
   @override
   Widget build(BuildContext context) {
-
     return Container(
       padding: EdgeInsetsGeometry.all(10),
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
         borderRadius: BorderRadius.all(Radius.circular(20)),
-        border: Border.all(
-            color: AppColors.greyColor.withOpacity(0.3)
-        ),
+        border: Border.all(color: AppColors.greyColor.withOpacity(0.3)),
         boxShadow: [
           BoxShadow(
             color: AppColors.darkColor.withOpacity(0.1),
@@ -31,32 +31,29 @@ class DesignProductOilWidget extends StatelessWidget {
         spacing: 10,
         children: [
           TextInAppWidget(
-            text:AppLanguageKeys.oils,
+            text: AppLanguageKeys.oils,
             textSize: 9,
             fontWeightIndex: FontSelectionData.regularFontFamily,
-            textColor:AppColors.orangeColor,
+            textColor: AppColors.orangeColor,
           ),
           Image.asset(AppImageKeys.testOil),
           TextInAppWidget(
-            text:'أسم زيوت 1',
+            text: 'أسم زيوت 1',
             textSize: 9,
             fontWeightIndex: FontSelectionData.regularFontFamily,
-            textColor:AppColors.greyColor,
+            textColor: AppColors.greyColor,
           ),
           Row(
             spacing: 5,
             children: [
               TextInAppWidget(
-                text:'باقي 5 قطع',
+                text: 'باقي 5 قطع',
                 textSize: 9,
                 fontWeightIndex: FontSelectionData.regularFontFamily,
-                textColor:AppColors.blueColor,
+                textColor: AppColors.blueColor,
               ),
               RowNumberCoinWidget(
-                  numberText: '200',
-                  sizeText: 12,
-                  imageSrc: AppImageKeys.coin
-              )
+                  numberText: '200', sizeText: 12, imageSrc: AppImageKeys.coin)
             ],
           )
         ],

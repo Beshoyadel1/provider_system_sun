@@ -13,18 +13,20 @@ class FirstTitleInAboutSun extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 20,
       children: [
-        SizedBox(height: 20,),
-        TextInAppWidget(
-          text:AppLanguageKeys.aboutSun,
-          textSize: 18,
-          fontWeightIndex: FontSelectionData.mediumFontFamily,
-          textColor:AppColors.blackColor,
+        SizedBox(
+          height: 20,
         ),
         TextInAppWidget(
-          text:AppLanguageKeys.aboutSunIntro,
+          text: AppLanguageKeys.aboutSun,
+          textSize: 18,
+          fontWeightIndex: FontSelectionData.mediumFontFamily,
+          textColor: AppColors.blackColor,
+        ),
+        TextInAppWidget(
+          text: AppLanguageKeys.aboutSunIntro,
           textSize: 14,
           fontWeightIndex: FontSelectionData.regularFontFamily,
-          textColor:AppColors.blackColor,
+          textColor: AppColors.blackColor,
         ),
       ],
     );

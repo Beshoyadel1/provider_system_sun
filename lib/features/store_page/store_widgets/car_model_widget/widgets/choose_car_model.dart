@@ -11,49 +11,46 @@ class ChooseCarModel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return     Column(
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      const CarCategory(),
+      const SizedBox(
+        height: 24,
+      ),
+      BlocBuilder<CarModelCubit, CarModelState>(
+        builder: (context, state) {
+          String selectedCar = '';
+          if (state is SelectedCarState) {
+            selectedCar = state.selectedCarName;
+          }
+
+          return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 20,
             children: [
-              const CarCategory(),
-              const SizedBox(
-                height: 24,
+              CustomCardCar(
+                heightSizeBox: 88,
+                typeModel: CarNameList,
+                heightContainer: 88,
+                widthContainer: 88,
+                heightImage: 30,
+                widthImage: 34,
+                selectedCarName: selectedCar,
+                scrollDirection: Axis.horizontal,
               ),
-              BlocBuilder<CarModelCubit, CarModelState>(
-                builder: (context, state) {
-                  String selectedCar = '';
-                  if (state is SelectedCarState) {
-                    selectedCar = state.selectedCarName;
-                  }
-
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    spacing: 20,
-                    children: [
-                      CustomCardCar(
-                        heightSizeBox: 88,
-                        typeModel: CarNameList,
-                        heightContainer: 88,
-                        widthContainer: 88,
-                        heightImage: 30,
-                        widthImage: 34,
-                        selectedCarName: selectedCar,
-                        scrollDirection: Axis.horizontal,
-                      ),
-                      CustomCardCar(
-                        heightSizeBox: 88,
-                        typeModel: CarNameList,
-                        heightContainer: 88,
-                        widthContainer: 88,
-                        heightImage: 30,
-                        widthImage: 34,
-                        selectedCarName: selectedCar,
-                        scrollDirection: Axis.horizontal,
-                      ),
-                    ],
-                  );
-                },
+              CustomCardCar(
+                heightSizeBox: 88,
+                typeModel: CarNameList,
+                heightContainer: 88,
+                widthContainer: 88,
+                heightImage: 30,
+                widthImage: 34,
+                selectedCarName: selectedCar,
+                scrollDirection: Axis.horizontal,
               ),
-
-            ]);
+            ],
+          );
+        },
+      ),
+    ]);
   }
 }

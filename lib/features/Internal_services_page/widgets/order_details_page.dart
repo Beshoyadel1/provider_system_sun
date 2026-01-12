@@ -12,6 +12,7 @@ import 'order_time_line.dart';
 
 class OrderDetailsPage extends StatelessWidget {
   const OrderDetailsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -31,8 +32,19 @@ class OrderDetailsPage extends StatelessWidget {
                           Row(children: [
                             const Column(
                               children: [
-                                TextInAppWidget(text: AppLanguageKeys.orderDetailsTitleKey, textSize: 20, textColor: AppColors.darkColor, fontWeightIndex: FontSelectionData.mediumFontFamily),
-                                TextInAppWidget(text: AppLanguageKeys.viewAllOrderDetailsKey, textSize: 14, textColor: AppColors.darkGreyColor, fontWeightIndex: FontSelectionData.regularFontFamily,),
+                                TextInAppWidget(
+                                    text: AppLanguageKeys.orderDetailsTitleKey,
+                                    textSize: 20,
+                                    textColor: AppColors.darkColor,
+                                    fontWeightIndex:
+                                        FontSelectionData.mediumFontFamily),
+                                TextInAppWidget(
+                                  text: AppLanguageKeys.viewAllOrderDetailsKey,
+                                  textSize: 14,
+                                  textColor: AppColors.darkGreyColor,
+                                  fontWeightIndex:
+                                      FontSelectionData.regularFontFamily,
+                                ),
                               ],
                             ),
                             const Spacer(),
@@ -48,11 +60,21 @@ class OrderDetailsPage extends StatelessWidget {
                                 },
                                 typeWidget: const Center(
                                   child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Icon(Icons.arrow_back_ios_new_rounded, color: AppColors.whiteColor, size: 14,),
-                                      TextInAppWidget(text: AppLanguageKeys.backKey, textSize: 13, fontWeightIndex: FontSelectionData.regularFontFamily, textColor: AppColors.whiteColor),
+                                      Icon(
+                                        Icons.arrow_back_ios_new_rounded,
+                                        color: AppColors.whiteColor,
+                                        size: 14,
+                                      ),
+                                      TextInAppWidget(
+                                          text: AppLanguageKeys.backKey,
+                                          textSize: 13,
+                                          fontWeightIndex: FontSelectionData
+                                              .regularFontFamily,
+                                          textColor: AppColors.whiteColor),
                                     ],
                                   ),
                                 ),

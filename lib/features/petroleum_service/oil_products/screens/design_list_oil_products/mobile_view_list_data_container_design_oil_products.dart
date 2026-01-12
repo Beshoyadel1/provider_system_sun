@@ -8,12 +8,13 @@ import '../../../../../../../../features/Petroleum_Service/custom_widget/column_
 import '../../../../../../../../features/Petroleum_Service/custom_widget/column_packing_date_widget.dart';
 import '../../../../../../../../features/Petroleum_Service/custom_widget/row_name_emp_widget.dart';
 
-
 class MobileViewListDataContainerDesignOilProducts extends StatelessWidget {
-  const MobileViewListDataContainerDesignOilProducts({super.key,});
+  const MobileViewListDataContainerDesignOilProducts({
+    super.key,
+  });
+
   @override
   Widget build(BuildContext context) {
-
     return const Column(
       spacing: 10,
       children: [
@@ -35,7 +36,7 @@ class MobileViewListDataContainerDesignOilProducts extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             ColumnPackingDateWidget(
-              title:AppLanguageKeys.saleDate ,
+              title: AppLanguageKeys.saleDate,
               subTitle: '1/1/2025',
             ),
             ColumnSubscriptionFeesWidget(

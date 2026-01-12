@@ -6,7 +6,6 @@ import '../../../../../../core/theming/fonts.dart';
 import '../../../../../../core/theming/colors.dart';
 import '../../../../../../core/pages_widgets/button_widget.dart';
 
-
 class LoginLanguageButtonWidget extends StatelessWidget {
   const LoginLanguageButtonWidget({super.key});
 
@@ -20,10 +19,10 @@ class LoginLanguageButtonWidget extends StatelessWidget {
         textSize: 17,
         textColor: AppColors.orangeColor,
         fontWeightIndex: FontSelectionData.semiBoldFontFamily,
-
         borderRadius: 25,
         onTap: () {
-          context.read<AppCubit>().changeAllAppLanguage(context.read<AppCubit>().isAllAppLanguageArabic ? 2 : 1);
+          context.read<AppCubit>().changeAllAppLanguage(
+              context.read<AppCubit>().isAllAppLanguageArabic ? 2 : 1);
         },
       ),
     );

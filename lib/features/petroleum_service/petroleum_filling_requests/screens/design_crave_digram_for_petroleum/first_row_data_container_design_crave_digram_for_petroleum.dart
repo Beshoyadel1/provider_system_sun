@@ -6,7 +6,8 @@ import '../../../../../../../../core/theming/colors.dart';
 import '../../../../../../../../core/theming/fonts.dart';
 import '../../../../../../../../core/theming/text_styles.dart';
 
-class FirstRowDataContainerDesignCraveDigramForPetroleum extends StatelessWidget {
+class FirstRowDataContainerDesignCraveDigramForPetroleum
+    extends StatelessWidget {
   const FirstRowDataContainerDesignCraveDigramForPetroleum({super.key});
 
   @override
@@ -18,17 +19,14 @@ class FirstRowDataContainerDesignCraveDigramForPetroleum extends StatelessWidget
       children: [
         Flexible(
           child: TextInAppWidget(
-            text:AppLanguageKeys.fillingOrdersSalesForAllBranches,
+            text: AppLanguageKeys.fillingOrdersSalesForAllBranches,
             textSize: 22,
             fontWeightIndex: FontSelectionData.mediumFontFamily,
-            textColor:AppColors.blackColor,
+            textColor: AppColors.blackColor,
           ),
         ),
         RowNumberCoinWidget(
-            numberText: '250',
-            sizeText: 15,
-            imageSrc: AppImageKeys.coin
-        )
+            numberText: '250', sizeText: 15, imageSrc: AppImageKeys.coin)
       ],
     );
   }

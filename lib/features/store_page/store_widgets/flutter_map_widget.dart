@@ -5,14 +5,15 @@ import '../../../../../core/theming/assets.dart';
 import '../../../../../core/theming/colors.dart';
 
 class FlutterMapWidget extends StatelessWidget {
-  const FlutterMapWidget({super.key, required this.centerLocation, required this.mapController});
+  const FlutterMapWidget(
+      {super.key, required this.centerLocation, required this.mapController});
 
   final LatLng centerLocation;
   final MapController mapController;
 
   @override
   Widget build(BuildContext context) {
-    return    FlutterMap(
+    return FlutterMap(
       mapController: mapController,
       options: MapOptions(
         initialCenter: centerLocation,
@@ -20,8 +21,7 @@ class FlutterMapWidget extends StatelessWidget {
       ),
       children: [
         TileLayer(
-          urlTemplate:
-          'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+          urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
           userAgentPackageName: 'com.example.smat_admin',
         ),
         CircleLayer(

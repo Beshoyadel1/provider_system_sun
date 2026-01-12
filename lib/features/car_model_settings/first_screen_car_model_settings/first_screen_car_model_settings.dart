@@ -15,10 +15,11 @@ class FirstScreenCarModelSettings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: AppColors.scaffoldColor,
-      appBar: const AppbarDashboardWidget(title:AppLanguageKeys.carModel,),
+      appBar: const AppbarDashboardWidget(
+        title: AppLanguageKeys.carModel,
+      ),
       body: const SafeArea(
         child: Padding(
           padding: EdgeInsets.all(20),
@@ -26,19 +27,18 @@ class FirstScreenCarModelSettings extends StatelessWidget {
             children: [
               Expanded(
                 child: SingleChildScrollView(
-                    child: ListDataFirstScreenCarModelSettings()
-                ),
+                    child: ListDataFirstScreenCarModelSettings()),
               ),
             ],
           ),
         ),
       ),
-      bottomNavigationBar:LastTwoButtonInFirstScreenCarModelSettings(
-        onTapAdd: (){
+      bottomNavigationBar: LastTwoButtonInFirstScreenCarModelSettings(
+        onTapAdd: () {
           Navigator.pop(context);
-            Navigator.of(context).push(
-              NavigateToPageWidget( const CarAddScreenInCarModelSettings()),
-            );
+          Navigator.of(context).push(
+            NavigateToPageWidget(const CarAddScreenInCarModelSettings()),
+          );
         },
       ),
     );

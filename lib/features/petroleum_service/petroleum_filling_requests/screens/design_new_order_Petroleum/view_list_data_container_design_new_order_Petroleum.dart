@@ -5,18 +5,17 @@ import '../../../../../../../../features/Petroleum_Service/Petroleum_Filling_Req
 import '../../../../../../../../core/theming/colors.dart';
 
 class ViewListDataContainerDesignNewOrderPetroleum extends StatelessWidget {
-  final double? sizeTab,sizeCustomTab;
-  const ViewListDataContainerDesignNewOrderPetroleum({
-    super.key,
-    this.sizeCustomTab,
-    this.sizeTab
-  });
+  final double? sizeTab, sizeCustomTab;
+
+  const ViewListDataContainerDesignNewOrderPetroleum(
+      {super.key, this.sizeCustomTab, this.sizeTab});
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    final bool isMobile = size.width <= (sizeCustomTab??1045);
-    final bool isTabletCustom = size.width > (sizeCustomTab ?? 1000) && size.width <= (sizeTab ?? 1450);
+    final bool isMobile = size.width <= (sizeCustomTab ?? 1045);
+    final bool isTabletCustom =
+        size.width > (sizeCustomTab ?? 1000) && size.width <= (sizeTab ?? 1450);
 
     const int itemCount = 10;
 
@@ -30,12 +29,13 @@ class ViewListDataContainerDesignNewOrderPetroleum extends StatelessWidget {
     );
   }
 }
+
 Widget _buildCard(bool isMobile, bool isTabletCustom) {
   final child = isMobile
       ? const MobileViewListDataContainerDesignNewOrderPetroleum()
       : isTabletCustom
-      ? const CustomTabViewListDataContainerDesignNewOrderPetroleum()
-      : const TabViewListDataContainerDesignNewOrderPetroleum();
+          ? const CustomTabViewListDataContainerDesignNewOrderPetroleum()
+          : const TabViewListDataContainerDesignNewOrderPetroleum();
 
   return Container(
     padding: const EdgeInsets.all(10),

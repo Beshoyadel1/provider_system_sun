@@ -11,12 +11,12 @@ import '../../../../../features/service_settings/added_maintenance_and_internal_
 class ExpansionContainerSettingWidget extends StatelessWidget {
   final String imagePath, text;
   final bool? isDoneTask;
-  const ExpansionContainerSettingWidget({
-    super.key,
-    required this.imagePath,
-    required this.text,
-    this.isDoneTask=false
-  });
+
+  const ExpansionContainerSettingWidget(
+      {super.key,
+      required this.imagePath,
+      required this.text,
+      this.isDoneTask = false});
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +47,8 @@ class ExpansionContainerSettingWidget extends StatelessWidget {
                     children: [
                       Flexible(
                         child: Opacity(
-                          opacity:isDoneTask!?1:0.5,
-                            child: Image.asset(imagePath)
-                        ),
+                            opacity: isDoneTask! ? 1 : 0.5,
+                            child: Image.asset(imagePath)),
                       ),
                       TextInAppWidget(
                         text: text,
@@ -62,7 +61,8 @@ class ExpansionContainerSettingWidget extends StatelessWidget {
                           child: TextInAppWidget(
                             text: AppLanguageKeys.allCategories,
                             textSize: 13,
-                            fontWeightIndex: FontSelectionData.regularFontFamily,
+                            fontWeightIndex:
+                                FontSelectionData.regularFontFamily,
                             textColor: AppColors.orangeColor,
                           ),
                         ),

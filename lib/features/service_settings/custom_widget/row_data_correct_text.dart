@@ -4,10 +4,10 @@ import '../../../../../core/theming/fonts.dart';
 import '../../../../../core/theming/text_styles.dart';
 import '../../../../../core/theming/assets.dart';
 
-
 class RowDataCorrectText extends StatelessWidget {
   final String text;
-  const RowDataCorrectText({super.key,required this.text});
+
+  const RowDataCorrectText({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {

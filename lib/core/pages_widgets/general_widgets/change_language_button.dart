@@ -16,7 +16,8 @@ class ChangeLanguageButton extends StatelessWidget {
       iconSize: 25,
       borderRadius: 7,
       onTap: () {
-        context.read<AppCubit>().changeAllAppLanguage(context.read<AppCubit>().isAllAppLanguageArabic ? 2 : 1);
+        context.read<AppCubit>().changeAllAppLanguage(
+            context.read<AppCubit>().isAllAppLanguageArabic ? 2 : 1);
       },
     );
   }

@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +8,7 @@ import 'location_state.dart';
 
 class LocationCubit extends Cubit<LocationState> {
   LocationCubit() : super(LocationInitial());
+
   Future<void> getUserLocation() async {
     emit(LocationLoading());
     try {
@@ -52,7 +52,6 @@ class LocationCubit extends Cubit<LocationState> {
     }
   }
 
-
   Future<String> _getPlaceName(LatLng latLng) async {
     final url = Uri.parse(
         "https://nominatim.openstreetmap.org/reverse?lat=${latLng.latitude}&lon=${latLng.longitude}&format=json");
@@ -71,7 +70,6 @@ class LocationCubit extends Cubit<LocationState> {
       return "Unknown location";
     }
   }
-
 
   Future<void> searchLocation(String query) async {
     if (query.isEmpty) return;
@@ -99,6 +97,4 @@ class LocationCubit extends Cubit<LocationState> {
       emit(LocationError(e.toString()));
     }
   }
-
-
 }

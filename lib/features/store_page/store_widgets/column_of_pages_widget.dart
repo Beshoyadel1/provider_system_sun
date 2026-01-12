@@ -8,7 +8,6 @@ import '../../../../../core/theming/colors.dart';
 import '../../../../../core/theming/fonts.dart';
 import '../../../../../core/theming/text_styles.dart';
 
-
 class ColumnOfPagesWidget extends StatelessWidget {
   const ColumnOfPagesWidget({
     super.key,
@@ -25,35 +24,38 @@ class ColumnOfPagesWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     if (pageNode.children.isNotEmpty) {
       return Container(
-
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.only(topRight: Radius.circular(10), bottomRight: Radius.circular(10)),
-            color: pageNode.number == appCubit.selectedPageIndex ?  AppColors.whiteColor:Colors.transparent,
+            borderRadius: const BorderRadius.only(
+                topRight: Radius.circular(10),
+                bottomRight: Radius.circular(10)),
+            color: pageNode.number == appCubit.selectedPageIndex
+                ? AppColors.whiteColor
+                : Colors.transparent,
           ),
-          child: ExpansionTileWidget(pages: pageNode,));
-    }
-    else {
+          child: ExpansionTileWidget(
+            pages: pageNode,
+          ));
+    } else {
       return InkWell(
           onTap: () async {
-
-            final keyForUpdate = '${appCubit.selectedPageIndex}${appCubit.selectedPageFromOpenedPagesIndex}';
+            final keyForUpdate =
+                '${appCubit.selectedPageIndex}${appCubit.selectedPageFromOpenedPagesIndex}';
             SharedPreferences prefs = await SharedPreferences.getInstance();
             List<String>? getData = prefs.getStringList(keyForUpdate);
-            if(getData != null && appCubit.data.isNotEmpty){
-              await prefs.setStringList(keyForUpdate, appCubit.data.map((e) => e.toString()).toList());
-            }
-            else{
-              if(appCubit.data.isNotEmpty){
+            if (getData != null && appCubit.data.isNotEmpty) {
+              await prefs.setStringList(keyForUpdate,
+                  appCubit.data.map((e) => e.toString()).toList());
+            } else {
+              if (appCubit.data.isNotEmpty) {
                 await addToOpenedPages(context: context, appCubit: appCubit);
               }
             }
-
 
             appCubit.selectedPageIndex = pageNode.number;
             appCubit.selectedPageFromOpenedPagesIndex = -1;
             appCubit.changeSelectedPageIndex();
             appCubit.data.clear();
-            if(isMobile){
+            if (isMobile) {
               Navigator.pop(context);
             }
           },
@@ -61,17 +63,19 @@ class ColumnOfPagesWidget extends StatelessWidget {
             width: double.infinity,
             height: 42,
             decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(topRight: Radius.circular(10), bottomRight: Radius.circular(10)),
-              color: pageNode.number == appCubit.selectedPageIndex ?
-              AppColors.whiteColor: pageNode.image == null?
-              AppColors.veryLightOrangeColor.withAlpha(100):
-              AppColors.orangeColor ,
+              borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(10),
+                  bottomRight: Radius.circular(10)),
+              color: pageNode.number == appCubit.selectedPageIndex
+                  ? AppColors.whiteColor
+                  : pageNode.image == null
+                      ? AppColors.veryLightOrangeColor.withAlpha(100)
+                      : AppColors.orangeColor,
             ),
             child: Column(
-              crossAxisAlignment:CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -80,29 +84,35 @@ class ColumnOfPagesWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       spacing: 5,
                       children: [
-                        if (pageNode.image != null && pageNode.image!.isNotEmpty)
-                        Image.asset(pageNode.image!, color: pageNode.number == appCubit.selectedPageIndex
-                            ? AppColors.orangeColor : AppColors.whiteColor,height: 18, width: 18,),
+                        if (pageNode.image != null &&
+                            pageNode.image!.isNotEmpty)
+                          Image.asset(
+                            pageNode.image!,
+                            color: pageNode.number == appCubit.selectedPageIndex
+                                ? AppColors.orangeColor
+                                : AppColors.whiteColor,
+                            height: 18,
+                            width: 18,
+                          ),
                         Expanded(
                           child: TextInAppWidget(
                             text: pageNode.name,
                             textSize: 14,
-                            textColor: pageNode.number == appCubit.selectedPageIndex ? AppColors.orangeColor : AppColors.whiteColor,
-                            fontWeightIndex: FontSelectionData.regularFontFamily,
+                            textColor:
+                                pageNode.number == appCubit.selectedPageIndex
+                                    ? AppColors.orangeColor
+                                    : AppColors.whiteColor,
+                            fontWeightIndex:
+                                FontSelectionData.regularFontFamily,
                           ),
                         ),
                       ],
                     ),
                   ),
                 ),
-
               ],
             ),
-          )
-      );
+          ));
     }
   }
 }
-
-
-

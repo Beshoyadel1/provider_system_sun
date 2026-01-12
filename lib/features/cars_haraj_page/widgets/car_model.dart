@@ -8,18 +8,28 @@ class CarModel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return   Wrap(
-      spacing:5,
+    return Wrap(
+      spacing: 5,
       children: [
-        Image.asset(AppImageKeys.carHaraj, width: 65, height: 40, fit: BoxFit.contain,),
+        Image.asset(
+          AppImageKeys.carHaraj,
+          width: 65,
+          height: 40,
+          fit: BoxFit.contain,
+        ),
         const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            TextInAppWidget(text:'2025', textSize: 14, textColor: AppColors.orangeColor),
-            TextInAppWidget(text: 'BYD Electric', textSize: 14, textColor: AppColors.darkColor),
+            TextInAppWidget(
+                text: '2025', textSize: 14, textColor: AppColors.orangeColor),
+            TextInAppWidget(
+                text: 'BYD Electric',
+                textSize: 14,
+                textColor: AppColors.darkColor),
           ],
-        )],
+        )
+      ],
     );
   }
 }

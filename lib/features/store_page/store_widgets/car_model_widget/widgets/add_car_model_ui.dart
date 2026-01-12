@@ -14,14 +14,15 @@ class AddCarModelUi extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 20,
-      children:[
+      children: [
         const CarsAdded(),
         CustomAddButton(
           width: 178,
-          text:  AppLanguageKeys.addCarModelKey,
+          text: AppLanguageKeys.addCarModelKey,
           onTap: () {
             context.read<CarModelCubit>().startAddingNewCar();
-          },),
+          },
+        ),
       ],
     );
   }

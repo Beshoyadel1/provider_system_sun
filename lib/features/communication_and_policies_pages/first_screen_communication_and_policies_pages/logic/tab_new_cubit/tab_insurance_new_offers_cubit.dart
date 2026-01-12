@@ -4,7 +4,8 @@ import 'tab_insurance_new_offers_state.dart';
 class TabInsuranceNewOffersCubit extends Cubit<TabInsuranceNewOffersState> {
   TabInsuranceNewOffersCubit() : super(TabInsuranceInitialState());
 
-  static TabInsuranceNewOffersCubit get(context) => BlocProvider.of<TabInsuranceNewOffersCubit>(context);
+  static TabInsuranceNewOffersCubit get(context) =>
+      BlocProvider.of<TabInsuranceNewOffersCubit>(context);
 
   int currentIndex = 0;
 

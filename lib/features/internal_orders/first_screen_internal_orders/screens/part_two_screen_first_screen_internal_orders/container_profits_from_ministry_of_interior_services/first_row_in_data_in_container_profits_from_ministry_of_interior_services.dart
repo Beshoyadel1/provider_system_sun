@@ -6,31 +6,36 @@ import '../../../../../../../../core/theming/fonts.dart';
 import '../../../../../../../../core/theming/text_styles.dart';
 import '../../../../../../../../features/internal_orders/custom_widget/select_time_profit_service_widget.dart';
 
-class FirstRowInDataInContainerProfitsFromMinistryOfInteriorServices extends StatelessWidget {
-  const FirstRowInDataInContainerProfitsFromMinistryOfInteriorServices({super.key});
+class FirstRowInDataInContainerProfitsFromMinistryOfInteriorServices
+    extends StatelessWidget {
+  const FirstRowInDataInContainerProfitsFromMinistryOfInteriorServices(
+      {super.key});
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     bool isMobile = size.width <= ValuesOfAllApp.mobileWidth;
-    bool isTabletCustom = size.width > ValuesOfAllApp.mobileWidth && size.width <= ValuesOfAllApp.customTabWidth;
+    bool isTabletCustom = size.width > ValuesOfAllApp.mobileWidth &&
+        size.width <= ValuesOfAllApp.customTabWidth;
     bool isTab = size.width > ValuesOfAllApp.tabWidth;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         const Expanded(
           child: TextInAppWidget(
-            text:AppLanguageKeys.internalServicesStats,
+            text: AppLanguageKeys.internalServicesStats,
             textSize: 15,
             fontWeightIndex: FontSelectionData.regularFontFamily,
-            textColor:AppColors.blackColor,
+            textColor: AppColors.blackColor,
           ),
         ),
-        SelectTimeProfitServiceWidget(hint:AppLanguageKeys.selectTime,options: [
-          AppLanguageKeys.daily,
-          AppLanguageKeys.weekly,
-          AppLanguageKeys.monthly,
-        ],
+        SelectTimeProfitServiceWidget(
+          hint: AppLanguageKeys.selectTime,
+          options: [
+            AppLanguageKeys.daily,
+            AppLanguageKeys.weekly,
+            AppLanguageKeys.monthly,
+          ],
         )
       ],
     );

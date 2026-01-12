@@ -6,13 +6,13 @@ import '../../../../../../features/service_settings/first_screen_service_setting
 import '../../../../../../core/language/language_constant.dart';
 import '../../../../../../core/theming/assets.dart';
 
-
-class DataContainerInListDataAddedMaintenanceAndInternalServicesInServiceSettings extends StatelessWidget {
-  const DataContainerInListDataAddedMaintenanceAndInternalServicesInServiceSettings({super.key});
+class DataContainerInListDataAddedMaintenanceAndInternalServicesInServiceSettings
+    extends StatelessWidget {
+  const DataContainerInListDataAddedMaintenanceAndInternalServicesInServiceSettings(
+      {super.key});
 
   @override
   Widget build(BuildContext context) {
-
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Column(
@@ -37,10 +37,12 @@ class DataContainerInListDataAddedMaintenanceAndInternalServicesInServiceSetting
           ExpansionContainerSettingWidget(
             imagePath: AppImageKeys.test50,
             text: AppLanguageKeys.battery,
-          ),ExpansionContainerSettingWidget(
+          ),
+          ExpansionContainerSettingWidget(
             imagePath: AppImageKeys.service00,
             text: AppLanguageKeys.periodicMaintenance,
-          ),ExpansionContainerSettingWidget(
+          ),
+          ExpansionContainerSettingWidget(
             imagePath: AppImageKeys.glass2,
             text: AppLanguageKeys.glass,
           ),

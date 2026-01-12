@@ -8,12 +8,13 @@ import '../../../../../../../core/theming/fonts.dart';
 
 class LastButtonInContactUs extends StatelessWidget {
   final void Function()? onTap;
-  const LastButtonInContactUs({super.key,this.onTap});
+
+  const LastButtonInContactUs({super.key, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return ButtonWidget(
-      text:AppLanguageKeys.send,
+      text: AppLanguageKeys.send,
       isFirstImageText: true,
       image: AppImageKeys.iconSend,
       textColor: AppColors.whiteColor,
@@ -21,7 +22,7 @@ class LastButtonInContactUs extends StatelessWidget {
       textSize: 12,
       fontWeightIndex: FontSelectionData.regularFontFamily,
       heightContainer: 30,
-      widthContainer:150,
+      widthContainer: 150,
       borderRadius: 30,
       onTap: onTap,
     );

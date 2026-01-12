@@ -5,22 +5,21 @@ import '../../theming/colors.dart';
 import '../../theming/fonts.dart';
 import '../../theming/text_styles.dart';
 
-
 class AppSnackBar {
   static void showSuccess(String message) {
-    _show( message, Colors.green);
+    _show(message, Colors.green);
   }
 
   static void showError(String message) {
-    _show( message, Colors.red);
+    _show(message, Colors.red);
   }
 
   static void showInfo(String message) {
-    _show( message, AppColors.greenColor);
+    _show(message, AppColors.greenColor);
   }
 
   static void showWarning(String message) {
-    _show( message, AppColors.defaultColor);
+    _show(message, AppColors.defaultColor);
   }
 
   static void _show(String message, Color color) {
@@ -33,7 +32,6 @@ class AppSnackBar {
           textColor: AppColors.whiteColor,
           fontWeightIndex: FontSelectionData.semiBoldFontFamily,
         ),
-
         backgroundColor: color,
         behavior: SnackBarBehavior.floating,
         duration: Duration(seconds: 2),

@@ -15,8 +15,9 @@ class AccountBalance extends StatelessWidget {
         containerHeight: 504,
         padding: const EdgeInsets.all(0),
         borderRadius: BorderRadius.circular(20),
-        isSelected: false, onTap: (){},
-        typeWidget:Padding(
+        isSelected: false,
+        onTap: () {},
+        typeWidget: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             spacing: 10,
@@ -29,25 +30,44 @@ class AccountBalance extends StatelessWidget {
                     spacing: 10,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 10,),
-                      TextInAppWidget(text: AppLanguageKeys.accountBalanceKey,textSize: 18,textColor: AppColors.darkColor),
-                      TextInAppWidget(text:AppLanguageKeys.priceKey ,textSize: 20,textColor: AppColors.orangeColor,),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextInAppWidget(
+                          text: AppLanguageKeys.accountBalanceKey,
+                          textSize: 18,
+                          textColor: AppColors.darkColor),
+                      TextInAppWidget(
+                        text: AppLanguageKeys.priceKey,
+                        textSize: 20,
+                        textColor: AppColors.orangeColor,
+                      ),
                     ],
                   ),
                   CustomContainer(
                     padding: const EdgeInsets.all(0),
                     containerWidth: 129,
                     containerHeight: 37,
-                    typeWidget:const Center(child: TextInAppWidget(text: AppLanguageKeys.detailsKey,textColor:  AppColors.whiteColor,)) , onTap: (){}, isSelected: false,containerColor: AppColors.orangeColor,)
+                    typeWidget: const Center(
+                        child: TextInAppWidget(
+                      text: AppLanguageKeys.detailsKey,
+                      textColor: AppColors.whiteColor,
+                    )),
+                    onTap: () {},
+                    isSelected: false,
+                    containerColor: AppColors.orangeColor,
+                  )
                 ],
               ),
-              const SizedBox(height: 20,),
-            const  DataAccountBalance(),
-              const  DataAccountBalance(),
-              const  DataAccountBalance(),
-              const  DataAccountBalance(),
+              const SizedBox(
+                height: 20,
+              ),
+              const DataAccountBalance(),
+              const DataAccountBalance(),
+              const DataAccountBalance(),
+              const DataAccountBalance(),
             ],
           ),
-        ) );
+        ));
   }
 }

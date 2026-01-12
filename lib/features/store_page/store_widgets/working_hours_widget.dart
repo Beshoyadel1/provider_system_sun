@@ -26,7 +26,7 @@ class WorkingHoursWidget extends StatelessWidget {
             hintText: '00 : 00',
             hintTextColor: AppColors.darkColor,
             //prefixIcon: Icons.access_time,
-           // prefixIconColor: AppColors.darkGreyColor,
+            // prefixIconColor: AppColors.darkGreyColor,
             prefixIconSize: 19,
             borderColor: AppColors.lightGreyColor,
             //borderRadius: 10,

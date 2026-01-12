@@ -4,8 +4,10 @@ import '../../../../../../core/theming/colors.dart';
 import '../../../../../../core/theming/fonts.dart';
 import '../../../../../../core/theming/text_styles.dart';
 
-class FirstTitleInFirstContainerInDataContainerInListDataFirstScreenCarModelSettings extends StatelessWidget {
-  const FirstTitleInFirstContainerInDataContainerInListDataFirstScreenCarModelSettings({super.key});
+class FirstTitleInFirstContainerInDataContainerInListDataFirstScreenCarModelSettings
+    extends StatelessWidget {
+  const FirstTitleInFirstContainerInDataContainerInListDataFirstScreenCarModelSettings(
+      {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,16 +16,16 @@ class FirstTitleInFirstContainerInDataContainerInListDataFirstScreenCarModelSett
       spacing: 20,
       children: [
         TextInAppWidget(
-          text:AppLanguageKeys.selectCarModelByServices,
+          text: AppLanguageKeys.selectCarModelByServices,
           textSize: 18,
           fontWeightIndex: FontSelectionData.mediumFontFamily,
-          textColor:AppColors.blackColor,
+          textColor: AppColors.blackColor,
         ),
         TextInAppWidget(
-          text:AppLanguageKeys.multipleCarSelectionNote,
+          text: AppLanguageKeys.multipleCarSelectionNote,
           textSize: 14,
           fontWeightIndex: FontSelectionData.regularFontFamily,
-          textColor:AppColors.blackColor,
+          textColor: AppColors.blackColor,
         ),
       ],
     );

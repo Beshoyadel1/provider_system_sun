@@ -6,7 +6,6 @@ import '../../../../../../features/logout_dashboard/first_screen_logout_dashboar
 import '../../../../../../features/logout_dashboard/first_screen_logout_dashboard/screens/first_part_in_logout_dashboard.dart';
 import '../../../../../../core/theming/colors.dart';
 
-
 class LogoutDashboard extends StatelessWidget {
   const LogoutDashboard({super.key});
 
@@ -14,7 +13,7 @@ class LogoutDashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       backgroundColor: Colors.transparent,
-      insetPadding: const EdgeInsets.symmetric(vertical: 10,horizontal: 5),
+      insetPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
         child: Container(
@@ -25,12 +24,12 @@ class LogoutDashboard extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
           padding: const EdgeInsets.all(16),
-          child:Column(
+          child: Column(
             spacing: 10,
             children: [
               const FirstPartInLogoutDashboard(),
               LastTwoButtonInLogoutDashboard(
-                onTapConfirm: (){
+                onTapConfirm: () {
                   Navigator.pop(context);
                   Navigator.of(context).push(
                     NavigateToPageWidget(
@@ -46,4 +45,3 @@ class LogoutDashboard extends StatelessWidget {
     );
   }
 }
-

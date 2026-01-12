@@ -11,11 +11,11 @@ class ChartOrder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return       CustomContainer(
+    return CustomContainer(
         containerWidth: 570,
         containerHeight: 504,
-
-        isSelected: false, onTap:(){},
+        isSelected: false,
+        onTap: () {},
         typeWidget: const Column(
           spacing: 60,
           children: [
@@ -24,16 +24,17 @@ class ChartOrder extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  TextInAppWidget(text:AppLanguageKeys.ordersKey,textSize: 16,fontWeightIndex: FontSelectionData.regularFontFamily,),
-                  SizedBox(
-                      width: 300,
-                      child: SelectDateWidget()),
+                  TextInAppWidget(
+                    text: AppLanguageKeys.ordersKey,
+                    textSize: 16,
+                    fontWeightIndex: FontSelectionData.regularFontFamily,
+                  ),
+                  SizedBox(width: 300, child: SelectDateWidget()),
                 ],
               ),
             ),
             CustomLineChart(),
           ],
-        )
-    );
+        ));
   }
 }

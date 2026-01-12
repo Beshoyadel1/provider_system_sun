@@ -10,11 +10,10 @@ class FirstScreenPermissions extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     bool isMobile = size.width <= ValuesOfAllApp.mobileWidth;
-    bool isTabletCustom = size.width > ValuesOfAllApp.mobileWidth && size.width <= ValuesOfAllApp.customTabWidth;
+    bool isTabletCustom = size.width > ValuesOfAllApp.mobileWidth &&
+        size.width <= ValuesOfAllApp.customTabWidth;
     bool isTab = size.width > ValuesOfAllApp.tabWidth;
 
-    return const SingleChildScrollView(
-        child: ListDataFirstScreenPermissions()
-    );
+    return const SingleChildScrollView(child: ListDataFirstScreenPermissions());
   }
 }

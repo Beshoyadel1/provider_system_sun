@@ -17,7 +17,8 @@ class NewUserWidget extends StatelessWidget {
       onTap: () {
         context.read<AuthCubit>().showSignup();
         Navigator.push(
-          context, NavigateToPageWidget( const SignUpPage()),
+          context,
+          NavigateToPageWidget(const SignUpPage()),
         );
       },
       child: const TextInAppWidget(

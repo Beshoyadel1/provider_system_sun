@@ -8,17 +8,18 @@ import '../../../../../features/service_settings/custom_widget/container_image_w
 import '../../../../../features/service_settings/first_screen_service_settings/screens/container_return_to_page_setting.dart';
 import '../../../../../core/theming/colors.dart';
 
-
-class ContainerInDataContainerInListDataFirstScreenServiceSettingWidget extends StatelessWidget {
+class ContainerInDataContainerInListDataFirstScreenServiceSettingWidget
+    extends StatelessWidget {
   final String imagePath, title;
   final void Function()? onTap;
   final bool? isTaskEdit;
+
   const ContainerInDataContainerInListDataFirstScreenServiceSettingWidget({
     super.key,
     required this.imagePath,
     required this.title,
     this.onTap,
-    this.isTaskEdit=false,
+    this.isTaskEdit = false,
   });
 
   @override
@@ -44,82 +45,95 @@ class ContainerInDataContainerInListDataFirstScreenServiceSettingWidget extends 
       ),
       child: isMobile
           ? Column(
-        spacing: 10,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            spacing: 10,
-            children: [
-              Flexible(
-                child: ContainerImageWidget(
-                  imagePath: imagePath,
-                  color:isTaskEdit!? AppColors.orangeColor:AppColors.greyColor,
-                  width: 50,
-                  height: 50,
-                ),
-              ),
-              Expanded(
-                child: TextInAppWidget(
-                  text: title,
-                  textSize: 13,
-                  fontWeightIndex: FontSelectionData.regularFontFamily,
-                  textColor: AppColors.blackColor,
-                  maxLines: 2,
-                  isEllipsisTextOverflow: true,
-                ),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: ContainerReturnToPageSetting(
-                  color:isTaskEdit!? AppColors.blackColor44:AppColors.orangeColor,
-                  text:isTaskEdit!?AppLanguageKeys.edit: AppLanguageKeys.addServices,
-                  icon: isTaskEdit!?Icons.edit_calendar:CupertinoIcons.add,
-                  onTap: onTap,
-                ),
-              ),
-            ],
-          ),
-        ],
-      )
-          : Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Flexible(
-            child: Row(
               spacing: 10,
               children: [
-                ContainerImageWidget(
-                  imagePath: imagePath,
-                  color: isTaskEdit!? AppColors.orangeColor:AppColors.greyColor,
-                  width: 50,
-                  height: 50,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  spacing: 10,
+                  children: [
+                    Flexible(
+                      child: ContainerImageWidget(
+                        imagePath: imagePath,
+                        color: isTaskEdit!
+                            ? AppColors.orangeColor
+                            : AppColors.greyColor,
+                        width: 50,
+                        height: 50,
+                      ),
+                    ),
+                    Expanded(
+                      child: TextInAppWidget(
+                        text: title,
+                        textSize: 13,
+                        fontWeightIndex: FontSelectionData.regularFontFamily,
+                        textColor: AppColors.blackColor,
+                        maxLines: 2,
+                        isEllipsisTextOverflow: true,
+                      ),
+                    ),
+                  ],
                 ),
-                Expanded(
-                  child: TextInAppWidget(
-                    text: title,
-                    textSize: 13,
-                    fontWeightIndex: FontSelectionData.regularFontFamily,
-                    textColor: AppColors.blackColor,
-                    maxLines: 1,
-                    isEllipsisTextOverflow: true,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: ContainerReturnToPageSetting(
+                        color: isTaskEdit!
+                            ? AppColors.blackColor44
+                            : AppColors.orangeColor,
+                        text: isTaskEdit!
+                            ? AppLanguageKeys.edit
+                            : AppLanguageKeys.addServices,
+                        icon: isTaskEdit!
+                            ? Icons.edit_calendar
+                            : CupertinoIcons.add,
+                        onTap: onTap,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            )
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: Row(
+                    spacing: 10,
+                    children: [
+                      ContainerImageWidget(
+                        imagePath: imagePath,
+                        color: isTaskEdit!
+                            ? AppColors.orangeColor
+                            : AppColors.greyColor,
+                        width: 50,
+                        height: 50,
+                      ),
+                      Expanded(
+                        child: TextInAppWidget(
+                          text: title,
+                          textSize: 13,
+                          fontWeightIndex: FontSelectionData.regularFontFamily,
+                          textColor: AppColors.blackColor,
+                          maxLines: 1,
+                          isEllipsisTextOverflow: true,
+                        ),
+                      ),
+                    ],
                   ),
+                ),
+                ContainerReturnToPageSetting(
+                  color: isTaskEdit!
+                      ? AppColors.blackColor44
+                      : AppColors.orangeColor,
+                  text: isTaskEdit!
+                      ? AppLanguageKeys.edit
+                      : AppLanguageKeys.addServices,
+                  icon: isTaskEdit! ? Icons.edit_calendar : CupertinoIcons.add,
+                  onTap: onTap,
                 ),
               ],
             ),
-          ),
-          ContainerReturnToPageSetting(
-            color:isTaskEdit!? AppColors.blackColor44:AppColors.orangeColor,
-            text:isTaskEdit!?AppLanguageKeys.edit: AppLanguageKeys.addServices,
-            icon: isTaskEdit!?Icons.edit_calendar:CupertinoIcons.add,
-            onTap: onTap,
-          ),
-        ],
-      ),
     );
   }
 }
-

@@ -11,7 +11,6 @@ import '../../../../../../core/pages_widgets/general_widgets/custom_container.da
 import '../../../../../../core/theming/text_styles.dart';
 import '../../../../../../core/language/language_constant.dart';
 
-
 class FacilityAccount extends StatelessWidget {
   const FacilityAccount({super.key});
 
@@ -45,13 +44,14 @@ class FacilityAccount extends StatelessWidget {
                         const TextInAppWidget(
                           text: AppLanguageKeys.continueFacilityDataKey,
                           textSize: 22,
-                          fontWeightIndex:
-                          FontSelectionData.mediumFontFamily,
+                          fontWeightIndex: FontSelectionData.mediumFontFamily,
                         ),
                         const SizedBox(height: 10),
                         const TabsWidget(),
                         const SizedBox(height: 30),
-                        facilityTabs[context.read<FacilityTabCubit>().selectedIndex].content,
+                        facilityTabs[
+                                context.read<FacilityTabCubit>().selectedIndex]
+                            .content,
                         const SizedBox(height: 100),
                       ],
                     ),
@@ -60,14 +60,21 @@ class FacilityAccount extends StatelessWidget {
                   BlocBuilder<FacilityTabCubit, FacilityTabState>(
                     builder: (context, state) {
                       final cubit = context.read<FacilityTabCubit>();
-                      final isLastTab = cubit.selectedIndex == facilityTabs.length - 1;
+                      final isLastTab =
+                          cubit.selectedIndex == facilityTabs.length - 1;
                       return isLastTab
-                          ? NavigatorButton(textGrayButton: AppLanguageKeys.backKey, onTapGrayButton: () => cubit.previousTab(),)
-                          : NavigatorButton(textOrangeButton: AppLanguageKeys.nextKey, textGrayButton: AppLanguageKeys.backKey, onTapGrayButton: () => cubit.previousTab(), onTapOrangeButton: () => cubit.nextTab(),);
+                          ? NavigatorButton(
+                              textGrayButton: AppLanguageKeys.backKey,
+                              onTapGrayButton: () => cubit.previousTab(),
+                            )
+                          : NavigatorButton(
+                              textOrangeButton: AppLanguageKeys.nextKey,
+                              textGrayButton: AppLanguageKeys.backKey,
+                              onTapGrayButton: () => cubit.previousTab(),
+                              onTapOrangeButton: () => cubit.nextTab(),
+                            );
                     },
                   ),
-
-
                 ],
               ),
             ),

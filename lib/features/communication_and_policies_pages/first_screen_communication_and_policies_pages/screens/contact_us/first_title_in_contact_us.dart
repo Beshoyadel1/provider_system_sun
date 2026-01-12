@@ -14,16 +14,16 @@ class FirstTitleInContactUs extends StatelessWidget {
       spacing: 20,
       children: [
         TextInAppWidget(
-          text:AppLanguageKeys.contactUs,
+          text: AppLanguageKeys.contactUs,
           textSize: 18,
           fontWeightIndex: FontSelectionData.mediumFontFamily,
-          textColor:AppColors.blackColor,
+          textColor: AppColors.blackColor,
         ),
         TextInAppWidget(
-          text:AppLanguageKeys.sendUsMessage,
+          text: AppLanguageKeys.sendUsMessage,
           textSize: 14,
           fontWeightIndex: FontSelectionData.regularFontFamily,
-          textColor:AppColors.blackColor,
+          textColor: AppColors.blackColor,
         ),
       ],
     );

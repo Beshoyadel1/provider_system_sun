@@ -8,9 +8,9 @@ import '../../../../../../core/language/language_constant.dart';
 import 'widgets/body_car_model.dart';
 import '../navigator_button.dart';
 
-
 class CarModelWidget extends StatelessWidget {
   const CarModelWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -30,24 +30,27 @@ class CarModelWidget extends StatelessWidget {
                       containerHeight: 912,
                       isSelected: false,
                       onTap: () {},
-                      border: state is CarModelAddingNew ?
-                      const Border(
-                        top: BorderSide(color: AppColors.lightGreyColor),
-                        left: BorderSide(color: AppColors.lightGreyColor),
-                        right: BorderSide(color: AppColors.lightGreyColor),
-                        bottom: BorderSide(color: AppColors.lightGreyColor),
-                      )
+                      border: state is CarModelAddingNew
+                          ? const Border(
+                              top: BorderSide(color: AppColors.lightGreyColor),
+                              left: BorderSide(color: AppColors.lightGreyColor),
+                              right:
+                                  BorderSide(color: AppColors.lightGreyColor),
+                              bottom:
+                                  BorderSide(color: AppColors.lightGreyColor),
+                            )
                           : const Border(
-                        top: BorderSide(color: AppColors.lightGreyColor),
-                        left: BorderSide(color: AppColors.lightGreyColor),
-                        right: BorderSide(color: AppColors.lightGreyColor),
-                      ),
+                              top: BorderSide(color: AppColors.lightGreyColor),
+                              left: BorderSide(color: AppColors.lightGreyColor),
+                              right:
+                                  BorderSide(color: AppColors.lightGreyColor),
+                            ),
                       borderRadius: state is CarModelAddingNew
                           ? const BorderRadius.all(Radius.circular(10))
                           : const BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        topRight: Radius.circular(10),
-                      ),
+                              topLeft: Radius.circular(10),
+                              topRight: Radius.circular(10),
+                            ),
                       typeWidget: BodyCarModel(state: state),
                     ),
                   ),
@@ -61,7 +64,10 @@ class CarModelWidget extends StatelessWidget {
                         if (state is CarModelAdded) {
                           cubit.startAddingNewCar();
                         } else {
-                          cubit.addCar(AppLanguageKeys.newModelKey + DateTime.now().second.toString(),);
+                          cubit.addCar(
+                            AppLanguageKeys.newModelKey +
+                                DateTime.now().second.toString(),
+                          );
                         }
                       },
                     ),

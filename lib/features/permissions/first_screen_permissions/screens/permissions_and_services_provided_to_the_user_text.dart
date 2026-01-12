@@ -10,10 +10,10 @@ class PermissionsAndServicesProvidedToTheUserText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextInAppWidget(
-      text:AppLanguageKeys.permissionsFromServices,
+      text: AppLanguageKeys.permissionsFromServices,
       textSize: 16,
       fontWeightIndex: FontSelectionData.mediumFontFamily,
-      textColor:AppColors.blackColor,
+      textColor: AppColors.blackColor,
     );
   }
 }

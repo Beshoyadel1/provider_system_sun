@@ -8,6 +8,7 @@ import 'first_title_search_in_data_second_container_in_first_screen_car_model_se
 
 class DataSecondContainerInFirstScreenCarModelSettings extends StatelessWidget {
   const DataSecondContainerInFirstScreenCarModelSettings({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Padding(

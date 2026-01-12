@@ -22,36 +22,37 @@ class RowTextIconOrange extends StatelessWidget {
       spacing: 5,
       children: isMap
           ? [
-        Image.asset(imagePath,height: 23,),
-        InkWell(
-          onTap: () {
-            // Navigator.of(context).push(
-            //   NavigateToPageWidget(
-            //       MapBackgroundInServiceRequest()
-            //   ),
-            // );
-          },
-          child: TextInAppWidget(
-            text: text,
-            textSize: 9,
-            fontWeightIndex: FontSelectionData.regularFontFamily,
-            textColor: AppColors.orangeColor,
-            decorationText: TextDecoration.underline,
-            decorationTextColor: AppColors.orangeColor,
-          ),
-        ),
-      ]
-          :
-          [
-        TextInAppWidget(
-          text: text,
-          textSize: 12,
-          fontWeightIndex: FontSelectionData.mediumFontFamily,
-          textColor: AppColors.darkColor,
-        ),
-        Image.asset(imagePath),
-      ]
-          ,
+              Image.asset(
+                imagePath,
+                height: 23,
+              ),
+              InkWell(
+                onTap: () {
+                  // Navigator.of(context).push(
+                  //   NavigateToPageWidget(
+                  //       MapBackgroundInServiceRequest()
+                  //   ),
+                  // );
+                },
+                child: TextInAppWidget(
+                  text: text,
+                  textSize: 9,
+                  fontWeightIndex: FontSelectionData.regularFontFamily,
+                  textColor: AppColors.orangeColor,
+                  decorationText: TextDecoration.underline,
+                  decorationTextColor: AppColors.orangeColor,
+                ),
+              ),
+            ]
+          : [
+              TextInAppWidget(
+                text: text,
+                textSize: 12,
+                fontWeightIndex: FontSelectionData.mediumFontFamily,
+                textColor: AppColors.darkColor,
+              ),
+              Image.asset(imagePath),
+            ],
     );
   }
 }

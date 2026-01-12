@@ -10,35 +10,46 @@ import 'details_order.dart';
 import 'payment_widget.dart';
 
 class CreateNewOrder extends StatelessWidget {
-  const CreateNewOrder({super.key, this.textButton, this.isProcessingRequest, this.isWaitingPayment});
-final String?textButton;
-final bool? isProcessingRequest;
-final bool? isWaitingPayment;
+  const CreateNewOrder(
+      {super.key,
+      this.textButton,
+      this.isProcessingRequest,
+      this.isWaitingPayment});
+
+  final String? textButton;
+  final bool? isProcessingRequest;
+  final bool? isWaitingPayment;
+
   @override
   Widget build(BuildContext context) {
-    return   Column(
+    return Column(
       spacing: 20,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         DetailsOrder(isProcessingRequest: isProcessingRequest),
-        isWaitingPayment==true?
-        const PaymentWidget()
-            :CustomContainer(
-          isSelected:false,
-          onTap: () {
-            final cubit = context.read<NewOrdersCubit>();
-            if (cubit.selectedIndex < steps.length - 1) {
-              cubit.selectTab(cubit.selectedIndex + 1);
-            }
-          },
-          containerHeight: 40,
-          containerWidth: 140,
-          border: const Border(),
-          borderRadius: BorderRadius.circular(20),
-          containerColor: AppColors.orangeColor,
-          typeWidget:  Center(child: TextInAppWidget(text: textButton??AppLanguageKeys.executeOrderKey, textSize: 14, textColor: AppColors.whiteColor,),
-          ),
-        )
+        isWaitingPayment == true
+            ? const PaymentWidget()
+            : CustomContainer(
+                isSelected: false,
+                onTap: () {
+                  final cubit = context.read<NewOrdersCubit>();
+                  if (cubit.selectedIndex < steps.length - 1) {
+                    cubit.selectTab(cubit.selectedIndex + 1);
+                  }
+                },
+                containerHeight: 40,
+                containerWidth: 140,
+                border: const Border(),
+                borderRadius: BorderRadius.circular(20),
+                containerColor: AppColors.orangeColor,
+                typeWidget: Center(
+                  child: TextInAppWidget(
+                    text: textButton ?? AppLanguageKeys.executeOrderKey,
+                    textSize: 14,
+                    textColor: AppColors.whiteColor,
+                  ),
+                ),
+              )
       ],
     );
   }

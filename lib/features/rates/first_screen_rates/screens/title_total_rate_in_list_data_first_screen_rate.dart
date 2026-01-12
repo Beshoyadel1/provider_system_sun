@@ -15,10 +15,10 @@ class TitleTotalRateInListDataFirstScreenRate extends StatelessWidget {
       children: [
         Flexible(
           child: TextInAppWidget(
-            text:AppLanguageKeys.totalReviews,
+            text: AppLanguageKeys.totalReviews,
             textSize: 16,
             fontWeightIndex: FontSelectionData.mediumFontFamily,
-            textColor:AppColors.blackColor,
+            textColor: AppColors.blackColor,
           ),
         ),
         Row(
@@ -26,10 +26,10 @@ class TitleTotalRateInListDataFirstScreenRate extends StatelessWidget {
           children: [
             Image.asset(AppImageKeys.star11),
             TextInAppWidget(
-              text:'4.0',
+              text: '4.0',
               textSize: 22,
               fontWeightIndex: FontSelectionData.mediumFontFamily,
-              textColor:AppColors.blackColor,
+              textColor: AppColors.blackColor,
             ),
           ],
         )

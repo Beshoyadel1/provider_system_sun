@@ -12,10 +12,12 @@ import 'number_indicator.dart';
 
 class OrdersPage extends StatelessWidget {
   const OrdersPage({super.key, required this.cubit});
-final NewOrdersCubit cubit;
+
+  final NewOrdersCubit cubit;
+
   @override
   Widget build(BuildContext context) {
-    return  CustomContainer(
+    return CustomContainer(
       isSelected: false,
       onTap: () {},
       typeWidget: Center(
@@ -32,16 +34,32 @@ final NewOrdersCubit cubit;
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TextInAppWidget(text: AppLanguageKeys.allOrdersKey, textSize: 20, textColor: AppColors.darkColor,),
-                      TextInAppWidget(text: AppLanguageKeys.ordersListFromServicesKey, textSize: 16, textColor: AppColors.darkGreyColor,),
+                      TextInAppWidget(
+                        text: AppLanguageKeys.allOrdersKey,
+                        textSize: 20,
+                        textColor: AppColors.darkColor,
+                      ),
+                      TextInAppWidget(
+                        text: AppLanguageKeys.ordersListFromServicesKey,
+                        textSize: 16,
+                        textColor: AppColors.darkGreyColor,
+                      ),
                     ],
                   ),
                 ],
               ),
-              FiltersOrdersWidget(filterOptions: filterOrders,),
+              FiltersOrdersWidget(
+                filterOptions: filterOrders,
+              ),
               const SearchWidget(),
-              ...List.generate(7, (_) => NewOrderWidget(spacing: 25, onTap: () {cubit.showOrderDetails();},
-                  )),
+              ...List.generate(
+                  7,
+                  (_) => NewOrderWidget(
+                        spacing: 25,
+                        onTap: () {
+                          cubit.showOrderDetails();
+                        },
+                      )),
               Center(child: NumberIndicator())
             ],
           ),

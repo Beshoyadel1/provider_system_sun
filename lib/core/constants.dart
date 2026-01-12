@@ -1,11 +1,8 @@
-
-
-class AppImages{
+class AppImages {
   static const appLogo = 'assets/login/appLogo.png';
-
 }
 
-class AppFonts{
+class AppFonts {
   static const String lamaSansFontFamily = 'LamaSans';
 }
 
@@ -14,9 +11,6 @@ Map<String, String> myHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'X-Requested-With',
 };
-
-
-
 
 // Links
 

@@ -19,8 +19,7 @@ class MobileListContainerAllRateService extends StatelessWidget {
             ContainerListContainerAllRateServiceWidget(
                 imagePath: AppImageKeys.service33,
                 title: AppLanguageKeys.internalServices,
-                subTitle: AppLanguageKeys.maintenanceAndRepair
-            ),
+                subTitle: AppLanguageKeys.maintenanceAndRepair),
           ],
         ),
         Row(
@@ -29,17 +28,14 @@ class MobileListContainerAllRateService extends StatelessWidget {
             ContainerListContainerAllRateServiceWidget(
                 imagePath: AppImageKeys.service44,
                 title: AppLanguageKeys.internalServices,
-                subTitle: AppLanguageKeys.oils
-            ),
+                subTitle: AppLanguageKeys.oils),
             ContainerListContainerAllRateServiceWidget(
                 imagePath: AppImageKeys.service99,
                 title: AppLanguageKeys.spareParts,
-                subTitle: AppLanguageKeys.allChanges
-            )
+                subTitle: AppLanguageKeys.allChanges)
           ],
         ),
       ],
     );
   }
 }
-

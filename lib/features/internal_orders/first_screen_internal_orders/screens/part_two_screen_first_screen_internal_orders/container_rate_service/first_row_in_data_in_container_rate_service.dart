@@ -20,26 +20,26 @@ class FirstRowInDataInContainerRateService extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const TextInAppWidget(
-            text:AppLanguageKeys.internalServicesRating,
+            text: AppLanguageKeys.internalServicesRating,
             textSize: 15,
             fontWeightIndex: FontSelectionData.regularFontFamily,
-            textColor:AppColors.blackColor,
+            textColor: AppColors.blackColor,
           ),
           Row(
             spacing: 10,
             children: [
               Flexible(child: Image.asset(AppImageKeys.star11)),
               BlocBuilder<InternalOrdersCubit, InternalOrdersState>(
-                  buildWhen: (previous, current) => previous.isLoading != current.isLoading,
+                  buildWhen: (previous, current) =>
+                      previous.isLoading != current.isLoading,
                   builder: (context, state) {
-                  return TextInAppWidget(
-                    text:state.isLoaded?'5.0': '0.0',
-                    textSize: 15,
-                    fontWeightIndex: FontSelectionData.regularFontFamily,
-                    textColor:AppColors.blackColor,
-                  );
-                }
-              ),
+                    return TextInAppWidget(
+                      text: state.isLoaded ? '5.0' : '0.0',
+                      textSize: 15,
+                      fontWeightIndex: FontSelectionData.regularFontFamily,
+                      textColor: AppColors.blackColor,
+                    );
+                  }),
             ],
           )
         ],

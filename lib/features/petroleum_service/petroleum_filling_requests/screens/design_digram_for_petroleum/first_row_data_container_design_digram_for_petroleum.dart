@@ -15,23 +15,23 @@ class FirstRowDataContainerDesignDigramForPetroleum extends StatelessWidget {
       spacing: 20,
       children: [
         TextInAppWidget(
-          text:AppLanguageKeys.fuelFillingSalesPerBranch,
+          text: AppLanguageKeys.fuelFillingSalesPerBranch,
           textSize: 22,
           fontWeightIndex: FontSelectionData.mediumFontFamily,
-          textColor:AppColors.blackColor,
+          textColor: AppColors.blackColor,
         ),
         Row(
           spacing: 10,
           children: [
             TextInAppWidget(
-              text:AppLanguageKeys.from,
+              text: AppLanguageKeys.from,
               textSize: 15,
               fontWeightIndex: FontSelectionData.regularFontFamily,
-              textColor:AppColors.blackColor,
+              textColor: AppColors.blackColor,
             ),
             Flexible(
               child: SelectTimeProfitServiceWidget(
-                hint:'00/00/0000',
+                hint: '00/00/0000',
                 textColor: AppColors.blackColor,
                 backGroundColor: AppColors.whiteColor,
                 borderColor: AppColors.greyColor,
@@ -39,14 +39,14 @@ class FirstRowDataContainerDesignDigramForPetroleum extends StatelessWidget {
               ),
             ),
             TextInAppWidget(
-              text:AppLanguageKeys.to,
+              text: AppLanguageKeys.to,
               textSize: 15,
               fontWeightIndex: FontSelectionData.regularFontFamily,
-              textColor:AppColors.blackColor,
+              textColor: AppColors.blackColor,
             ),
             Flexible(
               child: SelectTimeProfitServiceWidget(
-                hint:'00/00/0000',
+                hint: '00/00/0000',
                 textColor: AppColors.blackColor,
                 backGroundColor: AppColors.whiteColor,
                 borderColor: AppColors.greyColor,
@@ -55,7 +55,6 @@ class FirstRowDataContainerDesignDigramForPetroleum extends StatelessWidget {
             )
           ],
         )
-
       ],
     );
   }

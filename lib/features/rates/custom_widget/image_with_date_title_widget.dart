@@ -4,7 +4,8 @@ import '../../../../../core/theming/fonts.dart';
 import '../../../../../core/theming/text_styles.dart';
 
 class ImageWithDateTitleWidget extends StatelessWidget {
-  final String imagePath,date,text;
+  final String imagePath, date, text;
+
   const ImageWithDateTitleWidget({
     super.key,
     required this.imagePath,
@@ -24,16 +25,16 @@ class ImageWithDateTitleWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextInAppWidget(
-                  text:date,
+                  text: date,
                   textSize: 11,
                   fontWeightIndex: FontSelectionData.mediumFontFamily,
-                  textColor:AppColors.greyColor,
+                  textColor: AppColors.greyColor,
                 ),
                 TextInAppWidget(
-                  text:text,
+                  text: text,
                   textSize: 13,
                   fontWeightIndex: FontSelectionData.mediumFontFamily,
-                  textColor:AppColors.blackColor,
+                  textColor: AppColors.blackColor,
                 ),
               ],
             ),

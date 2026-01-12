@@ -4,7 +4,8 @@ import '../../../../../../core/theming/fonts.dart';
 import '../../../../../../core/theming/text_styles.dart';
 
 class ContainerListContainerAllRateServiceWidget extends StatelessWidget {
-  final String imagePath,title,subTitle;
+  final String imagePath, title, subTitle;
+
   const ContainerListContainerAllRateServiceWidget({
     super.key,
     required this.imagePath,
@@ -16,7 +17,7 @@ class ContainerListContainerAllRateServiceWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Flexible(
       child: Container(
-        padding: EdgeInsetsGeometry.symmetric(horizontal: 15,vertical: 15),
+        padding: EdgeInsetsGeometry.symmetric(horizontal: 15, vertical: 15),
         decoration: BoxDecoration(
           color: AppColors.blackColor25.withOpacity(0.6),
           borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -24,24 +25,26 @@ class ContainerListContainerAllRateServiceWidget extends StatelessWidget {
         child: Row(
           spacing: 5,
           children: [
-            Flexible(child: Image.asset(imagePath,width: 30,)),
+            Flexible(
+                child: Image.asset(
+              imagePath,
+              width: 30,
+            )),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextInAppWidget(
-                    text:title,
+                    text: title,
                     textSize: 12,
                     fontWeightIndex: FontSelectionData.regularFontFamily,
-                    textColor:AppColors.orangeColor,
-
+                    textColor: AppColors.orangeColor,
                   ),
                   TextInAppWidget(
-                    text:subTitle,
+                    text: subTitle,
                     textSize: 12,
                     fontWeightIndex: FontSelectionData.regularFontFamily,
-                    textColor:AppColors.blackColor,
-
+                    textColor: AppColors.blackColor,
                   ),
                 ],
               ),

@@ -18,18 +18,24 @@ class SizesOfSpareParts extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextInAppWidget(
-              text:AppLanguageKeys.sizesOrDimensions,
+              text: AppLanguageKeys.sizesOrDimensions,
               textSize: 16,
               fontWeightIndex: FontSelectionData.regularFontFamily,
-              textColor:AppColors.darkColor,
+              textColor: AppColors.darkColor,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               spacing: 10,
               children: [
-                ContainerNumberWidget(textNumber: '1',),
-                ContainerNumberWidget(textNumber: '2',),
-                ContainerNumberWidget(textNumber: '3',)
+                ContainerNumberWidget(
+                  textNumber: '1',
+                ),
+                ContainerNumberWidget(
+                  textNumber: '2',
+                ),
+                ContainerNumberWidget(
+                  textNumber: '3',
+                )
               ],
             )
           ],
@@ -38,15 +44,17 @@ class SizesOfSpareParts extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextInAppWidget(
-              text:AppLanguageKeys.availableQuantity,
+              text: AppLanguageKeys.availableQuantity,
               textSize: 16,
               fontWeightIndex: FontSelectionData.regularFontFamily,
-              textColor:AppColors.darkColor,
+              textColor: AppColors.darkColor,
             ),
             Row(
               spacing: 10,
               children: [
-                ContainerNumberWidget(textNumber: '1',),
+                ContainerNumberWidget(
+                  textNumber: '1',
+                ),
               ],
             )
           ],

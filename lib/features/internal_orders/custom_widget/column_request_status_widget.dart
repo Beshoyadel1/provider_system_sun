@@ -8,23 +8,31 @@ import '../../../../../../../core/theming/text_styles.dart';
 
 class ColumnRequestStatusWidget extends StatelessWidget {
   final String? text;
-  final double? textSizeContainer,textSize;
-  final bool? isAccept,isReject,isNewOrder,isTruck,isPaidSuccess,isServiceProvider,isActive,isInActive,isWaitingForApproval;
-  const ColumnRequestStatusWidget({
-    super.key,
-    this.isAccept=false,
-    this.isReject=false,
-    this.isNewOrder=false,
-    this.isTruck=false,
-    this.isPaidSuccess=false,
-    this.isServiceProvider=false,
-    this.isActive=false,
-    this.isInActive=false,
-    this.isWaitingForApproval=false,
-    this.text,
-    this.textSizeContainer,
-    this.textSize
-  });
+  final double? textSizeContainer, textSize;
+  final bool? isAccept,
+      isReject,
+      isNewOrder,
+      isTruck,
+      isPaidSuccess,
+      isServiceProvider,
+      isActive,
+      isInActive,
+      isWaitingForApproval;
+
+  const ColumnRequestStatusWidget(
+      {super.key,
+      this.isAccept = false,
+      this.isReject = false,
+      this.isNewOrder = false,
+      this.isTruck = false,
+      this.isPaidSuccess = false,
+      this.isServiceProvider = false,
+      this.isActive = false,
+      this.isInActive = false,
+      this.isWaitingForApproval = false,
+      this.text,
+      this.textSizeContainer,
+      this.textSize});
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +41,8 @@ class ColumnRequestStatusWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextInAppWidget(
-          text:text?? AppLanguageKeys.requestStatus,
-          textSize: textSize??11,
+          text: text ?? AppLanguageKeys.requestStatus,
+          textSize: textSize ?? 11,
           fontWeightIndex: FontSelectionData.mediumFontFamily,
           textColor: AppColors.greyColor,
         ),
@@ -42,13 +50,13 @@ class ColumnRequestStatusWidget extends StatelessWidget {
           isReject: isReject,
           isAccept: isAccept,
           isNewOrder: isNewOrder,
-          isTruck:isTruck,
-          isServiceProvider:isServiceProvider,
-          isPaidSuccess:isPaidSuccess,
-          isActive:isActive ,
-          isInActive:isInActive ,
-          isWaitingForApproval:isWaitingForApproval,
-          textSize:textSizeContainer,
+          isTruck: isTruck,
+          isServiceProvider: isServiceProvider,
+          isPaidSuccess: isPaidSuccess,
+          isActive: isActive,
+          isInActive: isInActive,
+          isWaitingForApproval: isWaitingForApproval,
+          textSize: textSizeContainer,
         )
       ],
     );

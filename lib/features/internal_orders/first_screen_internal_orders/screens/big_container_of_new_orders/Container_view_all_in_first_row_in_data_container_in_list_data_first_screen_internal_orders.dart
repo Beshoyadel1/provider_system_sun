@@ -5,8 +5,10 @@ import '../../../../../../../core/theming/colors.dart';
 import '../../../../../../../core/theming/fonts.dart';
 import '../../../../../../../core/theming/text_styles.dart';
 
-class ContainerViewAllInFirstRowInDataContainerInListDataFirstScreenInternalOrders extends StatelessWidget {
+class ContainerViewAllInFirstRowInDataContainerInListDataFirstScreenInternalOrders
+    extends StatelessWidget {
   final void Function()? onTap;
+
   const ContainerViewAllInFirstRowInDataContainerInListDataFirstScreenInternalOrders({
     super.key,
     this.onTap,
@@ -17,7 +19,7 @@ class ContainerViewAllInFirstRowInDataContainerInListDataFirstScreenInternalOrde
     return InkWell(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsetsGeometry.symmetric(horizontal: 15,vertical: 10),
+        padding: EdgeInsetsGeometry.symmetric(horizontal: 15, vertical: 10),
         decoration: BoxDecoration(
           color: AppColors.orangeColor,
           borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -30,10 +32,10 @@ class ContainerViewAllInFirstRowInDataContainerInListDataFirstScreenInternalOrde
           ],
         ),
         child: TextInAppWidget(
-          text:AppLanguageKeys.viewAll,
+          text: AppLanguageKeys.viewAll,
           textSize: 13,
           fontWeightIndex: FontSelectionData.regularFontFamily,
-          textColor:AppColors.whiteColor,
+          textColor: AppColors.whiteColor,
         ),
       ),
     );

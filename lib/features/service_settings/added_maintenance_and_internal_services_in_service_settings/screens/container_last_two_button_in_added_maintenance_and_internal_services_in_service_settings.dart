@@ -5,16 +5,17 @@ import '../../../../../../features/service_settings/custom_widget/container_text
 import '../../../../../../core/language/language_constant.dart';
 import '../../../../../../core/theming/colors.dart';
 
-class ContainerLastTwoButtonInAddedMaintenanceAndInternalServicesInServiceSettings extends StatelessWidget {
-  final void Function()? onTapBack,onTapSave;
-  final String? textContainerLeft,textContainerRight;
-  const ContainerLastTwoButtonInAddedMaintenanceAndInternalServicesInServiceSettings({
-    super.key,
-    this.onTapBack,
-    this.onTapSave,
-    this.textContainerLeft,
-    this.textContainerRight
-  });
+class ContainerLastTwoButtonInAddedMaintenanceAndInternalServicesInServiceSettings
+    extends StatelessWidget {
+  final void Function()? onTapBack, onTapSave;
+  final String? textContainerLeft, textContainerRight;
+
+  const ContainerLastTwoButtonInAddedMaintenanceAndInternalServicesInServiceSettings(
+      {super.key,
+      this.onTapBack,
+      this.onTapSave,
+      this.textContainerLeft,
+      this.textContainerRight});
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +23,9 @@ class ContainerLastTwoButtonInAddedMaintenanceAndInternalServicesInServiceSettin
       padding: EdgeInsetsGeometry.all(10),
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)),
-        border: Border.all(
-            color: AppColors.greyColor.withOpacity(0.3)
-        ),
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+        border: Border.all(color: AppColors.greyColor.withOpacity(0.3)),
         boxShadow: [
           BoxShadow(
             color: AppColors.darkColor.withOpacity(0.1),
@@ -40,19 +40,20 @@ class ContainerLastTwoButtonInAddedMaintenanceAndInternalServicesInServiceSettin
         children: [
           Flexible(
             child: ContainerTextOnly(
-              onTap: (){
+              onTap: () {
                 Navigator.pop(context);
-                Navigator.of(context).push(NavigateToPageWidget(const FirstScreenServiceSettings()));
+                Navigator.of(context).push(
+                    NavigateToPageWidget(const FirstScreenServiceSettings()));
               },
-                text: textContainerRight??AppLanguageKeys.back,
-                colorBackGround: AppColors.orangeColor,
+              text: textContainerRight ?? AppLanguageKeys.back,
+              colorBackGround: AppColors.orangeColor,
               width: 200,
             ),
           ),
           Flexible(
             child: ContainerTextOnly(
-              onTap:onTapSave,
-              text: textContainerLeft??AppLanguageKeys.save,
+              onTap: onTapSave,
+              text: textContainerLeft ?? AppLanguageKeys.save,
               width: 200,
             ),
           )

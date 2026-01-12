@@ -10,9 +10,9 @@ import '../../../core/theming/colors.dart';
 import '../../../core/language/language.dart';
 import '../../../core/setup_git_it.dart';
 
-
 final GlobalKey<ScaffoldState> scaffoldKeyDrawer = GlobalKey<ScaffoldState>();
-final GlobalKey<ScaffoldMessengerState> scaffoldKey = GlobalKey<ScaffoldMessengerState>();
+final GlobalKey<ScaffoldMessengerState> scaffoldKey =
+    GlobalKey<ScaffoldMessengerState>();
 
 void main() {
   setupGetIt();
@@ -20,9 +20,9 @@ void main() {
     MultiBlocProvider(
       providers: [
         BlocProvider<LanguageCubit>(
-          create: (_) => getIt<LanguageCubit>()..getLanguageFromSharedPreference(),
+          create: (_) =>
+              getIt<LanguageCubit>()..getLanguageFromSharedPreference(),
         ),
-
       ],
       child: const MyApp(),
     ),
@@ -31,13 +31,14 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final width = MediaQuery.of(context).size.width;
       print("📱 Screen width = $width");
     });
-    return  BlocProvider(
+    return BlocProvider(
       create: (BuildContext context) => getIt<AppCubit>(),
       child: BlocBuilder<LanguageCubit, LanguageStates>(
         buildWhen: (previous, current) {

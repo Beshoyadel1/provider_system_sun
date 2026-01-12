@@ -7,13 +7,10 @@ import '../../../../../../../core/theming/colors.dart';
 import '../../../../../../../core/theming/fonts.dart';
 import '../../../../../../../core/theming/text_styles.dart';
 
-
 class ColumnPriceOrderWidget extends StatelessWidget {
   final String price;
-  const ColumnPriceOrderWidget({
-    super.key,
-    required this.price
-  });
+
+  const ColumnPriceOrderWidget({super.key, required this.price});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +18,7 @@ class ColumnPriceOrderWidget extends StatelessWidget {
       spacing: 10,
       children: [
         TextInAppWidget(
-          text:AppLanguageKeys.servicePrice,
+          text: AppLanguageKeys.servicePrice,
           textSize: 11,
           fontWeightIndex: FontSelectionData.mediumFontFamily,
           textColor: AppColors.greyColor,

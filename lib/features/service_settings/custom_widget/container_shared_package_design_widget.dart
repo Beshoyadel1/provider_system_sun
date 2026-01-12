@@ -9,15 +9,15 @@ import '../../car_model_settings/custom_widget/container_edit_delete_widget.dart
 import '../../../../../core/theming/colors.dart';
 
 class ContainerSharedPackageDesignWidget extends StatelessWidget {
-  final String textPackage,price;
-  final void Function()? onPressedDelete,onPressedEdit;
-  const ContainerSharedPackageDesignWidget({
-    super.key,
-    required this.textPackage,
-    required this.price,
-    this.onPressedDelete,
-    this.onPressedEdit
-  });
+  final String textPackage, price;
+  final void Function()? onPressedDelete, onPressedEdit;
+
+  const ContainerSharedPackageDesignWidget(
+      {super.key,
+      required this.textPackage,
+      required this.price,
+      this.onPressedDelete,
+      this.onPressedEdit});
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +26,7 @@ class ContainerSharedPackageDesignWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
         borderRadius: BorderRadius.all(Radius.circular(20)),
-        border: Border.all(
-            color: AppColors.greyColor.withOpacity(0.3)
-        ),
+        border: Border.all(color: AppColors.greyColor.withOpacity(0.3)),
         boxShadow: [
           BoxShadow(
             color: AppColors.darkColor.withOpacity(0.1),
@@ -46,23 +44,20 @@ class ContainerSharedPackageDesignWidget extends StatelessWidget {
             children: [
               ContainerEditDeleteWidget(
                 size: 15,
-                onPressed:onPressedEdit,
+                onPressed: onPressedEdit,
               ),
               ContainerEditDeleteWidget(
                 isDelete: true,
                 size: 15,
-                onPressed:onPressedDelete,
+                onPressed: onPressedDelete,
               )
             ],
           ),
           ContainerPackageWidget(
-            text:textPackage,
+            text: textPackage,
           ),
           RowNumberCoinWidget(
-              numberText: price,
-              sizeText: 15,
-              imageSrc: AppImageKeys.coin
-          ),
+              numberText: price, sizeText: 15, imageSrc: AppImageKeys.coin),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 5,

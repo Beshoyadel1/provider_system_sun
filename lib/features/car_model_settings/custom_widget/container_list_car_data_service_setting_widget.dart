@@ -6,8 +6,9 @@ import '../../../../../core/theming/fonts.dart';
 import '../../../../../core/theming/text_styles.dart';
 
 class ContainerListCarDataServiceSettingWidget extends StatelessWidget {
-  final String imagePath,nameModel;
+  final String imagePath, nameModel;
   final void Function()? onTap;
+
   const ContainerListCarDataServiceSettingWidget({
     super.key,
     required this.imagePath,
@@ -43,7 +44,8 @@ class ContainerListCarDataServiceSettingWidget extends StatelessWidget {
               children: [
                 Flexible(
                   child: Container(
-                    padding: EdgeInsetsGeometry.symmetric(vertical: 10,horizontal: 10),
+                    padding: EdgeInsetsGeometry.symmetric(
+                        vertical: 10, horizontal: 10),
                     decoration: BoxDecoration(
                       color: AppColors.whiteColor,
                       borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -62,27 +64,28 @@ class ContainerListCarDataServiceSettingWidget extends StatelessWidget {
                   ),
                 ),
                 TextInAppWidget(
-                  text:nameModel,
+                  text: nameModel,
                   textSize: 14,
                   fontWeightIndex: FontSelectionData.regularFontFamily,
-                  textColor:AppColors.blackColor,
+                  textColor: AppColors.blackColor,
                 ),
               ],
             ),
           ),
           InkWell(
-            onTap:onTap,
+            onTap: onTap,
             child: Container(
-              padding: EdgeInsetsGeometry.symmetric(horizontal: 15,vertical: 5),
+              padding: EdgeInsetsGeometry.symmetric(
+                  horizontal: 15, vertical: 5),
               decoration: BoxDecoration(
                 color: AppColors.orangeColor,
                 borderRadius: BorderRadius.all(Radius.circular(20)),
               ),
               child: TextInAppWidget(
-                text:AppLanguageKeys.servicesSettings,
+                text: AppLanguageKeys.servicesSettings,
                 textSize: 13,
                 fontWeightIndex: FontSelectionData.regularFontFamily,
-                textColor:AppColors.whiteColor,
+                textColor: AppColors.whiteColor,
               ),
             ),
           )

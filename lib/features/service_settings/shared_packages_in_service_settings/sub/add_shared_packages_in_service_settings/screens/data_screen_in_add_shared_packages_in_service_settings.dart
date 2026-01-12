@@ -9,23 +9,24 @@ class DataScreenInAddSharedPackagesInServiceSettings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    bool isTab = size.width > ValuesOfAllApp.customTabWidth-5;
+    bool isTab = size.width > ValuesOfAllApp.customTabWidth - 5;
 
-    return isTab? const Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Flexible(
-            child: PartOnePackageInDataContainerInListDataAddSharedPackagesInServiceSettings()
-        ),
-        Flexible(
-            child: PartTwoPackageInDataContainerInListDataAddSharedPackagesInServiceSettings()
-        ),
-      ],
-    ):
-      const Column(
-      children: [
-        PartOnePackageInDataContainerInListDataAddSharedPackagesInServiceSettings(),
-      ],
-    );
+    return isTab
+        ? const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                  child:
+                      PartOnePackageInDataContainerInListDataAddSharedPackagesInServiceSettings()),
+              Flexible(
+                  child:
+                      PartTwoPackageInDataContainerInListDataAddSharedPackagesInServiceSettings()),
+            ],
+          )
+        : const Column(
+            children: [
+              PartOnePackageInDataContainerInListDataAddSharedPackagesInServiceSettings(),
+            ],
+          );
   }
 }

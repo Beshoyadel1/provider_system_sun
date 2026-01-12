@@ -16,7 +16,7 @@ class InternalOrdersPage extends StatelessWidget {
             builder: (context, state) {
           final cubit = context.read<NewOrdersCubit>();
           if (state is NewOrdersInitial) {
-            return OrdersPage(cubit:cubit);
+            return OrdersPage(cubit: cubit);
           } else {
             return const OrderDetailsPage();
           }

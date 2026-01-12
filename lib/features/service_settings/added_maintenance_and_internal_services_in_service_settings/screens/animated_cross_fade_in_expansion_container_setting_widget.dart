@@ -7,12 +7,14 @@ import '../../../../../../features/service_settings/added_maintenance_and_intern
 import '../../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/logic/Details_container_setting_cubit.dart';
 import '../../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/logic/Details_container_setting_state.dart';
 
-class AnimatedCrossFadeInExpansionContainerSettingWidget extends StatelessWidget {
+class AnimatedCrossFadeInExpansionContainerSettingWidget
+    extends StatelessWidget {
   const AnimatedCrossFadeInExpansionContainerSettingWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DetailsContainerSettingCubit, DetailsContainerSettingState>(
+    return BlocBuilder<DetailsContainerSettingCubit,
+        DetailsContainerSettingState>(
       buildWhen: (previous, current) {
         return previous.isExpanded != current.isExpanded ||
             previous.selectedOption != current.selectedOption;
@@ -23,15 +25,15 @@ class AnimatedCrossFadeInExpansionContainerSettingWidget extends StatelessWidget
           curve: Curves.easeInOut,
           child: state.isExpanded
               ? Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              RowRadioListTileSetting(),
-              if (state.selectedOption == 0)
-                const DataViewOfUnifiedPriceForAll()
-              else if (state.selectedOption == 1)
-                const DataViewOfPricePerCategory(),
-            ],
-          )
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    RowRadioListTileSetting(),
+                    if (state.selectedOption == 0)
+                      const DataViewOfUnifiedPriceForAll()
+                    else if (state.selectedOption == 1)
+                      const DataViewOfPricePerCategory(),
+                  ],
+                )
               : const SizedBox.shrink(),
         );
       },

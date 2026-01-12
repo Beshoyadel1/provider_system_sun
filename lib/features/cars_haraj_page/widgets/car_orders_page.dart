@@ -11,10 +11,12 @@ import 'available_cars.dart';
 
 class CarOrdersPage extends StatelessWidget {
   const CarOrdersPage({super.key, required this.cubit});
+
   final NewOrdersCubit cubit;
+
   @override
   Widget build(BuildContext context) {
-    return  CustomContainer(
+    return CustomContainer(
       isSelected: false,
       onTap: () {},
       typeWidget: Center(
@@ -31,16 +33,31 @@ class CarOrdersPage extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TextInAppWidget(text: 'حراج سيارات', textSize: 20, textColor: AppColors.darkColor,),
-                      TextInAppWidget(text: 'قائمة السيارت من السيارات الحالية والمباعه سابقا', textSize: 16, textColor: AppColors.darkGreyColor,),
+                      TextInAppWidget(
+                        text: 'حراج سيارات',
+                        textSize: 20,
+                        textColor: AppColors.darkColor,
+                      ),
+                      TextInAppWidget(
+                        text:
+                            'قائمة السيارت من السيارات الحالية والمباعه سابقا',
+                        textSize: 16,
+                        textColor: AppColors.darkGreyColor,
+                      ),
                     ],
                   ),
                 ],
               ),
               FiltersOrdersWidget(filterOptions: filterOptionsCars),
               const SearchWidget(),
-              ...List.generate(7, (_) => AvailableCars(spacing: 95, onTap: () {cubit.showOrderDetails();},
-              )),
+              ...List.generate(
+                  7,
+                  (_) => AvailableCars(
+                        spacing: 95,
+                        onTap: () {
+                          cubit.showOrderDetails();
+                        },
+                      )),
               Center(child: NumberIndicator())
             ],
           ),

@@ -5,8 +5,6 @@ import '../../../../../core/pages_widgets/general_widgets/custom_container.dart'
 import '../../../../../core/theming/text_styles.dart';
 import 'new_order_widget.dart';
 
-
-
 class NewOrders extends StatelessWidget {
   const NewOrders({super.key});
 
@@ -38,13 +36,12 @@ class NewOrders extends StatelessWidget {
                       textColor: AppColors.darkColor,
                     ),
                     TextInAppWidget(
-                      text:AppLanguageKeys.newOrdersFromServicesKey,
+                      text: AppLanguageKeys.newOrdersFromServicesKey,
                       textSize: 16,
                       textColor: AppColors.darkGreyColor,
                     ),
                   ],
                 ),
-
                 CustomContainer(
                   containerHeight: 37,
                   containerWidth: 129,
@@ -63,9 +60,11 @@ class NewOrders extends StatelessWidget {
               ],
             ),
           ),
-          ...List.generate(4, (_) =>  NewOrderWidget(onTap: () {
-
-          },)),
+          ...List.generate(
+              4,
+              (_) => NewOrderWidget(
+                    onTap: () {},
+                  )),
         ],
       ),
     );

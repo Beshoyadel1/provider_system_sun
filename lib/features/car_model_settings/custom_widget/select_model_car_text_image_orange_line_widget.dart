@@ -25,7 +25,7 @@ class SelectModelCarTextImageOrangeLineWidget extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border.all(
             color: isSelected ? AppColors.orangeColor : AppColors.transparent,
-            width:isSelected ?1:0,
+            width: isSelected ? 1 : 0,
           ),
           borderRadius: BorderRadius.circular(10),
           color: AppColors.whiteColor,

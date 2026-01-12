@@ -6,14 +6,20 @@ import '../../../../../../../core/theming/fonts.dart';
 import '../../../../../../../core/theming/text_styles.dart';
 import '../../../../../../../core/language/language_constant.dart';
 
-class FirstTitleSearchInDataSecondContainerInFirstScreenCarModelSettings extends StatefulWidget {
-  const FirstTitleSearchInDataSecondContainerInFirstScreenCarModelSettings({super.key});
+class FirstTitleSearchInDataSecondContainerInFirstScreenCarModelSettings
+    extends StatefulWidget {
+  const FirstTitleSearchInDataSecondContainerInFirstScreenCarModelSettings(
+      {super.key});
 
   @override
-  State<FirstTitleSearchInDataSecondContainerInFirstScreenCarModelSettings> createState() => _FirstTitleSearchInDataSecondContainerInFirstScreenCarModelSettingsState();
+  State<FirstTitleSearchInDataSecondContainerInFirstScreenCarModelSettings>
+      createState() =>
+          _FirstTitleSearchInDataSecondContainerInFirstScreenCarModelSettingsState();
 }
 
-class _FirstTitleSearchInDataSecondContainerInFirstScreenCarModelSettingsState extends State<FirstTitleSearchInDataSecondContainerInFirstScreenCarModelSettings> {
+class _FirstTitleSearchInDataSecondContainerInFirstScreenCarModelSettingsState
+    extends State<
+        FirstTitleSearchInDataSecondContainerInFirstScreenCarModelSettings> {
   late TextEditingController textFormController;
 
   @override

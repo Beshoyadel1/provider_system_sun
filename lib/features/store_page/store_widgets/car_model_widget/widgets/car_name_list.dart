@@ -10,22 +10,18 @@ final List<CarModel> CarNameList = [
   const CarModel(
     Image: AppImageKeys.porsche,
     name: AppLanguageKeys.porscheKey,
-
   ),
   const CarModel(
-    Image:AppImageKeys.mercedes ,
+    Image: AppImageKeys.mercedes,
     name: AppLanguageKeys.mercedesKey,
-
   ),
   const CarModel(
     Image: AppImageKeys.bmw,
     name: 'BMW',
-
   ),
   const CarModel(
     Image: AppImageKeys.lexes,
     name: AppLanguageKeys.lexusKey,
-
   ),
   const CarModel(
     Image: 'assets/images/nesan_car.png',
@@ -33,27 +29,23 @@ final List<CarModel> CarNameList = [
   ),
   const CarModel(
     Image: AppImageKeys.nesan,
-    name:  AppLanguageKeys.nissanKey,
+    name: AppLanguageKeys.nissanKey,
   ),
   const CarModel(
     Image: AppImageKeys.porsche,
     name: AppLanguageKeys.porscheKey,
-
   ),
   const CarModel(
-    Image:AppImageKeys.mercedes ,
-    name:  AppLanguageKeys.mercedesKey,
-
+    Image: AppImageKeys.mercedes,
+    name: AppLanguageKeys.mercedesKey,
   ),
   const CarModel(
     Image: AppImageKeys.bmw,
     name: 'BMW',
-
   ),
   const CarModel(
     Image: AppImageKeys.lexes,
-    name:  AppLanguageKeys.lexusKey,
-
+    name: AppLanguageKeys.lexusKey,
   ),
   const CarModel(
     Image: 'assets/images/nesan_car.png',

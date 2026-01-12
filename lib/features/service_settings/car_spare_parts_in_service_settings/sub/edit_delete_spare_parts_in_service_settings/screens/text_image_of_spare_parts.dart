@@ -13,10 +13,10 @@ class TextImageOfSpareParts extends StatelessWidget {
       spacing: 5,
       children: [
         TextInAppWidget(
-          text:'نيسان',
+          text: 'نيسان',
           textSize: 16,
           fontWeightIndex: FontSelectionData.regularFontFamily,
-          textColor:AppColors.greyColor,
+          textColor: AppColors.greyColor,
         ),
         Image.asset(AppImageKeys.logo11)
       ],

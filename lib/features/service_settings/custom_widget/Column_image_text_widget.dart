@@ -7,12 +7,10 @@ import '../../../../../core/theming/fonts.dart';
 import '../../../../../core/theming/text_styles.dart';
 
 class ColumnImageTextWidget extends StatelessWidget {
-  final String imagePath,text;
-  const ColumnImageTextWidget({
-    super.key,
-    required this.imagePath,
-    required this.text
-  });
+  final String imagePath, text;
+
+  const ColumnImageTextWidget(
+      {super.key, required this.imagePath, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +20,10 @@ class ColumnImageTextWidget extends StatelessWidget {
       children: [
         Image.asset(imagePath),
         TextInAppWidget(
-          text:text,
+          text: text,
           textSize: 10,
           fontWeightIndex: FontSelectionData.mediumFontFamily,
-          textColor:AppColors.blackColor44,
+          textColor: AppColors.blackColor44,
         ),
       ],
     );

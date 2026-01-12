@@ -49,16 +49,16 @@ class WorkingHoursContent extends StatelessWidget {
                   onTap: () => cubit.selectDay(index),
                   text: tab,
                   textColor:
-                  isSelected ? AppColors.orangeColor : AppColors.whiteColor,
-                  containerColor:
-                  isSelected ? AppColors.whiteColor : AppColors.lightGreyColor,
+                      isSelected ? AppColors.orangeColor : AppColors.whiteColor,
+                  containerColor: isSelected
+                      ? AppColors.whiteColor
+                      : AppColors.lightGreyColor,
                   border: isSelected
                       ? Border.all(color: AppColors.orangeColor)
                       : Border(),
                 );
               }),
             ),
-
             const SizedBox(height: 20),
             const TextInAppWidget(
               text: AppLanguageKeys.availableTimesKey,
@@ -72,7 +72,6 @@ class WorkingHoursContent extends StatelessWidget {
               fontWeightIndex: FontSelectionData.mediumFontFamily,
               textColor: AppColors.darkGreyColor,
             ),
-
             const WorkingHoursWidget(),
           ],
         );

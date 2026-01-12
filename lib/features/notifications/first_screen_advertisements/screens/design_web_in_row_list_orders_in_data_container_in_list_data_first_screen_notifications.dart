@@ -4,9 +4,10 @@ import '../../../../../../core/language/language_constant.dart';
 import '../../../../../../features/notifications/first_screen_advertisements/logic/select_order_notification_cubit.dart';
 import '../../../../../../features/notifications/custom_widget/container_list_orders_in_data_container_in_list_data_first_screen_notifications_widget.dart';
 
-
-class DesignWebInRowListOrdersInDataContainerInListDataFirstScreenNotifications extends StatelessWidget {
-  const DesignWebInRowListOrdersInDataContainerInListDataFirstScreenNotifications({super.key});
+class DesignWebInRowListOrdersInDataContainerInListDataFirstScreenNotifications
+    extends StatelessWidget {
+  const DesignWebInRowListOrdersInDataContainerInListDataFirstScreenNotifications(
+      {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,8 @@ class DesignWebInRowListOrdersInDataContainerInListDataFirstScreenNotifications 
             return ContainerListOrdersInDataContainerInListDataFirstScreenNotificationsWidget(
               text: items[index],
               isSelect: selectedIndex == index,
-              onTap: () => context.read<SelectOrderNotificationCubit>().select(index),
+              onTap: () =>
+                  context.read<SelectOrderNotificationCubit>().select(index),
             );
           }),
         );
@@ -26,6 +28,7 @@ class DesignWebInRowListOrdersInDataContainerInListDataFirstScreenNotifications 
     );
   }
 }
+
 final items = [
   AppLanguageKeys.allOrders,
   AppLanguageKeys.newOrders,

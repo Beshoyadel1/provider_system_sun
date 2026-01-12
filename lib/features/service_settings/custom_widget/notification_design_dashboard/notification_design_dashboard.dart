@@ -19,10 +19,10 @@ class NotificationDesignDashboard extends StatelessWidget {
           children: [
             FirstRowInNotificationDesignDashboard(),
             RowListNotificationDesignDashboardWidget(
-                imagePath: AppImageKeys.service33,
-                textBlack: AppLanguageKeys.maintenanceAndRepair,
-                textOrange: AppLanguageKeys.internalServices,
-                numberRequest: '#545212',
+              imagePath: AppImageKeys.service33,
+              textBlack: AppLanguageKeys.maintenanceAndRepair,
+              textOrange: AppLanguageKeys.internalServices,
+              numberRequest: '#545212',
             ),
             RowListNotificationDesignDashboardWidget(
               imagePath: AppImageKeys.service33,

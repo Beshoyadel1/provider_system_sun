@@ -6,13 +6,13 @@ class ChartDataModel {
   final String label;
   final int percentage;
   final Color color;
+
   ChartDataModel({
     required this.label,
     required this.percentage,
     required this.color,
   });
 }
-
 
 final List<ChartDataModel> data = [
   ChartDataModel(
@@ -28,6 +28,6 @@ final List<ChartDataModel> data = [
   ChartDataModel(
     label: AppLanguageKeys.mobileServicesKey,
     percentage: 10,
-    color:AppColors.darkGreyColor ,
+    color: AppColors.darkGreyColor,
   ),
 ];

@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../../../../features/service_settings/internal_maintenance_and_services_in_service_settings/screens/data_container_in_list_data_internal_maintenance_and_services_in_service_settings.dart';
 import '../../../../../../core/theming/colors.dart';
 
-class ListDataInternalMaintenanceAndServicesInServiceSettings extends StatelessWidget {
+class ListDataInternalMaintenanceAndServicesInServiceSettings
+    extends StatelessWidget {
   const ListDataInternalMaintenanceAndServicesInServiceSettings({super.key});
 
   @override

@@ -5,7 +5,6 @@ import '../../../../../../core/theming/colors.dart';
 import '../../../../../../core/theming/fonts.dart';
 import '../../../../../../core/theming/text_styles.dart';
 
-
 class PartOfCategoryAndOffers extends StatelessWidget {
   const PartOfCategoryAndOffers({super.key});
 
@@ -16,10 +15,10 @@ class PartOfCategoryAndOffers extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextInAppWidget(
-          text:AppLanguageKeys.link,
+          text: AppLanguageKeys.link,
           textSize: 13,
           fontWeightIndex: FontSelectionData.regularFontFamily,
-          textColor:AppColors.blackColor,
+          textColor: AppColors.blackColor,
         ),
         SelectTimeProfitServiceWidget(
           hint: AppLanguageKeys.category,
@@ -30,7 +29,7 @@ class PartOfCategoryAndOffers extends StatelessWidget {
           ],
           backGroundColor: AppColors.whiteColor,
           textColor: AppColors.greyColor,
-          borderColor:AppColors.greyColor,
+          borderColor: AppColors.greyColor,
           width: 250,
         ),
         SelectTimeProfitServiceWidget(
@@ -42,10 +41,9 @@ class PartOfCategoryAndOffers extends StatelessWidget {
           ],
           backGroundColor: AppColors.whiteColor,
           textColor: AppColors.greyColor,
-          borderColor:AppColors.greyColor,
+          borderColor: AppColors.greyColor,
           width: 250,
         ),
-
       ],
     );
   }

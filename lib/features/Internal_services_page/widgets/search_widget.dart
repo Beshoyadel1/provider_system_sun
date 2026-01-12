@@ -11,7 +11,7 @@ class SearchWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return    SizedBox(
+    return SizedBox(
       width: double.infinity,
       child: Wrap(
         spacing: 15,
@@ -34,12 +34,15 @@ class SearchWidget extends StatelessWidget {
                 padding: EdgeInsets.zero,
                 border: const Border(),
                 typeWidget: const Center(
-                  child: TextInAppWidget(text: AppLanguageKeys.searchKey, textSize: 16, textColor: AppColors.whiteColor,),
+                  child: TextInAppWidget(
+                    text: AppLanguageKeys.searchKey,
+                    textSize: 16,
+                    textColor: AppColors.whiteColor,
+                  ),
                 ),
               ),
             ],
           ),
-
           CustomContainer(
             containerHeight: 35,
             containerWidth: 107,
@@ -52,8 +55,16 @@ class SearchWidget extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(AppImageKeys.filter, height: 24, width: 24,),
-                  const TextInAppWidget(text: AppLanguageKeys.filterKey, textSize: 16, textColor: AppColors.darkColor,),
+                  Image.asset(
+                    AppImageKeys.filter,
+                    height: 24,
+                    width: 24,
+                  ),
+                  const TextInAppWidget(
+                    text: AppLanguageKeys.filterKey,
+                    textSize: 16,
+                    textColor: AppColors.darkColor,
+                  ),
                 ],
               ),
             ),

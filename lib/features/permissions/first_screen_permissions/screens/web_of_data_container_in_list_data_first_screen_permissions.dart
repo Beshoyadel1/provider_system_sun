@@ -3,7 +3,8 @@ import '../../../../../../features/permissions/custom_widget/text_with_container
 import '../../../../../../core/language/language_constant.dart';
 import '../../../../../../features/permissions/custom_widget/text_with_text_form_field_as_column_widget.dart';
 
-class WebOfDataContainerInListDataFirstScreenPermissions extends StatelessWidget {
+class WebOfDataContainerInListDataFirstScreenPermissions
+    extends StatelessWidget {
   const WebOfDataContainerInListDataFirstScreenPermissions({super.key});
 
   @override
@@ -26,10 +27,7 @@ class WebOfDataContainerInListDataFirstScreenPermissions extends StatelessWidget
             TextWithTextFormFieldAsColumnWidget(
               text: AppLanguageKeys.accountStatus,
               hint: AppLanguageKeys.accountStatus,
-              options: [
-                AppLanguageKeys.active,
-                AppLanguageKeys.inactive
-              ],
+              options: [AppLanguageKeys.active, AppLanguageKeys.inactive],
             ),
           ],
         ),

@@ -6,9 +6,9 @@ import '../../../../../../features/permissions/first_screen_permissions/screens/
 import '../../../../../../features/permissions/first_screen_permissions/screens/data_name_with_text_field_and_upload_image_permissions.dart';
 import '../../../../../../features/permissions/first_screen_permissions/screens/title_with_sub_title_add_new_user.dart';
 
-
 class DataContainerInListDataFirstScreenPermissions extends StatelessWidget {
   const DataContainerInListDataFirstScreenPermissions({super.key});
+
   @override
   Widget build(BuildContext context) {
     return const Padding(

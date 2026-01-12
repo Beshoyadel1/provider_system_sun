@@ -7,31 +7,31 @@ import '../../../../../../../../features/service_settings/shared_packages_in_ser
 import '../../../../../../../../features/service_settings/custom_widget/text_with_text_form_field_as_column2_widget.dart';
 import '../../../../../../../../core/language/language_constant.dart';
 
-class PartOnePackageInDataContainerInListDataAddSharedPackagesInServiceSettings extends StatelessWidget {
-  const PartOnePackageInDataContainerInListDataAddSharedPackagesInServiceSettings({super.key});
+class PartOnePackageInDataContainerInListDataAddSharedPackagesInServiceSettings
+    extends StatelessWidget {
+  const PartOnePackageInDataContainerInListDataAddSharedPackagesInServiceSettings(
+      {super.key});
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    bool isTab = size.width > ValuesOfAllApp.customTabWidth-5;
+    bool isTab = size.width > ValuesOfAllApp.customTabWidth - 5;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 20,
       children: [
         TextWithTextFormFieldAsColumn2Widget(
-            text: AppLanguageKeys.packageName,
-            hint: AppLanguageKeys.specialPackage,
-            textFormWidth: 350,
+          text: AppLanguageKeys.packageName,
+          hint: AppLanguageKeys.specialPackage,
+          textFormWidth: 350,
         ),
         Container(
-          padding: EdgeInsetsGeometry.symmetric(vertical: 15,horizontal: 10),
+          padding: EdgeInsetsGeometry.symmetric(vertical: 15, horizontal: 10),
           width: 350,
           decoration: BoxDecoration(
             color: AppColors.whiteColor,
             borderRadius: BorderRadius.all(Radius.circular(20)),
-            border: Border.all(
-                color: AppColors.greyColor.withOpacity(0.3)
-            ),
+            border: Border.all(color: AppColors.greyColor.withOpacity(0.3)),
             boxShadow: [
               BoxShadow(
                 color: AppColors.darkColor.withOpacity(0.1),
@@ -53,9 +53,12 @@ class PartOnePackageInDataContainerInListDataAddSharedPackagesInServiceSettings 
                       textFormWidth: 300,
                     ),
                   ),
-                  Flexible(child: Column(
+                  Flexible(
+                      child: Column(
                     children: [
-                      SizedBox(height: 20,),
+                      SizedBox(
+                        height: 20,
+                      ),
                       ContainerAddWidget(text: AppLanguageKeys.add),
                     ],
                   ))
@@ -72,11 +75,11 @@ class PartOnePackageInDataContainerInListDataAddSharedPackagesInServiceSettings 
             ],
           ),
         ),
-        if(!isTab)
+        if (!isTab)
           PartTwoPackageInDataContainerInListDataAddSharedPackagesInServiceSettings(),
         ContainerAddWidget(
-            text: AppLanguageKeys.save,
-            colorBackGround: AppColors.orangeColor,
+          text: AppLanguageKeys.save,
+          colorBackGround: AppColors.orangeColor,
         ),
       ],
     );

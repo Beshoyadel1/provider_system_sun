@@ -4,18 +4,18 @@ import '../../../../../../core/language/language_constant.dart';
 import '../../../../../../core/theming/colors.dart';
 import '../../../../../../core/theming/fonts.dart';
 
-
-
 class UserNameWidget extends StatelessWidget {
   const UserNameWidget({super.key, this.text});
-final String? text;
+
+  final String? text;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 500,
       child: TextFormFieldWidget(
         textFormController: TextEditingController(),
-        text: text??AppLanguageKeys.phoneNumberKey,
+        text: text ?? AppLanguageKeys.phoneNumberKey,
         isColumn: true,
         textColor: AppColors.darkColor,
         fillColor: AppColors.whiteColor,

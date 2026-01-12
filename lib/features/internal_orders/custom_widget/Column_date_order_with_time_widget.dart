@@ -5,13 +5,10 @@ import '../../../../../../../core/theming/colors.dart';
 import '../../../../../../../core/theming/fonts.dart';
 import '../../../../../../../core/theming/text_styles.dart';
 
-
 class ColumnDateOrderWithTimeWidget extends StatelessWidget {
   final String time;
-  const ColumnDateOrderWithTimeWidget({
-    super.key,
-    required this.time
-  });
+
+  const ColumnDateOrderWithTimeWidget({super.key, required this.time});
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +16,13 @@ class ColumnDateOrderWithTimeWidget extends StatelessWidget {
       spacing: 10,
       children: [
         TextInAppWidget(
-          text:AppLanguageKeys.requestDate,
+          text: AppLanguageKeys.requestDate,
           textSize: 11,
           fontWeightIndex: FontSelectionData.mediumFontFamily,
           textColor: AppColors.greyColor,
         ),
         TextInAppWidget(
-          text:time,
+          text: time,
           textSize: 13,
           fontWeightIndex: FontSelectionData.regularFontFamily,
           textColor: AppColors.blackColor,

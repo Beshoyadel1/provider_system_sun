@@ -6,10 +6,12 @@ import '../../../../../../../../features/Petroleum_Service/custom_widget/row_mai
 import '../../../../../../../../features/Petroleum_Service/custom_widget/row_name_emp_widget.dart';
 
 class TabViewListDataContainerDesignNewOrderPetroleum extends StatelessWidget {
-  const TabViewListDataContainerDesignNewOrderPetroleum({super.key,});
+  const TabViewListDataContainerDesignNewOrderPetroleum({
+    super.key,
+  });
+
   @override
   Widget build(BuildContext context) {
-
     return const Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -18,7 +20,7 @@ class TabViewListDataContainerDesignNewOrderPetroleum extends StatelessWidget {
         ColumnPackingDateWidget(),
         ColumnPackingDateWidget(
           title: 'التعبئة',
-          subTitle:'2 لتر بنزين 95',
+          subTitle: '2 لتر بنزين 95',
         ),
         ColumnSubscriptionFeesWidget(),
         ContainerDetailsWidget(),

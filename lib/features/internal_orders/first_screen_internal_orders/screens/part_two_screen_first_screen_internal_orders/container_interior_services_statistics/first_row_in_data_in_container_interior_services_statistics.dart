@@ -9,7 +9,8 @@ import '../../../../../../../../core/theming/text_styles.dart';
 import '../../../../../../../../features/internal_orders/first_screen_internal_orders/logic/loading_dashboard_cubit.dart';
 import '../../../../../../../../features/internal_orders/first_screen_internal_orders/logic/loading_dashboard_state.dart';
 
-class FirstRowInDataInContainerInteriorServicesStatistics extends StatelessWidget {
+class FirstRowInDataInContainerInteriorServicesStatistics
+    extends StatelessWidget {
   const FirstRowInDataInContainerInteriorServicesStatistics({super.key});
 
   @override
@@ -18,22 +19,21 @@ class FirstRowInDataInContainerInteriorServicesStatistics extends StatelessWidge
       children: [
         Expanded(
           child: TextInAppWidget(
-            text:AppLanguageKeys.internalServicesProfit,
+            text: AppLanguageKeys.internalServicesProfit,
             textSize: 15,
             fontWeightIndex: FontSelectionData.regularFontFamily,
-            textColor:AppColors.blackColor,
+            textColor: AppColors.blackColor,
           ),
         ),
         BlocBuilder<InternalOrdersCubit, InternalOrdersState>(
-            buildWhen: (previous, current) => previous.isLoading != current.isLoading,
+            buildWhen: (previous, current) =>
+                previous.isLoading != current.isLoading,
             builder: (context, state) {
-           return RowNumberCoinWidget(
-               numberText:state.isLoaded? '450':'0',
-               sizeText: 15,
-               imageSrc: AppImageKeys.coin
-           );
-         }
-       ),
+              return RowNumberCoinWidget(
+                  numberText: state.isLoaded ? '450' : '0',
+                  sizeText: 15,
+                  imageSrc: AppImageKeys.coin);
+            }),
       ],
     );
   }

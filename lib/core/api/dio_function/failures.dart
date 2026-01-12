@@ -1,4 +1,3 @@
-
 String responseOfStatusCode(int? statusCode) {
   if (statusCode == 400 || statusCode == 401 || statusCode == 403) {
     return 'Bad Response Some Thing Went Wrong';

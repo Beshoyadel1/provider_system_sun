@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class PageNodeModel {
   final String name;
   final int number;
-  final  String?image;
+  final String? image;
   final Widget? page;
   final List<PageNodeModel> children;
 
@@ -15,8 +15,6 @@ class PageNodeModel {
     this.children = const [],
   });
 }
-
-
 
 class PageNodeWithIDModel {
   final String name;

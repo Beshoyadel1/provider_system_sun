@@ -5,9 +5,11 @@ import '../../../../../../features/service_settings/first_screen_service_setting
 import '../../../../../../features/service_settings/first_screen_service_settings/screens/column_two_text_in_first_row_in_data_container_in_list_data_first_screen_service_setting.dart';
 import '../../../../../../features/service_settings/first_screen_service_settings/screens/Container_image_in_first_row_in_data_container_in_list_data_first_screen_service_setting.dart';
 
-class DataIsMobileInFirstRowInDataContainerInListDataFirstScreenServiceSetting extends StatelessWidget {
-  final String? text1,text2,textContainer;
+class DataIsMobileInFirstRowInDataContainerInListDataFirstScreenServiceSetting
+    extends StatelessWidget {
+  final String? text1, text2, textContainer;
   final Function()? onTap;
+
   const DataIsMobileInFirstRowInDataContainerInListDataFirstScreenServiceSetting({
     super.key,
     this.text1,
@@ -38,10 +40,12 @@ class DataIsMobileInFirstRowInDataContainerInListDataFirstScreenServiceSetting e
             Expanded(
               child: ContainerReturnToPageSetting(
                 text: textContainer,
-                onTap:onTap?? (){
-                  Navigator.pop(context);
-                  Navigator.of(context).push(NavigateToPageWidget(const FirstScreenServiceSettings()));
-                },
+                onTap: onTap ??
+                    () {
+                      Navigator.pop(context);
+                      Navigator.of(context).push(NavigateToPageWidget(
+                          const FirstScreenServiceSettings()));
+                    },
               ),
             ),
           ],

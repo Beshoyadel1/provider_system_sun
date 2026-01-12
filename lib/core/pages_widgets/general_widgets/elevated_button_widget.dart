@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class ElevatedButtonWidget extends StatelessWidget {
   final VoidCallback onPressed;
   final ButtonStyle? style;
@@ -22,9 +21,6 @@ class ElevatedButtonWidget extends StatelessWidget {
     );
   }
 }
-
-
-
 
 /*
 

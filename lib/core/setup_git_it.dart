@@ -8,5 +8,4 @@ final getIt = GetIt.instance;
 void setupGetIt() {
   getIt.registerLazySingleton<LanguageCubit>(() => LanguageCubit());
   getIt.registerLazySingleton<AppCubit>(() => AppCubit());
-
 }

@@ -14,7 +14,6 @@ class SignUpWebWidget extends StatelessWidget {
         Expanded(child: SignUpMobileWidget()),
         LoginImage(),
       ],
-
     );
   }
 }

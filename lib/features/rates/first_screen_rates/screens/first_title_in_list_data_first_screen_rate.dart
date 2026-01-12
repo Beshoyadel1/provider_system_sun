@@ -14,16 +14,16 @@ class FirstTitleInListDataFirstScreenRate extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         TextInAppWidget(
-          text:AppLanguageKeys.allReviews,
+          text: AppLanguageKeys.allReviews,
           textSize: 16,
           fontWeightIndex: FontSelectionData.mediumFontFamily,
-          textColor:AppColors.blackColor,
+          textColor: AppColors.blackColor,
         ),
         TextInAppWidget(
-          text:AppLanguageKeys.reviewsListForAllServices,
+          text: AppLanguageKeys.reviewsListForAllServices,
           textSize: 13,
           fontWeightIndex: FontSelectionData.regularFontFamily,
-          textColor:AppColors.blackColor,
+          textColor: AppColors.blackColor,
         )
       ],
     );

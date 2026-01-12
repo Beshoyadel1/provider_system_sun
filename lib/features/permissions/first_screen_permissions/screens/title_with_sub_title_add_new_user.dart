@@ -14,16 +14,16 @@ class TitleWithSubTitleAddNewUser extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextInAppWidget(
-          text:AppLanguageKeys.addNewUser,
+          text: AppLanguageKeys.addNewUser,
           textSize: 16,
           fontWeightIndex: FontSelectionData.mediumFontFamily,
-          textColor:AppColors.blackColor,
+          textColor: AppColors.blackColor,
         ),
         TextInAppWidget(
-          text:AppLanguageKeys.userPermissionsSettings,
+          text: AppLanguageKeys.userPermissionsSettings,
           textSize: 13,
           fontWeightIndex: FontSelectionData.regularFontFamily,
-          textColor:AppColors.blackColor,
+          textColor: AppColors.blackColor,
         )
       ],
     );

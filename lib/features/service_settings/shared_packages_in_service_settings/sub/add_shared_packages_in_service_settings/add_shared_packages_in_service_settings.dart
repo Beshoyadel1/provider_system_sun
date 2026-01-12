@@ -7,7 +7,6 @@ import '../../../../../../../core/utilies/map_of_all_app.dart';
 import '../../../../../../../core/theming/colors.dart';
 import '../../../../../../../core/language/language_constant.dart';
 
-
 class AddSharedPackagesInServiceSettings extends StatelessWidget {
   const AddSharedPackagesInServiceSettings({super.key});
 
@@ -15,18 +14,20 @@ class AddSharedPackagesInServiceSettings extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     bool isMobile = size.width <= ValuesOfAllApp.mobileWidth;
-    bool isTabletCustom = size.width > ValuesOfAllApp.mobileWidth && size.width <= ValuesOfAllApp.customTabWidth;
+    bool isTabletCustom = size.width > ValuesOfAllApp.mobileWidth &&
+        size.width <= ValuesOfAllApp.customTabWidth;
     bool isTab = size.width > ValuesOfAllApp.tabWidth;
 
     return Row(
       children: [
-        if (!isMobile)
-          const backgroundDesktop(),
+        if (!isMobile) const backgroundDesktop(),
         const Expanded(
           flex: 3,
           child: Scaffold(
             backgroundColor: AppColors.scaffoldColor,
-            appBar: AppbarDashboardWidget(title:AppLanguageKeys.serviceSettings,),
+            appBar: AppbarDashboardWidget(
+              title: AppLanguageKeys.serviceSettings,
+            ),
             body: SafeArea(
               child: Padding(
                 padding: EdgeInsets.all(20),
@@ -34,8 +35,7 @@ class AddSharedPackagesInServiceSettings extends StatelessWidget {
                   children: [
                     Expanded(
                       child: SingleChildScrollView(
-                          child: ListDataAddSharedPackagesInServiceSettings()
-                      ),
+                          child: ListDataAddSharedPackagesInServiceSettings()),
                     ),
                   ],
                 ),

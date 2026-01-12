@@ -3,7 +3,7 @@ class GeneralModel {
   String? enName;
   int? number;
 
-  GeneralModel({ this.arName , this.enName , this.number });
+  GeneralModel({this.arName, this.enName, this.number});
 
   GeneralModel.fromJson(Map<String, dynamic> json) {
     arName = json['arName'];

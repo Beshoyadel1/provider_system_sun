@@ -9,10 +9,11 @@ class TextDescriptionOfSpareParts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextInAppWidget(
-      text:'إطار عالي الجودة من شركة بريدجستون اليابانية، مصنوع في إيطاليا. يتميز بأداء ممتاز في الثبات والهدوء على الطرق، مناسب للاستخدام في الأجواء المصرية. خالي من أي تلف أو لحامات.',
+      text:
+          'إطار عالي الجودة من شركة بريدجستون اليابانية، مصنوع في إيطاليا. يتميز بأداء ممتاز في الثبات والهدوء على الطرق، مناسب للاستخدام في الأجواء المصرية. خالي من أي تلف أو لحامات.',
       textSize: 16,
       fontWeightIndex: FontSelectionData.regularFontFamily,
-      textColor:AppColors.blackColor,
+      textColor: AppColors.blackColor,
     );
   }
 }

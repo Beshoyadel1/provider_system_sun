@@ -4,8 +4,8 @@ import '../../../../../../../features/rates/first_screen_rates/screens/container
 import '../../../../../../../core/theming/colors.dart';
 
 class ContainerReviewDataPersonDesign extends StatelessWidget {
+  final String imagePathPerson, date, textWithDate, imagePathRate, textReview;
 
-  final String imagePathPerson,date,textWithDate,imagePathRate,textReview;
   const ContainerReviewDataPersonDesign({
     super.key,
     required this.imagePathPerson,
@@ -22,9 +22,7 @@ class ContainerReviewDataPersonDesign extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
         borderRadius: BorderRadius.all(Radius.circular(20)),
-        border: Border.all(
-            color: AppColors.greyColor.withOpacity(0.3)
-        ),
+        border: Border.all(color: AppColors.greyColor.withOpacity(0.3)),
         boxShadow: [
           BoxShadow(
             color: AppColors.darkColor.withOpacity(0.1),
@@ -38,13 +36,13 @@ class ContainerReviewDataPersonDesign extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           FirstRowContainerReviewDataPersonDesign(
-            imagePathPerson:imagePathPerson,
+            imagePathPerson: imagePathPerson,
             textWithDate: textWithDate,
-            date:date,
-            imagePathRate:imagePathRate,
+            date: date,
+            imagePathRate: imagePathRate,
           ),
           SecondRowContainerReviewDataPersonDesign(
-            textReview:textReview,
+            textReview: textReview,
           ),
         ],
       ),

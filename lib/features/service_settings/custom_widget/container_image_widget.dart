@@ -3,16 +3,17 @@ import '../../../../../core/theming/colors.dart';
 
 class ContainerImageWidget extends StatelessWidget {
   final String imagePath;
-  final double? width,height;
+  final double? width, height;
   final Color color;
   final bool? isBorder;
+
   const ContainerImageWidget({
     super.key,
     required this.imagePath,
     required this.color,
     this.width,
     this.height,
-    this.isBorder=true,
+    this.isBorder = true,
   });
 
   @override
@@ -25,8 +26,9 @@ class ContainerImageWidget extends StatelessWidget {
         color: color,
         borderRadius: BorderRadius.all(Radius.circular(15)),
         border: Border.all(
-            color: isBorder!?AppColors.greyColor.withOpacity(0.3):AppColors.transparent
-        ),
+            color: isBorder!
+                ? AppColors.greyColor.withOpacity(0.3)
+                : AppColors.transparent),
         boxShadow: [
           BoxShadow(
             color: AppColors.darkColor.withOpacity(0.1),

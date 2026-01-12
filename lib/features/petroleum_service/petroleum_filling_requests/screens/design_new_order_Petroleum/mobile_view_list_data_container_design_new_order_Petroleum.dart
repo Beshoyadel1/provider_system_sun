@@ -5,11 +5,14 @@ import '../../../../../../../../features/Petroleum_Service/custom_widget/column_
 import '../../../../../../../../features/Petroleum_Service/custom_widget/row_main_branch_widget.dart';
 import '../../../../../../../../features/Petroleum_Service/custom_widget/row_name_emp_widget.dart';
 
-class MobileViewListDataContainerDesignNewOrderPetroleum extends StatelessWidget {
-  const MobileViewListDataContainerDesignNewOrderPetroleum({super.key,});
+class MobileViewListDataContainerDesignNewOrderPetroleum
+    extends StatelessWidget {
+  const MobileViewListDataContainerDesignNewOrderPetroleum({
+    super.key,
+  });
+
   @override
   Widget build(BuildContext context) {
-
     return const Column(
       spacing: 10,
       children: [
@@ -26,9 +29,8 @@ class MobileViewListDataContainerDesignNewOrderPetroleum extends StatelessWidget
             ColumnPackingDateWidget(),
             ColumnPackingDateWidget(
               title: 'التعبئة',
-              subTitle:'2 لتر بنزين 95',
+              subTitle: '2 لتر بنزين 95',
             ),
-
           ],
         ),
         Row(

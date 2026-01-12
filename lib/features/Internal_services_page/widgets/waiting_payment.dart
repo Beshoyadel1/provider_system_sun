@@ -7,6 +7,7 @@ class WaitingPayment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CreateNewOrder(isProcessingRequest: false,isWaitingPayment: true);
+    return const CreateNewOrder(
+        isProcessingRequest: false, isWaitingPayment: true);
   }
 }

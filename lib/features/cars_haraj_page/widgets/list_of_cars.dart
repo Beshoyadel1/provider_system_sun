@@ -8,7 +8,6 @@ import 'available_cars.dart';
 class ListOfCars extends StatelessWidget {
   const ListOfCars({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     bool isMobile = MediaQuery.of(context).size.width < 600;
@@ -21,7 +20,6 @@ class ListOfCars extends StatelessWidget {
         spacing: 20,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
             child: SizedBox(
@@ -40,13 +38,12 @@ class ListOfCars extends StatelessWidget {
                         textColor: AppColors.darkColor,
                       ),
                       TextInAppWidget(
-                        text:'قائمة مختصرة من السيارات المتاحه  ',
+                        text: 'قائمة مختصرة من السيارات المتاحه  ',
                         textSize: 16,
                         textColor: AppColors.darkGreyColor,
                       ),
                     ],
                   ),
-
                   CustomContainer(
                     containerHeight: 38,
                     containerWidth: 129,
@@ -66,10 +63,11 @@ class ListOfCars extends StatelessWidget {
               ),
             ),
           ),
-          ...List.generate(4, (_) =>  AvailableCars(onTap: () {
-
-          },)),
-
+          ...List.generate(
+              4,
+              (_) => AvailableCars(
+                    onTap: () {},
+                  )),
         ],
       ),
     );

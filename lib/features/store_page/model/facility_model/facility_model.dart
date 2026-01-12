@@ -14,26 +14,18 @@ class FacilityModel {
 }
 
 final List<FacilityModel> facilityTabs = [
-  FacilityModel(title:AppLanguageKeys.facilityDataKey,
-      content: const FacilityDataContent()
+  FacilityModel(
+      title: AppLanguageKeys.facilityDataKey,
+      content: const FacilityDataContent()),
+  FacilityModel(
+      title: AppLanguageKeys.identityKey, content: const IdentityContent()),
+  FacilityModel(
+      title: AppLanguageKeys.branchesKey, content: const BranchesContent()),
+  FacilityModel(
+    title: AppLanguageKeys.workingHoursKey,
+    content: WorkingHoursContent(),
   ),
   FacilityModel(
-      title: AppLanguageKeys.identityKey,
-      content: const IdentityContent()
-  ),
-  FacilityModel(
-      title: AppLanguageKeys.branchesKey,
-      content: const BranchesContent()
-  ),
-  FacilityModel(
-      title: AppLanguageKeys.workingHoursKey,
-      content:  WorkingHoursContent(),
-
-  ),
-  FacilityModel(
-      title:AppLanguageKeys.bankAccountKey,
-      content: const BankAccountContent()
-  ),
+      title: AppLanguageKeys.bankAccountKey,
+      content: const BankAccountContent()),
 ];
-
-

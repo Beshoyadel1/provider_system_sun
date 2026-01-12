@@ -8,7 +8,8 @@ import '../../../../../../../../core/theming/text_styles.dart';
 
 class RowCircleColorTextPercentageWidget extends StatelessWidget {
   final Color colorCircle;
-  final String text,percentage;
+  final String text, percentage;
+
   const RowCircleColorTextPercentageWidget({
     super.key,
     required this.colorCircle,
@@ -28,10 +29,10 @@ class RowCircleColorTextPercentageWidget extends StatelessWidget {
               color: colorCircle,
             ),
             TextInAppWidget(
-              text:text,
+              text: text,
               textSize: 11,
               fontWeightIndex: FontSelectionData.regularFontFamily,
-              textColor:AppColors.blackColor,
+              textColor: AppColors.blackColor,
             ),
           ],
         ),

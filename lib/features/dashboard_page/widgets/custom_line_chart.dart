@@ -1,13 +1,13 @@
-import 'package:fl_chart/fl_chart.dart' ;
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import '../../../../../features/dashboard_page/model/chart_model/chart_model.dart';
 import '../../../../../core/theming/colors.dart';
 import '../../../../../core/theming/formate.dart';
 import 'functions_chart.dart';
 
-
 class CustomLineChart extends StatefulWidget {
   const CustomLineChart({super.key});
+
   @override
   _CustomLineChartState createState() => _CustomLineChartState();
 }
@@ -17,17 +17,19 @@ class _CustomLineChartState extends State<CustomLineChart> {
 
   final List<ChartModel> data = sampleData;
   late final ChartModel peakPoint = sampleData.firstWhere(
-        (e) => e.date.month == 9 && e.date.day == 22,
+    (e) => e.date.month == 9 && e.date.day == 22,
     orElse: () => sampleData.last,
   );
 
   final GlobalKey _chartKey = GlobalKey();
   OverlayEntry? overlayEntry;
+
   @override
   void dispose() {
     removeOverlay();
     super.dispose();
   }
+
   late final minX = data.first.date.millisecondsSinceEpoch.toDouble();
   late final maxX = data.last.date.millisecondsSinceEpoch.toDouble();
   static const minY = 10000.0;
@@ -57,17 +59,19 @@ class _CustomLineChartState extends State<CustomLineChart> {
                     reservedSize: 60,
                     interval: (maxX - minX) / 4,
                     getTitlesWidget: (value, meta) {
-                      final date = DateTime.fromMillisecondsSinceEpoch(value.toInt());
-                      final formattedDate = '${getMonthName(date.month)} ${date.year}';
+                      final date =
+                          DateTime.fromMillisecondsSinceEpoch(value.toInt());
+                      final formattedDate =
+                          '${getMonthName(date.month)} ${date.year}';
                       return Padding(
                         padding: const EdgeInsets.only(top: 42.0),
                         child: Text(
                           formattedDate,
-                          style: const TextStyle(fontSize: 10, color: Colors.grey),
+                          style:
+                              const TextStyle(fontSize: 10, color: Colors.grey),
                         ),
                       );
                     },
-
                   ),
                 ),
                 leftTitles: AxisTitles(
@@ -78,7 +82,8 @@ class _CustomLineChartState extends State<CustomLineChart> {
                     getTitlesWidget: (value, meta) {
                       return Text(
                         value.toInt().toString(),
-                        style: const TextStyle(fontSize: 10, color: Colors.grey),
+                        style:
+                            const TextStyle(fontSize: 10, color: Colors.grey),
                       );
                     },
                   ),
@@ -109,7 +114,8 @@ class _CustomLineChartState extends State<CustomLineChart> {
                 LineChartBarData(
                   spots: data
                       .map((point) => FlSpot(
-                      point.date.millisecondsSinceEpoch.toDouble(), point.value))
+                          point.date.millisecondsSinceEpoch.toDouble(),
+                          point.value))
                       .toList(),
                   isCurved: true,
                   color: const Color(0xFF4DB6AC),
@@ -118,8 +124,7 @@ class _CustomLineChartState extends State<CustomLineChart> {
                   dotData: FlDotData(
                     show: true,
                     getDotPainter: (spot, percent, barData, index) {
-                      if (touchedSpotX != null &&
-                          spot.x == touchedSpotX) {
+                      if (touchedSpotX != null && spot.x == touchedSpotX) {
                         return FlDotCirclePainter(
                           radius: 6,
                           color: AppColors.seaBlueColor,
@@ -133,14 +138,12 @@ class _CustomLineChartState extends State<CustomLineChart> {
                       );
                     },
                   ),
-
                   belowBarData: BarAreaData(
                     show: true,
                     gradient: LinearGradient(
                       colors: [
-                       AppColors.seaBlueColor.withAlpha(100),
+                        AppColors.seaBlueColor.withAlpha(100),
                         AppColors.seaBlueColor.withAlpha(0),
-
                       ],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
@@ -157,12 +160,11 @@ class _CustomLineChartState extends State<CustomLineChart> {
                   ),
                 ],
               ),
-
-
               lineTouchData: LineTouchData(
                 enabled: true,
                 handleBuiltInTouches: false,
-                touchCallback: (FlTouchEvent event, LineTouchResponse? response) {
+                touchCallback:
+                    (FlTouchEvent event, LineTouchResponse? response) {
                   final spots = response?.lineBarSpots;
                   if (spots == null || spots.isEmpty) {
                     setState(() => touchedSpotX = null);
@@ -179,13 +181,13 @@ class _CustomLineChartState extends State<CustomLineChart> {
                     return;
                   }
 
-                  final renderBox = _chartKey.currentContext?.findRenderObject() as RenderBox?;
+                  final renderBox = _chartKey.currentContext?.findRenderObject()
+                      as RenderBox?;
                   if (renderBox == null) return;
                   final global = renderBox.localToGlobal(localPos);
 
-                  showTooltipOverlay(context,global, touchedSpot);
+                  showTooltipOverlay(context, global, touchedSpot);
                 },
-
               ),
             ),
           ),
@@ -194,4 +196,3 @@ class _CustomLineChartState extends State<CustomLineChart> {
     );
   }
 }
-

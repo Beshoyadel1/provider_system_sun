@@ -3,7 +3,8 @@ import '../../../../../../core/language/language_constant.dart';
 import '../../../../../../core/theming/assets.dart';
 import '../../../../../../features/permissions/custom_widget/check_box_with_text_widget.dart';
 
-class SelectPermissionsAndServicesProvidedToTheUserWithImage extends StatelessWidget {
+class SelectPermissionsAndServicesProvidedToTheUserWithImage
+    extends StatelessWidget {
   const SelectPermissionsAndServicesProvidedToTheUserWithImage({super.key});
 
   @override
@@ -16,7 +17,8 @@ class SelectPermissionsAndServicesProvidedToTheUserWithImage extends StatelessWi
               text: AppLanguageKeys.maintenanceServices,
               imageSelect: AppImageKeys.service33,
             ),
-            CheckBoxWithText(text: AppLanguageKeys.maintenanceServices,
+            CheckBoxWithText(
+              text: AppLanguageKeys.maintenanceServices,
               imageSelect: AppImageKeys.service44,
             )
           ],

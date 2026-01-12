@@ -8,7 +8,6 @@ import '../../../../../core/theming/colors.dart';
 import '../../../../../core/theming/fonts.dart';
 import '../../../../../core/theming/text_styles.dart';
 
-
 class ExpansionTileWidget extends StatefulWidget {
   const ExpansionTileWidget({super.key, required this.pages});
 
@@ -19,7 +18,6 @@ class ExpansionTileWidget extends StatefulWidget {
 }
 
 class _ExpansionTileWidgetState extends State<ExpansionTileWidget> {
-
   final AppCubit _appCubit = getIt<AppCubit>();
 
   @override
@@ -29,31 +27,46 @@ class _ExpansionTileWidgetState extends State<ExpansionTileWidget> {
     return Theme(
       data: ThemeData(dividerColor: Colors.transparent),
       child: ExpansionTile(
-        backgroundColor: AppColors.veryLightOrangeColor.withAlpha(100) ,
-        iconColor: widget.pages.number == _appCubit.selectedPageIndex ? AppColors.secondaryColor : AppColors.whiteColor,
-        collapsedIconColor: widget.pages.number == _appCubit.selectedPageIndex ? AppColors.secondaryColor: AppColors.whiteColor,
-        tilePadding:  const EdgeInsetsDirectional.only(start: 5 , end: 2),
+        backgroundColor: AppColors.veryLightOrangeColor.withAlpha(100),
+        iconColor: widget.pages.number == _appCubit.selectedPageIndex
+            ? AppColors.secondaryColor
+            : AppColors.whiteColor,
+        collapsedIconColor: widget.pages.number == _appCubit.selectedPageIndex
+            ? AppColors.secondaryColor
+            : AppColors.whiteColor,
+        tilePadding: const EdgeInsetsDirectional.only(start: 5, end: 2),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           spacing: 5,
           children: [
-            Image.asset(widget.pages.image??"", color: widget.pages.number == _appCubit.selectedPageIndex ? AppColors.secondaryColor : AppColors.whiteColor,height: 18, width: 18,),
+            Image.asset(
+              widget.pages.image ?? "",
+              color: widget.pages.number == _appCubit.selectedPageIndex
+                  ? AppColors.secondaryColor
+                  : AppColors.whiteColor,
+              height: 18,
+              width: 18,
+            ),
             Expanded(
               child: TextInAppWidget(
                 text: widget.pages.name,
                 textSize: 14,
-                textColor: widget.pages.number == _appCubit.selectedPageIndex ? AppColors.secondaryColor : AppColors.whiteColor,
+                textColor: widget.pages.number == _appCubit.selectedPageIndex
+                    ? AppColors.secondaryColor
+                    : AppColors.whiteColor,
                 fontWeightIndex: FontSelectionData.regularFontFamily,
               ),
             ),
           ],
         ),
-        children: widget.pages.children.map((e) =>  ColumnOfPagesWidget(
-          pageNode: e,
-          appCubit: _appCubit,
-          isMobile: isMobile,
-        )).toList(),
+        children: widget.pages.children
+            .map((e) => ColumnOfPagesWidget(
+                  pageNode: e,
+                  appCubit: _appCubit,
+                  isMobile: isMobile,
+                ))
+            .toList(),
       ),
     );
   }

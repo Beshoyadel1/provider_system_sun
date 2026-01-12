@@ -9,10 +9,12 @@ import '../../../../../../../../features/Petroleum_Service/custom_widget/column_
 import '../../../../../../../../features/Petroleum_Service/custom_widget/row_name_emp_widget.dart';
 
 class TabViewListDataContainerDesignOilProducts extends StatelessWidget {
-  const TabViewListDataContainerDesignOilProducts({super.key,});
+  const TabViewListDataContainerDesignOilProducts({
+    super.key,
+  });
+
   @override
   Widget build(BuildContext context) {
-
     return const Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -26,7 +28,7 @@ class TabViewListDataContainerDesignOilProducts extends StatelessWidget {
           textColorSubTitle: AppColors.blackColor,
         ),
         ColumnPackingDateWidget(
-          title:AppLanguageKeys.saleDate ,
+          title: AppLanguageKeys.saleDate,
           subTitle: '1/1/2025',
         ),
         ColumnSubscriptionFeesWidget(

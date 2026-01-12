@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import '../../../../../../../features/rates/custom_widget/image_with_date_title_widget.dart';
 
 class FirstRowContainerReviewDataPersonDesign extends StatelessWidget {
-  final String imagePathPerson,date,textWithDate,imagePathRate;
+  final String imagePathPerson, date, textWithDate, imagePathRate;
+
   const FirstRowContainerReviewDataPersonDesign({
     super.key,
     required this.imagePathPerson,
@@ -15,12 +16,12 @@ class FirstRowContainerReviewDataPersonDesign extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      spacing:10,
+      spacing: 10,
       children: [
         ImageWithDateTitleWidget(
-          imagePath:imagePathPerson,
+          imagePath: imagePathPerson,
           date: date,
-          text:textWithDate,
+          text: textWithDate,
         ),
         Flexible(child: Image.asset(imagePathRate))
       ],

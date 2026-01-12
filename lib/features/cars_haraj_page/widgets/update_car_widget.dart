@@ -64,7 +64,7 @@ class UpdateCarWidget extends StatelessWidget {
                               text: 'تعديل',
                               textSize: 13,
                               fontWeightIndex:
-                               FontSelectionData.regularFontFamily,
+                                  FontSelectionData.regularFontFamily,
                               textColor: AppColors.whiteColor),
                         ],
                       ),

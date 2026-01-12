@@ -36,6 +36,7 @@ class DigramForPetroleum extends StatelessWidget {
     );
   }
 }
+
 class ColumnChartData {
   ColumnChartData(this.x, this.y);
 

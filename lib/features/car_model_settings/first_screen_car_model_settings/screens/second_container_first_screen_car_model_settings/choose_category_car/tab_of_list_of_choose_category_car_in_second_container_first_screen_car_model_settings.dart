@@ -5,8 +5,10 @@ import '../../../../custom_widget/select_model_car_text_image_orange_line_widget
 import '../../../logic/select_car_model_setting_cubit.dart';
 import '../../../logic/select_car_model_setting_state.dart';
 
-class TabOfListOfChooseCategoryCarInSecondContainerFirstScreenCarModelSettings extends StatelessWidget {
-  const TabOfListOfChooseCategoryCarInSecondContainerFirstScreenCarModelSettings({super.key});
+class TabOfListOfChooseCategoryCarInSecondContainerFirstScreenCarModelSettings
+    extends StatelessWidget {
+  const TabOfListOfChooseCategoryCarInSecondContainerFirstScreenCarModelSettings(
+      {super.key});
 
   static const int itemsPerRow = 4;
 
@@ -14,7 +16,8 @@ class TabOfListOfChooseCategoryCarInSecondContainerFirstScreenCarModelSettings e
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => SelectCarModelSettingCubit(),
-      child: BlocBuilder<SelectCarModelSettingCubit, SelectCarModelSettingState>(
+      child:
+          BlocBuilder<SelectCarModelSettingCubit, SelectCarModelSettingState>(
         buildWhen: (p, c) => p.selectedIndex != c.selectedIndex,
         builder: (context, state) {
           final rowCount = (carModels.length / itemsPerRow).ceil();
@@ -39,11 +42,11 @@ class TabOfListOfChooseCategoryCarInSecondContainerFirstScreenCarModelSettings e
   }
 
   Widget _buildRow(
-      BuildContext context,
-      List<CarModel> cars,
-      SelectCarModelSettingState state,
-      int startIndexOffset,
-      ) {
+    BuildContext context,
+    List<CarModel> cars,
+    SelectCarModelSettingState state,
+    int startIndexOffset,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: cars.asMap().entries.map((entry) {
@@ -59,7 +62,9 @@ class TabOfListOfChooseCategoryCarInSecondContainerFirstScreenCarModelSettings e
               text: car.name,
               imagePath: car.imagePath,
               isSelected: isSelected,
-              onTap: () => context.read<SelectCarModelSettingCubit>().selectModel(globalIndex),
+              onTap: () => context
+                  .read<SelectCarModelSettingCubit>()
+                  .selectModel(globalIndex),
             ),
           ),
         );
@@ -71,6 +76,7 @@ class TabOfListOfChooseCategoryCarInSecondContainerFirstScreenCarModelSettings e
 class CarModel {
   final String name;
   final String imagePath;
+
   CarModel({required this.name, required this.imagePath});
 }
 

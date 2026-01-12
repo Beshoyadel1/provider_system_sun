@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'screens/list_data_first_screen_advertisements.dart';
 import '../../../../../core/theming/colors.dart';
 
-
 class FirstScreenAdvertisements extends StatelessWidget {
   const FirstScreenAdvertisements({super.key});
 
@@ -18,8 +17,7 @@ class FirstScreenAdvertisements extends StatelessWidget {
             children: [
               Expanded(
                 child: SingleChildScrollView(
-                    child: ListDataFirstScreenAdvertisements()
-                ),
+                    child: ListDataFirstScreenAdvertisements()),
               ),
             ],
           ),

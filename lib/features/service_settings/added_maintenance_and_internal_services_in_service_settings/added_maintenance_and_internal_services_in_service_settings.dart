@@ -7,15 +7,16 @@ import '../../../../../../features/service_settings/custom_widget/backgroundDesk
 import '../../../../../../core/utilies/map_of_all_app.dart';
 import '../../../../../../core/theming/colors.dart';
 
-
-class AddedMaintenanceAndInternalServicesInServiceSettings extends StatelessWidget {
+class AddedMaintenanceAndInternalServicesInServiceSettings
+    extends StatelessWidget {
   const AddedMaintenanceAndInternalServicesInServiceSettings({super.key});
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     bool isMobile = size.width <= ValuesOfAllApp.mobileWidth;
-    bool isTabletCustom = size.width > ValuesOfAllApp.mobileWidth && size.width <= ValuesOfAllApp.customTabWidth;
+    bool isTabletCustom = size.width > ValuesOfAllApp.mobileWidth &&
+        size.width <= ValuesOfAllApp.customTabWidth;
     bool isTab = size.width > ValuesOfAllApp.tabWidth;
 
     return const Scaffold(
@@ -27,14 +28,15 @@ class AddedMaintenanceAndInternalServicesInServiceSettings extends StatelessWidg
             children: [
               Expanded(
                 child: SingleChildScrollView(
-                    child: ListDataAddedMaintenanceAndInternalServicesInServiceSettings()
-                ),
+                    child:
+                        ListDataAddedMaintenanceAndInternalServicesInServiceSettings()),
               ),
             ],
           ),
         ),
       ),
-      bottomNavigationBar:ContainerLastTwoButtonInAddedMaintenanceAndInternalServicesInServiceSettings(),
+      bottomNavigationBar:
+          ContainerLastTwoButtonInAddedMaintenanceAndInternalServicesInServiceSettings(),
     );
   }
 }

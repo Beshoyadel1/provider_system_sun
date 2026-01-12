@@ -6,7 +6,6 @@ import 'part_of_category_and_offers.dart';
 import 'part_of_time_start_end.dart';
 import 'first_title_in_list_data_first_screen_advertisements.dart';
 
-
 class ListDataFirstScreenAdvertisements extends StatelessWidget {
   const ListDataFirstScreenAdvertisements({super.key});
 

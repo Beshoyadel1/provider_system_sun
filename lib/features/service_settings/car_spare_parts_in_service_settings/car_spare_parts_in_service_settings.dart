@@ -14,7 +14,8 @@ class CarSparePartsInServiceSettings extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     bool isMobile = size.width <= ValuesOfAllApp.mobileWidth;
-    bool isTabletCustom = size.width > ValuesOfAllApp.mobileWidth && size.width <= ValuesOfAllApp.customTabWidth;
+    bool isTabletCustom = size.width > ValuesOfAllApp.mobileWidth &&
+        size.width <= ValuesOfAllApp.customTabWidth;
     bool isTab = size.width > ValuesOfAllApp.tabWidth;
 
     return Scaffold(
@@ -26,17 +27,17 @@ class CarSparePartsInServiceSettings extends StatelessWidget {
             children: [
               Expanded(
                 child: SingleChildScrollView(
-                    child: ListDataCarSparePartsInServiceSettings()
-                ),
+                    child: ListDataCarSparePartsInServiceSettings()),
               ),
             ],
           ),
         ),
       ),
       floatingActionButton: FloatingActionButtonScreen(
-        onPressed: (){
+        onPressed: () {
           Navigator.pop(context);
-          Navigator.of(context).push(NavigateToPageWidget(const AddSparePartsInServiceSettings()));
+          Navigator.of(context).push(
+              NavigateToPageWidget(const AddSparePartsInServiceSettings()));
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,

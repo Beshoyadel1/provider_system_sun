@@ -25,7 +25,6 @@ import '../../../core/language/language_constant.dart';
 import '../../../core/theming/assets.dart';
 import '../../../features/permissions/first_screen_permissions/first_screen_permissions.dart';
 
-
 class AppStatesApi {
   static const String phoneExist = 'PhoneExist';
   static const String emailExist = 'EmailExist';
@@ -49,7 +48,6 @@ class ValuesOfAllApp {
   static const int subscriptionEliteButtonIndex = 1;
   static const String version = '2.0.0';
 }
-
 
 class PagesOfAllApp {
   static const String dashboardPage = 'Dashboard_Page';
@@ -112,7 +110,7 @@ class PagesOfAllApp {
   static const String carModelsPage = 'Car_Models_Page';
   static const int carModelsPageNumber = 314;
 
-  static const String InternalServices= 'Service_Settings_Page';
+  static const String InternalServices = 'Service_Settings_Page';
   static const int internalServicesPageNumber = 315;
 
   static const String sparePage = 'Spare_Page';
@@ -148,10 +146,8 @@ class PagesOfAllApp {
   static const String carsHarajStatisticsPage = 'Security_Page';
   static const int carsHarajStatisticsPageNumber = 6;
 
-
   static const String internalOrdersPage = 'Security_Page';
   static const int internalOrdersPageNumber = 5;
-
 
   static const String carHarajOrdersPage = 'Security_Page';
   static const int carHarajOrdersPageNumber = 7;
@@ -169,223 +165,216 @@ class PagesOfAllApp {
   static const int ordersPetroleumPageNumber = 503;
   static const String oilProductsPetroleumPage = 'Oil_Products_Petroleum_Page';
   static const int oilProductsPetroleumPageNumber = 504;
-  static const String facilityManagementPetroleumPage = 'Facility_Management_Petroleum_Page';
+  static const String facilityManagementPetroleumPage =
+      'Facility_Management_Petroleum_Page';
   static const int facilityManagementPetroleumPageNumber = 505;
   static const String statisticsPetroleumPage = 'Statistics_Petroleum_Page';
   static const int statisticsPetroleumPageNumber = 506;
 
   static const String serviceSettingsPage = 'Service_Settings_Page';
   static const int serviceSettingsPageNumber = 507;
-  static const String maintenanceAndInteriorServicesPage = 'Maintenance_And_Interior_Services_Page';
+  static const String maintenanceAndInteriorServicesPage =
+      'Maintenance_And_Interior_Services_Page';
   static const int maintenanceAndInteriorServicesPageNumber = 508;
   static const String carPartsPage = 'Car_Parts_Page';
   static const int carPartsPageNumber = 509;
   static const String sharedPackagesPage = 'Shared_Packages_Page';
   static const int sharedPackagesPageNumber = 510;
-  static const String mobileServicesAndTransportationPage = 'Mobile_Services_and_Transportation_Page';
+  static const String mobileServicesAndTransportationPage =
+      'Mobile_Services_and_Transportation_Page';
   static const int mobileServicesAndTransportationPageNumber = 511;
-
 }
 
-
 List<PageNodeModel> appPages = [];
+
 void getPages() {
   appPages.clear();
   appPages = [
-    const  PageNodeModel(
-      name:AppLanguageKeys.dashBoardPageKey,
+    const PageNodeModel(
+      name: AppLanguageKeys.dashBoardPageKey,
       image: AppImageKeys.home,
       number: PagesOfAllApp.dashboardPageNumber,
       page: DashboardPage(),
     ),
-    const  PageNodeModel(
-        name:AppLanguageKeys.maintenanceAndInternalServicesKey,
+    const PageNodeModel(
+        name: AppLanguageKeys.maintenanceAndInternalServicesKey,
         image: AppImageKeys.carServices,
         number: PagesOfAllApp.internalServicesPageNumber,
         children: [
           PageNodeModel(
-            name:AppLanguageKeys.permissionsGroupPageKey,
+            name: AppLanguageKeys.permissionsGroupPageKey,
             number: PagesOfAllApp.internalServicesStatisticsPageNumber,
             page: FirstScreenInternalOrders(),
           ),
           PageNodeModel(
-            name:AppLanguageKeys.ordersSectionKey,
+            name: AppLanguageKeys.ordersSectionKey,
             number: PagesOfAllApp.internalOrdersPageNumber,
             page: InternalOrdersPage(),
           ),
-        ]
-    ),
-    const  PageNodeModel(
-        name:AppLanguageKeys.mobileAndTransportServicesKey,
+        ]),
+    const PageNodeModel(
+        name: AppLanguageKeys.mobileAndTransportServicesKey,
         image: AppImageKeys.truckBox,
         number: PagesOfAllApp.carModelsPageNumber,
         children: [
           const PageNodeModel(
-            name:AppLanguageKeys.permissionsGroupPageKey,
+            name: AppLanguageKeys.permissionsGroupPageKey,
             number: PagesOfAllApp.internalServicesStatisticsPageNumber,
             page: InternalAndServicesStatisticsPage(),
           ),
           PageNodeModel(
-            name:AppLanguageKeys.ordersSectionKey,
+            name: AppLanguageKeys.ordersSectionKey,
             number: PagesOfAllApp.internalOrdersPageNumber,
             page: InternalOrdersPage(),
           ),
-        ]
-    ),
+        ]),
     const PageNodeModel(
-      name:AppLanguageKeys.permissionsKey,
+      name: AppLanguageKeys.permissionsKey,
       image: AppImageKeys.userPermissions,
       number: PagesOfAllApp.permissionsPageNumber,
       page: FirstScreenPermissions(),
     ),
     const PageNodeModel(
-      name:AppLanguageKeys.advertisements,
+      name: AppLanguageKeys.advertisements,
       image: AppImageKeys.banner,
       number: PagesOfAllApp.advertisementsPageNumber,
       page: FirstScreenAdvertisements(),
     ),
-    const  PageNodeModel(
-        name:AppLanguageKeys.sparePartsSectionKey,
-        image:AppImageKeys.spare,
+    const PageNodeModel(
+        name: AppLanguageKeys.sparePartsSectionKey,
+        image: AppImageKeys.spare,
         number: PagesOfAllApp.sparePageNumber,
         children: [
-           PageNodeModel(
-            name:AppLanguageKeys.permissionsGroupPageKey,
+          PageNodeModel(
+            name: AppLanguageKeys.permissionsGroupPageKey,
             number: PagesOfAllApp.internalServicesStatisticsPageNumber,
             page: InternalAndServicesStatisticsPage(),
           ),
           PageNodeModel(
-            name:AppLanguageKeys.ordersSectionKey,
+            name: AppLanguageKeys.ordersSectionKey,
             number: PagesOfAllApp.internalOrdersPageNumber,
             page: InternalOrdersPage(),
           ),
-        ]
-    ),
-    const  PageNodeModel(
-        name:AppLanguageKeys.carMarketKey,
+        ]),
+    const PageNodeModel(
+        name: AppLanguageKeys.carMarketKey,
         image: AppImageKeys.sell,
         number: PagesOfAllApp.carPageNumber,
         children: [
           const PageNodeModel(
-            name:AppLanguageKeys.permissionsGroupPageKey,
+            name: AppLanguageKeys.permissionsGroupPageKey,
             number: PagesOfAllApp.carsHarajStatisticsPageNumber,
             page: CarsHarajStatisticsPage(),
           ),
           PageNodeModel(
-            name:AppLanguageKeys.ordersSectionKey,
+            name: AppLanguageKeys.ordersSectionKey,
             number: PagesOfAllApp.carHarajOrdersPageNumber,
             page: CarHarajOrdersPage(),
           ),
-        ]
-    ),
-    const  PageNodeModel(
+        ]),
+    const PageNodeModel(
         name: AppLanguageKeys.facilityManagementKey,
         image: AppImageKeys.store,
         number: PagesOfAllApp.securityPageNumber,
         children: [
           PageNodeModel(
-            name:AppLanguageKeys.facilityAccountKey,
+            name: AppLanguageKeys.facilityAccountKey,
             number: PagesOfAllApp.permissionsGroupPageNumber,
             page: FacilityAccount(),
           ),
-
           PageNodeModel(
             name: AppLanguageKeys.carModelsTitleKey,
             number: PagesOfAllApp.usersPermissionsPageNumber,
             page: CarModelWidget(),
           ),
           PageNodeModel(
-            name: AppLanguageKeys.serviceSettingsTitleKey,
-            number: PagesOfAllApp.serviceSettingsPageNumber,
-            image: AppImageKeys.store,
-            page: FirstScreenServiceSettings(),
-            children: [
-              PageNodeModel(
-                name: AppLanguageKeys.serviceSettingsTitleKey,
-                number: PagesOfAllApp.serviceSettingsPageNumber,
-                page: FirstScreenServiceSettings(),
-              ),
-              PageNodeModel(
-                name: AppLanguageKeys.maintenanceAndInternalServicesKey,
-                number: PagesOfAllApp.maintenanceAndInteriorServicesPageNumber,
-                page: AddedMaintenanceAndInternalServicesInServiceSettings(),
-              ),
-              PageNodeModel(
-                name: AppLanguageKeys.carSpareParts,
-                number: PagesOfAllApp.carPartsPageNumber,
-                page: CarSparePartsInServiceSettings(),
-              ),
-              PageNodeModel(
-                name: AppLanguageKeys.sharedPackages,
-                number: PagesOfAllApp.sharedPackagesPageNumber,
-                page: SharedPackagesInServiceSettings(),
-              ),
-              PageNodeModel(
-                name: AppLanguageKeys.mobileServicesKey,
-                number: PagesOfAllApp.mobileServicesAndTransportationPageNumber,
-                page: InternalMaintenanceAndServicesInServiceSettings(),
-              ),
-            ]
-          ),
-        ]
-    ),
-    const  PageNodeModel(
-      name:AppLanguageKeys.accountManagementKey,
+              name: AppLanguageKeys.serviceSettingsTitleKey,
+              number: PagesOfAllApp.serviceSettingsPageNumber,
+              image: AppImageKeys.store,
+              page: FirstScreenServiceSettings(),
+              children: [
+                PageNodeModel(
+                  name: AppLanguageKeys.serviceSettingsTitleKey,
+                  number: PagesOfAllApp.serviceSettingsPageNumber,
+                  page: FirstScreenServiceSettings(),
+                ),
+                PageNodeModel(
+                  name: AppLanguageKeys.maintenanceAndInternalServicesKey,
+                  number:
+                      PagesOfAllApp.maintenanceAndInteriorServicesPageNumber,
+                  page: AddedMaintenanceAndInternalServicesInServiceSettings(),
+                ),
+                PageNodeModel(
+                  name: AppLanguageKeys.carSpareParts,
+                  number: PagesOfAllApp.carPartsPageNumber,
+                  page: CarSparePartsInServiceSettings(),
+                ),
+                PageNodeModel(
+                  name: AppLanguageKeys.sharedPackages,
+                  number: PagesOfAllApp.sharedPackagesPageNumber,
+                  page: SharedPackagesInServiceSettings(),
+                ),
+                PageNodeModel(
+                  name: AppLanguageKeys.mobileServicesKey,
+                  number:
+                      PagesOfAllApp.mobileServicesAndTransportationPageNumber,
+                  page: InternalMaintenanceAndServicesInServiceSettings(),
+                ),
+              ]),
+        ]),
+    const PageNodeModel(
+      name: AppLanguageKeys.accountManagementKey,
       image: AppImageKeys.wallet,
       number: PagesOfAllApp.walletPageNumber,
     ),
-    const  PageNodeModel(
-      name:AppLanguageKeys.petroleum,
-      image: AppImageKeys.users,
-      number: PagesOfAllApp.petroleumPageNumber,
-      children: [
-        PageNodeModel(
-            name:AppLanguageKeys.statistics,
+    const PageNodeModel(
+        name: AppLanguageKeys.petroleum,
+        image: AppImageKeys.users,
+        number: PagesOfAllApp.petroleumPageNumber,
+        children: [
+          PageNodeModel(
+            name: AppLanguageKeys.statistics,
             image: AppImageKeys.home,
             number: PagesOfAllApp.statisticsPetroleumPageNumber,
             page: PetroleumFillingRequests(),
-        ),
-        PageNodeModel(
-          name:AppLanguageKeys.allOrders,
-          image: AppImageKeys.sell,
-          number: PagesOfAllApp.ordersPetroleumPageNumber,
-          page: AllOrdersAreFilledPetroleumFillingRequests(),
-        ),
-        PageNodeModel(
-          name:AppLanguageKeys.oilProducts,
-          image: AppImageKeys.wallet,
-          number: PagesOfAllApp.oilProductsPetroleumPageNumber,
-          page: OilProducts(),
-        ),
-        PageNodeModel(
-          name:AppLanguageKeys.facilityManagementKey,
-          image: AppImageKeys.FacilityManagement,
-          number: PagesOfAllApp.facilityManagementPetroleumPageNumber,
-          page: FacilityManagement(),
-        ),
-      ]
-    ),
-
-    const  PageNodeModel(
-      name:AppLanguageKeys.notificationsKey,
-      image: AppImageKeys.notificationIcon,
-      number: PagesOfAllApp.notificationPageNumber,
-      page: FirstScreenNotifications()
-    ),
-    const  PageNodeModel(
-      name:AppLanguageKeys.reviewsKey,
-      image: AppImageKeys.star,
-      number: PagesOfAllApp.starPageNumber,
-      page: FirstScreenRates()
-    ),
-    const  PageNodeModel(
-      name:AppLanguageKeys.socialPagesAndPoliciesKey,
+          ),
+          PageNodeModel(
+            name: AppLanguageKeys.allOrders,
+            image: AppImageKeys.sell,
+            number: PagesOfAllApp.ordersPetroleumPageNumber,
+            page: AllOrdersAreFilledPetroleumFillingRequests(),
+          ),
+          PageNodeModel(
+            name: AppLanguageKeys.oilProducts,
+            image: AppImageKeys.wallet,
+            number: PagesOfAllApp.oilProductsPetroleumPageNumber,
+            page: OilProducts(),
+          ),
+          PageNodeModel(
+            name: AppLanguageKeys.facilityManagementKey,
+            image: AppImageKeys.FacilityManagement,
+            number: PagesOfAllApp.facilityManagementPetroleumPageNumber,
+            page: FacilityManagement(),
+          ),
+        ]),
+    const PageNodeModel(
+        name: AppLanguageKeys.notificationsKey,
+        image: AppImageKeys.notificationIcon,
+        number: PagesOfAllApp.notificationPageNumber,
+        page: FirstScreenNotifications()),
+    const PageNodeModel(
+        name: AppLanguageKeys.reviewsKey,
+        image: AppImageKeys.star,
+        number: PagesOfAllApp.starPageNumber,
+        page: FirstScreenRates()),
+    const PageNodeModel(
+      name: AppLanguageKeys.socialPagesAndPoliciesKey,
       image: AppImageKeys.pages,
       number: PagesOfAllApp.pagesPageNumber,
       page: FirstScreenCommunicationAndPoliciesPages(),
     ),
-    const  PageNodeModel(
-      name:AppLanguageKeys.logoutKey,
+    const PageNodeModel(
+      name: AppLanguageKeys.logoutKey,
       image: AppImageKeys.logout,
       number: PagesOfAllApp.logoutPageNumber,
       page: LogoutDashboard(),

@@ -8,12 +8,16 @@ class ServicePrice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return   const Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        TextInAppWidget(text: AppLanguageKeys.servicePriceKey, textSize: 12, textColor: AppColors.darkGreyColor),
-        TextInAppWidget(text: '250.00', textSize: 14, textColor: AppColors.darkColor),
+        TextInAppWidget(
+            text: AppLanguageKeys.servicePriceKey,
+            textSize: 12,
+            textColor: AppColors.darkGreyColor),
+        TextInAppWidget(
+            text: '250.00', textSize: 14, textColor: AppColors.darkColor),
       ],
     );
   }

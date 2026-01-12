@@ -7,7 +7,6 @@ import 'login_button_widget.dart';
 import 'password_widget.dart';
 import 'user_name_widget.dart';
 
-
 class LoginWidget extends StatelessWidget {
   const LoginWidget({super.key});
 
@@ -20,29 +19,29 @@ class LoginWidget extends StatelessWidget {
         TextInAppWidget(
           text: AppLanguageKeys.loginKey,
           textSize: 20,
-          fontWeightIndex:
-          FontSelectionData.boldFontFamily,
+          fontWeightIndex: FontSelectionData.boldFontFamily,
         ),
         TextInAppWidget(
-          text:
-          AppLanguageKeys.enterPhoneAndPasswordKey,
+          text: AppLanguageKeys.enterPhoneAndPasswordKey,
           textSize: 18,
-          fontWeightIndex:
-          FontSelectionData.semiBoldFontFamily,
+          fontWeightIndex: FontSelectionData.semiBoldFontFamily,
           textColor: AppColors.darkColor,
         ),
         UserNameWidget(),
         PasswordWidget(),
-        SizedBox(height: 10,),
+        SizedBox(
+          height: 10,
+        ),
         TextInAppWidget(
           text: AppLanguageKeys.forgotPasswordKey,
           textSize: 14,
-          fontWeightIndex:
-          FontSelectionData.semiBoldFontFamily,
+          fontWeightIndex: FontSelectionData.semiBoldFontFamily,
           textColor: AppColors.darkColor,
         ),
         LoginButtonWidget(text: AppLanguageKeys.loginKey),
-        SizedBox(height: 10,),
+        SizedBox(
+          height: 10,
+        ),
       ],
     );
   }

@@ -28,7 +28,9 @@ class OrderTimeline extends StatelessWidget {
                 final step = steps[index];
                 final bool isLast = index == steps.length - 1;
                 final cubit = context.read<NewOrdersCubit>();
-                final bool isCompleted = index < cubit.selectedIndex || (index == cubit.selectedIndex && cubit.selectedIndex == steps.length - 1);
+                final bool isCompleted = index < cubit.selectedIndex ||
+                    (index == cubit.selectedIndex &&
+                        cubit.selectedIndex == steps.length - 1);
                 final bool isCurrent = index == cubit.selectedIndex;
 
                 return Column(
@@ -48,20 +50,37 @@ class OrderTimeline extends StatelessWidget {
                               width: 32,
                               height: 32,
                               decoration: BoxDecoration(
-                                color: isCompleted ? AppColors.orangeColor : AppColors.whiteColor,
+                                color: isCompleted
+                                    ? AppColors.orangeColor
+                                    : AppColors.whiteColor,
                                 shape: BoxShape.circle,
-                                border: Border.all(color: isCurrent || isCompleted ? AppColors.orangeColor : AppColors.veryLightGreyColor,
+                                border: Border.all(
+                                  color: isCurrent || isCompleted
+                                      ? AppColors.orangeColor
+                                      : AppColors.veryLightGreyColor,
                                   width: 2,
                                 ),
                               ),
                               child: Center(
-                                child: isCompleted ? const Icon(Icons.check, color: AppColors.whiteColor, size: 18)
-                                    : TextInAppWidget(text: '${index + 1}', textSize: 16, textColor: isCurrent ? AppColors.orangeColor : AppColors.veryLightGreyColor,
+                                child: isCompleted
+                                    ? const Icon(Icons.check,
+                                        color: AppColors.whiteColor, size: 18)
+                                    : TextInAppWidget(
+                                        text: '${index + 1}',
+                                        textSize: 16,
+                                        textColor: isCurrent
+                                            ? AppColors.orangeColor
+                                            : AppColors.veryLightGreyColor,
                                       ),
                               ),
                             ),
                             if (!isLast)
-                              Container(width: 2, height: 96, color: index < cubit.selectedIndex ? AppColors.orangeColor : AppColors.veryLightGreyColor,
+                              Container(
+                                width: 2,
+                                height: 96,
+                                color: index < cubit.selectedIndex
+                                    ? AppColors.orangeColor
+                                    : AppColors.veryLightGreyColor,
                               ),
                           ],
                         ),
@@ -70,9 +89,20 @@ class OrderTimeline extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            TextInAppWidget(text: step.title, textSize: 16, textColor: AppColors.darkColor, fontWeightIndex: FontSelectionData.mediumFontFamily,),
+                            TextInAppWidget(
+                              text: step.title,
+                              textSize: 16,
+                              textColor: AppColors.darkColor,
+                              fontWeightIndex:
+                                  FontSelectionData.mediumFontFamily,
+                            ),
                             const SizedBox(height: 4),
-                            TextInAppWidget(text: step.date, textSize: 14, textColor: AppColors.darkColor, fontWeightIndex: FontSelectionData.regularFontFamily,
+                            TextInAppWidget(
+                              text: step.date,
+                              textSize: 14,
+                              textColor: AppColors.darkColor,
+                              fontWeightIndex:
+                                  FontSelectionData.regularFontFamily,
                             ),
                           ],
                         ),

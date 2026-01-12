@@ -54,16 +54,14 @@ class NavigatorButton extends StatelessWidget {
               onTap: onTapOrangeButton ?? () {},
               text: textOrangeButton ?? AppLanguageKeys.nextKey,
               containerColor: AppColors.orangeColor,
-              padding:
-              const EdgeInsets.symmetric(horizontal: 70, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 8),
             ),
           CustomContainer(
             isSelected: false,
             onTap: onTapGrayButton ?? () {},
             text: textGrayButton ?? AppLanguageKeys.backKey,
             containerColor: AppColors.darkGreyColor,
-            padding:
-            const EdgeInsets.symmetric(horizontal: 70, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 8),
           ),
         ],
       ),

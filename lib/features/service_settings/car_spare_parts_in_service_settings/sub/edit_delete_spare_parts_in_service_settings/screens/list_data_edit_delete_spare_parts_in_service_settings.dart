@@ -12,10 +12,8 @@ class ListDataEditDeleteSparePartsInServiceSettings extends StatelessWidget {
       padding: const EdgeInsetsGeometry.all(10),
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
-        borderRadius:const BorderRadius.all(Radius.circular(20)),
-        border: Border.all(
-            color: AppColors.greyColor.withOpacity(0.3)
-        ),
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
+        border: Border.all(color: AppColors.greyColor.withOpacity(0.3)),
         boxShadow: [
           BoxShadow(
             color: AppColors.darkColor.withOpacity(0.1),
@@ -24,7 +22,8 @@ class ListDataEditDeleteSparePartsInServiceSettings extends StatelessWidget {
           ),
         ],
       ),
-      child: const DataContainerInListDataEditDeleteSparePartsInServiceSettings(),
+      child:
+          const DataContainerInListDataEditDeleteSparePartsInServiceSettings(),
     );
   }
 }

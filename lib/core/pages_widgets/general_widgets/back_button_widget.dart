@@ -12,11 +12,11 @@ class BackButtonWidget extends StatelessWidget {
     return Row(
       children: [
         Padding(
-          padding: const EdgeInsetsDirectional.only(start: 20 , top: 20),
+          padding: const EdgeInsetsDirectional.only(start: 20, top: 20),
           child: ButtonWidget(
             text: 'Back_Button',
             fontWeightIndex: FontSelectionData.semiBoldFontFamily,
-            onTap: (){
+            onTap: () {
               Navigator.pop(context);
             },
             textColor: AppColors.darkColor,

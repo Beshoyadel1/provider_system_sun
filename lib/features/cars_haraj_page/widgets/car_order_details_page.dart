@@ -12,6 +12,7 @@ import 'update_car_widget.dart';
 
 class CarOrderDetailsPage extends StatelessWidget {
   const CarOrderDetailsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -30,38 +31,37 @@ class CarOrderDetailsPage extends StatelessWidget {
                         children: [
                           const UpdateCarWidget(),
                           const SizedBox(height: 20),
-
-
-
-
-                              Wrap(
-                                spacing: 10,
-                                runSpacing: 10,
-                                alignment: WrapAlignment.center,
-                                children: [
-                                  const AllDetailsCar(),
-                                  CustomContainer(
-                                    borderRadius: BorderRadius.zero,
-                                    containerWidth: 310,
-                                    border: const Border(),
-                                    typeWidget: Center(
-                                        child: Column(
-                                          spacing: 20,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              const TextInAppWidget(text: 'الرسائل', textSize: 20, textColor: AppColors.darkColor, fontWeightIndex: FontSelectionData.mediumFontFamily),
-                                              ...List.generate(6, (_) =>Message()),
-
-                                            ])),
-                                    isSelected: false,
-                                    onTap: () {},
-                                  ),
-                                ],
-
-
+                          Wrap(
+                            spacing: 10,
+                            runSpacing: 10,
+                            alignment: WrapAlignment.center,
+                            children: [
+                              const AllDetailsCar(),
+                              CustomContainer(
+                                borderRadius: BorderRadius.zero,
+                                containerWidth: 310,
+                                border: const Border(),
+                                typeWidget: Center(
+                                    child: Column(
+                                        spacing: 20,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                      const TextInAppWidget(
+                                          text: 'الرسائل',
+                                          textSize: 20,
+                                          textColor: AppColors.darkColor,
+                                          fontWeightIndex: FontSelectionData
+                                              .mediumFontFamily),
+                                      ...List.generate(6, (_) => Message()),
+                                    ])),
+                                isSelected: false,
+                                onTap: () {},
+                              ),
+                            ],
                           ),
-
                         ],
                       ),
                     ),

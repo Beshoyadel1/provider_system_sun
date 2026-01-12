@@ -6,13 +6,10 @@ import '../../../../../../../../core/theming/fonts.dart';
 import '../../../../../../../../core/theming/text_styles.dart';
 
 class ColumnSubscriptionFeesWidget extends StatelessWidget {
-  final String? title,budget,imagePath;
-  const ColumnSubscriptionFeesWidget({
-    super.key,
-    this.title,
-    this.budget,
-    this.imagePath
-  });
+  final String? title, budget, imagePath;
+
+  const ColumnSubscriptionFeesWidget(
+      {super.key, this.title, this.budget, this.imagePath});
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +18,14 @@ class ColumnSubscriptionFeesWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextInAppWidget(
-          text:title??'رسوم الاشتراك',
+          text: title ?? 'رسوم الاشتراك',
           textSize: 9,
           fontWeightIndex: FontSelectionData.regularFontFamily,
-          textColor:AppColors.greyColor,
+          textColor: AppColors.greyColor,
         ),
         RowTextIconOrange(
-            text: budget??'250.00',
-            imagePath:imagePath?? AppImageKeys.coin,
+          text: budget ?? '250.00',
+          imagePath: imagePath ?? AppImageKeys.coin,
         )
       ],
     );

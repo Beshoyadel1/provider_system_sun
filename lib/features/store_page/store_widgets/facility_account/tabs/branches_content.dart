@@ -6,9 +6,9 @@ import '../../../../../../../features/store_page/model/facility_cubit/facility_t
 import '../../add_branch_ui.dart';
 import '../../branches_added_ui.dart';
 
-
 class BranchesContent extends StatelessWidget {
   const BranchesContent({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<FacilityTabCubit, FacilityTabState>(
@@ -25,4 +25,3 @@ class BranchesContent extends StatelessWidget {
     );
   }
 }
-

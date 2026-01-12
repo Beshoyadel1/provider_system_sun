@@ -15,58 +15,85 @@ class DetailsOrder extends StatelessWidget {
   const DetailsOrder({super.key, required this.isProcessingRequest});
 
   final bool? isProcessingRequest;
+
   @override
   Widget build(BuildContext context) {
-    return        CustomContainer(
-        padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 50),
+    return CustomContainer(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 50),
         containerWidth: 940,
         isSelected: false,
         onTap: () {},
         borderRadius: BorderRadius.circular(10),
-        typeWidget:
-        Wrap(
-          spacing:  5,
+        typeWidget: Wrap(
+          spacing: 5,
           runSpacing: 1,
-          children:[
+          children: [
             SizedBox(
               width: 610,
               child: Wrap(
-                  spacing:  5,
+                  spacing: 5,
                   runSpacing: 35,
                   crossAxisAlignment: WrapCrossAlignment.start,
                   alignment: WrapAlignment.start,
                   children: [
-                    Image.asset(AppImageKeys.maintenance, width: 30, height: 30, fit: BoxFit.contain,),
+                    Image.asset(
+                      AppImageKeys.maintenance,
+                      width: 30,
+                      height: 30,
+                      fit: BoxFit.contain,
+                    ),
                     const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        TextInAppWidget(text: AppLanguageKeys.internalServicesKey, textSize: 14, textColor: AppColors.orangeColor),
-                        TextInAppWidget(text:AppLanguageKeys.maintenanceAndRepairTitleKey, textSize: 14, textColor: AppColors.darkColor),
-
+                        TextInAppWidget(
+                            text: AppLanguageKeys.internalServicesKey,
+                            textSize: 14,
+                            textColor: AppColors.orangeColor),
+                        TextInAppWidget(
+                            text: AppLanguageKeys.maintenanceAndRepairTitleKey,
+                            textSize: 14,
+                            textColor: AppColors.darkColor),
                       ],
                     ),
-                    const SizedBox(width: 30,),
+                    const SizedBox(
+                      width: 30,
+                    ),
                     const OrderState(),
-                    const SizedBox(width: 30,),
+                    const SizedBox(
+                      width: 30,
+                    ),
                     const OrderDate(),
-                    const SizedBox(width: 30,),
+                    const SizedBox(
+                      width: 30,
+                    ),
                     const ServicePrice(),
-                    const SizedBox(width: 30,),
+                    const SizedBox(
+                      width: 30,
+                    ),
                     const TypeCar(),
-                    const SizedBox(width: 30,),
+                    const SizedBox(
+                      width: 30,
+                    ),
                     Image.asset(
                       AppImageKeys.profileImage,
                       width: 41,
                       height: 41,
                       fit: BoxFit.contain,
-                    ),  const TextInAppWidget(text:AppLanguageKeys.clientNameKey, textSize: 14, textColor: AppColors.darkColor),
-                    const SizedBox(width: 30,),
+                    ),
+                    const TextInAppWidget(
+                        text: AppLanguageKeys.clientNameKey,
+                        textSize: 14,
+                        textColor: AppColors.darkColor),
+                    const SizedBox(
+                      width: 30,
+                    ),
                     const OrderDate(text: AppLanguageKeys.expectedEndDateKey),
-                    if( isProcessingRequest==true)
-                      const SizedBox(width: 30,),
-                    if( isProcessingRequest==true)
-                      const NameWorkerService(),
+                    if (isProcessingRequest == true)
+                      const SizedBox(
+                        width: 30,
+                      ),
+                    if (isProcessingRequest == true) const NameWorkerService(),
                   ]),
             ),
             SizedBox(
@@ -82,10 +109,6 @@ class DetailsOrder extends StatelessWidget {
               ),
             ),
           ],
-
-
-        )
-
-    );
+        ));
   }
 }

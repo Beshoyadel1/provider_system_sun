@@ -1,24 +1,27 @@
 import 'package:sun_web_system/core/utilies/map_of_all_app.dart';
 
 class AppLanguageKeys {
-
   //New Adds///
   static const String petroleum = 'petroleum';
   static const String languageKey = 'Language';
   static const String dashBoardPageKey = PagesOfAllApp.dashboardPage;
   static const String securityPageKey = PagesOfAllApp.securityPage;
-  static const String permissionsGroupPageKey = PagesOfAllApp.permissionsGroupPage;
-  static const String usersPermissionsPageKey = PagesOfAllApp.usersPermissionsPage;
+  static const String permissionsGroupPageKey =
+      PagesOfAllApp.permissionsGroupPage;
+  static const String usersPermissionsPageKey =
+      PagesOfAllApp.usersPermissionsPage;
   static const String userStatisticsPageKey = PagesOfAllApp.userStatisticsPage;
   static const String settingsPageKey = PagesOfAllApp.settingsPage;
   static const String companiesPageKey = PagesOfAllApp.companiesPage;
-  static const String generalSettingsPageKey = PagesOfAllApp.generalSettingsPage;
+  static const String generalSettingsPageKey =
+      PagesOfAllApp.generalSettingsPage;
   static const String branchesPageKey = PagesOfAllApp.branchesPage;
   static const String inventoriesPageKey = PagesOfAllApp.inventoriesPage;
   static const String banksPageKey = PagesOfAllApp.banksPage;
   static const String areasPageKey = PagesOfAllApp.areasPage;
   static const String taxesPageKey = PagesOfAllApp.taxesPage;
-  static const String financialPeriodPageKey = PagesOfAllApp.financialPeriodPage;
+  static const String financialPeriodPageKey =
+      PagesOfAllApp.financialPeriodPage;
   static const String costCenterPageKey = PagesOfAllApp.costCenterPage;
   static const String currenciesPageKey = PagesOfAllApp.currenciesPage;
   static const String categoriesPageKey = PagesOfAllApp.categoriesPage;
@@ -159,7 +162,8 @@ class AppLanguageKeys {
   static const String internalServicesStatsKey = 'internalServicesStatsEN';
   static const String executeOrderKey = 'executeOrderEN';
   static const String internalServicesTitleKey = 'internalServicesTitleEN';
-  static const String maintenanceAndRepairTitleKey = 'maintenanceAndRepairTitleEN';
+  static const String maintenanceAndRepairTitleKey =
+      'maintenanceAndRepairTitleEN';
   static const String clientNameKey = 'clientNameEN';
   static const String expectedEndDateKey = 'expectedEndDateEN';
   static const String notesKey = 'notesEN';
@@ -188,9 +192,11 @@ class AppLanguageKeys {
   static const String filterKey = 'filterEN';
   static const String servicePriceKey = 'servicePriceEN';
   static const String statisticsKey = 'statisticsEN';
-  static const String maintenanceAndInternalServicesKey = 'maintenanceAndInternalServicesEN';
+  static const String maintenanceAndInternalServicesKey =
+      'maintenanceAndInternalServicesEN';
   static const String ordersSectionKey = 'ordersSectionEN';
-  static const String mobileAndTransportServicesKey = 'mobileAndTransportServicesEN';
+  static const String mobileAndTransportServicesKey =
+      'mobileAndTransportServicesEN';
   static const String sparePartsSectionKey = 'sparePartsSectionEN';
   static const String carMarketKey = 'carMarketEN';
   static const String accountManagementKey = 'accountManagementEN';
@@ -200,7 +206,7 @@ class AppLanguageKeys {
   static const String reviewsKey = 'reviewsEN';
   static const String socialPagesAndPoliciesKey = 'socialPagesAndPoliciesEN';
   static const String logoutKey = 'logoutEN';
-  static const String  priceKey='priceEN';
+  static const String priceKey = 'priceEN';
 
   //End///
 
@@ -641,6 +647,7 @@ class AppLanguageKeys {
   static const String insuranceAccountRegistration =
       'insuranceAccountRegistration';
   static const String firstPayment = 'firstPayment';
+
   ////End////
 
   ////Insurance////

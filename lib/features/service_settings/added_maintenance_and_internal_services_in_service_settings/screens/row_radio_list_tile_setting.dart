@@ -10,23 +10,25 @@ class RowRadioListTileSetting extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DetailsContainerSettingCubit, DetailsContainerSettingState>(
+    return BlocBuilder<
+        DetailsContainerSettingCubit,
+        DetailsContainerSettingState>(
         buildWhen: (previous, current) =>
         previous.selectedOption != current.selectedOption,
         builder: (context, state) {
-        return const Row(
-          children: [
-            CustomWidgetRadioListTile(
-                text: AppLanguageKeys.unifiedPriceForAll,
-                value: 0
-            ),
-            CustomWidgetRadioListTile(
-                text:  AppLanguageKeys.pricePerCategory,
-                value: 1
-            ),
-          ],
-        );
-      }
+          return const Row(
+            children: [
+              CustomWidgetRadioListTile(
+                  text: AppLanguageKeys.unifiedPriceForAll,
+                  value: 0
+              ),
+              CustomWidgetRadioListTile(
+                  text: AppLanguageKeys.pricePerCategory,
+                  value: 1
+              ),
+            ],
+          );
+        }
     );
   }
 }

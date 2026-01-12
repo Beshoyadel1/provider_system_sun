@@ -9,11 +9,14 @@ class OrderState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const TextInAppWidget(text: AppLanguageKeys.orderStatusKey, textSize: 12, textColor: AppColors.darkGreyColor),
+        const TextInAppWidget(
+            text: AppLanguageKeys.orderStatusKey,
+            textSize: 12,
+            textColor: AppColors.darkGreyColor),
         CustomContainer(
           containerHeight: 28,
           containerWidth: 105,
@@ -28,7 +31,10 @@ class OrderState extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.settings, color: AppColors.orangeColor, size: 14),
-                TextInAppWidget(text: AppLanguageKeys.underServiceKey, textSize: 12, textColor: AppColors.orangeColor),
+                TextInAppWidget(
+                    text: AppLanguageKeys.underServiceKey,
+                    textSize: 12,
+                    textColor: AppColors.orangeColor),
               ],
             ),
           ),

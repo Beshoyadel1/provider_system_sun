@@ -10,6 +10,7 @@ import '../../../../../features/service_settings/added_maintenance_and_internal_
 class CustomWidgetRadioListTile extends StatelessWidget {
   final String text;
   final int value;
+
   const CustomWidgetRadioListTile({
     super.key,
     required this.text,
@@ -18,27 +19,30 @@ class CustomWidgetRadioListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DetailsContainerSettingCubit, DetailsContainerSettingState>(
-        buildWhen: (previous, current) => previous.selectedOption != current.selectedOption,
+    return BlocBuilder<DetailsContainerSettingCubit,
+            DetailsContainerSettingState>(
+        buildWhen: (previous, current) =>
+            previous.selectedOption != current.selectedOption,
         builder: (context, state) {
-        return Expanded(
-          child: RadioListTile<int>(
-            activeColor: AppColors.orangeColor,
-            title: TextInAppWidget(
-              text: text,
-              textSize: 13,
-              fontWeightIndex: FontSelectionData.mediumFontFamily,
-              textColor: AppColors.darkColor,
+          return Expanded(
+            child: RadioListTile<int>(
+              activeColor: AppColors.orangeColor,
+              title: TextInAppWidget(
+                text: text,
+                textSize: 13,
+                fontWeightIndex: FontSelectionData.mediumFontFamily,
+                textColor: AppColors.darkColor,
+              ),
+              value: value,
+              groupValue: state.selectedOption,
+              contentPadding: EdgeInsets.zero,
+              onChanged: (value) {
+                context
+                    .read<DetailsContainerSettingCubit>()
+                    .selectOption(value!);
+              },
             ),
-            value: value,
-            groupValue: state.selectedOption,
-            contentPadding: EdgeInsets.zero,
-            onChanged: (value) {
-              context.read<DetailsContainerSettingCubit>().selectOption(value!);
-            },
-          ),
-        );
-      }
-    );
+          );
+        });
   }
 }

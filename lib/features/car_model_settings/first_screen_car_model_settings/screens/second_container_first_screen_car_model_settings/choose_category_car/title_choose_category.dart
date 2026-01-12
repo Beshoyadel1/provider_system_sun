@@ -10,10 +10,10 @@ class TitleChooseCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextInAppWidget(
-      text:AppLanguageKeys.chooseCategory,
+      text: AppLanguageKeys.chooseCategory,
       textSize: 18,
       fontWeightIndex: FontSelectionData.regularFontFamily,
-      textColor:AppColors.greyColor,
+      textColor: AppColors.greyColor,
     );
   }
 }

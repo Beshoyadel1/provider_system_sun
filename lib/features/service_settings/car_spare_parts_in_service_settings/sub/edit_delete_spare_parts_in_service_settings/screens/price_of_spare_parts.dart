@@ -10,10 +10,7 @@ class PriceOfSpareParts extends StatelessWidget {
     return Row(
       children: [
         RowNumberCoinWidget(
-            numberText: '450.00',
-            sizeText: 16,
-            imageSrc: AppImageKeys.coin
-        ),
+            numberText: '450.00', sizeText: 16, imageSrc: AppImageKeys.coin),
       ],
     );
   }

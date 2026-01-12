@@ -10,23 +10,22 @@ class MobileAsPartUserSelectPermissions extends StatelessWidget {
     return Column(
       spacing: 10,
       children: [
-
         Row(
           children: [
-            CheckBoxWithText(text:AppLanguageKeys.statistics ),
-            CheckBoxWithText(text:AppLanguageKeys.servicesSettings ),
+            CheckBoxWithText(text: AppLanguageKeys.statistics),
+            CheckBoxWithText(text: AppLanguageKeys.servicesSettings),
           ],
         ),
         Row(
           children: [
-            CheckBoxWithText(text:AppLanguageKeys.carModelSettings ),
-            CheckBoxWithText(text:AppLanguageKeys.accountManagement ),
+            CheckBoxWithText(text: AppLanguageKeys.carModelSettings),
+            CheckBoxWithText(text: AppLanguageKeys.accountManagement),
           ],
         ),
         Row(
           children: [
-            CheckBoxWithText(text:AppLanguageKeys.permissionsManagement ),
-            CheckBoxWithText(text:AppLanguageKeys.organizationManagement ),
+            CheckBoxWithText(text: AppLanguageKeys.permissionsManagement),
+            CheckBoxWithText(text: AppLanguageKeys.organizationManagement),
           ],
         )
       ],

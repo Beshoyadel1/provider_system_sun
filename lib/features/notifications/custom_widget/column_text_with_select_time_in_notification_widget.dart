@@ -5,13 +5,11 @@ import '../../../../../core/theming/fonts.dart';
 import '../../../../../core/theming/text_styles.dart';
 import '../../internal_orders/custom_widget/select_time_profit_service_widget.dart';
 
-
 class ColumnTextWithSelectTimeInNotificationWidget extends StatelessWidget {
   final String text;
-  const ColumnTextWithSelectTimeInNotificationWidget({
-    super.key,
-    required this.text
-  });
+
+  const ColumnTextWithSelectTimeInNotificationWidget(
+      {super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -20,17 +18,17 @@ class ColumnTextWithSelectTimeInNotificationWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextInAppWidget(
-          text:AppLanguageKeys.searchFrom,
+          text: AppLanguageKeys.searchFrom,
           textSize: 13,
           fontWeightIndex: FontSelectionData.regularFontFamily,
-          textColor:AppColors.blackColor,
+          textColor: AppColors.blackColor,
         ),
         SelectTimeProfitServiceWidget(
           hint: '00/00/0000',
           isTime: true,
           backGroundColor: AppColors.whiteColor,
           textColor: AppColors.greyColor,
-          borderColor:AppColors.greyColor,
+          borderColor: AppColors.greyColor,
           width: 250,
         ),
       ],

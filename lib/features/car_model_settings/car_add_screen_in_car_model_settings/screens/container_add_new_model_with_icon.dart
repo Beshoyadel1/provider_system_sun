@@ -12,14 +12,14 @@ class ContainerAddNewModelWithIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
+      onTap: () {
         Navigator.pop(context);
         Navigator.of(context).push(
           NavigateToPageWidget(FirstScreenCarModelSettings()),
         );
       },
       child: Container(
-        padding:  EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         decoration: BoxDecoration(
           color: AppColors.darkBlueColor,
           borderRadius: const BorderRadius.all(Radius.circular(20)),

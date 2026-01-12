@@ -11,16 +11,19 @@ class MessageNumbers extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        TextInAppWidget(text:'عدد الرسائل', textSize: 14, textColor:AppColors.darkColor),
+        TextInAppWidget(
+            text: 'عدد الرسائل', textSize: 14, textColor: AppColors.darkColor),
         Wrap(
           spacing: 5,
           children: [
             CircleAvatar(
               radius: 10,
               backgroundColor: AppColors.orangeColor,
-              child:TextInAppWidget(text: '5', textSize: 14, textColor: AppColors.whiteColor),
+              child: TextInAppWidget(
+                  text: '5', textSize: 14, textColor: AppColors.whiteColor),
             ),
-            TextInAppWidget(text: 'رسائل', textSize: 14, textColor: AppColors.darkColor),
+            TextInAppWidget(
+                text: 'رسائل', textSize: 14, textColor: AppColors.darkColor),
           ],
         ),
       ],

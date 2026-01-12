@@ -4,14 +4,11 @@ import '../../../../../../core/language/language_constant.dart';
 import '../../../../../../core/theming/colors.dart';
 
 class LastTwoButtonInFirstScreenCarModelSettings extends StatelessWidget {
-  final void Function()? onTapBack,onTapAdd;
-  final bool?isSave;
-  const LastTwoButtonInFirstScreenCarModelSettings({
-    super.key,
-    this.onTapBack,
-    this.onTapAdd,
-    this.isSave=false
-  });
+  final void Function()? onTapBack, onTapAdd;
+  final bool? isSave;
+
+  const LastTwoButtonInFirstScreenCarModelSettings(
+      {super.key, this.onTapBack, this.onTapAdd, this.isSave = false});
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +16,9 @@ class LastTwoButtonInFirstScreenCarModelSettings extends StatelessWidget {
       padding: EdgeInsetsGeometry.all(10),
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)),
-        border: Border.all(
-            color: AppColors.greyColor.withOpacity(0.3)
-        ),
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+        border: Border.all(color: AppColors.greyColor.withOpacity(0.3)),
         boxShadow: [
           BoxShadow(
             color: AppColors.darkColor.withOpacity(0.1),
@@ -37,15 +33,17 @@ class LastTwoButtonInFirstScreenCarModelSettings extends StatelessWidget {
         children: [
           Flexible(
             child: ContainerTextOnly(
-              onTap:onTapAdd,
-              text:isSave!?AppLanguageKeys.save:AppLanguageKeys.add,
+              onTap: onTapAdd,
+              text: isSave! ? AppLanguageKeys.save : AppLanguageKeys.add,
               colorBackGround: AppColors.orangeColor,
               width: 200,
             ),
           ),
           Flexible(
             child: ContainerTextOnly(
-              onTap:(){Navigator.pop(context);},
+              onTap: () {
+                Navigator.pop(context);
+              },
               text: AppLanguageKeys.back,
               width: 200,
             ),

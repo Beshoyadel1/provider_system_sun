@@ -12,38 +12,41 @@ class AppCubit extends Cubit<AppStates> {
 
   bool isLogin = true;
 
-  void changeSecure(){
+  void changeSecure() {
     emit(ChangeSecureState());
   }
 
   bool isRememberMe = false;
-  void changeRememberMe(){
+
+  void changeRememberMe() {
     emit(ChangeRememberMeState());
   }
 
   bool isMenuOpen = true;
 
-  void hideMenu(){
+  void hideMenu() {
     emit(HideMenuState());
   }
 
   int selectedPageIndex = 1;
   int selectedPageFromOpenedPagesIndex = -1;
+
   void changeSelectedPageIndex() {
     emit(ChangeSelectedPageIndexState());
   }
 
   List<String> data = [];
 
-  bool isAllAppLanguageArabic = true ;
-  Locale? selectedLanguage  ;
-  Future<void> changeAllAppLanguage( int language) async {
-    if (language == 1){
-      isAllAppLanguageArabic = true ;
+  bool isAllAppLanguageArabic = true;
+
+  Locale? selectedLanguage;
+
+  Future<void> changeAllAppLanguage(int language) async {
+    if (language == 1) {
+      isAllAppLanguageArabic = true;
       selectedLanguage = supportedLocales[0];
-    }
-    else {
-      isAllAppLanguageArabic = false ;
+    } else {
+      isAllAppLanguageArabic = false;
       selectedLanguage = supportedLocales[1];
     }
 
@@ -52,49 +55,37 @@ class AppCubit extends Cubit<AppStates> {
     emit(ChangeAllAppLanguageState());
   }
 
-
-
-
   List<Locale> supportedLocales = [
     const Locale('ar', 'EG'),
     const Locale('en', 'US'),
   ];
 
-
-  List<String> languageItems = [ 'English' , 'عربي'];
+  List<String> languageItems = ['English', 'عربي'];
 
   GeneralModel? languageDropDownValue;
   List<GeneralModel> languageItemsDropDown = [
-    GeneralModel(
-        arName: 'عربي',
-        enName: 'عربي',
-        number: 1
-    ) ,
-    GeneralModel(
-        arName: 'English',
-        enName: 'English',
-        number: 2
-    )
+    GeneralModel(arName: 'عربي', enName: 'عربي', number: 1),
+    GeneralModel(arName: 'English', enName: 'English', number: 2)
   ];
-
 
   Future<void> getLanguageFromSharedPreference() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     int? languageFromSharedPreference = prefs.getInt('language');
     if (languageFromSharedPreference != null) {
-      languageDropDownValue = languageItemsDropDown.where((element) => element.number == languageFromSharedPreference).first;
+      languageDropDownValue = languageItemsDropDown
+          .where((element) => element.number == languageFromSharedPreference)
+          .first;
       changeAllAppLanguage(languageFromSharedPreference);
     } else {
-      languageDropDownValue = languageItemsDropDown.where((element) => element.number == 1).first;
+      languageDropDownValue =
+          languageItemsDropDown.where((element) => element.number == 1).first;
       changeAllAppLanguage(languageDropDownValue!.number!);
     }
   }
 
-
   List<PageNodeWithIDModel> openedPages = [];
+
   void changeOpenedPages() {
     emit(ChangeOpenedPagesState());
   }
-
-
 }

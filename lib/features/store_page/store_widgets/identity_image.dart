@@ -5,12 +5,15 @@ import '../../../../../core/theming/assets.dart';
 import '../../../../../core/theming/colors.dart';
 
 class IdentityImage extends StatelessWidget {
-  const IdentityImage({super.key, required this.isUploaded, required this.cubit});
-final bool isUploaded;
-final FacilityTabCubit cubit;
+  const IdentityImage(
+      {super.key, required this.isUploaded, required this.cubit});
+
+  final bool isUploaded;
+  final FacilityTabCubit cubit;
+
   @override
   Widget build(BuildContext context) {
-    return  CustomContainer(
+    return CustomContainer(
         containerWidth: double.infinity,
         isSelected: false,
         border: const Border(),
@@ -19,8 +22,8 @@ final FacilityTabCubit cubit;
             cubit.uploadImage();
           }
         },
-        containerColor:  AppColors.whiteColor,
-        typeWidget:Row(
+        containerColor: AppColors.whiteColor,
+        typeWidget: Row(
           children: [
             CircleAvatar(
               radius: 50,
@@ -59,9 +62,7 @@ final FacilityTabCubit cubit;
                 ],
               ),
             ),
-
           ],
-        )
-    );
+        ));
   }
 }

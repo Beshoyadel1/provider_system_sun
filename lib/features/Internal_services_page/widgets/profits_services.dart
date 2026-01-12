@@ -17,30 +17,38 @@ class ProfitsServices extends StatelessWidget {
         containerWidth: 375,
         borderRadius: BorderRadius.circular(12),
         isSelected: false,
-        onTap: (){},
+        onTap: () {},
         typeWidget: Column(
-          spacing: 20,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            spacing: 20,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextInAppWidget(text:AppLanguageKeys.internalServicesProfitKey, textSize: 16, fontWeightIndex: FontSelectionData.regularFontFamily,),
-              TextInAppWidget(text: AppLanguageKeys.priceKey, textSize: 16, fontWeightIndex: FontSelectionData.regularFontFamily, textColor: AppColors.orangeColor,
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextInAppWidget(
+                    text: AppLanguageKeys.internalServicesProfitKey,
+                    textSize: 16,
+                    fontWeightIndex: FontSelectionData.regularFontFamily,
+                  ),
+                  TextInAppWidget(
+                    text: AppLanguageKeys.priceKey,
+                    textSize: 16,
+                    fontWeightIndex: FontSelectionData.regularFontFamily,
+                    textColor: AppColors.orangeColor,
+                  ),
+                ],
               ),
-            ],
-          ),
-        const SelectDateWidget(),
-            AspectRatio(
-              aspectRatio: 2.2,
-              child: LineChart(
-                  sampleData(
-                      colorGradient1: AppColors.orangeColor,
-                      colorGradient2:AppColors.orangeColor.withAlpha(80),
-                      colorGradient3:AppColors.orangeColor.withAlpha(0)
-                  )
+              const SelectDateWidget(),
+              AspectRatio(
+                aspectRatio: 2.2,
+                child: LineChart(sampleData(
+                    colorGradient1: AppColors.orangeColor,
+                    colorGradient2: AppColors.orangeColor.withAlpha(80),
+                    colorGradient3: AppColors.orangeColor.withAlpha(0))),
               ),
-            ),
-        const SizedBox(height: 10,),]));
+              const SizedBox(
+                height: 10,
+              ),
+            ]));
   }
 }

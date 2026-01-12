@@ -14,7 +14,11 @@ class TypeCarCategory extends StatelessWidget {
       spacing: 10,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const TextInAppWidget(text: AppLanguageKeys.carCategoryKey,textSize: 16,fontWeightIndex: FontSelectionData.regularFontFamily ,textColor: AppColors.darkGreyColor),
+        const TextInAppWidget(
+            text: AppLanguageKeys.carCategoryKey,
+            textSize: 16,
+            fontWeightIndex: FontSelectionData.regularFontFamily,
+            textColor: AppColors.darkGreyColor),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -27,21 +31,25 @@ class TypeCarCategory extends StatelessWidget {
                 ),
                 child: Center(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 23,vertical: 12),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(AppImageKeys.nesan, width: 30, height: 34,),
-                          const TextInAppWidget(
-                              text: AppLanguageKeys.nissanKey,
-                              textSize: 12,
-                              fontWeightIndex:
-                              FontSelectionData.regularFontFamily,
-                              textColor: AppColors.darkGreyColor),
-                        ],
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 23, vertical: 12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        AppImageKeys.nesan,
+                        width: 30,
+                        height: 34,
                       ),
-                    ))),
+                      const TextInAppWidget(
+                          text: AppLanguageKeys.nissanKey,
+                          textSize: 12,
+                          fontWeightIndex: FontSelectionData.regularFontFamily,
+                          textColor: AppColors.darkGreyColor),
+                    ],
+                  ),
+                ))),
             Container(
                 decoration: BoxDecoration(
                   color: AppColors.whiteColor,
@@ -49,21 +57,25 @@ class TypeCarCategory extends StatelessWidget {
                 ),
                 child: Center(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 27),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(AppImageKeys.trueOrangeCircles, width: 23, height: 23,),
-                          const TextInAppWidget(
-                              text: AppLanguageKeys.allCategoriesKey,
-                              textSize: 12,
-                              fontWeightIndex:
-                              FontSelectionData.regularFontFamily,
-                              textColor: AppColors.orangeColor),
-                        ],
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 27),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        AppImageKeys.trueOrangeCircles,
+                        width: 23,
+                        height: 23,
                       ),
-                    ))),
+                      const TextInAppWidget(
+                          text: AppLanguageKeys.allCategoriesKey,
+                          textSize: 12,
+                          fontWeightIndex: FontSelectionData.regularFontFamily,
+                          textColor: AppColors.orangeColor),
+                    ],
+                  ),
+                ))),
           ],
         ),
       ],

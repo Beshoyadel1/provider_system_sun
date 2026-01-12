@@ -17,13 +17,11 @@ class UserPermissionsSettingsTextContainer extends StatelessWidget {
           spacing: 10,
           children: [
             Container(
-              padding: EdgeInsetsGeometry.symmetric(horizontal: 8,vertical: 8),
+              padding: EdgeInsetsGeometry.symmetric(horizontal: 8, vertical: 8),
               decoration: BoxDecoration(
                 color: AppColors.blackColor44,
                 borderRadius: BorderRadius.all(Radius.circular(10)),
-                border: Border.all(
-                    color: AppColors.greyColor.withOpacity(0.3)
-                ),
+                border: Border.all(color: AppColors.greyColor.withOpacity(0.3)),
                 boxShadow: [
                   BoxShadow(
                     color: AppColors.darkColor.withOpacity(0.1),
@@ -36,10 +34,10 @@ class UserPermissionsSettingsTextContainer extends StatelessWidget {
             ),
             Expanded(
               child: TextInAppWidget(
-                text:AppLanguageKeys.userPermissions,
+                text: AppLanguageKeys.userPermissions,
                 textSize: 16,
                 fontWeightIndex: FontSelectionData.mediumFontFamily,
-                textColor:AppColors.blackColor,
+                textColor: AppColors.blackColor,
               ),
             ),
           ],

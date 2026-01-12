@@ -5,11 +5,12 @@ Future<bool?> showBackDialog({required BuildContext context}) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        insetPadding: const EdgeInsets.symmetric(horizontal: 10 , vertical: 10),
+        insetPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         title: const SizedBox(
-          width:   300 ,
+          width: 300,
           child: Center(
-            child: Text("Confirm_Exit",
+            child: Text(
+              "Confirm_Exit",
               softWrap: true,
               textAlign: TextAlign.center,
             ),
@@ -17,13 +18,14 @@ Future<bool?> showBackDialog({required BuildContext context}) {
         ),
         content: const SizedBox(
           height: 50,
-          width:   300 ,
+          width: 300,
           child: Center(
-            child: Text("Are_You_Sure_To_Leave",
+            child: Text(
+              "Are_You_Sure_To_Leave",
               softWrap: true,
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Colors.black ,
+                color: Colors.black,
               ),
             ),
           ),
@@ -41,8 +43,7 @@ Future<bool?> showBackDialog({required BuildContext context}) {
                   onPressed: () => Navigator.of(context).pop(false),
                   child: Text("Cancel"),
                 ),
-              ]
-          ),
+              ]),
         ],
       );
     },

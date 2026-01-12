@@ -14,7 +14,6 @@ final List<filterOrdersModel> filterOrders = [
   filterOrdersModel(text: AppLanguageKeys.underServiceKey),
 ];
 
-
 final List<filterOrdersModel> filterOptionsCars = [
   filterOrdersModel(text: 'جميع السيارات', isSelected: true),
   filterOrdersModel(text: 'سيارات جديدة'),

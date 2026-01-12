@@ -5,16 +5,14 @@ import '../../../../../core/theming/text_styles.dart';
 import '../../../../../core/theming/assets.dart';
 import '../../../../../core/theming/colors.dart';
 
-class AppbarDashboardWidget extends StatelessWidget implements PreferredSizeWidget {
+class AppbarDashboardWidget extends StatelessWidget
+    implements PreferredSizeWidget {
   final String title;
   final VoidCallback? onTap;
   final String? imagePath;
-  const AppbarDashboardWidget({
-    super.key,
-    required this.title,
-    this.onTap,
-    this.imagePath
-  });
+
+  const AppbarDashboardWidget(
+      {super.key, required this.title, this.onTap, this.imagePath});
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +31,16 @@ class AppbarDashboardWidget extends StatelessWidget implements PreferredSizeWidg
             return InkWell(
               child: Image.asset(AppImageKeys.notify, width: 30),
               onTap: () async {
-                final RenderBox button = context.findRenderObject() as RenderBox;
-                final RenderBox overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
+                final RenderBox button =
+                    context.findRenderObject() as RenderBox;
+                final RenderBox overlay =
+                    Overlay.of(context).context.findRenderObject() as RenderBox;
 
                 final position = RelativeRect.fromRect(
                   Rect.fromPoints(
                     button.localToGlobal(Offset.zero, ancestor: overlay),
-                    button.localToGlobal(button.size.bottomRight(Offset.zero), ancestor: overlay),
+                    button.localToGlobal(button.size.bottomRight(Offset.zero),
+                        ancestor: overlay),
                   ),
                   Offset.zero & overlay.size,
                 );
@@ -53,10 +54,9 @@ class AppbarDashboardWidget extends StatelessWidget implements PreferredSizeWidg
                   ),
                   items: [
                     PopupMenuItem(
-                      enabled: false,
-                      padding: EdgeInsets.zero,
-                      child: NotificationDesignDashboard()
-                    ),
+                        enabled: false,
+                        padding: EdgeInsets.zero,
+                        child: NotificationDesignDashboard()),
                   ],
                 );
               },
@@ -64,7 +64,7 @@ class AppbarDashboardWidget extends StatelessWidget implements PreferredSizeWidg
           },
         ),
         const SizedBox(width: 20),
-        Image.asset(imagePath??AppImageKeys.person, width: 30),
+        Image.asset(imagePath ?? AppImageKeys.person, width: 30),
         const SizedBox(width: 30),
       ],
     );

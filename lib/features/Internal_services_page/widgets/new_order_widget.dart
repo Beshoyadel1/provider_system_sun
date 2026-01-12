@@ -12,12 +12,13 @@ import 'type_car.dart';
 
 class NewOrderWidget extends StatelessWidget {
   const NewOrderWidget({super.key, this.spacing, required this.onTap});
+
   final double? spacing;
   final VoidCallback onTap;
+
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
-
       padding: const EdgeInsets.symmetric(vertical: 10),
       isSelected: false,
       onTap: () {},
@@ -28,22 +29,40 @@ class NewOrderWidget extends StatelessWidget {
           crossAxisAlignment: WrapCrossAlignment.center,
           alignment: WrapAlignment.center,
           children: [
-            const TextInAppWidget(text: '1#', textSize: 16, textColor: AppColors.darkColor),
-            Image.asset(AppImageKeys.maintenance, width: 30, height: 30, fit: BoxFit.contain,),
+            const TextInAppWidget(
+                text: '1#', textSize: 16, textColor: AppColors.darkColor),
+            Image.asset(
+              AppImageKeys.maintenance,
+              width: 30,
+              height: 30,
+              fit: BoxFit.contain,
+            ),
             const Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TextInAppWidget(text: AppLanguageKeys.maintenanceAndRepairTitleKey, textSize: 14, textColor: AppColors.orangeColor),
-                TextInAppWidget(text: AppLanguageKeys.internalServicesKey, textSize: 14, textColor: AppColors.darkColor),
+                TextInAppWidget(
+                    text: AppLanguageKeys.maintenanceAndRepairTitleKey,
+                    textSize: 14,
+                    textColor: AppColors.orangeColor),
+                TextInAppWidget(
+                    text: AppLanguageKeys.internalServicesKey,
+                    textSize: 14,
+                    textColor: AppColors.darkColor),
               ],
             ),
-            const SizedBox(width: 10,),
+            const SizedBox(
+              width: 10,
+            ),
             const TypeCar(),
-            const SizedBox(width: 10,),
+            const SizedBox(
+              width: 10,
+            ),
             const NameWorkerService(),
             const OrderState(),
-            const SizedBox(width: 10,),
+            const SizedBox(
+              width: 10,
+            ),
             const OrderDate(),
             const SizedBox(
               width: 10,
@@ -57,7 +76,11 @@ class NewOrderWidget extends StatelessWidget {
               onTap: onTap,
               padding: EdgeInsets.zero,
               typeWidget: const Center(
-                child: TextInAppWidget(text: AppLanguageKeys.detailsKey, textSize: 14, textColor: AppColors.orangeColor),),
+                child: TextInAppWidget(
+                    text: AppLanguageKeys.detailsKey,
+                    textSize: 14,
+                    textColor: AppColors.orangeColor),
+              ),
             ),
           ],
         ),

@@ -13,31 +13,26 @@ class CarDetailsDialogWidget extends StatelessWidget {
     return Dialog(
         backgroundColor: Colors.transparent,
         insetPadding: const EdgeInsets.symmetric(horizontal: 100, vertical: 24),
-        child:AlertDialog(
-
+        child: AlertDialog(
           backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
-
           content: Padding(
             padding: const EdgeInsets.all(70.0),
-            child:
-            SizedBox(
+            child: SizedBox(
               width: 800,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 spacing: 20,
                 children: [
-                  const Wrap(
-                      spacing: 60,
-                      children: [
-                        TextInAppWidget(text: 'بيع سيارة',textSize: 20),
-                        CarModel()]
-                  ),
+                  const Wrap(spacing: 60, children: [
+                    TextInAppWidget(text: 'بيع سيارة', textSize: 20),
+                    CarModel()
+                  ]),
                   TextFormFieldWidget(
-                    textFormController:TextEditingController(),
+                    textFormController: TextEditingController(),
                     text: 'سعر بيع السيارة',
                     isColumn: true,
                     fillColor: AppColors.whiteColor,
@@ -45,26 +40,28 @@ class CarDetailsDialogWidget extends StatelessWidget {
                     textFormHeight: 40,
                     focusedBorderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
-                  const SizedBox(height: 60,),
-
+                  const SizedBox(
+                    height: 60,
+                  ),
                   Center(
-                    child: CustomContainer(isSelected: false,
-
-                      onTap:(){
+                    child: CustomContainer(
+                      isSelected: false,
+                      onTap: () {
                         Navigator.pop(context);
                       },
                       containerColor: AppColors.orangeColor,
                       containerWidth: 200,
                       containerHeight: 45,
-                      typeWidget: const Center(child: TextInAppWidget(text:
-                      'تم بيع السيارة',textColor: AppColors.whiteColor,
+                      typeWidget: const Center(
+                          child: TextInAppWidget(
+                        text: 'تم بيع السيارة',
+                        textColor: AppColors.whiteColor,
                         textSize: 16,
                       )),
                     ),
                   )
                 ],
               ),
-
             ),
           ),
         ));

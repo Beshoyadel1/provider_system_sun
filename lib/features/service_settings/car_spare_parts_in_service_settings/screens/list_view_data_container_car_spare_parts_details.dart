@@ -13,9 +13,10 @@ class ListViewDataContainerCarSparePartsDetails extends StatelessWidget {
     bool isMobile = size.width <= ValuesOfAllApp.mobileWidth;
     bool isTab = size.width > ValuesOfAllApp.mobileWidth && size.width <= 1190;
     bool isWeb = size.width > 1190;
-    return isWeb?
-    WebListViewDataContainerCarSparePartsDetails() :
-    isTab?TabListViewDataContainerCarSparePartsDetails()
-    :MobileListViewDataContainerCarSparePartsDetails();
+    return isWeb
+        ? WebListViewDataContainerCarSparePartsDetails()
+        : isTab
+            ? TabListViewDataContainerCarSparePartsDetails()
+            : MobileListViewDataContainerCarSparePartsDetails();
   }
 }

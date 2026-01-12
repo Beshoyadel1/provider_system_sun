@@ -12,20 +12,21 @@ import 'store_widgets/dialog_for_back.dart';
 import 'store_widgets/pages_selection_bar.dart';
 import 'store_widgets/selected_screen_widget.dart';
 
-
 class StorePage extends StatefulWidget {
   const StorePage({super.key});
+
   @override
   State<StorePage> createState() => _StorePageState();
 }
 
 class _StorePageState extends State<StorePage> {
-
   @override
   void initState() {
     super.initState();
     getPages();
-    final facilityAccountPage= appPages.firstWhere((e) => e.number == PagesOfAllApp.dashboardPageNumber,);
+    final facilityAccountPage = appPages.firstWhere(
+      (e) => e.number == PagesOfAllApp.dashboardPageNumber,
+    );
     final facilityAccountWithID = PageNodeWithIDModel(
       id: facilityAccountPage.number,
       name: facilityAccountPage.name,
@@ -36,12 +37,8 @@ class _StorePageState extends State<StorePage> {
     _appCubit.selectedPageIndex = facilityAccountWithID.id;
   }
 
-
-
-
-
-
   final AppCubit _appCubit = getIt<AppCubit>();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -52,27 +49,26 @@ class _StorePageState extends State<StorePage> {
         if (didPop) {
           return;
         }
-        final bool shouldPop =  await showBackDialog(context: context) ?? false ;
+        final bool shouldPop = await showBackDialog(context: context) ?? false;
         if (shouldPop) {
           Navigator.of(context).pop();
         }
       },
       child: Scaffold(
-        backgroundColor:  AppColors.whiteGreyColor,
+        backgroundColor: AppColors.whiteGreyColor,
         key: scaffoldKeyDrawer,
-        drawer: const Drawer(
-          width:256,
-          child: PagesSelectionBar()
-        ),
+        drawer: const Drawer(width: 256, child: PagesSelectionBar()),
         body: Row(
-          children:  [
-            if(!isMobile)
+          children: [
+            if (!isMobile)
               BlocBuilder<AppCubit, AppStates>(
                 buildWhen: (previous, current) {
                   return current is HideMenuState;
                 },
                 builder: (BuildContext context, AppStates state) {
-                  return !_appCubit.isMenuOpen ? const SizedBox() : const PagesSelectionBar();
+                  return !_appCubit.isMenuOpen
+                      ? const SizedBox()
+                      : const PagesSelectionBar();
                 },
               ),
             const Expanded(
@@ -89,4 +85,3 @@ class _StorePageState extends State<StorePage> {
     );
   }
 }
-

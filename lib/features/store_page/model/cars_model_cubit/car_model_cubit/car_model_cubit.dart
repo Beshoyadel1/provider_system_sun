@@ -1,8 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'car_model_state.dart';
 
-
-
 class CarModelCubit extends Cubit<CarModelState> {
   CarModelCubit() : super(CarModelInitial());
 
@@ -24,8 +22,6 @@ class CarModelCubit extends Cubit<CarModelState> {
       emit(CarModelInitial());
     }
   }
-
-
 
   void changeCar(String name) {
     emit(SelectedCarState(selectedCarName: name));

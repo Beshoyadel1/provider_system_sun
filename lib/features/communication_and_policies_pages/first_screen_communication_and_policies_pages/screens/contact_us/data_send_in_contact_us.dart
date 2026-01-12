@@ -10,7 +10,11 @@ class DataSendInContactUs extends StatefulWidget {
 }
 
 class _DataSendInContactUsState extends State<DataSendInContactUs> {
-  late TextEditingController textFormControllerName, textFormControllerPhoneNumber, textFormControllerEmail,textFormControllerMessage;
+  late TextEditingController textFormControllerName,
+      textFormControllerPhoneNumber,
+      textFormControllerEmail,
+      textFormControllerMessage;
+
   @override
   void initState() {
     super.initState();
@@ -19,6 +23,7 @@ class _DataSendInContactUsState extends State<DataSendInContactUs> {
     textFormControllerEmail = TextEditingController();
     textFormControllerMessage = TextEditingController();
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(

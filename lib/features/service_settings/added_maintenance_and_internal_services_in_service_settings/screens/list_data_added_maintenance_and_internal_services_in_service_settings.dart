@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import '../../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/screens/data_container_in_list_data_added_maintenance_and_internal_services_in_service_settings.dart';
 import '../../../../../../core/theming/colors.dart';
 
-class ListDataAddedMaintenanceAndInternalServicesInServiceSettings extends StatelessWidget {
-  const ListDataAddedMaintenanceAndInternalServicesInServiceSettings({super.key});
+class ListDataAddedMaintenanceAndInternalServicesInServiceSettings
+    extends StatelessWidget {
+  const ListDataAddedMaintenanceAndInternalServicesInServiceSettings(
+      {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +15,7 @@ class ListDataAddedMaintenanceAndInternalServicesInServiceSettings extends State
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
         borderRadius: BorderRadius.all(Radius.circular(20)),
-        border: Border.all(
-            color: AppColors.greyColor.withOpacity(0.3)
-        ),
+        border: Border.all(color: AppColors.greyColor.withOpacity(0.3)),
         boxShadow: [
           BoxShadow(
             color: AppColors.darkColor.withOpacity(0.1),
@@ -24,7 +24,8 @@ class ListDataAddedMaintenanceAndInternalServicesInServiceSettings extends State
           ),
         ],
       ),
-      child: DataContainerInListDataAddedMaintenanceAndInternalServicesInServiceSettings(),
+      child:
+          DataContainerInListDataAddedMaintenanceAndInternalServicesInServiceSettings(),
     );
   }
 }

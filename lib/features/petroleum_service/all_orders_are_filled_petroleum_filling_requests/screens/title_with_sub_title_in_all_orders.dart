@@ -5,8 +5,9 @@ import '../../../../../../../core/theming/fonts.dart';
 import '../../../../../../../core/theming/text_styles.dart';
 
 class TitleWithSubTitleInAllOrders extends StatelessWidget {
-  final String? title,subTitle;
-  const TitleWithSubTitleInAllOrders({super.key,this.title,this.subTitle});
+  final String? title, subTitle;
+
+  const TitleWithSubTitleInAllOrders({super.key, this.title, this.subTitle});
 
   @override
   Widget build(BuildContext context) {
@@ -15,16 +16,16 @@ class TitleWithSubTitleInAllOrders extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextInAppWidget(
-          text:title??AppLanguageKeys.allFillingOrders,
+          text: title ?? AppLanguageKeys.allFillingOrders,
           textSize: 15,
           fontWeightIndex: FontSelectionData.regularFontFamily,
-          textColor:AppColors.blackColor,
+          textColor: AppColors.blackColor,
         ),
         TextInAppWidget(
-          text:subTitle??AppLanguageKeys.newRequestsList,
+          text: subTitle ?? AppLanguageKeys.newRequestsList,
           textSize: 13,
           fontWeightIndex: FontSelectionData.mediumFontFamily,
-          textColor:AppColors.greyColor,
+          textColor: AppColors.greyColor,
         )
       ],
     );

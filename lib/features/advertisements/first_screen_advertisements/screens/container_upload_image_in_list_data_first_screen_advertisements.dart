@@ -10,21 +10,24 @@ import '../../../../../../core/theming/assets.dart';
 import '../../../../../../core/theming/colors.dart';
 import '../../../../../../core/theming/fonts.dart';
 
-class ContainerUploadImageInListDataFirstScreenAdvertisements extends StatelessWidget {
+class ContainerUploadImageInListDataFirstScreenAdvertisements
+    extends StatelessWidget {
   const ContainerUploadImageInListDataFirstScreenAdvertisements({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => UploadImageAdvertisementsCubit(),
-      child: BlocBuilder<UploadImageAdvertisementsCubit, UploadImageAdvertisementsState>(
-        buildWhen: (previous, current) => current is UploadImageSelected || current is UploadImageInitial,
+      child: BlocBuilder<UploadImageAdvertisementsCubit,
+          UploadImageAdvertisementsState>(
+        buildWhen: (previous, current) =>
+            current is UploadImageSelected || current is UploadImageInitial,
         builder: (context, state) {
           File? imageFile;
           if (state is UploadImageSelected) {
             imageFile = state.imageFile;
           }
-      
+
           return InkWell(
             onTap: () {
               context.read<UploadImageAdvertisementsCubit>().pickImage();
@@ -49,7 +52,7 @@ class ContainerUploadImageInListDataFirstScreenAdvertisements extends StatelessW
                   if (imageFile != null)
                     Image.file(imageFile, height: 100, fit: BoxFit.cover)
                   else
-                  Image.asset(AppImageKeys.upload),
+                    Image.asset(AppImageKeys.upload),
                   TextInAppWidget(
                     text: AppLanguageKeys.uploadImage,
                     textSize: 14,

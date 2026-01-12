@@ -16,38 +16,35 @@ class DataViewEstablishmentData extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         RowDataOfEstablishmentWidget(
-          text1:AppLanguageKeys.establishmentName,
+          text1: AppLanguageKeys.establishmentName,
           text2: AppLanguageKeys.establishmentNameEn,
-          text3:AppLanguageKeys.activityType,
+          text3: AppLanguageKeys.activityType,
           text4: AppLanguageKeys.email,
         ),
         RowDataOfEstablishmentWidget(
-          text1:AppLanguageKeys.password,
+          text1: AppLanguageKeys.password,
           text2: AppLanguageKeys.phoneNumber,
-          text3:AppLanguageKeys.commercialRegistration,
+          text3: AppLanguageKeys.commercialRegistration,
           text4: AppLanguageKeys.taxNumber,
         ),
         RowDataOfEstablishmentWidget(
-          text1:AppLanguageKeys.shortAddress4Letters,
+          text1: AppLanguageKeys.shortAddress4Letters,
           text2: AppLanguageKeys.buildingNumber,
-          text3:AppLanguageKeys.city,
+          text3: AppLanguageKeys.city,
           text4: AppLanguageKeys.buildingNumber,
         ),
-
         Row(
           spacing: 20,
           children: [
             Flexible(
               child: ColumnTextWithContainerEstablishmentDataWidget(
                   text: AppLanguageKeys.commercialRecordCertificate,
-                  textContainer: AppLanguageKeys.attachFile
-              ),
+                  textContainer: AppLanguageKeys.attachFile),
             ),
             Flexible(
               child: ColumnTextWithContainerEstablishmentDataWidget(
                   text: AppLanguageKeys.ownerIdOrResidenceCard,
-                  textContainer: AppLanguageKeys.attachFile
-              ),
+                  textContainer: AppLanguageKeys.attachFile),
             ),
           ],
         ),

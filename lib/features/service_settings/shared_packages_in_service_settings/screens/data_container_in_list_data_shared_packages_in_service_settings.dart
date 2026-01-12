@@ -6,13 +6,12 @@ import '../../../../../../features/service_settings/shared_packages_in_service_s
 import '../../../../../../features/service_settings/car_spare_parts_in_service_settings/screens/icon_car_orange_text_of_car_spare_parts_in_service_settings.dart';
 import '../../../../../../features/service_settings/first_screen_service_settings/screens/first_row_in_data_container_in_list_data_first_screen_service_setting.dart';
 
-
-class DataContainerInListDataSharedPackagesInServiceSettings extends StatelessWidget {
+class DataContainerInListDataSharedPackagesInServiceSettings
+    extends StatelessWidget {
   const DataContainerInListDataSharedPackagesInServiceSettings({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     return const Padding(
       padding: EdgeInsets.all(15.0),
       child: Column(
@@ -21,11 +20,11 @@ class DataContainerInListDataSharedPackagesInServiceSettings extends StatelessWi
         children: [
           FirstRowInDataContainerInListDataFirstScreenServiceSetting(
             text1: AppLanguageKeys.sharedPackages,
-            text2:AppLanguageKeys.addDifferentServices,
+            text2: AppLanguageKeys.addDifferentServices,
             textContainer: AppLanguageKeys.back,
           ),
           IconCarOrangeTextOfCarSparePartsInServiceSettings(
-            text:AppLanguageKeys.sharedPackages,
+            text: AppLanguageKeys.sharedPackages,
             imagePath: AppImageKeys.car4_service,
           ),
           ListDataOfPackagesInSharedPackagesInServiceSettings()

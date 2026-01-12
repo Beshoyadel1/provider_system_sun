@@ -5,14 +5,11 @@ import '../../../../../../../core/theming/fonts.dart';
 import '../../../../../../../core/theming/text_styles.dart';
 
 class ColumnTextWithContainerEstablishmentDataWidget extends StatelessWidget {
-  final String text,textContainer;
+  final String text, textContainer;
   final void Function()? onTap;
-  const ColumnTextWithContainerEstablishmentDataWidget({
-    super.key,
-    required this.text,
-    required this.textContainer,
-    this.onTap
-  });
+
+  const ColumnTextWithContainerEstablishmentDataWidget(
+      {super.key, required this.text, required this.textContainer, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +18,13 @@ class ColumnTextWithContainerEstablishmentDataWidget extends StatelessWidget {
       spacing: 7,
       children: [
         TextInAppWidget(
-          text:text,
+          text: text,
           textSize: 12,
           fontWeightIndex: FontSelectionData.mediumFontFamily,
-          textColor:AppColors.blackColor,
+          textColor: AppColors.blackColor,
         ),
         InkWell(
-          onTap:onTap,
+          onTap: onTap,
           child: Container(
             padding: EdgeInsetsGeometry.symmetric(vertical: 7),
             width: 150,
@@ -40,10 +37,10 @@ class ColumnTextWithContainerEstablishmentDataWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextInAppWidget(
-                  text:textContainer,
+                  text: textContainer,
                   textSize: 12,
                   fontWeightIndex: FontSelectionData.regularFontFamily,
-                  textColor:AppColors.whiteColor,
+                  textColor: AppColors.whiteColor,
                 ),
               ],
             ),

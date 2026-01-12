@@ -15,8 +15,7 @@ class SelectDateWidget extends StatelessWidget {
         children: [
           Flexible(
             child: TextFormFieldWidget(
-              contentPadding:
-              const EdgeInsets.symmetric(horizontal: 10),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 10),
               textFormController: TextEditingController(),
               text: AppLanguageKeys.fromKey,
               textSize: 16,
@@ -37,10 +36,9 @@ class SelectDateWidget extends StatelessWidget {
           ),
           Flexible(
             child: TextFormFieldWidget(
-              contentPadding:
-              const EdgeInsets.symmetric(horizontal: 10),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 10),
               textFormController: TextEditingController(),
-              text:AppLanguageKeys.toKey,
+              text: AppLanguageKeys.toKey,
               textSize: 16,
               isColumn: true,
               textColor: AppColors.darkColor,

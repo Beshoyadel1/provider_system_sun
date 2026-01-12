@@ -10,25 +10,24 @@ class AllCarsModelsUi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  CustomContainer(
+    return CustomContainer(
         isSelected: false,
         onTap: () {},
-        containerColor:  AppColors.veryLightGreyColor.withAlpha(40),
+        containerColor: AppColors.veryLightGreyColor.withAlpha(40),
         border: Border.all(color: AppColors.lightGreyColor),
         borderRadius: BorderRadius.circular(10),
         typeWidget: const Padding(
           padding: EdgeInsets.all(8.0),
           child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ChooseCarModel(),
-          SizedBox(height: 30),
-          ChooseCategory(),
-          SizedBox(height: 32),
-          SelectModelYears(),
-
-                ],
-              ),
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ChooseCarModel(),
+              SizedBox(height: 30),
+              ChooseCategory(),
+              SizedBox(height: 32),
+              SelectModelYears(),
+            ],
+          ),
         ));
   }
 }

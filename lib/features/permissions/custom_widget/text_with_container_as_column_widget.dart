@@ -6,11 +6,8 @@ import '../../../../../core/theming/text_styles.dart';
 class TextWithContainerAsColumnWidget extends StatelessWidget {
   final String title, textContainer;
 
-  const TextWithContainerAsColumnWidget({
-    super.key,
-    required this.title,
-    required this.textContainer
-  });
+  const TextWithContainerAsColumnWidget(
+      {super.key, required this.title, required this.textContainer});
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +27,7 @@ class TextWithContainerAsColumnWidget extends StatelessWidget {
             decoration: BoxDecoration(
               color: AppColors.blackColor44,
               borderRadius: BorderRadius.all(Radius.circular(50)),
-              border: Border.all(
-                  color: AppColors.greyColor.withOpacity(0.3)
-              ),
+              border: Border.all(color: AppColors.greyColor.withOpacity(0.3)),
               boxShadow: [
                 BoxShadow(
                   color: AppColors.darkColor.withOpacity(0.1),
@@ -41,14 +36,14 @@ class TextWithContainerAsColumnWidget extends StatelessWidget {
                 ),
               ],
             ),
-            child:Center(
+            child: Center(
               child: TextInAppWidget(
                 text: textContainer,
                 textSize: 11,
                 fontWeightIndex: FontSelectionData.regularFontFamily,
                 textColor: AppColors.whiteColor,
               ),
-            ) ,
+            ),
           ),
         ],
       ),

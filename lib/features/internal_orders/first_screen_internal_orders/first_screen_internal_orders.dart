@@ -14,7 +14,6 @@ import '../../../../../core/utilies/map_of_all_app.dart';
 import '../../../../../core/theming/colors.dart';
 import '../../../../../core/language/language_constant.dart';
 
-
 class FirstScreenInternalOrders extends StatelessWidget {
   const FirstScreenInternalOrders({super.key});
 
@@ -22,7 +21,8 @@ class FirstScreenInternalOrders extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     bool isMobile = size.width <= ValuesOfAllApp.mobileWidth;
-    bool isTabletCustom = size.width > ValuesOfAllApp.mobileWidth && size.width <= ValuesOfAllApp.customTabWidth;
+    bool isTabletCustom = size.width > ValuesOfAllApp.mobileWidth &&
+        size.width <= ValuesOfAllApp.customTabWidth;
     bool isTab = size.width > ValuesOfAllApp.tabWidth;
 
     return BlocProvider(
@@ -30,61 +30,61 @@ class FirstScreenInternalOrders extends StatelessWidget {
       child: Scaffold(
         backgroundColor: AppColors.scaffoldColor,
         body: BlocBuilder<InternalOrdersCubit, InternalOrdersState>(
-            buildWhen: (previous, current) => previous.isLoading != current.isLoading,
+            buildWhen: (previous, current) =>
+                previous.isLoading != current.isLoading,
             builder: (context, state) {
-            if (state.isLoading) {
-              return const Scaffold(
-                body: Column(
-                  children: [
-                    SizedBox(
-                      height: 100,
-                    ),
-                     Center(
-                      child: CircularProgressIndicatorWithTextWidget(
-                        text: AppLanguageKeys.afterReceivingRequests,
-                        textSize: 20,
+              if (state.isLoading) {
+                return const Scaffold(
+                  body: Column(
+                    children: [
+                      SizedBox(
+                        height: 100,
                       ),
-                    ),
-                  ],
-                ),
-              );
-            }
-            return SafeArea(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Expanded(
-                    flex: 3,
-                    child: Padding(
-                      padding:  EdgeInsets.all(20),
-                      child: SingleChildScrollView(
-                        child: ListDataFirstScreenInternalOrders(),
+                      Center(
+                        child: CircularProgressIndicatorWithTextWidget(
+                          text: AppLanguageKeys.afterReceivingRequests,
+                          textSize: 20,
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                  if ((!isMobile))
+                );
+              }
+              return SafeArea(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                     const Expanded(
-                      flex: 2,
+                      flex: 3,
                       child: Padding(
-                        padding: EdgeInsets.all(10.0),
+                        padding: EdgeInsets.all(20),
                         child: SingleChildScrollView(
-                          child: Column(
-                            spacing: 20,
-                            children: [
-                              ContainerProfitsFromMinistryOfInteriorServices(),
-                              ContainerInteriorServicesStatistics(),
-                              ContainerRateService(),
-                            ],
-                          ),
+                          child: ListDataFirstScreenInternalOrders(),
                         ),
                       ),
                     ),
-                ],
-              ),
-            );
-          }
-        ),
+                    if ((!isMobile))
+                      const Expanded(
+                        flex: 2,
+                        child: Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              spacing: 20,
+                              children: [
+                                ContainerProfitsFromMinistryOfInteriorServices(),
+                                ContainerInteriorServicesStatistics(),
+                                ContainerRateService(),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              );
+            }),
       ),
     );
   }

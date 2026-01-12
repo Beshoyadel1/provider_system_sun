@@ -16,7 +16,6 @@ class PagesSelectionBar extends StatefulWidget {
 }
 
 class _PagesSelectionBarState extends State<PagesSelectionBar> {
-
   final AppCubit _appCubit = getIt<AppCubit>();
 
   @override
@@ -27,22 +26,21 @@ class _PagesSelectionBarState extends State<PagesSelectionBar> {
       width: 256,
       decoration: const BoxDecoration(
         color: AppColors.orangeColor,
-        borderRadius: BorderRadiusDirectional.only(
-
-        ),
+        borderRadius: BorderRadiusDirectional.only(),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 100,),
-          Center(
-            child: Image.asset(
-                AppImageKeys.sarWhiteLogo,
-                height: 80
-            ),
+          const SizedBox(
+            height: 100,
           ),
-          const SizedBox(height: 60,),
+          Center(
+            child: Image.asset(AppImageKeys.sarWhiteLogo, height: 80),
+          ),
+          const SizedBox(
+            height: 60,
+          ),
           BlocBuilder<AppCubit, AppStates>(
             buildWhen: (previous, current) {
               return current is ChangeSelectedPageIndexState;
@@ -52,32 +50,29 @@ class _PagesSelectionBarState extends State<PagesSelectionBar> {
                 child: SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-
-                      child:  Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            for (final page in appPages)...[
-                              ColumnOfPagesWidget(
-                                pageNode: page,
-                                appCubit: _appCubit,
-                                isMobile: isMobile,
-                              ),
-                              if(_appCubit.selectedPageIndex != page.number)
-                              const Divider(
-                                thickness: 1,
-                                color:AppColors.whiteColor,
-                              )
-
-                            ]
-                          ],
-                                            ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        for (final page in appPages) ...[
+                          ColumnOfPagesWidget(
+                            pageNode: page,
+                            appCubit: _appCubit,
+                            isMobile: isMobile,
+                          ),
+                          if (_appCubit.selectedPageIndex != page.number)
+                            const Divider(
+                              thickness: 1,
+                              color: AppColors.whiteColor,
+                            )
+                        ]
+                      ],
+                    ),
                   ),
                 ),
               );
             },
           ),
-
         ],
       ),
     );

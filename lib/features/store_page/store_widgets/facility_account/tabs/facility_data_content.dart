@@ -7,13 +7,16 @@ import '../../general_widgets_in_store/attach_file.dart';
 
 class FacilityDataContent extends StatefulWidget {
   const FacilityDataContent({super.key});
+
   @override
   State<FacilityDataContent> createState() => _FacilityDataContentState();
 }
+
 class _FacilityDataContentState extends State<FacilityDataContent> {
   @override
   Widget build(BuildContext context) {
-    bool isMobile = MediaQuery.of(context).size.width < ValuesOfAllApp.mobileWidth;
+    bool isMobile =
+        MediaQuery.of(context).size.width < ValuesOfAllApp.mobileWidth;
     return Column(
       spacing: 30,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -25,7 +28,7 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
             return LayoutBuilder(
               builder: (context, constraints) {
                 return SizedBox(
-                   width: isMobile ? double.infinity :  280,
+                  width: isMobile ? double.infinity : 280,
                   child: TextFormFieldWidget(
                     textFormController: TextEditingController(),
                     text: fieldName,
@@ -42,7 +45,6 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
             );
           }).toList(),
         ),
-
         const Wrap(
           spacing: 60,
           runSpacing: 10,
@@ -57,12 +59,9 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
             ),
           ],
         )
-
       ],
     );
   }
-
-
 }
 
 final List<String> fields = [

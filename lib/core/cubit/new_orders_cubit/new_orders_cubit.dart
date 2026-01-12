@@ -14,6 +14,7 @@ class NewOrdersCubit extends Cubit<NewOrdersState> {
   }
 
   int selectedIndex = 0;
+
   void selectTab(int index) {
     for (int i = 0; i < steps.length; i++) {
       steps[i] = NewOrderStepsModel(
@@ -27,5 +28,4 @@ class NewOrdersCubit extends Cubit<NewOrdersState> {
     selectedIndex = index;
     emit(ChangeIndexState());
   }
-
 }

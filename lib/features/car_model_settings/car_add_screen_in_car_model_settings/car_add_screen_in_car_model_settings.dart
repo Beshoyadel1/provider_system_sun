@@ -17,18 +17,20 @@ class CarAddScreenInCarModelSettings extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     bool isMobile = size.width <= ValuesOfAllApp.mobileWidth;
-    bool isTabletCustom = size.width > ValuesOfAllApp.mobileWidth && size.width <= ValuesOfAllApp.customTabWidth;
+    bool isTabletCustom = size.width > ValuesOfAllApp.mobileWidth &&
+        size.width <= ValuesOfAllApp.customTabWidth;
     bool isTab = size.width > ValuesOfAllApp.tabWidth;
 
     return Row(
       children: [
-        if (!isMobile)
-          const backgroundDesktop(),
+        if (!isMobile) const backgroundDesktop(),
         Expanded(
           flex: 3,
           child: Scaffold(
             backgroundColor: AppColors.scaffoldColor,
-            appBar: AppbarDashboardWidget(title:AppLanguageKeys.carModel,),
+            appBar: AppbarDashboardWidget(
+              title: AppLanguageKeys.carModel,
+            ),
             body: SafeArea(
               child: Padding(
                 padding: EdgeInsets.all(20),
@@ -36,16 +38,15 @@ class CarAddScreenInCarModelSettings extends StatelessWidget {
                   children: [
                     Expanded(
                       child: SingleChildScrollView(
-                          child: ListDataCarAddScreenInCarModelSettings()
-                      ),
+                          child: ListDataCarAddScreenInCarModelSettings()),
                     ),
                   ],
                 ),
               ),
             ),
-            bottomNavigationBar:LastTwoButtonInFirstScreenCarModelSettings(
+            bottomNavigationBar: LastTwoButtonInFirstScreenCarModelSettings(
               isSave: true,
-              onTapAdd: (){
+              onTapAdd: () {
                 Navigator.pop(context);
                 Navigator.of(context).push(
                   NavigateToPageWidget(ServiceSettingsCarModel()),

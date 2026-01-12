@@ -23,25 +23,23 @@ class FacilityTabCubit extends Cubit<FacilityTabState> {
     emit(ChangeIndexState());
   }
 
-  void nextTab(){
-    if(selectedIndex < facilityTabs.length - 1){
+  void nextTab() {
+    if (selectedIndex < facilityTabs.length - 1) {
       selectedIndex++;
       emit(ChangeIndexState());
     }
   }
 
-  void previousTab(){
-    if(selectedIndex > 0){
+  void previousTab() {
+    if (selectedIndex > 0) {
       selectedIndex--;
       emit(ChangeIndexState());
     }
   }
 
-
-
-
   ////////// Working hours //////
   int? selectedDayIndex;
+
   void selectDay(int index) {
     selectedDayIndex = index;
     emit(WorkingHoursDaySelectedState(index));
@@ -51,6 +49,7 @@ class FacilityTabCubit extends Cubit<FacilityTabState> {
   final List<BranchModelDashboard> branches = [];
   int? editingIndex;
   bool isAddingBranch = true;
+
   void addBranch(BranchModelDashboard branch) {
     branches.add(branch);
     isAddingBranch = false;
@@ -108,12 +107,11 @@ class FacilityTabCubit extends Cubit<FacilityTabState> {
     await uploadImage();
   }
 
-
-
   /////////////file//////////
 
   final Map<String, Uint8List> uploadedFiles = {};
   final Map<String, String> uploadedFileNames = {};
+
   Future<void> uploadFile(String type) async {
     try {
       final result = await FilePicker.platform.pickFiles(
@@ -135,21 +133,4 @@ class FacilityTabCubit extends Cubit<FacilityTabState> {
     uploadedFileNames.remove(type);
     emit(IdentityDeletedState());
   }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

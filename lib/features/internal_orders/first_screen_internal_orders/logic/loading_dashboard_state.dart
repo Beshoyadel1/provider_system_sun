@@ -1,6 +1,7 @@
 class InternalOrdersState {
   final bool isLoading;
   final bool isLoaded;
+
   InternalOrdersState({this.isLoading = false, this.isLoaded = false});
 
   InternalOrdersState copyWith({

@@ -43,5 +43,3 @@ LineChartData sampleData({
     ],
   );
 }
-
-
