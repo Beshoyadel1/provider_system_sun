@@ -6,8 +6,8 @@ class Network {
     BaseOptions(
       baseUrl: apiBaseUrl,
       receiveDataWhenStatusError: true,
-      connectTimeout: Duration(seconds: 1000 * 20),
-      receiveTimeout: Duration(seconds: 1000 * 20),
+      connectTimeout: const Duration(seconds: 20),
+      receiveTimeout: const Duration(seconds: 20),
     ),
   );
 
@@ -27,7 +27,7 @@ class Network {
 
   static Future<Response> getDataWithBodyAndQuery(
       var jsonData, var jsonQuery, String url) async {
-    return await dio.post(
+    return await dio.get(
       url,
       data: jsonData,
       options: Options(headers: myHeaders),
@@ -44,10 +44,28 @@ class Network {
   }
 
   static Future<Response> getDataWithQuery(var jsonQuery, String url) async {
-    return await dio.post(
+    return await dio.get(
       url,
       options: Options(headers: myHeaders),
       queryParameters: jsonQuery,
     );
   }
+
+  static Future<Response> postDataWithBody(var jsonData, String url) async {
+    return await dio.post(
+      url,
+      data: jsonData,
+      options: Options(headers: myHeaders),
+    );
+  }
+
+  static Future<Response> postDataWithBodyAndParams(var jsonData, var jsonQuery, String url) async {
+    return await dio.post(
+      url,
+      data: jsonData,
+      queryParameters: jsonQuery,
+      options: Options(headers: myHeaders),
+    );
+  }
+
 }

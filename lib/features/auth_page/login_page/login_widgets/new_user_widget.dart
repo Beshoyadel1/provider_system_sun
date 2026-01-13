@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../../features/auth_page/model/auth_cubit/auth_cubit.dart';
+import '../../../../../../features/auth_page/auth_cubit/auth_cubit.dart';
 import '../../../../../../core/language/language_constant.dart';
 import '../../../../../../core/theming/colors.dart';
 import '../../../../../../core/theming/fonts.dart';
