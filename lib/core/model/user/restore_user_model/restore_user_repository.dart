@@ -13,7 +13,7 @@ Future<void> restoreUserFunction({
     await Network.postDataWithBodyAndParams(
       {},
       restoreUserRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/Users/RestoreUser",
+      "${ApiConfig.baseUrlApi}/${ApiConfig.user}/RestoreUser",
     );
     AppSnackBar.showSuccess("Restore User successfully");
   } catch (e) {

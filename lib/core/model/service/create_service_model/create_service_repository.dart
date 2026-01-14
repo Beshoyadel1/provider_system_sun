@@ -1,22 +1,23 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import '../../../../core/model/user/delete_user_model/delete_user_request.dart';
+import '../../../../core/model/service/create_service_model/create_service_request.dart';
 import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
 
 
-Future<void> deleteUserFunction({
-  required DeleteUserRequest deleteUserRequest,
+Future<void> createServiceFunction({
+  required CreateServiceRequest createServiceRequest,
 }) async {
   try {
-    await Network.postDataWithBodyAndParams(
-      {},
-      deleteUserRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.user}/DeleteUser",
-    );
-    AppSnackBar.showSuccess("Delete User successfully");
+    String jsonString = json.encode(createServiceRequest.toJson());
+    await Network.postDataWithBody(
+      jsonString,
+      "${ApiConfig.baseUrlApi}/${ApiConfig.service}/CreateService",
+    ).then((value) {
+      AppSnackBar.showSuccess("Create Service successfully");
+    });
   } catch (e) {
     AppSnackBar.showError(
       e is DioException

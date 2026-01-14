@@ -15,7 +15,7 @@ class LoginRepository {
 
       final response = await Network.postDataWithBody(
         jsonString,
-        "${ApiConfig.baseUrlApi}/Users/LogInUser",
+        "${ApiConfig.baseUrlApi}/${ApiConfig.user}/LogInUser",
       );
       LoginResponse loginResponse = LoginResponse.fromJson(response.data);
       AppSnackBar.showSuccess("Login Success");

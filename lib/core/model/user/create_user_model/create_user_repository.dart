@@ -13,7 +13,7 @@ Future<void> createUserFunction({required CreateUserRequest createUserRequest}) 
 
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/Users/RegisterUser",
+      "${ApiConfig.baseUrlApi}/${ApiConfig.user}/RegisterUser",
     ).then((value) {
       AppSnackBar.showSuccess("Account created successfully");
     });
