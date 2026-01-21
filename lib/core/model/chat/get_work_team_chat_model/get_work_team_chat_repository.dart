@@ -1,0 +1,25 @@
+import 'package:dio/dio.dart';
+import '../../../../core/model/chat/get_work_team_chat_model/get_work_team_chat_request.dart';
+import '../../../../core/api/dio_function/apiConfig.dart';
+import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
+import '../../../../core/api/dio_function/dio_controller.dart';
+import '../../../../core/api/dio_function/failures.dart';
+
+Future<void> getWorkTeamChatFunction({
+  required GetWorkTeamChatRequest getWorkTeamChatRequest,
+}) async {
+  try {
+    await Network.postDataWithBodyAndParams(
+      {},
+      getWorkTeamChatRequest.toJson(), // params
+      "${ApiConfig.baseUrlApi}/${ApiConfig.chat}/GetWorkTeamChat",
+    );
+    AppSnackBar.showSuccess("Get Work Team Chat successfully");
+  } catch (e) {
+    AppSnackBar.showError(
+      e is DioException
+          ? responseOfStatusCode(e.response?.statusCode)
+          : e.toString(),
+    );
+  }
+}

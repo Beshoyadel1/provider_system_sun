@@ -1,0 +1,25 @@
+import 'package:dio/dio.dart';
+import '../../../../core/model/chat/get_other_messages_model/get_other_messages_request.dart';
+import '../../../../core/api/dio_function/apiConfig.dart';
+import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
+import '../../../../core/api/dio_function/dio_controller.dart';
+import '../../../../core/api/dio_function/failures.dart';
+
+Future<void> getOtherMessagesFunction({
+  required GetOtherMessagesRequest getOtherMessagesRequest,
+}) async {
+  try {
+    await Network.postDataWithBodyAndParams(
+      {},
+      getOtherMessagesRequest.toJson(), // params
+      "${ApiConfig.baseUrlApi}/${ApiConfig.chat}/GetOtherMessages",
+    );
+    AppSnackBar.showSuccess("Get Other Messages successfully");
+  } catch (e) {
+    AppSnackBar.showError(
+      e is DioException
+          ? responseOfStatusCode(e.response?.statusCode)
+          : e.toString(),
+    );
+  }
+}

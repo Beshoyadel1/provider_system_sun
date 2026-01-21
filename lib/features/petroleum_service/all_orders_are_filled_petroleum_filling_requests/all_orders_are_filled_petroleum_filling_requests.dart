@@ -9,9 +9,7 @@ class AllOrdersAreFilledPetroleumFillingRequests extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery
-        .of(context)
-        .size;
+    Size size = MediaQuery.of(context).size;
     bool isMobile = size.width <= ValuesOfAllApp.mobileWidth;
     bool isTabletCustom = size.width > ValuesOfAllApp.mobileWidth &&
         size.width <= ValuesOfAllApp.customTabWidth;
@@ -26,8 +24,8 @@ class AllOrdersAreFilledPetroleumFillingRequests extends StatelessWidget {
             children: [
               Expanded(
                 child: SingleChildScrollView(
-                    child: ListDataAllOrdersAreFilledPetroleumFillingRequests()
-                ),
+                    child:
+                        ListDataAllOrdersAreFilledPetroleumFillingRequests()),
               ),
             ],
           ),

@@ -1,0 +1,25 @@
+import 'package:dio/dio.dart';
+import '../../../../core/model/harage/get_harage_model/get_harage_request.dart';
+import '../../../../core/api/dio_function/apiConfig.dart';
+import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
+import '../../../../core/api/dio_function/dio_controller.dart';
+import '../../../../core/api/dio_function/failures.dart';
+
+Future<void> getHarageFunction({
+  required GetHarageRequest getHarageRequest,
+}) async {
+  try {
+    await Network.postDataWithBodyAndParams(
+      {},
+      getHarageRequest.toJson(), // params
+      "${ApiConfig.baseUrlApi}/${ApiConfig.harage}/GetHarage",
+    );
+    AppSnackBar.showSuccess("Get Harage successfully");
+  } catch (e) {
+    AppSnackBar.showError(
+      e is DioException
+          ? responseOfStatusCode(e.response?.statusCode)
+          : e.toString(),
+    );
+  }
+}
