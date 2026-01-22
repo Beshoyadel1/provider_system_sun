@@ -1,0 +1,25 @@
+import 'package:dio/dio.dart';
+import '../../../../core/model/product/get_product_model/get_product_request.dart';
+import '../../../../core/api/dio_function/apiConfig.dart';
+import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
+import '../../../../core/api/dio_function/dio_controller.dart';
+import '../../../../core/api/dio_function/failures.dart';
+
+Future<void> getProductFunction({
+  required GetProductRequest getProductRequest,
+}) async {
+  try {
+    await Network.postDataWithBodyAndParams(
+      {},
+      getProductRequest.toJson(), // params
+      "${ApiConfig.baseUrlApi}/${ApiConfig.product}/GetProduct",
+    );
+    AppSnackBar.showSuccess("Get Product successfully");
+  } catch (e) {
+    AppSnackBar.showError(
+      e is DioException
+          ? responseOfStatusCode(e.response?.statusCode)
+          : e.toString(),
+    );
+  }
+}

@@ -11,4 +11,6 @@ class ApiConfig {
   static const String rate = "Rate";
   static const String employeeService = "EmployeeService";
   static const String coupon = "Coupon";
+  static const String payment = "Payment";
+  static const String paymentCard = "PaymentCard";
 }
