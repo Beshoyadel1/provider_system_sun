@@ -1,0 +1,25 @@
+import 'package:dio/dio.dart';
+import '../../../../core/model/company_management/remove_car_from_group_model/remove_car_from_group_request.dart';
+import '../../../../core/api/dio_function/apiConfig.dart';
+import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
+import '../../../../core/api/dio_function/dio_controller.dart';
+import '../../../../core/api/dio_function/failures.dart';
+
+Future<void> removeCarFromGroupFunction({
+  required RemoveCarFromGroupRequest removeCarFromGroupRequest,
+}) async {
+  try {
+    await Network.postDataWithBodyAndParams(
+      {},
+      removeCarFromGroupRequest.toJson(), // params
+      "${ApiConfig.baseUrlApi}/${ApiConfig.carGroup}/RemoveCarFromGroup",
+    );
+    AppSnackBar.showSuccess("Remove Car From Group successfully");
+  } catch (e) {
+    AppSnackBar.showError(
+      e is DioException
+          ? responseOfStatusCode(e.response?.statusCode)
+          : e.toString(),
+    );
+  }
+}

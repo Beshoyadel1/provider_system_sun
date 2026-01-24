@@ -13,4 +13,13 @@ class ApiConfig {
   static const String coupon = "Coupon";
   static const String payment = "Payment";
   static const String paymentCard = "PaymentCard";
+  static const String about = "About";
+  static const String carBrand = "CarBrand";
+  static const String carModel = "CarModel";
+  static const String tax = "Tax";
+  static const String points = "Points";
+  static const String carGroup = "CarGroup";
+  static const String driver = "Driver";
+  static const String car = "Car";
+
 }
