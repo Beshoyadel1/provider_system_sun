@@ -21,5 +21,10 @@ class ApiConfig {
   static const String carGroup = "CarGroup";
   static const String driver = "Driver";
   static const String car = "Car";
-
+  static const String expectedPetrolSpend = "ExpectedPetrolSpend";
+  static const String provService = "ProvService";
+  static const String provicerServicePackage = "ProvicerServicePackage";
+  static const String serviceProvider = "ServiceProvider";
+  static const String workTIme = "WorkTIme";
+  static const String branch = "Branch";
 }

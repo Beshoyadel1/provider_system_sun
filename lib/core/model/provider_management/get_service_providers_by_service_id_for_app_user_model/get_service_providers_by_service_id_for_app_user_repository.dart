@@ -1,0 +1,25 @@
+import 'package:dio/dio.dart';
+import '../../../../core/model/provider_management/get_service_providers_by_service_id_for_app_user_model/get_service_providers_by_service_id_for_app_user_request.dart';
+import '../../../../core/api/dio_function/apiConfig.dart';
+import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
+import '../../../../core/api/dio_function/dio_controller.dart';
+import '../../../../core/api/dio_function/failures.dart';
+
+Future<void> getServiceProvidersByServiceIdForAppUserFunction({
+  required GetServiceProvidersByServiceIdForAppUserRequest getServiceProvidersByServiceIdForAppUserRequest,
+}) async {
+  try {
+    await Network.postDataWithBodyAndParams(
+      {},
+      getServiceProvidersByServiceIdForAppUserRequest.toJson(), // params
+      "${ApiConfig.baseUrlApi}/${ApiConfig.serviceProvider}/GetServiceProvidersByServiceIdForAppUser",
+    );
+    AppSnackBar.showSuccess("Get Service Providers By Service Id For App User successfully");
+  } catch (e) {
+    AppSnackBar.showError(
+      e is DioException
+          ? responseOfStatusCode(e.response?.statusCode)
+          : e.toString(),
+    );
+  }
+}

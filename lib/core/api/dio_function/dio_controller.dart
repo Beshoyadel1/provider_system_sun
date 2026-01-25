@@ -15,29 +15,50 @@ class Network {
     return await dio.get(url, options: Options(headers: myHeaders));
   }
 
-  static Future<Response> putDataWithBodyAndQuery(
-      var jsonData, var jsonQuery, String url) async {
+  static Future<Response> putDataWithBody(var jsonData, String url) async {
     return await dio.put(
       url,
-      options: Options(headers: myHeaders),
       data: jsonData,
-      queryParameters: jsonQuery,
+      options: Options(headers: myHeaders),
     );
   }
 
-  static Future<Response> getDataWithBodyAndQuery(
+  static Future<Response> putDataWithBodyAndParams(var jsonData, var jsonQuery, String url) async {
+    return await dio.put(
+      url,
+      data: jsonData,
+      queryParameters: jsonQuery,
+      options: Options(headers: myHeaders),
+    );
+  }
+  static Future<Response> deleteData(var jsonQuery, String url) async {
+    return await dio.delete(
+      url,
+      options: Options(headers: myHeaders),
+      queryParameters: jsonQuery,
+    );
+  }
+  static Future<Response> deleteDataWithBody(var jsonData, String url) async {
+    return await dio.delete(
+      url,
+      data: jsonData,
+      options: Options(headers: myHeaders),
+    );
+  }
+
+  static Future<Response> deleteDataWithBodyAndParams(var jsonData, var jsonQuery, String url) async {
+    return await dio.delete(
+      url,
+      data: jsonData,
+      queryParameters: jsonQuery,
+      options: Options(headers: myHeaders),
+    );
+  }
+  static Future<Response> getDataWithBodyAndParams(
       var jsonData, var jsonQuery, String url) async {
     return await dio.get(
       url,
       data: jsonData,
-      options: Options(headers: myHeaders),
-      queryParameters: jsonQuery,
-    );
-  }
-
-  static Future<Response> deleteData(var jsonQuery, String url) async {
-    return await dio.delete(
-      url,
       options: Options(headers: myHeaders),
       queryParameters: jsonQuery,
     );
@@ -50,7 +71,13 @@ class Network {
       queryParameters: jsonQuery,
     );
   }
-
+  static Future<Response> getDataWithBody(var jsonData, String url) async {
+    return await dio.get(
+      url,
+      data: jsonData,
+      options: Options(headers: myHeaders),
+    );
+  }
   static Future<Response> postDataWithBody(var jsonData, String url) async {
     return await dio.post(
       url,
@@ -67,5 +94,4 @@ class Network {
       options: Options(headers: myHeaders),
     );
   }
-
 }
