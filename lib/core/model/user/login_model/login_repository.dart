@@ -13,7 +13,7 @@ Future<bool> loginFunction({required LoginRequest loginRequest}) async {
 
     final value = await Network.postDataWithBody(
       jsonString,
-      ApiFunction.loginUser,
+      ApiLink.loginUser,
     );
 
     final decoded =
