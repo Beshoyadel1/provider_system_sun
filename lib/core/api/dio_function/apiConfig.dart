@@ -28,3 +28,8 @@ class ApiConfig {
   static const String workTIme = "WorkTIme";
   static const String branch = "Branch";
 }
+class ApiFunction {
+  static const String loginUser = "${ApiConfig.baseUrlApi}/${ApiConfig.user}/LogInUser";
+  static const String createUser = "${ApiConfig.baseUrlApi}/${ApiConfig.user}/CreateUser";
+
+}

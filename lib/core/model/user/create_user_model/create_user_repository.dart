@@ -13,7 +13,7 @@ Future<bool> createUserFunction({required CreateUserRequest createUserRequest}) 
 
     final value = await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.user}/CreateUser",
+        ApiFunction.createUser
     );
 
     print("Raw Response: ${value.data}");
