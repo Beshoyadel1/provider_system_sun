@@ -1,5 +1,5 @@
 class ApiConfig {
-  static const String baseUrlApi = "https://api.smat.sa";
+  static const String baseUrlApi = "http://89.117.62.174:809";
   static const String user = "Users";
   static const String banner = "Banner";
   static const String service = "Service";

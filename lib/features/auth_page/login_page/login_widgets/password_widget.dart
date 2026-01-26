@@ -5,8 +5,8 @@ import '../../../../../../core/theming/colors.dart';
 import '../../../../../../core/pages_widgets/text_form_field_widget.dart';
 
 class PasswordWidget extends StatelessWidget {
-  const PasswordWidget({super.key, this.text});
-
+  const PasswordWidget({super.key, this.text,required this.controller});
+  final TextEditingController controller;
   final String? text;
 
   @override
@@ -14,7 +14,7 @@ class PasswordWidget extends StatelessWidget {
     return SizedBox(
       width: 500,
       child: TextFormFieldWidget(
-        textFormController: TextEditingController(),
+        textFormController: controller,
         text: text ?? AppLanguageKeys.passwordKey,
         isColumn: true,
         textColor: AppColors.darkColor,

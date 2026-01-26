@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import '../../../../../../core/model/user/create_user_model/create_user_repository.dart';
+import '../../../../../../core/model/user/create_user_model/create_user_request.dart';
+import '../../../../../../core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
+import '../../../../../../core/pages_widgets/general_widgets/snakbar.dart';
+import '../../../../../../features/auth_page/login_page/login_page.dart';
 import '../../../../../../core/language/language_constant.dart';
 import '../../../../../../core/theming/assets.dart';
 import '../../../../../../core/theming/colors.dart';
@@ -9,8 +14,19 @@ import '../../login_page/login_widgets/login_language_button_widget.dart';
 import '../../login_page/login_widgets/password_widget.dart';
 import '../../login_page/login_widgets/user_name_widget.dart';
 
-class SignUpMobileWidget extends StatelessWidget {
+class SignUpMobileWidget extends StatefulWidget {
   const SignUpMobileWidget({super.key});
+
+  @override
+  State<SignUpMobileWidget> createState() => _SignUpMobileWidgetState();
+}
+
+class _SignUpMobileWidgetState extends State<SignUpMobileWidget> {
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,31 +57,72 @@ class SignUpMobileWidget extends StatelessWidget {
                     textSize: 25,
                     fontWeightIndex: FontSelectionData.boldFontFamily,
                   ),
-                  const SizedBox(
-                    height: 5,
+
+                  UserNameWidget(
+                    controller: usernameController,
+                    text: AppLanguageKeys.userNameKey,
                   ),
-                  const UserNameWidget(
-                    text: AppLanguageKeys.centerNameKey,
-                  ),
-                  const UserNameWidget(
+                  UserNameWidget(
+                    controller: phoneController,
                     text: AppLanguageKeys.phoneNumberKey,
                   ),
-                  const UserNameWidget(
+                  UserNameWidget(
+                    controller: emailController,
                     text: AppLanguageKeys.emailKey,
                   ),
-                  const PasswordWidget(),
-                  const PasswordWidget(
+                  PasswordWidget(
+                    controller: passwordController,
+                  ),
+                  PasswordWidget(
+                    controller: confirmPasswordController,
                     text: AppLanguageKeys.confirmPasswordKey,
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const LoginButtonWidget(
+
+                  const SizedBox(height: 10),
+
+                  LoginButtonWidget(
                     text: AppLanguageKeys.createAccountKey,
+                    onPressed: () async {
+                      final username = usernameController.text.trim();
+                      final phone = phoneController.text.trim();
+                      final email = emailController.text.trim();
+                      final password = passwordController.text.trim();
+                      final confirmPassword =
+                      confirmPasswordController.text.trim();
+
+                      if (username.isEmpty ||
+                          phone.isEmpty ||
+                          email.isEmpty ||
+                          password.isEmpty ||
+                          confirmPassword.isEmpty) {
+                        AppSnackBar.showError("Please fill all fields");
+                        return;
+                      }
+
+                      if (password != confirmPassword) {
+                        AppSnackBar.showError("Passwords do not match");
+                        return;
+                      }
+
+                      CreateUserRequest request = CreateUserRequest(
+                        username: username,
+                        phone: phone,
+                        email: email,
+                        password: password,
+                      );
+
+                      bool isSuccess =
+                      await createUserFunction(createUserRequest: request);
+
+                      if (isSuccess) {
+                        Navigator.of(context).pushReplacement(
+                          NavigateToPageWidget(const LoginPage()),
+                        );
+                      }
+                    },
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+
+                  const SizedBox(height: 10),
                 ],
               ),
             ),

@@ -7,7 +7,8 @@ import '../../../../../../core/language/language_constant.dart';
 import '../../../../../../core/theming/colors.dart';
 
 class LoginButtonWidget extends StatelessWidget {
-  const LoginButtonWidget({super.key, required this.text});
+  const LoginButtonWidget({super.key, required this.text,required this.onPressed});
+  final VoidCallback onPressed;
 
   final String text;
 
@@ -32,14 +33,7 @@ class LoginButtonWidget extends StatelessWidget {
         fontWeightIndex: FontSelectionData.boldFontFamily,
         buttonColor: AppColors.orangeColor,
         borderRadius: 24,
-        onTap: () {
-          if (text == AppLanguageKeys.createAccountKey) {
-            Navigator.pop(context);
-          } else {
-            Navigator.of(context)
-                .pushReplacement(NavigateToPageWidget(const StorePage()));
-          }
-        },
+        onTap: onPressed,
       ),
     );
   }
