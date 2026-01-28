@@ -12,7 +12,7 @@ Future<void> GetAllHarageFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getAllHarageRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.harage}/GetAllHarage",
+      ApiLink.getAllHarage,
     );
     AppSnackBar.showSuccess("Get All Harage successfully");
   } catch (e) {

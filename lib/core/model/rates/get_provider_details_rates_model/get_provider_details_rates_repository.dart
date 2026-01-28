@@ -12,7 +12,7 @@ Future<void> getProviderDetailsRatesFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getProviderDetailsRatesRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.rate}/GetProviderDetailsRates",
+      ApiLink.getProviderDetailsRates,
     );
     AppSnackBar.showSuccess("Get Provider Details Rates successfully");
   } catch (e) {

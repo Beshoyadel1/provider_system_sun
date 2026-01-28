@@ -13,7 +13,7 @@ Future<void> createHarageFunction({required CreateHarageRequest createHarageRequ
 
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.harage}/CreateHarage",
+        ApiLink.createHarage
     ).then((value) {
       AppSnackBar.showSuccess("Create Harage successfully");
     });

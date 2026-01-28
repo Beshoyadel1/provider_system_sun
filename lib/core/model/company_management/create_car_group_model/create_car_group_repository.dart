@@ -12,7 +12,7 @@ Future<void> createCarGroupFunction({required CreateCarGroupRequest createCarGro
 
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.carGroup}/CreateCarGroup",
+      ApiLink.createCarGroup,
     ).then((value) {
       AppSnackBar.showSuccess("Create Car Group successfully");
     });

@@ -12,7 +12,7 @@ Future<void> getProviderOrdersSalesFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getProviderOrdersSalesRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.statistics}/GetProviderOrdersSales",
+      ApiLink.getProviderOrdersSales,
     );
     AppSnackBar.showSuccess("Get Provider Orders Sales successfully");
   } catch (e) {

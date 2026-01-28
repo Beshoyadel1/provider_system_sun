@@ -12,7 +12,7 @@ Future<void> getProviderTotalRateAndEmployeeAndBalanceFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getProviderTotalRateAndEmployeeAndBalanceRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.statistics}/GetProviderTotalRateAndEmployeeAndBalance",
+        ApiLink.getProviderTotalRateAndEmployeeAndBalance
     );
     AppSnackBar.showSuccess("Get Provider Total Rate And Employee And Balance successfully");
   } catch (e) {

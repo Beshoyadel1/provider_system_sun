@@ -12,7 +12,7 @@ Future<void> getOtherMessagesFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getOtherMessagesRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.chat}/GetOtherMessages",
+      ApiLink.getOtherMessages,
     );
     AppSnackBar.showSuccess("Get Other Messages successfully");
   } catch (e) {

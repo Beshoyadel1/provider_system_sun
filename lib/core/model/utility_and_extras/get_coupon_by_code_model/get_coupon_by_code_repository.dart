@@ -12,7 +12,7 @@ Future<void> getCouponByCodeFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getCouponByCodeRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.coupon}/GetCouponByCode",
+      ApiLink.getCouponByCode,
     );
     AppSnackBar.showSuccess("Get Coupon By Code successfully");
   } catch (e) {

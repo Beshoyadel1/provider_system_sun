@@ -12,7 +12,7 @@ Future<void> getProviderHarageSoldCarsByTypeFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getProviderHarageSoldCarsByTypeRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.statistics}/GetProviderHarageSoldCarsByType",
+      ApiLink.getProviderHarageSoldCarsByType,
     );
     AppSnackBar.showSuccess("Get Provider Harage Sold Cars By Type successfully");
   } catch (e) {

@@ -12,7 +12,7 @@ Future<void> createRateFunction({required CreateRateRequest createRateRequest}) 
 
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.rate}/CreateRate",
+      ApiLink.createRate,
     ).then((value) {
       AppSnackBar.showSuccess("Create Rate successfully");
     });

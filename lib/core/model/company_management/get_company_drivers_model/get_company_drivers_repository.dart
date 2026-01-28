@@ -12,7 +12,7 @@ Future<void> getCompanyDriversFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getCompanyDriversRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.driver}/GetCompanyDrivers",
+      ApiLink.getCompanyDrivers,
     );
     AppSnackBar.showSuccess("Get Company Drivers successfully");
   } catch (e) {

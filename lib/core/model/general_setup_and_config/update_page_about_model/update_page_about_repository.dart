@@ -13,7 +13,7 @@ Future<void> updatePageAboutFunction({required UpdatePageAboutRequest updatePage
 
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.about}/UpdatePageAbout",
+      ApiLink.updatePageAbout,
     ).then((value) {
       AppSnackBar.showSuccess("Update Page About successfully");
     });

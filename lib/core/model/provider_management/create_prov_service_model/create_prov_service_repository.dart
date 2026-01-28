@@ -12,7 +12,7 @@ Future<void> createProvServiceFunction({required CreateProvServiceRequest create
 
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.provService}/CreateProvService",
+      ApiLink.createProvService,
     ).then((value) {
       AppSnackBar.showSuccess("Create Prov Service successfully");
     });

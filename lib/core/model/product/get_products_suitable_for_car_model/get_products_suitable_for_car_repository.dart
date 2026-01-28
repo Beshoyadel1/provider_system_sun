@@ -12,7 +12,7 @@ Future<void> getProductsSuitableForCarFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getProductsSuitableForCarRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.product}/getProductsSuitableForCar",
+      ApiLink.getProductsSuitableForCar,
     );
     AppSnackBar.showSuccess("Get Products Suitable For Car successfully");
   } catch (e) {

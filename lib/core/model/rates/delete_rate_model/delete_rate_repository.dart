@@ -12,7 +12,7 @@ Future<void> deleteRateFunction({
     await Network.postDataWithBodyAndParams(
       {},
       deleteRateRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.rate}/DeleteRate",
+      ApiLink.deleteRate,
     );
     AppSnackBar.showSuccess("Delete Rate successfully");
   } catch (e) {

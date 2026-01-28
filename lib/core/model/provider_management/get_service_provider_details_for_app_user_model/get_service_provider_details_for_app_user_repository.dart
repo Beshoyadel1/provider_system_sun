@@ -12,7 +12,7 @@ Future<void> getServiceProviderDetailsForAppUserFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getServiceProviderDetailsForAppUserRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.serviceProvider}/GetServiceProviderDetailsForAppUser",
+      ApiLink.getServiceProviderDetailsForAppUser,
     );
     AppSnackBar.showSuccess("Get Service Provider Details For App User successfully");
   } catch (e) {

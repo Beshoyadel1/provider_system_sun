@@ -12,7 +12,7 @@ Future<void> getWalletTransactionsFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getWalletTransactionsRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.payment}/GetWalletTransactions",
+      ApiLink.getWalletTransactions,
     );
     AppSnackBar.showSuccess("Get Wallet Transactions successfully");
   } catch (e) {

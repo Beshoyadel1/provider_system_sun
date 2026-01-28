@@ -12,7 +12,7 @@ Future<void> getProviderWorkTimeFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getProviderWorkTimeRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.workTIme}/GetProviderWorkTime",
+      ApiLink.getProviderWorkTime,
     );
     AppSnackBar.showSuccess("Get Provider Work Time successfully");
   } catch (e) {

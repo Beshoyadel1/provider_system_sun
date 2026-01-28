@@ -12,7 +12,7 @@ Future<void> updateOrderStatusFunction({
     await Network.postDataWithBodyAndParams(
       {},
       updateOrderStatusRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.order}/UpdateOrderStatus",
+        ApiLink.updateOrderStatus
     );
     AppSnackBar.showSuccess("Update Order Status successfully");
   } catch (e) {

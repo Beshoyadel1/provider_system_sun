@@ -12,7 +12,7 @@ Future<void> removeCardFunction({
     await Network.postDataWithBodyAndParams(
       {},
       removeCardRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.paymentCard}/RemoveCard",
+      ApiLink.removeCard,
     );
     AppSnackBar.showSuccess("Remove Card successfully");
   } catch (e) {

@@ -16,11 +16,8 @@ Future<bool> createUserFunction({required CreateUserRequest createUserRequest}) 
         ApiLink.createUser
     );
 
-    print("Raw Response: ${value.data}");
-
     // CASE 1: Plain text success → "Done"
     if (value.data is String && value.data.toString().trim() == "Done") {
-      print("✅ Create User Success: Done");
       AppSnackBar.showSuccess("Account created successfully");
       return true;
     }
@@ -34,11 +31,9 @@ Future<bool> createUserFunction({required CreateUserRequest createUserRequest}) 
       String message = decoded["message"].toString();
 
       if (message.toLowerCase() == "done") {
-        print("✅ Create User Success: $message");
         AppSnackBar.showSuccess("Account created successfully");
         return true;
       } else {
-        print("❌ Create User Error: $message");
         AppSnackBar.showError(message);
         return false;
       }
@@ -48,7 +43,6 @@ Future<bool> createUserFunction({required CreateUserRequest createUserRequest}) 
     return false;
 
   } catch (e) {
-    print("🔥 Exception Error: $e");
     AppSnackBar.showError(
       e is DioException
           ? responseOfStatusCode(e.response?.statusCode)

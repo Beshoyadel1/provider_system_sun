@@ -12,7 +12,7 @@ Future<void> createOrderFunction({required CreateOrderRequest createOrderRequest
 
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.order}/CreateOrder",
+        ApiLink.createOrder,
     ).then((value) {
       AppSnackBar.showSuccess("Create Order successfully");
     });

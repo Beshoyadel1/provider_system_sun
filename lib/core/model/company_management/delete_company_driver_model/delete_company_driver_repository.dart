@@ -12,7 +12,7 @@ Future<void> deleteCompanyDriverFunction({
     await Network.postDataWithBodyAndParams(
       {},
       deleteCompanyDriverRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.driver}/DeleteCompanyDriver",
+      ApiLink.deleteCompanyDriver,
     );
     AppSnackBar.showSuccess("Delete Company Driver successfully");
   } catch (e) {

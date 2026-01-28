@@ -12,7 +12,7 @@ Future<void> setDefaultCardFunction({
     await Network.postDataWithBodyAndParams(
       {},
       setDefaultCardRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.paymentCard}/SetDefaultCard",
+        ApiLink.setDefaultCard
     );
     AppSnackBar.showSuccess("Set Default Card successfully");
   } catch (e) {

@@ -12,7 +12,7 @@ Future<void> deleteServicePackageFunction({
     await Network.postDataWithBodyAndParams(
       {},
       deleteServicePackageRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.provicerServicePackage}/DeleteServicePackage",
+      ApiLink.deleteServicePackage,
     );
     AppSnackBar.showSuccess("Delete Service Package successfully");
   } catch (e) {

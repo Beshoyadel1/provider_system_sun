@@ -12,7 +12,7 @@ Future<void> getEmployeeServicesFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getEmployeeServicesRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.employeeService}/GetEmployeeServices",
+      ApiLink.getEmployeeServices,
     );
     AppSnackBar.showSuccess("Get Employee Services successfully");
   } catch (e) {

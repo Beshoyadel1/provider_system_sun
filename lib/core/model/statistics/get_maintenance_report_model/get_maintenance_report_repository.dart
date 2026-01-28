@@ -13,7 +13,7 @@ Future<void> getMaintenanceReportFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getMaintenanceReportRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.statistics}/GetMaintenanceReport",
+      ApiLink.getMaintenanceReport,
     );
     AppSnackBar.showSuccess("Get Maintenance Report successfully");
   } catch (e) {

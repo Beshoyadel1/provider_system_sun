@@ -12,7 +12,7 @@ Future<void> uploadProviderWorkTimesFunction({required UploadProviderWorkTimesRe
 
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.workTIme}/UploadProviderWorkTimes",
+      ApiLink.uploadProviderWorkTimes,
     ).then((value) {
       AppSnackBar.showSuccess("Upload Provider Work Times successfully");
     });

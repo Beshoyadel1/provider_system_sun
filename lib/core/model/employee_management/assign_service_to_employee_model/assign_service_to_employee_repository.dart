@@ -13,7 +13,7 @@ Future<void> assignServiceToEmployeeFunction({
     await Network.postDataWithBodyAndParams(
       {},
       assignServiceToEmployeeRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.employeeService}/AssignServiceToEmployee",
+      ApiLink.assignServiceToEmployee,
     );
     AppSnackBar.showSuccess("Assign Service To Employee successfully");
   } catch (e) {

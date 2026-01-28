@@ -12,7 +12,7 @@ Future<void> updateCarBrandFunction({required UpdateCarBrandRequest updateCarBra
 
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.carBrand}/UpdateCarBrand",
+      ApiLink.updateCarBrand,
     ).then((value) {
       AppSnackBar.showSuccess("Update Car Brand successfully");
     });

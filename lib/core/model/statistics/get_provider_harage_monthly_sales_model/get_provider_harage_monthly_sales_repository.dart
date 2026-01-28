@@ -12,7 +12,7 @@ Future<void> getProviderHarageMonthlySalesFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getProviderHarageMonthlySalesRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.statistics}/GetProviderHarageMonthlySales",
+        ApiLink.getProviderHarageMonthlySales
     );
     AppSnackBar.showSuccess("Get Provider Harage Monthly Sales successfully");
   } catch (e) {

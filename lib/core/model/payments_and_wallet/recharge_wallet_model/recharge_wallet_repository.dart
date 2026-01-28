@@ -12,7 +12,7 @@ Future<void> rechargeWalletFunction({required RechargeWalletRequest rechargeWall
 
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.payment}/RechargeWallet",
+      ApiLink.rechargeWallet,
     ).then((value) {
       AppSnackBar.showSuccess("Recharge Wallet successfully");
     });

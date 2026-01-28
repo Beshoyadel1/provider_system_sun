@@ -12,7 +12,7 @@ Future<void> openCloseChatFunction({
     await Network.postDataWithBodyAndParams(
       {},
       openCloseChatRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.chat}/OpenCloseChat",
+      ApiLink.openCloseChat,
     );
     AppSnackBar.showSuccess("Open Close Chat successfully");
   } catch (e) {

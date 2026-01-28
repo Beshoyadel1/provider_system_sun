@@ -13,7 +13,7 @@ Future<void> getAdminDashboardStatisticsFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getAdminDashboardStatisticsRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.statistics}/GetAdminDashboardStatistics",
+        ApiLink.getAdminDashboardStatistics
     );
     AppSnackBar.showSuccess("Get Admin Dashboard Statistics successfully");
   } catch (e) {

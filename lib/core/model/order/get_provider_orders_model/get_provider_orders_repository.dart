@@ -12,7 +12,7 @@ Future<void> getProviderOrdersFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getProviderOrdersRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.order}/GetProviderOrders",
+      ApiLink.getProviderOrders,
     );
     AppSnackBar.showSuccess("Get Provider Orders successfully");
   } catch (e) {

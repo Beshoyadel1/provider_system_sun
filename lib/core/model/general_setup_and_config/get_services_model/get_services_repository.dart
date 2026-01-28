@@ -12,7 +12,7 @@ Future<void> getServicesFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getServicesRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.service}/GetServices",
+      ApiLink.getServices,
     );
     AppSnackBar.showSuccess("Get Services successfully");
   } catch (e) {

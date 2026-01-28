@@ -12,7 +12,7 @@ Future<void> getStaticsForCouponFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getStaticsForCouponRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.coupon}/GetStaticsForCoupon",
+        ApiLink.getStaticsForCoupon
     );
     AppSnackBar.showSuccess("Get Statics For Coupon successfully");
   } catch (e) {

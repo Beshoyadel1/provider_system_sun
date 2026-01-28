@@ -12,7 +12,7 @@ Future<void> createServicePackageFunction({required CreateServicePackageRequest 
 
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.provicerServicePackage}/CreateServicePackage",
+        ApiLink.createServicePackage
     ).then((value) {
       AppSnackBar.showSuccess("Create Service Package successfully");
     });

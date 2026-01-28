@@ -14,7 +14,7 @@ Future<void> deleteUserFunction({
     await Network.postDataWithBodyAndParams(
       {},
       deleteUserRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.user}/DeleteUser",
+      ApiLink.deleteUser,
     );
     AppSnackBar.showSuccess("Delete User successfully");
   } catch (e) {

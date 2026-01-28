@@ -12,7 +12,7 @@ Future<void> getAllPagesAboutFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getAllPagesAboutRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.about}/GetAllPagesAbout",
+      ApiLink.getAllPagesAbout,
     );
     AppSnackBar.showSuccess("Get All Pages About successfully");
   } catch (e) {

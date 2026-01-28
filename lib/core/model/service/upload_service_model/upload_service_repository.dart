@@ -14,7 +14,7 @@ Future<void> uploadServiceFunction({
     String jsonString = json.encode(uploadServiceRequest.toJson());
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.service}/UploadService",
+      ApiLink.uploadService,
     ).then((value) {
       AppSnackBar.showSuccess("Upload Service successfully");
     }

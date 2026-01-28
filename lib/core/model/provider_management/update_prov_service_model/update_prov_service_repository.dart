@@ -12,7 +12,7 @@ Future<void> updateProvServiceFunction({required UpdateProvServiceRequest update
 
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.provService}/UpdateProvService",
+      ApiLink.updateProvService,
     ).then((value) {
       AppSnackBar.showSuccess("Update Prov Service successfully");
     });

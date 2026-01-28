@@ -12,7 +12,7 @@ Future<void> getProviderMainServiceStatisticsFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getProviderMainServiceStatisticsRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.statistics}/GetProviderMainServiceStatistics",
+      ApiLink.getProviderMainServiceStatistics,
     );
     AppSnackBar.showSuccess("Get Provider Main Service Statistics successfully");
   } catch (e) {

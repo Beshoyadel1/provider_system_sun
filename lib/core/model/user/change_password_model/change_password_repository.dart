@@ -13,7 +13,7 @@ Future<void> changePasswordFunction({required ChangePasswordRequest changePasswo
 
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.user}/ChangePassword",
+      ApiLink.changePassword,
     ).then((value) {
       AppSnackBar.showSuccess("Change Password successfully");
     });

@@ -12,7 +12,7 @@ Future<void> uploadPointInfoFunction({required UploadPointInfoRequest uploadPoin
 
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.points}/UploadPointInfo",
+      ApiLink.uploadPointInfo,
     ).then((value) {
       AppSnackBar.showSuccess("Upload Point Info successfully");
     });

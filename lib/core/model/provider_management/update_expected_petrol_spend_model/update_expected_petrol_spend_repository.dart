@@ -12,7 +12,7 @@ Future<void> updateExpectedPetrolSpendFunction({required UpdateExpectedPetrolSpe
 
     await Network.putDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.expectedPetrolSpend}/UpdateExpectedPetrolSpend",
+      ApiLink.updateExpectedPetrolSpend,
     ).then((value) {
       AppSnackBar.showSuccess("Update Expected Petrol Spend successfully");
     });

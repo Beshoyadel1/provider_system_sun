@@ -13,7 +13,7 @@ Future<void> getAdminMostRequestedServicesFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getAdminMostRequestedServicesRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.statistics}/GetAdminMostRequestedServices",
+        ApiLink.getAdminMostRequestedServices
     );
     AppSnackBar.showSuccess("Get Admin Most Requested Services successfully");
   } catch (e) {

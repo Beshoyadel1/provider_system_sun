@@ -14,7 +14,7 @@ Future<void> createServiceFunction({
     String jsonString = json.encode(createServiceRequest.toJson());
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.service}/CreateService",
+        ApiLink.createService
     ).then((value) {
       AppSnackBar.showSuccess("Create Service successfully");
     });

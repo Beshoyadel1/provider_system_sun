@@ -12,7 +12,7 @@ Future<void> cancelOrderFunction({
     await Network.postDataWithBodyAndParams(
       {},
       cancelOrderRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.order}/CancelOrder",
+        ApiLink.cancelOrder
     );
     AppSnackBar.showSuccess("Cancel Order successfully");
   } catch (e) {

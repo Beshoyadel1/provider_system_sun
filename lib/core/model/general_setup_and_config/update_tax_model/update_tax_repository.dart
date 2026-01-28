@@ -12,7 +12,7 @@ Future<void> updateTaxFunction({required UpdateTaxRequest updateTaxRequest}) asy
 
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.tax}/UpdateTax",
+      ApiLink.updateTax,
     ).then((value) {
       AppSnackBar.showSuccess("Update Tax successfully");
     });

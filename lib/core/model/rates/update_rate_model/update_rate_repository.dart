@@ -12,7 +12,7 @@ Future<void> updateRateFunction({required UpdateRateRequest updateRateRequest}) 
 
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.rate}/UpdateRate",
+      ApiLink.updateRate,
     ).then((value) {
       AppSnackBar.showSuccess("Update Rate successfully");
     });

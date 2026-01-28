@@ -12,7 +12,7 @@ Future<void> getCarFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getCarRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.car}/GetCar",
+      ApiLink.getCar,
     );
     AppSnackBar.showSuccess("Get Car successfully");
   } catch (e) {

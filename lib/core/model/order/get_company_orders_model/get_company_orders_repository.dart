@@ -12,7 +12,7 @@ Future<void> getCompanyOrdersFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getCompanyOrdersRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.order}/GetCompanyOrders",
+      ApiLink.getCompanyOrders,
     );
     AppSnackBar.showSuccess("Get Company Orders successfully");
   } catch (e) {

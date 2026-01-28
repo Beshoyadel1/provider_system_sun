@@ -12,7 +12,7 @@ Future<void> deleteTaxFunction({
     await Network.postDataWithBodyAndParams(
       {},
       deleteTaxRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.tax}/DeleteTax",
+      ApiLink.deleteTax,
     );
     AppSnackBar.showSuccess("Delete Tax successfully");
   } catch (e) {

@@ -12,7 +12,7 @@ Future<void> updateProductFunction({required UpdateProductRequest updateProductR
 
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.product}/UpdateProduct",
+      ApiLink.updateProduct,
     ).then((value) {
       AppSnackBar.showSuccess("Update Product successfully");
     });

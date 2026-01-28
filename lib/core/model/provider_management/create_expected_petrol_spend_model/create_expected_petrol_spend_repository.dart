@@ -12,7 +12,7 @@ Future<void> addBranchFunction({required AddBranchRequest addBranchRequest}) asy
 
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.branch}/AddBranch",
+      ApiLink.addBranch,
     ).then((value) {
       AppSnackBar.showSuccess("Create Product successfully");
     });

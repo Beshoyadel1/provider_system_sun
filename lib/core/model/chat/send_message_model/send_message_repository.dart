@@ -12,7 +12,7 @@ Future<void> sendMessageFunction({required SendMessageRequest sendMessageRequest
 
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.chat}/SendMessage",
+      ApiLink.sendMessage,
     ).then((value) {
       AppSnackBar.showSuccess("Send Message successfully");
     });

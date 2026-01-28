@@ -12,7 +12,7 @@ Future<void> getBranchEmployeesFunction({
     await Network.getDataWithBodyAndParams(
       {},
       getBranchEmployeesRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.branch}/GetBranchEmployees",
+      ApiLink.getBranchEmployees,
     );
     AppSnackBar.showSuccess("Get Branch Employees successfully");
   } catch (e) {

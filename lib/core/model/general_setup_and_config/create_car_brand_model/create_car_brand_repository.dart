@@ -12,7 +12,7 @@ Future<void> createCarBrandFunction({required CreateCarBrandRequest createCarBra
 
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.carBrand}/CreateCarBrand",
+      ApiLink.createCarBrand,
     ).then((value) {
       AppSnackBar.showSuccess("Create Car Brand successfully");
     });

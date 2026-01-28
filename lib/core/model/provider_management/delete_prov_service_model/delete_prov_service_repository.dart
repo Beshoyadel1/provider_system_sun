@@ -12,7 +12,7 @@ Future<void> deleteProvServiceFunction({
     await Network.postDataWithBodyAndParams(
       {},
       deleteProvServiceRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.provService}/DeleteProvService",
+        ApiLink.deleteProvService
     );
     AppSnackBar.showSuccess("Delete Prov Service successfully");
   } catch (e) {

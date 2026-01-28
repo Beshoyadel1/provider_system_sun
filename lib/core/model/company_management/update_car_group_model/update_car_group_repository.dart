@@ -12,7 +12,7 @@ Future<void> updateCarGroupFunction({required UpdateCarGroupRequest updateCarGro
 
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.carGroup}/UpdateCarGroup",
+      ApiLink.updateCarGroup,
     ).then((value) {
       AppSnackBar.showSuccess("Update Car Group successfully");
     });

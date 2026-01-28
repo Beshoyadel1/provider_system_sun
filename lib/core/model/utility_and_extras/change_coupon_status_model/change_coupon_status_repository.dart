@@ -12,7 +12,7 @@ Future<void> changeCouponStatusFunction({
     await Network.postDataWithBodyAndParams(
       {},
       changeCouponStatusRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.coupon}/ChangeCouponStatus",
+        ApiLink.changeCouponStatus
     );
     AppSnackBar.showSuccess("Change Coupon Status successfully");
   } catch (e) {

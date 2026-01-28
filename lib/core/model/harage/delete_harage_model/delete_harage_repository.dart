@@ -12,7 +12,7 @@ Future<void> deleteHarageFunction({
     await Network.postDataWithBodyAndParams(
       {},
       deleteHarageRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.harage}/DeleteHarage",
+      ApiLink.deleteHarage,
     );
     AppSnackBar.showSuccess("Delete Harage successfully");
   } catch (e) {

@@ -12,7 +12,7 @@ Future<void> uploadCouponFunction({required UploadCouponRequest uploadCouponRequ
 
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.coupon}/UploadCoupon",
+        ApiLink.uploadCoupon
     ).then((value) {
       AppSnackBar.showSuccess("Upload Coupon successfully");
     });

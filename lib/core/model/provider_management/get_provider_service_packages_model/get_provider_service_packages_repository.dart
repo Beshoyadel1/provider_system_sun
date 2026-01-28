@@ -12,7 +12,7 @@ Future<void> getProviderServicePackagesFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getProviderServicePackagesRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.provicerServicePackage}/GetProviderServicePackages",
+      ApiLink.getProviderServicePackages,
     );
     AppSnackBar.showSuccess("Get Provider Service Packages successfully");
   } catch (e) {

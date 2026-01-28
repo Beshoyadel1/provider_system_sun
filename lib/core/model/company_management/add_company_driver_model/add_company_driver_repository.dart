@@ -11,7 +11,7 @@ Future<void> addCompanyDriverFunction({required AddCompanyDriverRequest addCompa
     String jsonString = json.encode(addCompanyDriverRequest.toJson());
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.driver}/AddCompanyDriver",
+        ApiLink.addCompanyDriver
     ).then((value) {
       AppSnackBar.showSuccess("Add Company Driver successfully");
     });

@@ -12,7 +12,7 @@ Future<void> getProviderPetrolSalesChartFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getProviderPetrolSalesChartRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.statistics}/GetProviderPetrolSalesChart",
+        ApiLink.getProviderPetrolSalesChart
     );
     AppSnackBar.showSuccess("Get Provider Petrol Sales Chart successfully");
   } catch (e) {

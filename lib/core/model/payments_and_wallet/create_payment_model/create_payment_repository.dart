@@ -12,7 +12,7 @@ Future<void> createPaymentFunction({required CreatePaymentRequest createPaymentR
 
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.payment}/CreatePayment",
+      ApiLink.createPayment,
     ).then((value) {
       AppSnackBar.showSuccess("Create Payment successfully");
     });

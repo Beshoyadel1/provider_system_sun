@@ -12,7 +12,7 @@ Future<void> removeCarFromGroupFunction({
     await Network.postDataWithBodyAndParams(
       {},
       removeCarFromGroupRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.carGroup}/RemoveCarFromGroup",
+      ApiLink.removeCarFromGroup,
     );
     AppSnackBar.showSuccess("Remove Car From Group successfully");
   } catch (e) {

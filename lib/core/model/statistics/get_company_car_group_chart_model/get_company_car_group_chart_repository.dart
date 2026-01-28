@@ -12,7 +12,7 @@ Future<void> getCompanyCarGroupChartFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getCompanyCarGroupChartRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.statistics}/GetCompanyCarGroupChart",
+      ApiLink.getCompanyCarGroupChart,
     );
     AppSnackBar.showSuccess("Get Company Car Group Chart successfully");
   } catch (e) {

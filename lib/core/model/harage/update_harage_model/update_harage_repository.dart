@@ -13,7 +13,7 @@ Future<void> updateHarageFunction({required UpdateHarageRequest updateHarageRequ
 
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.harage}/UpdateHarage",
+      ApiLink.updateHarage,
     ).then((value) {
       AppSnackBar.showSuccess("Update Harage successfully");
     });

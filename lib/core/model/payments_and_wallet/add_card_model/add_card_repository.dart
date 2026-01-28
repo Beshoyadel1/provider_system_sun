@@ -12,7 +12,7 @@ Future<void> addCardFunction({required AddCardRequest addCardRequest}) async {
 
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.paymentCard}/AddCard",
+        ApiLink.addCard
     ).then((value) {
       AppSnackBar.showSuccess("Add Card successfully");
     });

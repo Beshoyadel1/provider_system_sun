@@ -12,7 +12,7 @@ Future<void> updateBranchFunction({required UpdateBranchRequest updateBranchRequ
 
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.branch}/UpdateBranch",
+      ApiLink.updateBranch,
     ).then((value) {
       AppSnackBar.showSuccess("Update Branch successfully");
     });

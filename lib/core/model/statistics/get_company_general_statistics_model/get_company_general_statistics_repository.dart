@@ -12,7 +12,7 @@ Future<void> getCompanyGeneralStatisticsFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getCompanyGeneralStatisticsRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.statistics}/GetCompanyGeneralStatistics",
+        ApiLink.getCompanyGeneralStatistics
     );
     AppSnackBar.showSuccess("Get Company General Statistics successfully");
   } catch (e) {

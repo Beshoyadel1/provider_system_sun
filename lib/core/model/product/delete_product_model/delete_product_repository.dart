@@ -12,7 +12,7 @@ Future<void> deleteProductFunction({
     await Network.postDataWithBodyAndParams(
       {},
       deleteProductRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.product}/DeleteProduct",
+        ApiLink.deleteProduct
     );
     AppSnackBar.showSuccess("Delete Product successfully");
   } catch (e) {

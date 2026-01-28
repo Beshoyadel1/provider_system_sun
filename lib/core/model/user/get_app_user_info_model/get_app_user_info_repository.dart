@@ -13,7 +13,7 @@ Future<void> restoreUserFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getAppUserInfoRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.user}/GetAppUserInfo",
+      ApiLink.getAppUserInfo,
     );
     AppSnackBar.showSuccess("Get App User Info successfully");
   } catch (e) {

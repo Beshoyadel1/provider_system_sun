@@ -12,7 +12,7 @@ Future<void> updateServicePackageFunction({required UpdateServicePackageRequest 
 
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.provicerServicePackage}/UpdateServicePackage",
+      ApiLink.updateServicePackage,
     ).then((value) {
       AppSnackBar.showSuccess("Update Service Package successfully");
     });

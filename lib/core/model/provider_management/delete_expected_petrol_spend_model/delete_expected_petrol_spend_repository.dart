@@ -12,7 +12,7 @@ Future<void> deleteExpectedPetrolSpendFunction({
     await Network.deleteDataWithBodyAndParams(
       {},
       deleteExpectedPetrolSpendRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.expectedPetrolSpend}/DeleteExpectedPetrolSpend",
+      ApiLink.deleteExpectedPetrolSpend,
     );
     AppSnackBar.showSuccess("Delete Expected Petrol Spend successfully");
   } catch (e) {

@@ -12,7 +12,7 @@ Future<void> getUserCardsFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getUserCardsRequest.toJson(),
-      "${ApiConfig.baseUrlApi}/${ApiConfig.paymentCard}/GetUserCards",
+      ApiLink.getUserCards,
     );
     AppSnackBar.showSuccess("Get User Cards successfully");
   } catch (e) {

@@ -12,7 +12,7 @@ Future<void> makeChatViewedFunction({
     await Network.postDataWithBodyAndParams(
       {},
       makeChatViewedRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.chat}/MakeChatViewed",
+      ApiLink.makeChatViewed,
     );
     AppSnackBar.showSuccess("Make Chat Viewed successfully");
   } catch (e) {

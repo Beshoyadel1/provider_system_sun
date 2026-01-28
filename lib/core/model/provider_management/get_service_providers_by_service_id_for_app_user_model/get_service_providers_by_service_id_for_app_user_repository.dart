@@ -12,7 +12,7 @@ Future<void> getServiceProvidersByServiceIdForAppUserFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getServiceProvidersByServiceIdForAppUserRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.serviceProvider}/GetServiceProvidersByServiceIdForAppUser",
+      ApiLink.getServiceProvidersByServiceIdForAppUser,
     );
     AppSnackBar.showSuccess("Get Service Providers By Service Id For App User successfully");
   } catch (e) {

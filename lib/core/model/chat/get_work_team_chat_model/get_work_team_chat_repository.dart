@@ -12,7 +12,7 @@ Future<void> getWorkTeamChatFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getWorkTeamChatRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.chat}/GetWorkTeamChat",
+      ApiLink.getWorkTeamChat,
     );
     AppSnackBar.showSuccess("Get Work Team Chat successfully");
   } catch (e) {

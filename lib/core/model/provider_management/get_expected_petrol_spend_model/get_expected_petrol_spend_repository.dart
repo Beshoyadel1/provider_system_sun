@@ -12,7 +12,7 @@ Future<void> getExpectedPetrolSpendFunction({
     await Network.getDataWithBodyAndParams(
       {},
       getExpectedPetrolSpendRequestRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.expectedPetrolSpend}/GetExpectedPetrolSpend",
+      ApiLink.getExpectedPetrolSpend,
     );
     AppSnackBar.showSuccess("Get Expected Petrol Spend successfully");
   } catch (e) {

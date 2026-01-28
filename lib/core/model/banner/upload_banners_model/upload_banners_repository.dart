@@ -13,7 +13,7 @@ Future<void> uploadBannersFunction({required UploadBannersRequest uploadBannersR
 
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.banner}/UploadBanners",
+      ApiLink.uploadBanners,
     ).then((value) {
       AppSnackBar.showSuccess("Upload Banners successfully");
     });

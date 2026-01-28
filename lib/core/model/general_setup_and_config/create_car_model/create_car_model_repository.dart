@@ -12,7 +12,7 @@ Future<void> createCarModelFunction({required CreateCarModelRequest createCarMod
 
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.carModel}/CreateCarModel",
+      ApiLink.createCarModel,
     ).then((value) {
       AppSnackBar.showSuccess("Create Car Model successfully");
     });

@@ -12,7 +12,7 @@ Future<void> getDriverDetailsFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getDriverDetailsRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.driver}/GetDriverDetails",
+      ApiLink.getDriverDetails,
     );
     AppSnackBar.showSuccess("Get Driver Details successfully");
   } catch (e) {

@@ -12,7 +12,7 @@ Future<void> createProductFunction({required CreateProductRequest createProductR
 
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.product}/CreateProduct",
+        ApiLink.createProduct
     ).then((value) {
       AppSnackBar.showSuccess("Create Product successfully");
     });

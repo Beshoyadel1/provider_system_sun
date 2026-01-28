@@ -11,7 +11,7 @@ Future<void> updateCompanyDriverFunction({required UpdateCompanyDriverRequest up
     String jsonString = json.encode(updateCompanyDriverRequest.toJson());
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.driver}/UpdateCompanyDriver",
+      ApiLink.updateCompanyDriver,
     ).then((value) {
       AppSnackBar.showSuccess("Update Company Driver successfully");
     });

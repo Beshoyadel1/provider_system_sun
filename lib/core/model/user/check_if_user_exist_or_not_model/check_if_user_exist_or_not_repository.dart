@@ -13,7 +13,7 @@ Future<void> checkIfUserExistOrNotFunction({
     await Network.postDataWithBodyAndParams(
       {},
       checkIfUserExistOrNotRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.user}/CheckIfUserExistOrNot",
+      ApiLink.checkIfUserExistOrNot,
     );
     AppSnackBar.showSuccess("Check If User Exist Or Not successfully");
   } catch (e) {

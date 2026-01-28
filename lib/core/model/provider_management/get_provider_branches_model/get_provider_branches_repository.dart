@@ -12,7 +12,7 @@ Future<void> getProviderBranchesFunction({
     await Network.getDataWithBodyAndParams(
       {},
       getProviderBranchesRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.branch}/GetProviderBranches",
+      ApiLink.getProviderBranches,
     );
     AppSnackBar.showSuccess("Get Provider Branches successfully");
   } catch (e) {

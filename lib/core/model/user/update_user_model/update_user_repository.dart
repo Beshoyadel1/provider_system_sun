@@ -12,7 +12,7 @@ Future<void> updateUserFunction({required UpdateUserRequest updateUserRequest}) 
     String jsonString = json.encode(updateUserRequest.toJson());
     await Network.postDataWithBody(
       jsonString,
-      "${ApiConfig.baseUrlApi}/${ApiConfig.user}/UpdateUser",
+        ApiLink.updateUser,
     ).then((value) {
       AppSnackBar.showSuccess("Update User successfully");
     });

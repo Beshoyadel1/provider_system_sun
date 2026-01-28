@@ -12,7 +12,7 @@ Future<void> getUserProviderMessagesFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getUserProviderMessagesRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.chat}/GetUserProviderMessages",
+      ApiLink.getUserProviderMessages,
     );
     AppSnackBar.showSuccess("Get User Provider Messages successfully");
   } catch (e) {

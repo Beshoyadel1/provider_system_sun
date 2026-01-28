@@ -13,7 +13,7 @@ Future<void> getBannersFunction({
     await Network.postDataWithBodyAndParams(
       {},
       getBannersRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.banner}/GetBanners",
+      ApiLink.getBanners,
     );
     AppSnackBar.showSuccess("Get Banners successfully");
   } catch (e) {

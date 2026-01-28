@@ -12,7 +12,7 @@ Future<void> deleteProviderWorkTimeFunction({
     await Network.postDataWithBodyAndParams(
       {},
       deleteProviderWorkTimeRequest.toJson(), // params
-      "${ApiConfig.baseUrlApi}/${ApiConfig.workTIme}/DeleteProviderWorkTime",
+        ApiLink.deleteProviderWorkTime
     );
     AppSnackBar.showSuccess("Delete Provider Work Time successfully");
   } catch (e) {
