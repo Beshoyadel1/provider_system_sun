@@ -5,6 +5,8 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
+import '../../../../core/language/language_constant.dart';
+
 
 Future<void> sendMessageFunction({required SendMessageRequest sendMessageRequest}) async {
   try {
@@ -14,7 +16,7 @@ Future<void> sendMessageFunction({required SendMessageRequest sendMessageRequest
       jsonString,
       ApiLink.sendMessage,
     ).then((value) {
-      AppSnackBar.showSuccess("Send Message successfully");
+      AppSnackBar.showSuccess(AppLanguageKeys.sendMessageSuccessfully);
     });
   } catch (e) {
     AppSnackBar.showError(

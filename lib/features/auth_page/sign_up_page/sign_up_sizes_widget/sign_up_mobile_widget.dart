@@ -33,9 +33,11 @@ class _SignUpMobileWidgetState extends State<SignUpMobileWidget> {
     return Column(
       children: [
         Container(
-          color: AppColors.orangeColor,
-          height: 30,
-          width: double.infinity,
+          height: 40,
+          //width: double.infinity,
+          child: AppBar(
+            backgroundColor: AppColors.orangeColor,
+          ),
         ),
         Expanded(
           child: SingleChildScrollView(
@@ -60,7 +62,7 @@ class _SignUpMobileWidgetState extends State<SignUpMobileWidget> {
 
                   UserNameWidget(
                     controller: usernameController,
-                    text: AppLanguageKeys.userNameKey,
+                    text: AppLanguageKeys.userName,
                   ),
                   UserNameWidget(
                     controller: phoneController,
@@ -95,12 +97,12 @@ class _SignUpMobileWidgetState extends State<SignUpMobileWidget> {
                           email.isEmpty ||
                           password.isEmpty ||
                           confirmPassword.isEmpty) {
-                        AppSnackBar.showError("Please fill all fields");
+                        AppSnackBar.showError(AppLanguageKeys.fillAllFields);
                         return;
                       }
 
                       if (password != confirmPassword) {
-                        AppSnackBar.showError("Passwords do not match");
+                        AppSnackBar.showError(AppLanguageKeys.passwordsDoNotMatch);
                         return;
                       }
 

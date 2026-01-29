@@ -4,6 +4,7 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
+import '../../../../core/language/language_constant.dart';
 
 Future<void> cancelOrderFunction({
   required CancelOrderRequest cancelOrderRequest,
@@ -14,7 +15,7 @@ Future<void> cancelOrderFunction({
       cancelOrderRequest.toJson(), // params
         ApiLink.cancelOrder
     );
-    AppSnackBar.showSuccess("Cancel Order successfully");
+    AppSnackBar.showSuccess(AppLanguageKeys.cancelOrderSuccessfully);
   } catch (e) {
     AppSnackBar.showError(
       e is DioException

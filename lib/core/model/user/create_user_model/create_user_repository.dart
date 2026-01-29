@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import '../../../../core/language/language_constant.dart';
 import '../../../../core/model/user/create_user_model/create_user_request.dart';
 import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
@@ -18,36 +19,40 @@ Future<bool> createUserFunction({required CreateUserRequest createUserRequest}) 
 
     // CASE 1: Plain text success → "Done"
     if (value.data is String && value.data.toString().trim() == "Done") {
-      AppSnackBar.showSuccess("Account created successfully");
+      AppSnackBar.showSuccess(AppLanguageKeys.accountCreatedSuccessfully);
       return true;
     }
 
-    // Now try JSON decode only if it looks like JSON
-    final decoded =
-    value.data is String ? json.decode(value.data) : value.data;
+    dynamic decoded;
+    // If response is String and starts like JSON → decode it
+    if (value.data is String) {
+      String responseText = value.data.toString().trim();
 
-    // CASE 2: Map with message
-    if (decoded is Map && decoded.containsKey("message")) {
-      String message = decoded["message"].toString();
-
-      if (message.toLowerCase() == "done") {
-        AppSnackBar.showSuccess("Account created successfully");
-        return true;
-      } else {
-        AppSnackBar.showError(message);
+      if (!responseText.startsWith("{") && !responseText.startsWith("[")) {
+        AppSnackBar.showError(responseText);
         return false;
       }
+
+      decoded = json.decode(responseText);
+    } else {
+      decoded = value.data;
     }
 
-    AppSnackBar.showError("Unexpected response from server");
-    return false;
+    // Error message from backend (JSON)
+    if (decoded is Map && decoded.containsKey("message")) {
+      String message = decoded["message"].toString();
+      AppSnackBar.showError(message);
+      return false;
+    }
 
-  } catch (e) {
+    return false;
+  } on DioException catch (e) {
     AppSnackBar.showError(
-      e is DioException
-          ? responseOfStatusCode(e.response?.statusCode)
-          : e.toString(),
+      responseOfStatusCode(e.response?.statusCode),
     );
+    return false;
+  } catch (e) {
+    AppSnackBar.showError(e.toString());
     return false;
   }
 }

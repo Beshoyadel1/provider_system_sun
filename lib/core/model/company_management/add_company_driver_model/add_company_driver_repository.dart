@@ -5,6 +5,8 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
+import '../../../../core/language/language_constant.dart';
+
 
 Future<void> addCompanyDriverFunction({required AddCompanyDriverRequest addCompanyDriverRequest}) async {
   try {
@@ -13,7 +15,7 @@ Future<void> addCompanyDriverFunction({required AddCompanyDriverRequest addCompa
       jsonString,
         ApiLink.addCompanyDriver
     ).then((value) {
-      AppSnackBar.showSuccess("Add Company Driver successfully");
+      AppSnackBar.showSuccess(AppLanguageKeys.addCompanyDriverSuccessfully);
     });
 
   } catch (e) {

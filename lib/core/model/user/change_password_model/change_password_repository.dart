@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import '../../../../core/language/language_constant.dart';
 import '../../../../core/model/user/change_password_model/change_password_request.dart';
 import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
@@ -15,7 +16,7 @@ Future<void> changePasswordFunction({required ChangePasswordRequest changePasswo
       jsonString,
       ApiLink.changePassword,
     ).then((value) {
-      AppSnackBar.showSuccess("Change Password successfully");
+      AppSnackBar.showSuccess(AppLanguageKeys.changePasswordSuccessfully);
     });
 
   } catch (e) {

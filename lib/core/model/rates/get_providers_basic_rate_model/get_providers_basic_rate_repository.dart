@@ -4,6 +4,7 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
+import '../../../../core/language/language_constant.dart';
 
 Future<void> getProvidersBasicRateFunction({
   required GetProvidersBasicRateRequest getProvidersBasicRateRequest,
@@ -14,7 +15,7 @@ Future<void> getProvidersBasicRateFunction({
       getProvidersBasicRateRequest.toJson(), // params
       ApiLink.getProvidersBasicRate,
     );
-    AppSnackBar.showSuccess("Get Providers Basic Rate successfully");
+    AppSnackBar.showSuccess(AppLanguageKeys.getProvidersBasicRateSuccessfully);
   } catch (e) {
     AppSnackBar.showError(
       e is DioException

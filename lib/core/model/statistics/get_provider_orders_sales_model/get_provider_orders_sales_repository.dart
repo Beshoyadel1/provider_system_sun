@@ -4,6 +4,7 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
+import '../../../../core/language/language_constant.dart';
 
 Future<void> getProviderOrdersSalesFunction({
   required GetProviderOrdersSalesRequest getProviderOrdersSalesRequest,
@@ -14,7 +15,7 @@ Future<void> getProviderOrdersSalesFunction({
       getProviderOrdersSalesRequest.toJson(), // params
       ApiLink.getProviderOrdersSales,
     );
-    AppSnackBar.showSuccess("Get Provider Orders Sales successfully");
+    AppSnackBar.showSuccess(AppLanguageKeys.getProviderOrdersSalesSuccessfully);
   } catch (e) {
     AppSnackBar.showError(
       e is DioException

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import '../../../../core/language/language_constant.dart';
 import '../../../../core/model/banner/get_banners_model/get_banners_request.dart';
 import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
@@ -15,7 +16,7 @@ Future<void> getBannersFunction({
       getBannersRequest.toJson(), // params
       ApiLink.getBanners,
     );
-    AppSnackBar.showSuccess("Get Banners successfully");
+    AppSnackBar.showSuccess(AppLanguageKeys.getBannersSuccessfully);
   } catch (e) {
     AppSnackBar.showError(
       e is DioException

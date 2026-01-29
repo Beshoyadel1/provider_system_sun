@@ -4,6 +4,7 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
+import '../../../../core/language/language_constant.dart';
 
 Future<void> getStaticsForCouponFunction({
   required GetStaticsForCouponRequest getStaticsForCouponRequest,
@@ -14,7 +15,7 @@ Future<void> getStaticsForCouponFunction({
       getStaticsForCouponRequest.toJson(), // params
         ApiLink.getStaticsForCoupon
     );
-    AppSnackBar.showSuccess("Get Statics For Coupon successfully");
+    AppSnackBar.showSuccess(AppLanguageKeys.getStaticsForCouponSuccessfully);
   } catch (e) {
     AppSnackBar.showError(
       e is DioException

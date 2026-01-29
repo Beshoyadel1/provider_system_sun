@@ -5,6 +5,7 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
+import '../../../../core/language/language_constant.dart';
 
 Future<void> updateCarBrandFunction({required UpdateCarBrandRequest updateCarBrandRequest}) async {
   try {
@@ -14,7 +15,7 @@ Future<void> updateCarBrandFunction({required UpdateCarBrandRequest updateCarBra
       jsonString,
       ApiLink.updateCarBrand,
     ).then((value) {
-      AppSnackBar.showSuccess("Update Car Brand successfully");
+      AppSnackBar.showSuccess(AppLanguageKeys.updateCarBrandSuccessfully);
     });
 
   } catch (e) {

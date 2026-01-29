@@ -4,6 +4,7 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
+import '../../../../core/language/language_constant.dart';
 
 Future<void> changeCouponStatusFunction({
   required ChangeCouponStatusRequest changeCouponStatusRequest,
@@ -14,7 +15,7 @@ Future<void> changeCouponStatusFunction({
       changeCouponStatusRequest.toJson(), // params
         ApiLink.changeCouponStatus
     );
-    AppSnackBar.showSuccess("Change Coupon Status successfully");
+    AppSnackBar.showSuccess(AppLanguageKeys.changeCouponStatusSuccessfully);
   } catch (e) {
     AppSnackBar.showError(
       e is DioException

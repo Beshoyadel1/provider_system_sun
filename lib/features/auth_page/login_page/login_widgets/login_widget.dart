@@ -31,12 +31,12 @@ class _LoginWidgetState extends State<LoginWidget> {
       spacing: 15,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TextInAppWidget(
+        const TextInAppWidget(
           text: AppLanguageKeys.loginKey,
           textSize: 20,
           fontWeightIndex: FontSelectionData.boldFontFamily,
         ),
-        TextInAppWidget(
+        const TextInAppWidget(
           text: AppLanguageKeys.enterPhoneAndPasswordKey,
           textSize: 18,
           fontWeightIndex: FontSelectionData.semiBoldFontFamily,
@@ -48,7 +48,7 @@ class _LoginWidgetState extends State<LoginWidget> {
 
         const SizedBox(height: 10),
 
-        TextInAppWidget(
+        const TextInAppWidget(
           text: AppLanguageKeys.forgotPasswordKey,
           textSize: 14,
           fontWeightIndex: FontSelectionData.semiBoldFontFamily,
@@ -62,7 +62,7 @@ class _LoginWidgetState extends State<LoginWidget> {
             final String password = passwordController.text.trim();
 
             if (user.isEmpty || password.isEmpty) {
-              AppSnackBar.showError("Please enter username and password");
+              AppSnackBar.showError(AppLanguageKeys.enterUsernameAndPassword);
               return;
             }
 
@@ -80,7 +80,6 @@ class _LoginWidgetState extends State<LoginWidget> {
             }
           },
         ),
-
 
         const SizedBox(height: 10),
       ],

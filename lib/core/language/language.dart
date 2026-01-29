@@ -14,9 +14,213 @@ class AppLocalizations {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'ar': {
-      //New Adds///
+      //Api Failures//
+      AppLanguageKeys.oopsErrorTryAgain: 'عذراً، حدث خطأ ما، يرجى المحاولة مرة أخرى.',
+      AppLanguageKeys.internalServerError: 'خطأ في الخادم الداخلي، يرجى المحاولة لاحقاً.',
+      AppLanguageKeys.requestNotFound: 'لم يتم العثور على طلبك، يرجى المحاولة لاحقاً!',
+      AppLanguageKeys.badResponseError: 'استجابة غير صحيحة، حدث خطأ ما.',
+      //End//
+
+      //login//
+      AppLanguageKeys.enterUsernameAndPassword: 'من فضلك أدخل اسم المستخدم وكلمة المرور',
+      AppLanguageKeys.fillAllFields: 'من فضلك قم بملء جميع الحقول',
+      AppLanguageKeys.passwordsDoNotMatch: 'كلمتا المرور غير متطابقتين',
+      //End//
+
+      //Model Messages//
+      AppLanguageKeys.changePasswordSuccessfully: 'تم تغيير كلمة المرور بنجاح',
+      AppLanguageKeys.checkIfUserExistSuccessfully: 'تم التحقق من وجود المستخدم بنجاح',
+      AppLanguageKeys.checkIfUserExistOrNotSuccessfully: 'تم التحقق من وجود المستخدم أو عدمه بنجاح',
+      AppLanguageKeys.accountCreatedSuccessfully: 'تم إنشاء الحساب بنجاح',
+      AppLanguageKeys.deleteUserSuccessfully: 'تم حذف المستخدم بنجاح',
+      AppLanguageKeys.getAppUserInfoSuccessfully: 'تم جلب معلومات مستخدم التطبيق بنجاح',
+      AppLanguageKeys.accountLoginSuccessfully: 'تم تسجيل الدخول بنجاح',
+      AppLanguageKeys.restoreUserSuccessfully: 'تم استرجاع المستخدم بنجاح',
+      AppLanguageKeys.updateUserSuccessfully: 'تم تحديث المستخدم بنجاح',
+
+      AppLanguageKeys.changeCouponStatusSuccessfully: 'تم تغيير حالة الكوبون بنجاح',
+      AppLanguageKeys.getCarSuccessfully: 'تم جلب بيانات السيارة بنجاح',
+      AppLanguageKeys.getCouponByCodeSuccessfully: 'تم جلب الكوبون بواسطة الكود بنجاح',
+      AppLanguageKeys.getStaticsForCouponSuccessfully: 'تم جلب إحصائيات الكوبون بنجاح',
+      AppLanguageKeys.uploadCouponSuccessfully: 'تم رفع الكوبون بنجاح',
+
+      AppLanguageKeys.createRateSuccessfully: 'تم إنشاء التقييم بنجاح',
+      AppLanguageKeys.deleteRateSuccessfully: 'تم حذف التقييم بنجاح',
+      AppLanguageKeys.getProviderDetailsRatesSuccessfully:
+          'تم جلب تفاصيل تقييمات مزود الخدمة بنجاح',
+      AppLanguageKeys.getProvidersBasicRateSuccessfully:
+          'تم جلب التقييم الأساسي لمزود الخدمة بنجاح',
+      AppLanguageKeys.updateRateSuccessfully: 'تم تحديث التقييم بنجاح',
+
+      AppLanguageKeys.createServiceSuccessfully: 'تم إنشاء الخدمة بنجاح',
+      AppLanguageKeys.uploadServiceSuccessfully: 'تم رفع الخدمة بنجاح',
+
+      AppLanguageKeys.getAdminDashboardStatisticsSuccessfully:
+          'تم جلب إحصائيات لوحة تحكم الإدارة بنجاح',
+      AppLanguageKeys.getAdminMostRequestedServicesSuccessfully:
+          'تم جلب أكثر الخدمات طلباً بنجاح',
+      AppLanguageKeys.getCompanyCarGroupChartSuccessfully:
+          'تم جلب مخطط مجموعات سيارات الشركة بنجاح',
+      AppLanguageKeys.getCompanyGeneralStatisticsSuccessfully:
+          'تم جلب الإحصائيات العامة للشركة بنجاح',
+      AppLanguageKeys.getMaintenanceReportSuccessfully:
+          'تم جلب تقرير الصيانة بنجاح',
+      AppLanguageKeys.getProviderHarageMonthlySalesSuccessfully:
+          'تم جلب مبيعات حراج مزود الخدمة الشهرية بنجاح',
+      AppLanguageKeys.getProviderHarageSalesChartSuccessfully:
+          'تم جلب مخطط مبيعات حراج مزود الخدمة بنجاح',
+      AppLanguageKeys.getProviderHarageSoldCarsByTypeSuccessfully:
+          'تم جلب السيارات المباعة حسب النوع في حراج مزود الخدمة بنجاح',
+      AppLanguageKeys.getProviderMainServiceStatisticsSuccessfully:
+          'تم جلب إحصائيات الخدمة الرئيسية لمزود الخدمة بنجاح',
+      AppLanguageKeys.getProviderOrdersSalesSuccessfully:
+          'تم جلب مبيعات طلبات مزود الخدمة بنجاح',
+      AppLanguageKeys.getProviderPetrolBranchesSalesSuccessfully:
+          'تم جلب مبيعات فروع الوقود لمزود الخدمة بنجاح',
+      AppLanguageKeys.getProviderPetrolSalesChartSuccessfully:
+          'تم جلب مخطط مبيعات الوقود لمزود الخدمة بنجاح',
+      AppLanguageKeys.getProviderServiceStatisticsSuccessfully:
+          'تم جلب إحصائيات خدمات مزود الخدمة بنجاح',
+      AppLanguageKeys.getProviderTotalRateEmployeeBalanceSuccessfully:
+          'تم جلب إجمالي التقييم وعدد الموظفين والرصيد لمزود الخدمة بنجاح',
+
+      AppLanguageKeys.createProductSuccess: 'تم إنشاء المنتج بنجاح',
+      AppLanguageKeys.deleteProductSuccess: 'تم حذف المنتج بنجاح',
+      AppLanguageKeys.getProductSuccess: 'تم جلب المنتج بنجاح',
+      AppLanguageKeys.getProductsSuitableForCarSuccess:
+          'تم جلب المنتجات المناسبة للسيارة بنجاح',
+      AppLanguageKeys.updateProductSuccess: 'تم تحديث المنتج بنجاح',
+
+      AppLanguageKeys.addBranchSuccess: 'تم إضافة الفرع بنجاح',
+      AppLanguageKeys.createExpectedPetrolSpendSuccess:
+          'تم إنشاء مصروف الوقود المتوقع بنجاح',
+      AppLanguageKeys.createProvServiceSuccess:
+          'تم إنشاء خدمة مزود الخدمة بنجاح',
+      AppLanguageKeys.createServicePackageSuccess: 'تم إنشاء باقة الخدمة بنجاح',
+      AppLanguageKeys.deleteExpectedPetrolSpendSuccess:
+          'تم حذف مصروف الوقود المتوقع بنجاح',
+      AppLanguageKeys.deleteProvServiceSuccess: 'تم حذف خدمة مزود الخدمة بنجاح',
+      AppLanguageKeys.deleteProviderWorkTimeSuccess:
+          'تم حذف وقت عمل مزود الخدمة بنجاح',
+      AppLanguageKeys.deleteServicePackageSuccess: 'تم حذف باقة الخدمة بنجاح',
+      AppLanguageKeys.getBranchEmployeesSuccess: 'تم جلب موظفي الفرع بنجاح',
+      AppLanguageKeys.getExpectedPetrolSpendSuccess:
+          'تم جلب مصروف الوقود المتوقع بنجاح',
+      AppLanguageKeys.getProviderBranchesSuccess:
+          'تم جلب فروع مزود الخدمة بنجاح',
+      AppLanguageKeys.getProviderServicePackagesSuccess:
+          'تم جلب باقات خدمات مزود الخدمة بنجاح',
+      AppLanguageKeys.getProviderWorkTimeSuccess:
+          'تم جلب أوقات عمل مزود الخدمة بنجاح',
+      AppLanguageKeys.getServiceProviderDetailsForAppUserSuccess:
+          'تم جلب تفاصيل مزود الخدمة لمستخدم التطبيق بنجاح',
+      AppLanguageKeys.getServiceProvidersByServiceIdForAppUserSuccess:
+          'تم جلب مزودي الخدمة حسب الخدمة لمستخدم التطبيق بنجاح',
+      AppLanguageKeys.updateBranchSuccess: 'تم تحديث الفرع بنجاح',
+      AppLanguageKeys.updateExpectedPetrolSpendSuccess:
+          'تم تحديث مصروف الوقود المتوقع بنجاح',
+      AppLanguageKeys.updateProvServiceSuccess:
+          'تم تحديث خدمة مزود الخدمة بنجاح',
+      AppLanguageKeys.updateServicePackageSuccess: 'تم تحديث باقة الخدمة بنجاح',
+      AppLanguageKeys.uploadProviderWorkTimesSuccess:
+          'تم رفع أوقات عمل مزود الخدمة بنجاح',
+
+      AppLanguageKeys.createHarageSuccessfully: 'تم إنشاء الحراج بنجاح',
+      AppLanguageKeys.deleteHarageSuccessfully: 'تم حذف الحراج بنجاح',
+      AppLanguageKeys.getAllHarageSuccessfully: 'تم جلب جميع الحراجات بنجاح',
+      AppLanguageKeys.getHarageSuccessfully: 'تم جلب الحراج بنجاح',
+      AppLanguageKeys.updateHarageSuccessfully: 'تم تحديث الحراج بنجاح',
+
+      AppLanguageKeys.cancelOrderSuccessfully: 'تم إلغاء الطلب بنجاح',
+      AppLanguageKeys.createOrderSuccessfully: 'تم إنشاء الطلب بنجاح',
+      AppLanguageKeys.getCompanyOrdersSuccessfully: 'تم جلب طلبات الشركة بنجاح',
+      AppLanguageKeys.getOrderDetailsSuccessfully: 'تم جلب تفاصيل الطلب بنجاح',
+      AppLanguageKeys.getOrdersSuccessfully: 'تم جلب الطلبات بنجاح',
+      AppLanguageKeys.getProviderOrdersSuccessfully:
+          'تم جلب طلبات مزود الخدمة بنجاح',
+      AppLanguageKeys.updateOrderOfferStatusSuccessfully:
+          'تم تحديث حالة عرض الطلب بنجاح',
+      AppLanguageKeys.updateOrderStatusSuccessfully:
+          'تم تحديث حالة الطلب بنجاح',
+
+      AppLanguageKeys.addCardSuccessfully: 'تم إضافة البطاقة بنجاح',
+      AppLanguageKeys.createPaymentSuccessfully: 'تم إنشاء عملية الدفع بنجاح',
+      AppLanguageKeys.getUserCardsSuccessfully: 'تم جلب بطاقات المستخدم بنجاح',
+      AppLanguageKeys.getWalletBalanceSuccessfully: 'تم جلب رصيد المحفظة بنجاح',
+      AppLanguageKeys.getWalletTransactionsSuccessfully:
+          'تم جلب معاملات المحفظة بنجاح',
+      AppLanguageKeys.rechargeWalletSuccessfully: 'تم شحن المحفظة بنجاح',
+      AppLanguageKeys.removeCardSuccessfully: 'تم حذف البطاقة بنجاح',
+      AppLanguageKeys.setDefaultCardSuccessfully:
+          'تم تعيين البطاقة الافتراضية بنجاح',
+
+      AppLanguageKeys.assignServiceToEmployeeSuccessfully:
+          'تم تعيين الخدمة للموظف بنجاح',
+      AppLanguageKeys.getEmployeeServicesSuccessfully:
+          'تم جلب خدمات الموظف بنجاح',
+
+      AppLanguageKeys.addTaxSuccessfully: 'تم إضافة الضريبة بنجاح',
+      AppLanguageKeys.createCarBrandSuccessfully:
+          'تم إنشاء ماركة السيارة بنجاح',
+      AppLanguageKeys.createCarModelSuccessfully:
+          'تم إنشاء موديل السيارة بنجاح',
+      AppLanguageKeys.deleteTaxSuccessfully: 'تم حذف الضريبة بنجاح',
+      AppLanguageKeys.getAllPagesAboutSuccessfully:
+          'تم جلب جميع صفحات من نحن بنجاح',
+      AppLanguageKeys.getCarBrandModelsSuccessfully:
+          'تم جلب موديلات ماركة السيارة بنجاح',
+      AppLanguageKeys.getServicesSuccessfully: 'تم جلب الخدمات بنجاح',
+      AppLanguageKeys.updateCarBrandSuccessfully:
+          'تم تحديث ماركة السيارة بنجاح',
+      AppLanguageKeys.updateCarModelSuccessfully:
+          'تم تحديث موديل السيارة بنجاح',
+      AppLanguageKeys.updatePageAboutSuccessfully: 'تم تحديث صفحة من نحن بنجاح',
+      AppLanguageKeys.updateTaxSuccessfully: 'تم تحديث الضريبة بنجاح',
+      AppLanguageKeys.uploadPointInfoSuccessfully:
+          'تم رفع معلومات النقطة بنجاح',
+
+      AppLanguageKeys.getBannersSuccessfully: 'تم جلب البنرات بنجاح',
+      AppLanguageKeys.uploadBannersSuccessfully: 'تم رفع البنرات بنجاح',
+
+      AppLanguageKeys.getOtherMessagesSuccessfully:
+          'تم جلب الرسائل الأخرى بنجاح',
+      AppLanguageKeys.getUserProviderMessagesSuccessfully:
+          'تم جلب رسائل مزود الخدمة بنجاح',
+      AppLanguageKeys.getWorkTeamChatSuccessfully:
+          'تم جلب محادثات فريق العمل بنجاح',
+      AppLanguageKeys.makeChatViewedSuccessfully:
+          'تم تعيين المحادثة كمقروءة بنجاح',
+      AppLanguageKeys.openCloseChatSuccessfully:
+          'تم فتح / إغلاق المحادثة بنجاح',
+      AppLanguageKeys.sendMessageSuccessfully: 'تم إرسال الرسالة بنجاح',
+
+      AppLanguageKeys.addCarToGroupSuccessfully:
+          'تم إضافة السيارة إلى المجموعة بنجاح',
+      AppLanguageKeys.addCompanyDriverSuccessfully:
+          'تم إضافة سائق الشركة بنجاح',
+      AppLanguageKeys.createCarGroupSuccessfully:
+          'تم إنشاء مجموعة السيارات بنجاح',
+      AppLanguageKeys.deleteCarGroupSuccessfully:
+          'تم حذف مجموعة السيارات بنجاح',
+      AppLanguageKeys.deleteCompanyDriverSuccessfully:
+          'تم حذف سائق الشركة بنجاح',
+      AppLanguageKeys.getCarGroupsSuccessfully: 'تم جلب مجموعات السيارات بنجاح',
+      AppLanguageKeys.getCompanyDriversSuccessfully:
+          'تم جلب سائقي الشركة بنجاح',
+      AppLanguageKeys.getDriverDetailsSuccessfully:
+          'تم جلب بيانات السائق بنجاح',
+      AppLanguageKeys.removeCarFromGroupSuccessfully:
+          'تم إزالة السيارة من المجموعة بنجاح',
+      AppLanguageKeys.updateCarGroupSuccessfully:
+          'تم تحديث مجموعة السيارات بنجاح',
+      AppLanguageKeys.updateCompanyDriverSuccessfully:
+          'تم تحديث بيانات سائق الشركة بنجاح',
+
+      //End//
+
+      //New Adds ///
       AppLanguageKeys.petroleum: 'البترول',
-      AppLanguageKeys.languageKey: 'English',
+      AppLanguageKeys.languageKey: 'عربي',
       AppLanguageKeys.dashBoardPageKey: 'الرئيسية',
       AppLanguageKeys.securityPageKey: 'الحمايه',
       AppLanguageKeys.permissionsGroupPageKey: 'احصائيات',
@@ -913,9 +1117,222 @@ class AppLocalizations {
       AppLanguageKeys.from: "من",
     },
     'en': {
+      //Api Failures//
+      AppLanguageKeys.oopsErrorTryAgain: 'Oops! There was an error, please try again.',
+      AppLanguageKeys.internalServerError: 'Internal server error, please try later.',
+      AppLanguageKeys.requestNotFound: 'Your request was not found, please try later!',
+      AppLanguageKeys.badResponseError: 'Bad response, something went wrong.',
+      //End//
+
+      //login//
+      AppLanguageKeys.enterUsernameAndPassword: 'Please enter username and password',
+      AppLanguageKeys.fillAllFields: 'Please fill all fields',
+      AppLanguageKeys.passwordsDoNotMatch: 'Passwords do not match',
+      //End//
+
+      //Model Messages//
+      AppLanguageKeys.changePasswordSuccessfully: 'Change Password successfully',
+      AppLanguageKeys.checkIfUserExistSuccessfully: 'Check If User Exist successfully',
+      AppLanguageKeys.checkIfUserExistOrNotSuccessfully: 'Check If User Exist Or Not successfully',
+      AppLanguageKeys.accountCreatedSuccessfully: 'Account created successfully',
+      AppLanguageKeys.deleteUserSuccessfully: 'Delete User successfully',
+      AppLanguageKeys.getAppUserInfoSuccessfully: 'Get App User Info successfully',
+      AppLanguageKeys.accountLoginSuccessfully: 'Account Login successfully',
+      AppLanguageKeys.restoreUserSuccessfully: 'Restore User successfully',
+      AppLanguageKeys.updateUserSuccessfully: 'Update User successfully',
+
+      AppLanguageKeys.changeCouponStatusSuccessfully: 'Change Coupon Status successfully',
+      AppLanguageKeys.getCarSuccessfully: 'Get Car successfully',
+      AppLanguageKeys.getCouponByCodeSuccessfully: 'Get Coupon By Code successfully',
+      AppLanguageKeys.getStaticsForCouponSuccessfully: 'Get Statics For Coupon successfully',
+      AppLanguageKeys.uploadCouponSuccessfully: 'Upload Coupon successfully',
+
+      AppLanguageKeys.createRateSuccessfully: 'Create Rate successfully',
+      AppLanguageKeys.deleteRateSuccessfully: 'Delete Rate successfully',
+      AppLanguageKeys.getProviderDetailsRatesSuccessfully:
+          'Get Provider Details Rates successfully',
+      AppLanguageKeys.getProvidersBasicRateSuccessfully:
+          'Get Providers Basic Rate successfully',
+      AppLanguageKeys.updateRateSuccessfully: 'Update Rate successfully',
+
+      AppLanguageKeys.createServiceSuccessfully: 'Create Service successfully',
+      AppLanguageKeys.uploadServiceSuccessfully: 'Upload Service successfully',
+
+      AppLanguageKeys.getAdminDashboardStatisticsSuccessfully:
+          'Get Admin Dashboard Statistics successfully',
+      AppLanguageKeys.getAdminMostRequestedServicesSuccessfully:
+          'Get Admin Most Requested Services successfully',
+      AppLanguageKeys.getCompanyCarGroupChartSuccessfully:
+          'Get Company Car Group Chart successfully',
+      AppLanguageKeys.getCompanyGeneralStatisticsSuccessfully:
+          'Get Company General Statistics successfully',
+      AppLanguageKeys.getMaintenanceReportSuccessfully:
+          'Get Maintenance Report successfully',
+      AppLanguageKeys.getProviderHarageMonthlySalesSuccessfully:
+          'Get Provider Harage Monthly Sales successfully',
+      AppLanguageKeys.getProviderHarageSalesChartSuccessfully:
+          'Get Provider Harage Sales Chart successfully',
+      AppLanguageKeys.getProviderHarageSoldCarsByTypeSuccessfully:
+          'Get Provider Harage Sold Cars By Type successfully',
+      AppLanguageKeys.getProviderMainServiceStatisticsSuccessfully:
+          'Get Provider Main Service Statistics successfully',
+      AppLanguageKeys.getProviderOrdersSalesSuccessfully:
+          'Get Provider Orders Sales successfully',
+      AppLanguageKeys.getProviderPetrolBranchesSalesSuccessfully:
+          'Get Provider Petrol Branches Sales successfully',
+      AppLanguageKeys.getProviderPetrolSalesChartSuccessfully:
+          'Get Provider Petrol Sales Chart successfully',
+      AppLanguageKeys.getProviderServiceStatisticsSuccessfully:
+          'Get Provider Service Statistics successfully',
+      AppLanguageKeys.getProviderTotalRateEmployeeBalanceSuccessfully:
+          'Get Provider Total Rate And Employee And Balance successfully',
+
+      AppLanguageKeys.createProductSuccess: 'Create Product successfully',
+      AppLanguageKeys.deleteProductSuccess: 'Delete Product successfully',
+      AppLanguageKeys.getProductSuccess: 'Get Product successfully',
+      AppLanguageKeys.getProductsSuitableForCarSuccess:
+          'Get Products Suitable For Car successfully',
+      AppLanguageKeys.updateProductSuccess: 'Update Product successfully',
+
+      AppLanguageKeys.addBranchSuccess: 'Add Branch successfully',
+      AppLanguageKeys.createExpectedPetrolSpendSuccess:
+          'Create Expected Petrol Spend successfully',
+      AppLanguageKeys.createProvServiceSuccess:
+          'Create Provider Service successfully',
+      AppLanguageKeys.createServicePackageSuccess:
+          'Create Service Package successfully',
+      AppLanguageKeys.deleteExpectedPetrolSpendSuccess:
+          'Delete Expected Petrol Spend successfully',
+      AppLanguageKeys.deleteProvServiceSuccess:
+          'Delete Provider Service successfully',
+      AppLanguageKeys.deleteProviderWorkTimeSuccess:
+          'Delete Provider Work Time successfully',
+      AppLanguageKeys.deleteServicePackageSuccess:
+          'Delete Service Package successfully',
+      AppLanguageKeys.getBranchEmployeesSuccess:
+          'Get Branch Employees successfully',
+      AppLanguageKeys.getExpectedPetrolSpendSuccess:
+          'Get Expected Petrol Spend successfully',
+      AppLanguageKeys.getProviderBranchesSuccess:
+          'Get Provider Branches successfully',
+      AppLanguageKeys.getProviderServicePackagesSuccess:
+          'Get Provider Service Packages successfully',
+      AppLanguageKeys.getProviderWorkTimeSuccess:
+          'Get Provider Work Time successfully',
+      AppLanguageKeys.getServiceProviderDetailsForAppUserSuccess:
+          'Get Service Provider Details For App User successfully',
+      AppLanguageKeys.getServiceProvidersByServiceIdForAppUserSuccess:
+          'Get Service Providers By Service Id For App User successfully',
+      AppLanguageKeys.updateBranchSuccess: 'Update Branch successfully',
+      AppLanguageKeys.updateExpectedPetrolSpendSuccess:
+          'Update Expected Petrol Spend successfully',
+      AppLanguageKeys.updateProvServiceSuccess:
+          'Update Provider Service successfully',
+      AppLanguageKeys.updateServicePackageSuccess:
+          'Update Service Package successfully',
+      AppLanguageKeys.uploadProviderWorkTimesSuccess:
+          'Upload Provider Work Times successfully',
+
+      AppLanguageKeys.createHarageSuccessfully: 'Create Harage successfully',
+      AppLanguageKeys.deleteHarageSuccessfully: 'Delete Harage successfully',
+      AppLanguageKeys.getAllHarageSuccessfully: 'Get All Harage successfully',
+      AppLanguageKeys.getHarageSuccessfully: 'Get Harage successfully',
+      AppLanguageKeys.updateHarageSuccessfully: 'Update Harage successfully',
+
+      AppLanguageKeys.cancelOrderSuccessfully: 'Cancel Order successfully',
+      AppLanguageKeys.createOrderSuccessfully: 'Create Order successfully',
+      AppLanguageKeys.getCompanyOrdersSuccessfully:
+          'Get Company Orders successfully',
+      AppLanguageKeys.getOrderDetailsSuccessfully:
+          'Get Order Details successfully',
+      AppLanguageKeys.getOrdersSuccessfully: 'Get Orders successfully',
+      AppLanguageKeys.getProviderOrdersSuccessfully:
+          'Get Provider Orders successfully',
+      AppLanguageKeys.updateOrderOfferStatusSuccessfully:
+          'Update Order Offer Status successfully',
+      AppLanguageKeys.updateOrderStatusSuccessfully:
+          'Update Order Status successfully',
+
+      AppLanguageKeys.addCardSuccessfully: 'Add Card successfully',
+      AppLanguageKeys.createPaymentSuccessfully: 'Create Payment successfully',
+      AppLanguageKeys.getUserCardsSuccessfully: 'Get User Cards successfully',
+      AppLanguageKeys.getWalletBalanceSuccessfully:
+          'Get Wallet Balance successfully',
+      AppLanguageKeys.getWalletTransactionsSuccessfully:
+          'Get Wallet Transactions successfully',
+      AppLanguageKeys.rechargeWalletSuccessfully:
+          'Recharge Wallet successfully',
+      AppLanguageKeys.removeCardSuccessfully: 'Remove Card successfully',
+      AppLanguageKeys.setDefaultCardSuccessfully:
+          'Set Default Card successfully',
+
+      AppLanguageKeys.assignServiceToEmployeeSuccessfully:
+          'Assign Service To Employee successfully',
+      AppLanguageKeys.getEmployeeServicesSuccessfully:
+          'Get Employee Services successfully',
+
+      AppLanguageKeys.addTaxSuccessfully: 'Add Tax successfully',
+      AppLanguageKeys.createCarBrandSuccessfully:
+          'Create Car Brand successfully',
+      AppLanguageKeys.createCarModelSuccessfully:
+          'Create Car Model successfully',
+      AppLanguageKeys.deleteTaxSuccessfully: 'Delete Tax successfully',
+      AppLanguageKeys.getAllPagesAboutSuccessfully:
+          'Get All Pages About successfully',
+      AppLanguageKeys.getCarBrandModelsSuccessfully:
+          'Get Car Brand Models successfully',
+      AppLanguageKeys.getServicesSuccessfully: 'Get Services successfully',
+      AppLanguageKeys.updateCarBrandSuccessfully:
+          'Update Car Brand successfully',
+      AppLanguageKeys.updateCarModelSuccessfully:
+          'Update Car Model successfully',
+      AppLanguageKeys.updatePageAboutSuccessfully:
+          'Update Page About successfully',
+      AppLanguageKeys.updateTaxSuccessfully: 'Update Tax successfully',
+      AppLanguageKeys.uploadPointInfoSuccessfully:
+          'Upload Point Info successfully',
+
+      AppLanguageKeys.getBannersSuccessfully: 'Get Banners successfully',
+      AppLanguageKeys.uploadBannersSuccessfully: 'Upload Banners successfully',
+
+      AppLanguageKeys.getOtherMessagesSuccessfully:
+          'Get Other Messages successfully',
+      AppLanguageKeys.getUserProviderMessagesSuccessfully:
+          'Get User Provider Messages successfully',
+      AppLanguageKeys.getWorkTeamChatSuccessfully:
+          'Get Work Team Chat successfully',
+      AppLanguageKeys.makeChatViewedSuccessfully:
+          'Make Chat Viewed successfully',
+      AppLanguageKeys.openCloseChatSuccessfully:
+          'Open / Close Chat successfully',
+      AppLanguageKeys.sendMessageSuccessfully: 'Send Message successfully',
+
+      AppLanguageKeys.addCarToGroupSuccessfully:
+          'Add Car To Group successfully',
+      AppLanguageKeys.addCompanyDriverSuccessfully:
+          'Add Company Driver successfully',
+      AppLanguageKeys.createCarGroupSuccessfully:
+          'Create Car Group successfully',
+      AppLanguageKeys.deleteCarGroupSuccessfully:
+          'Delete Car Group successfully',
+      AppLanguageKeys.deleteCompanyDriverSuccessfully:
+          'Delete Company Driver successfully',
+      AppLanguageKeys.getCarGroupsSuccessfully: 'Get Car Groups successfully',
+      AppLanguageKeys.getCompanyDriversSuccessfully:
+          'Get Company Drivers successfully',
+      AppLanguageKeys.getDriverDetailsSuccessfully:
+          'Get Driver Details successfully',
+      AppLanguageKeys.removeCarFromGroupSuccessfully:
+          'Remove Car From Group successfully',
+      AppLanguageKeys.updateCarGroupSuccessfully:
+          'Update Car Group successfully',
+      AppLanguageKeys.updateCompanyDriverSuccessfully:
+          'Update Company Driver successfully',
+
+      //End//
       //New Adds///
       AppLanguageKeys.petroleum: 'Petroleum',
-      AppLanguageKeys.languageKey: 'عربي',
+      AppLanguageKeys.languageKey: 'English',
       AppLanguageKeys.dashBoardPageKey: 'Dashboard',
       AppLanguageKeys.securityPageKey: 'Security',
       AppLanguageKeys.permissionsGroupPageKey: 'Permissions Group',

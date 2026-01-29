@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import '../../../../core/language/language_constant.dart';
 import '../../../../core/model/company_management/create_car_group_model/create_car_group_request.dart';
 import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
@@ -14,7 +15,7 @@ Future<void> createCarGroupFunction({required CreateCarGroupRequest createCarGro
       jsonString,
       ApiLink.createCarGroup,
     ).then((value) {
-      AppSnackBar.showSuccess("Create Car Group successfully");
+      AppSnackBar.showSuccess(AppLanguageKeys.createCarGroupSuccessfully);
     });
 
   } catch (e) {

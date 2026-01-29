@@ -4,6 +4,7 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
+import '../../../../core/language/language_constant.dart';
 
 Future<void> getProviderTotalRateAndEmployeeAndBalanceFunction({
   required GetProviderTotalRateAndEmployeeAndBalanceRequest getProviderTotalRateAndEmployeeAndBalanceRequest,
@@ -14,7 +15,7 @@ Future<void> getProviderTotalRateAndEmployeeAndBalanceFunction({
       getProviderTotalRateAndEmployeeAndBalanceRequest.toJson(), // params
         ApiLink.getProviderTotalRateAndEmployeeAndBalance
     );
-    AppSnackBar.showSuccess("Get Provider Total Rate And Employee And Balance successfully");
+    AppSnackBar.showSuccess(AppLanguageKeys.getProviderTotalRateEmployeeBalanceSuccessfully);
   } catch (e) {
     AppSnackBar.showError(
       e is DioException

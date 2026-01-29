@@ -5,6 +5,7 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
+import '../../../../core/language/language_constant.dart';
 
 Future<void> createPaymentFunction({required CreatePaymentRequest createPaymentRequest}) async {
   try {
@@ -14,7 +15,7 @@ Future<void> createPaymentFunction({required CreatePaymentRequest createPaymentR
       jsonString,
       ApiLink.createPayment,
     ).then((value) {
-      AppSnackBar.showSuccess("Create Payment successfully");
+      AppSnackBar.showSuccess(AppLanguageKeys.createPaymentSuccessfully);
     });
 
   } catch (e) {

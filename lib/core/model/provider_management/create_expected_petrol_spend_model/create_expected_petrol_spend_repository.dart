@@ -1,20 +1,21 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import '../../../../core/model/provider_management/add_branch_model/add_branch_request.dart';
+import 'package:sun_web_system/core/model/provider_management/create_expected_petrol_spend_model/create_expected_petrol_spend_request.dart';
 import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
+import '../../../../core/language/language_constant.dart';
 
-Future<void> addBranchFunction({required AddBranchRequest addBranchRequest}) async {
+Future<void> createExpectedPetrolSpendFunction({required CreateExpectedPetrolSpendRequest createExpectedPetrolSpendRequest}) async {
   try {
-    String jsonString = json.encode(addBranchRequest.toJson());
+    String jsonString = json.encode(createExpectedPetrolSpendRequest.toJson());
 
     await Network.postDataWithBody(
       jsonString,
-      ApiLink.addBranch,
+      ApiLink.createExpectedPetrolSpend,
     ).then((value) {
-      AppSnackBar.showSuccess("Create Product successfully");
+      AppSnackBar.showSuccess(AppLanguageKeys.createExpectedPetrolSpendSuccess);
     });
 
   } catch (e) {

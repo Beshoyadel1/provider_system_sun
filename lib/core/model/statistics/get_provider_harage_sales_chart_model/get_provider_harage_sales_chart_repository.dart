@@ -4,6 +4,7 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
+import '../../../../core/language/language_constant.dart';
 
 Future<void> getProviderHarageSalesChartFunction({
   required GetProviderHarageSalesChartRequest getProviderHarageSalesChartRequest,
@@ -14,7 +15,7 @@ Future<void> getProviderHarageSalesChartFunction({
       getProviderHarageSalesChartRequest.toJson(), // params
         ApiLink.getProviderHarageSalesChart
     );
-    AppSnackBar.showSuccess("Get Provider Harage Sales Chart successfully");
+    AppSnackBar.showSuccess(AppLanguageKeys.getProviderHarageSalesChartSuccessfully);
   } catch (e) {
     AppSnackBar.showError(
       e is DioException

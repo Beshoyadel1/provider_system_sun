@@ -5,6 +5,7 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
+import '../../../../core/language/language_constant.dart';
 
 Future<void> uploadPointInfoFunction({required UploadPointInfoRequest uploadPointInfoRequest}) async {
   try {
@@ -14,7 +15,7 @@ Future<void> uploadPointInfoFunction({required UploadPointInfoRequest uploadPoin
       jsonString,
       ApiLink.uploadPointInfo,
     ).then((value) {
-      AppSnackBar.showSuccess("Upload Point Info successfully");
+      AppSnackBar.showSuccess(AppLanguageKeys.uploadPointInfoSuccessfully);
     });
 
   } catch (e) {

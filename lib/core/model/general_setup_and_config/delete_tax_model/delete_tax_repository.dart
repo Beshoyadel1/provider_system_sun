@@ -4,6 +4,7 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
+import '../../../../core/language/language_constant.dart';
 
 Future<void> deleteTaxFunction({
   required DeleteTaxRequest deleteTaxRequest,
@@ -14,7 +15,7 @@ Future<void> deleteTaxFunction({
       deleteTaxRequest.toJson(), // params
       ApiLink.deleteTax,
     );
-    AppSnackBar.showSuccess("Delete Tax successfully");
+    AppSnackBar.showSuccess(AppLanguageKeys.deleteTaxSuccessfully);
   } catch (e) {
     AppSnackBar.showError(
       e is DioException

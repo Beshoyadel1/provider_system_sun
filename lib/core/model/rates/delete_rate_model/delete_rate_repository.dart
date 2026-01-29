@@ -4,6 +4,7 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
+import '../../../../core/language/language_constant.dart';
 
 Future<void> deleteRateFunction({
   required DeleteRateRequest deleteRateRequest,
@@ -14,7 +15,7 @@ Future<void> deleteRateFunction({
       deleteRateRequest.toJson(), // params
       ApiLink.deleteRate,
     );
-    AppSnackBar.showSuccess("Delete Rate successfully");
+    AppSnackBar.showSuccess(AppLanguageKeys.deleteRateSuccessfully);
   } catch (e) {
     AppSnackBar.showError(
       e is DioException

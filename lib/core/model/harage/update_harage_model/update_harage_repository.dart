@@ -5,7 +5,7 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
-
+import '../../../../core/language/language_constant.dart';
 
 Future<void> updateHarageFunction({required UpdateHarageRequest updateHarageRequest}) async {
   try {
@@ -15,7 +15,7 @@ Future<void> updateHarageFunction({required UpdateHarageRequest updateHarageRequ
       jsonString,
       ApiLink.updateHarage,
     ).then((value) {
-      AppSnackBar.showSuccess("Update Harage successfully");
+      AppSnackBar.showSuccess(AppLanguageKeys.updateHarageSuccessfully);
     });
 
   } catch (e) {

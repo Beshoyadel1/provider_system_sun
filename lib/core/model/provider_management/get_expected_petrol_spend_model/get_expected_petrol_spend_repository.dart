@@ -4,6 +4,7 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
+import '../../../../core/language/language_constant.dart';
 
 Future<void> getExpectedPetrolSpendFunction({
   required GetExpectedPetrolSpendRequest getExpectedPetrolSpendRequestRequest,
@@ -14,7 +15,7 @@ Future<void> getExpectedPetrolSpendFunction({
       getExpectedPetrolSpendRequestRequest.toJson(), // params
       ApiLink.getExpectedPetrolSpend,
     );
-    AppSnackBar.showSuccess("Get Expected Petrol Spend successfully");
+    AppSnackBar.showSuccess(AppLanguageKeys.getExpectedPetrolSpendSuccess);
   } catch (e) {
     AppSnackBar.showError(
       e is DioException

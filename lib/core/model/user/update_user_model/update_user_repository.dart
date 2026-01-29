@@ -5,7 +5,7 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
-
+import '../../../../core/language/language_constant.dart';
 
 Future<void> updateUserFunction({required UpdateUserRequest updateUserRequest}) async {
   try {
@@ -14,7 +14,7 @@ Future<void> updateUserFunction({required UpdateUserRequest updateUserRequest}) 
       jsonString,
         ApiLink.updateUser,
     ).then((value) {
-      AppSnackBar.showSuccess("Update User successfully");
+      AppSnackBar.showSuccess(AppLanguageKeys.updateUserSuccessfully);
     });
 
   } catch (e) {

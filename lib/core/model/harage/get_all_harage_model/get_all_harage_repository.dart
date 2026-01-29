@@ -4,8 +4,9 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
+import '../../../../core/language/language_constant.dart';
 
-Future<void> GetAllHarageFunction({
+Future<void> getAllHarageFunction({
   required GetAllHarageRequest getAllHarageRequest,
 }) async {
   try {
@@ -14,7 +15,7 @@ Future<void> GetAllHarageFunction({
       getAllHarageRequest.toJson(), // params
       ApiLink.getAllHarage,
     );
-    AppSnackBar.showSuccess("Get All Harage successfully");
+    AppSnackBar.showSuccess(AppLanguageKeys.getAllHarageSuccessfully);
   } catch (e) {
     AppSnackBar.showError(
       e is DioException

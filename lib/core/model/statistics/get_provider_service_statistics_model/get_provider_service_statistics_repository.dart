@@ -4,6 +4,7 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
+import '../../../../core/language/language_constant.dart';
 
 Future<void> getProviderServiceStatisticsFunction({
   required GetProviderServiceStatisticsRequest getProviderServiceStatisticsRequest,
@@ -14,7 +15,7 @@ Future<void> getProviderServiceStatisticsFunction({
       getProviderServiceStatisticsRequest.toJson(), // params
         ApiLink.getProviderServiceStatistics
     );
-    AppSnackBar.showSuccess("Get Provider Service Statistics successfully");
+    AppSnackBar.showSuccess(AppLanguageKeys.getProviderServiceStatisticsSuccessfully);
   } catch (e) {
     AppSnackBar.showError(
       e is DioException

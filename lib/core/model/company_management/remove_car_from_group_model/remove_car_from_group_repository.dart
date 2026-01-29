@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import '../../../../core/language/language_constant.dart';
 import '../../../../core/model/company_management/remove_car_from_group_model/remove_car_from_group_request.dart';
 import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
@@ -14,7 +15,7 @@ Future<void> removeCarFromGroupFunction({
       removeCarFromGroupRequest.toJson(), // params
       ApiLink.removeCarFromGroup,
     );
-    AppSnackBar.showSuccess("Remove Car From Group successfully");
+    AppSnackBar.showSuccess(AppLanguageKeys.removeCarFromGroupSuccessfully);
   } catch (e) {
     AppSnackBar.showError(
       e is DioException

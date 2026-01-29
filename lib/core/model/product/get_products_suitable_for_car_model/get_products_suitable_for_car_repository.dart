@@ -4,6 +4,7 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
+import '../../../../core/language/language_constant.dart';
 
 Future<void> getProductsSuitableForCarFunction({
   required GetProductsSuitableForCarRequest getProductsSuitableForCarRequest,
@@ -14,7 +15,7 @@ Future<void> getProductsSuitableForCarFunction({
       getProductsSuitableForCarRequest.toJson(), // params
       ApiLink.getProductsSuitableForCar,
     );
-    AppSnackBar.showSuccess("Get Products Suitable For Car successfully");
+    AppSnackBar.showSuccess(AppLanguageKeys.getProductsSuitableForCarSuccess);
   } catch (e) {
     AppSnackBar.showError(
       e is DioException

@@ -5,7 +5,7 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
-
+import '../../../../core/language/language_constant.dart';
 
 Future<void> updatePageAboutFunction({required UpdatePageAboutRequest updatePageAboutRequest}) async {
   try {
@@ -15,7 +15,7 @@ Future<void> updatePageAboutFunction({required UpdatePageAboutRequest updatePage
       jsonString,
       ApiLink.updatePageAbout,
     ).then((value) {
-      AppSnackBar.showSuccess("Update Page About successfully");
+      AppSnackBar.showSuccess(AppLanguageKeys.updatePageAboutSuccessfully);
     });
 
   } catch (e) {

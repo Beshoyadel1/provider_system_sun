@@ -4,9 +4,9 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
+import '../../../../core/language/language_constant.dart';
 
-
-Future<void> restoreUserFunction({
+Future<void> getAppUserInfoFunction({
   required GetAppUserInfoRequest getAppUserInfoRequest,
 }) async {
   try {
@@ -15,7 +15,7 @@ Future<void> restoreUserFunction({
       getAppUserInfoRequest.toJson(), // params
       ApiLink.getAppUserInfo,
     );
-    AppSnackBar.showSuccess("Get App User Info successfully");
+    AppSnackBar.showSuccess(AppLanguageKeys.getAppUserInfoSuccessfully);
   } catch (e) {
     AppSnackBar.showError(
       e is DioException

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import '../../../../core/language/language_constant.dart';
 import '../../../../core/model/order/get_order_details_model/get_order_details_request.dart';
 import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
@@ -14,7 +15,7 @@ Future<void> getOrderDetailsFunction({
       getOrderDetailsRequest.toJson(), // params
       ApiLink.getOrderDetails,
     );
-    AppSnackBar.showSuccess("Get Order Details successfully");
+    AppSnackBar.showSuccess(AppLanguageKeys.getOrderDetailsSuccessfully);
   } catch (e) {
     AppSnackBar.showError(
       e is DioException

@@ -5,7 +5,7 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
-
+import '../../../../core/language/language_constant.dart';
 
 Future<void> uploadServiceFunction({
   required UploadServiceRequest uploadServiceRequest,
@@ -16,7 +16,7 @@ Future<void> uploadServiceFunction({
       jsonString,
       ApiLink.uploadService,
     ).then((value) {
-      AppSnackBar.showSuccess("Upload Service successfully");
+      AppSnackBar.showSuccess(AppLanguageKeys.uploadServiceSuccessfully);
     }
     );
   } catch (e) {

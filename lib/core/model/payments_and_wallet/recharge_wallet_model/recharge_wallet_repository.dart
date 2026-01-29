@@ -5,6 +5,7 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
+import '../../../../core/language/language_constant.dart';
 
 Future<void> rechargeWalletFunction({required RechargeWalletRequest rechargeWalletRequest}) async {
   try {
@@ -14,7 +15,7 @@ Future<void> rechargeWalletFunction({required RechargeWalletRequest rechargeWall
       jsonString,
       ApiLink.rechargeWallet,
     ).then((value) {
-      AppSnackBar.showSuccess("Recharge Wallet successfully");
+      AppSnackBar.showSuccess(AppLanguageKeys.rechargeWalletSuccessfully);
     });
 
   } catch (e) {

@@ -5,6 +5,7 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
+import '../../../../core/language/language_constant.dart';
 
 Future<void> updateProductFunction({required UpdateProductRequest updateProductRequest}) async {
   try {
@@ -14,7 +15,7 @@ Future<void> updateProductFunction({required UpdateProductRequest updateProductR
       jsonString,
       ApiLink.updateProduct,
     ).then((value) {
-      AppSnackBar.showSuccess("Update Product successfully");
+      AppSnackBar.showSuccess(AppLanguageKeys.updateProductSuccess);
     });
 
   } catch (e) {

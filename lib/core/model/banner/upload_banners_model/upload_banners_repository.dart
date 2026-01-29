@@ -5,6 +5,7 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
+import '../../../../core/language/language_constant.dart';
 
 
 Future<void> uploadBannersFunction({required UploadBannersRequest uploadBannersRequest}) async {
@@ -15,7 +16,7 @@ Future<void> uploadBannersFunction({required UploadBannersRequest uploadBannersR
       jsonString,
       ApiLink.uploadBanners,
     ).then((value) {
-      AppSnackBar.showSuccess("Upload Banners successfully");
+      AppSnackBar.showSuccess(AppLanguageKeys.uploadBannersSuccessfully);
     });
 
   } catch (e) {

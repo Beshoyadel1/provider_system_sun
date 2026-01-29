@@ -4,6 +4,7 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
+import '../../../../core/language/language_constant.dart';
 
 Future<void> getServiceProviderDetailsForAppUserFunction({
   required GetServiceProviderDetailsForAppUserRequest getServiceProviderDetailsForAppUserRequest,
@@ -14,7 +15,7 @@ Future<void> getServiceProviderDetailsForAppUserFunction({
       getServiceProviderDetailsForAppUserRequest.toJson(), // params
       ApiLink.getServiceProviderDetailsForAppUser,
     );
-    AppSnackBar.showSuccess("Get Service Provider Details For App User successfully");
+    AppSnackBar.showSuccess(AppLanguageKeys.getServiceProviderDetailsForAppUserSuccess);
   } catch (e) {
     AppSnackBar.showError(
       e is DioException

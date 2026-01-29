@@ -5,6 +5,7 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
+import '../../../../core/language/language_constant.dart';
 
 Future<void> createServicePackageFunction({required CreateServicePackageRequest createServicePackageRequest}) async {
   try {
@@ -14,7 +15,7 @@ Future<void> createServicePackageFunction({required CreateServicePackageRequest 
       jsonString,
         ApiLink.createServicePackage
     ).then((value) {
-      AppSnackBar.showSuccess("Create Service Package successfully");
+      AppSnackBar.showSuccess(AppLanguageKeys.createServicePackageSuccess);
     });
 
   } catch (e) {

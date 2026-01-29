@@ -4,6 +4,7 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
+import '../../../../core/language/language_constant.dart';
 
 Future<void> getCarFunction({
   required GetCarRequest getCarRequest,
@@ -14,7 +15,7 @@ Future<void> getCarFunction({
       getCarRequest.toJson(), // params
       ApiLink.getCar,
     );
-    AppSnackBar.showSuccess("Get Car successfully");
+    AppSnackBar.showSuccess(AppLanguageKeys.getCarSuccessfully);
   } catch (e) {
     AppSnackBar.showError(
       e is DioException

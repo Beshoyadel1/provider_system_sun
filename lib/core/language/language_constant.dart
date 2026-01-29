@@ -1,6 +1,150 @@
 import 'package:sun_web_system/core/utilies/map_of_all_app.dart';
 
 class AppLanguageKeys {
+  //Api Failures//
+  static const String oopsErrorTryAgain = 'oopsErrorTryAgain';
+  static const String internalServerError = 'internalServerError';
+  static const String requestNotFound = 'requestNotFound';
+  static const String badResponseError = 'badResponseError';
+
+  //End//
+
+  //login//
+  static const String enterUsernameAndPassword = 'enterUsernameAndPassword';
+  static const String fillAllFields = 'fillAllFields';
+  static const String passwordsDoNotMatch = 'passwordsDoNotMatch';
+  //End//
+  //model//
+  static const String changePasswordSuccessfully = 'changePasswordSuccessfully';
+  static const String checkIfUserExistSuccessfully = 'checkIfUserExistSuccessfully';
+  static const String checkIfUserExistOrNotSuccessfully = 'checkIfUserExistOrNotSuccessfully';
+  static const String accountCreatedSuccessfully = 'accountCreatedSuccessfully';
+  static const String deleteUserSuccessfully = 'deleteUserSuccessfully';
+  static const String getAppUserInfoSuccessfully = 'getAppUserInfoSuccessfully';
+  static const String accountLoginSuccessfully = 'accountLoginSuccessfully';
+  static const String restoreUserSuccessfully = 'restoreUserSuccessfully';
+  static const String updateUserSuccessfully = 'updateUserSuccessfully';
+
+  static const String changeCouponStatusSuccessfully = 'changeCouponStatusSuccessfully';
+  static const String getCarSuccessfully = 'getCarSuccessfully';
+  static const String getCouponByCodeSuccessfully = 'getCouponByCodeSuccessfully';
+  static const String getStaticsForCouponSuccessfully = 'getStaticsForCouponSuccessfully';
+  static const String uploadCouponSuccessfully = 'uploadCouponSuccessfully';
+
+  static const String createRateSuccessfully = 'createRateSuccessfully';
+  static const String deleteRateSuccessfully = 'deleteRateSuccessfully';
+  static const String getProviderDetailsRatesSuccessfully = 'getProviderDetailsRatesSuccessfully';
+  static const String getProvidersBasicRateSuccessfully = 'getProvidersBasicRateSuccessfully';
+  static const String updateRateSuccessfully = 'updateRateSuccessfully';
+
+  static const String createServiceSuccessfully = 'createServiceSuccessfully';
+  static const String uploadServiceSuccessfully = 'uploadServiceSuccessfully';
+
+  static const String getAdminDashboardStatisticsSuccessfully = 'getAdminDashboardStatisticsSuccessfully';
+  static const String getAdminMostRequestedServicesSuccessfully = 'getAdminMostRequestedServicesSuccessfully';
+  static const String getCompanyCarGroupChartSuccessfully = 'getCompanyCarGroupChartSuccessfully';
+  static const String getCompanyGeneralStatisticsSuccessfully = 'getCompanyGeneralStatisticsSuccessfully';
+  static const String getMaintenanceReportSuccessfully = 'getMaintenanceReportSuccessfully';
+  static const String getProviderHarageMonthlySalesSuccessfully = 'getProviderHarageMonthlySalesSuccessfully';
+  static const String getProviderHarageSalesChartSuccessfully = 'getProviderHarageSalesChartSuccessfully';
+  static const String getProviderHarageSoldCarsByTypeSuccessfully = 'getProviderHarageSoldCarsByTypeSuccessfully';
+  static const String getProviderMainServiceStatisticsSuccessfully = 'getProviderMainServiceStatisticsSuccessfully';
+  static const String getProviderOrdersSalesSuccessfully = 'getProviderOrdersSalesSuccessfully';
+  static const String getProviderPetrolBranchesSalesSuccessfully = 'getProviderPetrolBranchesSalesSuccessfully';
+  static const String getProviderPetrolSalesChartSuccessfully = 'getProviderPetrolSalesChartSuccessfully';
+  static const String getProviderServiceStatisticsSuccessfully = 'getProviderServiceStatisticsSuccessfully';
+  static const String getProviderTotalRateEmployeeBalanceSuccessfully ='getProviderTotalRateEmployeeBalanceSuccessfully';
+
+  static const String createProductSuccess = 'createProductSuccess';
+  static const String deleteProductSuccess = 'deleteProductSuccess';
+  static const String getProductSuccess = 'getProductSuccess';
+  static const String getProductsSuitableForCarSuccess = 'getProductsSuitableForCarSuccess';
+  static const String updateProductSuccess = 'updateProductSuccess';
+
+  static const String addBranchSuccess = 'addBranchSuccess';
+  static const String createExpectedPetrolSpendSuccess = 'createExpectedPetrolSpendSuccess';
+  static const String createProvServiceSuccess = 'createProvServiceSuccess';
+  static const String createServicePackageSuccess = 'createServicePackageSuccess';
+  static const String deleteExpectedPetrolSpendSuccess = 'deleteExpectedPetrolSpendSuccess';
+  static const String deleteProvServiceSuccess = 'deleteProvServiceSuccess';
+  static const String deleteProviderWorkTimeSuccess = 'deleteProviderWorkTimeSuccess';
+  static const String deleteServicePackageSuccess = 'deleteServicePackageSuccess';
+  static const String getBranchEmployeesSuccess = 'getBranchEmployeesSuccess';
+  static const String getExpectedPetrolSpendSuccess = 'getExpectedPetrolSpendSuccess';
+  static const String getProviderBranchesSuccess = 'getProviderBranchesSuccess';
+  static const String getProviderServicePackagesSuccess = 'getProviderServicePackagesSuccess';
+  static const String getProviderWorkTimeSuccess = 'getProviderWorkTimeSuccess';
+  static const String getServiceProviderDetailsForAppUserSuccess = 'getServiceProviderDetailsForAppUserSuccess';
+  static const String getServiceProvidersByServiceIdForAppUserSuccess = 'getServiceProvidersByServiceIdForAppUserSuccess';
+  static const String updateBranchSuccess = 'updateBranchSuccess';
+  static const String updateExpectedPetrolSpendSuccess = 'updateExpectedPetrolSpendSuccess';
+  static const String updateProvServiceSuccess = 'updateProvServiceSuccess';
+  static const String updateServicePackageSuccess = 'updateServicePackageSuccess';
+  static const String uploadProviderWorkTimesSuccess = 'uploadProviderWorkTimesSuccess';
+
+  static const String createHarageSuccessfully = 'createHarageSuccessfully';
+  static const String deleteHarageSuccessfully = 'deleteHarageSuccessfully';
+  static const String getAllHarageSuccessfully = 'getAllHarageSuccessfully';
+  static const String getHarageSuccessfully = 'getHarageSuccessfully';
+  static const String updateHarageSuccessfully = 'updateHarageSuccessfully';
+
+  static const String cancelOrderSuccessfully = 'cancelOrderSuccessfully';
+  static const String createOrderSuccessfully = 'createOrderSuccessfully';
+  static const String getCompanyOrdersSuccessfully = 'getCompanyOrdersSuccessfully';
+  static const String getOrderDetailsSuccessfully = 'getOrderDetailsSuccessfully';
+  static const String getOrdersSuccessfully = 'getOrdersSuccessfully';
+  static const String getProviderOrdersSuccessfully = 'getProviderOrdersSuccessfully';
+  static const String updateOrderOfferStatusSuccessfully = 'updateOrderOfferStatusSuccessfully';
+  static const String updateOrderStatusSuccessfully = 'updateOrderStatusSuccessfully';
+
+  static const String addCardSuccessfully = 'addCardSuccessfully';
+  static const String createPaymentSuccessfully = 'createPaymentSuccessfully';
+  static const String getUserCardsSuccessfully = 'getUserCardsSuccessfully';
+  static const String getWalletBalanceSuccessfully = 'getWalletBalanceSuccessfully';
+  static const String getWalletTransactionsSuccessfully = 'getWalletTransactionsSuccessfully';
+  static const String rechargeWalletSuccessfully = 'rechargeWalletSuccessfully';
+  static const String removeCardSuccessfully = 'removeCardSuccessfully';
+  static const String setDefaultCardSuccessfully = 'setDefaultCardSuccessfully';
+
+  static const String assignServiceToEmployeeSuccessfully = 'assignServiceToEmployeeSuccessfully';
+  static const String getEmployeeServicesSuccessfully = 'getEmployeeServicesSuccessfully';
+
+  static const String addTaxSuccessfully = 'addTaxSuccessfully';
+  static const String createCarBrandSuccessfully = 'createCarBrandSuccessfully';
+  static const String createCarModelSuccessfully = 'createCarModelSuccessfully';
+  static const String deleteTaxSuccessfully = 'deleteTaxSuccessfully';
+  static const String getAllPagesAboutSuccessfully = 'getAllPagesAboutSuccessfully';
+  static const String getCarBrandModelsSuccessfully = 'getCarBrandModelsSuccessfully';
+  static const String getServicesSuccessfully = 'getServicesSuccessfully';
+  static const String updateCarBrandSuccessfully = 'updateCarBrandSuccessfully';
+  static const String updateCarModelSuccessfully = 'updateCarModelSuccessfully';
+  static const String updatePageAboutSuccessfully = 'updatePageAboutSuccessfully';
+  static const String updateTaxSuccessfully = 'updateTaxSuccessfully';
+  static const String uploadPointInfoSuccessfully = 'uploadPointInfoSuccessfully';
+
+  static const String getBannersSuccessfully = 'getBannersSuccessfully';
+  static const String uploadBannersSuccessfully = 'uploadBannersSuccessfully';
+
+  static const String getOtherMessagesSuccessfully = 'getOtherMessagesSuccessfully';
+  static const String getUserProviderMessagesSuccessfully = 'getUserProviderMessagesSuccessfully';
+  static const String getWorkTeamChatSuccessfully = 'getWorkTeamChatSuccessfully';
+  static const String makeChatViewedSuccessfully = 'makeChatViewedSuccessfully';
+  static const String openCloseChatSuccessfully = 'openCloseChatSuccessfully';
+  static const String sendMessageSuccessfully = 'sendMessageSuccessfully';
+
+  static const String addCarToGroupSuccessfully = 'addCarToGroupSuccessfully';
+  static const String addCompanyDriverSuccessfully = 'addCompanyDriverSuccessfully';
+  static const String createCarGroupSuccessfully = 'createCarGroupSuccessfully';
+  static const String deleteCarGroupSuccessfully = 'deleteCarGroupSuccessfully';
+  static const String deleteCompanyDriverSuccessfully = 'deleteCompanyDriverSuccessfully';
+  static const String getCarGroupsSuccessfully = 'getCarGroupsSuccessfully';
+  static const String getCompanyDriversSuccessfully = 'getCompanyDriversSuccessfully';
+  static const String getDriverDetailsSuccessfully = 'getDriverDetailsSuccessfully';
+  static const String removeCarFromGroupSuccessfully = 'removeCarFromGroupSuccessfully';
+  static const String updateCarGroupSuccessfully = 'updateCarGroupSuccessfully';
+  static const String updateCompanyDriverSuccessfully = 'updateCompanyDriverSuccessfully';
+
+  //End//
   //New Adds///
   static const String petroleum = 'petroleum';
   static const String languageKey = 'Language';

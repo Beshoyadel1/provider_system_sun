@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import '../../../../core/language/language_constant.dart';
 import '../../../../core/model/general_setup_and_config/create_car_brand_model/create_car_brand_request.dart';
 import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
@@ -14,7 +15,7 @@ Future<void> createCarBrandFunction({required CreateCarBrandRequest createCarBra
       jsonString,
       ApiLink.createCarBrand,
     ).then((value) {
-      AppSnackBar.showSuccess("Create Car Brand successfully");
+      AppSnackBar.showSuccess(AppLanguageKeys.createCarBrandSuccessfully);
     });
 
   } catch (e) {

@@ -4,6 +4,7 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
+import '../../../../core/language/language_constant.dart';
 
 Future<void> getCompanyGeneralStatisticsFunction({
   required GetCompanyGeneralStatisticsRequest getCompanyGeneralStatisticsRequest,
@@ -14,7 +15,7 @@ Future<void> getCompanyGeneralStatisticsFunction({
       getCompanyGeneralStatisticsRequest.toJson(), // params
         ApiLink.getCompanyGeneralStatistics
     );
-    AppSnackBar.showSuccess("Get Company General Statistics successfully");
+    AppSnackBar.showSuccess(AppLanguageKeys.getCompanyGeneralStatisticsSuccessfully);
   } catch (e) {
     AppSnackBar.showError(
       e is DioException

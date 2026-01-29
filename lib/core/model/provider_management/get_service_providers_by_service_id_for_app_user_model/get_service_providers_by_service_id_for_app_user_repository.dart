@@ -4,6 +4,7 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
+import '../../../../core/language/language_constant.dart';
 
 Future<void> getServiceProvidersByServiceIdForAppUserFunction({
   required GetServiceProvidersByServiceIdForAppUserRequest getServiceProvidersByServiceIdForAppUserRequest,
@@ -14,7 +15,7 @@ Future<void> getServiceProvidersByServiceIdForAppUserFunction({
       getServiceProvidersByServiceIdForAppUserRequest.toJson(), // params
       ApiLink.getServiceProvidersByServiceIdForAppUser,
     );
-    AppSnackBar.showSuccess("Get Service Providers By Service Id For App User successfully");
+    AppSnackBar.showSuccess(AppLanguageKeys.getServiceProvidersByServiceIdForAppUserSuccess);
   } catch (e) {
     AppSnackBar.showError(
       e is DioException

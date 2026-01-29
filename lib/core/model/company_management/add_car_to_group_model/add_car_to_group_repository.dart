@@ -4,6 +4,8 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
+import '../../../../core/language/language_constant.dart';
+
 
 Future<void> addCarToGroupFunction({
   required AddCarToGroupRequest addCarToGroupRequest,
@@ -14,7 +16,7 @@ Future<void> addCarToGroupFunction({
       addCarToGroupRequest.toJson(), // params
         ApiLink.addCarToGroup
     );
-    AppSnackBar.showSuccess("Add Car To Group successfully");
+    AppSnackBar.showSuccess(AppLanguageKeys.addCarToGroupSuccessfully);
   } catch (e) {
     AppSnackBar.showError(
       e is DioException

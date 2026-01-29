@@ -5,6 +5,8 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
+import '../../../../core/language/language_constant.dart';
+
 
 Future<void> updateCarGroupFunction({required UpdateCarGroupRequest updateCarGroupRequest}) async {
   try {
@@ -14,7 +16,7 @@ Future<void> updateCarGroupFunction({required UpdateCarGroupRequest updateCarGro
       jsonString,
       ApiLink.updateCarGroup,
     ).then((value) {
-      AppSnackBar.showSuccess("Update Car Group successfully");
+      AppSnackBar.showSuccess(AppLanguageKeys.updateCarGroupSuccessfully);
     });
 
   } catch (e) {

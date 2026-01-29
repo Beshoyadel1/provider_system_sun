@@ -4,6 +4,7 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
+import '../../../../core/language/language_constant.dart';
 
 Future<void> getProviderBranchesFunction({
   required GetProviderBranchesRequest getProviderBranchesRequest,
@@ -14,7 +15,7 @@ Future<void> getProviderBranchesFunction({
       getProviderBranchesRequest.toJson(), // params
       ApiLink.getProviderBranches,
     );
-    AppSnackBar.showSuccess("Get Provider Branches successfully");
+    AppSnackBar.showSuccess(AppLanguageKeys.getProviderBranchesSuccess);
   } catch (e) {
     AppSnackBar.showError(
       e is DioException

@@ -4,6 +4,7 @@ import '../../../../core/api/dio_function/apiConfig.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
+import '../../../../core/language/language_constant.dart';
 
 Future<void> getBranchEmployeesFunction({
   required GetBranchEmployeesRequest getBranchEmployeesRequest,
@@ -14,7 +15,7 @@ Future<void> getBranchEmployeesFunction({
       getBranchEmployeesRequest.toJson(), // params
       ApiLink.getBranchEmployees,
     );
-    AppSnackBar.showSuccess("Get Branch Employees successfully");
+    AppSnackBar.showSuccess(AppLanguageKeys.getBranchEmployeesSuccess);
   } catch (e) {
     AppSnackBar.showError(
       e is DioException
