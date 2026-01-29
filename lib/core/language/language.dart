@@ -25,6 +25,9 @@ class AppLocalizations {
       AppLanguageKeys.enterUsernameAndPassword: 'من فضلك أدخل اسم المستخدم وكلمة المرور',
       AppLanguageKeys.fillAllFields: 'من فضلك قم بملء جميع الحقول',
       AppLanguageKeys.passwordsDoNotMatch: 'كلمتا المرور غير متطابقتين',
+      AppLanguageKeys.wrongUsernameOrPassword: 'اسم المستخدم أو كلمة المرور غير صحيحة',
+      AppLanguageKeys.somethingWentWrong: 'حدث خطأ ما',
+
       //End//
 
       //Model Messages//
@@ -1128,6 +1131,9 @@ class AppLocalizations {
       AppLanguageKeys.enterUsernameAndPassword: 'Please enter username and password',
       AppLanguageKeys.fillAllFields: 'Please fill all fields',
       AppLanguageKeys.passwordsDoNotMatch: 'Passwords do not match',
+      AppLanguageKeys.wrongUsernameOrPassword: 'Wrong username or password',
+      AppLanguageKeys.somethingWentWrong: 'Something went wrong',
+
       //End//
 
       //Model Messages//

@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../../../../../features/store_page/store_page.dart';
 import '../../../../../../core/pages_widgets/button_widget.dart';
-import '../../../../../../core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
 import '../../../../../../core/theming/fonts.dart';
-import '../../../../../../core/language/language_constant.dart';
 import '../../../../../../core/theming/colors.dart';
 
 class LoginButtonWidget extends StatelessWidget {
-  const LoginButtonWidget({super.key, required this.text,required this.onPressed});
-  final VoidCallback onPressed;
+  const LoginButtonWidget({super.key, required this.text, this.onPressed});
+  final VoidCallback? onPressed;
 
   final String text;
 

@@ -6,13 +6,15 @@ class AppLanguageKeys {
   static const String internalServerError = 'internalServerError';
   static const String requestNotFound = 'requestNotFound';
   static const String badResponseError = 'badResponseError';
-
   //End//
 
   //login//
   static const String enterUsernameAndPassword = 'enterUsernameAndPassword';
   static const String fillAllFields = 'fillAllFields';
   static const String passwordsDoNotMatch = 'passwordsDoNotMatch';
+  static const String wrongUsernameOrPassword = 'wrongUsernameOrPassword';
+  static const String somethingWentWrong = 'somethingWentWrong';
+
   //End//
   //model//
   static const String changePasswordSuccessfully = 'changePasswordSuccessfully';
