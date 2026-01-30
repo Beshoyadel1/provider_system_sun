@@ -14,7 +14,7 @@ class AppLanguageKeys {
   static const String passwordsDoNotMatch = 'passwordsDoNotMatch';
   static const String wrongUsernameOrPassword = 'wrongUsernameOrPassword';
   static const String somethingWentWrong = 'somethingWentWrong';
-
+  static const String emailExist = 'emailExist';
   //End//
   //model//
   static const String changePasswordSuccessfully = 'changePasswordSuccessfully';

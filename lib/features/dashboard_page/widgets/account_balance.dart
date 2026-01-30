@@ -30,7 +30,7 @@ class AccountBalance extends StatelessWidget {
                     spacing: 10,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(
+                      SizedBox(
                         height: 10,
                       ),
                       TextInAppWidget(
@@ -46,12 +46,13 @@ class AccountBalance extends StatelessWidget {
                   ),
                   CustomContainer(
                     padding: const EdgeInsets.all(0),
-                    containerWidth: 129,
+                    containerWidth: 100,
                     containerHeight: 37,
                     typeWidget: const Center(
                         child: TextInAppWidget(
                       text: AppLanguageKeys.detailsKey,
                       textColor: AppColors.whiteColor,
+                      textSize: 15,
                     )),
                     onTap: () {},
                     isSelected: false,

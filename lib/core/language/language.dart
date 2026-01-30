@@ -27,7 +27,7 @@ class AppLocalizations {
       AppLanguageKeys.passwordsDoNotMatch: 'كلمتا المرور غير متطابقتين',
       AppLanguageKeys.wrongUsernameOrPassword: 'اسم المستخدم أو كلمة المرور غير صحيحة',
       AppLanguageKeys.somethingWentWrong: 'حدث خطأ ما',
-
+      AppLanguageKeys.emailExist: 'البريد الإلكتروني موجود بالفعل',
       //End//
 
       //Model Messages//
@@ -264,7 +264,7 @@ class AppLocalizations {
       AppLanguageKeys.confirmPasswordKey: 'تأكيد كلمة المرور',
       AppLanguageKeys.createAccountKey: 'إنشاء حساب',
       AppLanguageKeys.enterPhoneAndPasswordKey:
-          'برجاء ادخال رقم الهاتف وكلمة المرور',
+          'برجاء ادخال رقم الايميل وكلمة المرور',
       AppLanguageKeys.forgotPasswordKey: 'نسيت كلمة المرور',
       AppLanguageKeys.loginAgainKey: 'تسجيل الدخول',
       AppLanguageKeys.fromKey: 'من',
@@ -1133,7 +1133,7 @@ class AppLocalizations {
       AppLanguageKeys.passwordsDoNotMatch: 'Passwords do not match',
       AppLanguageKeys.wrongUsernameOrPassword: 'Wrong username or password',
       AppLanguageKeys.somethingWentWrong: 'Something went wrong',
-
+      AppLanguageKeys.emailExist: 'Email already exists',
       //End//
 
       //Model Messages//

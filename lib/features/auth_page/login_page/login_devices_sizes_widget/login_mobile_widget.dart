@@ -10,41 +10,36 @@ class LoginMobileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
-      child: SizedBox(
-        width: double.infinity,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                color: AppColors.orangeColor,
-                height: 30,
-                width: double.infinity,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const LoginLanguageButtonWidget(),
-                      Image.asset(
-                        AppImageKeys.sarLogo,
-                        height: 50,
-                        width: 170,
-                        fit: BoxFit.fill,
-                      ),
-                      const SizedBox(height: 30),
-                      const LoginWidget(),
-                    ],
-                  ),
-                ),
-              ),
-              const NewUserWidget()
-            ],
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            color: AppColors.orangeColor,
+            height: 30,
+            width: double.infinity,
           ),
-        ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const LoginLanguageButtonWidget(),
+                  Image.asset(
+                    AppImageKeys.sarLogo,
+                    height: 50,
+                    width: 170,
+                    fit: BoxFit.fill,
+                  ),
+                  const SizedBox(height: 30),
+                  const LoginWidget(),
+                ],
+              ),
+            ),
+          ),
+          const NewUserWidget()
+        ],
       ),
     );
   }

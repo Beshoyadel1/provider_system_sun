@@ -1,13 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../../../../../core/pages_widgets/text_form_field_widget.dart';
 import '../../../../../../core/language/language_constant.dart';
 import '../../../../../../core/theming/colors.dart';
 import '../../../../../../core/theming/fonts.dart';
 
 class UserNameWidget extends StatelessWidget {
-  const UserNameWidget({super.key, this.text,required this.controller});
+  const UserNameWidget({
+    super.key,
+    required this.controller,
+    this.text,
+    this.isEmail = false,
+    this.isPhoneNumber = false,
+  });
+
   final TextEditingController controller;
   final String? text;
+
+  final bool isEmail;
+  final bool isPhoneNumber;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +33,16 @@ class UserNameWidget extends StatelessWidget {
         textSize: 16,
         fontWeightIndex: FontSelectionData.semiBoldFontFamily,
         borderColor: AppColors.lightGreyColor,
-        enabledBorderRadius: BorderRadius.all(Radius.circular(10)),
+        enabledBorderRadius:
+        const BorderRadius.all(Radius.circular(10)),
+        isDigit: isPhoneNumber,
+        inputFormatters: isEmail
+            ? [
+          FilteringTextInputFormatter.deny(
+            RegExp(r'\s'),
+          ),
+        ]
+            : null,
       ),
     );
   }

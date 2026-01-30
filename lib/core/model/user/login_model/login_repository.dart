@@ -15,36 +15,25 @@ Future<bool> loginFunction({required LoginRequest loginRequest}) async {
       jsonString,
       ApiLink.loginUser,
     );
-
     dynamic decoded;
     // If response is String and starts like JSON → decode it
     if (value.data is String) {
       String responseText = value.data.toString().trim();
-
-      // Case: backend returns "Wrong Password"
-      if (!responseText.startsWith("{") && !responseText.startsWith("[")) {
-        AppSnackBar.showError(responseText);
-        return false;
-      }
-
       decoded = json.decode(responseText);
     } else {
       decoded = value.data;
     }
-
     // Error message from backend (JSON)
     if (decoded is Map && decoded.containsKey("message")) {
       String message = decoded["message"].toString();
       AppSnackBar.showError(message);
       return false;
     }
-
     // Success case
     if (decoded is List && decoded.isNotEmpty) {
       AppSnackBar.showSuccess(AppLanguageKeys.accountLoginSuccessfully);
       return true;
     }
-
     return false;
   } on DioException catch (e) {
     AppSnackBar.showError(

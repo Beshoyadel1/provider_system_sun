@@ -47,7 +47,7 @@ class DashboardPage extends StatelessWidget {
                         EmployeesPerformance()
                       ],
                     ),
-                    Expanded(child: AccountBalance()),
+                    AccountBalance(),
                   ],
                 ),
               ),
