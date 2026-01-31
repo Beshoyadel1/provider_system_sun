@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
+import '../../../../../../core/api/dio_function/user_type.dart';
 import '../../../../../../features/auth_page/auth_cubit/auth_cubit.dart';
 import '../../../../../../features/auth_page/auth_cubit/auth_state.dart';
 import '../../../../../../core/model/user/create_user_model/create_user_request.dart';
@@ -152,13 +153,13 @@ class _SignUpMobileWidgetState extends State<SignUpMobileWidget> {
                                       );
                                       return;
                                     }
-
                                     context.read<AuthCubit>().signup(
                                           CreateUserRequest(
                                             username: username,
                                             phone: phone,
                                             email: email,
                                             password: password,
+                                            type:UserType.companyUser,
                                           ),
                                         );
                                   },

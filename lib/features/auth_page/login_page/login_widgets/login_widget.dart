@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import '../../../../../../features/auth_page/auth_cubit/auth_cubit.dart';
-import '../../../../../../features/auth_page/auth_cubit/auth_state.dart';
-import '../../../../../../core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
-import '../../../../../../core/pages_widgets/general_widgets/snakbar.dart';
-import '../../../../../../features/store_page/store_page.dart';
-import '../../../../../../core/model/user/login_model/login_request.dart';
-import '../../../../../../core/language/language_constant.dart';
-import '../../../../../../core/theming/colors.dart';
-import '../../../../../../core/theming/fonts.dart';
-import '../../../../../../core/theming/text_styles.dart';
+import '../../../../core/api/dio_function/user_type.dart';
+import '../../../../features/auth_page/auth_cubit/auth_cubit.dart';
+import '../../../../features/auth_page/auth_cubit/auth_state.dart';
+import '../../../../core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
+import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
+import '../../../../features/store_page/store_page.dart';
+import '../../../../core/model/user/login_model/login_request.dart';
+import '../../../../core/language/language_constant.dart';
+import '../../../../core/theming/colors.dart';
+import '../../../../core/theming/fonts.dart';
+import '../../../../core/theming/text_styles.dart';
 import 'login_button_widget.dart';
 import 'password_widget.dart';
 import 'user_name_widget.dart';
@@ -54,7 +55,6 @@ class _LoginWidgetState extends State<LoginWidget> {
 
         return Stack(
           children: [
-            // 🟢 Your normal UI (kept visible)
             Column(
               spacing: 15,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,8 +102,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                     final loginRequest = LoginRequest(
                       user: user,
                       password: password,
+                      type: UserType.companyUser
                     );
-
                     context.read<AuthCubit>().login(loginRequest);
                   },
 

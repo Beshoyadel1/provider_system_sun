@@ -32,45 +32,25 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> login(LoginRequest request) async {
     emit(AuthLoginLoading());
 
-    try {
-      final bool isSuccess =
-      await loginFunction(loginRequest: request);
+    final bool isSuccess =
+    await loginFunction(loginRequest: request);
 
-      if (isSuccess) {
-        emit(AuthLoginSuccess());
-      } else {
-        emit(
-          AuthLoginError(
-            AppLanguageKeys.wrongUsernameOrPassword,
-          ),
-        );
-      }
-    } catch (e) {
-      emit(
-        AuthLoginError(
-          AppLanguageKeys.somethingWentWrong,
-        ),
-      );
+    if (isSuccess) {
+      emit(AuthLoginSuccess());
+    } else {
+      emit(AuthInitial());
     }
   }
   Future<void> signup(CreateUserRequest request) async {
     emit(AuthSignupLoading());
 
-    try {
-      final bool isSuccess =
-      await createUserFunction(createUserRequest: request);
+    final bool isSuccess =
+    await createUserFunction(createUserRequest: request);
 
-      if (isSuccess) {
-        emit(AuthSignupSuccess());
-      } else {
-        emit(
-          AuthSignupError(AppLanguageKeys.emailExist),
-        );
-      }
-    } catch (e) {
-      emit(
-        AuthSignupError(AppLanguageKeys.somethingWentWrong),
-      );
+    if (isSuccess) {
+      emit(AuthSignupSuccess());
+    } else {
+      emit(AuthInitial());
     }
   }
 

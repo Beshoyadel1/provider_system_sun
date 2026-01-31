@@ -7,27 +7,53 @@ import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
 
-
-Future<bool> createUserFunction({required CreateUserRequest createUserRequest}) async {
+Future<bool> createUserFunction({
+  required CreateUserRequest createUserRequest,
+}) async {
   try {
     String jsonString = json.encode(createUserRequest.toJson());
 
     final value = await Network.postDataWithBody(
       jsonString,
-        ApiLink.createUser
+      ApiLink.createUser,
     );
-    if (value.data is String && value.data.toString().trim() == "Done") {
-      AppSnackBar.showSuccess(AppLanguageKeys.accountCreatedSuccessfully);
+
+    final body = value.data.toString().trim();
+
+    if (body == "Done") {
+      AppSnackBar.showSuccess(
+        AppLanguageKeys.accountCreatedSuccessfully,
+      );
       return true;
     }
+
+    if (body == "EmailExist") {
+      AppSnackBar.showError(
+        AppLanguageKeys.emailExist,
+      );
+      return false;
+    }
+    if (body == "PhoneExist") {
+      AppSnackBar.showError(
+        AppLanguageKeys.phoneExist,
+      );
+      return false;
+    }
+    AppSnackBar.showError(
+      AppLanguageKeys.somethingWentWrong,
+    );
     return false;
+
   } on DioException catch (e) {
     AppSnackBar.showError(
       responseOfStatusCode(e.response?.statusCode),
     );
     return false;
-  } catch (e) {
-    AppSnackBar.showError(e.toString());
+
+  } catch (_) {
+    AppSnackBar.showError(
+      AppLanguageKeys.somethingWentWrong,
+    );
     return false;
   }
 }

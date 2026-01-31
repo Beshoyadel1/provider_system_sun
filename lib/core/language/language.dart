@@ -25,9 +25,10 @@ class AppLocalizations {
       AppLanguageKeys.enterUsernameAndPassword: 'من فضلك أدخل اسم المستخدم وكلمة المرور',
       AppLanguageKeys.fillAllFields: 'من فضلك قم بملء جميع الحقول',
       AppLanguageKeys.passwordsDoNotMatch: 'كلمتا المرور غير متطابقتين',
-      AppLanguageKeys.wrongUsernameOrPassword: 'اسم المستخدم أو كلمة المرور غير صحيحة',
+      AppLanguageKeys.wrongUsername: 'اسم المستخدم غير صحيحة',
       AppLanguageKeys.somethingWentWrong: 'حدث خطأ ما',
       AppLanguageKeys.emailExist: 'البريد الإلكتروني موجود بالفعل',
+      AppLanguageKeys.phoneExist: 'رقم الهاتف موجود بالفعل',
       //End//
 
       //Model Messages//
@@ -1131,9 +1132,10 @@ class AppLocalizations {
       AppLanguageKeys.enterUsernameAndPassword: 'Please enter username and password',
       AppLanguageKeys.fillAllFields: 'Please fill all fields',
       AppLanguageKeys.passwordsDoNotMatch: 'Passwords do not match',
-      AppLanguageKeys.wrongUsernameOrPassword: 'Wrong username or password',
+      AppLanguageKeys.wrongUsername: 'Wrong username',
       AppLanguageKeys.somethingWentWrong: 'Something went wrong',
       AppLanguageKeys.emailExist: 'Email already exists',
+      AppLanguageKeys.phoneExist: 'Phone number already exists',
       //End//
 
       //Model Messages//

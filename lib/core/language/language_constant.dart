@@ -12,9 +12,10 @@ class AppLanguageKeys {
   static const String enterUsernameAndPassword = 'enterUsernameAndPassword';
   static const String fillAllFields = 'fillAllFields';
   static const String passwordsDoNotMatch = 'passwordsDoNotMatch';
-  static const String wrongUsernameOrPassword = 'wrongUsernameOrPassword';
+  static const String wrongUsername = 'wrongUsername';
   static const String somethingWentWrong = 'somethingWentWrong';
   static const String emailExist = 'emailExist';
+  static const String phoneExist = 'phoneExist';
   //End//
   //model//
   static const String changePasswordSuccessfully = 'changePasswordSuccessfully';
