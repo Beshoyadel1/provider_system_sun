@@ -7,6 +7,8 @@ class ProviderDetailsRequest {
   final int? provid;
   final String? cr;
   final String? vatno;
+  final int? packageid;
+
 
   const ProviderDetailsRequest({
     this.id,
@@ -17,6 +19,7 @@ class ProviderDetailsRequest {
     this.provid,
     this.cr,
     this.vatno,
+    this.packageid
   });
 
   factory ProviderDetailsRequest.fromJson(Map<String, dynamic> json) =>
@@ -29,6 +32,7 @@ class ProviderDetailsRequest {
         provid: json["provid"],
         cr: json["cr"],
         vatno: json["vatno"],
+        packageid: json["packageid"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -40,5 +44,6 @@ class ProviderDetailsRequest {
     "provid": provid??0,
     "cr": cr??"",
     "vatno": vatno??"",
+    "packageid": packageid??0,
   };
 }

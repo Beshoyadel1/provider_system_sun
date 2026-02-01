@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:sun_web_system/core/model/user/create_user_model/provider_details_request.dart';
 import '../../../../core/api/dio_function/user_type.dart';
 import '../../../../features/auth_page/auth_cubit/auth_cubit.dart';
 import '../../../../features/auth_page/auth_cubit/auth_state.dart';
@@ -160,7 +161,15 @@ class _SignUpMobileWidgetState extends State<SignUpMobileWidget> {
                                             email: email,
                                             password: password,
                                             type:UserType.providerUser,
+                                            providerDetails: ProviderDetailsRequest(
+                                              id: 0,
+                                              name: "",
+                                              latinname: username,
+                                              provid: 0,
+                                              packageid: 0,
+                                            ),
                                           ),
+
                                         );
                                   },
                           ),
