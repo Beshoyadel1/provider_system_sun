@@ -8,6 +8,6 @@ String responseOfStatusCode(int? statusCode) {
   } else if (statusCode == 500) {
     return AppLanguageKeys.internalServerError;
   } else {
-    return '${AppLanguageKeys.oopsErrorTryAgain} $statusCode';
+    return AppLanguageKeys.oopsErrorTryAgain;
   }
 }

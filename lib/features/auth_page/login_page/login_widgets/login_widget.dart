@@ -102,7 +102,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                     final loginRequest = LoginRequest(
                       user: user,
                       password: password,
-                      type: UserType.companyUser
+                      type: UserType.providerUser
                     );
                     context.read<AuthCubit>().login(loginRequest);
                   },

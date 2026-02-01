@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
-import '../../../../../../core/api/dio_function/user_type.dart';
-import '../../../../../../features/auth_page/auth_cubit/auth_cubit.dart';
-import '../../../../../../features/auth_page/auth_cubit/auth_state.dart';
-import '../../../../../../core/model/user/create_user_model/create_user_request.dart';
-import '../../../../../../core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
-import '../../../../../../core/pages_widgets/general_widgets/snakbar.dart';
-import '../../../../../../features/auth_page/login_page/login_page.dart';
-import '../../../../../../core/language/language_constant.dart';
-import '../../../../../../core/theming/assets.dart';
-import '../../../../../../core/theming/colors.dart';
-import '../../../../../../core/theming/fonts.dart';
-import '../../../../../../core/theming/text_styles.dart';
+import '../../../../core/api/dio_function/user_type.dart';
+import '../../../../features/auth_page/auth_cubit/auth_cubit.dart';
+import '../../../../features/auth_page/auth_cubit/auth_state.dart';
+import '../../../../core/model/user/create_user_model/create_user_request.dart';
+import '../../../../core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
+import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
+import '../../../../features/auth_page/login_page/login_page.dart';
+import '../../../../core/language/language_constant.dart';
+import '../../../../core/theming/assets.dart';
+import '../../../../core/theming/colors.dart';
+import '../../../../core/theming/fonts.dart';
+import '../../../../core/theming/text_styles.dart';
 import '../../login_page/login_widgets/login_button_widget.dart';
 import '../../login_page/login_widgets/login_language_button_widget.dart';
 import '../../login_page/login_widgets/password_widget.dart';
@@ -159,7 +159,7 @@ class _SignUpMobileWidgetState extends State<SignUpMobileWidget> {
                                             phone: phone,
                                             email: email,
                                             password: password,
-                                            type:UserType.companyUser,
+                                            type:UserType.providerUser,
                                           ),
                                         );
                                   },
