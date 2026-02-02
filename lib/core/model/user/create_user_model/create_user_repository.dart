@@ -44,15 +44,11 @@ Future<bool> createUserFunction({
     );
     return false;
 
-  } on DioException catch (e) {
+  } catch (e) {
     AppSnackBar.showError(
-      responseOfStatusCode(e.response?.statusCode),
-    );
-    return false;
-
-  } catch (_) {
-    AppSnackBar.showError(
-      AppLanguageKeys.somethingWentWrong,
+      e is DioException
+          ? responseOfStatusCode(e.response?.statusCode)
+          : e.toString(),
     );
     return false;
   }

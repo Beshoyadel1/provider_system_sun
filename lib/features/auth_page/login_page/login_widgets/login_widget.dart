@@ -72,9 +72,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                 ),
                 UserNameWidget(controller: userNameController,isEmail: true,text: AppLanguageKeys.email,),
                 PasswordWidget(controller: passwordController),
-
                 const SizedBox(height: 10),
-
                 const TextInAppWidget(
                   text: AppLanguageKeys.forgotPasswordKey,
                   textSize: 14,
@@ -110,18 +108,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                 ),
               ],
             ),
-            // 🔵 Full screen Cupertino loader overlay
-            if (isLoading)
-              Positioned.fill(
-                child: Container(
-                  color: AppColors.blackColor.withOpacity(0.25),
-                  child: const Center(
-                    child: CupertinoActivityIndicator(
-                      radius: 18,
-                    ),
-                  ),
-                ),
-              ),
+
           ],
         );
       },

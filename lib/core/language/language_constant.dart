@@ -1,21 +1,56 @@
 import 'package:sun_web_system/core/utilies/map_of_all_app.dart';
 
 class AppLanguageKeys {
-  //Api Failures//
-  static const String oopsErrorTryAgain = 'oopsErrorTryAgain';
-  static const String internalServerError = 'internalServerError';
-  static const String requestNotFound = 'requestNotFound';
-  static const String badResponseError = 'badResponseError';
-  //End//
-
-  //login//
-  static const String enterUsernameAndPassword = 'enterUsernameAndPassword';
-  static const String fillAllFields = 'fillAllFields';
+  //message api response//
   static const String passwordsDoNotMatch = 'passwordsDoNotMatch';
   static const String wrongUsername = 'wrongUsername';
   static const String somethingWentWrong = 'somethingWentWrong';
   static const String emailExist = 'emailExist';
   static const String phoneExist = 'phoneExist';
+  static const String emailOrPhoneExist = 'emailOrPhoneExist';
+  static const String done = 'done';
+  static const String notFound = 'notFound';
+  static const String storeNotExist = 'storeNotExist';
+  static const String noUser = 'noUser';
+  static const String wrongPassword = 'wrongPassword';
+  static const String notActive = 'notActive';
+  static const String sameUser = 'sameUser';
+  static const String notEnoughPoints = 'notEnoughPoints';
+  static const String notEnoughBalance = 'notEnoughBalance';
+  static const String reservedUser = 'reservedUser';
+  static const String haveOperationForDelete = 'haveOperationForDelete';
+  static const String wrongReferralCode = 'wrongReferralCode';
+  static const String empty = 'empty';
+  static const String expired = 'expired';
+  static const String couponReachMaxUse = 'couponReachMaxUse';
+  static const String userReachMaxUseCoupon = 'userReachMaxUseCoupon';
+  static const String pointsFromNewOrder = 'pointsFromNewOrder';
+  static const String categoryExist = 'categoryExist';
+  //End//
+
+  //Api Failures//
+  static const String oopsErrorTryAgain = 'oopsErrorTryAgain';
+  static const String internalServerError = 'internalServerError';
+  static const String requestNotFound = 'requestNotFound';
+  static const String badResponseError = 'badResponseError';
+  static const String success = 'success';
+  static const String badRequestError = 'badRequestError';
+  static const String unauthorizedError = 'unauthorizedError';
+  static const String forbiddenError = 'forbiddenError';
+  static const String methodNotAllowed = 'methodNotAllowed';
+  static const String requestTimeout = 'requestTimeout';
+  static const String conflictError = 'conflictError';
+  static const String validationError = 'validationError';
+  static const String tooManyRequests = 'tooManyRequests';
+  static const String badGateway = 'badGateway';
+  static const String serviceUnavailable = 'serviceUnavailable';
+  static const String gatewayTimeout = 'gatewayTimeout';
+  static const String noInternetConnection = 'noInternetConnection';
+  //End//
+
+  //login//
+  static const String enterUsernameAndPassword = 'enterUsernameAndPassword';
+  static const String fillAllFields = 'fillAllFields';
   //End//
   //model//
   static const String changePasswordSuccessfully = 'changePasswordSuccessfully';

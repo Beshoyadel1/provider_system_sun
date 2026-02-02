@@ -14,21 +14,57 @@ class AppLocalizations {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'ar': {
-      //Api Failures//
-      AppLanguageKeys.oopsErrorTryAgain: 'عذراً، حدث خطأ ما، يرجى المحاولة مرة أخرى.',
-      AppLanguageKeys.internalServerError: 'خطأ في الخادم الداخلي، يرجى المحاولة لاحقاً.',
-      AppLanguageKeys.requestNotFound: 'لم يتم العثور على طلبك، يرجى المحاولة لاحقاً!',
-      AppLanguageKeys.badResponseError: 'استجابة غير صحيحة، حدث خطأ ما.',
-      //End//
-
-      //login//
-      AppLanguageKeys.enterUsernameAndPassword: 'من فضلك أدخل اسم المستخدم وكلمة المرور',
-      AppLanguageKeys.fillAllFields: 'من فضلك قم بملء جميع الحقول',
+      //message api response//
       AppLanguageKeys.passwordsDoNotMatch: 'كلمتا المرور غير متطابقتين',
       AppLanguageKeys.wrongUsername: 'اسم المستخدم غير صحيحة',
       AppLanguageKeys.somethingWentWrong: 'حدث خطأ ما',
       AppLanguageKeys.emailExist: 'البريد الإلكتروني موجود بالفعل',
       AppLanguageKeys.phoneExist: 'رقم الهاتف موجود بالفعل',
+      AppLanguageKeys.emailOrPhoneExist: 'البريد الإلكتروني أو رقم الهاتف موجود بالفعل',
+      AppLanguageKeys.done: 'تمت العملية بنجاح',
+      AppLanguageKeys.notFound: 'غير موجود',
+      AppLanguageKeys.storeNotExist: 'المتجر غير موجود',
+      AppLanguageKeys.noUser: 'المستخدم غير موجود',
+      AppLanguageKeys.wrongPassword: 'كلمة المرور غير صحيحة',
+      AppLanguageKeys.notActive: 'الحساب غير مفعل',
+      AppLanguageKeys.sameUser: 'لا يمكن تنفيذ العملية على نفس المستخدم',
+      AppLanguageKeys.notEnoughPoints: 'النقاط غير كافية',
+      AppLanguageKeys.notEnoughBalance: 'الرصيد غير كافٍ',
+      AppLanguageKeys.reservedUser: 'المستخدم محجوز',
+      AppLanguageKeys.haveOperationForDelete: 'لا يمكن الحذف لوجود عمليات مرتبطة',
+      AppLanguageKeys.wrongReferralCode: 'كود الإحالة غير صحيح',
+      AppLanguageKeys.empty: 'لا توجد بيانات',
+      AppLanguageKeys.expired: 'منتهي الصلاحية',
+      AppLanguageKeys.couponReachMaxUse: 'تم الوصول للحد الأقصى لاستخدام الكوبون',
+      AppLanguageKeys.userReachMaxUseCoupon: 'وصل المستخدم للحد الأقصى لاستخدام الكوبون',
+      AppLanguageKeys.pointsFromNewOrder: 'تمت إضافة نقاط من طلب جديد',
+      AppLanguageKeys.categoryExist: 'التصنيف موجود بالفعل',
+      //End//
+
+      //Api Failures//
+      AppLanguageKeys.oopsErrorTryAgain: 'عذراً، حدث خطأ ما، يرجى المحاولة مرة أخرى.',
+      AppLanguageKeys.internalServerError: 'خطأ في الخادم الداخلي، يرجى المحاولة لاحقاً.',
+      AppLanguageKeys.requestNotFound: 'لم يتم العثور على طلبك، يرجى المحاولة لاحقاً!',
+      AppLanguageKeys.badResponseError: 'استجابة غير صحيحة، حدث خطأ ما.',
+      AppLanguageKeys.success: 'تمت العملية بنجاح',
+      AppLanguageKeys.badRequestError: 'طلب غير صالح',
+      AppLanguageKeys.unauthorizedError: 'غير مصرح بالوصول',
+      AppLanguageKeys.forbiddenError: 'الوصول مرفوض',
+      AppLanguageKeys.methodNotAllowed: 'الطريقة غير مسموح بها',
+      AppLanguageKeys.requestTimeout: 'انتهت مهلة الطلب',
+      AppLanguageKeys.conflictError: 'حدث تعارض في الطلب',
+      AppLanguageKeys.validationError: 'خطأ في التحقق من البيانات',
+      AppLanguageKeys.tooManyRequests: 'طلبات كثيرة جداً، حاول لاحقاً',
+      AppLanguageKeys.badGateway: 'بوابة غير صالحة',
+      AppLanguageKeys.serviceUnavailable: 'الخدمة غير متاحة حالياً',
+      AppLanguageKeys.gatewayTimeout: 'انتهت مهلة البوابة',
+      AppLanguageKeys.noInternetConnection: 'لا يوجد اتصال بالإنترنت',
+
+      //End//
+
+      //login//
+      AppLanguageKeys.fillAllFields: 'من فضلك قم بملء جميع الحقول',
+      AppLanguageKeys.enterUsernameAndPassword: 'من فضلك أدخل اسم المستخدم وكلمة المرور',
       //End//
 
       //Model Messages//
@@ -1121,21 +1157,56 @@ class AppLocalizations {
       AppLanguageKeys.from: "من",
     },
     'en': {
+      //message api response//
+      AppLanguageKeys.passwordsDoNotMatch: 'Passwords do not match',
+      AppLanguageKeys.wrongUsername: 'Wrong username',
+      AppLanguageKeys.somethingWentWrong: 'Something went wrong',
+      AppLanguageKeys.phoneExist: 'Phone number already exists',
+      AppLanguageKeys.emailExist: 'Email already exists',
+      AppLanguageKeys.emailOrPhoneExist: 'Email or phone already exists',
+      AppLanguageKeys.done: 'Done successfully',
+      AppLanguageKeys.notFound: 'Not found',
+      AppLanguageKeys.storeNotExist: 'Store does not exist',
+      AppLanguageKeys.noUser: 'User not found',
+      AppLanguageKeys.wrongPassword: 'Wrong password',
+      AppLanguageKeys.notActive: 'Account is not active',
+      AppLanguageKeys.sameUser: 'Cannot perform action on the same user',
+      AppLanguageKeys.notEnoughPoints: 'Not enough points',
+      AppLanguageKeys.notEnoughBalance: 'Not enough balance',
+      AppLanguageKeys.reservedUser: 'User is reserved',
+      AppLanguageKeys.haveOperationForDelete: 'Cannot delete, related operations exist',
+      AppLanguageKeys.wrongReferralCode: 'Wrong referral code',
+      AppLanguageKeys.empty: 'No data available',
+      AppLanguageKeys.expired: 'Expired',
+      AppLanguageKeys.couponReachMaxUse: 'Coupon reached maximum usage',
+      AppLanguageKeys.userReachMaxUseCoupon: 'User reached maximum coupon usage',
+      AppLanguageKeys.pointsFromNewOrder: 'Points added from new order',
+      AppLanguageKeys.categoryExist: 'Category already exists',
+      //End//
       //Api Failures//
       AppLanguageKeys.oopsErrorTryAgain: 'Oops! There was an error, please try again.',
       AppLanguageKeys.internalServerError: 'Internal server error, please try later.',
       AppLanguageKeys.requestNotFound: 'Your request was not found, please try later!',
       AppLanguageKeys.badResponseError: 'Bad response, something went wrong.',
+      AppLanguageKeys.success: 'Success',
+      AppLanguageKeys.badRequestError: 'Bad request',
+      AppLanguageKeys.unauthorizedError: 'Unauthorized access',
+      AppLanguageKeys.forbiddenError: 'Access forbidden',
+      AppLanguageKeys.methodNotAllowed: 'Method not allowed',
+      AppLanguageKeys.requestTimeout: 'Request timeout',
+      AppLanguageKeys.conflictError: 'Conflict occurred',
+      AppLanguageKeys.validationError: 'Validation error',
+      AppLanguageKeys.tooManyRequests: 'Too many requests, please try later',
+      AppLanguageKeys.badGateway: 'Bad gateway',
+      AppLanguageKeys.serviceUnavailable: 'Service unavailable',
+      AppLanguageKeys.gatewayTimeout: 'Gateway timeout',
+      AppLanguageKeys.noInternetConnection: 'No internet connection',
+
       //End//
 
       //login//
       AppLanguageKeys.enterUsernameAndPassword: 'Please enter username and password',
       AppLanguageKeys.fillAllFields: 'Please fill all fields',
-      AppLanguageKeys.passwordsDoNotMatch: 'Passwords do not match',
-      AppLanguageKeys.wrongUsername: 'Wrong username',
-      AppLanguageKeys.somethingWentWrong: 'Something went wrong',
-      AppLanguageKeys.emailExist: 'Email already exists',
-      AppLanguageKeys.phoneExist: 'Phone number already exists',
       //End//
 
       //Model Messages//
