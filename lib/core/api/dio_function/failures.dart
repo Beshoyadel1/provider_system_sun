@@ -41,7 +41,6 @@ String responseOfStatusCode(int? statusCode) {
 
     case 504:
       return AppLanguageKeys.gatewayTimeout;
-
   //  No internet / unknown
     case null:
       return AppLanguageKeys.noInternetConnection;

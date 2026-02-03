@@ -25,23 +25,34 @@ class FirstRowInDataInContainerRateService extends StatelessWidget {
             fontWeightIndex: FontSelectionData.regularFontFamily,
             textColor: AppColors.blackColor,
           ),
+
           Row(
             spacing: 10,
             children: [
               Flexible(child: Image.asset(AppImageKeys.star11)),
+
               BlocBuilder<InternalOrdersCubit, InternalOrdersState>(
-                  buildWhen: (previous, current) =>
-                      previous.isLoading != current.isLoading,
-                  builder: (context, state) {
-                    return TextInAppWidget(
-                      text: state.isLoaded ? '5.0' : '0.0',
-                      textSize: 15,
-                      fontWeightIndex: FontSelectionData.regularFontFamily,
-                      textColor: AppColors.blackColor,
-                    );
-                  }),
+                buildWhen: (previous, current) =>
+                previous.averageRate != current.averageRate ||
+                    previous.isLoading != current.isLoading,
+                builder: (context, state) {
+
+                  /// loading
+                  if (state.isLoading) {
+                    return const CupertinoActivityIndicator();
+                  }
+
+                  /// show rate
+                  return TextInAppWidget(
+                    text: state.averageRate.toStringAsFixed(1),
+                    textSize: 15,
+                    fontWeightIndex: FontSelectionData.regularFontFamily,
+                    textColor: AppColors.blackColor,
+                  );
+                },
+              ),
             ],
-          )
+          ),
         ],
       ),
     );

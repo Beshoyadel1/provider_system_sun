@@ -11,7 +11,7 @@ class DataColumnOfFirstRowInDataContainerInListDataFirstScreenInternalOrders
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return const Expanded(
       child: Column(
         spacing: 5,
         crossAxisAlignment: CrossAxisAlignment.start,

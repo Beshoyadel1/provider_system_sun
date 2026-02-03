@@ -64,13 +64,6 @@ class Network {
     );
   }
 
-  static Future<Response> getDataWithQuery(var jsonQuery, String url) async {
-    return await dio.get(
-      url,
-      options: Options(headers: myHeaders),
-      queryParameters: jsonQuery,
-    );
-  }
   static Future<Response> getDataWithBody(var jsonData, String url) async {
     return await dio.get(
       url,
@@ -94,5 +87,4 @@ class Network {
       options: Options(headers: myHeaders),
     );
   }
-
 }

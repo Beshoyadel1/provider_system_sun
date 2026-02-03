@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
-import '../../../../../../../../core/theming/colors.dart';
+import '../../../../../../core/theming/colors.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../../features/internal_orders/first_screen_internal_orders/logic/loading_dashboard_cubit.dart';
+import '../../../../../../features/internal_orders/first_screen_internal_orders/logic/loading_dashboard_state.dart';
+import '../../../../../../core/model/statistics/get_provider_main_service_statistics_model/data_points_request.dart';
 
 class FastLineWithFill extends StatelessWidget {
+  FastLineWithFill({super.key});
+
   final ZoomPanBehavior _zoomPanBehavior = ZoomPanBehavior(
     enablePinching: true,
     enablePanning: true,
@@ -11,42 +17,41 @@ class FastLineWithFill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<ChartData> chartData = [
-      ChartData(DateTime(2025, 1, 1), 2),
-      ChartData(DateTime(2025, 1, 2), 4),
-      ChartData(DateTime(2025, 1, 3), 3),
-      ChartData(DateTime(2025, 1, 4), 6),
-      ChartData(DateTime(2025, 1, 5), 5),
-      ChartData(DateTime(2025, 1, 6), 8),
-    ];
+    return BlocBuilder<InternalOrdersCubit, InternalOrdersState>(
+      builder: (context, state) {
 
-    return Container(
-      height: 250,
-      padding: const EdgeInsets.all(8),
-      child: SfCartesianChart(
-        primaryXAxis: DateTimeAxis(
-          edgeLabelPlacement: EdgeLabelPlacement.shift,
-          intervalType: DateTimeIntervalType.days,
-        ),
-        primaryYAxis: NumericAxis(),
-        zoomPanBehavior: _zoomPanBehavior,
-        series: <CartesianSeries>[
-          AreaSeries<ChartData, DateTime>(
-            dataSource: chartData,
-            xValueMapper: (ChartData data, _) => data.x,
-            yValueMapper: (ChartData data, _) => data.y,
-            color: Colors.pink.withOpacity(0.3),
-            borderColor: Colors.transparent,
+        return SizedBox(
+          height: 250,
+          child: SfCartesianChart(
+            zoomPanBehavior: _zoomPanBehavior,
+            primaryXAxis: const CategoryAxis(),
+
+            primaryYAxis:const NumericAxis(),
+
+            series: <CartesianSeries>[
+              AreaSeries<DataPointsRequest, String>(
+                dataSource: state.chartPoints,
+
+                xValueMapper: (e, _) => e.label ?? '',
+                yValueMapper: (e, _) => e.value ?? 0,
+
+                color: Colors.pink.withOpacity(0.3),
+                borderColor: Colors.transparent,
+              ),
+
+              FastLineSeries<DataPointsRequest, String>(
+                dataSource: state.chartPoints,
+
+                xValueMapper: (e, _) => e.label ?? '',
+                yValueMapper: (e, _) => e.value ?? 0,
+
+                color: AppColors.orangeColor,
+                width: 2,
+              ),
+            ],
           ),
-          FastLineSeries<ChartData, DateTime>(
-            dataSource: chartData,
-            xValueMapper: (ChartData data, _) => data.x,
-            yValueMapper: (ChartData data, _) => data.y,
-            color: AppColors.orangeColor,
-            width: 2,
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

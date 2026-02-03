@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/core/model/statistics/get_provider_main_service_statistics_model/get_provider_main_service_statistics_request.dart';
 import '../../../../../../core/utilies/map_of_all_app.dart';
 import '../../../../../../features/internal_orders/first_screen_internal_orders/screens/part_two_screen_first_screen_internal_orders/container_interior_services_statistics/container_interior_services_statistics.dart';
 import '../../../../../../features/internal_orders/first_screen_internal_orders/screens/part_two_screen_first_screen_internal_orders/container_profits_from_ministry_of_interior_services/container_profits_from_ministry_of_interior_services.dart';
@@ -28,16 +29,19 @@ class ListDataFirstScreenInternalOrders extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            FirstRowWithTwoContainerImageAndTwoText(),
-            if ((isMobile)) ContainerProfitsFromMinistryOfInteriorServices(),
+            const FirstRowWithTwoContainerImageAndTwoText(),
+            if ((isMobile)) const ContainerProfitsFromMinistryOfInteriorServices(),
             ContainerNewOrderInListDataFirstScreenInternalOrders(
               onTap: () {
-                context.read<InternalOrdersCubit>().startLoading();
+                context.read<InternalOrdersCubit>().getStatistics(
+                  GetProviderMainServiceStatisticsRequest(
+                  ),
+                );
               },
               isLoading: state.isLoaded,
             ),
             if ((isMobile))
-              Column(
+              const Column(
                 spacing: 10,
                 children: [
                   ContainerInteriorServicesStatistics(),

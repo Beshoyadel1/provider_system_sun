@@ -1,4 +1,12 @@
 class AppImageKeys {
+  //statics//
+  static const String washingAndCleaning = 'assets/images/washingAndCleaning.png';
+  static const String maintenanceAndRepair = 'assets/images/maintenanceAndRepair.png';
+  static const String batteries = 'assets/images/batteries.png';
+  static const String tires = 'assets/images/tires.png';
+  static const String routineMaintenance = 'assets/images/routineMaintenance.png';
+  static const String oils = 'assets/images/oils.png';
+  //end//
   //FacilityManagement
   static const String FacilityManagement =
       'assets/images/FacilityManagement.png';

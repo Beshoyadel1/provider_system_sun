@@ -1,26 +1,62 @@
 import 'package:dio/dio.dart';
-import '../../../../core/model/statistics/get_provider_main_service_statistics_model/get_provider_main_service_statistics_request.dart';
-import '../../../../core/api/dio_function/apiConfig.dart';
-import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
-import '../../../../core/api/dio_function/dio_controller.dart';
+import 'package:sun_web_system/core/model/statistics/get_provider_main_service_statistics_model/data_points_request.dart';
 import '../../../../core/api/dio_function/failures.dart';
 import '../../../../core/language/language_constant.dart';
-
-Future<void> getProviderMainServiceStatisticsFunction({
-  required GetProviderMainServiceStatisticsRequest getProviderMainServiceStatisticsRequest,
+import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
+import '../../../../core/model/statistics/get_provider_main_service_statistics_model/statistics_response.dart';
+import '../../../../core/model/statistics/get_provider_main_service_statistics_model/sub_service_summaries_request.dart';
+import '../../../../core/model/statistics/get_provider_main_service_statistics_model/get_provider_main_service_statistics_request.dart';
+import '../../../../core/api/dio_function/apiConfig.dart';
+import '../../../../core/api/dio_function/dio_controller.dart';
+Future<StatisticsResponse>
+getProviderMainServiceStatisticsFunction({
+  GetProviderMainServiceStatisticsRequest? request,
 }) async {
   try {
-    await Network.postDataWithBodyAndParams(
+    final response = await Network.postDataWithBodyAndParams(
       {},
-      getProviderMainServiceStatisticsRequest.toJson(), // params
+      request?.toJson() ?? {},
       ApiLink.getProviderMainServiceStatistics,
     );
-    AppSnackBar.showSuccess(AppLanguageKeys.getProviderMainServiceStatisticsSuccessfully);
+
+    final data = response.data;
+
+    final List servicesJson = data["subServiceSummaries"];
+
+    final services = servicesJson
+        .map((e) => SubServiceSummariesRequest.fromJson(e))
+        .toList();
+
+    final averageRate = (data["averageRate"] ?? 0).toDouble();
+
+    final chartJson = data["salesChart"]?["dataPoints"] ?? [];
+
+    final chartPoints = (chartJson as List)
+        .map((e) => DataPointsRequest.fromJson(e))
+        .toList();
+
+    AppSnackBar.showSuccess(
+      AppLanguageKeys.getProviderMainServiceStatisticsSuccessfully,
+    );
+    return StatisticsResponse(
+      services: services,
+      averageRate: averageRate,
+      chartPoints: chartPoints,
+    );
+
+
   } catch (e) {
+
     AppSnackBar.showError(
       e is DioException
           ? responseOfStatusCode(e.response?.statusCode)
           : e.toString(),
+    );
+
+    return StatisticsResponse(
+      services: [],
+      averageRate: 0,
+      chartPoints: []
     );
   }
 }

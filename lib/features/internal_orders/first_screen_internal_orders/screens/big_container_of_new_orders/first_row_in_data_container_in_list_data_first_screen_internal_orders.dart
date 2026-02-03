@@ -16,7 +16,7 @@ class FirstRowInDataContainerInListDataFirstScreenInternalOrders
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        DataColumnOfFirstRowInDataContainerInListDataFirstScreenInternalOrders(),
+        const DataColumnOfFirstRowInDataContainerInListDataFirstScreenInternalOrders(),
         ContainerViewAllInFirstRowInDataContainerInListDataFirstScreenInternalOrders(
           onTap: onTap,
         )

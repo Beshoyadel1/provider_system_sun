@@ -1,16 +1,35 @@
+import 'package:sun_web_system/core/model/statistics/get_provider_main_service_statistics_model/data_points_request.dart';
+
+import '../../../../core/model/statistics/get_provider_main_service_statistics_model/sub_service_summaries_request.dart';
+
 class InternalOrdersState {
   final bool isLoading;
   final bool isLoaded;
+  final List<SubServiceSummariesRequest> services;
+  final double averageRate;
+  final List<DataPointsRequest> chartPoints;
 
-  InternalOrdersState({this.isLoading = false, this.isLoaded = false});
+  const InternalOrdersState({
+    this.isLoading = false,
+    this.isLoaded = false,
+    this.services = const [],
+    this.averageRate = 0.0,
+    this.chartPoints=const []
+  });
 
   InternalOrdersState copyWith({
     bool? isLoading,
     bool? isLoaded,
+    List<SubServiceSummariesRequest>? services,
+    List<DataPointsRequest>? chartPoints,
+    double? averageRate,
   }) {
     return InternalOrdersState(
       isLoading: isLoading ?? this.isLoading,
       isLoaded: isLoaded ?? this.isLoaded,
+      services: services ?? this.services,
+      chartPoints: chartPoints ?? this.chartPoints,
+      averageRate: averageRate ?? this.averageRate,
     );
   }
 }
