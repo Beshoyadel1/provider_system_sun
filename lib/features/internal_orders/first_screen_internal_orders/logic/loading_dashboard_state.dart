@@ -2,15 +2,12 @@ import '../../../../core/api_functions/statistics/get_provider_main_service_stat
 import '../../../../core/api_functions/statistics/get_provider_main_service_statistics_model/sub_service_summaries_request.dart';
 
 class InternalOrdersState {
-  final bool isLoading;
-  final bool isLoaded;
+
   final List<SubServiceSummariesRequest> services;
   final double averageRate;
   final List<DataPointsRequest> chartPoints;
 
   const InternalOrdersState({
-    this.isLoading = false,
-    this.isLoaded = false,
     this.services = const [],
     this.averageRate = 0.0,
     this.chartPoints=const []
@@ -24,8 +21,6 @@ class InternalOrdersState {
     double? averageRate,
   }) {
     return InternalOrdersState(
-      isLoading: isLoading ?? this.isLoading,
-      isLoaded: isLoaded ?? this.isLoaded,
       services: services ?? this.services,
       chartPoints: chartPoints ?? this.chartPoints,
       averageRate: averageRate ?? this.averageRate,

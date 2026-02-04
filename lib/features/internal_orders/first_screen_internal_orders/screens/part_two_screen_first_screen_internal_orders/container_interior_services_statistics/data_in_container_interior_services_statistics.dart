@@ -10,16 +10,11 @@ class DataInContainerInteriorServicesStatistics extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<InternalOrdersCubit, InternalOrdersState>(
-        buildWhen: (previous, current) =>
-            previous.isLoading != current.isLoading,
-        builder: (context, state) {
-          return Column(
-            children: [
-              FirstRowInDataInContainerInteriorServicesStatistics(),
-              state.isLoaded ? FastLineWithFill() : const SizedBox.shrink(),
-            ],
-          );
-        });
+    return Column(
+      children: [
+        const FirstRowInDataInContainerInteriorServicesStatistics(),
+        FastLineWithFill(),
+      ],
+    );
   }
 }

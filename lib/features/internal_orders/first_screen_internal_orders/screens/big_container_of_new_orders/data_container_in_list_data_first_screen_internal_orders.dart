@@ -20,8 +20,7 @@ class DataContainerInListDataFirstScreenInternalOrders extends StatelessWidget {
           FirstRowInDataContainerInListDataFirstScreenInternalOrders(
             onTap: onTap,
           ),
-          SecondPartDataContainerInListDataFirstScreenInternalOrders(
-            isLoading: isLoading,
+         const  SecondPartDataContainerInListDataFirstScreenInternalOrders(
           )
         ],
       ),

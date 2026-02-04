@@ -30,19 +30,10 @@ class FirstRowInDataInContainerRateService extends StatelessWidget {
             spacing: 10,
             children: [
               Flexible(child: Image.asset(AppImageKeys.star11)),
-
               BlocBuilder<InternalOrdersCubit, InternalOrdersState>(
                 buildWhen: (previous, current) =>
-                previous.averageRate != current.averageRate ||
-                    previous.isLoading != current.isLoading,
+                previous.averageRate != current.averageRate,
                 builder: (context, state) {
-
-                  /// loading
-                  if (state.isLoading) {
-                    return const CupertinoActivityIndicator();
-                  }
-
-                  /// show rate
                   return TextInAppWidget(
                     text: state.averageRate.toStringAsFixed(1),
                     textSize: 15,

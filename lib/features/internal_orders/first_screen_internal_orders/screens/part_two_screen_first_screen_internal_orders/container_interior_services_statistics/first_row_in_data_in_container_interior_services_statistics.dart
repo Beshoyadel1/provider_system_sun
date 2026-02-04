@@ -17,7 +17,7 @@ class FirstRowInDataInContainerInteriorServicesStatistics
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(
+        const Expanded(
           child: TextInAppWidget(
             text: AppLanguageKeys.internalServicesProfit,
             textSize: 15,
@@ -25,15 +25,11 @@ class FirstRowInDataInContainerInteriorServicesStatistics
             textColor: AppColors.blackColor,
           ),
         ),
-        BlocBuilder<InternalOrdersCubit, InternalOrdersState>(
-            buildWhen: (previous, current) =>
-                previous.isLoading != current.isLoading,
-            builder: (context, state) {
-              return RowNumberCoinWidget(
-                  numberText: state.isLoaded ? '450' : '0',
-                  sizeText: 15,
-                  imageSrc: AppImageKeys.coin);
-            }),
+        RowNumberCoinWidget(
+            numberText: '450' ,
+            sizeText: 15,
+            imageSrc: AppImageKeys.coin
+        ),
       ],
     );
   }

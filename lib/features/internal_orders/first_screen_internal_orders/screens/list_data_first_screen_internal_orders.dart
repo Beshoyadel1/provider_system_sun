@@ -22,7 +22,6 @@ class ListDataFirstScreenInternalOrders extends StatelessWidget {
         size.width <= ValuesOfAllApp.customTabWidth;
     bool isTab = size.width > ValuesOfAllApp.tabWidth;
     return BlocBuilder<InternalOrdersCubit, InternalOrdersState>(
-      buildWhen: (previous, current) => previous.isLoading != current.isLoading,
       builder: (context, state) {
         return Column(
           spacing: 10,
@@ -38,7 +37,6 @@ class ListDataFirstScreenInternalOrders extends StatelessWidget {
                   ),
                 );
               },
-              isLoading: state.isLoaded,
             ),
             if ((isMobile))
               const Column(

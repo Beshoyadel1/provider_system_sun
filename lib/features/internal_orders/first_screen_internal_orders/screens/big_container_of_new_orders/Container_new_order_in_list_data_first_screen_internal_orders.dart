@@ -5,10 +5,9 @@ import '../../../../../../../core/theming/colors.dart';
 class ContainerNewOrderInListDataFirstScreenInternalOrders
     extends StatelessWidget {
   final void Function()? onTap;
-  final bool? isLoading;
 
   const ContainerNewOrderInListDataFirstScreenInternalOrders(
-      {super.key, this.onTap, this.isLoading = false});
+      {super.key, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +26,6 @@ class ContainerNewOrderInListDataFirstScreenInternalOrders
         ],
       ),
       child: DataContainerInListDataFirstScreenInternalOrders(
-        isLoading: isLoading,
         onTap: onTap,
       ),
     );

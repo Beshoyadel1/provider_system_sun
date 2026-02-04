@@ -20,31 +20,26 @@ class SecondRowInDataInContainerProfitsFromMinistryOfInteriorServices
     bool isTabletCustom = size.width > ValuesOfAllApp.mobileWidth &&
         size.width <= ValuesOfAllApp.customTabWidth;
     bool isTab = size.width > ValuesOfAllApp.tabWidth;
-    return Row(
+    return const Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Flexible(child: FourPartDoughnut()),
-        BlocBuilder<InternalOrdersCubit, InternalOrdersState>(
-            buildWhen: (previous, current) =>
-                previous.isLoading != current.isLoading,
-            builder: (context, state) {
-              return Column(
-                spacing: 10,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  RowCircleColorTextPercentageWidget(
-                    colorCircle: AppColors.brownColor,
-                    text: AppLanguageKeys.maintenanceAndRepair,
-                    percentage: state.isLoaded ? '25' : '0',
-                  ),
-                  RowCircleColorTextPercentageWidget(
-                    colorCircle: AppColors.lightBlueColor,
-                    text: AppLanguageKeys.oilChange,
-                    percentage: state.isLoaded ? '25' : '0',
-                  ),
-                ],
-              );
-            }),
+         Flexible(child: FourPartDoughnut()),
+        Column(
+          spacing: 10,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            RowCircleColorTextPercentageWidget(
+              colorCircle: AppColors.brownColor,
+              text: AppLanguageKeys.maintenanceAndRepair,
+              percentage: '25' ,
+            ),
+            RowCircleColorTextPercentageWidget(
+              colorCircle: AppColors.lightBlueColor,
+              text: AppLanguageKeys.oilChange,
+              percentage:'25' ,
+            ),
+          ],
+        ),
       ],
     );
   }
