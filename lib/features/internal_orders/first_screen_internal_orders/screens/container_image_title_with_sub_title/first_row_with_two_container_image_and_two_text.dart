@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import '../../../../../core/api_functions/statistics/get_provider_main_service_statistics_model/sub_service_summaries_request.dart';
 import '../../../../../features/internal_orders/first_screen_internal_orders/logic/loading_dashboard_cubit.dart';
 import '../../../../../core/utilies/map_of_all_app.dart';
 import '../../../custom_widget/container_with_image_container_and_two_text_widget.dart';
-import '../../../../../../../core/theming/assets.dart';
+import '../../../../../core/theming/assets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../logic/loading_dashboard_state.dart';
-import '../../../../../../core/model/statistics/get_provider_main_service_statistics_model/sub_service_summaries_request.dart';
 
 class FirstRowWithTwoContainerImageAndTwoText extends StatelessWidget {
   const FirstRowWithTwoContainerImageAndTwoText({super.key});

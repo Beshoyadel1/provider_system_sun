@@ -212,22 +212,22 @@ void getPages() {
             page: InternalOrdersPage(),
           ),
         ]),
-    const PageNodeModel(
-        name: AppLanguageKeys.mobileAndTransportServicesKey,
-        image: AppImageKeys.truckBox,
-        number: PagesOfAllApp.carModelsPageNumber,
-        children: [
-          const PageNodeModel(
-            name: AppLanguageKeys.permissionsGroupPageKey,
-            number: PagesOfAllApp.internalServicesStatisticsPageNumber,
-            page: InternalAndServicesStatisticsPage(),
-          ),
-          PageNodeModel(
-            name: AppLanguageKeys.ordersSectionKey,
-            number: PagesOfAllApp.internalOrdersPageNumber,
-            page: InternalOrdersPage(),
-          ),
-        ]),
+    // const PageNodeModel(
+    //     name: AppLanguageKeys.mobileAndTransportServicesKey,
+    //     image: AppImageKeys.truckBox,
+    //     number: PagesOfAllApp.carModelsPageNumber,
+    //     children: [
+    //       const PageNodeModel(
+    //         name: AppLanguageKeys.permissionsGroupPageKey,
+    //         number: PagesOfAllApp.internalServicesStatisticsPageNumber,
+    //         page: InternalAndServicesStatisticsPage(),
+    //       ),
+    //       PageNodeModel(
+    //         name: AppLanguageKeys.ordersSectionKey,
+    //         number: PagesOfAllApp.internalOrdersPageNumber,
+    //         page: InternalOrdersPage(),
+    //       ),
+    //     ]),
     const PageNodeModel(
       name: AppLanguageKeys.permissionsKey,
       image: AppImageKeys.userPermissions,

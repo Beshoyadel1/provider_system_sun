@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
-import '../../../../core/model/user/create_user_model/provider_details_request.dart';
+import '../../../../core/api_functions/user/create_user_model/provider_details_request.dart';
 import '../../../../core/api/dio_function/user_type.dart';
 import '../../../../features/auth_page/auth_cubit/auth_cubit.dart';
 import '../../../../features/auth_page/auth_cubit/auth_state.dart';
-import '../../../../core/model/user/create_user_model/create_user_request.dart';
+import '../../../../core/api_functions/user/create_user_model/create_user_request.dart';
 import '../../../../core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../features/auth_page/login_page/login_page.dart';
@@ -27,12 +27,14 @@ class SignUpMobileWidget extends StatefulWidget {
 }
 
 class _SignUpMobileWidgetState extends State<SignUpMobileWidget> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
-      TextEditingController();
+  TextEditingController();
 
   @override
   void dispose() {
@@ -48,11 +50,14 @@ class _SignUpMobileWidgetState extends State<SignUpMobileWidget> {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthCubit, AuthState>(
       buildWhen: (previous, current) =>
-          current is AuthSignupLoading ||
+      current is AuthSignupLoading ||
           current is AuthSignupSuccess ||
           current is AuthSignupError ||
           previous is AuthSignupLoading,
       builder: (context, state) {
+        final bool isLoading = state is AuthSignupLoading;
+
+        /// success
         if (state is AuthSignupSuccess) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             Navigator.of(context).pushReplacement(
@@ -61,116 +66,120 @@ class _SignUpMobileWidgetState extends State<SignUpMobileWidget> {
           });
         }
 
+        /// error
         if (state is AuthSignupError) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             AppSnackBar.showError(state.message);
           });
         }
-        final bool isLoading = state is AuthSignupLoading;
-        return Column(
-          children: [
-            SizedBox(
-              height: 40,
-              child: AppBar(
-                backgroundColor: AppColors.orangeColor,
+
+        return Form(
+          key: _formKey,
+
+          /// ✅ live validation
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+
+          child: Column(
+            children: [
+              SizedBox(
+                height: 40,
+                child: AppBar(backgroundColor: AppColors.orangeColor),
               ),
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    spacing: 10,
-                    children: [
-                      const LoginLanguageButtonWidget(),
-                      Image.asset(
-                        AppImageKeys.sarLogo,
-                        height: 50,
-                        width: 170,
-                        fit: BoxFit.fill,
-                      ),
-                      const TextInAppWidget(
-                        text: AppLanguageKeys.signUpTitleKey,
-                        textSize: 25,
-                        fontWeightIndex: FontSelectionData.boldFontFamily,
-                      ),
-                      UserNameWidget(
-                        controller: usernameController,
-                        text: AppLanguageKeys.userName,
-                      ),
-                      UserNameWidget(
-                        isPhoneNumber: true,
-                        controller: phoneController,
-                        text: AppLanguageKeys.phoneNumberKey,
-                      ),
-                      UserNameWidget(
-                        isEmail: true,
-                        controller: emailController,
-                        text: AppLanguageKeys.emailKey,
-                      ),
-                      PasswordWidget(
-                        controller: passwordController,
-                      ),
-                      PasswordWidget(
-                        controller: confirmPasswordController,
-                        text: AppLanguageKeys.confirmPasswordKey,
-                        isConfirmPassword: true,
-                      ),
-                      const SizedBox(height: 10),
-                      LoginButtonWidget(
-                        text: AppLanguageKeys.createAccountKey,
-                        onPressed: isLoading
-                            ? null
-                            : () {
-                                final username =
-                                    usernameController.text.trim();
-                                final phone = phoneController.text.trim();
-                                final email = emailController.text.trim();
-                                final password =
-                                    passwordController.text.trim();
-                                final confirmPassword =
-                                    confirmPasswordController.text.trim();
 
-                                if (username.isEmpty ||
-                                    phone.isEmpty ||
-                                    email.isEmpty ||
-                                    password.isEmpty ||
-                                    confirmPassword.isEmpty) {
-                                  AppSnackBar.showError(
-                                    AppLanguageKeys.fillAllFields,
-                                  );
-                                  return;
-                                }
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 10,
+                      children: [
+                        const LoginLanguageButtonWidget(),
 
-                                if (password != confirmPassword) {
-                                  AppSnackBar.showError(
-                                    AppLanguageKeys.passwordsDoNotMatch,
-                                  );
-                                  return;
-                                }
-                                context.read<AuthCubit>().signup(
-                                      CreateUserRequest(
-                                        username: username,
-                                        phone: phone,
-                                        email: email,
-                                        password: password,
-                                        type:UserType.providerUser,
-                                        providerDetails: const ProviderDetailsRequest(),
-                                      ),
+                        Image.asset(
+                          AppImageKeys.sarLogo,
+                          height: 50,
+                          width: 170,
+                          fit: BoxFit.fill,
+                        ),
 
-                                    );
-                              },
-                      ),
-                      const SizedBox(height: 10),
-                    ],
+                        const TextInAppWidget(
+                          text: AppLanguageKeys.signUpTitleKey,
+                          textSize: 25,
+                          fontWeightIndex:
+                          FontSelectionData.boldFontFamily,
+                        ),
+
+                        /// fields
+                        UserNameWidget(
+                          controller: usernameController,
+                          text: AppLanguageKeys.userName,
+                        ),
+
+                        UserNameWidget(
+                          isPhoneNumber: true,
+                          controller: phoneController,
+                          text: AppLanguageKeys.phoneNumberKey,
+                        ),
+
+                        UserNameWidget(
+                          isEmail: true,
+                          controller: emailController,
+                          text: AppLanguageKeys.emailKey,
+                        ),
+
+                        PasswordWidget(controller: passwordController),
+
+                        PasswordWidget(
+                          controller: confirmPasswordController,
+                          text: AppLanguageKeys.confirmPasswordKey,
+                          isConfirmPassword: true,
+                        ),
+
+                        const SizedBox(height: 10),
+
+                        /// ✅ نفس زرار login مع loading
+                        LoginButtonWidget(
+                          text: AppLanguageKeys.createAccountKey,
+                          isLoading: isLoading,
+                          onPressed:
+                          isLoading ? null : _onSignupPressed,
+                        ),
+
+                        const SizedBox(height: 10),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       },
+    );
+  }
+
+  /// ✅ منطق نظيف
+  void _onSignupPressed() {
+    if (!_formKey.currentState!.validate()) return;
+
+    final password = passwordController.text.trim();
+    final confirm = confirmPasswordController.text.trim();
+
+    if (password != confirm) {
+      AppSnackBar.showError(AppLanguageKeys.passwordsDoNotMatch);
+      return;
+    }
+
+    context.read<AuthCubit>().signup(
+      CreateUserRequest(
+        username: usernameController.text.trim(),
+        phone: phoneController.text.trim(),
+        email: emailController.text.trim(),
+        password: password,
+        type: UserType.providerUser,
+        providerDetails: const ProviderDetailsRequest(),
+      ),
     );
   }
 }

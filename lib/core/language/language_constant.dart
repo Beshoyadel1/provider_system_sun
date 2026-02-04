@@ -52,7 +52,7 @@ class AppLanguageKeys {
   static const String enterUsernameAndPassword = 'enterUsernameAndPassword';
   static const String fillAllFields = 'fillAllFields';
   //End//
-  //model//
+  //api_functions//
   static const String changePasswordSuccessfully = 'changePasswordSuccessfully';
   static const String checkIfUserExistSuccessfully = 'checkIfUserExistSuccessfully';
   static const String checkIfUserExistOrNotSuccessfully = 'checkIfUserExistOrNotSuccessfully';
@@ -945,12 +945,12 @@ class AppLanguageKeys {
   static const String resend = 'Resend';
   static const String yourCarData = 'your car data';
   static const String toViewYourCarsModelsServicesAndCenters =
-      "To view your car's model's services and centers";
+      "To view your car's api_functions's services and centers";
   static const String chooseTheCategory = "Choose the category";
   static const String modelYear = "Model year";
   static const String yourCarName = "Your car name";
   static const String exampleModelName = "(Example: My Honda - My wife's car)";
-  static const String chooseYourCarModel = 'Choose your car model';
+  static const String chooseYourCarModel = 'Choose your car api_functions';
   static const String youCanSearchToSelectYourCarCategory =
       'You can search to select your car category';
   static const String profile = 'Profile';

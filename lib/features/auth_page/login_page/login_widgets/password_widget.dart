@@ -34,6 +34,7 @@ class PasswordWidget extends StatelessWidget {
         return SizedBox(
           width: 500,
           child: TextFormFieldWidget(
+            isValidator: true,
             textFormController: controller,
             text: text ?? AppLanguageKeys.passwordKey,
             isColumn: true,

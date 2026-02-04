@@ -5,6 +5,13 @@ import '../../../../../../core/language/language_constant.dart';
 import '../../../../../../core/theming/colors.dart';
 import '../../../../../../core/theming/fonts.dart';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import '../../../../../../core/pages_widgets/text_form_field_widget.dart';
+import '../../../../../../core/language/language_constant.dart';
+import '../../../../../../core/theming/colors.dart';
+import '../../../../../../core/theming/fonts.dart';
+
 class UserNameWidget extends StatelessWidget {
   const UserNameWidget({
     super.key,
@@ -26,6 +33,7 @@ class UserNameWidget extends StatelessWidget {
       width: 500,
       child: TextFormFieldWidget(
         textFormController: controller,
+        isValidator: true,
         text: text ?? AppLanguageKeys.phoneNumberKey,
         isColumn: true,
         textColor: AppColors.darkColor,
@@ -38,9 +46,7 @@ class UserNameWidget extends StatelessWidget {
         isDigit: isPhoneNumber,
         inputFormatters: isEmail
             ? [
-          FilteringTextInputFormatter.deny(
-            RegExp(r'\s'),
-          ),
+          FilteringTextInputFormatter.deny(RegExp(r'\s')),
         ]
             : null,
       ),

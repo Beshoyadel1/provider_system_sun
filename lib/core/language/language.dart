@@ -1467,9 +1467,9 @@ class AppLocalizations {
       AppLanguageKeys.confirmBranchLocationKey:
           'Confirm branch geographic location',
       AppLanguageKeys.saveKey: 'Save',
-      AppLanguageKeys.selectCarModelKey: 'Select your car model',
+      AppLanguageKeys.selectCarModelKey: 'Select your car api_functions',
       AppLanguageKeys.searchCarModelKey:
-          'You can search to choose the car model',
+          'You can search to choose the car api_functions',
       AppLanguageKeys.continueFacilityDataKey:
           'Continue filling facility information',
       AppLanguageKeys.fillFacilityDataKey:
@@ -1511,13 +1511,13 @@ class AppLocalizations {
       AppLanguageKeys.swiftCodeKey: 'SWIFT code',
       AppLanguageKeys.ibanNumberKey: 'IBAN number',
       AppLanguageKeys.addKey: 'Add',
-      AppLanguageKeys.newModelKey: 'New model',
+      AppLanguageKeys.newModelKey: 'New api_functions',
       AppLanguageKeys.carCategoryKey: 'Car category',
       AppLanguageKeys.nissanKey: 'Nissan',
       AppLanguageKeys.allCategoriesKey: 'All categories',
       AppLanguageKeys.nissanAllCategoriesKey: 'Nissan (All categories)',
       AppLanguageKeys.serviceSettingsKey: 'Service settings',
-      AppLanguageKeys.selectModelYearsKey: 'Select model years',
+      AppLanguageKeys.selectModelYearsKey: 'Select api_functions years',
       AppLanguageKeys.chooseCategoryKey: 'Choose category',
       AppLanguageKeys.allCategoriesAgainKey: 'All categories',
       AppLanguageKeys.addedCarsKey: 'Added cars 1',
@@ -1534,7 +1534,7 @@ class AppLocalizations {
       AppLanguageKeys.serviceSettingsDetailsKey:
           'Service settings for type, prices, and packages',
       AppLanguageKeys.addNewCarKey: 'Add new car',
-      AppLanguageKeys.addCarModelKey: 'Add car model',
+      AppLanguageKeys.addCarModelKey: 'Add car api_functions',
       AppLanguageKeys.facilityDataKey: 'Facility information',
       AppLanguageKeys.identityKey: 'Identity',
       AppLanguageKeys.branchesKey: 'Branches',
@@ -1748,7 +1748,7 @@ class AppLocalizations {
           'Select car models based on the services you offer to your customers',
       AppLanguageKeys.multipleCarSelectionNote:
           'You can select multiple cars at once',
-      AppLanguageKeys.searchCarModel: 'You can search to select your car model',
+      AppLanguageKeys.searchCarModel: 'You can search to select your car api_functions',
       AppLanguageKeys.chooseCategory: 'Choose Category',
       AppLanguageKeys.selectModelYears: 'Select Model Years',
       AppLanguageKeys.carCategory: 'Car Category',
@@ -2257,12 +2257,12 @@ Providers will be notified of any major changes via the platform or email.
       AppLanguageKeys.resend: 'Resend',
       AppLanguageKeys.yourCarData: 'your car data',
       AppLanguageKeys.toViewYourCarsModelsServicesAndCenters:
-          "To view your car's model's services and centers",
+          "To view your car's api_functions's services and centers",
       AppLanguageKeys.chooseTheCategory: "Choose the category",
       AppLanguageKeys.modelYear: "Model year",
       AppLanguageKeys.yourCarName: "Your car name",
       AppLanguageKeys.exampleModelName: "(Example: My Honda - My wife's car)",
-      AppLanguageKeys.chooseYourCarModel: 'Choose your car model',
+      AppLanguageKeys.chooseYourCarModel: 'Choose your car api_functions',
       AppLanguageKeys.youCanSearchToSelectYourCarCategory:
           'You can search to select your car category',
       AppLanguageKeys.profile: 'Profile',

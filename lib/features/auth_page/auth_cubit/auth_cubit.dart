@@ -1,9 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/core/model/user/create_user_model/create_user_repository.dart';
-import 'package:sun_web_system/core/model/user/create_user_model/create_user_request.dart';
-import '../../../../../../core/language/language_constant.dart';
-import '../../../../../../core/model/user/login_model/login_repository.dart';
-import '../../../../../../core/model/user/login_model/login_request.dart';
+import '../../../../core/api_functions/user/create_user_model/create_user_repository.dart';
+import '../../../../core/api_functions/user/create_user_model/create_user_request.dart';
+import '../../../../core/api_functions/user/login_model/login_repository.dart';
+import '../../../../core/api_functions/user/login_model/login_request.dart';
 import 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {

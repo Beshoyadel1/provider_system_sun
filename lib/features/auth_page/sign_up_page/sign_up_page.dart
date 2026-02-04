@@ -18,37 +18,15 @@ class SignUpPage extends StatelessWidget {
 
     return BlocProvider(
       create: (context) => AuthCubit(),
-      child: BlocBuilder<AuthCubit, AuthState>(
-        builder: (context, state) {
-          final bool isLoading = state is AuthSignupLoading;
-
-          return Scaffold(
-            body: Stack(
-              children: [
-                Container(
-                  decoration: const BoxDecoration(
-                    color: AppColors.scaffoldColor,
-                  ),
-                  child: isMobile
-                      ? const SignUpMobileWidget()
-                      : const SignUpWebWidget(),
-                ),
-
-                if (isLoading)
-                  Positioned.fill(
-                    child: Container(
-                      color: AppColors.blackColor.withOpacity(0.25),
-                      child: const Center(
-                        child: CupertinoActivityIndicator(
-                          radius: 18,
-                        ),
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-          );
-        },
+      child: Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(
+            color: AppColors.scaffoldColor,
+          ),
+          child: isMobile
+              ? const SignUpMobileWidget()
+              : const SignUpWebWidget(),
+        ),
       ),
     );
   }
