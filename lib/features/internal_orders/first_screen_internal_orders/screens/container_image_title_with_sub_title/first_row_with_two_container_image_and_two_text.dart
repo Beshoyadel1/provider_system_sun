@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/api_functions/statistics/get_provider_main_service_statistics_model/sub_service_summaries_request.dart';
+import '../../../../../core/language/language.dart';
+import '../../../../../core/language/language_constant.dart';
 import '../../../../../features/internal_orders/first_screen_internal_orders/logic/loading_dashboard_cubit.dart';
 import '../../../../../core/utilies/map_of_all_app.dart';
 import '../../../custom_widget/container_with_image_container_and_two_text_widget.dart';
@@ -37,11 +38,15 @@ class FirstRowWithTwoContainerImageAndTwoText extends StatelessWidget {
 
             return Row(
               children: List.generate(
-                end - start,
+                itemsPerRow,
                     (i) {
                   final index = start + i;
-                  final SubServiceSummariesRequest service =
-                  services[index];
+
+                  if (index >= services.length) {
+                    return const Expanded(child: SizedBox());
+                  }
+
+                  final service = services[index];
 
                   final title = isArabic
                       ? (service.serviceName ?? '')
@@ -53,13 +58,14 @@ class FirstRowWithTwoContainerImageAndTwoText extends StatelessWidget {
                       child: ContainerWithImageContainerAndTwoTextWidget(
                         imagePath: images[index % images.length],
                         title: title,
-                        subTitle: '${service.orderCount ?? 0} طلب',
+                        subTitle: '${service.orderCount ?? 0} ${AppLocalizations.of(context).translate(AppLanguageKeys.order)}',
                       ),
                     ),
                   );
                 },
               ),
             );
+
           },
         );
       },

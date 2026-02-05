@@ -18,10 +18,10 @@ class FirstRowInDataInContainerProfitsFromMinistryOfInteriorServices
     bool isTabletCustom = size.width > ValuesOfAllApp.mobileWidth &&
         size.width <= ValuesOfAllApp.customTabWidth;
     bool isTab = size.width > ValuesOfAllApp.tabWidth;
-    return Row(
+    return const Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Expanded(
+         Expanded(
           child: TextInAppWidget(
             text: AppLanguageKeys.internalServicesStats,
             textSize: 15,

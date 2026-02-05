@@ -33,7 +33,7 @@ class LoginMobileWidget extends StatelessWidget {
                     fit: BoxFit.fill,
                   ),
                   const SizedBox(height: 30),
-                  const LoginWidget(),
+                   LoginWidget(),
                 ],
               ),
             ),

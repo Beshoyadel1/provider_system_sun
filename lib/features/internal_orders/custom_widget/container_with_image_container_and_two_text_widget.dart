@@ -52,26 +52,23 @@ class ContainerWithImageContainerAndTwoTextWidget extends StatelessWidget {
               ),
             ),
           ),
-          Expanded(
-            flex: 2,
-            child: Column(
-              spacing: 5,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextInAppWidget(
-                  text: title,
-                  textSize: 12,
-                  fontWeightIndex: FontSelectionData.regularFontFamily,
-                  textColor: AppColors.blackColor,
-                ),
-                TextInAppWidget(
-                  text: subTitle,
-                  textSize: 12,
-                  fontWeightIndex: FontSelectionData.regularFontFamily,
-                  textColor: AppColors.orangeColor,
-                )
-              ],
-            ),
+          Column(
+            spacing: 5,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextInAppWidget(
+                text: title,
+                textSize: 12,
+                fontWeightIndex: FontSelectionData.regularFontFamily,
+                textColor: AppColors.blackColor,
+              ),
+              TextInAppWidget(
+                text: subTitle,
+                textSize: 12,
+                fontWeightIndex: FontSelectionData.regularFontFamily,
+                textColor: AppColors.orangeColor,
+              )
+            ],
           )
         ],
       ),

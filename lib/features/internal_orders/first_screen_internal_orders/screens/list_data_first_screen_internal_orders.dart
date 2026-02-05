@@ -17,7 +17,7 @@ class ListDataFirstScreenInternalOrders extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    bool isMobile = size.width <= ValuesOfAllApp.mobileWidth;
+    bool isMobile = size.width <= ValuesOfAllApp.mobileWidth+200;
     bool isTabletCustom = size.width > ValuesOfAllApp.mobileWidth &&
         size.width <= ValuesOfAllApp.customTabWidth;
     bool isTab = size.width > ValuesOfAllApp.tabWidth;
@@ -32,10 +32,6 @@ class ListDataFirstScreenInternalOrders extends StatelessWidget {
             if ((isMobile)) const ContainerProfitsFromMinistryOfInteriorServices(),
             ContainerNewOrderInListDataFirstScreenInternalOrders(
               onTap: () {
-                context.read<InternalOrdersCubit>().getStatistics(
-                  GetProviderMainServiceStatisticsRequest(
-                  ),
-                );
               },
             ),
             if ((isMobile))

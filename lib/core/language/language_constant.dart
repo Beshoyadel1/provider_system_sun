@@ -1,6 +1,10 @@
 import 'package:sun_web_system/core/utilies/map_of_all_app.dart';
 
 class AppLanguageKeys {
+  //others//
+  static const String order = 'order';
+  //end//
+
   //message api response//
   static const String passwordsDoNotMatch = 'passwordsDoNotMatch';
   static const String wrongUsername = 'wrongUsername';

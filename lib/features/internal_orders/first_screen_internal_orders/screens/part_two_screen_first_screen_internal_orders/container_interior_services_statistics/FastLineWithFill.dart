@@ -19,9 +19,8 @@ class FastLineWithFill extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<InternalOrdersCubit, InternalOrdersState>(
       builder: (context, state) {
-
         return SizedBox(
-          height: 250,
+          height: 150,
           child: SfCartesianChart(
             zoomPanBehavior: _zoomPanBehavior,
             primaryXAxis: const CategoryAxis(),

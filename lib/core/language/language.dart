@@ -14,6 +14,9 @@ class AppLocalizations {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'ar': {
+      //others//
+      AppLanguageKeys.order: 'طلب',
+      //end//
       //message api response//
       AppLanguageKeys.passwordsDoNotMatch: 'كلمتا المرور غير متطابقتين',
       AppLanguageKeys.wrongUsername: 'اسم المستخدم غير صحيحة',
@@ -1157,6 +1160,9 @@ class AppLocalizations {
       AppLanguageKeys.from: "من",
     },
     'en': {
+      //others//
+      AppLanguageKeys.order: 'Order',
+      //end//
       //message api response//
       AppLanguageKeys.passwordsDoNotMatch: 'Passwords do not match',
       AppLanguageKeys.wrongUsername: 'Wrong username',

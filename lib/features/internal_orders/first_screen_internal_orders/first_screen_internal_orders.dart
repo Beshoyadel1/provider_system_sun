@@ -16,7 +16,7 @@ class FirstScreenInternalOrders extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    bool isMobile = size.width <= ValuesOfAllApp.mobileWidth;
+    bool isMobile = size.width <= ValuesOfAllApp.mobileWidth+200;
     return BlocProvider(
       create: (_) => InternalOrdersCubit()
         ..getStatistics(GetProviderMainServiceStatisticsRequest()),
@@ -43,13 +43,16 @@ class FirstScreenInternalOrders extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.all(10.0),
                     child: SingleChildScrollView(
-                      child: Column(
-                        spacing: 20,
-                        children: [
-                          ContainerProfitsFromMinistryOfInteriorServices(),
-                          ContainerInteriorServicesStatistics(),
-                          ContainerRateService(),
-                        ],
+                      child: SizedBox(
+                        width: 500,
+                        child: Column(
+                          spacing: 20,
+                          children: [
+                            ContainerProfitsFromMinistryOfInteriorServices(),
+                            ContainerInteriorServicesStatistics(),
+                            ContainerRateService(),
+                          ],
+                        ),
                       ),
                     ),
                   ),

@@ -11,10 +11,10 @@ class ContainerPercentage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsetsGeometry.symmetric(vertical: 5, horizontal: 15),
+      padding: const EdgeInsetsGeometry.symmetric(vertical: 5, horizontal: 15),
       decoration: BoxDecoration(
         color: AppColors.partCyanColor,
-        borderRadius: BorderRadius.all(Radius.circular(20)),
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
         boxShadow: [
           BoxShadow(
             color: AppColors.darkColor.withOpacity(0.1),

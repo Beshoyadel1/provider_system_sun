@@ -11,7 +11,7 @@ class FourPartDoughnut extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 200,
+      height: 150,
       child: SfCircularChart(
         margin: EdgeInsets.zero,
         series: <CircularSeries>[

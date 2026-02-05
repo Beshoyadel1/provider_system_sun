@@ -11,6 +11,8 @@ class DataInContainerInteriorServicesStatistics extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      spacing: 10,
       children: [
         const FirstRowInDataInContainerInteriorServicesStatistics(),
         FastLineWithFill(),

@@ -55,7 +55,6 @@ class MobileSecondPartDataContainerInListDataFirstScreenInternalOrders
                 subTitle: subTitlePart1,
               ),
             ),
-            Spacer(),
             Flexible(
               child: RowKindOfCarWithTextWidget(
                 imagePath: imagePathPart2,

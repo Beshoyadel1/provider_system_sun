@@ -15,13 +15,8 @@ class SecondRowInDataInContainerProfitsFromMinistryOfInteriorServices
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    bool isMobile = size.width <= ValuesOfAllApp.mobileWidth;
-    bool isTabletCustom = size.width > ValuesOfAllApp.mobileWidth &&
-        size.width <= ValuesOfAllApp.customTabWidth;
-    bool isTab = size.width > ValuesOfAllApp.tabWidth;
     return const Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      spacing: 10,
       children: [
          Flexible(child: FourPartDoughnut()),
         Column(

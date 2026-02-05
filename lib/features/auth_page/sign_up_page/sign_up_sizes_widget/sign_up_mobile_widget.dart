@@ -48,137 +48,130 @@ class _SignUpMobileWidgetState extends State<SignUpMobileWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthCubit, AuthState>(
-      buildWhen: (previous, current) =>
-      current is AuthSignupLoading ||
-          current is AuthSignupSuccess ||
-          current is AuthSignupError ||
-          previous is AuthSignupLoading,
-      builder: (context, state) {
-        final bool isLoading = state is AuthSignupLoading;
+    return Form(
+      key: _formKey,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      child: Column(
+        children: [
+          SizedBox(
+            height: 40,
+            child: AppBar(backgroundColor: AppColors.orangeColor),
+          ),
 
-        /// success
-        if (state is AuthSignupSuccess) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.of(context).pushReplacement(
-              NavigateToPageWidget(const LoginPage()),
-            );
-          });
-        }
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: 10,
+                  children: [
+                    const LoginLanguageButtonWidget(),
 
-        /// error
-        if (state is AuthSignupError) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            AppSnackBar.showError(state.message);
-          });
-        }
-
-        return Form(
-          key: _formKey,
-
-          /// ✅ live validation
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-
-          child: Column(
-            children: [
-              SizedBox(
-                height: 40,
-                child: AppBar(backgroundColor: AppColors.orangeColor),
-              ),
-
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: 10,
-                      children: [
-                        const LoginLanguageButtonWidget(),
-
-                        Image.asset(
-                          AppImageKeys.sarLogo,
-                          height: 50,
-                          width: 170,
-                          fit: BoxFit.fill,
-                        ),
-
-                        const TextInAppWidget(
-                          text: AppLanguageKeys.signUpTitleKey,
-                          textSize: 25,
-                          fontWeightIndex:
-                          FontSelectionData.boldFontFamily,
-                        ),
-
-                        /// fields
-                        UserNameWidget(
-                          controller: usernameController,
-                          text: AppLanguageKeys.userName,
-                        ),
-
-                        UserNameWidget(
-                          isPhoneNumber: true,
-                          controller: phoneController,
-                          text: AppLanguageKeys.phoneNumberKey,
-                        ),
-
-                        UserNameWidget(
-                          isEmail: true,
-                          controller: emailController,
-                          text: AppLanguageKeys.emailKey,
-                        ),
-
-                        PasswordWidget(controller: passwordController),
-
-                        PasswordWidget(
-                          controller: confirmPasswordController,
-                          text: AppLanguageKeys.confirmPasswordKey,
-                          isConfirmPassword: true,
-                        ),
-
-                        const SizedBox(height: 10),
-
-                        /// ✅ نفس زرار login مع loading
-                        LoginButtonWidget(
-                          text: AppLanguageKeys.createAccountKey,
-                          isLoading: isLoading,
-                          onPressed:
-                          isLoading ? null : _onSignupPressed,
-                        ),
-
-                        const SizedBox(height: 10),
-                      ],
+                    Image.asset(
+                      AppImageKeys.sarLogo,
+                      height: 50,
+                      width: 170,
+                      fit: BoxFit.fill,
                     ),
-                  ),
+
+                    const TextInAppWidget(
+                      text: AppLanguageKeys.signUpTitleKey,
+                      textSize: 25,
+                      fontWeightIndex:
+                      FontSelectionData.boldFontFamily,
+                    ),
+
+                    /// fields
+                    UserNameWidget(
+                      controller: usernameController,
+                      text: AppLanguageKeys.userName,
+                    ),
+
+                    UserNameWidget(
+                      isPhoneNumber: true,
+                      controller: phoneController,
+                      text: AppLanguageKeys.phoneNumberKey,
+                    ),
+
+                    UserNameWidget(
+                      isEmail: true,
+                      controller: emailController,
+                      text: AppLanguageKeys.emailKey,
+                    ),
+
+                    PasswordWidget(controller: passwordController),
+
+                    PasswordWidget(
+                      controller: confirmPasswordController,
+                      text: AppLanguageKeys.confirmPasswordKey,
+                      isConfirmPassword: true,
+                    ),
+
+                    const SizedBox(height: 10),
+
+                    BlocBuilder<AuthCubit, AuthState>(
+                      buildWhen: (previous, current) =>
+                      current is AuthSignupLoading ||
+                          current is AuthSignupSuccess ||
+                          current is AuthSignupError ||
+                          previous is AuthSignupLoading,
+                      builder: (context, state) {
+                        final bool isLoading = state is AuthSignupLoading;
+
+                        if (state is AuthSignupSuccess) {
+                          Future.microtask(() {
+                            Navigator.of(context).pushReplacement(
+                              NavigateToPageWidget(const LoginPage()),
+                            );
+                          });
+                        }
+
+                        if (state is AuthSignupError) {
+                          Future.microtask(() {
+                            AppSnackBar.showError(state.message);
+                          });
+                        }
+
+                        return LoginButtonWidget(
+                          text: AppLanguageKeys.login,
+                          isLoading: isLoading,
+                          onPressed: isLoading
+                              ? null
+                              : () {
+                            if (!_formKey.currentState!.validate()) return;
+
+                            final password = passwordController.text.trim();
+                            final confirm = confirmPasswordController.text
+                                .trim();
+
+                            if (password != confirm) {
+                              AppSnackBar.showError(
+                                  AppLanguageKeys.passwordsDoNotMatch);
+                              return;
+                            }
+
+                            context.read<AuthCubit>().signup(
+                              CreateUserRequest(
+                                username: usernameController.text.trim(),
+                                phone: phoneController.text.trim(),
+                                email: emailController.text.trim(),
+                                password: password,
+                                type: UserType.providerUser,
+                                providerDetails: const ProviderDetailsRequest(),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                  ],
                 ),
               ),
-            ],
+            ),
           ),
-        );
-      },
-    );
-  }
-
-  /// ✅ منطق نظيف
-  void _onSignupPressed() {
-    if (!_formKey.currentState!.validate()) return;
-
-    final password = passwordController.text.trim();
-    final confirm = confirmPasswordController.text.trim();
-
-    if (password != confirm) {
-      AppSnackBar.showError(AppLanguageKeys.passwordsDoNotMatch);
-      return;
-    }
-
-    context.read<AuthCubit>().signup(
-      CreateUserRequest(
-        username: usernameController.text.trim(),
-        phone: phoneController.text.trim(),
-        email: emailController.text.trim(),
-        password: password,
-        type: UserType.providerUser,
-        providerDetails: const ProviderDetailsRequest(),
+        ],
       ),
     );
   }

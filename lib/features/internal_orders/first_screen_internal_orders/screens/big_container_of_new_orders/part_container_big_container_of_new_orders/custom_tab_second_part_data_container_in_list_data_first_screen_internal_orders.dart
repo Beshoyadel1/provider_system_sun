@@ -50,21 +50,21 @@ class CustomTabSecondPartDataContainerInListDataFirstScreenInternalOrders
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Flexible(
+            Expanded(
               child: RowImageWithTitleOrangeAndSubTitleBlackWidget(
                 imagePath: imagePathPart1,
                 title: titlePart1,
                 subTitle: subTitlePart1,
               ),
             ),
-            Flexible(
+            Expanded(
               child: RowKindOfCarWithTextWidget(
                 imagePath: imagePathPart2,
                 textCar: textCarPart2,
                 title: titlePart2,
               ),
             ),
-            Flexible(
+            Expanded(
               child: RowImageWithTitleOrangeAndSubTitleBlackWidget(
                 isJob: true,
                 imagePath: imagePathPart3,
@@ -79,20 +79,20 @@ class CustomTabSecondPartDataContainerInListDataFirstScreenInternalOrders
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Flexible(
+            Expanded(
               child: ColumnRequestStatusWidget(
                 isNewOrder: isNewOrderPart4,
                 isAccept: isAcceptPart4,
                 isReject: isRejectPart4,
               ),
             ),
-            Flexible(child: ColumnDateOrderWithTimeWidget(time: timePart5)),
-            Flexible(child: ColumnPriceOrderWidget(price: pricePart6)),
+            Expanded(child: ColumnDateOrderWithTimeWidget(time: timePart5)),
+            Expanded(child: ColumnPriceOrderWidget(price: pricePart6)),
           ],
         ),
-        Row(
+        const Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [Flexible(child: ContainerDetailsWidget())],
+          children: [Expanded(child: ContainerDetailsWidget())],
         ),
       ],
     );
