@@ -16,8 +16,8 @@ class FirstRowInDataInContainerRateService extends StatelessWidget {
     return Expanded(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: 30,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        spacing: 50,
+        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const TextInAppWidget(
             text: AppLanguageKeys.internalServicesRating,
@@ -25,7 +25,6 @@ class FirstRowInDataInContainerRateService extends StatelessWidget {
             fontWeightIndex: FontSelectionData.regularFontFamily,
             textColor: AppColors.blackColor,
           ),
-
           Row(
             spacing: 10,
             children: [

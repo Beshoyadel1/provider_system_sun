@@ -15,7 +15,7 @@ class ColumnDateOrderWithTimeWidget extends StatelessWidget {
     return Column(
       spacing: 10,
       children: [
-        TextInAppWidget(
+        const TextInAppWidget(
           text: AppLanguageKeys.requestDate,
           textSize: 11,
           fontWeightIndex: FontSelectionData.mediumFontFamily,

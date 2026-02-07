@@ -17,7 +17,7 @@ class ColumnPriceOrderWidget extends StatelessWidget {
     return Column(
       spacing: 10,
       children: [
-        TextInAppWidget(
+        const TextInAppWidget(
           text: AppLanguageKeys.servicePrice,
           textSize: 11,
           fontWeightIndex: FontSelectionData.mediumFontFamily,

@@ -29,7 +29,6 @@ class ListDataFirstScreenInternalOrders extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const FirstRowWithTwoContainerImageAndTwoText(),
-            if ((isMobile)) const ContainerProfitsFromMinistryOfInteriorServices(),
             ContainerNewOrderInListDataFirstScreenInternalOrders(
               onTap: () {
               },
@@ -38,8 +37,14 @@ class ListDataFirstScreenInternalOrders extends StatelessWidget {
               const Column(
                 spacing: 10,
                 children: [
+                  Row(
+                    spacing: 10,
+                    children: [
+                      Expanded(child: ContainerProfitsFromMinistryOfInteriorServices()),
+                      Expanded(child: ContainerRateService())
+                    ],
+                  ),
                   ContainerInteriorServicesStatistics(),
-                  ContainerRateService()
                 ],
               ),
           ],

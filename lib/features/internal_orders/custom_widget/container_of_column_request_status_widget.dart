@@ -37,7 +37,7 @@ class ContainerOfColumnRequestStatusWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 100,
-      padding: EdgeInsetsGeometry.symmetric(vertical: 5, horizontal: 10),
+      padding: const EdgeInsetsGeometry.symmetric(vertical: 5, horizontal: 10),
       decoration: BoxDecoration(
         color: isNewOrder!
             ? AppColors.blackColor25

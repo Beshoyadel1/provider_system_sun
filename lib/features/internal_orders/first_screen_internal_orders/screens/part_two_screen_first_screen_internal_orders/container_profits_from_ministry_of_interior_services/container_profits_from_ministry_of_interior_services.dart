@@ -8,6 +8,7 @@ class ContainerProfitsFromMinistryOfInteriorServices extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+
       padding: const EdgeInsetsGeometry.all(10),
       decoration: BoxDecoration(
         color: AppColors.whiteColor,

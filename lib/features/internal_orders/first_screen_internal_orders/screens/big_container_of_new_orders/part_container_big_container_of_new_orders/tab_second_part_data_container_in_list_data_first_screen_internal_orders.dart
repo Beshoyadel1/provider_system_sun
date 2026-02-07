@@ -42,23 +42,23 @@ class TabSecondPartDataContainerInListDataFirstScreenInternalOrders
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      spacing: 5,
       children: [
-        Flexible(
+        Expanded(
           child: RowImageWithTitleOrangeAndSubTitleBlackWidget(
             imagePath: imagePathPart1,
             title: titlePart1,
             subTitle: subTitlePart1,
           ),
         ),
-        Flexible(
+        Expanded(
           child: RowKindOfCarWithTextWidget(
             imagePath: imagePathPart2,
             textCar: textCarPart2,
             title: titlePart2,
           ),
         ),
-        Flexible(
+        Expanded(
           child: RowImageWithTitleOrangeAndSubTitleBlackWidget(
             isJob: true,
             imagePath: imagePathPart3,
@@ -66,16 +66,16 @@ class TabSecondPartDataContainerInListDataFirstScreenInternalOrders
             subTitle: subTitlePart3,
           ),
         ),
-        Flexible(
+        Expanded(
           child: ColumnRequestStatusWidget(
             isNewOrder: isNewOrderPart4,
             isAccept: isAcceptPart4,
             isReject: isRejectPart4,
           ),
         ),
-        Flexible(child: ColumnDateOrderWithTimeWidget(time: timePart5)),
-        Flexible(child: ColumnPriceOrderWidget(price: pricePart6)),
-        Expanded(child: ContainerDetailsWidget())
+        Expanded(child: ColumnDateOrderWithTimeWidget(time: timePart5)),
+        Expanded(child: ColumnPriceOrderWidget(price: pricePart6)),
+        const Expanded(child: ContainerDetailsWidget())
       ],
     );
   }

@@ -43,7 +43,7 @@ class MobileSecondPartDataContainerInListDataFirstScreenInternalOrders
   @override
   Widget build(BuildContext context) {
     return Column(
-      spacing: 10,
+      spacing: 5,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

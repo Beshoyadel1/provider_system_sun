@@ -40,7 +40,7 @@ class _FirstTitleSearchInDataSecondContainerInFirstScreenCarModelSettingsState
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 10,
       children: [
-        TextInAppWidget(
+        const TextInAppWidget(
           text: AppLanguageKeys.chooseYourCarModel,
           textSize: 13,
           fontWeightIndex: FontSelectionData.regularFontFamily,

@@ -10,6 +10,7 @@ class DataInContainerProfitsFromMinistryOfInteriorServices
   Widget build(BuildContext context) {
     return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 10,
       children: [
         FirstRowInDataInContainerProfitsFromMinistryOfInteriorServices(),
         SecondRowInDataInContainerProfitsFromMinistryOfInteriorServices()

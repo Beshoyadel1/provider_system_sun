@@ -22,19 +22,23 @@ class RowCircleColorTextPercentageWidget extends StatelessWidget {
     return Row(
       spacing: 10,
       children: [
-        Row(
-          spacing: 5,
-          children: [
-            SmallCircle(
-              color: colorCircle,
-            ),
-            TextInAppWidget(
-              text: text,
-              textSize: 11,
-              fontWeightIndex: FontSelectionData.regularFontFamily,
-              textColor: AppColors.blackColor,
-            ),
-          ],
+        Flexible(
+          child: Row(
+            spacing: 5,
+            children: [
+              SmallCircle(
+                color: colorCircle,
+              ),
+              Expanded(
+                child: TextInAppWidget(
+                  text: text,
+                  textSize: 11,
+                  fontWeightIndex: FontSelectionData.regularFontFamily,
+                  textColor: AppColors.blackColor,
+                ),
+              ),
+            ],
+          ),
         ),
         ContainerPercentage(percentage: percentage)
       ],

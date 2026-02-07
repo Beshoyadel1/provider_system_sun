@@ -24,7 +24,7 @@ class RowImageWithTitleOrangeAndSubTitleBlackWidget extends StatelessWidget {
           imagePath,
           width: 30,
         ),
-        Expanded(
+        Flexible(
           child: Column(
             spacing: 5,
             crossAxisAlignment: CrossAxisAlignment.start,
