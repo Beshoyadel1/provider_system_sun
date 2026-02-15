@@ -1,0 +1,35 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import '../../../../../../../features/service_settings/car_spare_parts_in_service_settings/sub/edit_delete_spare_parts_in_service_settings/screens/list_data_edit_delete_spare_parts_in_service_settings.dart';
+import '../../../../../../../core/utilies/map_of_all_app.dart';
+import '../../../../../../../core/theming/colors.dart';
+
+class EditDeleteSparePartsInServiceSettings extends StatelessWidget {
+  const EditDeleteSparePartsInServiceSettings({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    bool isMobile = size.width <= ValuesOfAllApp.mobileWidth;
+    bool isTabletCustom = size.width > ValuesOfAllApp.mobileWidth &&
+        size.width <= ValuesOfAllApp.customTabWidth;
+    bool isTab = size.width > ValuesOfAllApp.tabWidth;
+
+    return const Scaffold(
+      backgroundColor: AppColors.scaffoldColor,
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                    child: ListDataEditDeleteSparePartsInServiceSettings()),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
