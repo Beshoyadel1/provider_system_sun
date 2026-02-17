@@ -1,8 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../../../../../../../core/theming/colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../core/theming/colors.dart';
+import '../../../../../features/petroleum_service/petroleum_filling_requests/cubit/chart_cubit.dart';
+import '../../../../../features/petroleum_service/petroleum_filling_requests/cubit/chart_state.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class CraveDigramForPetroleum extends StatelessWidget {
+  CraveDigramForPetroleum({super.key});
+
   final ZoomPanBehavior _zoomPanBehavior = ZoomPanBehavior(
     enablePinching: true,
     enablePanning: true,
@@ -11,43 +17,112 @@ class CraveDigramForPetroleum extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<ChartData> chartData = [
-      ChartData(DateTime(2025, 1, 1), 2),
-      ChartData(DateTime(2025, 1, 2), 4),
-      ChartData(DateTime(2025, 1, 3), 3),
-      ChartData(DateTime(2025, 1, 4), 6),
-      ChartData(DateTime(2025, 1, 5), 5),
-      ChartData(DateTime(2025, 1, 6), 8),
-    ];
-
-    return Container(
+    return SizedBox(
       height: 250,
-      padding: const EdgeInsets.all(8),
-      child: SfCartesianChart(
-        primaryXAxis: DateTimeAxis(
-          edgeLabelPlacement: EdgeLabelPlacement.shift,
-          intervalType: DateTimeIntervalType.days,
-        ),
-        primaryYAxis: NumericAxis(),
-        zoomPanBehavior: _zoomPanBehavior,
-        series: <CartesianSeries>[
-          AreaSeries<ChartData, DateTime>(
-            dataSource: chartData,
-            xValueMapper: (ChartData data, _) => data.x,
-            yValueMapper: (ChartData data, _) => data.y,
-            color: Colors.pink.withOpacity(0.3),
-            borderColor: Colors.transparent,
-          ),
-          FastLineSeries<ChartData, DateTime>(
-            dataSource: chartData,
-            xValueMapper: (ChartData data, _) => data.x,
-            yValueMapper: (ChartData data, _) => data.y,
-            color: AppColors.orangeColor,
-            width: 2,
-          ),
-        ],
+      child: BlocBuilder<PetrolChartCubit, PetrolChartState>(
+        builder: (context, state) {
+
+          if (state is PetrolChartLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          if (state is PetrolChartError) {
+            return Center(
+              child: Text(state.message),
+            );
+          }
+
+          if (state is PetrolChartSuccess) {
+            final data = state.dataPoints;
+
+            if (data.isEmpty) {
+              return const Center(
+                child: Text("No Data Available"),
+              );
+            }
+
+            // ✅ نحول label -> DateTime
+            final List<ChartData> chartData =
+            data.map((e) {
+              final parts = e.label.split(" ");
+              final day = int.parse(parts[0]);
+              final month = _getMonth(parts[1]);
+
+              return ChartData(
+                DateTime(2025, month, day),
+                e.value.toDouble(),
+              );
+            }).toList();
+
+            return SfCartesianChart(
+              primaryXAxis: const DateTimeAxis(
+                edgeLabelPlacement: EdgeLabelPlacement.shift,
+                intervalType: DateTimeIntervalType.days,
+              ),
+              primaryYAxis: const NumericAxis(),
+              zoomPanBehavior: _zoomPanBehavior,
+              tooltipBehavior: TooltipBehavior(enable: true),
+              series: <CartesianSeries>[
+
+                // Area Background
+                AreaSeries<ChartData, DateTime>(
+                  dataSource: chartData,
+                  xValueMapper: (data, _) => data.x,
+                  yValueMapper: (data, _) => data.y,
+                  color: AppColors.orangeColor.withOpacity(0.2),
+                  borderColor: Colors.transparent,
+                ),
+
+                // Line
+                FastLineSeries<ChartData, DateTime>(
+                  dataSource: chartData,
+                  xValueMapper: (data, _) => data.x,
+                  yValueMapper: (data, _) => data.y,
+                  color: AppColors.orangeColor,
+                  width: 2,
+                ),
+              ],
+            );
+          }
+
+          return const SizedBox();
+        },
       ),
     );
+  }
+
+
+  int _getMonth(String month) {
+    switch (month.toLowerCase()) {
+      case "jan":
+        return 1;
+      case "feb":
+        return 2;
+      case "mar":
+        return 3;
+      case "apr":
+        return 4;
+      case "may":
+        return 5;
+      case "jun":
+        return 6;
+      case "jul":
+        return 7;
+      case "aug":
+        return 8;
+      case "sep":
+        return 9;
+      case "oct":
+        return 10;
+      case "nov":
+        return 11;
+      case "dec":
+        return 12;
+      default:
+        return 1;
+    }
   }
 }
 

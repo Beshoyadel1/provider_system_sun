@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl_phone_field/phone_number.dart';
+import 'package:sun_web_system/features/auth_page/auth_cubit/auth_state.dart';
 import '../../../../../../core/language/language_constant.dart';
 import '../../../../../../core/theming/text_styles.dart';
 import '../../../../../../core/language/language.dart';
@@ -42,7 +43,6 @@ class UserTextFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isMobile = MediaQuery.of(context).size.width < 600;
-    final authCubit = context.read<AuthCubit>();
 
     if (type == UserFieldType.phone) {
       return SizedBox(
@@ -51,26 +51,57 @@ class UserTextFieldWidget extends StatelessWidget {
           controller: controller,
           aboveText: text,
           borderRadius: 10,
-          validator: authCubit.phoneValidator,
+          validator: context.read<AuthCubit>().phoneValidator,
         ),
       );
     }
+
     return SizedBox(
       width: isMobile ? double.infinity : 500,
-      child: TextFormFieldWidget(
-        textFormController: controller,
-        text: text ?? '',
-        isColumn: true,
-        readOnly: readOnly,
-        maxLines: maxLines,
-        validator: _getValidator(authCubit),
-        inputFormatters: _getFormatters(),
-        textSize: isMobile ? 14 : 16,
-        fontWeightIndex: FontSelectionData.semiBoldFontFamily,
-        borderColor: AppColors.lightGreyColor,
-        fillColor: AppColors.whiteColor,
-        enabledBorderRadius:
-        borderRadius ?? const BorderRadius.all(Radius.circular(10)),
+      child: BlocBuilder<AuthCubit, AuthState>(
+        buildWhen: (previous, current) =>
+        current is AuthPasswordVisibilityChanged,
+        builder: (context, state) {
+          final cubit = context.read<AuthCubit>();
+
+          final bool isPasswordField =
+              type == UserFieldType.password;
+
+          return TextFormFieldWidget(
+            textFormController: controller,
+            text: text ?? '',
+            isColumn: true,
+            readOnly: readOnly,
+            maxLines: isPasswordField ? 1 : maxLines,
+            validator: _getValidator(cubit),
+            inputFormatters: _getFormatters(),
+            textSize: isMobile ? 14 : 16,
+            fontWeightIndex:
+            FontSelectionData.semiBoldFontFamily,
+            borderColor: AppColors.lightGreyColor,
+            fillColor: AppColors.whiteColor,
+            enabledBorderRadius:
+            borderRadius ??
+                const BorderRadius.all(Radius.circular(10)),
+
+            obscureText: isPasswordField
+                ? !cubit.isPasswordVisible
+                : false,
+
+            suffixIcon: isPasswordField
+                ? (cubit.isPasswordVisible
+                ? Icons.visibility
+                : Icons.visibility_off
+            )
+                : null,
+
+            suffixOnPressed: isPasswordField
+                ? () {
+              cubit.togglePasswordVisibility();
+            }
+                : null,
+          );
+        },
       ),
     );
   }

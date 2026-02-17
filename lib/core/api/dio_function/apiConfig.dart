@@ -71,6 +71,8 @@ class ApiLink{
 
 //General Setup And Config
   static const String addTax="${ApiConfig.baseUrlApi}/${ApiConfig.tax}/AddTax";
+  static const String getAvailableTaxs="${ApiConfig.baseUrlApi}/${ApiConfig.tax}/getAvailableTaxs";
+  static const String getPointInfo="${ApiConfig.baseUrlApi}/${ApiConfig.points}/GetPointInfo";
   static const String createCarBrand="${ApiConfig.baseUrlApi}/${ApiConfig.carBrand}/CreateCarBrand";
   static const String createCarModel="${ApiConfig.baseUrlApi}/${ApiConfig.carModel}/CreateCarModel";
   static const String deleteTax="${ApiConfig.baseUrlApi}/${ApiConfig.tax}/DeleteTax";

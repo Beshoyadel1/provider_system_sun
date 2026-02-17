@@ -49,14 +49,13 @@ class _SignUpMobileWidgetState extends State<SignUpMobileWidget> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
+      autovalidateMode: AutovalidateMode.disabled,
       child: Column(
         children: [
           SizedBox(
             height: 40,
             child: AppBar(backgroundColor: AppColors.orangeColor),
           ),
-
           Expanded(
             child: SingleChildScrollView(
               child: Padding(

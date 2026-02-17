@@ -13,21 +13,21 @@ class AuthCubit extends Cubit<AuthState> {
 
   String phoneNumber = "";
 
-  bool _isPasswordObscure = true;
   bool _isConfirmPasswordObscure = true;
 
-  bool get isPasswordObscure => _isPasswordObscure;
   bool get isConfirmPasswordObscure => _isConfirmPasswordObscure;
+  bool isPasswordVisible = false;
 
+  void togglePasswordVisibility() {
+    isPasswordVisible = !isPasswordVisible;
+    emit(AuthPasswordVisibilityChanged());
+  }
   void updatePhone(String phone) {
     phoneNumber = phone;
     emit(AuthInitial()); // optional state
   }
 
-  void togglePasswordVisibility() {
-    _isPasswordObscure = !_isPasswordObscure;
-    emit(AuthPasswordVisibilityChanged());
-  }
+
 
   void toggleConfirmPasswordVisibility() {
     _isConfirmPasswordObscure = !_isConfirmPasswordObscure;
@@ -36,6 +36,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   void showLogin() => emit(AuthShowLogin());
   void showSignup() => emit(AuthShowSignup());
+  void showRestPassword() => emit(AuthShowRestPassword());
 
   Future<void> login(LoginRequest request) async {
     emit(AuthLoginLoading());

@@ -8,11 +8,11 @@ class SignUpWebWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return const Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Expanded(child: SignUpMobileWidget()),
-        const LoginImage(),
+         LoginImage(),
       ],
     );
   }

@@ -10,6 +10,8 @@ class AppLanguageKeys {
   static const String authWeakPassword = 'authWeakPassword';
   static const String authPhoneNumberRequired = 'authPhoneNumberRequired';
   static const String authEnterCorrectPhoneNumber = 'authEnterCorrectPhoneNumber';
+  static const String createNewPassword = 'createNewPassword';
+
   //end//
 
   //message api response//

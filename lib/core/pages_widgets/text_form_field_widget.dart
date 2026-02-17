@@ -263,6 +263,16 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
             borderSide:
             const BorderSide(color: AppColors.redColor, width: 1.5),
           ),
+          suffixIcon: widget.suffixIcon != null
+              ? IconButton(
+            icon: Icon(
+              widget.suffixIcon,
+              size: widget.suffixIconSize ?? 22,
+              color: widget.contentTextColor ?? AppColors.darkColor,
+            ),
+            onPressed: widget.suffixOnPressed,
+          )
+              : null,
 
           hintText: AppLocalizations.of(context)
               .translate(widget.hintText ?? ''),

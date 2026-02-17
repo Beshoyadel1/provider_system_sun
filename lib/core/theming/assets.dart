@@ -8,8 +8,7 @@ class AppImageKeys {
   static const String oils = 'assets/images/oils.png';
   //end//
   //FacilityManagement
-  static const String FacilityManagement =
-      'assets/images/FacilityManagement.png';
+  static const String FacilityManagement = 'assets/images/FacilityManagement.png';
 
   static const String loginImage = 'assets/images/login_image.png';
   static const String sarLogo = 'assets/images/sar_logo.png';

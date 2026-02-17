@@ -23,6 +23,7 @@ class AppLocalizations {
       AppLanguageKeys.authWeakPassword: 'كلمة المرور ضعيفة',
       AppLanguageKeys.authPhoneNumberRequired: 'رقم الجوال مطلوب',
       AppLanguageKeys.authEnterCorrectPhoneNumber: 'يرجى إدخال رقم جوال صحيح',
+      AppLanguageKeys.createNewPassword: 'إنشاء كلمة مرور جديدة',
       //end//
       //message api response//
       AppLanguageKeys.passwordsDoNotMatch: 'كلمتا المرور غير متطابقتين',
@@ -1176,6 +1177,7 @@ class AppLocalizations {
       AppLanguageKeys.authWeakPassword: 'Password is too weak',
       AppLanguageKeys.authPhoneNumberRequired: 'Phone number is required',
       AppLanguageKeys.authEnterCorrectPhoneNumber: 'Please enter a valid phone number',
+      AppLanguageKeys.createNewPassword: 'Create New Password',
       //end//
       //message api response//
       AppLanguageKeys.passwordsDoNotMatch: 'Passwords do not match',

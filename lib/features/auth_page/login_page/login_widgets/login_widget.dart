@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sun_web_system/core/theming/colors.dart';
+import '../../../../features/auth_page/reset_password/change_password_page.dart';
+import '../../../../core/theming/colors.dart';
 import '../../../../core/api_functions/user/login_model/login_request.dart';
 import '../../../../core/api/dio_function/user_type.dart';
 import '../../../../features/auth_page/auth_cubit/auth_cubit.dart';
@@ -28,7 +29,7 @@ class LoginWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
+      autovalidateMode: AutovalidateMode.disabled,
       child: Column(
         spacing: 15,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,9 +95,20 @@ class LoginWidget extends StatelessWidget {
           );
         },
       ),
-          const InkWell(
-
-            child: TextInAppWidget(
+          InkWell(
+            onTap: () {
+              context.read<AuthCubit>().showRestPassword();
+              Navigator.push(
+                context,
+                NavigateToPageWidget(
+                  BlocProvider.value(
+                    value: context.read<AuthCubit>(),
+                    child: const ChangePasswordPage(),
+                  ),
+                ),
+              );
+            },
+            child: const TextInAppWidget(
               text: AppLanguageKeys.forgotPasswordKey,
               textSize: 14,
               fontWeightIndex: FontSelectionData.regularFontFamily,

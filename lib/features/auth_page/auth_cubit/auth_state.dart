@@ -11,6 +11,10 @@ class AuthShowLogin extends AuthState {}
 
 class AuthShowSignup extends AuthState {}
 
+class AuthPasswordVisibilityChanged extends AuthState {}
+
+class AuthShowRestPassword extends AuthState {}
+
 class AuthLoginLoading extends AuthState {}
 
 class AuthLoginSuccess extends AuthState {}
@@ -28,4 +32,3 @@ class AuthSignupError extends AuthState {
   final String message;
   AuthSignupError(this.message);
 }
-class AuthPasswordVisibilityChanged extends AuthState {}
