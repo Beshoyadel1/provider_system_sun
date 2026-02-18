@@ -20,7 +20,7 @@ class PetrolChartCubit extends Cubit<PetrolChartState> {
       if (result != null) {
         emit(PetrolChartSuccess(result.dataPoints));
       } else {
-        emit(PetrolChartError("No Data Returned"));
+        //emit(PetrolChartError("No Data Returned"));
       }
     } catch (e) {
       emit(PetrolChartError(e.toString()));

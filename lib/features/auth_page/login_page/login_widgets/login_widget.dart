@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../features/auth_page/reset_password/change_password_page.dart';
+import '../../../../features/auth_page/check_email_exist/check_email_exist_page.dart';
 import '../../../../core/theming/colors.dart';
 import '../../../../core/api_functions/user/login_model/login_request.dart';
 import '../../../../core/api/dio_function/user_type.dart';
@@ -101,10 +101,7 @@ class LoginWidget extends StatelessWidget {
               Navigator.push(
                 context,
                 NavigateToPageWidget(
-                  BlocProvider.value(
-                    value: context.read<AuthCubit>(),
-                    child: const ChangePasswordPage(),
-                  ),
+                    const CheckEmailExistPage()
                 ),
               );
             },

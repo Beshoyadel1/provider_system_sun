@@ -1,4 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/api_functions/user/change_password_model/change_password_repository.dart';
+import '../../../../core/api_functions/user/change_password_model/change_password_request.dart';
+import '../../../../core/api_functions/user/check_if_user_exist_model/check_if_user_exist_repository.dart';
+import '../../../../core/api_functions/user/check_if_user_exist_model/check_if_user_exist_request.dart';
 import '../../../../core/language/language_constant.dart';
 import '../../../../core/api_functions/user/create_user_model/create_user_repository.dart';
 import '../../../../core/api_functions/user/create_user_model/create_user_request.dart';
@@ -51,6 +55,30 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+  Future<void> checkEmailExist(CheckIfUserExistRequest checkIfUserExistRequest) async {
+    emit(AuthLoginLoading());
+
+    final bool isSuccess =
+    await checkIfUserExistFunction(checkIfUserExistRequest: checkIfUserExistRequest);
+
+    if (isSuccess) {
+      emit(AuthLoginSuccess());
+    } else {
+      emit(AuthInitial());
+    }
+  }
+  Future<void> changePassword(ChangePasswordRequest changePasswordRequest) async {
+    emit(AuthLoginLoading());
+
+    final bool isSuccess =
+    await changePasswordFunction(changePasswordRequest: changePasswordRequest);
+
+    if (isSuccess) {
+      emit(AuthLoginSuccess());
+    } else {
+      emit(AuthInitial());
+    }
+  }
   Future<void> signup(CreateUserRequest request) async {
     emit(AuthSignupLoading());
 

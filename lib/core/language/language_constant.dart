@@ -19,6 +19,7 @@ class AppLanguageKeys {
   static const String wrongUsername = 'wrongUsername';
   static const String somethingWentWrong = 'somethingWentWrong';
   static const String emailExist = 'emailExist';
+  static const String emailNotExist = 'emailNotExist';
   static const String phoneExist = 'phoneExist';
   static const String emailOrPhoneExist = 'emailOrPhoneExist';
   static const String done = 'done';

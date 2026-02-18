@@ -6,21 +6,30 @@ import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
 import '../../../../core/language/language_constant.dart';
 
-Future<void> checkIfUserExistFunction({
+Future<bool> checkIfUserExistFunction({
   required CheckIfUserExistRequest checkIfUserExistRequest,
 }) async {
   try {
-    await Network.postDataWithBodyAndParams(
+    final value = await Network.postDataWithBodyAndParams(
       {},
       checkIfUserExistRequest.toJson(), // params
       ApiLink.checkIfUserExist,
     );
-    AppSnackBar.showSuccess(AppLanguageKeys.checkIfUserExistSuccessfully);
+    final body = value.data.toString().trim();
+    if (body == "EmailExist") {
+      AppSnackBar.showSuccess(AppLanguageKeys.emailExist);
+      return true;
+    }
+    else{
+      AppSnackBar.showError(AppLanguageKeys.emailNotExist);
+      return false;
+    }
   } catch (e) {
     AppSnackBar.showError(
       e is DioException
           ? responseOfStatusCode(e.response?.statusCode)
           : e.toString(),
     );
+    return false;
   }
 }

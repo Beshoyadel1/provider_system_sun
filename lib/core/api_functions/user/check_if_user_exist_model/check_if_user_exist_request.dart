@@ -1,16 +1,16 @@
 class CheckIfUserExistRequest {
-  final String phone;
-  final String type;
+  final String? email;
+  final String? type;
 
   CheckIfUserExistRequest({
-    required this.phone,
-    required this.type,
+     this.email,
+     this.type,
   });
 
   Map<String, dynamic> toJson() {
     return {
-      "phone": phone,
-      "type": type,
+      "email": email??"",
+      "type": type??4,
     };
   }
 }
