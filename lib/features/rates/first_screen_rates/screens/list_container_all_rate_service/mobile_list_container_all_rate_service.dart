@@ -15,24 +15,30 @@ class MobileListContainerAllRateService extends StatelessWidget {
         Row(
           spacing: 10,
           children: [
-            FirstContainerInListContainerAllRateService(),
-            ContainerListContainerAllRateServiceWidget(
-                imagePath: AppImageKeys.service33,
-                title: AppLanguageKeys.internalServices,
-                subTitle: AppLanguageKeys.maintenanceAndRepair),
+            Expanded(child: FirstContainerInListContainerAllRateService()),
+            Expanded(
+              child: ContainerListContainerAllRateServiceWidget(
+                  imagePath: AppImageKeys.service33,
+                  title: AppLanguageKeys.internalServices,
+                  subTitle: AppLanguageKeys.maintenanceAndRepair),
+            ),
           ],
         ),
         Row(
           spacing: 10,
           children: [
-            ContainerListContainerAllRateServiceWidget(
-                imagePath: AppImageKeys.service44,
-                title: AppLanguageKeys.internalServices,
-                subTitle: AppLanguageKeys.oils),
-            ContainerListContainerAllRateServiceWidget(
-                imagePath: AppImageKeys.service99,
-                title: AppLanguageKeys.spareParts,
-                subTitle: AppLanguageKeys.allChanges)
+            Expanded(
+              child: ContainerListContainerAllRateServiceWidget(
+                  imagePath: AppImageKeys.service44,
+                  title: AppLanguageKeys.internalServices,
+                  subTitle: AppLanguageKeys.oils),
+            ),
+            Expanded(
+              child: ContainerListContainerAllRateServiceWidget(
+                  imagePath: AppImageKeys.service99,
+                  title: AppLanguageKeys.spareParts,
+                  subTitle: AppLanguageKeys.allChanges),
+            )
           ],
         ),
       ],

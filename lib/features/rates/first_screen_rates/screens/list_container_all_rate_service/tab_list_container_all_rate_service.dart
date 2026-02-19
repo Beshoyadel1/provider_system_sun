@@ -12,19 +12,25 @@ class TabListContainerAllRateService extends StatelessWidget {
     return const Row(
       spacing: 10,
       children: [
-        FirstContainerInListContainerAllRateService(),
-        ContainerListContainerAllRateServiceWidget(
-            imagePath: AppImageKeys.service33,
-            title: AppLanguageKeys.internalServices,
-            subTitle: AppLanguageKeys.maintenanceAndRepair),
-        ContainerListContainerAllRateServiceWidget(
-            imagePath: AppImageKeys.service44,
-            title: AppLanguageKeys.internalServices,
-            subTitle: AppLanguageKeys.oils),
-        ContainerListContainerAllRateServiceWidget(
-            imagePath: AppImageKeys.service99,
-            title: AppLanguageKeys.spareParts,
-            subTitle: AppLanguageKeys.allChanges)
+        Flexible(child: FirstContainerInListContainerAllRateService()),
+        Flexible(
+          child: ContainerListContainerAllRateServiceWidget(
+              imagePath: AppImageKeys.service33,
+              title: AppLanguageKeys.internalServices,
+              subTitle: AppLanguageKeys.maintenanceAndRepair),
+        ),
+        Flexible(
+          child: ContainerListContainerAllRateServiceWidget(
+              imagePath: AppImageKeys.service44,
+              title: AppLanguageKeys.internalServices,
+              subTitle: AppLanguageKeys.oils),
+        ),
+        Flexible(
+          child: ContainerListContainerAllRateServiceWidget(
+              imagePath: AppImageKeys.service99,
+              title: AppLanguageKeys.spareParts,
+              subTitle: AppLanguageKeys.allChanges),
+        )
       ],
     );
   }

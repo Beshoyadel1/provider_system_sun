@@ -9,7 +9,7 @@ class FirstTitleInListDataFirstScreenRate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       spacing: 10,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [

@@ -13,7 +13,7 @@ class ListDataContainerReviewDataPersonDesign extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     bool isCustomTabWidth = size.width > ValuesOfAllApp.customTabWidth;
     return isCustomTabWidth
-        ? TabListDataContainerReviewDataPersonDesign()
-        : MobileListDataContainerReviewDataPersonDesign();
+        ? const TabListDataContainerReviewDataPersonDesign()
+        : const MobileListDataContainerReviewDataPersonDesign();
   }
 }

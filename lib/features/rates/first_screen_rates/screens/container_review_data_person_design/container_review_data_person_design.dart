@@ -4,24 +4,25 @@ import '../../../../../../../features/rates/first_screen_rates/screens/container
 import '../../../../../../../core/theming/colors.dart';
 
 class ContainerReviewDataPersonDesign extends StatelessWidget {
-  final String imagePathPerson, date, textWithDate, imagePathRate, textReview;
+  final String imagePathPerson, date, textWithDate, textReview;
+  final double? rate;
 
   const ContainerReviewDataPersonDesign({
     super.key,
     required this.imagePathPerson,
     required this.date,
     required this.textWithDate,
-    required this.imagePathRate,
     required this.textReview,
+    this.rate
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsetsGeometry.all(10),
+      padding: const EdgeInsetsGeometry.all(10),
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
-        borderRadius: BorderRadius.all(Radius.circular(20)),
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
         border: Border.all(color: AppColors.greyColor.withOpacity(0.3)),
         boxShadow: [
           BoxShadow(
@@ -39,7 +40,7 @@ class ContainerReviewDataPersonDesign extends StatelessWidget {
             imagePathPerson: imagePathPerson,
             textWithDate: textWithDate,
             date: date,
-            imagePathRate: imagePathRate,
+            rate: rate,
           ),
           SecondRowContainerReviewDataPersonDesign(
             textReview: textReview,

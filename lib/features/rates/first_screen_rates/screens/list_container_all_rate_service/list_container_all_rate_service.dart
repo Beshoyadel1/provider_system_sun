@@ -8,10 +8,10 @@ class ListContainerAllRateService extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    bool isMobile = size.width > 500 && size.width <= 700;
-    bool isTab = size.width > 700;
+    bool isMobile = size.width > 500 && size.width <= 1045;
+    bool isTab = size.width > 1045;
     return isTab
-        ? TabListContainerAllRateService()
-        : MobileListContainerAllRateService();
+        ? const TabListContainerAllRateService()
+        : const MobileListContainerAllRateService();
   }
 }

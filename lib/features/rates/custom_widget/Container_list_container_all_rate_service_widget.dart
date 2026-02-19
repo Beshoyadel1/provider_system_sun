@@ -15,23 +15,29 @@ class ContainerListContainerAllRateServiceWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
+    return SizedBox(
+      height: 70,
+      width: 200,
       child: Container(
-        padding: EdgeInsetsGeometry.symmetric(horizontal: 15, vertical: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
         decoration: BoxDecoration(
           color: AppColors.blackColor25.withOpacity(0.6),
-          borderRadius: BorderRadius.all(Radius.circular(20)),
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
         ),
         child: Row(
-          spacing: 5,
           children: [
-            Flexible(
-                child: Image.asset(
+            Image.asset(
               imagePath,
               width: 30,
-            )),
-            Expanded(
+              height: 30,
+              fit: BoxFit.contain,
+            ),
+
+            const SizedBox(width: 8),
+
+              Expanded(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextInAppWidget(

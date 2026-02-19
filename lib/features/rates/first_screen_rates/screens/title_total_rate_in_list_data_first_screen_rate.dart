@@ -13,7 +13,7 @@ class TitleTotalRateInListDataFirstScreenRate extends StatelessWidget {
     return Row(
       spacing: 10,
       children: [
-        Flexible(
+        const Flexible(
           child: TextInAppWidget(
             text: AppLanguageKeys.totalReviews,
             textSize: 16,
@@ -25,7 +25,7 @@ class TitleTotalRateInListDataFirstScreenRate extends StatelessWidget {
           spacing: 5,
           children: [
             Image.asset(AppImageKeys.star11),
-            TextInAppWidget(
+            const TextInAppWidget(
               text: '4.0',
               textSize: 22,
               fontWeightIndex: FontSelectionData.mediumFontFamily,
