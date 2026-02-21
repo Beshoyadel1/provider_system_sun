@@ -1,15 +1,15 @@
 class GetProviderDetailsRatesRequest {
-  final int providerId;
-  final int serviceId;
+  final int? providerId;
+  final int? serviceId;
 
   GetProviderDetailsRatesRequest({
-    required this.providerId,
-    required this.serviceId,
+     this.providerId,
+     this.serviceId,
   });
 
   Map<String, dynamic> toJson() {
     return {
-      "providerId": providerId,
+      "providerId": providerId??4,
       "serviceId": serviceId,
     };
   }

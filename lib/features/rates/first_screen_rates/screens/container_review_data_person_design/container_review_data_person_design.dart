@@ -5,7 +5,7 @@ import '../../../../../../../core/theming/colors.dart';
 
 class ContainerReviewDataPersonDesign extends StatelessWidget {
   final String imagePathPerson, date, textWithDate, textReview;
-  final double? rate;
+  final int? rate;
 
   const ContainerReviewDataPersonDesign({
     super.key,

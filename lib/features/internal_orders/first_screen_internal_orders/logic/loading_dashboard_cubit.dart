@@ -6,9 +6,7 @@ class InternalOrdersCubit extends Cubit<InternalOrdersState> {
   InternalOrdersCubit() : super(const InternalOrdersState());
 
   Future<void> getStatistics(request) async {
-    final result =
-    await getProviderMainServiceStatisticsFunction(request: request);
-
+    final result = await getProviderMainServiceStatisticsFunction(request: request);
     emit(
         state.copyWith(
       services: result.services,

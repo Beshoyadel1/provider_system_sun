@@ -16,8 +16,7 @@ class DonutChartAndLegend extends StatelessWidget {
       create: (_) => ProviderHarageStatisticsCubit()
         ..loadStatistics(
         ),
-      child: BlocBuilder<ProviderHarageStatisticsCubit,
-          ProviderHarageStatisticsState>(
+      child: BlocBuilder<ProviderHarageStatisticsCubit, ProviderHarageStatisticsState>(
         builder: (context, state) {
           if (state is! ProviderHarageStatisticsSuccess) {
             return const SizedBox();

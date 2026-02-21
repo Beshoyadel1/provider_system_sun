@@ -7,7 +7,7 @@ import '../../../../../../../features/rates/custom_widget/image_with_date_title_
 
 class FirstRowContainerReviewDataPersonDesign extends StatelessWidget {
   final String imagePathPerson, date, textWithDate;
-  final double? rate;
+  final int? rate;
 
   const FirstRowContainerReviewDataPersonDesign({
     super.key,
@@ -19,7 +19,7 @@ class FirstRowContainerReviewDataPersonDesign extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double currentRate = rate ?? 3.0;
+    final int currentRate = rate ?? 3;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

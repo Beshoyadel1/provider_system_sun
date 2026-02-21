@@ -6,12 +6,16 @@ import '../../../../../../core/theming/fonts.dart';
 import '../../../../../../core/theming/text_styles.dart';
 
 class TitleTotalRateInListDataFirstScreenRate extends StatelessWidget {
-  const TitleTotalRateInListDataFirstScreenRate({super.key});
+  final int averageRate;
+
+  const TitleTotalRateInListDataFirstScreenRate({
+    super.key,
+    required this.averageRate,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      spacing: 10,
       children: [
         const Flexible(
           child: TextInAppWidget(
@@ -21,12 +25,13 @@ class TitleTotalRateInListDataFirstScreenRate extends StatelessWidget {
             textColor: AppColors.blackColor,
           ),
         ),
+        const SizedBox(width: 10),
         Row(
-          spacing: 5,
           children: [
             Image.asset(AppImageKeys.star11),
-            const TextInAppWidget(
-              text: '4.0',
+            const SizedBox(width: 5),
+            TextInAppWidget(
+              text: averageRate.toStringAsFixed(1),
               textSize: 22,
               fontWeightIndex: FontSelectionData.mediumFontFamily,
               textColor: AppColors.blackColor,

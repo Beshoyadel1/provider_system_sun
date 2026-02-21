@@ -28,14 +28,14 @@ class ImageWithDateTitleWidget extends StatelessWidget {
                   text: date,
                   textSize: 11,
                   fontWeightIndex: FontSelectionData.mediumFontFamily,
-                  textColor: AppColors.greyColor,
-                ),
-                TextInAppWidget(
-                  text: text,
-                  textSize: 13,
-                  fontWeightIndex: FontSelectionData.mediumFontFamily,
                   textColor: AppColors.blackColor,
                 ),
+                // TextInAppWidget(
+                //   text: text,
+                //   textSize: 13,
+                //   fontWeightIndex: FontSelectionData.mediumFontFamily,
+                //   textColor: AppColors.blackColor,
+                // ),
               ],
             ),
           )

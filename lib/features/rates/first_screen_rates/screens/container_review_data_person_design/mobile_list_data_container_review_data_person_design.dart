@@ -1,36 +1,33 @@
 import 'package:flutter/cupertino.dart';
+import '../../../../../../../core/api_functions/rates/get_provider_details_rates_model/rate_item.dart';
 import '../../../../../../../core/theming/assets.dart';
 import '../../../../../../../features/rates/first_screen_rates/screens/container_review_data_person_design/container_review_data_person_design.dart';
 import 'package:flutter/material.dart';
 
 class MobileListDataContainerReviewDataPersonDesign extends StatelessWidget {
-  const MobileListDataContainerReviewDataPersonDesign({super.key});
+  final List<RateItem> rates;
+
+  const MobileListDataContainerReviewDataPersonDesign({
+    super.key,
+    required this.rates,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, double>> reviews = [
-      {"rate": 5.0},
-      {"rate": 4.0},
-      {"rate": 5.0},
-      {"rate": 4.0},
-      {"rate": 0.0},
-      {"rate": 0.0},
-    ];
-
     return ListView.separated(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.all(16),
-      itemCount: reviews.length,
+      itemCount: rates.length,
       separatorBuilder: (_, __) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
         return ContainerReviewDataPersonDesign(
-          imagePathPerson: AppImageKeys.person22,
-          date: '20/12/2020',
+          imagePathPerson:
+          rates[index].userImage ?? AppImageKeys.person22,
+          date: rates[index].username ?? '',
           textWithDate: 'مركز صيانة جيد',
-          rate: reviews[index]["rate"],
-          textReview:
-          'خدمة ممتازة! طلبت فحص وصيانة للمكيف، ووصل الفني خلال أقل من ساعة. التعامل راقٍ،',
+          rate: rates[index].rate ?? 0,
+          textReview: rates[index].message ?? '',
         );
       },
     );

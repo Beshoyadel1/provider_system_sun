@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'upload_image_advertisements_state.dart';
+import '../../../../../features/advertisements/first_screen_advertisements/logic/upload_image_advertisements_state.dart';
 
 class UploadImageAdvertisementsCubit
     extends Cubit<UploadImageAdvertisementsState> {
