@@ -1,3 +1,5 @@
+import 'package:sun_web_system/core/api_functions/user/create_user_model/create_user_request.dart';
+
 abstract class AuthState {}
 
 
@@ -17,7 +19,11 @@ class AuthShowRestPassword extends AuthState {}
 
 class AuthLoginLoading extends AuthState {}
 
-class AuthLoginSuccess extends AuthState {}
+class AuthLoginSuccess extends AuthState {
+  final CreateUserRequest? user;
+
+  AuthLoginSuccess([this.user]);
+}
 
 class AuthLoginError extends AuthState {
   final String message;

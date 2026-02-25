@@ -38,15 +38,14 @@ class ListDataFirstScreenRate extends StatelessWidget {
                   child: const FirstRowWithTwoContainerImageAndTwoText()),
 
               TitleTotalRateInListDataFirstScreenRate(
-                averageRate: state.averageRate??0,
+                averageRate: state.averageRate,
               ),
               ListDataContainerReviewDataPersonDesign(
-                rates: state.rates??[],
+                rates: state.rates,
               ),
             ],
           );
         }
-
         return const SizedBox();
       },
     );

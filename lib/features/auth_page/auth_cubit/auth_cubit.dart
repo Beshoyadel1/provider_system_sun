@@ -45,11 +45,10 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> login(LoginRequest request) async {
     emit(AuthLoginLoading());
 
-    final bool isSuccess =
-    await loginFunction(loginRequest: request);
+    final user = await loginFunction(loginRequest: request);
 
-    if (isSuccess) {
-      emit(AuthLoginSuccess());
+    if (user != null) {
+      emit(AuthLoginSuccess(user));
     } else {
       emit(AuthInitial());
     }

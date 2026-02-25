@@ -15,6 +15,8 @@ class AppLocalizations {
   static final Map<String, Map<String, String>> _localizedValues = {
     'ar': {
       //others//
+      AppLanguageKeys.gender: 'الجنس',
+      AppLanguageKeys.age: 'العمر',
       AppLanguageKeys.order: 'طلب',
       AppLanguageKeys.authCompanyNameRequired: 'اسم الشركة مطلوب',
       AppLanguageKeys.authEmailRequired: 'البريد الإلكتروني مطلوب',
@@ -1170,6 +1172,8 @@ class AppLocalizations {
     },
     'en': {
       //others//
+      AppLanguageKeys.gender: 'Gender',
+      AppLanguageKeys.age: 'Age',
       AppLanguageKeys.order: 'Order',
       AppLanguageKeys.authCompanyNameRequired: 'Company name is required',
       AppLanguageKeys.authEmailRequired: 'Email is required',

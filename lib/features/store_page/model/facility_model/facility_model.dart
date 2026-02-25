@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/features/auth_page/auth_cubit/auth_cubit.dart';
 import '../../../../../../core/language/language_constant.dart';
 import '../../../../../../features/store_page/store_widgets/facility_account/tabs/Identity_content.dart';
 import '../../../../../../features/store_page/store_widgets/facility_account/tabs/bank_account_content.dart';
@@ -15,8 +17,9 @@ class FacilityModel {
 
 final List<FacilityModel> facilityTabs = [
   FacilityModel(
-      title: AppLanguageKeys.facilityDataKey,
-      content: const FacilityDataContent()),
+    title: AppLanguageKeys.facilityDataKey,
+    content: const FacilityDataContent(),
+  ),
   FacilityModel(
       title: AppLanguageKeys.identityKey, content: const IdentityContent()),
   FacilityModel(

@@ -38,12 +38,12 @@ class DashboardPage extends StatelessWidget {
                       image: AppImageKeys.spare,
                       imageBackground: AppColors.darkGreyColor,
                     ),
-                    ServicesStatistics(),
-                    ChartOrder(),
+                     ServicesStatistics(),
+                     ChartOrder(),
                     Column(
                       spacing: 10,
                       children: [
-                        SizedBox(width: 280, child: ServicesEvaluation()),
+                        SizedBox(width: 310, child: ServicesEvaluation()),
                         EmployeesPerformance()
                       ],
                     ),
