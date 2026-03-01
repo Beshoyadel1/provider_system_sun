@@ -52,6 +52,7 @@ class MobileSecondPartDataContainerInListDataFirstScreenInternalOrders
               child: RowImageWithTitleOrangeAndSubTitleBlackWidget(
                 imagePath: imagePathPart1,
                 title: titlePart1,
+                textSizeTitle: 12,
                 subTitle: subTitlePart1,
               ),
             ),
@@ -95,7 +96,7 @@ class MobileSecondPartDataContainerInListDataFirstScreenInternalOrders
             Flexible(child: ColumnPriceOrderWidget(price: pricePart6)),
           ],
         ),
-        Row(
+        const Row(
           spacing: 10,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [Expanded(child: ContainerDetailsWidget())],

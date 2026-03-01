@@ -5,8 +5,8 @@ import '../../../../../../../../core/theming/assets.dart';
 import '../../../../../../../../core/theming/colors.dart';
 import '../../../../../../../../core/theming/fonts.dart';
 import '../../../../../../../../core/theming/text_styles.dart';
-import '../../../../../../../../features/internal_orders/first_screen_internal_orders/logic/loading_dashboard_cubit.dart';
-import '../../../../../../../../features/internal_orders/first_screen_internal_orders/logic/loading_dashboard_state.dart';
+import '../../../logic/loading_dashboard/loading_dashboard_cubit.dart';
+import '../../../logic/loading_dashboard/loading_dashboard_state.dart';
 
 class FirstRowInDataInContainerRateService extends StatelessWidget {
   const FirstRowInDataInContainerRateService({super.key});

@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import '../../../../core/api_functions/provider_management/get_service_provider_details_for_app_user_model/get_service_provider_details_for_app_user_request.dart';
-import '../../../../core/api/dio_function/apiConfig.dart';
+import '../../../../core/api/dio_function/apiRoutes.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';

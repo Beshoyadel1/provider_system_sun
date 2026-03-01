@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import '../../../../core/api_functions/user/create_user_model/provider_details_request.dart';
-import '../../../../core/api/dio_function/user_type.dart';
+import '../../../../core/api/dio_function/apiRoutes.dart';
 import '../../../../features/auth_page/auth_cubit/auth_cubit.dart';
 import '../../../../features/auth_page/auth_cubit/auth_state.dart';
 import '../../../../core/api_functions/user/create_user_model/create_user_request.dart';

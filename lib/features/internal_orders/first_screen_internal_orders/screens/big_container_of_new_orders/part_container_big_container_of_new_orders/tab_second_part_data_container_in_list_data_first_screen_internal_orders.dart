@@ -48,6 +48,7 @@ class TabSecondPartDataContainerInListDataFirstScreenInternalOrders
           child: RowImageWithTitleOrangeAndSubTitleBlackWidget(
             imagePath: imagePathPart1,
             title: titlePart1,
+            textSizeTitle: 12,
             subTitle: subTitlePart1,
           ),
         ),

@@ -5,7 +5,7 @@ import 'package:sun_web_system/core/api_functions/user/create_user_model/create_
 import '../../../../core/language/language_constant.dart';
 import '../../../../core/api/dio_function/failures.dart';
 import '../../../../core/api_functions/user/login_model/login_request.dart';
-import '../../../../core/api/dio_function/apiConfig.dart';
+import '../../../../core/api/dio_function/apiRoutes.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 

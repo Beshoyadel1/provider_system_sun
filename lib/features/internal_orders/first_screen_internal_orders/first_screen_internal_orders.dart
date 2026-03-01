@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/api_functions/statistics/get_provider_main_service_statistics_model/get_provider_main_service_statistics_request.dart';
-import '../../../features/internal_orders/first_screen_internal_orders/logic/loading_dashboard_cubit.dart';
+import 'logic/loading_dashboard/loading_dashboard_cubit.dart';
 import '../../../features/internal_orders/first_screen_internal_orders/screens/part_two_screen_first_screen_internal_orders/container_interior_services_statistics/container_interior_services_statistics.dart';
 import '../../../features/internal_orders/first_screen_internal_orders/screens/part_two_screen_first_screen_internal_orders/container_profits_from_ministry_of_interior_services/container_profits_from_ministry_of_interior_services.dart';
 import '../../../features/internal_orders/first_screen_internal_orders/screens/part_two_screen_first_screen_internal_orders/container_rate_service/container_rate_service.dart';

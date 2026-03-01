@@ -3,8 +3,8 @@ import '../../../../../../core/api_functions/statistics/get_provider_main_servic
 import '../../../../../../core/theming/colors.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../../features/internal_orders/first_screen_internal_orders/logic/loading_dashboard_cubit.dart';
-import '../../../../../../features/internal_orders/first_screen_internal_orders/logic/loading_dashboard_state.dart';
+import '../../../logic/loading_dashboard/loading_dashboard_cubit.dart';
+import '../../../logic/loading_dashboard/loading_dashboard_state.dart';
 
 class FastLineWithFill extends StatelessWidget {
   FastLineWithFill({super.key});

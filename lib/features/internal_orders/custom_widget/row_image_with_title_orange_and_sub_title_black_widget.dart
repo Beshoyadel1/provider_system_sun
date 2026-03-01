@@ -5,6 +5,7 @@ import '../../../../../../../core/theming/text_styles.dart';
 
 class RowImageWithTitleOrangeAndSubTitleBlackWidget extends StatelessWidget {
   final String imagePath, title, subTitle;
+  final double? textSizeTitle;
   final bool? isJob;
 
   const RowImageWithTitleOrangeAndSubTitleBlackWidget({
@@ -13,6 +14,7 @@ class RowImageWithTitleOrangeAndSubTitleBlackWidget extends StatelessWidget {
     required this.title,
     required this.subTitle,
     this.isJob = false,
+    this.textSizeTitle
   });
 
   @override
@@ -31,16 +33,16 @@ class RowImageWithTitleOrangeAndSubTitleBlackWidget extends StatelessWidget {
             children: [
               TextInAppWidget(
                 text: title,
-                textSize: 9,
+                textSize: textSizeTitle??9,
                 fontWeightIndex: FontSelectionData.regularFontFamily,
                 textColor: isJob! ? AppColors.greyColor : AppColors.orangeColor,
               ),
-              TextInAppWidget(
-                text: subTitle,
-                textSize: 9,
-                fontWeightIndex: FontSelectionData.mediumFontFamily,
-                textColor: AppColors.darkColor,
-              ),
+              // TextInAppWidget(
+              //   text: subTitle,
+              //   textSize: 9,
+              //   fontWeightIndex: FontSelectionData.mediumFontFamily,
+              //   textColor: AppColors.darkColor,
+              // ),
             ],
           ),
         )

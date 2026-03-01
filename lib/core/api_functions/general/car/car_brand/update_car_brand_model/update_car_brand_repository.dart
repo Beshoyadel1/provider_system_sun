@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import '../../../../../../core/api_functions/general/car/car_brand/update_car_brand_model/update_car_brand_request.dart';
-import '../../../../../../core/api/dio_function/apiConfig.dart';
+import '../../../../../../core/api/dio_function/apiRoutes.dart';
 import '../../../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../../../core/api/dio_function/failures.dart';
 import '../../../../../../core/language/language_constant.dart';

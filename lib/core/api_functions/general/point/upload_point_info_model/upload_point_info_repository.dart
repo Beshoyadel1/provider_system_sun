@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import '../../../../../core/api_functions/general/point/upload_point_info_model/upload_point_info_request.dart';
-import '../../../../../core/api/dio_function/apiConfig.dart';
+import '../../../../../core/api/dio_function/apiRoutes.dart';
 import '../../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../../core/api/dio_function/failures.dart';

@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import '../../../../core/api_functions/statistics/get_provider_total_rate_and_employee_and_balance_model/get_provider_total_rate_and_employee_and_balance_request.dart';
-import '../../../../core/api/dio_function/apiConfig.dart';
+import '../../../../core/api/dio_function/apiRoutes.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
