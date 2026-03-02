@@ -18,7 +18,7 @@ class ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidge
       subTitlePart3,
       timePart5,
       pricePart6;
-  final bool? isNewOrderPart4, isAcceptPart4, isRejectPart4;
+  final int? status;
 
   const ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidget({
     super.key,
@@ -31,9 +31,7 @@ class ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidge
     required this.imagePathPart3,
     required this.titlePart3,
     required this.subTitlePart3,
-    this.isAcceptPart4 = false,
-    this.isNewOrderPart4 = false,
-    this.isRejectPart4 = false,
+    this.status,
     required this.timePart5,
     required this.pricePart6,
   });
@@ -69,9 +67,7 @@ class ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidge
               imagePathPart3: imagePathPart3,
               titlePart3: titlePart3,
               subTitlePart3: subTitlePart3,
-              isAcceptPart4: isAcceptPart4,
-              isNewOrderPart4: isNewOrderPart4,
-              isRejectPart4: isRejectPart4,
+              status: status,
               timePart5: timePart5,
               pricePart6: pricePart6,
             )
@@ -86,9 +82,7 @@ class ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidge
                   imagePathPart3: imagePathPart3,
                   titlePart3: titlePart3,
                   subTitlePart3: subTitlePart3,
-                  isAcceptPart4: isAcceptPart4,
-                  isNewOrderPart4: isNewOrderPart4,
-                  isRejectPart4: isRejectPart4,
+                  status: status,
                   timePart5: timePart5,
                   pricePart6: pricePart6,
                 )
@@ -102,9 +96,7 @@ class ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidge
                   imagePathPart3: imagePathPart3,
                   titlePart3: titlePart3,
                   subTitlePart3: subTitlePart3,
-                  isAcceptPart4: isAcceptPart4,
-                  isNewOrderPart4: isNewOrderPart4,
-                  isRejectPart4: isRejectPart4,
+                  status: status,
                   timePart5: timePart5,
                   pricePart6: pricePart6,
                 ),

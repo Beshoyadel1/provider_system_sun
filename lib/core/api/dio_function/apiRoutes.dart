@@ -294,9 +294,15 @@ class ApiLink {
 }
 
 class OrderType {
-  static const int New = 1;
-  static const int current = 2;
-  static const int done = 3;
+  static const int newOrderForCompany = -2;
+  static const int rejectedByCompany = -1;
+  static const int newOrderForProvider = 0;
+  static const int waitingAppointment = 1;
+  static const int employeeInRoud = 2;
+  static const int workInProgress = 3;
+  static const int orderCompleted = 4;
+  static const int rejectedByProvider = 5;
+  static const int cancelledByUser = 6;
 }
 
 class CategoryConstants {

@@ -14,7 +14,35 @@ class NewOrdersCubit extends Cubit<NewOrdersState> {
   }
 
   int selectedIndex = 0;
+  int currentPage = 1;
+  int? currentFilterId;
 
+  Future<void> getOrders({
+    required int page,
+    int? filterId,
+  }) async {
+    currentPage = page;
+    currentFilterId = filterId;
+
+    emit(NewOrdersLoading());
+
+    try {
+      await Future.delayed(const Duration(seconds: 1));
+
+      // fake data
+      List<String> orders = List.generate(
+          5, (index) => "Order ${index + 1} - Page $page");
+
+      emit(NewOrdersLoaded(orders));
+    } catch (e) {
+      emit(NewOrdersError("Failed to load orders"));
+    }
+  }
+  int selectedFilterIndex = 0;
+  void changeTab(int index) {
+    selectedIndex = index;
+    emit(ChangeIndexState()); // مهم جدا
+  }
   void selectTab(int index) {
     for (int i = 0; i < steps.length; i++) {
       steps[i] = NewOrderStepsModel(

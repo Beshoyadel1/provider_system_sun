@@ -29,8 +29,7 @@ class NewOrderWidget extends StatelessWidget {
           crossAxisAlignment: WrapCrossAlignment.center,
           alignment: WrapAlignment.center,
           children: [
-            const TextInAppWidget(
-                text: '1#', textSize: 16, textColor: AppColors.darkColor),
+            const TextInAppWidget(text: '1#', textSize: 16, textColor: AppColors.darkColor),
             Image.asset(
               AppImageKeys.maintenance,
               width: 30,
@@ -44,7 +43,8 @@ class NewOrderWidget extends StatelessWidget {
                 TextInAppWidget(
                     text: AppLanguageKeys.maintenanceAndRepairTitleKey,
                     textSize: 14,
-                    textColor: AppColors.orangeColor),
+                    textColor: AppColors.orangeColor
+                ),
                 TextInAppWidget(
                     text: AppLanguageKeys.internalServicesKey,
                     textSize: 14,

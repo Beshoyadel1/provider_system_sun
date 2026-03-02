@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:sun_web_system/features/internal_orders/custom_widget/text_with_container_status.dart';
 import '../../../../../../../../features/internal_orders/custom_widget/Column_date_order_with_time_widget.dart';
 import '../../../../../../../../features/internal_orders/custom_widget/column_price_order_widget.dart';
 import '../../../../../../../../features/internal_orders/custom_widget/column_request_status_widget.dart';
@@ -19,8 +20,7 @@ class MobileSecondPartDataContainerInListDataFirstScreenInternalOrders
       subTitlePart3,
       timePart5,
       pricePart6;
-
-  final bool? isNewOrderPart4, isAcceptPart4, isRejectPart4;
+  final int? status;
 
   const MobileSecondPartDataContainerInListDataFirstScreenInternalOrders({
     super.key,
@@ -33,9 +33,7 @@ class MobileSecondPartDataContainerInListDataFirstScreenInternalOrders
     required this.imagePathPart3,
     required this.titlePart3,
     required this.subTitlePart3,
-    this.isAcceptPart4 = false,
-    this.isNewOrderPart4 = false,
-    this.isRejectPart4 = false,
+    this.status,
     required this.timePart5,
     required this.pricePart6,
   });
@@ -79,11 +77,9 @@ class MobileSecondPartDataContainerInListDataFirstScreenInternalOrders
               ),
             ),
             Flexible(
-              child: ColumnRequestStatusWidget(
-                isNewOrder: isNewOrderPart4,
-                isAccept: isAcceptPart4,
-                isReject: isRejectPart4,
-              ),
+              child: TextWithContainerStatus(
+                status: status??0,
+              )
             ),
           ],
         ),

@@ -37,12 +37,12 @@ class RowImageWithTitleOrangeAndSubTitleBlackWidget extends StatelessWidget {
                 fontWeightIndex: FontSelectionData.regularFontFamily,
                 textColor: isJob! ? AppColors.greyColor : AppColors.orangeColor,
               ),
-              // TextInAppWidget(
-              //   text: subTitle,
-              //   textSize: 9,
-              //   fontWeightIndex: FontSelectionData.mediumFontFamily,
-              //   textColor: AppColors.darkColor,
-              // ),
+              TextInAppWidget(
+                text: subTitle,
+                textSize: 9,
+                fontWeightIndex: FontSelectionData.mediumFontFamily,
+                textColor: AppColors.darkColor,
+              ),
             ],
           ),
         )

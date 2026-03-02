@@ -11,15 +11,22 @@ class InternalOrdersPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (_) => NewOrdersCubit(),
-        child: BlocBuilder<NewOrdersCubit, NewOrdersState>(
-            builder: (context, state) {
+      create: (_) => NewOrdersCubit(),
+      child: BlocBuilder<NewOrdersCubit, NewOrdersState>(
+        buildWhen: (previous, current) {
+          return current is NewOrdersInitial ||
+              current is NewOrderDetails;
+        },
+        builder: (context, state) {
           final cubit = context.read<NewOrdersCubit>();
-          if (state is NewOrdersInitial) {
-            return OrdersPage(cubit: cubit);
-          } else {
+
+          if (state is NewOrderDetails) {
             return const OrderDetailsPage();
           }
-        }));
+
+          return OrdersPage(cubit: cubit);
+        },
+      ),
+    );
   }
 }

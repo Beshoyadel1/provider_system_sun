@@ -36,7 +36,7 @@ class ListDataViewItemsInDataContainerInListDataFirstScreenNotifications
             imagePathPart3: AppImageKeys.person22,
             titlePart3: AppLanguageKeys.jobName,
             subTitlePart3: 'أحمد محمود محمد',
-            isNewOrderPart4: true,
+            status: 5,
             timePart5: '1/1/2025',
             pricePart6: '500'),
         ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidget(
@@ -49,7 +49,7 @@ class ListDataViewItemsInDataContainerInListDataFirstScreenNotifications
             imagePathPart3: AppImageKeys.person22,
             titlePart3: AppLanguageKeys.jobName,
             subTitlePart3: 'أحمد محمود محمد',
-            isRejectPart4: true,
+            status: 5,
             timePart5: '1/1/2025',
             pricePart6: '500'),
         ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidget(
@@ -62,7 +62,7 @@ class ListDataViewItemsInDataContainerInListDataFirstScreenNotifications
             imagePathPart3: AppImageKeys.person22,
             titlePart3: AppLanguageKeys.jobName,
             subTitlePart3: 'أحمد محمود محمد',
-            isAcceptPart4: true,
+            status: 1,
             timePart5: '1/1/2025',
             pricePart6: '500'),
         ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidget(
@@ -87,7 +87,7 @@ class ListDataViewItemsInDataContainerInListDataFirstScreenNotifications
             imagePathPart3: AppImageKeys.person22,
             titlePart3: AppLanguageKeys.jobName,
             subTitlePart3: 'أحمد محمود محمد',
-            isNewOrderPart4: true,
+            status: 2,
             timePart5: '1/1/2025',
             pricePart6: '500'),
         ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidget(
@@ -100,7 +100,7 @@ class ListDataViewItemsInDataContainerInListDataFirstScreenNotifications
             imagePathPart3: AppImageKeys.person22,
             titlePart3: AppLanguageKeys.jobName,
             subTitlePart3: 'أحمد محمود محمد',
-            isRejectPart4: true,
+            status: 5,
             timePart5: '1/1/2025',
             pricePart6: '500'),
         ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidget(
@@ -113,7 +113,7 @@ class ListDataViewItemsInDataContainerInListDataFirstScreenNotifications
             imagePathPart3: AppImageKeys.person22,
             titlePart3: AppLanguageKeys.jobName,
             subTitlePart3: 'أحمد محمود محمد',
-            isAcceptPart4: true,
+            status: 5,
             timePart5: '1/1/2025',
             pricePart6: '500'),
       ],

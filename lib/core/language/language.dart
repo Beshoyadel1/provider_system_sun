@@ -14,6 +14,17 @@ class AppLocalizations {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'ar': {
+      //status//
+      AppLanguageKeys.newOrderForCompany: 'طلب جديد',
+      AppLanguageKeys.rejectedByCompany: 'تم الرفض',
+      AppLanguageKeys.newOrderForProvider: 'طلب جديد',
+      AppLanguageKeys.waitingAppointment: 'انتظار الموعد',
+      AppLanguageKeys.employeeInRound: 'في الطريق',
+      AppLanguageKeys.workInProgress: 'قيد التنفيذ',
+      AppLanguageKeys.orderCompleted: 'تم التسليم',
+      AppLanguageKeys.rejectedByProvider: 'تم الرفض',
+      AppLanguageKeys.cancelledByUser: 'تم الإلغاء',
+      //END//
       //others//
       AppLanguageKeys.gender: 'الجنس',
       AppLanguageKeys.age: 'العمر',
@@ -1171,6 +1182,17 @@ class AppLocalizations {
       AppLanguageKeys.from: "من",
     },
     'en': {
+      //status//
+      AppLanguageKeys.newOrderForCompany: 'New Order',
+      AppLanguageKeys.rejectedByCompany: 'Rejected',
+      AppLanguageKeys.newOrderForProvider: 'New Order',
+      AppLanguageKeys.waitingAppointment: 'Waiting Appointment',
+      AppLanguageKeys.employeeInRound: 'on the Way',
+      AppLanguageKeys.workInProgress: 'in Progress',
+      AppLanguageKeys.orderCompleted: 'Completed',
+      AppLanguageKeys.rejectedByProvider: 'Rejected',
+      AppLanguageKeys.cancelledByUser: 'Cancelled',
+      //END//
       //others//
       AppLanguageKeys.gender: 'Gender',
       AppLanguageKeys.age: 'Age',

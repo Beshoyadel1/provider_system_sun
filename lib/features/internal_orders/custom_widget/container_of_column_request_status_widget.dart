@@ -9,7 +9,7 @@ class ContainerOfColumnRequestStatusWidget extends StatelessWidget {
   final bool? isAccept,
       isReject,
       isNewOrder,
-      isTruck,
+      isOnTheWay,
       isPaidSuccess,
       isServiceProvider,
       isActive,
@@ -23,7 +23,7 @@ class ContainerOfColumnRequestStatusWidget extends StatelessWidget {
     this.isAccept = false,
     this.isReject = false,
     this.isNewOrder = false,
-    this.isTruck = false,
+    this.isOnTheWay = false,
     this.isPaidSuccess = false,
     this.isServiceProvider = false,
     this.isActive = false,
@@ -50,10 +50,10 @@ class ContainerOfColumnRequestStatusWidget extends StatelessWidget {
                     ? AppColors.partGreenMixColor.withOpacity(0.1)
                     : isWaitingForApproval!
                         ? AppColors.yelloContainerLoadingColor.withOpacity(0.2)
-                        : isTruck!
+                        : isOnTheWay!
                             ? AppColors.lightGreenColor
                             : AppColors.pinkColor,
-        borderRadius: BorderRadius.all(Radius.circular(20)),
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
       ),
       child: Row(
         spacing: 5,
@@ -70,7 +70,7 @@ class ContainerOfColumnRequestStatusWidget extends StatelessWidget {
                         ? Icons.done
                         : isWaitingForApproval!
                             ? Icons.autorenew
-                            : isTruck!
+                            : isOnTheWay!
                                 ? Icons.airport_shuttle_outlined
                                 : Icons.settings,
             size: 15,
@@ -85,7 +85,7 @@ class ContainerOfColumnRequestStatusWidget extends StatelessWidget {
                         ? AppColors.greenColor
                         : isWaitingForApproval!
                             ? AppColors.yelloIconLoadingColor
-                            : isTruck!
+                            : isOnTheWay!
                                 ? AppColors.blueColor
                                 : AppColors.orangeColor,
           ),
@@ -108,7 +108,7 @@ class ContainerOfColumnRequestStatusWidget extends StatelessWidget {
                                           : isWaitingForApproval!
                                               ? AppLanguageKeys
                                                   .waitingForApproval
-                                              : isTruck!
+                                              : isOnTheWay!
                                                   ? AppLanguageKeys.onTheWay
                                                   : AppLanguageKeys
                                                       .underService,
@@ -125,7 +125,7 @@ class ContainerOfColumnRequestStatusWidget extends StatelessWidget {
                           ? AppColors.greenColor
                           : isWaitingForApproval!
                               ? AppColors.yelloTextLoadingColor
-                              : isTruck!
+                              : isOnTheWay!
                                   ? AppColors.blueColor
                                   : AppColors.orangeColor,
             ),

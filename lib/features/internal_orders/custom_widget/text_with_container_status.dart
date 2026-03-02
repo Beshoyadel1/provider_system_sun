@@ -1,35 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/features/internal_orders/custom_widget/container_status.dart';
 import '../../../../../../../../features/internal_orders/custom_widget/container_of_column_request_status_widget.dart';
 import '../../../../../../../core/language/language_constant.dart';
 import '../../../../../../../core/theming/colors.dart';
 import '../../../../../../../core/theming/fonts.dart';
 import '../../../../../../../core/theming/text_styles.dart';
 
-class ColumnRequestStatusWidget extends StatelessWidget {
+class TextWithContainerStatus extends StatelessWidget {
   final String? text;
   final double? textSizeContainer, textSize;
-  final bool? isAccept,
-      isReject,
-      isNewOrder,
-      isOnTheWay,
-      isPaidSuccess,
-      isServiceProvider,
-      isActive,
-      isInActive,
-      isWaitingForApproval;
+  final int? status;
 
-  const ColumnRequestStatusWidget(
+  const TextWithContainerStatus(
       {super.key,
-      this.isAccept = false,
-      this.isReject = false,
-      this.isNewOrder = false,
-      this.isOnTheWay = false,
-      this.isPaidSuccess = false,
-      this.isServiceProvider = false,
-      this.isActive = false,
-      this.isInActive = false,
-      this.isWaitingForApproval = false,
+      this.status,
       this.text,
       this.textSizeContainer,
       this.textSize});
@@ -46,16 +31,8 @@ class ColumnRequestStatusWidget extends StatelessWidget {
           fontWeightIndex: FontSelectionData.mediumFontFamily,
           textColor: AppColors.greyColor,
         ),
-        ContainerOfColumnRequestStatusWidget(
-          isReject: isReject,
-          isAccept: isAccept,
-          isNewOrder: isNewOrder,
-          isOnTheWay: isOnTheWay,
-          isServiceProvider: isServiceProvider,
-          isPaidSuccess: isPaidSuccess,
-          isActive: isActive,
-          isInActive: isInActive,
-          isWaitingForApproval: isWaitingForApproval,
+        ContainerStatus(
+          status: status,
           textSize: textSizeContainer,
         )
       ],

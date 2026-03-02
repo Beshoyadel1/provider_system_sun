@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/core/cubit/new_orders_cubit/new_orders_cubit.dart';
 import '../../../../../features/cars_haraj_page/model/filter_orders_model/filter_orders_model.dart';
 import '../../../../../core/language/language_constant.dart';
 import '../../../../../core/theming/colors.dart';
@@ -6,9 +7,11 @@ import '../../../../../core/pages_widgets/general_widgets/custom_container.dart'
 import '../../../../../core/theming/text_styles.dart';
 
 class FiltersOrdersWidget extends StatelessWidget {
-  FiltersOrdersWidget({super.key, required this.filterOptions});
+  FiltersOrdersWidget({super.key, required this.filterOptions,this.cubit});
 
   final List<filterOrdersModel> filterOptions;
+  final NewOrdersCubit? cubit;
+
   late final ValueNotifier<List<filterOrdersModel>> filterOptionsNotifier =
       ValueNotifier(filterOptions);
 
