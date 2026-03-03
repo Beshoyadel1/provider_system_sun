@@ -19,9 +19,9 @@ Future<GetProviderOrdersResponse> getProviderOrdersFunction({
 
     final result = GetProviderOrdersResponse.fromJson(response.data);
 
-    AppSnackBar.showSuccess(
-      AppLanguageKeys.getProviderOrdersSuccessfully,
-    );
+    // AppSnackBar.showSuccess(
+    //   AppLanguageKeys.getProviderOrdersSuccessfully,
+    // );
 
     return result;
   } catch (e) {

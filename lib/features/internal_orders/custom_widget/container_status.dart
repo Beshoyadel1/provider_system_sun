@@ -17,59 +17,56 @@ class ContainerStatus extends StatelessWidget {
 
   String get statusText {
     switch (status) {
-      case OrderType.newOrderForCompany:
+      case OrderStatus.newOrderForCompany:
         return AppLanguageKeys.newOrderForCompany;
 
-      case OrderType.rejectedByCompany:
+      case OrderStatus.rejectedByCompany:
         return AppLanguageKeys.rejectedByCompany;
 
-      case OrderType.newOrderForProvider:
+      case OrderStatus.newOrderForProvider:
         return AppLanguageKeys.newOrderForProvider;
 
-      case OrderType.waitingAppointment:
+      case OrderStatus.waitingAppointment:
         return AppLanguageKeys.waitingAppointment;
 
-      case OrderType.employeeInRoud:
+      case OrderStatus.employeeInRoad:
         return AppLanguageKeys.employeeInRound;
 
-      case OrderType.workInProgress:
+      case OrderStatus.workInProgress:
         return AppLanguageKeys.workInProgress;
 
-      case OrderType.orderCompleted:
+      case OrderStatus.orderCompleted:
         return AppLanguageKeys.orderCompleted;
 
-      case OrderType.rejectedByProvider:
+      case OrderStatus.rejectedByProvider:
         return AppLanguageKeys.rejectedByProvider;
 
-      case OrderType.cancelledByUser:
+      case OrderStatus.cancelledByUser:
         return AppLanguageKeys.cancelledByUser;
 
       default:
-        return AppLanguageKeys.newOrderForCompany;
+        return 'Error Type';
     }
   }
 
-  // -------------------------
-  // UI Logic (same design)
-  // -------------------------
 
   bool get isNewOrder =>
-      status == OrderType.newOrderForCompany ||
-          status == OrderType.newOrderForProvider;
+      status == OrderStatus.newOrderForCompany ||
+          status == OrderStatus.newOrderForProvider;
 
   bool get isReject =>
-      status == OrderType.rejectedByCompany ||
-          status == OrderType.rejectedByProvider ||
-          status == OrderType.cancelledByUser;
+      status == OrderStatus.rejectedByCompany ||
+          status == OrderStatus.rejectedByProvider ||
+          status == OrderStatus.cancelledByUser;
 
   bool get isWaitingForApproval =>
-      status == OrderType.waitingAppointment;
+      status == OrderStatus.waitingAppointment;
 
   bool get isOnTheWay =>
-      status == OrderType.employeeInRoud;
+      status == OrderStatus.employeeInRoad;
 
   bool get isAccept =>
-      status == OrderType.orderCompleted;
+      status == OrderStatus.orderCompleted;
 
   @override
   Widget build(BuildContext context) {

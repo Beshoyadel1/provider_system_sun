@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../core/api/dio_function/apiRoutes.dart';
-import '../../../../../../core/api_functions/user/login_model/login_repository.dart';
 import '../../../../../../features/internal_orders/first_screen_internal_orders/logic/get_provider_internal_order/get_provider_internal_order_cubit.dart';
 import '../../../../../../features/internal_orders/first_screen_internal_orders/logic/get_provider_internal_order/get_provider_internal_order_state.dart';
 import '../../../../../../core/theming/assets.dart';
@@ -20,26 +19,7 @@ class SecondPartDataContainerInListDataFirstScreenInternalOrders
       _SecondPartDataContainerInListDataFirstScreenInternalOrdersState();
 }
 
-class _SecondPartDataContainerInListDataFirstScreenInternalOrdersState
-    extends State<
-        SecondPartDataContainerInListDataFirstScreenInternalOrders> {
-
-  int? providerId;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadUser();
-  }
-
-  Future<void> _loadUser() async {
-    final user = await AuthLocalStorage.getUser();
-
-    if (user != null) {
-      providerId = user.userid;
-      setState(() {});
-    }
-  }
+class _SecondPartDataContainerInListDataFirstScreenInternalOrdersState extends State<SecondPartDataContainerInListDataFirstScreenInternalOrders> {
 
   String _formatDate(String? date) {
     if (date == null || date.isEmpty) return "";
@@ -50,16 +30,10 @@ class _SecondPartDataContainerInListDataFirstScreenInternalOrdersState
 
   @override
   Widget build(BuildContext context) {
-
-    if (providerId == null) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
     return BlocProvider(
       create: (_) => GetProviderInternalOrderCubit()
-        ..getProviderInternalOrders(
-          providerId: providerId!,
-          serviceId: MainCategoryConstants.maintenanceAndInternalServicesID,
+        ..loadInternalOrders(
+          serviceId: MainCategoryConstants.maintenanceAndInternalServicesID
         ),
       child: BlocBuilder<GetProviderInternalOrderCubit,
           GetProviderInternalOrderState>(
@@ -67,7 +41,6 @@ class _SecondPartDataContainerInListDataFirstScreenInternalOrdersState
           if (state is GetProviderInternalOrderLoading) {
             return const Center(child: CircularProgressIndicator());
           }
-
           if (state is GetProviderInternalOrderSuccess) {
             final orders = state.orders;
 

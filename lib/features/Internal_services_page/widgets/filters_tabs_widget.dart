@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:sun_web_system/core/cubit/new_orders_cubit/new_orders_cubit.dart';
-import '../../../../../features/cars_haraj_page/model/filter_orders_model/filter_orders_model.dart';
-import '../../../../../core/language/language_constant.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/features/Internal_services_page/widgets/filter_design_internal_orders.dart';
+import '../../../../../core/api/dio_function/apiRoutes.dart';
+import '../../../../../features/internal_orders/first_screen_internal_orders/logic/get_provider_internal_order/get_provider_internal_order_state.dart';
+import '../../../../../features/internal_orders/first_screen_internal_orders/logic/tabs_cubit/tabs_cubit.dart';
+import '../../../../../features/internal_orders/first_screen_internal_orders/screens/big_container_of_new_orders/part_container_big_container_of_new_orders/second_part_data_container_in_list_data_first_screen_internal_orders.dart';
 import '../../../../../core/theming/colors.dart';
 import '../../../../../core/theming/text_styles.dart';
-import 'list_new_order_widget.dart';
+import '../../../../../features/cars_haraj_page/model/filter_orders_model/filter_orders_model.dart';
 
 class FiltersTabsWidget extends StatefulWidget {
   const FiltersTabsWidget({
@@ -26,63 +29,78 @@ class _FiltersTabsWidgetState extends State<FiltersTabsWidget>
   @override
   void initState() {
     super.initState();
+
     _tabController =
         TabController(length: widget.filterOptions.length, vsync: this);
 
     _tabController.addListener(() {
-      setState(() {}); // علشان يعمل rebuild ويغير اللون
+      if (_tabController.indexIsChanging) {
+        context.read<TabsCubit>().changeTab(_tabController.index);
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      spacing: 20,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        TabBar(
+    return BlocBuilder<TabsCubit, int>(
+      builder: (context, selectedIndex) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TabBar(
+              tabAlignment: TabAlignment.start,
+              controller: _tabController,
+              isScrollable: true,
+              indicator: const BoxDecoration(),
+              dividerColor: Colors.transparent,
+              tabs: List.generate(widget.filterOptions.length, (index) {
 
-          controller: _tabController,
-          isScrollable: true,
-          indicator: const BoxDecoration(),
-          dividerColor: Colors.transparent,
-          tabAlignment: TabAlignment.start,
-          tabs: List.generate(widget.filterOptions.length, (index) {
-            final isSelected = _tabController.index == index;
+                final isSelected = selectedIndex == index;
 
-            return Tab(
-              child: Container(
-                width: 150,
-                padding:
-                const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                decoration: BoxDecoration(
-                  color: isSelected
-                      ? AppColors.orangeColor
-                      : AppColors.greyColor,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Center(
-                  child: TextInAppWidget(
-                    text: widget.filterOptions[index].text,
-                    textSize: 16,
-                    textColor: AppColors.whiteColor,
+                return Tab(
+                  child: Container(
+                    width: 150,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: isSelected
+                          ? AppColors.orangeColor
+                          : AppColors.greyColor,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Center(
+                      child: TextInAppWidget(
+                        text: widget.filterOptions[index].text,
+                        textSize: 16,
+                        textColor: AppColors.whiteColor,
+                      ),
+                    ),
+                  ),
+                );
+              }),
+            ),
+
+            const SizedBox(height: 20),
+            Expanded(
+              child: BlocProvider(
+                create: (_) => GetProviderInternalOrderCubit()
+                  ..loadInternalOrders(
+                    serviceId: MainCategoryConstants.maintenanceAndInternalServicesID,
+                  ),
+                child: TabBarView(
+                  controller: _tabController,
+                  children: List.generate(
+                    widget.filterOptions.length,
+                        (index) => const SingleChildScrollView(
+                      child: FilterDesignInternalOrders(),
+                    ),
                   ),
                 ),
               ),
-            );
-          }),
-        ),
-
-        Expanded(
-          child: TabBarView(
-            controller: _tabController,
-            children: List.generate(
-              widget.filterOptions.length,
-                  (index) => const ListNewOrderWidget(),
             ),
-          ),
-        ),
-      ],
+          ],
+        );
+      },
     );
   }
 

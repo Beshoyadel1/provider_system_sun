@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:sun_web_system/features/Internal_services_page/widgets/filters_widget.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../features/internal_orders/first_screen_internal_orders/logic/tabs_cubit/tabs_cubit.dart';
 import '../../../../features/Internal_services_page/widgets/filters_tabs_widget.dart';
-import '../../../../../features/cars_haraj_page/model/filter_orders_model/filter_orders_model.dart';
-import '../../../../../core/cubit/new_orders_cubit/new_orders_cubit.dart';
-import '../../../../../core/language/language_constant.dart';
-import '../../../../../core/theming/colors.dart';
-import '../../../../../core/pages_widgets/general_widgets/custom_container.dart';
-import '../../../../../core/theming/text_styles.dart';
+import '../../../../features/cars_haraj_page/model/filter_orders_model/filter_orders_model.dart';
+import '../../../../core/cubit/new_orders_cubit/new_orders_cubit.dart';
+import '../../../../core/language/language_constant.dart';
+import '../../../../core/theming/colors.dart';
+import '../../../../core/pages_widgets/general_widgets/custom_container.dart';
+import '../../../../core/theming/text_styles.dart';
 
 class OrdersPage extends StatelessWidget {
   const OrdersPage({super.key, required this.cubit});
 
   final NewOrdersCubit cubit;
-
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
@@ -45,8 +45,12 @@ class OrdersPage extends StatelessWidget {
                 ),
               ],
             ),
-            Expanded(child: FiltersTabsWidget(filterOptions: filterOrders)),
-            // const ListNewOrderWidget()
+            Expanded(child: BlocProvider(
+              create: (_) => TabsCubit(),
+              child: FiltersTabsWidget(
+                filterOptions: filterOrders,
+              ),
+            )),
            // Center(child: NumberIndicator())
           ],
         ),
