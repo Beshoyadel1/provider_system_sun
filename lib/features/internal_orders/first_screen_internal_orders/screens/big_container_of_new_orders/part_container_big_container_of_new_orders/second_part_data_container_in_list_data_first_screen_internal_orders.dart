@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../../core/api/dio_function/apiRoutes.dart';
+import '../../../../../../core/api/dio_function/api_constants.dart';
 import '../../../../../../features/internal_orders/first_screen_internal_orders/logic/get_provider_internal_order/get_provider_internal_order_cubit.dart';
 import '../../../../../../features/internal_orders/first_screen_internal_orders/logic/get_provider_internal_order/get_provider_internal_order_state.dart';
 import '../../../../../../core/theming/assets.dart';
@@ -74,7 +74,7 @@ class _SecondPartDataContainerInListDataFirstScreenInternalOrdersState extends S
                   subTitlePart3: order.username ?? "",
                   status: order.orderStatus,
                   timePart5: _formatDate(order.orderDate),
-                  pricePart6: order.totalPrice?.toString() ?? "10",
+                  pricePart6: order.totalPrice?.toString() ?? "0",
                 );
               },
             );

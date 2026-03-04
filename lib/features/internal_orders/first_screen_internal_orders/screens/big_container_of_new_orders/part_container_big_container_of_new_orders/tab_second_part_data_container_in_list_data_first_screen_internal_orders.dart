@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:sun_web_system/features/internal_orders/custom_widget/text_with_container_status.dart';
-import '../../../../../../../../features/internal_orders/custom_widget/Column_date_order_with_time_widget.dart';
-import '../../../../../../../../features/internal_orders/custom_widget/column_price_order_widget.dart';
-import '../../../../../../../../features/internal_orders/custom_widget/column_request_status_widget.dart';
-import '../../../../../../../../features/internal_orders/custom_widget/container_details_widget.dart';
-import '../../../../../../../../features/internal_orders/custom_widget/row_image_with_title_orange_and_sub_title_black_widget.dart';
-import '../../../../../../../../features/internal_orders/custom_widget/row_kind_of_car_with_text_widget.dart';
+import '../../../../../../features/internal_orders/custom_widget/text_with_container_status.dart';
+import '../../../../../../features/internal_orders/custom_widget/Column_date_order_with_time_widget.dart';
+import '../../../../../../features/internal_orders/custom_widget/column_price_order_widget.dart';
+import '../../../../../../features/internal_orders/custom_widget/container_details_widget.dart';
+import '../../../../../../features/internal_orders/custom_widget/row_image_with_title_orange_and_sub_title_black_widget.dart';
+import '../../../../../../features/internal_orders/custom_widget/row_kind_of_car_with_text_widget.dart';
 
 class TabSecondPartDataContainerInListDataFirstScreenInternalOrders
     extends StatelessWidget {
@@ -21,6 +20,7 @@ class TabSecondPartDataContainerInListDataFirstScreenInternalOrders
       timePart5,
       pricePart6;
   final int? status;
+
   const TabSecondPartDataContainerInListDataFirstScreenInternalOrders({
     super.key,
     required this.imagePathPart1,
@@ -66,10 +66,9 @@ class TabSecondPartDataContainerInListDataFirstScreenInternalOrders
           ),
         ),
         Expanded(
-          child:TextWithContainerStatus(
-            status: status??0,
-          )
-        ),
+            child: TextWithContainerStatus(
+          status: status ?? 0,
+        )),
         Expanded(child: ColumnDateOrderWithTimeWidget(time: timePart5)),
         Expanded(child: ColumnPriceOrderWidget(price: pricePart6)),
         const Expanded(child: ContainerDetailsWidget())

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/internal_orders/first_screen_internal_orders/logic/tabs_cubit/tabs_cubit.dart';
-import '../../../../../../core/api/dio_function/apiRoutes.dart';
+import '../../../../../../core/api/dio_function/api_constants.dart';
 import '../../../../../../features/internal_orders/first_screen_internal_orders/logic/get_provider_internal_order/get_provider_internal_order_cubit.dart';
 import '../../../../../../features/internal_orders/first_screen_internal_orders/logic/get_provider_internal_order/get_provider_internal_order_state.dart';
 import '../../../../../../core/theming/assets.dart';

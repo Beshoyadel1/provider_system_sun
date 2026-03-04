@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import '../../../../core/api_functions/order/get_provider_orders_model/get_provider_orders_response.dart';
 import '../../../../core/api_functions/order/get_provider_orders_model/get_provider_orders_request.dart';
-import '../../../../core/api/dio_function/apiRoutes.dart';
+import '../../../../core/api/dio_function/api_constants.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';

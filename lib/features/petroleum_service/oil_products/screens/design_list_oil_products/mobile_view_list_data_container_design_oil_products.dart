@@ -9,27 +9,35 @@ import '../../../../../../../../features/Petroleum_Service/custom_widget/column_
 import '../../../../../../../../features/Petroleum_Service/custom_widget/row_name_emp_widget.dart';
 
 class MobileViewListDataContainerDesignOilProducts extends StatelessWidget {
+  final String? id,name,date,budget;
   const MobileViewListDataContainerDesignOilProducts({
     super.key,
+    this.date,
+    this.name,
+    this.budget,
+    this.id
   });
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return  Column(
       spacing: 10,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            NumberOfTextWidget(),
+            NumberOfTextWidget(
+              numberText:id,
+            ),
             RowNameEmpWidget(
               imagePath: AppImageKeys.testOil,
               title: AppLanguageKeys.oils,
               textColorTitle: AppColors.orangeColor,
               textSizeTitle: 14,
-              subTitle: 'Name Oil Car',
+              subTitle: name,
               textColorSubTitle: AppColors.blackColor,
             ),
+
           ],
         ),
         Row(
@@ -37,14 +45,16 @@ class MobileViewListDataContainerDesignOilProducts extends StatelessWidget {
           children: [
             ColumnPackingDateWidget(
               title: AppLanguageKeys.saleDate,
-              subTitle: '1/1/2025',
+              subTitle: date,
             ),
             ColumnSubscriptionFeesWidget(
               title: AppLanguageKeys.productPrice,
+              budget:budget ,
             ),
+
           ],
         ),
-        ContainerDetailsWidget(),
+        const ContainerDetailsWidget(),
       ],
     );
   }

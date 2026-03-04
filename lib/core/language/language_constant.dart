@@ -15,6 +15,8 @@ class AppLanguageKeys {
   //end//
 
   //others//
+  static const String filling = 'filling';
+  static const String fillingDate = 'fillingDate';
   static const String order = 'order';
   static const String authCompanyNameRequired = 'authCompanyNameRequired';
   static const String authEmailRequired = 'authEmailRequired';

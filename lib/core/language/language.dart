@@ -26,6 +26,8 @@ class AppLocalizations {
       AppLanguageKeys.cancelledByUser: 'تم الإلغاء',
       //END//
       //others//
+      AppLanguageKeys.filling: 'التعبئة',
+      AppLanguageKeys.fillingDate: 'تاريخ التعبئة',
       AppLanguageKeys.gender: 'الجنس',
       AppLanguageKeys.age: 'العمر',
       AppLanguageKeys.order: 'طلب',
@@ -1194,6 +1196,8 @@ class AppLocalizations {
       AppLanguageKeys.cancelledByUser: 'Cancelled',
       //END//
       //others//
+      AppLanguageKeys.filling: 'Filling',
+      AppLanguageKeys.fillingDate: 'Filling Date',
       AppLanguageKeys.gender: 'Gender',
       AppLanguageKeys.age: 'Age',
       AppLanguageKeys.order: 'Order',

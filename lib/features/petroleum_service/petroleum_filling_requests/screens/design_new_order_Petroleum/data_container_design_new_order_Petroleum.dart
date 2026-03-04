@@ -22,7 +22,7 @@ class DataContainerDesignNewOrderPetroleum extends StatelessWidget {
               // );
             },
           ),
-          ViewListDataContainerDesignNewOrderPetroleum()
+          const ViewListDataContainerDesignNewOrderPetroleum()
         ],
       ),
     );

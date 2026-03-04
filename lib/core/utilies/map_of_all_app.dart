@@ -240,22 +240,22 @@ void getPages() {
       number: PagesOfAllApp.advertisementsPageNumber,
       page: FirstScreenAdvertisements(),
     ),
-    const PageNodeModel(
-        name: AppLanguageKeys.sparePartsSectionKey,
-        image: AppImageKeys.spare,
-        number: PagesOfAllApp.sparePageNumber,
-        children: [
-          PageNodeModel(
-            name: AppLanguageKeys.permissionsGroupPageKey,
-            number: PagesOfAllApp.internalServicesStatisticsPageNumber,
-            page: InternalAndServicesStatisticsPage(),
-          ),
-          PageNodeModel(
-            name: AppLanguageKeys.ordersSectionKey,
-            number: PagesOfAllApp.internalOrdersPageNumber,
-            page: InternalOrdersPage(),
-          ),
-        ]),
+    // const PageNodeModel(
+    //     name: AppLanguageKeys.sparePartsSectionKey,
+    //     image: AppImageKeys.spare,
+    //     number: PagesOfAllApp.sparePageNumber,
+    //     children: [
+    //       PageNodeModel(
+    //         name: AppLanguageKeys.permissionsGroupPageKey,
+    //         number: PagesOfAllApp.internalServicesStatisticsPageNumber,
+    //         page: InternalAndServicesStatisticsPage(),
+    //       ),
+    //       PageNodeModel(
+    //         name: AppLanguageKeys.ordersSectionKey,
+    //         number: PagesOfAllApp.internalOrdersPageNumber,
+    //         page: InternalOrdersPage(),
+    //       ),
+    //     ]),
     const PageNodeModel(
         name: AppLanguageKeys.carMarketKey,
         image: AppImageKeys.sell,
