@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../core/api_functions/harage/get_all_harage_model/get_all_harage_request.dart';
+import '../../../../../features/cars_haraj_page/logic/get_all_harage_cubit/get_all_harage_cubit.dart';
+import '../../../../../features/cars_haraj_page/widgets/available_list_cars.dart';
 import '../../../../../core/language/language_constant.dart';
 import '../../../../../core/theming/colors.dart';
 import '../../../../../core/pages_widgets/general_widgets/custom_container.dart';
 import '../../../../../core/theming/text_styles.dart';
-import 'available_cars.dart';
 
 class ListOfCars extends StatelessWidget {
   const ListOfCars({super.key});
@@ -33,12 +36,12 @@ class ListOfCars extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TextInAppWidget(
-                        text: 'قائمة السيارات',
+                        text: AppLanguageKeys.carList,
                         textSize: 20,
                         textColor: AppColors.darkColor,
                       ),
                       TextInAppWidget(
-                        text: 'قائمة مختصرة من السيارات المتاحه  ',
+                        text: AppLanguageKeys.availableCarsShortList,
                         textSize: 16,
                         textColor: AppColors.darkGreyColor,
                       ),
@@ -63,11 +66,11 @@ class ListOfCars extends StatelessWidget {
               ),
             ),
           ),
-          ...List.generate(
-              4,
-              (_) => AvailableCars(
-                    onTap: () {},
-                  )),
+          BlocProvider(
+            create: (context) => GetAllHarageCubit()
+              ..getAllHarage(page: 1),
+            child: const AvailableListCars(),
+          )
         ],
       ),
     );

@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:sun_web_system/features/Internal_services_page/widgets/build_legend_item.dart';
 import '../../../../../../../core/theming/colors.dart';
-import '../../../../../../../features/cars_haraj_page/logic/provider_harage_monthly_sales_state.dart';
-import '../../../../../../../features/cars_haraj_page/logic/provider_harage_monthly_sales_cubit.dart';
+import '../../../../cars_haraj_page/logic/provider_harage_monthly_sales_cubit/provider_harage_monthly_sales_state.dart';
+import '../../../../cars_haraj_page/logic/provider_harage_monthly_sales_cubit/provider_harage_monthly_sales_cubit.dart';
 import '../../../../../../../features/cars_haraj_page/model/chart_data_model/chart_data_model.dart';
 
 class DonutChartAndLegend extends StatelessWidget {

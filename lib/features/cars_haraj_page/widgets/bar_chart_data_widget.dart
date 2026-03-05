@@ -1,8 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import '../../../../core/api_functions/statistics/get_provider_harage_monthly_sales_model/harag_monthly_sale_model.dart';
-import '../../../../../features/cars_haraj_page/logic/provider_harage_monthly_sales_cubit.dart';
-import '../../../../../features/cars_haraj_page/logic/provider_harage_monthly_sales_state.dart';
+import '../logic/provider_harage_monthly_sales_cubit/provider_harage_monthly_sales_cubit.dart';
+import '../logic/provider_harage_monthly_sales_cubit/provider_harage_monthly_sales_state.dart';
 import '../../../../../core/theming/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

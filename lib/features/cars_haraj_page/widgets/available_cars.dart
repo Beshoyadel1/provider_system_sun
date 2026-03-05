@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/features/internal_orders/custom_widget/text_with_container_status_car.dart';
 import '../../../../../core/language/language_constant.dart';
 import '../../../../../core/theming/assets.dart';
 import '../../../../../core/theming/colors.dart';
@@ -9,10 +10,11 @@ import 'car_model.dart';
 import 'message_numbers.dart';
 
 class AvailableCars extends StatelessWidget {
-  const AvailableCars({super.key, this.spacing, required this.onTap});
-
+  const AvailableCars({super.key,this.price,this.brandName,this.isSold=false,this.isNew=false,this.description,this.releaseDate,this.id, this.spacing, required this.onTap});
+  final String? id,description,releaseDate,brandName,price;
   final double? spacing;
   final VoidCallback onTap;
+  final bool isNew,isSold;
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +29,17 @@ class AvailableCars extends StatelessWidget {
           crossAxisAlignment: WrapCrossAlignment.center,
           alignment: WrapAlignment.center,
           children: [
-            const TextInAppWidget(
-                text: '1#', textSize: 16, textColor: AppColors.darkColor),
-            const CarModel(),
-            const OrderState(),
+            TextInAppWidget(text: id??'1#', textSize: 16, textColor: AppColors.darkColor),
+             CarModel(
+              description:description ,
+              releaseDate:releaseDate ,
+            ),
+            // const OrderState(
+            //
+            // ),
+            TextWithContainerStatusCar(
+              isNew:isNew,
+            ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -41,23 +50,26 @@ class AvailableCars extends StatelessWidget {
                   height: 34,
                   fit: BoxFit.contain,
                 ),
-                const TextInAppWidget(
-                    text: 'نيسان',
+                 TextInAppWidget(
+                    text: brandName??'نيسان',
                     textSize: 14,
                     textColor: AppColors.darkColor),
               ],
             ),
-            MessageNumbers(),
-            const Column(
+            TextWithContainerStatusCar(
+              isSold:isSold,
+            ),
+          //  const MessageNumbers(),
+             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                TextInAppWidget(
-                    text: 'سعر السيارة ',
+                const TextInAppWidget(
+                    text: AppLanguageKeys.carPrice,
                     textSize: 14,
                     textColor: AppColors.darkColor),
                 TextInAppWidget(
-                    text: AppLanguageKeys.priceKey,
+                    text: price??AppLanguageKeys.priceKey,
                     textSize: 14,
                     textColor: AppColors.darkColor),
               ],

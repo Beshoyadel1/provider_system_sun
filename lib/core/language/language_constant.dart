@@ -2,6 +2,10 @@ import 'package:sun_web_system/core/utilies/map_of_all_app.dart';
 
 class AppLanguageKeys {
   //status//
+  static const String notSold = 'notSold';
+  static const String sold = 'sold';
+  static const String newCar = 'newCar';
+  static const String usedCar = 'usedCar';
   static const String newOrderForCompany = 'newOrderForCompany';
   static const String rejectedByCompany = 'rejectedByCompany';
   static const String newOrderForProvider = 'newOrderForProvider';
@@ -15,6 +19,8 @@ class AppLanguageKeys {
   //end//
 
   //others//
+  static const String carList = 'carList';
+  static const String availableCarsShortList = 'availableCarsShortList';
   static const String filling = 'filling';
   static const String fillingDate = 'fillingDate';
   static const String order = 'order';

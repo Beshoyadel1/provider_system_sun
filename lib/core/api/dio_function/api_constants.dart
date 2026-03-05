@@ -136,7 +136,7 @@ class ApiLink {
   static const String deleteHarage =
       "${ApiConfig.baseUrlApi}/${ApiConfig.harage}/DeleteHarage";
   static const String getAllHarage =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.harage}/GetAllHarage";
+      "${ApiConfig.baseUrlApi}/${ApiConfig.harage}/GetAllHarages";
   static const String getHarage =
       "${ApiConfig.baseUrlApi}/${ApiConfig.harage}/GetHarage";
   static const String updateHarage =
@@ -293,7 +293,6 @@ class ApiLink {
       "${ApiConfig.baseUrlApi}/${ApiConfig.coupon}/UploadCoupon";
 }
 
-
 class OrderStatus {
   static const int newOrderForCompany = -2;
   static const int rejectedByCompany = -1;
@@ -305,13 +304,26 @@ class OrderStatus {
   static const int rejectedByProvider = 5;
   static const int cancelledByUser = 6;
 }
+
 class OrderType {
   static const int New = 1;
   static const int current = 2;
   static const int done = 3;
-  static const List<int> newOrders = [OrderStatus.newOrderForProvider,OrderStatus.newOrderForCompany];
-  static const List<int> currentOrders  = [OrderStatus.waitingAppointment,OrderStatus.employeeInRoad,OrderStatus.workInProgress];
-  static const List<int> doneOrders  = [OrderStatus.orderCompleted,OrderStatus.cancelledByUser,OrderStatus.rejectedByProvider,OrderStatus.rejectedByProvider];
+  static const List<int> newOrders = [
+    OrderStatus.newOrderForProvider,
+    OrderStatus.newOrderForCompany
+  ];
+  static const List<int> currentOrders = [
+    OrderStatus.waitingAppointment,
+    OrderStatus.employeeInRoad,
+    OrderStatus.workInProgress
+  ];
+  static const List<int> doneOrders = [
+    OrderStatus.orderCompleted,
+    OrderStatus.cancelledByUser,
+    OrderStatus.rejectedByProvider,
+    OrderStatus.rejectedByProvider
+  ];
 }
 
 class CategoryConstants {
@@ -364,6 +376,7 @@ class MainCategoryConstants {
 
   final List<int> petrolSubCategories = [CategoryConstants.petrolService];
 }
+
 class UserType {
   static const int appUser = 1;
   static const int companyUser = 2;

@@ -55,7 +55,7 @@ class CarOrderDetailsPage extends StatelessWidget {
                                           textColor: AppColors.darkColor,
                                           fontWeightIndex: FontSelectionData
                                               .mediumFontFamily),
-                                      ...List.generate(6, (_) => Message()),
+                                      ...List.generate(6, (_) => const Message()),
                                     ])),
                                 isSelected: false,
                                 onTap: () {},

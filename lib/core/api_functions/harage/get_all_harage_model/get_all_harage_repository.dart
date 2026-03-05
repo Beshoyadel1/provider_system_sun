@@ -1,23 +1,25 @@
 import 'package:dio/dio.dart';
+import '../../../../core/api_functions/harage/get_all_harage_model/get_all_harage_response.dart';
 import '../../../../core/api_functions/harage/get_all_harage_model/get_all_harage_request.dart';
 import '../../../../core/api/dio_function/api_constants.dart';
-import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
-import '../../../../core/language/language_constant.dart';
 
-Future<void> getAllHarageFunction({
+Future<GetAllHarageResponse> getAllHarageFunction({
   required GetAllHarageRequest getAllHarageRequest,
 }) async {
   try {
-    await Network.postDataWithBodyAndParams(
+    final response = await Network.getDataWithBodyAndParams(
       {},
-      getAllHarageRequest.toJson(), // params
+      getAllHarageRequest.toJson(),
       ApiLink.getAllHarage,
     );
-    AppSnackBar.showSuccess(AppLanguageKeys.getAllHarageSuccessfully);
+
+    final data = GetAllHarageResponse.fromJson(response.data);
+
+    return data;
   } catch (e) {
-    AppSnackBar.showError(
+    throw Exception(
       e is DioException
           ? responseOfStatusCode(e.response?.statusCode)
           : e.toString(),

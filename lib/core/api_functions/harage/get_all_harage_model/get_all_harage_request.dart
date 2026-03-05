@@ -1,13 +1,13 @@
 class GetAllHarageRequest {
-  final int providerId;
+  final int? pageNumber;
 
   GetAllHarageRequest({
-    required this.providerId,
+     this.pageNumber,
   });
 
   Map<String, dynamic> toJson() {
     return {
-      "ProviderId": providerId,
+      "pageNumber": pageNumber??1,
     };
   }
 }

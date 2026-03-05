@@ -15,6 +15,10 @@ class AppLocalizations {
   static final Map<String, Map<String, String>> _localizedValues = {
     'ar': {
       //status//
+      AppLanguageKeys.notSold: 'لم يتم البيع',
+      AppLanguageKeys.sold: 'تم البيع',
+      AppLanguageKeys.newCar: 'جديدة',
+      AppLanguageKeys.usedCar: 'مستعملة',
       AppLanguageKeys.newOrderForCompany: 'طلب جديد',
       AppLanguageKeys.rejectedByCompany: 'تم الرفض',
       AppLanguageKeys.newOrderForProvider: 'طلب جديد',
@@ -26,6 +30,8 @@ class AppLocalizations {
       AppLanguageKeys.cancelledByUser: 'تم الإلغاء',
       //END//
       //others//
+      AppLanguageKeys.carList: 'قائمة السيارات',
+      AppLanguageKeys.availableCarsShortList: 'قائمة مختصرة من السيارات المتاحة',
       AppLanguageKeys.filling: 'التعبئة',
       AppLanguageKeys.fillingDate: 'تاريخ التعبئة',
       AppLanguageKeys.gender: 'الجنس',
@@ -1185,6 +1191,10 @@ class AppLocalizations {
     },
     'en': {
       //status//
+      AppLanguageKeys.notSold: 'Not Sold',
+      AppLanguageKeys.sold: 'Sold',
+      AppLanguageKeys.newCar: 'New',
+      AppLanguageKeys.usedCar: 'Used',
       AppLanguageKeys.newOrderForCompany: 'New Order',
       AppLanguageKeys.rejectedByCompany: 'Rejected',
       AppLanguageKeys.newOrderForProvider: 'New Order',
@@ -1196,6 +1206,8 @@ class AppLocalizations {
       AppLanguageKeys.cancelledByUser: 'Cancelled',
       //END//
       //others//
+      AppLanguageKeys.carList: 'Car List',
+      AppLanguageKeys.availableCarsShortList: 'Short List of Available Cars',
       AppLanguageKeys.filling: 'Filling',
       AppLanguageKeys.fillingDate: 'Filling Date',
       AppLanguageKeys.gender: 'Gender',
