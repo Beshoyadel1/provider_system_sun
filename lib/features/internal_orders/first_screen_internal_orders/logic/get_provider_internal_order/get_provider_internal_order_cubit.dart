@@ -14,8 +14,7 @@ class GetProviderInternalOrderInitial
 class GetProviderInternalOrderLoading
     extends GetProviderInternalOrderState {}
 
-class GetProviderInternalOrderSuccess
-    extends GetProviderInternalOrderState {
+class GetProviderInternalOrderSuccess extends GetProviderInternalOrderState {
   final List<OrderModel> orders;
 
   const GetProviderInternalOrderSuccess(this.orders);

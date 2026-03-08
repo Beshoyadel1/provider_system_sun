@@ -15,8 +15,8 @@ final List<filterOrdersModel> filterOrders = [
 ];
 
 final List<filterOrdersModel> filterOptionsCars = [
-  filterOrdersModel(text: 'جميع السيارات', isSelected: true),
-  filterOrdersModel(text: 'سيارات جديدة'),
-  filterOrdersModel(text: 'سيارات مستعملة'),
-  filterOrdersModel(text: 'سيارة مباعة'),
+  filterOrdersModel(text: AppLanguageKeys.allCars, isSelected: true),
+  filterOrdersModel(text: AppLanguageKeys.newCars),
+  filterOrdersModel(text:AppLanguageKeys.usedCars),
+  filterOrdersModel(text: AppLanguageKeys.soldCars),
 ];

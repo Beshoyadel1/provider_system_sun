@@ -19,6 +19,8 @@ class AppLanguageKeys {
   //end//
 
   //others//
+  static const String carsListCurrentAndSold = 'carsListCurrentAndSold';
+  static const String soldCars = 'soldCars';
   static const String carList = 'carList';
   static const String availableCarsShortList = 'availableCarsShortList';
   static const String filling = 'filling';

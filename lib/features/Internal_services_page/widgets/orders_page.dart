@@ -13,6 +13,7 @@ class OrdersPage extends StatelessWidget {
   const OrdersPage({super.key, required this.cubit});
 
   final NewOrdersCubit cubit;
+
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
@@ -45,13 +46,14 @@ class OrdersPage extends StatelessWidget {
                 ),
               ],
             ),
-            Expanded(child: BlocProvider(
+            Expanded(
+                child: BlocProvider(
               create: (_) => TabsCubit(),
               child: FiltersTabsWidget(
                 filterOptions: filterOrders,
               ),
             )),
-           // Center(child: NumberIndicator())
+            // Center(child: NumberIndicator())
           ],
         ),
       ),

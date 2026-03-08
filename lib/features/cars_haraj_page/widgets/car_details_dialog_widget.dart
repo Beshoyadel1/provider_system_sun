@@ -38,7 +38,7 @@ class CarDetailsDialogWidget extends StatelessWidget {
                     fillColor: AppColors.whiteColor,
                     borderColor: AppColors.greyColor,
                     textFormHeight: 40,
-                    focusedBorderRadius: BorderRadius.all(Radius.circular(10)),
+                    focusedBorderRadius: const BorderRadius.all(Radius.circular(10)),
                   ),
                   const SizedBox(
                     height: 60,

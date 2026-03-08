@@ -30,6 +30,8 @@ class AppLocalizations {
       AppLanguageKeys.cancelledByUser: 'تم الإلغاء',
       //END//
       //others//
+      AppLanguageKeys.carsListCurrentAndSold: 'قائمة السيارات من السيارات الحالية والمباعة سابقاً',
+      AppLanguageKeys.soldCars: 'سيارة مباعة',
       AppLanguageKeys.carList: 'قائمة السيارات',
       AppLanguageKeys.availableCarsShortList: 'قائمة مختصرة من السيارات المتاحة',
       AppLanguageKeys.filling: 'التعبئة',
@@ -1206,6 +1208,8 @@ class AppLocalizations {
       AppLanguageKeys.cancelledByUser: 'Cancelled',
       //END//
       //others//
+      AppLanguageKeys.carsListCurrentAndSold: 'List of current and previously sold cars',
+      AppLanguageKeys.soldCars: 'Sold Cars',
       AppLanguageKeys.carList: 'Car List',
       AppLanguageKeys.availableCarsShortList: 'Short List of Available Cars',
       AppLanguageKeys.filling: 'Filling',
