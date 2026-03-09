@@ -10,14 +10,6 @@ class InternalMaintenanceAndServicesInServiceSettings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery
-        .of(context)
-        .size;
-    bool isMobile = size.width <= ValuesOfAllApp.mobileWidth;
-    bool isTabletCustom = size.width > ValuesOfAllApp.mobileWidth &&
-        size.width <= ValuesOfAllApp.customTabWidth;
-    bool isTab = size.width > ValuesOfAllApp.tabWidth;
-
     return const Scaffold(
       backgroundColor: AppColors.scaffoldColor,
       body: SafeArea(
@@ -27,14 +19,14 @@ class InternalMaintenanceAndServicesInServiceSettings extends StatelessWidget {
             children: [
               Expanded(
                 child: SingleChildScrollView(
-                    child: ListDataInternalMaintenanceAndServicesInServiceSettings()
-                ),
+                    child:
+                        ListDataInternalMaintenanceAndServicesInServiceSettings()),
               ),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: ContainerLastTwoButtonInAddedMaintenanceAndInternalServicesInServiceSettings(),
+      //  bottomNavigationBar: ContainerLastTwoButtonInAddedMaintenanceAndInternalServicesInServiceSettings(),
     );
   }
 }

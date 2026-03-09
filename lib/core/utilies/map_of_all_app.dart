@@ -234,12 +234,13 @@ void getPages() {
       number: PagesOfAllApp.permissionsPageNumber,
       page: FirstScreenPermissions(),
     ),
-    const PageNodeModel(
-      name: AppLanguageKeys.advertisements,
-      image: AppImageKeys.banner,
-      number: PagesOfAllApp.advertisementsPageNumber,
-      page: FirstScreenAdvertisements(),
-    ),
+    // const PageNodeModel(
+    //   name: AppLanguageKeys.advertisements,
+    //   image: AppImageKeys.banner,
+    //   number: PagesOfAllApp.advertisementsPageNumber,
+    //   page: FirstScreenAdvertisements(),
+    // ),
+
     // const PageNodeModel(
     //     name: AppLanguageKeys.sparePartsSectionKey,
     //     image: AppImageKeys.spare,
@@ -256,12 +257,13 @@ void getPages() {
     //         page: InternalOrdersPage(),
     //       ),
     //     ]),
+
     const PageNodeModel(
         name: AppLanguageKeys.carMarketKey,
         image: AppImageKeys.sell,
         number: PagesOfAllApp.carPageNumber,
         children: [
-           PageNodeModel(
+          PageNodeModel(
             name: AppLanguageKeys.permissionsGroupPageKey,
             number: PagesOfAllApp.carsHarajStatisticsPageNumber,
             page: CarsHarajStatisticsPage(),

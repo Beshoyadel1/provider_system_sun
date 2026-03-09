@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:sun_web_system/core/cubit/app_cubit/app_cubit.dart';
+import 'package:sun_web_system/core/utilies/map_of_all_app.dart';
 import '../../../../../../core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
 import '../../../../../../features/service_settings/first_screen_service_settings/first_screen_service_settings.dart';
 import '../../../../../../features/service_settings/first_screen_service_settings/screens/container_return_to_page_setting.dart';
@@ -42,9 +44,7 @@ class DataIsMobileInFirstRowInDataContainerInListDataFirstScreenServiceSetting
                 text: textContainer,
                 onTap: onTap ??
                     () {
-                      Navigator.pop(context);
-                      Navigator.of(context).push(NavigateToPageWidget(
-                          const FirstScreenServiceSettings()));
+                      AppCubit.get(context).navigateToPage(PagesOfAllApp.serviceSettingsPageNumber);
                     },
               ),
             ),

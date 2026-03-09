@@ -24,9 +24,9 @@ class SharedPackagesInServiceSettings extends StatelessWidget {
         size.width <= ValuesOfAllApp.customTabWidth;
     bool isTab = size.width > ValuesOfAllApp.tabWidth;
 
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: AppColors.scaffoldColor,
-      body: const SafeArea(
+      body:  SafeArea(
         child: Padding(
           padding: EdgeInsets.all(20),
           child: Column(
@@ -40,14 +40,14 @@ class SharedPackagesInServiceSettings extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButtonScreen(
-        onPressed: () {
-          Navigator.pop(context);
-          Navigator.of(context).push(
-              NavigateToPageWidget(const AddSharedPackagesInServiceSettings()));
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      // floatingActionButton: FloatingActionButtonScreen(
+      //   onPressed: () {
+      //     Navigator.pop(context);
+      //     Navigator.of(context).push(
+      //         NavigateToPageWidget(const AddSharedPackagesInServiceSettings()));
+      //   },
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
     );
   }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:sun_web_system/core/cubit/app_cubit/app_cubit.dart';
+import 'package:sun_web_system/core/utilies/map_of_all_app.dart';
 import '../../../../../../features/service_settings/shared_packages_in_service_settings/shared_packages_in_service_settings.dart';
 import '../../../../../../features/service_settings/car_spare_parts_in_service_settings/car_spare_parts_in_service_settings.dart';
 import '../../../../../../features/service_settings/internal_maintenance_and_services_in_service_settings/internal_maintenance_and_services_in_service_settings.dart';
@@ -29,12 +31,7 @@ class DataContainerInListDataFirstScreenServiceSetting extends StatelessWidget {
             title: AppLanguageKeys.internalServices,
             isTaskEdit: true,
             onTap: () {
-              Navigator.pop(context);
-              Navigator.of(context).push(
-                NavigateToPageWidget(
-                  AddedMaintenanceAndInternalServicesInServiceSettings(),
-                ),
-              );
+              AppCubit.get(context).navigateToPage(PagesOfAllApp.maintenanceAndInteriorServicesPageNumber);
             },
           ),
           ContainerInDataContainerInListDataFirstScreenServiceSettingWidget(
@@ -42,36 +39,21 @@ class DataContainerInListDataFirstScreenServiceSetting extends StatelessWidget {
             title: AppLanguageKeys.mobileAndTransportServices,
             isTaskEdit: true,
             onTap: () {
-              Navigator.pop(context);
-              Navigator.of(context).push(
-                NavigateToPageWidget(
-                  InternalMaintenanceAndServicesInServiceSettings(),
-                ),
-              );
+              AppCubit.get(context).navigateToPage(PagesOfAllApp.mobileServicesAndTransportationPageNumber);
             },
           ),
           ContainerInDataContainerInListDataFirstScreenServiceSettingWidget(
             imagePath: AppImageKeys.car3_service,
             title: AppLanguageKeys.carSpareParts,
             onTap: () {
-              Navigator.pop(context);
-              Navigator.of(context).push(
-                NavigateToPageWidget(
-                  CarSparePartsInServiceSettings(),
-                ),
-              );
+              AppCubit.get(context).navigateToPage(PagesOfAllApp.carPartsPageNumber);
             },
           ),
           ContainerInDataContainerInListDataFirstScreenServiceSettingWidget(
             imagePath: AppImageKeys.car4_service,
             title: AppLanguageKeys.sharedPackages,
             onTap: () {
-              Navigator.pop(context);
-              Navigator.of(context).push(
-                NavigateToPageWidget(
-                  SharedPackagesInServiceSettings(),
-                ),
-              );
+              AppCubit.get(context).navigateToPage(PagesOfAllApp.sharedPackagesPageNumber);
             },
           ),
         ],

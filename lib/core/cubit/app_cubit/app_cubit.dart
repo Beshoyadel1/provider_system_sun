@@ -85,6 +85,12 @@ class AppCubit extends Cubit<AppStates> {
 
   List<PageNodeWithIDModel> openedPages = [];
 
+  void navigateToPage(int pageNumber) {
+    selectedPageIndex = pageNumber;
+    selectedPageFromOpenedPagesIndex = -1;
+    changeSelectedPageIndex();
+  }
+
   void changeOpenedPages() {
     emit(ChangeOpenedPagesState());
   }
