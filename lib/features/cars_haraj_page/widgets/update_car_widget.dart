@@ -46,7 +46,7 @@ class UpdateCarWidget extends StatelessWidget {
                   CustomContainer(
                     containerWidth: 120,
                     containerHeight: 40,
-                    padding: EdgeInsets.all(0),
+                    padding: const EdgeInsets.all(0),
                     containerColor: AppColors.darkGreyColor,
                     isSelected: false,
                     onTap: () {},

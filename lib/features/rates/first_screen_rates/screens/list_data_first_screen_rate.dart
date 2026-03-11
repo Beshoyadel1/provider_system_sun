@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
 import '../../../../../../core/api_functions/statistics/get_provider_main_service_statistics_model/get_provider_main_service_statistics_request.dart';
 import '../../../internal_orders/first_screen_internal_orders/logic/loading_dashboard/loading_dashboard_cubit.dart';
 import '../../../../../../features/internal_orders/first_screen_internal_orders/screens/container_image_title_with_sub_title/first_row_with_two_container_image_and_two_text.dart';
@@ -16,7 +17,6 @@ class ListDataFirstScreenRate extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ProviderRatesCubit, ProviderRatesState>(
       builder: (context, state) {
-
         if (state is ProviderRatesLoading) {
           return const Center(child: CircularProgressIndicator());
         }
@@ -31,12 +31,13 @@ class ListDataFirstScreenRate extends StatelessWidget {
             spacing: 30,
             children: [
               const FirstTitleInListDataFirstScreenRate(),
-
               BlocProvider(
                   create: (_) => InternalOrdersCubit()
-                    ..getStatistics(GetProviderMainServiceStatisticsRequest()),
+                    ..getStatistics(
+                      mainServiceId: MainCategoryConstants
+                          .maintenanceAndInternalServicesID,
+                    ),
                   child: const FirstRowWithTwoContainerImageAndTwoText()),
-
               TitleTotalRateInListDataFirstScreenRate(
                 averageRate: state.averageRate,
               ),

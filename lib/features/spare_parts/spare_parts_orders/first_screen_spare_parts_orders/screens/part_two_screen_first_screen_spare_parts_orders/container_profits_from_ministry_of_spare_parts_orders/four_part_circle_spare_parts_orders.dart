@@ -3,11 +3,11 @@ import 'package:sun_web_system/core/api_functions/statistics/get_provider_main_s
 import '../../../../../../../../core/theming/colors.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class FourPartDoughnut extends StatelessWidget {
+class FourPartCircleSparePartsOrders extends StatelessWidget {
 
   final List<SubServiceSummariesRequest> services;
 
-  const FourPartDoughnut({
+  const FourPartCircleSparePartsOrders({
     super.key,
     required this.services,
   });

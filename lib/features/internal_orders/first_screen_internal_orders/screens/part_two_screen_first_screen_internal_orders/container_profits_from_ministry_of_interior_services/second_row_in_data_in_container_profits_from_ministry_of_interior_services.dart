@@ -16,7 +16,6 @@ class SecondRowInDataInContainerProfitsFromMinistryOfInteriorServices
     return BlocBuilder<InternalOrdersCubit, InternalOrdersState>(
       builder: (context, state) {
         final services = state.services;
-
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: 10,

@@ -38,7 +38,7 @@ class AvailableListCars extends StatelessWidget {
                       : (car.car?.brandName ?? "");
 
                   return Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
+                    padding: const EdgeInsets.only(bottom: 19),
                     child: AvailableCars(
                       id: car.id.toString(),
                       releaseDate: car.releaseDate,

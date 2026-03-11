@@ -44,8 +44,8 @@ class GetProviderMainServiceStatisticsRequest {
 
   Map<String, dynamic> toJson() {
     return {
-      "providerId": providerId ?? 50,
-      "mainServiceId": mainServiceId ?? 1,
+      "providerId": providerId ,
+      "mainServiceId": mainServiceId,
       "startDate": startDate,
       "endDate": endDate,
       "branchId": branchId,

@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:sun_web_system/features/internal_orders/custom_widget/text_with_container_status_car.dart';
+import '../../../../../features/internal_orders/custom_widget/text_with_container_status_car.dart';
 import '../../../../../core/language/language_constant.dart';
 import '../../../../../core/theming/assets.dart';
 import '../../../../../core/theming/colors.dart';
 import '../../../../../core/pages_widgets/general_widgets/custom_container.dart';
 import '../../../../../core/theming/text_styles.dart';
-import '../../Internal_services_page/widgets/order_state.dart';
 import 'car_model.dart';
-import 'message_numbers.dart';
 
 class AvailableCars extends StatelessWidget {
   const AvailableCars({super.key,this.price,this.brandName,this.isSold=false,this.isNew=false,this.description,this.releaseDate,this.id, this.spacing, required this.onTap});
@@ -22,74 +20,72 @@ class AvailableCars extends StatelessWidget {
       isSelected: false,
       onTap: () {},
       borderRadius: BorderRadius.circular(12),
-      typeWidget: Center(
-        child: Wrap(
-          spacing: spacing ?? 35,
-          runSpacing: 10,
-          crossAxisAlignment: WrapCrossAlignment.center,
-          alignment: WrapAlignment.center,
-          children: [
-            TextInAppWidget(text: id??'1#', textSize: 16, textColor: AppColors.darkColor),
-             CarModel(
-              description:description ,
-              releaseDate:releaseDate ,
-            ),
-            // const OrderState(
-            //
-            // ),
-            TextWithContainerStatusCar(
-              isNew:isNew,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Image.asset(
-                  AppImageKeys.nesan,
-                  width: 30,
-                  height: 34,
-                  fit: BoxFit.contain,
-                ),
-                 TextInAppWidget(
-                    text: brandName??'نيسان',
-                    textSize: 14,
-                    textColor: AppColors.darkColor),
-              ],
-            ),
-            TextWithContainerStatusCar(
-              isSold:isSold,
-            ),
-          //  const MessageNumbers(),
-             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const TextInAppWidget(
-                    text: AppLanguageKeys.carPrice,
-                    textSize: 14,
-                    textColor: AppColors.darkColor),
-                TextInAppWidget(
-                    text: price??AppLanguageKeys.priceKey,
-                    textSize: 14,
-                    textColor: AppColors.darkColor),
-              ],
-            ),
-            CustomContainer(
-              containerHeight: 32,
-              containerWidth: 80,
-              border: Border.all(color: AppColors.orangeColor),
-              isSelected: true,
-              onTap: onTap,
-              padding: EdgeInsets.zero,
-              typeWidget: const Center(
-                child: TextInAppWidget(
-                    text: AppLanguageKeys.detailsKey,
-                    textSize: 14,
-                    textColor: AppColors.orangeColor),
+      typeWidget: Wrap(
+        spacing: spacing ?? 35,
+        runSpacing: 10,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        alignment: WrapAlignment.spaceBetween,
+        children: [
+          TextInAppWidget(text: id??'1#', textSize: 16, textColor: AppColors.darkColor),
+           CarModel(
+            description:description ,
+            releaseDate:releaseDate ,
+          ),
+          // const OrderState(
+          //
+          // ),
+          TextWithContainerStatusCar(
+            isNew:isNew,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Image.asset(
+                AppImageKeys.nesan,
+                width: 30,
+                height: 34,
+                fit: BoxFit.contain,
               ),
+               TextInAppWidget(
+                  text: brandName??'نيسان',
+                  textSize: 14,
+                  textColor: AppColors.darkColor),
+            ],
+          ),
+          TextWithContainerStatusCar(
+            isSold:isSold,
+          ),
+        //  const MessageNumbers(),
+           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const TextInAppWidget(
+                  text: AppLanguageKeys.carPrice,
+                  textSize: 14,
+                  textColor: AppColors.darkColor),
+              TextInAppWidget(
+                  text: price??AppLanguageKeys.priceKey,
+                  textSize: 14,
+                  textColor: AppColors.darkColor),
+            ],
+          ),
+          CustomContainer(
+            containerHeight: 32,
+            containerWidth: 80,
+            border: Border.all(color: AppColors.orangeColor),
+            isSelected: true,
+            onTap: onTap,
+            padding: EdgeInsets.zero,
+            typeWidget: const Center(
+              child: TextInAppWidget(
+                  text: AppLanguageKeys.detailsKey,
+                  textSize: 14,
+                  textColor: AppColors.orangeColor),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

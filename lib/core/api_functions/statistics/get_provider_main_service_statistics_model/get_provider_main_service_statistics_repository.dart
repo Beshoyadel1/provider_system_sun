@@ -8,8 +8,8 @@ import '../../../../core/api_functions/statistics/get_provider_main_service_stat
 import '../../../../core/api_functions/statistics/get_provider_main_service_statistics_model/get_provider_main_service_statistics_request.dart';
 import '../../../../core/api/dio_function/api_constants.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
-Future<StatisticsResponse>
-getProviderMainServiceStatisticsFunction({
+
+Future<StatisticsResponse> getProviderMainServiceStatisticsFunction({
   GetProviderMainServiceStatisticsRequest? request,
 }) async {
   try {
@@ -31,9 +31,8 @@ getProviderMainServiceStatisticsFunction({
 
     final chartJson = data["salesChart"]?["dataPoints"] ?? [];
 
-    final chartPoints = (chartJson as List)
-        .map((e) => DataPointsRequest.fromJson(e))
-        .toList();
+    final chartPoints =
+        (chartJson as List).map((e) => DataPointsRequest.fromJson(e)).toList();
 
     AppSnackBar.showSuccess(
       AppLanguageKeys.getProviderMainServiceStatisticsSuccessfully,
@@ -43,20 +42,13 @@ getProviderMainServiceStatisticsFunction({
       averageRate: averageRate,
       chartPoints: chartPoints,
     );
-
-
   } catch (e) {
-
     AppSnackBar.showError(
       e is DioException
           ? responseOfStatusCode(e.response?.statusCode)
           : e.toString(),
     );
 
-    return StatisticsResponse(
-      services: [],
-      averageRate: 0,
-      chartPoints: []
-    );
+    return StatisticsResponse(services: [], averageRate: 0, chartPoints: []);
   }
 }

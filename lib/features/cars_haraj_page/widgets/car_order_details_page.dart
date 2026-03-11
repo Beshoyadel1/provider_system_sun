@@ -21,7 +21,7 @@ class CarOrderDetailsPage extends StatelessWidget {
             child: BlocBuilder<NewOrdersCubit, NewOrdersState>(
                 buildWhen: (previous, current) => current is ChangeIndexState,
                 builder: (context, state) {
-                  final cubit = context.read<NewOrdersCubit>();
+                //  final cubit = context.read<NewOrdersCubit>();
                   return SingleChildScrollView(
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),

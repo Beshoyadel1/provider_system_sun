@@ -24,7 +24,7 @@ class ContainerPercentage extends StatelessWidget {
         ],
       ),
       child: TextInAppWidget(
-        text: "$percentage%",
+        text: percentage,
         textSize: 12,
         fontWeightIndex: FontSelectionData.mediumFontFamily,
         textColor: AppColors.darkColor,

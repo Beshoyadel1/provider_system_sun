@@ -21,7 +21,7 @@ class FirstScreenNotifications extends StatelessWidget {
       backgroundColor: AppColors.scaffoldColor,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.all(19),
           child: Column(
             children: [
               Expanded(
