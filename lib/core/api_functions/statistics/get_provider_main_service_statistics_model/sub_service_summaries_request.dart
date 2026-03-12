@@ -27,7 +27,7 @@ class SubServiceSummariesRequest {
       "serviceName": serviceName??"",
       "serviceLatinName": serviceLatinName??"",
       "image": image != null ? base64Encode(image!) : null,
-      "orderCount": orderCount??0,
+      "orderCount": orderCount,
     };
   }
 }

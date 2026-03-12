@@ -23,10 +23,8 @@ Future<StatisticsResponse> getProviderMainServiceStatisticsFunction({
 
     final List servicesJson = data["subServiceSummaries"];
 
-    final services = servicesJson
-        .map((e) => SubServiceSummariesRequest.fromJson(e))
+    final services = servicesJson.map((e) => SubServiceSummariesRequest.fromJson(e))
         .toList();
-
     final averageRate = (data["averageRate"] ?? 0).toDouble();
 
     final chartJson = data["salesChart"]?["dataPoints"] ?? [];
@@ -48,7 +46,6 @@ Future<StatisticsResponse> getProviderMainServiceStatisticsFunction({
           ? responseOfStatusCode(e.response?.statusCode)
           : e.toString(),
     );
-
     return StatisticsResponse(services: [], averageRate: 0, chartPoints: []);
   }
 }

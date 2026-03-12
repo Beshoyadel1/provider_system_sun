@@ -56,7 +56,7 @@ class FirstRowWithTwoContainerImageAndTwoTextSparePartsOrders extends StatelessW
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 5),
                       child: ContainerWithImageContainerAndTwoTextWidget(
-                        imagePath: images[index % images.length],
+                        imagePath: service.image,
                         title: title,
                         subTitle: '${service.orderCount ?? 0} ${AppLocalizations.of(context).translate(AppLanguageKeys.order)}',
                       ),

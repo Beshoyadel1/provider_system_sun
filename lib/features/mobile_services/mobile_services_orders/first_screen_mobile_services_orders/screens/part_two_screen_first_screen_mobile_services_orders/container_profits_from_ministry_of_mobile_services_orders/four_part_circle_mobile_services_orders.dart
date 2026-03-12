@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
 import 'package:sun_web_system/core/api_functions/statistics/get_provider_main_service_statistics_model/sub_service_summaries_request.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:sun_web_system/core/theming/fonts.dart';
@@ -7,11 +6,11 @@ import 'package:sun_web_system/core/theming/text_styles.dart';
 import '../../../../../../../../core/theming/colors.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class FourPartDoughnut extends StatelessWidget {
+class FourPartCircleMobileServicesOrders extends StatelessWidget {
 
   final List<SubServiceSummariesRequest> services;
 
-  const FourPartDoughnut({
+  const FourPartCircleMobileServicesOrders({
     super.key,
     required this.services,
   });
@@ -120,3 +119,13 @@ class ChartData {
   final Color color;
 }
 
+Color legendColor(int index) {
+  const colors = [
+    AppColors.brownColor,
+    AppColors.lightBlueColor,
+    AppColors.greenColor,
+    AppColors.orangeColor,
+    AppColors.purpleColor,
+  ];
+  return colors[index % colors.length];
+}

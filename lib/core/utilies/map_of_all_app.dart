@@ -1,4 +1,6 @@
 import 'package:sun_web_system/features/advertisements/first_screen_advertisements/first_screen_advertisements.dart';
+import 'package:sun_web_system/features/mobile_services/mobile_services_orders/first_screen_mobile_services_orders/first_screen_mobile_services_orders.dart';
+import 'package:sun_web_system/features/mobile_services/mobile_services_statistics/spare_parts_page/ui/mobile_services_statistics_page.dart';
 import 'package:sun_web_system/features/spare_parts/spare_parts_orders/first_screen_spare_parts_orders/first_screen_spare_parts_orders.dart';
 import 'package:sun_web_system/features/spare_parts/spare_parts_statistics/spare_parts_page/ui/spare_parts_statistics_page.dart';
 import '../../../core/general_models/pages_model.dart';
@@ -182,16 +184,23 @@ class PagesOfAllApp {
   static const int carPartsPageNumber = 509;
   static const String sharedPackagesPage = 'Shared_Packages_Page';
   static const int sharedPackagesPageNumber = 510;
-  static const String mobileServicesAndTransportationPage = 'Mobile_Services_and_Transportation_Page';
+  static const String mobileServicesAndTransportationPage =
+      'Mobile_Services_and_Transportation_Page';
   static const int mobileServicesAndTransportationPageNumber = 511;
 
   static const String sparePartsPage = 'spare_Parts_Page_Number_Page';
   static const int sparePartsPageNumber = 512;
-  static const String sparePartsOrdersPage = 'spare_Parts_orders_Page_Number_Page';
+  static const String sparePartsOrdersPage =
+      'spare_Parts_orders_Page_Number_Page';
   static const int sparePartsOrdersPageNumber = 513;
 
-  static const String sparePartsStaticsPage = 'spare_parts_statics_page_number_page';
+  static const String sparePartsStaticsPage =
+      'spare_parts_statics_page_number_page';
   static const int sparePartsStaticsPageNumber = 514;
+
+  static const int mobileServicePageNumber = 515;
+  static const int mobileServiceOrdersPageNumber = 516;
+  static const int mobileServiceStaticsPageNumber = 517;
 }
 
 List<PageNodeModel> appPages = [];
@@ -235,6 +244,22 @@ void getPages() {
             name: AppLanguageKeys.order,
             number: PagesOfAllApp.sparePartsStaticsPageNumber,
             page: SparePartsStatisticsPage(),
+          ),
+        ]),
+    const PageNodeModel(
+        name: AppLanguageKeys.mobileServices,
+        image: AppImageKeys.mobile_maintenance,
+        number: PagesOfAllApp.mobileServicePageNumber,
+        children: [
+          PageNodeModel(
+            name: AppLanguageKeys.statistics,
+            number: PagesOfAllApp.mobileServiceOrdersPageNumber,
+            page: FirstScreenMobileServicesOrders(),
+          ),
+          PageNodeModel(
+            name: AppLanguageKeys.order,
+            number: PagesOfAllApp.mobileServiceStaticsPageNumber,
+            page: MobileServicesStatisticsPage(),
           ),
         ]),
     const PageNodeModel(

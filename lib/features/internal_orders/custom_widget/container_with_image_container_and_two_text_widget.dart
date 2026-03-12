@@ -1,11 +1,13 @@
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import '../../../../../core/theming/colors.dart';
 import '../../../../../core/theming/fonts.dart';
 import '../../../../../core/theming/text_styles.dart';
 
 class ContainerWithImageContainerAndTwoTextWidget extends StatelessWidget {
-  final String imagePath, title, subTitle;
-
+  final String title, subTitle;
+  final Uint8List? imagePath;
   const ContainerWithImageContainerAndTwoTextWidget({
     super.key,
     required this.imagePath,
@@ -46,10 +48,7 @@ class ContainerWithImageContainerAndTwoTextWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Image.asset(
-                imagePath,
-                width: 30,
-              ),
+              child: Image.memory(imagePath!,width: 30,)
             ),
           ),
           Column(

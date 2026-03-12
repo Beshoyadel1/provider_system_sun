@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
 import 'package:sun_web_system/core/api_functions/statistics/get_provider_main_service_statistics_model/sub_service_summaries_request.dart';
 import '../../../../../../core/theming/colors.dart';
 import '../../../../../../features/internal_orders/custom_widget/row_circle_color_text_percentage_widget.dart';
+
 class ServicesLegendList extends StatelessWidget {
 
+  /// قائمة الخدمات القادمة من الـ API
   final List<SubServiceSummariesRequest> services;
 
   const ServicesLegendList({
@@ -11,6 +14,7 @@ class ServicesLegendList extends StatelessWidget {
     required this.services,
   });
 
+  /// ترتيب الخدمات حسب عدد الطلبات (من الأكبر إلى الأصغر)
   List<SubServiceSummariesRequest> get _sortedServices {
     final sorted = List<SubServiceSummariesRequest>.from(services);
 
@@ -24,8 +28,14 @@ class ServicesLegendList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    /// تحديد اللغة الحالية
     final isArabic =
         Localizations.localeOf(context).languageCode == 'ar';
+
+    /// إذا لم توجد بيانات لا نعرض شيء
+    if (services.isEmpty) {
+      return const SizedBox();
+    }
 
     return ListView.separated(
       shrinkWrap: true,
@@ -35,31 +45,26 @@ class ServicesLegendList extends StatelessWidget {
       itemBuilder: (context, index) {
 
         final service = _sortedServices[index];
-
+        print("services data:");
+        for (var s in services) {
+          print("${s.serviceName} : ${s.orderCount}");
+        }
+        /// اختيار اسم الخدمة حسب اللغة
         final title = isArabic
             ? (service.serviceName ?? '')
             : (service.serviceLatinName ?? '');
 
-        final count = service.orderCount ?? 0;
+        /// عدد الطلبات
+        final orderCount = service.orderCount ?? 0;
 
         return RowCircleColorTextPercentageWidget(
           colorCircle: legendColor(index),
           text: title,
-          percentage: count.toString(),
+
+          /// عرض عدد الطلبات مباشرة
+          percentage: orderCount.toString(),
         );
       },
     );
   }
-}
-
-Color legendColor(int index) {
-  const colors = [
-    AppColors.brownColor,
-    AppColors.lightBlueColor,
-    AppColors.greenColor,
-    AppColors.orangeColor,
-    AppColors.purpleColor,
-  ];
-
-  return colors[index % colors.length];
 }

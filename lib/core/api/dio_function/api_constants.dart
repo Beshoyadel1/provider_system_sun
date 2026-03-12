@@ -1,3 +1,7 @@
+import 'dart:ui';
+
+import 'package:sun_web_system/core/theming/colors.dart';
+
 class ApiConfig {
   static const String baseUrlApi = "http://89.117.62.174:809";
   static const String user = "Users";
@@ -384,4 +388,20 @@ class UserType {
   static const int providerUser = 4;
   static const int employeeUser = 5;
   static const int adminUser = 6;
+}
+
+Color legendColor(int index) {
+  const colors = [
+    AppColors.brownColor,
+    AppColors.lightBlueColor,
+    AppColors.greenColor,
+    AppColors.orangeColor,
+    AppColors.purpleColor,
+    AppColors.yelloIconLoadingColor,
+    AppColors.redColor,
+    AppColors.cyanColor,
+    AppColors.blackColor
+  ];
+
+  return colors[index % colors.length];
 }

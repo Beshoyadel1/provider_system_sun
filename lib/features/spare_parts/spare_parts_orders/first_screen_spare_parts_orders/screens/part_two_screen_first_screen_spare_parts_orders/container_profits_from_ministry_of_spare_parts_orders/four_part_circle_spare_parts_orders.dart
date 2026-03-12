@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
 import 'package:sun_web_system/core/api_functions/statistics/get_provider_main_service_statistics_model/sub_service_summaries_request.dart';
+import 'package:sun_web_system/core/language/language_constant.dart';
+import 'package:sun_web_system/core/theming/fonts.dart';
+import 'package:sun_web_system/core/theming/text_styles.dart';
 import '../../../../../../../../core/theming/colors.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class FourPartCircleSparePartsOrders extends StatelessWidget {
-
   final List<SubServiceSummariesRequest> services;
 
   const FourPartCircleSparePartsOrders({
@@ -16,14 +19,13 @@ class FourPartCircleSparePartsOrders extends StatelessWidget {
     final sorted = List<SubServiceSummariesRequest>.from(services);
 
     sorted.sort(
-          (a, b) => (b.orderCount ?? 0).compareTo(a.orderCount ?? 0),
+      (a, b) => (b.orderCount ?? 0).compareTo(a.orderCount ?? 0),
     );
 
     return sorted;
   }
 
   List<ChartData> get _chartData {
-
     if (services.isEmpty) {
       return [
         ChartData('', 1, AppColors.lightGreyColor),
@@ -31,17 +33,12 @@ class FourPartCircleSparePartsOrders extends StatelessWidget {
     }
 
     return _sortedServices.asMap().entries.map((entry) {
-
       final index = entry.key;
       final service = entry.value;
 
-      final title =
-          service.serviceName ??
-              service.serviceLatinName ??
-              '';
+      final title = service.serviceName ?? service.serviceLatinName ?? '';
 
-      final double value =
-      (service.orderCount ?? 0) == 0
+      final double value = (service.orderCount ?? 0) == 0
           ? 0.2
           : (service.orderCount ?? 0).toDouble();
 
@@ -50,20 +47,18 @@ class FourPartCircleSparePartsOrders extends StatelessWidget {
         value,
         legendColor(index),
       );
-
     }).toList();
   }
 
   int get _totalOrders {
     return services.fold<int>(
       0,
-          (sum, s) => sum + (s.orderCount ?? 0),
+      (sum, s) => sum + (s.orderCount ?? 0),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-
     return SizedBox(
       height: 170,
       child: SfCircularChart(
@@ -73,14 +68,18 @@ class FourPartCircleSparePartsOrders extends StatelessWidget {
             widget: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  _totalOrders.toString(),
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+                TextInAppWidget(
+                  text: _totalOrders.toString(),
+                  textSize: 15,
+                  textColor: AppColors.blackColor,
+                  fontWeightIndex: FontSelectionData.boldFontFamily,
                 ),
-                const Text("Orders"),
+                const TextInAppWidget(
+                  text: AppLanguageKeys.ordersKey,
+                  textSize: 12,
+                  textColor: AppColors.blackColor,
+                  fontWeightIndex: FontSelectionData.regularFontFamily,
+                ),
               ],
             ),
           )
@@ -94,8 +93,7 @@ class FourPartCircleSparePartsOrders extends StatelessWidget {
             innerRadius: '70%',
             strokeColor: AppColors.whiteColor,
             strokeWidth: 2,
-            dataLabelSettings:
-            const DataLabelSettings(isVisible: false),
+            dataLabelSettings: const DataLabelSettings(isVisible: false),
           ),
         ],
       ),
@@ -104,21 +102,9 @@ class FourPartCircleSparePartsOrders extends StatelessWidget {
 }
 
 class ChartData {
-
   ChartData(this.x, this.y, this.color);
 
   final String x;
   final double y;
   final Color color;
-}
-
-Color legendColor(int index) {
-  const colors = [
-    AppColors.brownColor,
-    AppColors.lightBlueColor,
-    AppColors.greenColor,
-    AppColors.orangeColor,
-    AppColors.purpleColor,
-  ];
-  return colors[index % colors.length];
 }
