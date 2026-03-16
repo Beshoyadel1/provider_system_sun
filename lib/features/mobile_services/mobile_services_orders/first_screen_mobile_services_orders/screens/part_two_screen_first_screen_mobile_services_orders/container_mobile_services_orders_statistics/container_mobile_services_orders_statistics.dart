@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:sun_web_system/features/mobile_services/mobile_services_orders/first_screen_mobile_services_orders/screens/part_two_screen_first_screen_mobile_services_orders/container_mobile_services_orders_statistics/data_in_container_mobile_services_orders_statistics.dart';
 import 'package:sun_web_system/features/spare_parts/spare_parts_orders/first_screen_spare_parts_orders/screens/part_two_screen_first_screen_spare_parts_orders/container_spare_parts_orders_statistics/data_in_container_spare_parts_orders_statistics.dart';
-import '../../../../../../../../features/internal_orders/first_screen_internal_orders/screens/part_two_screen_first_screen_internal_orders/container_interior_services_statistics/data_in_container_interior_services_statistics.dart';
+import '../../../../../../../../features/internal_services/internal_orders/first_screen_internal_orders/screens/part_two_screen_first_screen_internal_orders/container_interior_services_statistics/data_in_container_interior_services_statistics.dart';
 import '../../../../../../../../core/theming/colors.dart';
 
 class ContainerMobileServicesOrdersStatistics extends StatelessWidget {

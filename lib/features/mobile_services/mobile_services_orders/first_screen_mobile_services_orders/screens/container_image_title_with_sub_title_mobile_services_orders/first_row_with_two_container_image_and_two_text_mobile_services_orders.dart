@@ -4,9 +4,9 @@ import 'package:sun_web_system/core/language/language.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:sun_web_system/core/theming/assets.dart';
 import 'package:sun_web_system/core/utilies/map_of_all_app.dart';
-import 'package:sun_web_system/features/internal_orders/custom_widget/container_with_image_container_and_two_text_widget.dart';
-import 'package:sun_web_system/features/internal_orders/first_screen_internal_orders/logic/loading_dashboard/loading_dashboard_cubit.dart';
-import 'package:sun_web_system/features/internal_orders/first_screen_internal_orders/logic/loading_dashboard/loading_dashboard_state.dart';
+import 'package:sun_web_system/features/internal_services/internal_orders/custom_widget/container_with_image_container_and_two_text_widget.dart';
+import 'package:sun_web_system/features/internal_services/internal_orders/first_screen_internal_orders/logic/loading_dashboard/loading_dashboard_cubit.dart';
+import 'package:sun_web_system/features/internal_services/internal_orders/first_screen_internal_orders/logic/loading_dashboard/loading_dashboard_state.dart';
 
 class FirstRowWithTwoContainerImageAndTwoTextMobileServicesOrders extends StatelessWidget {
   const FirstRowWithTwoContainerImageAndTwoTextMobileServicesOrders({super.key});

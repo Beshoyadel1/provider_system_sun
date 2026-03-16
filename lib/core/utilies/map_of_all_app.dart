@@ -1,17 +1,16 @@
 import 'package:sun_web_system/features/advertisements/first_screen_advertisements/first_screen_advertisements.dart';
+import 'package:sun_web_system/features/internal_services/internal_services_statistics/Internal_services_page/ui/internal_orders_page.dart';
 import 'package:sun_web_system/features/mobile_services/mobile_services_orders/first_screen_mobile_services_orders/first_screen_mobile_services_orders.dart';
 import 'package:sun_web_system/features/mobile_services/mobile_services_statistics/spare_parts_page/ui/mobile_services_statistics_page.dart';
 import 'package:sun_web_system/features/spare_parts/spare_parts_orders/first_screen_spare_parts_orders/first_screen_spare_parts_orders.dart';
 import 'package:sun_web_system/features/spare_parts/spare_parts_statistics/spare_parts_page/ui/spare_parts_statistics_page.dart';
 import '../../../core/general_models/pages_model.dart';
-import '../../../features/Internal_services_page/ui/Internal_and_services_statistics_page.dart';
-import '../../../features/Internal_services_page/ui/internal_orders_page.dart';
 import '../../../features/Petroleum_Service/All_Orders_Are_Filled_Petroleum_Filling_Requests/All_Orders_Are_Filled_Petroleum_Filling_Requests.dart';
 import '../../../features/cars_haraj_page/ui/car_haraj_orders_page.dart';
 import '../../../features/cars_haraj_page/ui/cars_haraj_statistics_page.dart';
 import '../../../features/communication_and_policies_pages/first_screen_communication_and_policies_pages/first_screen_communication_and_policies_pages.dart';
 import '../../../features/dashboard_page/dashboard_page.dart';
-import '../../../features/internal_orders/first_screen_internal_orders/first_screen_internal_orders.dart';
+import '../../../features/internal_services/internal_orders/first_screen_internal_orders/first_screen_internal_orders.dart';
 import '../../../features/notifications/first_screen_advertisements/first_screen_notifications.dart';
 import '../../../features/petroleum_service/facility_management/facility_management/facility_management.dart';
 import '../../../features/petroleum_service/oil_products/oil_products.dart';
@@ -201,6 +200,11 @@ class PagesOfAllApp {
   static const int mobileServicePageNumber = 515;
   static const int mobileServiceOrdersPageNumber = 516;
   static const int mobileServiceStaticsPageNumber = 517;
+
+  static const int orderDetailsOnTheWayEmpPageNumber = 518;
+  static const int orderDetailsOrderReceivedEmpPageNumber = 519;
+  static const int orderDetailsNewOrderEmpPageNumber = 520;
+  static const int orderDetailsUnderServiceEmpPageNumber = 521;
 }
 
 List<PageNodeModel> appPages = [];

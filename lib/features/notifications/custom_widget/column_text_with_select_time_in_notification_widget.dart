@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:sun_web_system/features/internal_services/internal_orders/custom_widget/select_time_profit_service_widget.dart';
 import '../../../../../core/language/language_constant.dart';
 import '../../../../../core/theming/colors.dart';
 import '../../../../../core/theming/fonts.dart';
 import '../../../../../core/theming/text_styles.dart';
-import '../../internal_orders/custom_widget/select_time_profit_service_widget.dart';
 
 class ColumnTextWithSelectTimeInNotificationWidget extends StatelessWidget {
   final String text;
@@ -13,7 +13,7 @@ class ColumnTextWithSelectTimeInNotificationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       spacing: 5,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -23,7 +23,7 @@ class ColumnTextWithSelectTimeInNotificationWidget extends StatelessWidget {
           fontWeightIndex: FontSelectionData.regularFontFamily,
           textColor: AppColors.blackColor,
         ),
-        SelectTimeProfitServiceWidget(
+         SelectTimeProfitServiceWidget(
           hint: '00/00/0000',
           isTime: true,
           backGroundColor: AppColors.whiteColor,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sun_web_system/core/utilies/map_of_all_app.dart';
 import '../../../../core/general_models/general_model.dart';
 import '../../../../core/general_models/pages_model.dart';
 import 'app_states.dart';
@@ -90,7 +91,6 @@ class AppCubit extends Cubit<AppStates> {
     selectedPageFromOpenedPagesIndex = -1;
     changeSelectedPageIndex();
   }
-
   void changeOpenedPages() {
     emit(ChangeOpenedPagesState());
   }

@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import '../../../../../../../../features/internal_orders/custom_widget/row_text_icon_orange.dart';
+import '../../../../../../../../features/internal_services/internal_orders/custom_widget/row_text_icon_orange.dart';
 import '../../../../../../../../core/theming/assets.dart';
 import '../../../../../../../../core/theming/colors.dart';
 import '../../../../../../../../core/theming/fonts.dart';

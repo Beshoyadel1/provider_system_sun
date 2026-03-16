@@ -6,7 +6,7 @@ import 'package:sun_web_system/core/pages_widgets/general_widgets/custom_contain
 import 'package:sun_web_system/core/theming/colors.dart';
 import 'package:sun_web_system/core/theming/text_styles.dart';
 import 'package:sun_web_system/features/cars_haraj_page/model/filter_orders_model/filter_orders_model.dart';
-import 'package:sun_web_system/features/internal_orders/first_screen_internal_orders/logic/tabs_cubit/tabs_cubit.dart';
+import 'package:sun_web_system/features/internal_services/internal_orders/first_screen_internal_orders/logic/tabs_cubit/tabs_cubit.dart';
 import 'package:sun_web_system/features/spare_parts/spare_parts_statistics/spare_parts_page/widgets/filters_tabs_widget_spare_parts_statistics.dart';
 
 class OrdersPageSparePartsStatistics extends StatelessWidget {

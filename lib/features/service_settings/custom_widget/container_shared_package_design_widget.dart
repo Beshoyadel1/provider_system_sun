@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../../../../../../features/service_settings/custom_widget/container_package_widget.dart';
-import '../../../../../../../../features/internal_orders/custom_widget/row_number_coin_widget.dart';
+import '../../../../../../../../features/internal_services/internal_orders/custom_widget/row_number_coin_widget.dart';
 import '../../../../../features/service_settings/custom_widget/row_text_correct.dart';
 import '../../../../../core/language/language_constant.dart';
 import '../../../../../core/theming/assets.dart';

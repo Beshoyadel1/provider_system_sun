@@ -5,9 +5,9 @@ import 'package:sun_web_system/features/mobile_services/mobile_services_orders/f
 import 'package:sun_web_system/features/spare_parts/spare_parts_orders/first_screen_spare_parts_orders/screens/part_two_screen_first_screen_spare_parts_orders/container_profits_from_ministry_of_spare_parts_orders/container_profits_from_ministry_of_spare_parts_orders.dart';
 import 'package:sun_web_system/features/spare_parts/spare_parts_orders/first_screen_spare_parts_orders/screens/part_two_screen_first_screen_spare_parts_orders/container_spare_parts_orders_statistics/container_spare_parts_orders_statistics.dart';
 import '../../../../../core/utilies/map_of_all_app.dart';
-import '../../../../../features/internal_orders/first_screen_internal_orders/logic/loading_dashboard/loading_dashboard_cubit.dart';
-import '../../../../../features/internal_orders/first_screen_internal_orders/logic/loading_dashboard/loading_dashboard_state.dart';
-import '../../../../../features/internal_orders/first_screen_internal_orders/screens/part_two_screen_first_screen_internal_orders/container_interior_services_statistics/container_interior_services_statistics.dart';
+import '../../../../../features/internal_services/internal_orders/first_screen_internal_orders/logic/loading_dashboard/loading_dashboard_cubit.dart';
+import '../../../../../features/internal_services/internal_orders/first_screen_internal_orders/logic/loading_dashboard/loading_dashboard_state.dart';
+import '../../../../../features/internal_services/internal_orders/first_screen_internal_orders/screens/part_two_screen_first_screen_internal_orders/container_interior_services_statistics/container_interior_services_statistics.dart';
 import '../../../../../features/spare_parts/spare_parts_orders/first_screen_spare_parts_orders/screens/big_container_of_new_orders_spare_parts/container_new_order_in_list_data_first_screen_spare_parts.dart';
 import '../../../../../features/spare_parts/spare_parts_orders/first_screen_spare_parts_orders/screens/container_image_title_with_sub_title_spare_parts_orders/first_row_with_two_container_image_and_two_text_spare_parts_orders.dart';
 

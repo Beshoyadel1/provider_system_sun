@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:sun_web_system/features/cars_haraj_page/logic/get_all_harage_cubit/get_all_harage_cubit.dart';
 import 'package:sun_web_system/features/cars_haraj_page/widgets/filters_tabs_car_widget.dart';
-import 'package:sun_web_system/features/internal_orders/first_screen_internal_orders/logic/tabs_cubit/tabs_cubit.dart';
+import 'package:sun_web_system/features/internal_services/internal_orders/first_screen_internal_orders/logic/tabs_cubit/tabs_cubit.dart';
 import '../../../../../features/cars_haraj_page/model/filter_orders_model/filter_orders_model.dart';
 import '../../../../../core/cubit/new_orders_cubit/new_orders_cubit.dart';
 import '../../../../../core/theming/colors.dart';

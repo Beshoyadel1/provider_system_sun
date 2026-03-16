@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/features/internal_services/internal_services_statistics/Internal_services_page/widgets/order_date.dart';
+import 'package:sun_web_system/features/internal_services/internal_services_statistics/Internal_services_page/widgets/order_state.dart';
 import '../../../../../core/language/language_constant.dart';
 
 import '../../../../../core/theming/assets.dart';
 import '../../../../../core/theming/colors.dart';
-import '../../Internal_services_page/widgets/order_date.dart';
-import '../../Internal_services_page/widgets/order_state.dart';
 import '../../../../../core/pages_widgets/general_widgets/custom_container.dart';
 import '../../../../../core/theming/text_styles.dart';
 import 'car_model.dart';

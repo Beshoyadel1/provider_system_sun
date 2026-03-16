@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../../features/internal_orders/custom_widget/text_with_container_status_car.dart';
+import 'package:sun_web_system/features/internal_services/internal_orders/custom_widget/text_with_container_status_car.dart';
 import '../../../../../core/language/language_constant.dart';
 import '../../../../../core/theming/assets.dart';
 import '../../../../../core/theming/colors.dart';

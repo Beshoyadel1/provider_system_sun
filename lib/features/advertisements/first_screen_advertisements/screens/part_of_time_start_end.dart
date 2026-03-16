@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import '../../../../../../features/internal_orders/custom_widget/select_time_profit_service_widget.dart';
+import 'package:sun_web_system/features/internal_services/internal_orders/custom_widget/select_time_profit_service_widget.dart';
 import '../../../../../../core/language/language_constant.dart';
 import '../../../../../../core/theming/colors.dart';
 import '../../../../../../core/theming/fonts.dart';
@@ -10,11 +10,11 @@ class PartOfTimeStartEnd extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       spacing: 10,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TextInAppWidget(
+         TextInAppWidget(
           text: AppLanguageKeys.durationFromTo,
           textSize: 13,
           fontWeightIndex: FontSelectionData.regularFontFamily,
