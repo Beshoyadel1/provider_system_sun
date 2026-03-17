@@ -84,15 +84,15 @@ class _FiltersTabsWidgetSparePartsStatisticsState extends State<FiltersTabsWidge
             Expanded(
               child: BlocProvider(
                 create: (_) => GetProviderInternalOrderCubit()
-                  ..loadInternalOrders(serviceId: MainCategoryConstants.carSparePartsID,
+                  ..loadInternalOrders(
+                    serviceId: MainCategoryConstants.carSparePartsID,
+                    pageNumber: 1
                   ),
                 child: TabBarView(
                   controller: _tabController,
                   children: List.generate(
                     widget.filterOptions.length,
-                        (index) => const SingleChildScrollView(
-                      child: FilterDesignSparePartsStatistics(),
-                    ),
+                        (index) => const FilterDesignSparePartsStatistics(),
                   ),
                 ),
               ),

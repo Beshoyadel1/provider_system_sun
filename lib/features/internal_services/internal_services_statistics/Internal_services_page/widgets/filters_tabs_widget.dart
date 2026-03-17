@@ -90,9 +90,7 @@ class _FiltersTabsWidgetState extends State<FiltersTabsWidget>
                   controller: _tabController,
                   children: List.generate(
                     widget.filterOptions.length,
-                        (index) => const SingleChildScrollView(
-                      child: FilterDesignInternalOrders(),
-                    ),
+                        (index) => const FilterDesignInternalOrders(),
                   ),
                 ),
               ),

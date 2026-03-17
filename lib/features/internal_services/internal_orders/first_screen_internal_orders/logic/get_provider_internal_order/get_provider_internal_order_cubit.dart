@@ -16,11 +16,15 @@ class GetProviderInternalOrderLoading
 
 class GetProviderInternalOrderSuccess extends GetProviderInternalOrderState {
   final List<OrderModel> orders;
+  final int currentPage;
 
-  const GetProviderInternalOrderSuccess(this.orders);
+  const GetProviderInternalOrderSuccess(
+      this.orders, {
+        this.currentPage = 1,
+      });
 
   @override
-  List<Object?> get props => [orders];
+  List<Object?> get props => [orders, currentPage];
 }
 
 class GetProviderInternalOrderError

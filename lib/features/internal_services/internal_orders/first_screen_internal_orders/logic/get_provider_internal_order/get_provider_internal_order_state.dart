@@ -13,6 +13,7 @@ class GetProviderInternalOrderCubit
   Future<void> loadInternalOrders({
      int? orderType,
      int? serviceId,
+      int ?pageNumber,
   }) async {
 
     emit(GetProviderInternalOrderLoading());
@@ -29,13 +30,18 @@ class GetProviderInternalOrderCubit
         getProviderOrdersRequest: GetProviderOrdersRequest(
           providerId: user.userid,
           employeeId: 0,
-          pageNumber: 1,
+          pageNumber: pageNumber??1,
           orderType: orderType,
           serviceId: serviceId,
         ),
       );
 
-      emit(GetProviderInternalOrderSuccess(response.data ?? []));
+      emit(
+        GetProviderInternalOrderSuccess(
+          response.data ?? [],
+          currentPage: pageNumber ?? 1,
+        ),
+      );
     } catch (e) {
       emit(GetProviderInternalOrderError(e.toString()));
     }

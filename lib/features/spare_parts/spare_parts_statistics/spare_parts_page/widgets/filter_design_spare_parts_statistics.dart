@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/internal_services/internal_orders/first_screen_internal_orders/logic/tabs_cubit/tabs_cubit.dart';
+import 'package:sun_web_system/features/spare_parts/custom_widget/app_pagination.dart';
+
 import '../../../../../../core/api/dio_function/api_constants.dart';
 import '../../../../../../features/internal_services/internal_orders/first_screen_internal_orders/logic/get_provider_internal_order/get_provider_internal_order_cubit.dart';
 import '../../../../../../features/internal_services/internal_orders/first_screen_internal_orders/logic/get_provider_internal_order/get_provider_internal_order_state.dart';
+
 import '../../../../../../core/theming/assets.dart';
 import '../../../../../../core/language/language_constant.dart';
+
 import '../../../../../../features/internal_services/internal_orders/custom_widget/Container_of_second_part_data_container_in_list_data_first_screen_internal_orders_widget.dart';
 
-class FilterDesignSparePartsStatistics
-    extends StatelessWidget {
-  const FilterDesignSparePartsStatistics({
-    super.key,
-  });
+class FilterDesignSparePartsStatistics extends StatelessWidget {
+  const FilterDesignSparePartsStatistics({super.key});
 
   String _formatDate(String? date) {
     if (date == null || date.isEmpty) return "";
@@ -39,69 +40,83 @@ class FilterDesignSparePartsStatistics
           List orders;
 
           switch (selectedTab) {
-            case 1: // New Orders
+            case 1:
               orders = allOrders
                   .where((o) =>
-              o.orderStatus ==
-                  OrderStatus.newOrderForProvider)
+              o.orderStatus == OrderStatus.newOrderForProvider)
                   .toList();
               break;
 
-            case 2: // Completed
+            case 2:
               orders = allOrders
                   .where((o) =>
-              o.orderStatus ==
-                  OrderStatus.orderCompleted)
+              o.orderStatus == OrderStatus.orderCompleted)
                   .toList();
               break;
 
-            case 3: // Under Service
+            case 3:
               orders = allOrders
                   .where((o) =>
-              o.orderStatus ==
-                  OrderStatus.workInProgress ||
-                  o.orderStatus ==
-                      OrderStatus.employeeInRoad)
+              o.orderStatus == OrderStatus.workInProgress ||
+                  o.orderStatus == OrderStatus.employeeInRoad)
                   .toList();
               break;
 
-            default: // All
+            default:
               orders = allOrders;
           }
 
-          return ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: orders.length,
-            separatorBuilder: (_, __) => const SizedBox(height: 5),
-            itemBuilder: (context, index) {
-              final order = orders[index];
-              final service = order.services?.isNotEmpty == true
-                  ? order.services!.first
-                  : null;
+          return Column(
+            children: [
 
-              final isEnglish =
-                  Localizations.localeOf(context).languageCode == 'en';
+              /// Orders List
+              Expanded(
+                child: ListView.separated(
+                  itemCount: orders.length,
+                  separatorBuilder: (_, __) => const SizedBox(height: 5),
+                  itemBuilder: (context, index) {
 
-              final serviceTitle = isEnglish
-                  ? (service?.latinName ?? "")
-                  : (service?.name ?? "");
+                    final order = orders[index];
 
-              return ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidget(
-                imagePathPart1: AppImageKeys.service33,
-                titlePart1: serviceTitle,
-                subTitlePart1: '',
-                imagePathPart2: AppImageKeys.car501,
-                textCarPart2: order.branchName ?? "",
-                titlePart2: order.providerName ?? "",
-                imagePathPart3: AppImageKeys.person22,
-                titlePart3: AppLanguageKeys.name,
-                subTitlePart3: order.username ?? "",
-                status: order.orderStatus,
-                timePart5: _formatDate(order.orderDate),
-                pricePart6: order.totalPrice?.toString() ?? "10",
-              );
-            },
+                    final service = order.services?.isNotEmpty == true
+                        ? order.services!.first
+                        : null;
+
+                    final isEnglish =
+                        Localizations.localeOf(context).languageCode == 'en';
+
+                    final serviceTitle = isEnglish
+                        ? (service?.latinName ?? "")
+                        : (service?.name ?? "");
+
+                    return ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidget(
+                      imagePathPart1: AppImageKeys.service33,
+                      titlePart1: serviceTitle,
+                      subTitlePart1: '',
+                      imagePathPart2: AppImageKeys.car501,
+                      textCarPart2: order.branchName ?? "",
+                      titlePart2: order.providerName ?? "",
+                      imagePathPart3: AppImageKeys.person22,
+                      titlePart3: AppLanguageKeys.name,
+                      subTitlePart3: order.username ?? "",
+                      status: order.orderStatus,
+                      timePart5: _formatDate(order.orderDate),
+                      pricePart6: order.totalPrice?.toString() ?? "10",
+                    );
+                  },
+                ),
+              ),
+              AppPagination(
+                currentPage: state.currentPage,
+                totalPages: 50,
+                onPageChanged: (page) {
+                  context.read<GetProviderInternalOrderCubit>().loadInternalOrders(
+                    serviceId: MainCategoryConstants.carSparePartsID,
+                    pageNumber: page,
+                  );
+                },
+              )
+            ],
           );
         }
 
