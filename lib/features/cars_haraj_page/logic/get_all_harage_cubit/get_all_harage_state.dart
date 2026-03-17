@@ -8,8 +8,12 @@ class GetAllHarageLoading extends GetAllHarageState {}
 
 class GetAllHarageSuccess extends GetAllHarageState {
   final GetAllHarageResponse response;
+  final int currentPage;
 
-  GetAllHarageSuccess(this.response);
+  GetAllHarageSuccess({
+    required this.response,
+    this.currentPage = 1,
+  });
 }
 
 class GetAllHarageError extends GetAllHarageState {

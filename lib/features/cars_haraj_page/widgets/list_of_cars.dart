@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/core/cubit/app_cubit/app_cubit.dart';
+import 'package:sun_web_system/core/utilies/map_of_all_app.dart';
 import '../../../../../core/api_functions/harage/get_all_harage_model/get_all_harage_request.dart';
 import '../../../../../features/cars_haraj_page/logic/get_all_harage_cubit/get_all_harage_cubit.dart';
 import '../../../../../features/cars_haraj_page/widgets/available_list_cars.dart';
@@ -51,7 +53,9 @@ class ListOfCars extends StatelessWidget {
                     containerHeight: 38,
                     containerWidth: 129,
                     isSelected: true,
-                    onTap: () {},
+                    onTap: () {
+                      AppCubit.get(context).navigateToPage(PagesOfAllApp.carHarajOrdersPageNumber);
+                    },
                     containerColor: AppColors.orangeColor,
                     padding: EdgeInsets.zero,
                     typeWidget: const Center(

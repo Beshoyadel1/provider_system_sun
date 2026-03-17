@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/core/cubit/app_cubit/app_cubit.dart';
 import 'package:sun_web_system/features/mobile_services/mobile_services_orders/first_screen_mobile_services_orders/screens/part_two_screen_first_screen_mobile_services_orders/container_mobile_services_orders_statistics/container_mobile_services_orders_statistics.dart';
 import '../../../../../features/mobile_services/mobile_services_orders/first_screen_mobile_services_orders/screens/big_container_of_new_orders_mobile_services/container_new_order_in_list_data_first_screen_mobile_services.dart';
 import '../../../../../features/mobile_services/mobile_services_orders/first_screen_mobile_services_orders/screens/container_image_title_with_sub_title_mobile_services_orders/first_row_with_two_container_image_and_two_text_mobile_services_orders.dart';
@@ -32,6 +33,7 @@ class ListDataFirstScreenMobileServicesOrders extends StatelessWidget {
             const FirstRowWithTwoContainerImageAndTwoTextMobileServicesOrders(),
             ContainerNewOrderInListDataFirstScreenMobileServices(
               onTap: () {
+                AppCubit.get(context).navigateToPage(PagesOfAllApp.mobileServiceStaticsPageNumber);
               },
             ),
             if ((isMobile&&!isMobileCustom))

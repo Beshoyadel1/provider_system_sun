@@ -69,7 +69,6 @@ class FilterDesignSparePartsStatistics extends StatelessWidget {
           return Column(
             children: [
 
-              /// Orders List
               Expanded(
                 child: ListView.separated(
                   itemCount: orders.length,

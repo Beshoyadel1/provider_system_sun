@@ -10,15 +10,22 @@ class GetAllHarageCubit extends Cubit<GetAllHarageState> {
     try {
       emit(GetAllHarageLoading());
 
-      final request = GetAllHarageRequest(pageNumber: page);
+      final request = GetAllHarageRequest(
+        pageNumber: page,
+      );
 
       final result = await getAllHarageFunction(
         getAllHarageRequest: request,
       );
+      print("Cars returned from API: ${result.data?.length}");
+      emit(
+        GetAllHarageSuccess(
+          response: result,
+          currentPage: page,
+        ),
+      );
 
-      emit(GetAllHarageSuccess(result));
     } catch (e) {
       emit(GetAllHarageError(e.toString()));
     }
-  }
-}
+  }}

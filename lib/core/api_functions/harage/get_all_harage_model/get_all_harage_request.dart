@@ -2,12 +2,12 @@ class GetAllHarageRequest {
   final int? pageNumber;
 
   GetAllHarageRequest({
-     this.pageNumber,
+    this.pageNumber = 1,
   });
 
   Map<String, dynamic> toJson() {
     return {
-      "pageNumber": pageNumber??1,
+      "pageNumber": pageNumber,
     };
   }
 }

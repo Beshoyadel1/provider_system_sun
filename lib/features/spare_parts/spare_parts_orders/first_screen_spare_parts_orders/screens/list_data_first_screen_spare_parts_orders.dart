@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/core/cubit/app_cubit/app_cubit.dart';
 import 'package:sun_web_system/features/mobile_services/mobile_services_orders/first_screen_mobile_services_orders/screens/part_two_screen_first_screen_mobile_services_orders/container_rate_service_mobile_services_orders/container_rate_service_mobile_services_orders.dart';
 import 'package:sun_web_system/features/spare_parts/spare_parts_orders/first_screen_spare_parts_orders/screens/part_two_screen_first_screen_spare_parts_orders/container_profits_from_ministry_of_spare_parts_orders/container_profits_from_ministry_of_spare_parts_orders.dart';
 import 'package:sun_web_system/features/spare_parts/spare_parts_orders/first_screen_spare_parts_orders/screens/part_two_screen_first_screen_spare_parts_orders/container_spare_parts_orders_statistics/container_spare_parts_orders_statistics.dart';
@@ -33,6 +34,7 @@ class ListDataFirstScreenSparePartsOrders extends StatelessWidget {
             const FirstRowWithTwoContainerImageAndTwoTextSparePartsOrders(),
             ContainerNewOrderInListDataFirstScreenSpareParts(
               onTap: () {
+                AppCubit.get(context).navigateToPage(PagesOfAllApp.sparePartsStaticsPageNumber);
               },
             ),
             if ((isMobile&&!isMobileCustom))

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/internal_services/internal_orders/first_screen_internal_orders/logic/tabs_cubit/tabs_cubit.dart';
+import 'package:sun_web_system/features/spare_parts/custom_widget/app_pagination.dart';
 import '../../../../../../features/cars_haraj_page/logic/get_all_harage_cubit/get_all_harage_cubit.dart';
 import '../../../../../../features/cars_haraj_page/logic/get_all_harage_cubit/get_all_harage_state.dart';
 import '../../../../../../features/cars_haraj_page/widgets/available_cars.dart';
@@ -24,7 +25,6 @@ class FilterDesignCarList extends StatelessWidget {
           final allCars = state.response.data ?? [];
 
           List cars;
-
           switch (selectedTab) {
             case 1:
               cars = allCars.where((c) => c.isNew == true).toList();
@@ -42,34 +42,46 @@ class FilterDesignCarList extends StatelessWidget {
               cars = allCars;
           }
 
-          return  ListView.builder(
-            padding: const EdgeInsets.only(bottom: 20),
-            itemCount: cars.length,
-            itemBuilder: (context, index) {
+          return  Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  itemCount: cars.length,
+                  itemBuilder: (context, index) {
 
-              final car = cars[index];
+                    final car = cars[index];
 
-              final isEnglish =
-                  Localizations.localeOf(context).languageCode == 'en';
+                    final isEnglish =
+                        Localizations.localeOf(context).languageCode == 'en';
 
-              final brandNameTitle = isEnglish
-                  ? (car.car?.brandLatinName ?? "")
-                  : (car.car?.brandName ?? "");
-
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: AvailableCars(
-                  id: car.id.toString(),
-                  releaseDate: car.releaseDate,
-                  description: car.description,
-                  isSold: car.isSold ?? false,
-                  isNew: car.isNew ?? false,
-                  brandName: brandNameTitle,
-                  price: car.price?.toString() ?? "",
-                  onTap: () {},
+                    final brandNameTitle = isEnglish
+                        ? (car.car?.brandLatinName ?? "")
+                        : (car.car?.brandName ?? "");
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: AvailableCars(
+                        id: car.id.toString(),
+                        releaseDate: car.releaseDate,
+                        description: car.description,
+                        isSold: car.isSold ?? false,
+                        isNew: car.isNew ?? false,
+                        brandName: brandNameTitle,
+                        price: car.price?.toString() ?? "",
+                        onTap: () {},
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
+              ),
+              AppPagination(
+                currentPage: state.currentPage,
+                totalPages: 50,
+                onPageChanged: (page) {
+                  context.read<GetAllHarageCubit>().getAllHarage(page: page);
+                },
+              ),
+            ],
           );
         }
 

@@ -29,7 +29,6 @@ class NewOrdersCubit extends Cubit<NewOrdersState> {
     try {
       await Future.delayed(const Duration(seconds: 1));
 
-      // fake data
       List<String> orders = List.generate(
           5, (index) => "Order ${index + 1} - Page $page");
 
