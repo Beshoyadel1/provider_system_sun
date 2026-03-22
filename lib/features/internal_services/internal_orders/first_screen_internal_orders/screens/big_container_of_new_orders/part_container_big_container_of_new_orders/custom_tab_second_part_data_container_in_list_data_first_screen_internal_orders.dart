@@ -1,4 +1,6 @@
+import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
+import 'package:sun_web_system/features/internal_services/internal_orders/custom_widget/row_image_with_title_widget.dart';
 import '../../../../../../../../features/internal_services/internal_orders/custom_widget/row_image_with_title_orange_and_sub_title_black_widget.dart';
 import '../../../../../../../../features/internal_services/internal_orders/custom_widget/text_with_container_status.dart';
 import '../../../../../../../../features/internal_services/internal_orders/custom_widget/Column_date_order_with_time_widget.dart';
@@ -8,21 +10,20 @@ import '../../../../../../../../features/internal_services/internal_orders/custo
 
 class CustomTabSecondPartDataContainerInListDataFirstScreenInternalOrders
     extends StatelessWidget {
-  final String imagePathPart1,
+  final String
       titlePart1,
       subTitlePart1,
       imagePathPart2,
       textCarPart2,
       titlePart2,
-      imagePathPart3,
       titlePart3,
       subTitlePart3,
       timePart5,
       pricePart6;
 
   final int? status;
-  final void Function()? onTap;
-
+  final Uint8List? imagePathPart1,imagePathPart3;
+//RowImageWithTitleWidget
   const CustomTabSecondPartDataContainerInListDataFirstScreenInternalOrders({
     super.key,
     required this.imagePathPart1,
@@ -35,7 +36,6 @@ class CustomTabSecondPartDataContainerInListDataFirstScreenInternalOrders
     required this.titlePart3,
     required this.subTitlePart3,
     this.status,
-    this.onTap,
     required this.timePart5,
     required this.pricePart6,
   });
@@ -51,22 +51,22 @@ class CustomTabSecondPartDataContainerInListDataFirstScreenInternalOrders
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: RowImageWithTitleOrangeAndSubTitleBlackWidget(
+              child: RowImageWithTitleWidget(
                 imagePath: imagePathPart1,
                 title: titlePart1,
-                textSizeTitle: 12,
+               // textSizeTitle: 12,
                 subTitle: subTitlePart1,
               ),
             ),
+            // Expanded(
+            //   child: RowKindOfCarWithTextWidget(
+            //     imagePath: imagePathPart2,
+            //     textCar: textCarPart2,
+            //     title: titlePart2,
+            //   ),
+            // ),
             Expanded(
-              child: RowKindOfCarWithTextWidget(
-                imagePath: imagePathPart2,
-                textCar: textCarPart2,
-                title: titlePart2,
-              ),
-            ),
-            Expanded(
-              child: RowImageWithTitleOrangeAndSubTitleBlackWidget(
+              child: RowImageWithTitleWidget(
                 isJob: true,
                 imagePath: imagePathPart3,
                 title: titlePart3,
@@ -92,7 +92,7 @@ class CustomTabSecondPartDataContainerInListDataFirstScreenInternalOrders
          Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [Expanded(child: ContainerDetailsWidget(
-            onTap: onTap,
+            status: status ?? 0,
           ))],
         ),
       ],

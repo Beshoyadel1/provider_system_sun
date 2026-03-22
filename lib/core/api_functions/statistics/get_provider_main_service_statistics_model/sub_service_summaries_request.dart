@@ -6,7 +6,8 @@ class SubServiceSummariesRequest {
   final String? serviceLatinName;
   final Uint8List? image;
   final int? orderCount;
-
+ //image: json["image"] != null ? base64Decode(json["image"]) : null,
+//   "image": image != null ? base64Encode(image!) : null,
   SubServiceSummariesRequest({
     this.serviceName,
     this.serviceLatinName,

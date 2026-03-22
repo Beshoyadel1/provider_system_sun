@@ -29,14 +29,14 @@ class FirstRowInDataInContainerProfitsFromMinistryOfMobileServicesOrders
             textColor: AppColors.blackColor,
           ),
         ),
-        SelectTimeProfitServiceWidget(
-          hint: AppLanguageKeys.selectTime,
-          options: [
-            AppLanguageKeys.daily,
-            AppLanguageKeys.weekly,
-            AppLanguageKeys.monthly,
-          ],
-        )
+        // SelectTimeProfitServiceWidget(
+        //   hint: AppLanguageKeys.selectTime,
+        //   options: [
+        //     AppLanguageKeys.daily,
+        //     AppLanguageKeys.weekly,
+        //     AppLanguageKeys.monthly,
+        //   ],
+        // )
       ],
     );
   }

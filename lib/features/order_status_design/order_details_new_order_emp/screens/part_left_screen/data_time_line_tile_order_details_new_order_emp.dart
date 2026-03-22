@@ -32,13 +32,13 @@ class DataTimeLineTileOrderDetailsNewOrderEmp extends StatelessWidget{
           ),
           TimeLineTileWidget(
             text: '2',
-            title: 'جاري تنفيذ الطلب',
-            subTitle: '1/1/2025 -16:00',
+            title: AppLanguageKeys.orderInProgress,
+            subTitle: '',
             colorAfterLine: AppColors.greyColor,
           ),
           TimeLineTileWidget(
             text: '3',
-            title: 'انتظار دفع الفاتورة',
+            title: AppLanguageKeys.waitingForInvoicePayment,
             subTitle: '',
             colorAfterLine: AppColors.greyColor,
             colorBeforeLine: AppColors.greyColor,

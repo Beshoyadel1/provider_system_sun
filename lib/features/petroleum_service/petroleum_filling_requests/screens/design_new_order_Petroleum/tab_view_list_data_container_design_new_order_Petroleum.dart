@@ -38,7 +38,9 @@ class TabViewListDataContainerDesignNewOrderPetroleum extends StatelessWidget {
           title:AppLanguageKeys.price,
           budget: price,
         ),
-        const ContainerDetailsWidget(),
+        const ContainerDetailsWidget(
+          status: 0,
+        ),
       ],
     );
   }

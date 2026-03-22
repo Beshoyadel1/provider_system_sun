@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:sun_web_system/features/order_status_design/custom_widget/column_image_car_with_two_text_widget.dart';
 import 'package:sun_web_system/features/order_status_design/custom_widget/image_with_two_text.dart';
 import '../../../../../../../../core/theming/assets.dart';
@@ -14,19 +15,13 @@ class FirstPartOfDataDialogRejectOrder extends StatelessWidget {
     return Column(
       spacing: 20,
       children: [
-       const TextInAppWidget(
-          text:' رفض طلب رقم #452',
-          textSize: 18,
-          fontWeightIndex: FontSelectionData.semiBoldFontFamily,
-          textColor:AppColors.blackColor,
-        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const ImageWithTwoText(
               imageSrc: AppImageKeys.service33,
-              title: 'خدمات داخلية',
-              subTitle: 'صيانة واصلاج',
+              title: AppLanguageKeys.internalServicesTitleKey,
+              subTitle: AppLanguageKeys.maintenanceAndRepairTitleKey,
               titleColor: AppColors.orangeColor,
               subTitleColor:AppColors.blackColor,
             ),

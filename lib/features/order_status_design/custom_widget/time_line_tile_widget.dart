@@ -79,7 +79,7 @@ class TimeLineTileWidget extends StatelessWidget {
               textColor:textColorTitle??AppColors.blackColor,
             ),
             TextInAppWidget(
-              text:subTitle??'1/1/2025 -16:00',
+              text:subTitle??'',
               textSize: 12,
               fontWeightIndex: FontSelectionData.semiBoldFontFamily,
               textColor:textColorSubTitle??AppColors.greyColor,

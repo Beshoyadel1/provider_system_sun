@@ -245,7 +245,7 @@ void getPages() {
             page: FirstScreenSparePartsOrders(),
           ),
           PageNodeModel(
-            name: AppLanguageKeys.order,
+            name: AppLanguageKeys.ordersSectionKey,
             number: PagesOfAllApp.sparePartsStaticsPageNumber,
             page: SparePartsStatisticsPage(),
           ),
@@ -261,7 +261,7 @@ void getPages() {
             page: FirstScreenMobileServicesOrders(),
           ),
           PageNodeModel(
-            name: AppLanguageKeys.order,
+            name: AppLanguageKeys.ordersSectionKey,
             number: PagesOfAllApp.mobileServiceStaticsPageNumber,
             page: MobileServicesStatisticsPage(),
           ),

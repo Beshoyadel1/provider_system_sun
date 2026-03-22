@@ -30,6 +30,9 @@ class AppLocalizations {
       AppLanguageKeys.cancelledByUser: 'تم الإلغاء',
       //END//
       //others//
+      AppLanguageKeys.rejectionReason: 'سبب رفض الطلب',
+      AppLanguageKeys.orderInProgress: 'جاري تنفيذ الطلب',
+      AppLanguageKeys.waitingForInvoicePayment: 'انتظار دفع الفاتورة',
       AppLanguageKeys.carsListCurrentAndSold: 'قائمة السيارات من السيارات الحالية والمباعة سابقاً',
       AppLanguageKeys.soldCars: 'سيارة مباعة',
       AppLanguageKeys.carList: 'قائمة السيارات',
@@ -1208,6 +1211,9 @@ class AppLocalizations {
       AppLanguageKeys.cancelledByUser: 'Cancelled',
       //END//
       //others//
+      AppLanguageKeys.rejectionReason: 'Reason for Request Rejection',
+      AppLanguageKeys.orderInProgress: 'Order in Progress',
+      AppLanguageKeys.waitingForInvoicePayment: 'Waiting for Invoice Payment',
       AppLanguageKeys.carsListCurrentAndSold: 'List of current and previously sold cars',
       AppLanguageKeys.soldCars: 'Sold Cars',
       AppLanguageKeys.carList: 'Car List',

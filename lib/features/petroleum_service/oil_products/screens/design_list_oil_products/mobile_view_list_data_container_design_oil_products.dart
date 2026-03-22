@@ -54,7 +54,9 @@ class MobileViewListDataContainerDesignOilProducts extends StatelessWidget {
 
           ],
         ),
-        const ContainerDetailsWidget(),
+        const ContainerDetailsWidget(
+          status: 0,
+        ),
       ],
     );
   }

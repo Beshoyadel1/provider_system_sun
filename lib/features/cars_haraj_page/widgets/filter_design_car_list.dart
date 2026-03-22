@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/features/cars_haraj_page/model/car_filter/car_filter.dart';
 import 'package:sun_web_system/features/internal_services/internal_orders/first_screen_internal_orders/logic/tabs_cubit/tabs_cubit.dart';
 import 'package:sun_web_system/features/spare_parts/custom_widget/app_pagination.dart';
 import '../../../../../../features/cars_haraj_page/logic/get_all_harage_cubit/get_all_harage_cubit.dart';
@@ -24,23 +25,10 @@ class FilterDesignCarList extends StatelessWidget {
 
           final allCars = state.response.data ?? [];
 
-          List cars;
-          switch (selectedTab) {
-            case 1:
-              cars = allCars.where((c) => c.isNew == true).toList();
-              break;
-
-            case 2:
-              cars = allCars.where((c) => c.isNew == false).toList();
-              break;
-
-            case 3:
-              cars = allCars.where((c) => c.isSold == true).toList();
-              break;
-
-            default:
-              cars = allCars;
-          }
+          final cars = CarFilter.filterCars(
+            allCars,
+            selectedTab,
+          );
 
           return  Column(
             children: [

@@ -9,10 +9,10 @@ class DataTimeLineTileOrderDetailsOnTheWayEmp extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsetsGeometry.all(10),
+      padding: const EdgeInsetsGeometry.all(10),
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
-        borderRadius: BorderRadius.all(Radius.circular(20)),
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
         border: Border.all(
             color: AppColors.greyColor.withOpacity(0.3)
         ),
@@ -29,15 +29,16 @@ class DataTimeLineTileOrderDetailsOnTheWayEmp extends StatelessWidget{
           TimeLineTileWidget(
             isFirst: true,
             isIcon: true,
+            text: AppLanguageKeys.createNewOrderKey,
           ),
           TimeLineTileWidget(
             text: '2',
-            title: 'جاري تنفيذ الطلب',
-            subTitle: '1/1/2025 -16:00',
+            title: AppLanguageKeys.orderInProgress,
+            subTitle: '',
           ),
           TimeLineTileWidget(
             text: '3',
-            title: 'انتظار دفع الفاتورة',
+            title: AppLanguageKeys.waitingForInvoicePayment,
             subTitle: '',
           ),
           TimeLineTileWidget(

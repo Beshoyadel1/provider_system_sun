@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:sun_web_system/features/order_status_design/order_details_new_order_emp/sub/dialog_reject_order/screens/first_part_of_data_dialog_reject_order.dart';
 import 'package:sun_web_system/features/order_status_design/order_details_new_order_emp/sub/dialog_reject_order/screens/last_two_button_in_dialog_reject_order.dart';
 import 'package:sun_web_system/features/permissions/custom_widget/text_with_text_form_field_as_column_widget.dart';
@@ -17,7 +18,7 @@ class DialogRejectOrder extends StatelessWidget {
         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
         child: Container(
           width: 400,
-          height: 400,
+          height: 300,
           decoration: BoxDecoration(
             color: AppColors.scaffoldColor,
             borderRadius: BorderRadius.circular(12),
@@ -28,7 +29,7 @@ class DialogRejectOrder extends StatelessWidget {
             children: [
               const FirstPartOfDataDialogRejectOrder(),
               TextWithTextFormFieldAsColumnWidget(
-                  text: 'سبب رفض الطلب',
+                  text: AppLanguageKeys.rejectionReason,
                   hint: '',
                   maxLines: 5,
               ),

@@ -42,7 +42,9 @@ final String? id,name,date,budget;
           title: AppLanguageKeys.productPrice,
           budget:budget ,
         ),
-        const ContainerDetailsWidget(),
+        const ContainerDetailsWidget(
+          status: 0,
+        ),
       ],
     );
   }

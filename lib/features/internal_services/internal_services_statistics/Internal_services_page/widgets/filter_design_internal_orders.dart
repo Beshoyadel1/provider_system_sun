@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/features/internal_services/internal_orders/custom_widget/Container_of_second_part_data_container_in_list_data_first_screen_internal_orders_widget.dart';
-import 'package:sun_web_system/features/internal_services/internal_orders/first_screen_internal_orders/logic/get_provider_internal_order/get_provider_internal_order_cubit.dart';
-import 'package:sun_web_system/features/internal_services/internal_orders/first_screen_internal_orders/logic/get_provider_internal_order/get_provider_internal_order_state.dart';
-import 'package:sun_web_system/features/internal_services/internal_orders/first_screen_internal_orders/logic/tabs_cubit/tabs_cubit.dart';
-import 'package:sun_web_system/features/spare_parts/custom_widget/app_pagination.dart';
+import '../../../../../../features/cars_haraj_page/model/internal_orders_filter/internal_orders_filter.dart';
+import '../../../../../../features/internal_services/internal_orders/custom_widget/Container_of_second_part_data_container_in_list_data_first_screen_internal_orders_widget.dart';
+import '../../../../../../features/internal_services/internal_orders/first_screen_internal_orders/logic/get_provider_internal_order/get_provider_internal_order_cubit.dart';
+import '../../../../../../features/internal_services/internal_orders/first_screen_internal_orders/logic/get_provider_internal_order/get_provider_internal_order_state.dart';
+import '../../../../../../features/internal_services/internal_orders/first_screen_internal_orders/logic/tabs_cubit/tabs_cubit.dart';
+import '../../../../../../features/spare_parts/custom_widget/app_pagination.dart';
 import '../../../../../../core/api/dio_function/api_constants.dart';
 import '../../../../../../core/theming/assets.dart';
 import '../../../../../../core/language/language_constant.dart';
@@ -37,38 +38,10 @@ class FilterDesignInternalOrders
 
           final allOrders = state.orders;
 
-          List orders;
-
-          switch (selectedTab) {
-            case 1: // New Orders
-              orders = allOrders
-                  .where((o) =>
-              o.orderStatus ==
-                  OrderStatus.newOrderForProvider)
-                  .toList();
-              break;
-
-            case 2: // Completed
-              orders = allOrders
-                  .where((o) =>
-              o.orderStatus ==
-                  OrderStatus.orderCompleted)
-                  .toList();
-              break;
-
-            case 3: // Under Service
-              orders = allOrders
-                  .where((o) =>
-              o.orderStatus ==
-                  OrderStatus.workInProgress ||
-                  o.orderStatus ==
-                      OrderStatus.employeeInRoad)
-                  .toList();
-              break;
-
-            default: // All
-              orders = allOrders;
-          }
+          final orders = InternalOrdersFilter.filterOrders(
+            allOrders,
+            selectedTab,
+          );
 
           return Column(
             children: [
@@ -92,18 +65,18 @@ class FilterDesignInternalOrders
                         : (service?.name ?? "");
 
                     return ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidget(
-                      imagePathPart1: AppImageKeys.service33,
+                      imagePathPart1: service?.image,
                       titlePart1: serviceTitle,
                       subTitlePart1: '',
                       imagePathPart2: AppImageKeys.car501,
                       textCarPart2: order.branchName ?? "",
                       titlePart2: order.providerName ?? "",
-                      imagePathPart3: AppImageKeys.person22,
+                      imagePathPart3: order.providerImage,
                       titlePart3: AppLanguageKeys.name,
                       subTitlePart3: order.username ?? "",
                       status: order.orderStatus,
                       timePart5: _formatDate(order.orderDate),
-                      pricePart6: order.totalPrice?.toString() ?? "10",
+                      pricePart6: order.totalPrice?.toString() ?? "0",
                     );
                   },
                 ),

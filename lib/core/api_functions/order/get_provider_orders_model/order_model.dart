@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:typed_data';
 import '../../../../../core/api_functions/order/get_provider_orders_model/service_model.dart';
 import '../../../../../core/api_functions/order/get_provider_orders_model/service_package_model.dart';
 
@@ -12,7 +14,7 @@ class OrderModel {
   final int? providerId;
   final String? providerName;
   final String? providerLatinName;
-  final String? providerImage;
+  final Uint8List? providerImage;
   final String? branchName;
   final String? branchLatinName;
   final List<ServiceModel>? services;
@@ -39,7 +41,6 @@ class OrderModel {
      this.servicePackages,
      this.car,
   });
-
   factory OrderModel.fromJson(Map<String, dynamic> json) {
     return OrderModel(
       id: json['id'] ?? 0,
@@ -53,7 +54,7 @@ class OrderModel {
       providerId: json['provid'] ?? 0,
       providerName: json['provname'] ?? '',
       providerLatinName: json['provlatinname'] ?? '',
-      providerImage: json['provimage'],
+      providerImage: json['provimage']!= null ? base64Decode(json["provimage"]) : null,
 
       branchName: json['branchname'] ?? '',
       branchLatinName: json['branchlatinname'] ?? '',

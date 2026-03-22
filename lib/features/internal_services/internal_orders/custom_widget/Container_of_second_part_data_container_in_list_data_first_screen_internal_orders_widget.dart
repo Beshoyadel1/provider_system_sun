@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:sun_web_system/features/internal_services/internal_orders/first_screen_internal_orders/screens/big_container_of_new_orders/part_container_big_container_of_new_orders/custom_tab_second_part_data_container_in_list_data_first_screen_internal_orders.dart';
 import 'package:sun_web_system/features/internal_services/internal_orders/first_screen_internal_orders/screens/big_container_of_new_orders/part_container_big_container_of_new_orders/mobile_second_part_data_container_in_list_data_first_screen_internal_orders.dart';
@@ -7,20 +8,19 @@ import '../../../../../../../../core/theming/colors.dart';
 
 class ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidget
     extends StatelessWidget {
-  final String? imagePathPart1,
+  final String?
       titlePart1,
       subTitlePart1,
       imagePathPart2,
       textCarPart2,
       titlePart2,
-      imagePathPart3,
       titlePart3,
       subTitlePart3,
       timePart5,
       pricePart6;
   final int? status;
-  final void Function()? onTap;
-
+  final Uint8List? imagePathPart1,imagePathPart3;
+//RowImageWithTitleWidget
   const ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidget({
     super.key,
     this.imagePathPart1,
@@ -35,7 +35,6 @@ class ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidge
     this.status,
     this.timePart5,
     this.pricePart6,
-    this.onTap,
   });
 
   @override
@@ -60,50 +59,47 @@ class ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidge
       ),
       child: isMobile
           ? MobileSecondPartDataContainerInListDataFirstScreenInternalOrders(
-              imagePathPart1: imagePathPart1!,
+              imagePathPart1: imagePathPart1,
               titlePart1: titlePart1!,
               subTitlePart1: subTitlePart1!,
               imagePathPart2: imagePathPart2!,
               textCarPart2: textCarPart2!,
               titlePart2: titlePart2!,
-              imagePathPart3: imagePathPart3!,
+              imagePathPart3: imagePathPart3,
               titlePart3: titlePart3!,
               subTitlePart3: subTitlePart3!,
               status: status,
               timePart5: timePart5!,
               pricePart6: pricePart6!,
-              onTap: onTap,
             )
           : isTabletCustom
               ? CustomTabSecondPartDataContainerInListDataFirstScreenInternalOrders(
-                  imagePathPart1: imagePathPart1!,
+                  imagePathPart1: imagePathPart1,
                   titlePart1: titlePart1!,
                   subTitlePart1: subTitlePart1!,
                   imagePathPart2: imagePathPart2!,
                   textCarPart2: textCarPart2!,
                   titlePart2: titlePart2!,
-                  imagePathPart3: imagePathPart3!,
+                  imagePathPart3: imagePathPart3,
                   titlePart3: titlePart3!,
                   subTitlePart3: subTitlePart3!,
                   status: status,
                   timePart5: timePart5!,
                   pricePart6: pricePart6!,
-                  onTap: onTap,
                 )
               : TabSecondPartDataContainerInListDataFirstScreenInternalOrders(
-                  imagePathPart1: imagePathPart1!,
+                  imagePathPart1: imagePathPart1,
                   titlePart1: titlePart1!,
                   subTitlePart1: subTitlePart1!,
                   imagePathPart2: imagePathPart2!,
                   textCarPart2: textCarPart2!,
                   titlePart2: titlePart2!,
-                  imagePathPart3: imagePathPart3!,
+                  imagePathPart3: imagePathPart3,
                   titlePart3: titlePart3!,
                   subTitlePart3: subTitlePart3!,
                   status: status,
                   timePart5: timePart5!,
                   pricePart6: pricePart6!,
-                  onTap: onTap,
                 ),
     );
   }

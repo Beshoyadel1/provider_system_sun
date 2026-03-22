@@ -44,7 +44,9 @@ class CustomTabViewListDataContainerDesignNewOrderPetroleum
               title:AppLanguageKeys.price,
               budget: price,
             ),
-            const ContainerDetailsWidget(),
+            const ContainerDetailsWidget(
+              status: 0,
+            ),
           ],
         ),
       ],

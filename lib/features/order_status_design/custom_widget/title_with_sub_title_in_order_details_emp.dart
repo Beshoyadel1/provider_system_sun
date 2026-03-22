@@ -8,16 +8,16 @@ class TitleWithSubTitleInOrderDetailsEmp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       spacing: 10,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TextInAppWidget(
-          text:'تفاصيل الطلب رقم #452',
-          textSize: 18,
-          fontWeightIndex: FontSelectionData.semiBoldFontFamily,
-          textColor:AppColors.blackColor,
-        ),
+        // TextInAppWidget(
+        //   text:'تفاصيل الطلب رقم #452',
+        //   textSize: 18,
+        //   fontWeightIndex: FontSelectionData.semiBoldFontFamily,
+        //   textColor:AppColors.blackColor,
+        // ),
         TextInAppWidget(
           text:'عرض جميع تفاصيل الطلب ',
           textSize: 17,
