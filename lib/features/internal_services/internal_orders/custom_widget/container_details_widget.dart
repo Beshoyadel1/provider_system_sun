@@ -1,10 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sun_web_system/core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
+import 'package:sun_web_system/features/order_status_design/order_details_cancel_order_emp/order_details_cancel_order_emp.dart';
 import 'package:sun_web_system/features/order_status_design/order_details_new_order_emp/order_details_new_order_emp.dart';
 import 'package:sun_web_system/features/order_status_design/order_details_on_the_way_emp/order_details_on_the_way_emp.dart';
 import 'package:sun_web_system/features/order_status_design/order_details_order_received_emp/order_details_order_received_emp.dart';
+import 'package:sun_web_system/features/order_status_design/order_details_reject_by_company_order_emp/order_details_reject_by_company_order_emp.dart';
+import 'package:sun_web_system/features/order_status_design/order_details_reject_by_provider_order_emp/order_details_reject_by_provider_order_emp.dart';
 import 'package:sun_web_system/features/order_status_design/order_details_under_service_emp/order_details_under_service_emp.dart';
+import 'package:sun_web_system/features/order_status_design/order_details_waiting_emp/order_details_waiting_emp.dart';
 import '../../../../../../../core/language/language_constant.dart';
 import '../../../../../../../core/theming/colors.dart';
 import '../../../../../../../core/theming/fonts.dart';
@@ -63,15 +67,50 @@ class ContainerDetailsWidget extends StatelessWidget {
         );
         break;
 
+      case OrderStatus.rejectedByProvider:
+        Navigator.push(
+          context,
+          NavigateToPageWidget(
+            const OrderDetailsRejectByProviderOrderEmp(),
+          ),
+        );
+        break;
+      case OrderStatus.rejectedByCompany:
+        Navigator.push(
+          context,
+          NavigateToPageWidget(
+            const OrderDetailsRejectByCompanyOrderEmp(),
+          ),
+        );
+        break;
+      case OrderStatus.cancelledByUser:
+        Navigator.push(
+          context,
+          NavigateToPageWidget(
+            const OrderDetailsCancelOrderEmp(),
+          ),
+        );
+        break;
+      case OrderStatus.waitingAppointment:
+        Navigator.push(
+          context,
+          NavigateToPageWidget(
+            const OrderDetailsWaitingEmp(),
+          ),
+        );
+        break;
       default:
         break;
     }
   }
-
   bool get _isEnabled {
     return status == OrderStatus.newOrderForProvider ||
         status == OrderStatus.orderCompleted ||
         status == OrderStatus.employeeInRoad ||
+        status == OrderStatus.rejectedByProvider ||
+        status == OrderStatus.rejectedByCompany ||
+        status == OrderStatus.cancelledByUser ||
+        status == OrderStatus.waitingAppointment ||
         status == OrderStatus.workInProgress;
   }
 
@@ -82,9 +121,7 @@ class ContainerDetailsWidget extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
         decoration: BoxDecoration(
-          color: _isEnabled
-              ? (backGroundColor ?? AppColors.whiteColor)
-              : AppColors.greyColor.withOpacity(0.2),
+          color: (backGroundColor ?? AppColors.whiteColor),
           borderRadius: const BorderRadius.all(Radius.circular(20)),
           border: Border.all(
             color: _isEnabled

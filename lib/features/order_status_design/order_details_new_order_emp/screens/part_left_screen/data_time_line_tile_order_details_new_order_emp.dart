@@ -29,6 +29,8 @@ class DataTimeLineTileOrderDetailsNewOrderEmp extends StatelessWidget{
           TimeLineTileWidget(
             isFirst: true,
             isIcon: true,
+            title: AppLanguageKeys.createNewOrderKey,
+
           ),
           TimeLineTileWidget(
             text: '2',

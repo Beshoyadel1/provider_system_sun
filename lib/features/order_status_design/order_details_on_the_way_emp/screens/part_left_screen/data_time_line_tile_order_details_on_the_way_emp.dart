@@ -29,7 +29,7 @@ class DataTimeLineTileOrderDetailsOnTheWayEmp extends StatelessWidget{
           TimeLineTileWidget(
             isFirst: true,
             isIcon: true,
-            text: AppLanguageKeys.createNewOrderKey,
+            title: AppLanguageKeys.createNewOrderKey,
           ),
           TimeLineTileWidget(
             text: '2',

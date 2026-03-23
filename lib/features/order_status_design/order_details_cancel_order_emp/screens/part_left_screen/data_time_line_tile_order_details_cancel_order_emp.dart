@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:sun_web_system/features/order_status_design/custom_widget/time_line_tile_widget.dart';
-import '../../../../../../../core/language/language_constant.dart';
+import '../../../../../../../../core/language/language_constant.dart';
 import '../../../../../../../core/theming/colors.dart';
 
-class DataTimeLineTileOrderDetailsUnderServiceEmp extends StatelessWidget{
-  const DataTimeLineTileOrderDetailsUnderServiceEmp({super.key});
+class DataTimeLineTileOrderDetailsCancelOrderEmp extends StatelessWidget{
+  const DataTimeLineTileOrderDetailsCancelOrderEmp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +40,11 @@ class DataTimeLineTileOrderDetailsUnderServiceEmp extends StatelessWidget{
             text: '3',
             title: AppLanguageKeys.waitingForInvoicePayment,
             subTitle: '',
-            colorBeforeLine: AppColors.greyColor,
             colorAfterLine: AppColors.greyColor,
+            colorBeforeLine: AppColors.greyColor,
             colorBorder: AppColors.greyColor,
-            textColorTitle: AppColors.greyColor,
             textColor: AppColors.greyColor,
+            textColorTitle: AppColors.greyColor,
           ),
           TimeLineTileWidget(
             isLast: true,

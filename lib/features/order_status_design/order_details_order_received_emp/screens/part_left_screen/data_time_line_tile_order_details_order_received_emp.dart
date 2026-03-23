@@ -29,15 +29,15 @@ class DataTimeLineTileOrderDetailsOrderReceivedEmp extends StatelessWidget{
           TimeLineTileWidget(
             isFirst: true,
             isIcon: true,
+            title: AppLanguageKeys.createNewOrderKey,
           ),
           TimeLineTileWidget(
             isIcon: true,
-            title: 'جاري تنفيذ الطلب',
-            subTitle: '1/1/2025 -16:00',
+            title: AppLanguageKeys.orderInProgress,
           ),
           TimeLineTileWidget(
             isIcon: true,
-            title: 'انتظار دفع الفاتورة',
+            title: AppLanguageKeys.waitingForInvoicePayment,
           ),
           TimeLineTileWidget(
             isLast: true,

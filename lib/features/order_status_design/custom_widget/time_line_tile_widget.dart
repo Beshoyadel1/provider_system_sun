@@ -43,7 +43,7 @@ class TimeLineTileWidget extends StatelessWidget {
               )
           ),
           child: isIcon!?
-              Icon(Icons.check,color: AppColors.whiteColor,)
+              const Icon(Icons.check,color: AppColors.whiteColor,)
               :
           Center(
             child: TextInAppWidget(
@@ -64,16 +64,16 @@ class TimeLineTileWidget extends StatelessWidget {
         thickness: 3,
       ),
       endChild: Padding(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Column(
           spacing: 10,
           crossAxisAlignment: CrossAxisAlignment.start,
           children:[
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             TextInAppWidget(
-              text:title??'إنشاء طلب جديد',
+              text:title??'',
               textSize: 14,
               fontWeightIndex: FontSelectionData.semiBoldFontFamily,
               textColor:textColorTitle??AppColors.blackColor,
