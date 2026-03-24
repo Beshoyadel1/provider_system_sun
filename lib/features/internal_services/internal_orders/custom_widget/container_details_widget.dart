@@ -1,14 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sun_web_system/core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
-import 'package:sun_web_system/features/order_status_design/order_details_cancel_order_emp/order_details_cancel_order_emp.dart';
-import 'package:sun_web_system/features/order_status_design/order_details_new_order_emp/order_details_new_order_emp.dart';
-import 'package:sun_web_system/features/order_status_design/order_details_on_the_way_emp/order_details_on_the_way_emp.dart';
-import 'package:sun_web_system/features/order_status_design/order_details_order_received_emp/order_details_order_received_emp.dart';
-import 'package:sun_web_system/features/order_status_design/order_details_reject_by_company_order_emp/order_details_reject_by_company_order_emp.dart';
-import 'package:sun_web_system/features/order_status_design/order_details_reject_by_provider_order_emp/order_details_reject_by_provider_order_emp.dart';
-import 'package:sun_web_system/features/order_status_design/order_details_under_service_emp/order_details_under_service_emp.dart';
-import 'package:sun_web_system/features/order_status_design/order_details_waiting_emp/order_details_waiting_emp.dart';
+import 'package:sun_web_system/core/api_functions/order/get_provider_orders_model/order_model.dart';
+import '../../../../../../../core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
+import '../../../../../../../features/order_status_design/order_details_cancel_order_emp/order_details_cancel_order_emp.dart';
+import '../../../../../../../features/order_status_design/order_details_new_order_emp/order_details_new_order_emp.dart';
+import '../../../../../../../features/order_status_design/order_details_on_the_way_emp/order_details_on_the_way_emp.dart';
+import '../../../../../../../features/order_status_design/order_details_order_received_emp/order_details_order_received_emp.dart';
+import '../../../../../../../features/order_status_design/order_details_reject_by_company_order_emp/order_details_reject_by_company_order_emp.dart';
+import '../../../../../../../features/order_status_design/order_details_reject_by_provider_order_emp/order_details_reject_by_provider_order_emp.dart';
+import '../../../../../../../features/order_status_design/order_details_under_service_emp/order_details_under_service_emp.dart';
+import '../../../../../../../features/order_status_design/order_details_waiting_emp/order_details_waiting_emp.dart';
 import '../../../../../../../core/language/language_constant.dart';
 import '../../../../../../../core/theming/colors.dart';
 import '../../../../../../../core/theming/fonts.dart';
@@ -19,6 +20,7 @@ class ContainerDetailsWidget extends StatelessWidget {
   final String? title;
   final int status;
   final Color? backGroundColor, textColor, borderColor;
+  final OrderModel order;
 
   const ContainerDetailsWidget({
     super.key,
@@ -27,6 +29,7 @@ class ContainerDetailsWidget extends StatelessWidget {
     this.textColor,
     this.borderColor,
     this.backGroundColor,
+    required this.order,
   });
 
   void _handleNavigation(BuildContext context) {
@@ -35,7 +38,17 @@ class ContainerDetailsWidget extends StatelessWidget {
         Navigator.push(
           context,
           NavigateToPageWidget(
-            const OrderDetailsNewOrderEmp(),
+            OrderDetailsNewOrderEmp(
+              order: order,
+            ),
+          ),
+        );
+        break;
+      case OrderStatus.newOrderForCompany:
+        Navigator.push(
+          context,
+          NavigateToPageWidget(
+            OrderDetailsNewOrderEmp(order: order),
           ),
         );
         break;
@@ -44,7 +57,9 @@ class ContainerDetailsWidget extends StatelessWidget {
         Navigator.push(
           context,
           NavigateToPageWidget(
-            const OrderDetailsOrderReceivedEmp(),
+             OrderDetailsOrderReceivedEmp(
+              order: order,
+            ),
           ),
         );
         break;
@@ -53,7 +68,9 @@ class ContainerDetailsWidget extends StatelessWidget {
         Navigator.push(
           context,
           NavigateToPageWidget(
-            const OrderDetailsOnTheWayEmp(),
+            OrderDetailsOnTheWayEmp(
+              order: order,
+            ),
           ),
         );
         break;
@@ -62,7 +79,9 @@ class ContainerDetailsWidget extends StatelessWidget {
         Navigator.push(
           context,
           NavigateToPageWidget(
-            const OrderDetailsUnderServiceEmp(),
+             OrderDetailsUnderServiceEmp(
+                order:order
+            ),
           ),
         );
         break;
@@ -71,7 +90,9 @@ class ContainerDetailsWidget extends StatelessWidget {
         Navigator.push(
           context,
           NavigateToPageWidget(
-            const OrderDetailsRejectByProviderOrderEmp(),
+             OrderDetailsRejectByProviderOrderEmp(
+              order: order,
+            ),
           ),
         );
         break;
@@ -79,7 +100,9 @@ class ContainerDetailsWidget extends StatelessWidget {
         Navigator.push(
           context,
           NavigateToPageWidget(
-            const OrderDetailsRejectByCompanyOrderEmp(),
+             OrderDetailsRejectByCompanyOrderEmp(
+              order: order,
+            ),
           ),
         );
         break;
@@ -87,7 +110,9 @@ class ContainerDetailsWidget extends StatelessWidget {
         Navigator.push(
           context,
           NavigateToPageWidget(
-            const OrderDetailsCancelOrderEmp(),
+            OrderDetailsCancelOrderEmp(
+              order: order,
+            ),
           ),
         );
         break;
@@ -95,7 +120,9 @@ class ContainerDetailsWidget extends StatelessWidget {
         Navigator.push(
           context,
           NavigateToPageWidget(
-            const OrderDetailsWaitingEmp(),
+             OrderDetailsWaitingEmp(
+                order:order
+            ),
           ),
         );
         break;
@@ -103,8 +130,10 @@ class ContainerDetailsWidget extends StatelessWidget {
         break;
     }
   }
+
   bool get _isEnabled {
     return status == OrderStatus.newOrderForProvider ||
+        status == OrderStatus.newOrderForCompany ||
         status == OrderStatus.orderCompleted ||
         status == OrderStatus.employeeInRoad ||
         status == OrderStatus.rejectedByProvider ||

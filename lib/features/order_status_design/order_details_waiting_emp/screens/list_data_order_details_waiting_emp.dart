@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/core/api_functions/order/get_provider_orders_model/order_model.dart';
 import 'package:sun_web_system/features/order_status_design/order_details_on_the_way_emp/screens/data_container_in_list_order_details_on_the_way_emp.dart';
 import 'package:sun_web_system/features/order_status_design/order_details_waiting_emp/screens/data_container_in_list_order_details_waiting_emp.dart';
 import '../../../../../../core/theming/colors.dart';
 
 class ListDataOrderDetailsWaitingEmp extends StatelessWidget {
-  const ListDataOrderDetailsWaitingEmp({super.key});
+  final OrderModel order;
+  const ListDataOrderDetailsWaitingEmp({super.key,required this.order});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,9 @@ class ListDataOrderDetailsWaitingEmp extends StatelessWidget {
           ),
         ],
       ),
-      child: const DataContainerInListOrderDetailsWaitingEmp(),
+      child: DataContainerInListOrderDetailsWaitingEmp(
+          order:order
+      ),
     );
   }
 }

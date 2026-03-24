@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:sun_web_system/core/api_functions/order/get_provider_orders_model/order_model.dart';
 import '../../../custom_widget/number_of_text_widget.dart';
 import '../../../../../../../../core/language/language_constant.dart';
 import '../../../../../../../../core/theming/assets.dart';
@@ -54,8 +55,9 @@ class MobileViewListDataContainerDesignOilProducts extends StatelessWidget {
 
           ],
         ),
-        const ContainerDetailsWidget(
+         ContainerDetailsWidget(
           status: 0,
+          order: OrderModel(),
         ),
       ],
     );

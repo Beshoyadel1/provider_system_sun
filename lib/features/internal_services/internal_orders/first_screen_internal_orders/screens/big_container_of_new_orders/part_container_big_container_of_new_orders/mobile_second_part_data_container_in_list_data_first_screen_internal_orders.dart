@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
+import 'package:sun_web_system/core/api_functions/order/get_provider_orders_model/order_model.dart';
 import 'package:sun_web_system/features/internal_services/internal_orders/custom_widget/row_image_with_title_widget.dart';
 import 'package:sun_web_system/features/internal_services/internal_orders/custom_widget/text_with_container_status.dart';
 import '../../../../../../../../features/internal_services/internal_orders/custom_widget/Column_date_order_with_time_widget.dart';
@@ -24,7 +25,7 @@ class MobileSecondPartDataContainerInListDataFirstScreenInternalOrders
       pricePart6;
   final int? status;
   final Uint8List? imagePathPart1,imagePathPart3;
-//RowImageWithTitleWidget
+  final OrderModel order;
   const MobileSecondPartDataContainerInListDataFirstScreenInternalOrders({
     super.key,
     required this.imagePathPart1,
@@ -39,6 +40,7 @@ class MobileSecondPartDataContainerInListDataFirstScreenInternalOrders
     this.status,
     required this.timePart5,
     required this.pricePart6,
+    required this.order
   });
 
   @override
@@ -100,6 +102,7 @@ class MobileSecondPartDataContainerInListDataFirstScreenInternalOrders
           mainAxisAlignment: MainAxisAlignment.center,
           children: [Expanded(child: ContainerDetailsWidget(
             status: status ?? 0,
+            order: order,
           ))],
         ),
       ],

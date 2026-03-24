@@ -1,18 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/core/api_functions/order/get_provider_orders_model/order_model.dart';
 import 'package:sun_web_system/features/order_status_design/order_details_under_service_emp/screens/data_container_in_list_order_details_under_service_emp.dart';
 import '../../../../../../core/theming/colors.dart';
 
 class ListDataOrderDetailsUnderServiceEmp extends StatelessWidget {
-  const ListDataOrderDetailsUnderServiceEmp({super.key});
+  final OrderModel order;
+  const ListDataOrderDetailsUnderServiceEmp({super.key,required this.order});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsetsGeometry.all(10),
+      padding: const EdgeInsetsGeometry.all(10),
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
-        borderRadius: BorderRadius.all(Radius.circular(20)),
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
         border: Border.all(
             color: AppColors.greyColor.withOpacity(0.3)
         ),
@@ -24,7 +26,9 @@ class ListDataOrderDetailsUnderServiceEmp extends StatelessWidget {
           ),
         ],
       ),
-      child: const DataContainerInListOrderDetailsUnderServiceEmp(),
+      child: DataContainerInListOrderDetailsUnderServiceEmp(
+          order:order
+      ),
     );
   }
 }

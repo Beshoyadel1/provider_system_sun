@@ -7,16 +7,17 @@ import '../../../../../../../core/theming/text_styles.dart';
 
 class ColumnDateOrderWithTimeWidget extends StatelessWidget {
   final String time;
+  final String? title;
 
-  const ColumnDateOrderWithTimeWidget({super.key, required this.time});
+  const ColumnDateOrderWithTimeWidget({super.key, required this.time,this.title});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       spacing: 10,
       children: [
-        const TextInAppWidget(
-          text: AppLanguageKeys.requestDate,
+         TextInAppWidget(
+          text: title??AppLanguageKeys.requestDate,
           textSize: 11,
           fontWeightIndex: FontSelectionData.mediumFontFamily,
           textColor: AppColors.greyColor,

@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/core/api_functions/order/get_provider_orders_model/order_model.dart';
 import 'package:sun_web_system/features/order_status_design/order_details_reject_by_provider_order_emp/screens/data_container_in_list_order_details_reject_by_provider_order_emp.dart';
 import '../../../../../../core/theming/colors.dart';
 
 class ListDataOrderDetailsRejectByProviderOrderEmp extends StatelessWidget {
-  const ListDataOrderDetailsRejectByProviderOrderEmp({super.key});
+  final OrderModel order;
+  const ListDataOrderDetailsRejectByProviderOrderEmp({super.key,required this.order});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,9 @@ class ListDataOrderDetailsRejectByProviderOrderEmp extends StatelessWidget {
           ),
         ],
       ),
-      child: const DataContainerInListOrderDetailsRejectByProviderOrderEmp(),
+      child:DataContainerInListOrderDetailsRejectByProviderOrderEmp(
+          order:order
+      ),
     );
   }
 }

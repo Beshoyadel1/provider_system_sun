@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/core/api_functions/order/get_provider_orders_model/order_model.dart';
 import 'package:sun_web_system/features/order_status_design/order_details_on_the_way_emp/screens/list_data_order_details_on_the_way_emp.dart';
 import 'package:sun_web_system/features/order_status_design/order_details_on_the_way_emp/screens/part_left_screen/data_part_left_screen_order_details_on_the_way_emp.dart';
 import 'package:sun_web_system/features/order_status_design/order_details_waiting_emp/screens/list_data_order_details_waiting_emp.dart';
@@ -9,7 +10,8 @@ import '../../../../../core/theming/colors.dart';
 import '../../../../../core/language/language_constant.dart';
 
 class OrderDetailsWaitingEmp extends StatelessWidget {
-  const OrderDetailsWaitingEmp({super.key});
+  final OrderModel order;
+  const OrderDetailsWaitingEmp({super.key,required this.order});
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +27,14 @@ class OrderDetailsWaitingEmp extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Expanded(
+               Expanded(
                 flex: 3,
                 child: Padding(
-                  padding:  EdgeInsets.all(20),
+                  padding:const  EdgeInsets.all(20),
                   child: SingleChildScrollView(
-                    child: ListDataOrderDetailsWaitingEmp(),
+                    child: ListDataOrderDetailsWaitingEmp(
+                        order:order
+                    ),
                   ),
                 ),
               ),

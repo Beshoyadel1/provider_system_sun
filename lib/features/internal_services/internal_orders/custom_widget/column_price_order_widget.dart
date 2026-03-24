@@ -9,16 +9,17 @@ import '../../../../../../../core/theming/text_styles.dart';
 
 class ColumnPriceOrderWidget extends StatelessWidget {
   final String price;
+  final String? title;
 
-  const ColumnPriceOrderWidget({super.key, required this.price});
+  const ColumnPriceOrderWidget({super.key, required this.price,this.title});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       spacing: 10,
       children: [
-        const TextInAppWidget(
-          text: AppLanguageKeys.servicePrice,
+        TextInAppWidget(
+          text: title??AppLanguageKeys.servicePrice,
           textSize: 11,
           fontWeightIndex: FontSelectionData.mediumFontFamily,
           textColor: AppColors.greyColor,

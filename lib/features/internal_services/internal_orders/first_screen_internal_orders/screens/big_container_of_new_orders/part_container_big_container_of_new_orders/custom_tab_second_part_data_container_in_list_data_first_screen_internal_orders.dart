@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
+import 'package:sun_web_system/core/api_functions/order/get_provider_orders_model/order_model.dart';
 import 'package:sun_web_system/features/internal_services/internal_orders/custom_widget/row_image_with_title_widget.dart';
 import '../../../../../../../../features/internal_services/internal_orders/custom_widget/row_image_with_title_orange_and_sub_title_black_widget.dart';
 import '../../../../../../../../features/internal_services/internal_orders/custom_widget/text_with_container_status.dart';
@@ -23,7 +24,8 @@ class CustomTabSecondPartDataContainerInListDataFirstScreenInternalOrders
 
   final int? status;
   final Uint8List? imagePathPart1,imagePathPart3;
-//RowImageWithTitleWidget
+  final OrderModel order;
+
   const CustomTabSecondPartDataContainerInListDataFirstScreenInternalOrders({
     super.key,
     required this.imagePathPart1,
@@ -38,6 +40,7 @@ class CustomTabSecondPartDataContainerInListDataFirstScreenInternalOrders
     this.status,
     required this.timePart5,
     required this.pricePart6,
+    required this.order,
   });
 
   @override
@@ -93,6 +96,7 @@ class CustomTabSecondPartDataContainerInListDataFirstScreenInternalOrders
           mainAxisAlignment: MainAxisAlignment.center,
           children: [Expanded(child: ContainerDetailsWidget(
             status: status ?? 0,
+            order: order,
           ))],
         ),
       ],

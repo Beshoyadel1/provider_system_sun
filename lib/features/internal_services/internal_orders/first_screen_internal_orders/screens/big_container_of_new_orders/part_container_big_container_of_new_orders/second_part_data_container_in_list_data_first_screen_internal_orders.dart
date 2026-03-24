@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/features/internal_services/internal_orders/first_screen_internal_orders/logic/order_funcations/order_functions.dart';
 import 'package:sun_web_system/features/order_status_design/order_details_new_order_emp/order_details_new_order_emp.dart';
 import 'package:sun_web_system/features/order_status_design/order_details_on_the_way_emp/order_details_on_the_way_emp.dart';
 import 'package:sun_web_system/features/order_status_design/order_details_order_received_emp/order_details_order_received_emp.dart';
@@ -54,34 +55,34 @@ class _SecondPartDataContainerInListDataFirstScreenInternalOrdersState extends S
               physics: const NeverScrollableScrollPhysics(),
               itemCount: orders.length,
               separatorBuilder: (_, __) => const SizedBox(height: 5),
-              itemBuilder: (context, index) {
-                final order = orders[index];
-                final service = order.services?.isNotEmpty == true
-                    ? order.services!.first
-                    : null;
+                itemBuilder: (context, index) {
+                  final order = orders[index];
 
-                final isEnglish =
-                    Localizations.localeOf(context).languageCode == 'en';
+                  final service = order.services?.isNotEmpty == true
+                      ? order.services!.first
+                      : null;
 
-                final serviceTitle = isEnglish
-                    ? (service?.latinName ?? "")
-                    : (service?.name ?? "");
+                  final serviceTitle = OrderFunctions.getServiceTitle(
+                    context: context,
+                    service: service,
+                  );
 
-                return ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidget(
-                  imagePathPart1: service?.image,
-                  titlePart1: serviceTitle,
-                  subTitlePart1: '',
-                  imagePathPart2: AppImageKeys.car501,
-                  textCarPart2: order.branchName ?? "",
-                  titlePart2: order.providerName ?? "",
-                  imagePathPart3: order.providerImage,
-                  titlePart3: AppLanguageKeys.name,
-                  subTitlePart3: order.username ?? "",
-                  status: order.orderStatus,
-                  timePart5: _formatDate(order.orderDate),
-                  pricePart6: order.totalPrice?.toString() ?? "0",
-                );
-              },
+                  return ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidget(
+                    imagePathPart1: service?.image,
+                    titlePart1: serviceTitle,
+                    subTitlePart1: '',
+                    imagePathPart2: AppImageKeys.car501,
+                    textCarPart2: order.branchName ?? "",
+                    titlePart2: order.providerName ?? "",
+                    imagePathPart3: order.providerImage,
+                    titlePart3: AppLanguageKeys.name,
+                    subTitlePart3: order.username ?? "",
+                    status: order.orderStatus,
+                    timePart5: OrderFunctions.formatDate(order.orderDate),
+                    pricePart6: order.totalPrice?.toString() ?? "0",
+                    order: order,
+                  );
+                }
             );
           }
 

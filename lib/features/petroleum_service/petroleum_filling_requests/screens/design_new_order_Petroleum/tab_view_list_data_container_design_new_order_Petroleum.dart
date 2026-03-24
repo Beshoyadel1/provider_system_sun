@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:sun_web_system/core/api_functions/order/get_provider_orders_model/order_model.dart';
 import '../../../../../core/language/language_constant.dart';
 import '../../../../../features/internal_services/internal_orders/custom_widget/container_details_widget.dart';
 import '../../../../../features/Petroleum_Service/custom_widget/column_subscription_fees_widget.dart';
@@ -38,8 +39,9 @@ class TabViewListDataContainerDesignNewOrderPetroleum extends StatelessWidget {
           title:AppLanguageKeys.price,
           budget: price,
         ),
-        const ContainerDetailsWidget(
+         ContainerDetailsWidget(
           status: 0,
+          order: OrderModel(),
         ),
       ],
     );

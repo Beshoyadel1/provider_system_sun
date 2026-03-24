@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/core/api_functions/order/get_provider_orders_model/order_model.dart';
 import 'package:sun_web_system/features/order_status_design/order_details_cancel_order_emp/screens/data_container_in_list_order_details_cancel_order_emp.dart';
 import '../../../../../../core/theming/colors.dart';
 
 class ListDataOrderDetailsCancelOrderEmp extends StatelessWidget {
-  const ListDataOrderDetailsCancelOrderEmp({super.key});
+  final OrderModel order;
+
+  const ListDataOrderDetailsCancelOrderEmp({super.key,required this.order});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +27,9 @@ class ListDataOrderDetailsCancelOrderEmp extends StatelessWidget {
           ),
         ],
       ),
-      child: const DataContainerInListOrderDetailsCancelOrderEmp(),
+      child:DataContainerInListOrderDetailsCancelOrderEmp(
+        order:order
+      ),
     );
   }
 }

@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/core/api_functions/order/get_provider_orders_model/order_model.dart';
 import 'package:sun_web_system/features/order_status_design/order_details_under_service_emp/screens/list_data_order_details_under_service_emp.dart';
 import 'package:sun_web_system/features/order_status_design/order_details_under_service_emp/screens/part_left_screen/data_part_left_screen_order_details_under_service_emp.dart';
 import '../../../../../core/utilies/map_of_all_app.dart';
 import '../../../../../core/theming/colors.dart';
 
 class OrderDetailsUnderServiceEmp extends StatelessWidget {
-  const OrderDetailsUnderServiceEmp({super.key});
+  final OrderModel order;
+  const OrderDetailsUnderServiceEmp({super.key,required this.order});
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +25,14 @@ class OrderDetailsUnderServiceEmp extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Expanded(
+               Expanded(
                 flex: 3,
                 child: Padding(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: SingleChildScrollView(
-                    child: ListDataOrderDetailsUnderServiceEmp(),
+                    child: ListDataOrderDetailsUnderServiceEmp(
+                      order: order,
+                    ),
                   ),
                 ),
               ),

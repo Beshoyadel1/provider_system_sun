@@ -15,9 +15,9 @@ class FirstRowInDataInContainerInteriorServicesStatistics
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return const Row(
       children: [
-        const Expanded(
+         Expanded(
           child: TextInAppWidget(
             text: AppLanguageKeys.internalServicesProfit,
             textSize: 15,
@@ -25,11 +25,11 @@ class FirstRowInDataInContainerInteriorServicesStatistics
             textColor: AppColors.blackColor,
           ),
         ),
-        RowNumberCoinWidget(
-            numberText: '450' ,
-            sizeText: 15,
-            imageSrc: AppImageKeys.coin
-        ),
+        // RowNumberCoinWidget(
+        //     numberText: '450' ,
+        //     sizeText: 15,
+        //     imageSrc: AppImageKeys.coin
+        // ),
       ],
     );
   }

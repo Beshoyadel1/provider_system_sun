@@ -6,6 +6,7 @@ import 'package:sun_web_system/core/theming/assets.dart';
 import 'package:sun_web_system/features/internal_services/internal_orders/custom_widget/Container_of_second_part_data_container_in_list_data_first_screen_internal_orders_widget.dart';
 import 'package:sun_web_system/features/internal_services/internal_orders/first_screen_internal_orders/logic/get_provider_internal_order/get_provider_internal_order_cubit.dart';
 import 'package:sun_web_system/features/internal_services/internal_orders/first_screen_internal_orders/logic/get_provider_internal_order/get_provider_internal_order_state.dart';
+import 'package:sun_web_system/features/internal_services/internal_orders/first_screen_internal_orders/logic/order_funcations/order_functions.dart';
 
 class SecondPartDataContainerInListDataFirstScreenMobileServicesOrders
     extends StatefulWidget {
@@ -49,34 +50,34 @@ class _SecondPartDataContainerInListDataFirstScreenMobileServicesOrdersState ext
               physics: const NeverScrollableScrollPhysics(),
               itemCount: orders.length,
               separatorBuilder: (_, __) => const SizedBox(height: 5),
-              itemBuilder: (context, index) {
-                final order = orders[index];
-                final service = order.services?.isNotEmpty == true
-                    ? order.services!.first
-                    : null;
+                itemBuilder: (context, index) {
+                  final order = orders[index];
 
-                final isEnglish =
-                    Localizations.localeOf(context).languageCode == 'en';
+                  final service = order.services?.isNotEmpty == true
+                      ? order.services!.first
+                      : null;
 
-                final serviceTitle = isEnglish
-                    ? (service?.latinName ?? "")
-                    : (service?.name ?? "");
+                  final serviceTitle = OrderFunctions.getServiceTitle(
+                    context: context,
+                    service: service,
+                  );
 
-                return ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidget(
-                  imagePathPart1: service?.image,
-                  titlePart1: serviceTitle,
-                  subTitlePart1: '',
-                  imagePathPart2: AppImageKeys.car501,
-                  textCarPart2: order.branchName ?? "",
-                  titlePart2: order.providerName ?? "",
-                  imagePathPart3: order.providerImage,
-                  titlePart3: AppLanguageKeys.name,
-                  subTitlePart3: order.username ?? "",
-                  status: order.orderStatus,
-                  timePart5: _formatDate(order.orderDate),
-                  pricePart6: order.totalPrice?.toString() ?? "0",
-                );
-              },
+                  return ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidget(
+                    imagePathPart1: service?.image,
+                    titlePart1: serviceTitle,
+                    subTitlePart1: '',
+                    imagePathPart2: AppImageKeys.car501,
+                    textCarPart2: order.branchName ?? "",
+                    titlePart2: order.providerName ?? "",
+                    imagePathPart3: order.providerImage,
+                    titlePart3: AppLanguageKeys.name,
+                    subTitlePart3: order.username ?? "",
+                    status: order.orderStatus,
+                    timePart5: OrderFunctions.formatDate(order.orderDate),
+                    pricePart6: order.totalPrice?.toString() ?? "0",
+                    order: order,
+                  );
+                }
             );
           }
 
