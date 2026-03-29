@@ -42,6 +42,8 @@ class AvailableListCars extends StatelessWidget {
                     child: AvailableCars(
                       id: car.id.toString(),
                       releaseDate: car.releaseDate,
+                      carImage: car.car?.carImage,
+                      brandImage: car.car?.brandImage,
                       description: car.description,
                       isSold: car.isSold ?? false,
                       isNew: car.isNew ?? false,

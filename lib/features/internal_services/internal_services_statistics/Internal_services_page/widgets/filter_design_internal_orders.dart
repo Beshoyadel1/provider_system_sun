@@ -26,8 +26,7 @@ class FilterDesignInternalOrders
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GetProviderInternalOrderCubit,
-        GetProviderInternalOrderState>(
+    return BlocBuilder<GetProviderInternalOrderCubit, GetProviderInternalOrderState>(
       builder: (context, state) {
         if (state is GetProviderInternalOrderLoading) {
           return const Center(child: CircularProgressIndicator());

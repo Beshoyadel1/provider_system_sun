@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/core/language/language_constant.dart';
+import 'package:sun_web_system/core/theming/assets.dart';
+import 'package:sun_web_system/features/internal_services/internal_orders/custom_widget/Container_of_second_part_data_container_in_list_data_first_screen_internal_orders_widget.dart';
+import 'package:sun_web_system/features/internal_services/internal_orders/first_screen_internal_orders/logic/order_funcations/order_functions.dart';
 import '../../../../../core/api/dio_function/api_constants.dart';
 import '../../../../../features/internal_services/internal_orders/first_screen_internal_orders/logic/get_provider_internal_order/get_provider_internal_order_cubit.dart';
 import '../../../../../features/internal_services/internal_orders/first_screen_internal_orders/logic/get_provider_internal_order/get_provider_internal_order_state.dart';
@@ -36,7 +40,7 @@ class ViewListDataContainerDesignNewOrderPetroleum extends StatelessWidget {
     return BlocProvider(
       create: (_) => GetProviderInternalOrderCubit()
         ..loadInternalOrders(
-          serviceId: MainCategoryConstants.petrolMainID,
+            serviceId: MainCategoryConstants.petrolMainID
         ),
       child: BlocBuilder<GetProviderInternalOrderCubit,
           GetProviderInternalOrderState>(
@@ -44,37 +48,42 @@ class ViewListDataContainerDesignNewOrderPetroleum extends StatelessWidget {
           if (state is GetProviderInternalOrderLoading) {
             return const Center(child: CircularProgressIndicator());
           }
-
           if (state is GetProviderInternalOrderSuccess) {
             final orders = state.orders;
 
             return ListView.separated(
-              padding: EdgeInsets.zero,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: orders.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 10),
-              itemBuilder: (context, index) {
-                final order = orders[index];
-                final service = order.services?.isNotEmpty == true
-                    ? order.services!.first
-                    : null;
-                final isEnglish =
-                    Localizations.localeOf(context).languageCode == 'en';
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: orders.length,
+                separatorBuilder: (_, __) => const SizedBox(height: 5),
+                itemBuilder: (context, index) {
+                  final order = orders[index];
 
-                final serviceTitle = isEnglish
-                    ? (service?.latinName ?? "")
-                    : (service?.name ?? "");
+                  final service = order.services?.isNotEmpty == true
+                      ? order.services!.first
+                      : null;
 
-                return _buildCard(
-                  isMobile,
-                  isTabletCustom,
-                  serviceTitle,
-                  formatDate(order.orderDate),
-                  order.servicePackages?.first.quantity?.toString(),
-                  order.totalPrice?.toString(),
-                );
-              },
+                  final serviceTitle = OrderFunctions.getServiceTitle(
+                    context: context,
+                    service: service,
+                  );
+
+                  return ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidget(
+                    imagePathPart1: service?.image,
+                    titlePart1: serviceTitle,
+                    subTitlePart1: '',
+                    imagePathPart2: AppImageKeys.car501,
+                    textCarPart2: order.branchName ?? "",
+                    titlePart2: order.providerName ?? "",
+                    imagePathPart3: order.providerImage,
+                    titlePart3: AppLanguageKeys.name,
+                    subTitlePart3: order.username ?? "",
+                    status: order.orderStatus,
+                    timePart5: OrderFunctions.formatDate(order.orderDate),
+                    pricePart6: order.totalPrice?.toString() ?? "0",
+                    order: order,
+                  );
+                }
             );
           }
 
@@ -84,49 +93,50 @@ class ViewListDataContainerDesignNewOrderPetroleum extends StatelessWidget {
     );
   }
 }
-Widget _buildCard(
-    bool isMobile,
-    bool isTabletCustom,
-    String? nameEmp,
-    String? date,
-    String? quantity,
-    String? price,
-    ) {
-  final child = isMobile
-      ? MobileViewListDataContainerDesignNewOrderPetroleum(
-    nameEmp: nameEmp,
-    date: date,
-    quantity: quantity,
-    price: price,
-  )
-      : isTabletCustom
-      ? CustomTabViewListDataContainerDesignNewOrderPetroleum(
-    nameEmp: nameEmp,
-    date: date,
-    quantity: quantity,
-    price: price,
-  )
-      : TabViewListDataContainerDesignNewOrderPetroleum(
-    nameEmp: nameEmp,
-    date: date,
-    quantity: quantity,
-    price: price,
-  );
 
-  return Container(
-    padding: const EdgeInsets.all(10),
-    decoration: BoxDecoration(
-      color: AppColors.whiteColor,
-      borderRadius: const BorderRadius.all(Radius.circular(20)),
-      border: Border.all(color: AppColors.greyColor.withOpacity(0.3)),
-      boxShadow: [
-        BoxShadow(
-          color: AppColors.darkColor.withOpacity(0.1),
-          blurRadius: 4,
-          offset: const Offset(0, 2),
-        ),
-      ],
-    ),
-    child: child,
-  );
-}
+// Widget _buildCard(
+//     bool isMobile,
+//     bool isTabletCustom,
+//     String? nameEmp,
+//     String? date,
+//     String? quantity,
+//     String? price,
+//     ) {
+//   final child = isMobile
+//       ? MobileViewListDataContainerDesignNewOrderPetroleum(
+//     nameEmp: nameEmp,
+//     date: date,
+//     quantity: quantity,
+//     price: price,
+//   )
+//       : isTabletCustom
+//       ? CustomTabViewListDataContainerDesignNewOrderPetroleum(
+//     nameEmp: nameEmp,
+//     date: date,
+//     quantity: quantity,
+//     price: price,
+//   )
+//       : TabViewListDataContainerDesignNewOrderPetroleum(
+//     nameEmp: nameEmp,
+//     date: date,
+//     quantity: quantity,
+//     price: price,
+//   );
+//
+//   return Container(
+//     padding: const EdgeInsets.all(10),
+//     decoration: BoxDecoration(
+//       color: AppColors.whiteColor,
+//       borderRadius: const BorderRadius.all(Radius.circular(20)),
+//       border: Border.all(color: AppColors.greyColor.withOpacity(0.3)),
+//       boxShadow: [
+//         BoxShadow(
+//           color: AppColors.darkColor.withOpacity(0.1),
+//           blurRadius: 4,
+//           offset: const Offset(0, 2),
+//         ),
+//       ],
+//     ),
+//     child: child,
+//   );
+// }

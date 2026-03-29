@@ -1,10 +1,13 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 class CarModel {
   final int? id;
   final String? brandName;
   final String? brandLatinName;
-  final String? brandImage;
+  final Uint8List? brandImage;
   final String? modelName;
-  final String? carImage;
+  final Uint8List? carImage;
 
   CarModel({
     this.id,
@@ -20,9 +23,9 @@ class CarModel {
       id: json['id'],
       brandName: json['brandname'],
       brandLatinName: json['brandlatinname'],
-      brandImage: json['brandimage'],
+      brandImage: json['brandimage']!= null ? base64Decode(json["brandimage"]) : null,
       modelName: json['modelname'],
-      carImage: json['carimage'],
+      carImage: json['carimage']!= null ? base64Decode(json["carimage"]) : null,
     );
   }
 }

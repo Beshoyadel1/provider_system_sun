@@ -20,41 +20,41 @@ class FirstRowDataContainerDesignDigramForPetroleum extends StatelessWidget {
           fontWeightIndex: FontSelectionData.mediumFontFamily,
           textColor: AppColors.blackColor,
         ),
-        Row(
-          spacing: 10,
-          children: [
-            TextInAppWidget(
-              text: AppLanguageKeys.from,
-              textSize: 15,
-              fontWeightIndex: FontSelectionData.regularFontFamily,
-              textColor: AppColors.blackColor,
-            ),
-            Flexible(
-              child: SelectTimeProfitServiceWidget(
-                hint: '00/00/0000',
-                textColor: AppColors.blackColor,
-                backGroundColor: AppColors.whiteColor,
-                borderColor: AppColors.greyColor,
-                isTime: true,
-              ),
-            ),
-            TextInAppWidget(
-              text: AppLanguageKeys.to,
-              textSize: 15,
-              fontWeightIndex: FontSelectionData.regularFontFamily,
-              textColor: AppColors.blackColor,
-            ),
-            Flexible(
-              child: SelectTimeProfitServiceWidget(
-                hint: '00/00/0000',
-                textColor: AppColors.blackColor,
-                backGroundColor: AppColors.whiteColor,
-                borderColor: AppColors.greyColor,
-                isTime: true,
-              ),
-            )
-          ],
-        )
+        // Row(
+        //   spacing: 10,
+        //   children: [
+        //     TextInAppWidget(
+        //       text: AppLanguageKeys.from,
+        //       textSize: 15,
+        //       fontWeightIndex: FontSelectionData.regularFontFamily,
+        //       textColor: AppColors.blackColor,
+        //     ),
+        //     Flexible(
+        //       child: SelectTimeProfitServiceWidget(
+        //         hint: '00/00/0000',
+        //         textColor: AppColors.blackColor,
+        //         backGroundColor: AppColors.whiteColor,
+        //         borderColor: AppColors.greyColor,
+        //         isTime: true,
+        //       ),
+        //     ),
+        //     TextInAppWidget(
+        //       text: AppLanguageKeys.to,
+        //       textSize: 15,
+        //       fontWeightIndex: FontSelectionData.regularFontFamily,
+        //       textColor: AppColors.blackColor,
+        //     ),
+        //     Flexible(
+        //       child: SelectTimeProfitServiceWidget(
+        //         hint: '00/00/0000',
+        //         textColor: AppColors.blackColor,
+        //         backGroundColor: AppColors.whiteColor,
+        //         borderColor: AppColors.greyColor,
+        //         isTime: true,
+        //       ),
+        //     )
+        //   ],
+        // )
       ],
     );
   }

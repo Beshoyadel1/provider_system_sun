@@ -1,9 +1,12 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 class UserModel {
   final int? id;
   final int? type;
   final String? name;
   final String? latinName;
-  final String? image;
+  final Uint8List? image;
   final String? branchName;
   final String? branchLatinName;
 
@@ -23,7 +26,7 @@ class UserModel {
       type: json['type'],
       name: json['name'],
       latinName: json['latinname'],
-      image: json['image'],
+      image: json["image"] != null ? base64Decode(json["image"]) : null,
       branchName: json['branchname'],
       branchLatinName: json['branchlatinname'],
     );

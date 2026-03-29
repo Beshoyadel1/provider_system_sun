@@ -1,5 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
+import 'package:sun_web_system/core/api_functions/order/update_order_status_model/update_order_status_request.dart';
+import 'package:sun_web_system/core/pages_widgets/general_widgets/snakbar.dart';
+import 'package:sun_web_system/features/order_status_design/cubit/order_status_cubit/order_status_cubit.dart';
+import 'package:sun_web_system/features/order_status_design/cubit/order_status_cubit/order_status_state.dart';
+import 'package:sun_web_system/features/order_status_design/order_details_new_order_emp/screens/part_left_screen/button_accept_reject_order.dart';
 import '../../../../../../core/api_functions/order/get_provider_orders_model/order_model.dart';
 import '../../../../../../features/order_status_design/order_details_new_order_emp/screens/custom_container_order.dart';
 import '../../../../../../core/language/language_constant.dart';
@@ -43,15 +50,48 @@ class DataContainerInListOrderDetailsUnderServiceEmp extends StatelessWidget {
                 DataTimeLineTileOrderDetailsUnderServiceEmp()
               ],
             ),
-          ContainerSold(
-            text: 'انتهاء الخدمة',
-            backGroundColor: AppColors.orangeColor,
-            onTap:(){
-              // Navigator.pop(context);
-              // Navigator.of(context).push(
-              //   NavigateToPageWidget(OrderReceivedEmp()),
-              // );
-            },
+          BlocProvider(
+            create: (_) => OrderStatusCubit(),
+            child: BlocListener<OrderStatusCubit, OrderStatusState>(
+              listener: (context, state) {
+                if (!context.mounted) return;
+
+                if (state is OrderStatusSuccess) {
+                  AppSnackBar.showSuccess(
+                    AppLanguageKeys.updateOrderStatusSuccessfully,
+                  );
+
+                  Navigator.pop(context, true);
+                }
+
+                if (state is OrderStatusError) {
+                  AppSnackBar.showError(state.message);
+                }
+              },
+              child: BlocBuilder<OrderStatusCubit, OrderStatusState>(
+                builder: (context, state) {
+                  return Stack(
+                    children: [
+                      ContainerSold(
+                        text: AppLanguageKeys.onTheWay,
+                        backGroundColor: AppColors.orangeColor,
+                        onTap: () {
+                          context.read<OrderStatusCubit>().updateOrderStatus(
+                            updateOrderStatusRequest: UpdateOrderStatusRequest(
+                              orderId: order.id ?? 0,
+                              status: OrderStatus.employeeInRoad,
+                            ),
+                          );
+                        },
+                      ),
+
+                      if (state is OrderStatusLoading)
+                        const Center(child: CircularProgressIndicator()),
+                    ],
+                  );
+                },
+              ),
+            ),
           ),
         ],
       ),

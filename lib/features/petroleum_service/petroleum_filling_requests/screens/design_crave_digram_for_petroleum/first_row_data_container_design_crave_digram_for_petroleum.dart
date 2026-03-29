@@ -12,12 +12,12 @@ class FirstRowDataContainerDesignCraveDigramForPetroleum
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return const Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       spacing: 20,
       children: [
-        Flexible(
+         Flexible(
           child: TextInAppWidget(
             text: AppLanguageKeys.fillingOrdersSalesForAllBranches,
             textSize: 22,
@@ -25,8 +25,8 @@ class FirstRowDataContainerDesignCraveDigramForPetroleum
             textColor: AppColors.blackColor,
           ),
         ),
-        RowNumberCoinWidget(
-            numberText: '250', sizeText: 15, imageSrc: AppImageKeys.coin)
+        // RowNumberCoinWidget(
+        //     numberText: '250', sizeText: 15, imageSrc: AppImageKeys.coin)
       ],
     );
   }

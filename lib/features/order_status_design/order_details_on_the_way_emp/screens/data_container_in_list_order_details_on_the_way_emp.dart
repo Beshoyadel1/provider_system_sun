@@ -1,5 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/core/pages_widgets/general_widgets/snakbar.dart';
+import 'package:sun_web_system/features/order_status_design/cubit/order_status_cubit/order_status_cubit.dart';
+import 'package:sun_web_system/features/order_status_design/cubit/order_status_cubit/order_status_state.dart';
+import 'package:sun_web_system/features/order_status_design/order_details_on_the_way_emp/screens/part_left_screen/container_received_reject_user.dart';
 import '../../../../../../core/api_functions/order/get_provider_orders_model/order_model.dart';
 import '../../../../../../core/language/language_constant.dart';
 import '../../../../../../features/order_status_design/custom_widget/container_sold.dart';
@@ -44,16 +49,39 @@ class DataContainerInListOrderDetailsOnTheWayEmp extends StatelessWidget {
                 DataTimeLineTileOrderDetailsOnTheWayEmp()
               ],
             ),
-          ContainerSold(
-            text: AppLanguageKeys.yourLocation,
-            backGroundColor: AppColors.blueColor,
-            onTap:(){
-              // Navigator.pop(context);
-              // Navigator.of(context).push(
-              //   NavigateToPageWidget(OrderReceivedEmp()),
-              // );
-            },
-          ),
+
+          BlocProvider(
+            create: (_) => OrderStatusCubit(),
+            child: BlocListener<OrderStatusCubit, OrderStatusState>(
+              listener: (context, state) {
+                if (!context.mounted) return;
+
+                if (state is OrderStatusSuccess) {
+                  AppSnackBar.showSuccess(
+                    AppLanguageKeys.updateOrderStatusSuccessfully,
+                  );
+
+                  Navigator.pop(context, true);
+                }
+
+                if (state is OrderStatusError) {
+                  AppSnackBar.showError(state.message);
+                }
+              },
+              child: BlocBuilder<OrderStatusCubit, OrderStatusState>(
+                builder: (context, state) {
+                  return Stack(
+                    children: [
+                      ContainerReceivedRejectUser(order: order),
+
+                      if (state is OrderStatusLoading)
+                        const Center(child: CircularProgressIndicator()),
+                    ],
+                  );
+                },
+              ),
+            ),
+          )
         ],
       ),
     );

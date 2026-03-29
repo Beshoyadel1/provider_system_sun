@@ -12,9 +12,11 @@ class FiltersTabsWidget extends StatefulWidget {
   const FiltersTabsWidget({
     super.key,
     required this.filterOptions,
+    this.serviceId
   });
 
   final List<filterOrdersModel> filterOptions;
+  final int? serviceId;
 
   @override
   State<FiltersTabsWidget> createState() => _FiltersTabsWidgetState();
@@ -84,7 +86,7 @@ class _FiltersTabsWidgetState extends State<FiltersTabsWidget>
               child: BlocProvider(
                 create: (_) => GetProviderInternalOrderCubit()
                   ..loadInternalOrders(
-                    serviceId: MainCategoryConstants.maintenanceAndInternalServicesID,
+                    serviceId: widget.serviceId??MainCategoryConstants.maintenanceAndInternalServicesID,
                   ),
                 child: TabBarView(
                   controller: _tabController,

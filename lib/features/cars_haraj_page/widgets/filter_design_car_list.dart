@@ -50,6 +50,8 @@ class FilterDesignCarList extends StatelessWidget {
                       padding: const EdgeInsets.only(bottom: 20),
                       child: AvailableCars(
                         id: car.id.toString(),
+                        carImage: car.car?.carImage,
+                        brandImage: car.car?.brandImage,
                         releaseDate: car.releaseDate,
                         description: car.description,
                         isSold: car.isSold ?? false,

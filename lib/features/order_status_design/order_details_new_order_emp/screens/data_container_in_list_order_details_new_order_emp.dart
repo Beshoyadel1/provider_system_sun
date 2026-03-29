@@ -1,9 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/api_functions/order/get_provider_orders_model/order_model.dart';
+import 'package:sun_web_system/core/pages_widgets/general_widgets/snakbar.dart';
+import 'package:sun_web_system/features/order_status_design/cubit/order_status_cubit/order_status_cubit.dart';
+import 'package:sun_web_system/features/order_status_design/cubit/order_status_cubit/order_status_state.dart';
 import 'package:sun_web_system/features/order_status_design/custom_widget/container_sold.dart';
 import 'package:sun_web_system/features/order_status_design/custom_widget/title_with_sub_title_in_order_details_emp.dart';
 import 'package:sun_web_system/features/order_status_design/order_details_new_order_emp/screens/custom_container_order.dart';
+import 'package:sun_web_system/features/order_status_design/order_details_new_order_emp/screens/part_left_screen/button_accept_reject_order.dart';
 import 'package:sun_web_system/features/order_status_design/order_details_new_order_emp/screens/part_left_screen/container_contact_with_customer_order_details_new_order_emp.dart';
 import 'package:sun_web_system/features/order_status_design/order_details_new_order_emp/screens/part_left_screen/data_time_line_tile_order_details_new_order_emp.dart';
 import 'package:sun_web_system/features/order_status_design/order_details_new_order_emp/sub/dialog_reject_order/dialog_reject_order.dart';
@@ -45,32 +50,38 @@ class DataContainerInListOrderDetailsNewOrderEmp extends StatelessWidget {
                  DataTimeLineTileOrderDetailsNewOrderEmp()
               ],
             ),
-          Row(
-            spacing: 20,
-            children: [
-              ContainerSold(
-                text: AppLanguageKeys.requestAccepted,
-                backGroundColor: AppColors.greenColor,
-                onTap: () {
-                  // Navigator.pop(context);
-                  // Navigator.of(context).push(
-                  //   NavigateToPageWidget(OrderReceivedEmp()),
-                  // );
-                },
-              ),
-              ContainerSold(
-                text: AppLanguageKeys.rejectRequest,
-                backGroundColor: AppColors.redColor,
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    barrierDismissible: true,
-                    builder: (context) => const DialogRejectOrder(),
+          BlocProvider(
+            create: (_) => OrderStatusCubit(),
+            child: BlocListener<OrderStatusCubit, OrderStatusState>(
+              listener: (context, state) {
+                if (!context.mounted) return;
+
+                if (state is OrderStatusSuccess) {
+                  AppSnackBar.showSuccess(
+                    AppLanguageKeys.updateOrderStatusSuccessfully,
+                  );
+
+                  Navigator.pop(context, true);
+                }
+
+                if (state is OrderStatusError) {
+                  AppSnackBar.showError(state.message);
+                }
+              },
+              child: BlocBuilder<OrderStatusCubit, OrderStatusState>(
+                builder: (context, state) {
+                  return Stack(
+                    children: [
+                      ButtonAcceptRejectOrder(order: order),
+
+                      if (state is OrderStatusLoading)
+                        const Center(child: CircularProgressIndicator()),
+                    ],
                   );
                 },
               ),
-            ],
-          ),
+            ),
+          )
         ],
       ),
     );

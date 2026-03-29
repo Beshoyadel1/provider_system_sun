@@ -21,16 +21,16 @@ class MonthlyBarChart extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
            TextInAppWidget(
-            text: 'مبيعات حراج سيارات',
+            text: AppLanguageKeys.carMarketSales,
             textSize: 16,
             fontWeightIndex: FontSelectionData.regularFontFamily,
           ),
-           TextInAppWidget(
-            text: AppLanguageKeys.priceKey,
-            textSize: 16,
-            fontWeightIndex: FontSelectionData.regularFontFamily,
-            textColor: AppColors.orangeColor,
-          ),
+          //  TextInAppWidget(
+          //   text: AppLanguageKeys.priceKey,
+          //   textSize: 16,
+          //   fontWeightIndex: FontSelectionData.regularFontFamily,
+          //   textColor: AppColors.orangeColor,
+          // ),
           BarChartDataWidget()
         ],
       ),

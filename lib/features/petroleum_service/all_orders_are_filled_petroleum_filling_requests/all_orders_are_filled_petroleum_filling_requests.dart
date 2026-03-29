@@ -23,9 +23,7 @@ class AllOrdersAreFilledPetroleumFillingRequests extends StatelessWidget {
           child: Column(
             children: [
               Expanded(
-                child: SingleChildScrollView(
-                    child:
-                        ListDataAllOrdersAreFilledPetroleumFillingRequests()),
+                child: ListDataAllOrdersAreFilledPetroleumFillingRequests(),
               ),
             ],
           ),

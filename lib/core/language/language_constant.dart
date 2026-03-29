@@ -19,6 +19,7 @@ class AppLanguageKeys {
   //end//
 
   //others//
+  static const String carMarketSales = 'carMarketSales';
   static const String rejectionReason = 'rejectionReason';
   static const String orderInProgress = 'orderInProgress';
   static const String waitingForInvoicePayment = 'waitingForInvoicePayment';

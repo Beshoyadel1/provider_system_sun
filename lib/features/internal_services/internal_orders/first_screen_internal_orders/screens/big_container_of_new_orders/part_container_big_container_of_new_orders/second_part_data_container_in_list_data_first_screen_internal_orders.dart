@@ -27,13 +27,6 @@ class SecondPartDataContainerInListDataFirstScreenInternalOrders
 
 class _SecondPartDataContainerInListDataFirstScreenInternalOrdersState extends State<SecondPartDataContainerInListDataFirstScreenInternalOrders> {
 
-  String _formatDate(String? date) {
-    if (date == null || date.isEmpty) return "";
-    final parsed = DateTime.tryParse(date);
-    if (parsed == null) return date;
-    return "${parsed.day}/${parsed.month}/${parsed.year}";
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:sun_web_system/features/internal_services/internal_orders/custom_widget/text_with_container_status_car.dart';
 import '../../../../../core/language/language_constant.dart';
@@ -8,11 +10,13 @@ import '../../../../../core/theming/text_styles.dart';
 import 'car_model.dart';
 
 class AvailableCars extends StatelessWidget {
-  const AvailableCars({super.key,this.price,this.brandName,this.isSold=false,this.isNew=false,this.description,this.releaseDate,this.id, this.spacing, required this.onTap});
+  const AvailableCars({super.key,this.price,this.brandName,this.isSold=false,this.isNew=false,this.description,this.releaseDate,this.id, this.spacing, required this.onTap,required this.carImage,required this.brandImage});
   final String? id,description,releaseDate,brandName,price;
   final double? spacing;
   final VoidCallback onTap;
   final bool isNew,isSold;
+  final Uint8List? carImage,brandImage;
+
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +34,7 @@ class AvailableCars extends StatelessWidget {
            CarModel(
             description:description ,
             releaseDate:releaseDate ,
+            imageBytes:carImage,
           ),
           // const OrderState(
           //
@@ -41,16 +46,25 @@ class AvailableCars extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Image.asset(
+              brandImage != null
+                  ? Image.memory(
+                brandImage!,
+                width: 65,
+                height: 40,
+                fit: BoxFit.contain,
+              )
+                  : Image.asset(
                 AppImageKeys.nesan,
                 width: 30,
                 height: 34,
                 fit: BoxFit.contain,
               ),
+
                TextInAppWidget(
                   text: brandName??'نيسان',
                   textSize: 14,
-                  textColor: AppColors.darkColor),
+                  textColor: AppColors.darkColor
+               ),
             ],
           ),
           TextWithContainerStatusCar(

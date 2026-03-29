@@ -29,7 +29,9 @@ class AppLocalizations {
       AppLanguageKeys.rejectedByProvider: 'تم الرفض من المزود',
       AppLanguageKeys.cancelledByUser: 'تم الإلغاء من العميل',
       //END//
+
       //others//
+      AppLanguageKeys.carMarketSales: 'مبيعات حراج سيارات',
       AppLanguageKeys.rejectionReason: 'سبب رفض الطلب',
       AppLanguageKeys.orderInProgress: 'جاري تنفيذ الطلب',
       AppLanguageKeys.waitingForInvoicePayment: 'انتظار دفع الفاتورة',
@@ -1211,6 +1213,7 @@ class AppLocalizations {
       AppLanguageKeys.cancelledByUser: 'Cancelled by User',
       //END//
       //others//
+      AppLanguageKeys.carMarketSales: 'Car Market Sales',
       AppLanguageKeys.rejectionReason: 'Reason for Request Rejection',
       AppLanguageKeys.orderInProgress: 'Order in Progress',
       AppLanguageKeys.waitingForInvoicePayment: 'Waiting for Invoice Payment',

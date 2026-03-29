@@ -362,11 +362,11 @@ void getPages() {
                 ),
               ]),
         ]),
-    const PageNodeModel(
-      name: AppLanguageKeys.accountManagementKey,
-      image: AppImageKeys.wallet,
-      number: PagesOfAllApp.walletPageNumber,
-    ),
+    // const PageNodeModel(
+    //   name: AppLanguageKeys.accountManagementKey,
+    //   image: AppImageKeys.wallet,
+    //   number: PagesOfAllApp.walletPageNumber,
+    // ),
     const PageNodeModel(
         name: AppLanguageKeys.petroleum,
         image: AppImageKeys.users,
@@ -397,11 +397,11 @@ void getPages() {
             page: FacilityManagement(),
           ),
         ]),
-    const PageNodeModel(
-        name: AppLanguageKeys.notificationsKey,
-        image: AppImageKeys.notificationIcon,
-        number: PagesOfAllApp.notificationPageNumber,
-        page: FirstScreenNotifications()),
+    // const PageNodeModel(
+    //     name: AppLanguageKeys.notificationsKey,
+    //     image: AppImageKeys.notificationIcon,
+    //     number: PagesOfAllApp.notificationPageNumber,
+    //     page: FirstScreenNotifications()),
     const PageNodeModel(
         name: AppLanguageKeys.reviewsKey,
         image: AppImageKeys.star,

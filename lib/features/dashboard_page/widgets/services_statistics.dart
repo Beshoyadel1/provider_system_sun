@@ -23,7 +23,7 @@ class ServicesStatistics extends StatelessWidget {
             textSize: 16,
             fontWeightIndex: FontSelectionData.regularFontFamily,
           ),
-          SelectDateWidget(),
+          //SelectDateWidget(),
           SizedBox(
             height: 30,
           ),
