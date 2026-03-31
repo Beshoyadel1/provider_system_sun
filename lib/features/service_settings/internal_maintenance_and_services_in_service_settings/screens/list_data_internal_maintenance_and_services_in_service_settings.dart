@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/features/service_settings/logic/cubit/service_settings_cubit/service_settings_cubit.dart';
 import '../../../../../../features/service_settings/internal_maintenance_and_services_in_service_settings/screens/data_container_in_list_data_internal_maintenance_and_services_in_service_settings.dart';
 import '../../../../../../core/theming/colors.dart';
 
@@ -25,7 +27,9 @@ class ListDataInternalMaintenanceAndServicesInServiceSettings
           ),
         ],
       ),
-      child: const DataContainerInListDataInternalMaintenanceAndServicesInServiceSettings(),
+      child: BlocProvider(
+          create: (_) => ServiceSettingsCubit()..getServices(parentId: 2),
+          child: const DataContainerInListDataInternalMaintenanceAndServicesInServiceSettings()),
     );
   }
 }

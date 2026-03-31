@@ -17,7 +17,6 @@ class GetAllHarageCubit extends Cubit<GetAllHarageState> {
       final result = await getAllHarageFunction(
         getAllHarageRequest: request,
       );
-      print("Cars returned from API: ${result.data?.length}");
       emit(
         GetAllHarageSuccess(
           response: result,

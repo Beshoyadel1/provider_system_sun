@@ -326,7 +326,6 @@ class OrderType {
     OrderStatus.orderCompleted,
     OrderStatus.cancelledByUser,
     OrderStatus.rejectedByProvider,
-    OrderStatus.rejectedByProvider
   ];
 }
 

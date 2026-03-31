@@ -1,7 +1,7 @@
-import 'package:sun_web_system/features/advertisements/first_screen_advertisements/first_screen_advertisements.dart';
 import 'package:sun_web_system/features/internal_services/internal_services_statistics/Internal_services_page/ui/internal_orders_page.dart';
 import 'package:sun_web_system/features/mobile_services/mobile_services_orders/first_screen_mobile_services_orders/first_screen_mobile_services_orders.dart';
 import 'package:sun_web_system/features/mobile_services/mobile_services_statistics/spare_parts_page/ui/mobile_services_statistics_page.dart';
+import 'package:sun_web_system/features/service_settings/petrol_in_service_settings/petrol_in_service_settings.dart';
 import 'package:sun_web_system/features/spare_parts/spare_parts_orders/first_screen_spare_parts_orders/first_screen_spare_parts_orders.dart';
 import 'package:sun_web_system/features/spare_parts/spare_parts_statistics/spare_parts_page/ui/spare_parts_statistics_page.dart';
 import '../../../core/general_models/pages_model.dart';
@@ -11,7 +11,6 @@ import '../../../features/cars_haraj_page/ui/cars_haraj_statistics_page.dart';
 import '../../../features/communication_and_policies_pages/first_screen_communication_and_policies_pages/first_screen_communication_and_policies_pages.dart';
 import '../../../features/dashboard_page/dashboard_page.dart';
 import '../../../features/internal_services/internal_orders/first_screen_internal_orders/first_screen_internal_orders.dart';
-import '../../../features/notifications/first_screen_advertisements/first_screen_notifications.dart';
 import '../../../features/petroleum_service/facility_management/facility_management/facility_management.dart';
 import '../../../features/petroleum_service/oil_products/oil_products.dart';
 import '../../../features/petroleum_service/petroleum_filling_requests/petroleum_filling_requests.dart';
@@ -205,6 +204,9 @@ class PagesOfAllApp {
   static const int orderDetailsOrderReceivedEmpPageNumber = 519;
   static const int orderDetailsNewOrderEmpPageNumber = 520;
   static const int orderDetailsUnderServiceEmpPageNumber = 521;
+  static const String petrolInServiceSettingPage = 'Petrol_In_Service_Setting_Page';
+  static const int petrolInServiceSettingPageNumber = 522;
+
 }
 
 List<PageNodeModel> appPages = [];
@@ -356,11 +358,16 @@ void getPages() {
                 ),
                 PageNodeModel(
                   name: AppLanguageKeys.mobileServicesKey,
-                  number:
-                      PagesOfAllApp.mobileServicesAndTransportationPageNumber,
+                  number: PagesOfAllApp.mobileServicesAndTransportationPageNumber,
                   page: InternalMaintenanceAndServicesInServiceSettings(),
                 ),
-              ]),
+                PageNodeModel(
+                  name: AppLanguageKeys.petroleum,
+                  number: PagesOfAllApp.petrolInServiceSettingPageNumber,
+                  page: PetrolInServiceSettings(),
+                ),
+              ]
+          ),
         ]),
     // const PageNodeModel(
     //   name: AppLanguageKeys.accountManagementKey,

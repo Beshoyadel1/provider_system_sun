@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../../../core/utilies/map_of_all_app.dart';
@@ -10,14 +11,16 @@ import '../../../../../core/theming/colors.dart';
 
 class ContainerInDataContainerInListDataFirstScreenServiceSettingWidget
     extends StatelessWidget {
-  final String imagePath, title;
+  final String?  title,imagePath;
   final void Function()? onTap;
   final bool? isTaskEdit;
+  final Uint8List? imageMemory;
 
   const ContainerInDataContainerInListDataFirstScreenServiceSettingWidget({
     super.key,
-    required this.imagePath,
-    required this.title,
+    this.imagePath,
+     this.imageMemory,
+     this.title,
     this.onTap,
     this.isTaskEdit = false,
   });
@@ -54,6 +57,7 @@ class ContainerInDataContainerInListDataFirstScreenServiceSettingWidget
                     Flexible(
                       child: ContainerImageWidget(
                         imagePath: imagePath,
+                        imageMemory: imageMemory,
                         color: isTaskEdit!
                             ? AppColors.orangeColor
                             : AppColors.greyColor,
@@ -63,7 +67,7 @@ class ContainerInDataContainerInListDataFirstScreenServiceSettingWidget
                     ),
                     Expanded(
                       child: TextInAppWidget(
-                        text: title,
+                        text: title!,
                         textSize: 13,
                         fontWeightIndex: FontSelectionData.regularFontFamily,
                         textColor: AppColors.blackColor,
@@ -103,6 +107,7 @@ class ContainerInDataContainerInListDataFirstScreenServiceSettingWidget
                     children: [
                       ContainerImageWidget(
                         imagePath: imagePath,
+                        imageMemory: imageMemory,
                         color: isTaskEdit!
                             ? AppColors.orangeColor
                             : AppColors.greyColor,
@@ -111,7 +116,7 @@ class ContainerInDataContainerInListDataFirstScreenServiceSettingWidget
                       ),
                       Expanded(
                         child: TextInAppWidget(
-                          text: title,
+                          text: title!,
                           textSize: 13,
                           fontWeightIndex: FontSelectionData.regularFontFamily,
                           textColor: AppColors.blackColor,

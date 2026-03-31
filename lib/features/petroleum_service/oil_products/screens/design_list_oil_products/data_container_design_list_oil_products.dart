@@ -58,7 +58,6 @@ class DataContainerDesignListOilProducts extends StatelessWidget {
                           context: context,
                           service: service,
                         );
-
                         return ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidget(
                           imagePathPart1: service?.image,
                           titlePart1: serviceTitle,

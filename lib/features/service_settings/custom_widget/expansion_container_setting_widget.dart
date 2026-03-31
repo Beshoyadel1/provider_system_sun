@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../../core/language/language_constant.dart';
@@ -9,13 +11,15 @@ import '../../../../../core/theming/text_styles.dart';
 import '../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/logic/Details_container_setting_cubit.dart';
 
 class ExpansionContainerSettingWidget extends StatelessWidget {
-  final String imagePath, text;
+  final String? imagePath, text;
   final bool? isDoneTask;
+  final Uint8List? imageMemory;
 
   const ExpansionContainerSettingWidget(
       {super.key,
-      required this.imagePath,
-      required this.text,
+       this.imagePath,
+        this.imageMemory,
+       this.text,
       this.isDoneTask = false});
 
   @override
@@ -47,25 +51,28 @@ class ExpansionContainerSettingWidget extends StatelessWidget {
                     children: [
                       Flexible(
                         child: Opacity(
-                            opacity: isDoneTask! ? 1 : 0.5,
-                            child: Image.asset(imagePath)),
+                          opacity: isDoneTask! ? 1 : 0.5,
+                          child: (imageMemory == null || imageMemory!.isEmpty)
+                              ? Image.asset(imagePath ?? '')
+                              : Image.memory(imageMemory!),
+                        ),
                       ),
                       TextInAppWidget(
-                        text: text,
+                        text: text!,
                         textSize: 13,
                         fontWeightIndex: FontSelectionData.mediumFontFamily,
                         textColor: AppColors.darkColor,
                       ),
-                      if (isDoneTask!)
-                        Expanded(
-                          child: TextInAppWidget(
-                            text: AppLanguageKeys.allCategories,
-                            textSize: 13,
-                            fontWeightIndex:
-                                FontSelectionData.regularFontFamily,
-                            textColor: AppColors.orangeColor,
-                          ),
-                        ),
+                      // if (isDoneTask!)
+                      //   const Expanded(
+                      //     child: TextInAppWidget(
+                      //       text: AppLanguageKeys.allCategories,
+                      //       textSize: 13,
+                      //       fontWeightIndex:
+                      //           FontSelectionData.regularFontFamily,
+                      //       textColor: AppColors.orangeColor,
+                      //     ),
+                      //   ),
                     ],
                   ),
                 ),
@@ -74,7 +81,7 @@ class ExpansionContainerSettingWidget extends StatelessWidget {
                 )
               ],
             ),
-            AnimatedCrossFadeInExpansionContainerSettingWidget()
+            const AnimatedCrossFadeInExpansionContainerSettingWidget()
           ],
         ),
       ),

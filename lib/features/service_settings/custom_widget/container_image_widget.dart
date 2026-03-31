@@ -1,19 +1,23 @@
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import '../../../../../core/theming/colors.dart';
 
 class ContainerImageWidget extends StatelessWidget {
-  final String imagePath;
+  final String? imagePath;
   final double? width, height;
   final Color color;
   final bool? isBorder;
+  final Uint8List? imageMemory;
 
   const ContainerImageWidget({
     super.key,
-    required this.imagePath,
+     this.imagePath,
     required this.color,
     this.width,
     this.height,
     this.isBorder = true,
+    this.imageMemory
   });
 
   @override
@@ -21,10 +25,10 @@ class ContainerImageWidget extends StatelessWidget {
     return Container(
       width: width,
       height: height,
-      padding: EdgeInsetsGeometry.all(10),
+      padding: const EdgeInsetsGeometry.all(10),
       decoration: BoxDecoration(
         color: color,
-        borderRadius: BorderRadius.all(Radius.circular(15)),
+        borderRadius: const BorderRadius.all(Radius.circular(15)),
         border: Border.all(
             color: isBorder!
                 ? AppColors.greyColor.withOpacity(0.3)
@@ -37,7 +41,9 @@ class ContainerImageWidget extends StatelessWidget {
           ),
         ],
       ),
-      child: Image.asset(imagePath),
+      child: (imageMemory == null || imageMemory!.isEmpty)
+          ? Image.asset(imagePath ?? '')
+          : Image.memory(imageMemory!),
     );
   }
 }

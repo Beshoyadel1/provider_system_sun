@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/features/service_settings/logic/cubit/service_settings_cubit/service_settings_cubit.dart';
 import '../../../../../../features/service_settings/first_screen_service_settings/screens/data_container_in_list_data_first_screen_service_setting.dart';
 import '../../../../../../core/theming/colors.dart';
 
@@ -22,7 +24,9 @@ class ListDataFirstScreenServiceSetting extends StatelessWidget {
           ),
         ],
       ),
-      child: const DataContainerInListDataFirstScreenServiceSetting(),
+      child: BlocProvider(
+          create: (_) => ServiceSettingsCubit()..getServices(parentId: 0),
+          child: const DataContainerInListDataFirstScreenServiceSetting()),
     );
   }
 }

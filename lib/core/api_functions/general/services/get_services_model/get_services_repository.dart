@@ -1,23 +1,18 @@
 import 'package:dio/dio.dart';
-import '../../../../../core/api_functions/general/services/get_services_model/get_services_request.dart';
+import '../../../../../core/api_functions/general/services/get_services_model/service_setting_model.dart';
 import '../../../../../core/api/dio_function/api_constants.dart';
-import '../../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../../core/api/dio_function/failures.dart';
-import '../../../../../core/language/language_constant.dart';
 
-Future<void> getServicesFunction({
-  required GetServicesRequest getServicesRequest,
-}) async {
+Future<List<ServiceSettingModel>> getServicesFunction() async {
   try {
-    await Network.postDataWithBodyAndParams(
-      {},
-      getServicesRequest.toJson(), // params
-      ApiLink.getServices,
-    );
-    AppSnackBar.showSuccess(AppLanguageKeys.getServicesSuccessfully);
+    final response = await Network.getData(ApiLink.getServices);
+
+    List data = response.data;
+
+    return data.map((e) => ServiceSettingModel.fromJson(e)).toList();
   } catch (e) {
-    AppSnackBar.showError(
+    throw Exception(
       e is DioException
           ? responseOfStatusCode(e.response?.statusCode)
           : e.toString(),

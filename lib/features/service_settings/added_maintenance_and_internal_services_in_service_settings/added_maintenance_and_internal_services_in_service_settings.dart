@@ -28,14 +28,13 @@ class AddedMaintenanceAndInternalServicesInServiceSettings
             children: [
               Expanded(
                 child: SingleChildScrollView(
-                    child:
-                        ListDataAddedMaintenanceAndInternalServicesInServiceSettings()),
+                    child: ListDataAddedMaintenanceAndInternalServicesInServiceSettings()),
               ),
             ],
           ),
         ),
       ),
-     // bottomNavigationBar: ContainerLastTwoButtonInAddedMaintenanceAndInternalServicesInServiceSettings(),
+      // bottomNavigationBar: ContainerLastTwoButtonInAddedMaintenanceAndInternalServicesInServiceSettings(),
     );
   }
 }

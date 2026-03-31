@@ -90,7 +90,7 @@ class _FiltersTabsWidgetMobileServicesStatisticsState extends State<FiltersTabsW
                   controller: _tabController,
                   children: List.generate(
                     widget.filterOptions.length,
-                        (index) => FilterDesignMobileServicesStatistics(),
+                        (index) => const FilterDesignMobileServicesStatistics(),
                   ),
                 ),
               ),

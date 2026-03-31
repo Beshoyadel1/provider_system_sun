@@ -12,14 +12,19 @@ class InternalOrdersFilter {
       case OrdersTabs.newOrders:
         return allOrders
             .where((o) =>
-        o.orderStatus == OrderStatus.newOrderForProvider)
+        o.orderStatus == OrderStatus.newOrderForProvider||
+            o.orderStatus == OrderStatus.newOrderForCompany
+            )
             .toList();
 
       case OrdersTabs.completed:
         return allOrders
             .where((o) =>
         o.orderStatus == OrderStatus.orderCompleted ||
-            o.orderStatus == OrderStatus.rejectedByProvider)
+            o.orderStatus == OrderStatus.rejectedByProvider
+            || o.orderStatus == OrderStatus.rejectedByCompany
+            || o.orderStatus == OrderStatus.cancelledByUser
+        )
             .toList();
 
       case OrdersTabs.inProgress:

@@ -5,29 +5,30 @@ import 'package:sun_web_system/core/cubit/app_cubit/app_cubit.dart';
 import 'package:sun_web_system/features/service_settings/logic/cubit/service_settings_cubit/service_settings_cubit.dart';
 import 'package:sun_web_system/features/service_settings/logic/cubit/service_settings_cubit/service_settings_state.dart';
 import 'package:sun_web_system/features/service_settings/logic/service_settings_helper/service_settings_helper.dart';
+import 'package:sun_web_system/features/service_settings/petrol_in_service_settings/screens/icon_car_orange_text_of_petrol_in_service_settings.dart';
+import '../../../../../../features/service_settings/internal_maintenance_and_services_in_service_settings/screens/icon_car_orange_text_of_internal_maintenance_and_services_in_service_settings.dart';
 import '../../../../../../features/service_settings/custom_widget/expansion_container_setting_widget.dart';
-import '../../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/screens/icon_car_orange_text_of_added_maintenance_and_internal_services.dart';
 import '../../../../../../features/service_settings/first_screen_service_settings/screens/first_row_in_data_container_in_list_data_first_screen_service_setting.dart';
 import '../../../../../../core/language/language_constant.dart';
 import '../../../../../../core/theming/assets.dart';
 
-class DataContainerInListDataAddedMaintenanceAndInternalServicesInServiceSettings
+
+class DataContainerInListDataPetrolInServiceSettings
     extends StatelessWidget {
-  const DataContainerInListDataAddedMaintenanceAndInternalServicesInServiceSettings(
+  const DataContainerInListDataPetrolInServiceSettings(
       {super.key});
 
   @override
   Widget build(BuildContext context) {
     final isArabic = AppCubit.get(context).isAllAppLanguageArabic;
-
     return  Padding(
-      padding:  const EdgeInsets.all(15.0),
+      padding: const EdgeInsets.all(15.0),
       child: Column(
         spacing: 30,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const FirstRowInDataContainerInListDataFirstScreenServiceSetting(),
-          const IconCarOrangeTextOfAddedMaintenanceAndInternalServices(),
+          const IconCarOrangeTextOfPetrolInServiceSettings(),
           BlocBuilder<ServiceSettingsCubit, ServiceSettingsState>(
             buildWhen: (previous, current) =>
             current is ServiceSettingsLoading ||
@@ -60,7 +61,6 @@ class DataContainerInListDataAddedMaintenanceAndInternalServicesInServiceSetting
                   }),
                 );
               }
-
               return const SizedBox();
             },
           ),
