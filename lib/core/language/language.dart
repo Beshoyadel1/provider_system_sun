@@ -31,6 +31,9 @@ class AppLocalizations {
       //END//
 
       //others//
+      AppLanguageKeys.latinName: 'الاسم اللاتيني',
+      AppLanguageKeys.items: 'العناصر',
+      AppLanguageKeys.create: 'إنشاء',
       AppLanguageKeys.carMarketSales: 'مبيعات حراج سيارات',
       AppLanguageKeys.rejectionReason: 'سبب رفض الطلب',
       AppLanguageKeys.orderInProgress: 'جاري تنفيذ الطلب',
@@ -1213,6 +1216,9 @@ class AppLocalizations {
       AppLanguageKeys.cancelledByUser: 'Cancelled by User',
       //END//
       //others//
+      AppLanguageKeys.latinName: 'Latin Name',
+      AppLanguageKeys.items: 'Items',
+      AppLanguageKeys.create: 'Create',
       AppLanguageKeys.carMarketSales: 'Car Market Sales',
       AppLanguageKeys.rejectionReason: 'Reason for Request Rejection',
       AppLanguageKeys.orderInProgress: 'Order in Progress',

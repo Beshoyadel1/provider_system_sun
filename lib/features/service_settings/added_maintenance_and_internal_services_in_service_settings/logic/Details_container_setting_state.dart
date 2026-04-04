@@ -1,8 +1,11 @@
 class DetailsContainerSettingState {
   final bool isExpanded;
-  final int? selectedOption;
+  final int selectedOption;
 
-  DetailsContainerSettingState({this.isExpanded = false, this.selectedOption});
+  DetailsContainerSettingState({
+    this.isExpanded = false,
+    this.selectedOption = -1,
+  });
 
   DetailsContainerSettingState copyWith({
     bool? isExpanded,

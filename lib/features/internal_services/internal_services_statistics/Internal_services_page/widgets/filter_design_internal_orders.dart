@@ -17,12 +17,6 @@ class FilterDesignInternalOrders
     super.key,
   });
 
-  String _formatDate(String? date) {
-    if (date == null || date.isEmpty) return "";
-    final parsed = DateTime.tryParse(date);
-    if (parsed == null) return date;
-    return "${parsed.day}/${parsed.month}/${parsed.year}";
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +77,7 @@ class FilterDesignInternalOrders
               ),
               AppPagination(
                 currentPage: state.currentPage,
-                totalPages: 50,
+                totalPages: state.pageCount,
                 onPageChanged: (page) {
                   context.read<GetProviderInternalOrderCubit>().loadInternalOrders(
                     serviceId: MainCategoryConstants.maintenanceAndInternalServicesID,

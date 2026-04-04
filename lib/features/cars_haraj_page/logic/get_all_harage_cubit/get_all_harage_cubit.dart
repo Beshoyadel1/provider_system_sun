@@ -17,14 +17,23 @@ class GetAllHarageCubit extends Cubit<GetAllHarageState> {
       final result = await getAllHarageFunction(
         getAllHarageRequest: request,
       );
+
+      final currentPage = result.currentPage ?? page;
+      final pageCount = result.pageCount ?? 1;
+      final totalCount = result.totalCount ?? 0;
+
+
       emit(
         GetAllHarageSuccess(
           response: result,
-          currentPage: page,
+          currentPage: currentPage,
+          pageCount: pageCount,
+          totalCount: totalCount,
         ),
       );
 
     } catch (e) {
       emit(GetAllHarageError(e.toString()));
     }
-  }}
+  }
+}

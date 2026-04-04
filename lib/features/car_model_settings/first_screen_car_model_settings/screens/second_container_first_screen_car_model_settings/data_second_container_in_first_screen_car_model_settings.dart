@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'choose_category_car/title_choose_category.dart';
-import 'select_year_model/select_year_model.dart';
-import 'select_year_model/title_select_year_model.dart';
-import 'choose_category_car/list_of_choose_category_car_in_second_container_first_screen_car_model_settings.dart';
-import 'choose_model_car/list_of_choose_model_car_in_second_container_first_screen_car_model_settings.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/features/car_model_settings/first_screen_car_model_settings/screens/second_container_first_screen_car_model_settings/choose_brand_car/list_of_choose_brand_car_in_second_container_first_screen_car_brand_settings.dart';
+import 'package:sun_web_system/features/car_model_settings/first_screen_car_model_settings/screens/second_container_first_screen_car_model_settings/choose_model_car/list_of_choose_model_car_in_second_container_first_screen_car_model_settings.dart';
+import 'package:sun_web_system/features/car_model_settings/first_screen_car_model_settings/screens/second_container_first_screen_car_model_settings/choose_model_car/title_choose_category.dart';
+import 'package:sun_web_system/features/service_settings/logic/select_car_model_setting_cubit/select_car_model_setting_cubit.dart';
 import 'first_title_search_in_data_second_container_in_first_screen_car_model_settings.dart';
 
 class DataSecondContainerInFirstScreenCarModelSettings extends StatelessWidget {
@@ -11,19 +11,22 @@ class DataSecondContainerInFirstScreenCarModelSettings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return  Padding(
       padding: const EdgeInsets.all(15.0),
-      child: Column(
-        spacing: 30,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          FirstTitleSearchInDataSecondContainerInFirstScreenCarModelSettings(),
-          ListOfChooseModelCarInSecondContainerFirstScreenCarModelSettings(),
-          TitleChooseCategory(),
-          ListOfChooseCategoryCarInSecondContainerFirstScreenCarModelSettings(),
-          TitleSelectYearModel(),
-          SelectYearModel(),
-        ],
+      child: BlocProvider(
+        create: (_) => SelectCarModelSettingCubit()..fetchBrands(),
+        child: const Column(
+          spacing: 30,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            FirstTitleSearchInDataSecondContainerInFirstScreenCarModelSettings(),
+            ListOfChooseBrandCarInSecondContainerFirstScreenCarBrandSettings(),
+            TitleChooseCategory(),
+           // ListOfChooseModelCarInSecondContainerFirstScreenCarModelSettings(),
+            // TitleSelectYearModel(),
+            // SelectYearModel(),
+          ],
+        ),
       ),
     );
   }

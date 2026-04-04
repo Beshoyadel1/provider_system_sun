@@ -7,22 +7,21 @@ import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
 import '../../../../core/language/language_constant.dart';
 
-Future<void> createServicePackageFunction({required CreateServicePackageRequest createServicePackageRequest}) async {
+Future<void> createServicePackageFunction({
+  required CreateServicePackageRequest request,
+}) async {
   try {
-    String jsonString = json.encode(createServicePackageRequest.toJson());
-
-    await Network.postDataWithBody(
-      jsonString,
-        ApiLink.createServicePackage
-    ).then((value) {
-      AppSnackBar.showSuccess(AppLanguageKeys.createServicePackageSuccess);
-    });
-
-  } catch (e) {
-    AppSnackBar.showError(
-      e is DioException
-          ? responseOfStatusCode(e.response?.statusCode)
-          : e.toString(),
+    final response = await Network.postDataWithBody(
+      request.toJson(),
+      ApiLink.createServicePackage,
     );
+
+    print("SUCCESS RESPONSE: $response");
+
+  } on DioException catch (e) {
+    print("STATUS CODE: ${e.response?.statusCode}");
+    print("ERROR BODY: ${e.response?.data}");
+
+    rethrow; // مهم جدًا
   }
 }

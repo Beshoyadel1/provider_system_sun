@@ -57,7 +57,6 @@ class AvailableListCars extends StatelessWidget {
             ],
           );
         }
-
         return const SizedBox();
       },
     );

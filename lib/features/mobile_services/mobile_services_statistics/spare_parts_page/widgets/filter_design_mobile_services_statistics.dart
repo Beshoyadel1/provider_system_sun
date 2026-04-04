@@ -77,7 +77,7 @@ class FilterDesignMobileServicesStatistics
               ),
               AppPagination(
                 currentPage: state.currentPage,
-                totalPages: 50,
+                totalPages: state.pageCount,
                 onPageChanged: (page) {
                   context.read<GetProviderInternalOrderCubit>().loadInternalOrders(
                     serviceId: MainCategoryConstants.mobileServicesAndTransportationID,

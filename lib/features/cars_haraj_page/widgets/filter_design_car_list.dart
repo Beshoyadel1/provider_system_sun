@@ -66,7 +66,7 @@ class FilterDesignCarList extends StatelessWidget {
               ),
               AppPagination(
                 currentPage: state.currentPage,
-                totalPages: 50,
+                totalPages: state.pageCount,
                 onPageChanged: (page) {
                   context.read<GetAllHarageCubit>().getAllHarage(page: page);
                 },

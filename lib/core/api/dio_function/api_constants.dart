@@ -27,7 +27,7 @@ class ApiConfig {
   static const String car = "Car";
   static const String expectedPetrolSpend = "ExpectedPetrolSpend";
   static const String provService = "ProvService";
-  static const String provicerServicePackage = "ProvicerServicePackage";
+  static const String providerServicePackage = "ProviderServicePackage";
   static const String serviceProvider = "ServiceProvider";
   static const String workTIme = "WorkTIme";
   static const String branch = "Branch";
@@ -121,6 +121,8 @@ class ApiLink {
       "${ApiConfig.baseUrlApi}/${ApiConfig.about}/GetAllPagesAbout";
   static const String getCarBrandModels =
       "${ApiConfig.baseUrlApi}/${ApiConfig.carModel}/GetCarBrandModels";
+  static const String getCarBrand =
+      "${ApiConfig.baseUrlApi}/${ApiConfig.carBrand}/GetCarBrands";
   static const String getServices =
       "${ApiConfig.baseUrlApi}/${ApiConfig.service}/GetServices";
   static const String updateCarBrand =
@@ -202,7 +204,7 @@ class ApiLink {
   static const String createProvService =
       "${ApiConfig.baseUrlApi}/${ApiConfig.provService}/CreateProvService";
   static const String createServicePackage =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.provicerServicePackage}/CreateServicePackage";
+      "${ApiConfig.baseUrlApi}/${ApiConfig.providerServicePackage}/CreateServicePackage";
   static const String deleteExpectedPetrolSpend =
       "${ApiConfig.baseUrlApi}/${ApiConfig.expectedPetrolSpend}/DeleteExpectedPetrolSpend";
   static const String deleteProvService =
@@ -210,7 +212,7 @@ class ApiLink {
   static const String deleteProviderWorkTime =
       "${ApiConfig.baseUrlApi}/${ApiConfig.workTIme}/DeleteProviderWorkTime";
   static const String deleteServicePackage =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.provicerServicePackage}/DeleteServicePackage";
+      "${ApiConfig.baseUrlApi}/${ApiConfig.providerServicePackage}/DeleteServicePackage";
   static const String getBranchEmployees =
       "${ApiConfig.baseUrlApi}/${ApiConfig.branch}/GetBranchEmployees";
   static const String getExpectedPetrolSpend =
@@ -218,7 +220,7 @@ class ApiLink {
   static const String getProviderBranches =
       "${ApiConfig.baseUrlApi}/${ApiConfig.branch}/GetProviderBranches";
   static const String getProviderServicePackages =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.provicerServicePackage}/GetProviderServicePackages";
+      "${ApiConfig.baseUrlApi}/${ApiConfig.providerServicePackage}/GetProviderServicePackages";
   static const String getProviderWorkTime =
       "${ApiConfig.baseUrlApi}/${ApiConfig.workTIme}/GetProviderWorkTime";
   static const String getServiceProviderDetailsForAppUser =
@@ -232,7 +234,7 @@ class ApiLink {
   static const String updateProvService =
       "${ApiConfig.baseUrlApi}/${ApiConfig.provService}/UpdateProvService";
   static const String updateServicePackage =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.provicerServicePackage}/UpdateServicePackage";
+      "${ApiConfig.baseUrlApi}/${ApiConfig.providerServicePackage}/UpdateServicePackage";
   static const String uploadProviderWorkTimes =
       "${ApiConfig.baseUrlApi}/${ApiConfig.workTIme}/UploadProviderWorkTimes";
 

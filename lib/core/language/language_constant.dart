@@ -19,6 +19,9 @@ class AppLanguageKeys {
   //end//
 
   //others//
+  static const String latinName = 'latinName';
+  static const String items = 'items';
+  static const String create = 'create';
   static const String carMarketSales = 'carMarketSales';
   static const String rejectionReason = 'rejectionReason';
   static const String orderInProgress = 'orderInProgress';

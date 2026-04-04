@@ -21,13 +21,13 @@ class ServiceSettingsCarModel extends StatelessWidget {
     return Row(
       children: [
         if (!isMobile) const backgroundDesktop(),
-        Expanded(
+        const Expanded(
           flex: 3,
           child: Scaffold(
             backgroundColor: AppColors.scaffoldColor,
-            appBar: AppbarDashboardWidget(
-              title: AppLanguageKeys.carModel,
-            ),
+            // appBar: AppbarDashboardWidget(
+            //   title: AppLanguageKeys.carModel,
+            // ),
             body: SafeArea(
               child: Padding(
                 padding: EdgeInsets.all(20),

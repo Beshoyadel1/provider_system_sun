@@ -54,7 +54,7 @@ class ExpansionContainerSettingWidget extends StatelessWidget {
                           opacity: isDoneTask! ? 1 : 0.5,
                           child: (imageMemory == null || imageMemory!.isEmpty)
                               ? Image.asset(imagePath ?? '')
-                              : Image.memory(imageMemory!),
+                              : Image.memory(imageMemory!,width: 50,),
                         ),
                       ),
                       TextInAppWidget(

@@ -1,22 +1,36 @@
+import 'package:sun_web_system/core/api_functions/provider_management/create_service_package_model/car_model_create_service_package_request.dart';
+
 class CreateServicePackageRequest {
-  final int provServiceId;
-  final int packageName;
-  final int packageLatinName;
-  final int price;
+  final int? provId;
+  final String? name;
+  final String? latinName;
+  final String? items;
+  final int? taxId;
+  final num? price;
+  final List<int>? serviceIds;
+  final List<CarModelCreateServicePackageRequest>? cars;
 
   CreateServicePackageRequest({
-    required this.provServiceId,
-    required this.packageName,
-    required this.packageLatinName,
-    required this.price,
+     this.provId,
+     this.name,
+     this.latinName,
+     this.items,
+     this.taxId,
+     this.price,
+     this.serviceIds,
+     this.cars,
   });
 
   Map<String, dynamic> toJson() {
     return {
-      "PROVSERVICEID": provServiceId,
-      "PACKAGENAME": packageName,
-      "PACKAGELATINNAME": packageLatinName,
-      "PRICE": price,
+      "provid": provId,
+      "name": name,
+      "latinname": latinName,
+      "items": items,
+      "taxid": taxId,
+      "price": price,
+      "serviceIds": serviceIds,
+      "cars": cars?.map((e) => e.toJson()).toList(),
     };
   }
 }

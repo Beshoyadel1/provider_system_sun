@@ -11,7 +11,7 @@ class FirstTitleInFirstContainerInDataContainerInListDataFirstScreenCarModelSett
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 20,
       children: [

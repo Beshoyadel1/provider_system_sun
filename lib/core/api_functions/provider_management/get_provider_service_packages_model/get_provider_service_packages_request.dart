@@ -1,13 +1,13 @@
 class GetProviderServicePackagesRequest {
-  final int provServiceId;
+  final int providerId;
 
   GetProviderServicePackagesRequest({
-    required this.provServiceId,
+    required this.providerId,
   });
 
   Map<String, dynamic> toJson() {
     return {
-      "provServiceId": provServiceId,
+      "providerId": providerId,
     };
   }
 }

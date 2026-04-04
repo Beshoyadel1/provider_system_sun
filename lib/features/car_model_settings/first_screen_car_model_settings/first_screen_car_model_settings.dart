@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/core/cubit/app_cubit/app_cubit.dart';
 import '../../../../../core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
 import '../car_add_screen_in_car_model_settings/car_add_screen_in_car_model_settings.dart';
 import 'screens/last_two_button_in_first_screen_car_model_settings.dart';
@@ -17,9 +18,9 @@ class FirstScreenCarModelSettings extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.scaffoldColor,
-      appBar: const AppbarDashboardWidget(
-        title: AppLanguageKeys.carModel,
-      ),
+      // appBar: const AppbarDashboardWidget(
+      //   title: AppLanguageKeys.carModel,
+      // ),
       body: const SafeArea(
         child: Padding(
           padding: EdgeInsets.all(20),
@@ -35,9 +36,8 @@ class FirstScreenCarModelSettings extends StatelessWidget {
       ),
       bottomNavigationBar: LastTwoButtonInFirstScreenCarModelSettings(
         onTapAdd: () {
-          Navigator.pop(context);
-          Navigator.of(context).push(
-            NavigateToPageWidget(const CarAddScreenInCarModelSettings()),
+          AppCubit.get(context).navigateToPage(
+            PagesOfAllApp.carAddScreenInCarModelSettings,
           );
         },
       ),

@@ -17,13 +17,6 @@ import '../../../../../../features/internal_services/internal_orders/custom_widg
 class FilterDesignSparePartsStatistics extends StatelessWidget {
   const FilterDesignSparePartsStatistics({super.key});
 
-  String _formatDate(String? date) {
-    if (date == null || date.isEmpty) return "";
-    final parsed = DateTime.tryParse(date);
-    if (parsed == null) return date;
-    return "${parsed.day}/${parsed.month}/${parsed.year}";
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GetProviderInternalOrderCubit,
@@ -83,7 +76,7 @@ class FilterDesignSparePartsStatistics extends StatelessWidget {
               ),
               AppPagination(
                 currentPage: state.currentPage,
-                totalPages: 50,
+                totalPages: state.pageCount,
                 onPageChanged: (page) {
                   context.read<GetProviderInternalOrderCubit>().loadInternalOrders(
                     serviceId: MainCategoryConstants.carSparePartsID,

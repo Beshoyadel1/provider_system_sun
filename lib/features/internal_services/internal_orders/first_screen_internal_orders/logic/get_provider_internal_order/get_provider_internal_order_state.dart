@@ -3,6 +3,7 @@ import 'package:sun_web_system/core/api_functions/order/get_provider_orders_mode
 import 'package:sun_web_system/core/api_functions/order/get_provider_orders_model/get_provider_orders_request.dart';
 import 'package:sun_web_system/core/api_functions/user/login_model/login_repository.dart';
 import 'package:sun_web_system/features/internal_services/internal_orders/first_screen_internal_orders/logic/get_provider_internal_order/get_provider_internal_order_cubit.dart';
+import 'get_provider_internal_order_state.dart';
 
 class GetProviderInternalOrderCubit
     extends Cubit<GetProviderInternalOrderState> {
@@ -11,9 +12,9 @@ class GetProviderInternalOrderCubit
       : super(GetProviderInternalOrderInitial());
 
   Future<void> loadInternalOrders({
-     int? orderType,
-     int? serviceId,
-      int ?pageNumber,
+    int? orderType,
+    int? serviceId,
+    int? pageNumber,
   }) async {
 
     emit(GetProviderInternalOrderLoading());
@@ -30,18 +31,26 @@ class GetProviderInternalOrderCubit
         getProviderOrdersRequest: GetProviderOrdersRequest(
           providerId: user.userid,
           employeeId: 0,
-          pageNumber: pageNumber??1,
+          pageNumber: pageNumber ?? 1,
           orderType: orderType,
           serviceId: serviceId,
         ),
       );
 
+      final currentPage = response.currentPage ?? 1;
+      final pageCount = response.pageCount ?? 1;
+      final totalCount = response.totalCount ?? 1;
+
+
       emit(
         GetProviderInternalOrderSuccess(
           response.data ?? [],
-          currentPage: pageNumber ?? 1,
+          currentPage: currentPage,
+          pageCount: pageCount,
+          totalCount: totalCount,
         ),
       );
+
     } catch (e) {
       emit(GetProviderInternalOrderError(e.toString()));
     }

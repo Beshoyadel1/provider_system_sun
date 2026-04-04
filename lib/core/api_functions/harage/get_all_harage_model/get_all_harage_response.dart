@@ -2,7 +2,7 @@ import '../../../../core/api_functions/harage/get_all_harage_model/harage_data.d
 class GetAllHarageResponse {
   final List<HarageData>? data;
   final int? pageCount;
-  final num? totalCount;
+  final int? totalCount;
   final int? currentPage;
 
   GetAllHarageResponse({

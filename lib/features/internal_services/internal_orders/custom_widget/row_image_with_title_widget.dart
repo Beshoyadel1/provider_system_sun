@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
+import 'package:sun_web_system/core/theming/assets.dart';
 import '../../../../../../../core/theming/colors.dart';
 import '../../../../../../../core/theming/fonts.dart';
 import '../../../../../../../core/theming/text_styles.dart';
@@ -30,9 +31,9 @@ class RowImageWithTitleWidget extends StatelessWidget {
           imagePath!,
           width: 30,
         )
-            : const Icon(
-          CupertinoIcons.photo,
-          size: 30,
+            :  Image.asset(
+          AppImageKeys.person22,
+          //width: 30,
         ),
 
         const SizedBox(width: 5),
@@ -66,9 +67,9 @@ class RowImageWithTitleWidget extends StatelessWidget {
           imagePath!,
           width: 30,
         )
-            : const Icon(
-          CupertinoIcons.photo,
-          size: 30,
+            :  Image.asset(
+          AppImageKeys.person22,
+          //width: 30,
         ),
 
         const SizedBox(width: 5),
