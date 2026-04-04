@@ -42,19 +42,19 @@ class _DataViewOfUnifiedPriceForAllState
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           ),
-          Row(
-            children: [
-              SizedBox(
-                width: 150,
-                child: ContainerReturnToPageSetting(
-                  color: AppColors.orangeColor,
-                  text: AppLanguageKeys.add,
-                  icon: CupertinoIcons.add,
-                  onTap: () {},
-                ),
-              ),
-            ],
-          ),
+          // Row(
+          //   children: [
+          //     SizedBox(
+          //       width: 150,
+          //       child: ContainerReturnToPageSetting(
+          //         color: AppColors.orangeColor,
+          //         text: AppLanguageKeys.add,
+          //         icon: CupertinoIcons.add,
+          //         onTap: () {},
+          //       ),
+          //     ),
+          //   ],
+          // ),
         ],
       ),
     );

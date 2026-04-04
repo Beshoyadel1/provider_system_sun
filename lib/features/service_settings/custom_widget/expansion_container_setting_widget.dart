@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/features/service_settings/added_maintenance_and_internal_services_in_service_settings/logic/Details_container_setting_state.dart';
 import '../../../../../../../core/language/language_constant.dart';
 import '../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/screens/animated_cross_fade_in_expansion_container_setting_widget.dart';
 import '../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/screens/container_open_close_tab_setting.dart';
@@ -15,75 +16,82 @@ class ExpansionContainerSettingWidget extends StatelessWidget {
   final bool? isDoneTask;
   final Uint8List? imageMemory;
 
-  const ExpansionContainerSettingWidget(
-      {super.key,
-       this.imagePath,
-        this.imageMemory,
-       this.text,
-      this.isDoneTask = false});
+  const ExpansionContainerSettingWidget({
+    super.key,
+    this.imagePath,
+    this.imageMemory,
+    this.text,
+    this.isDoneTask = false,
+  });
 
   @override
   Widget build(BuildContext context) {
+     int sectionsCount = 4;
+
     return BlocProvider(
       create: (_) => DetailsContainerSettingCubit(),
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: AppColors.whiteColor,
-          borderRadius: const BorderRadius.all(Radius.circular(20)),
-          border: Border.all(color: Colors.grey.withOpacity(0.3)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 4,
-              offset: const Offset(0, 2),
+      child: Builder(
+        builder: (context) {
+          return Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: AppColors.whiteColor,
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
+              border: Border.all(color: Colors.grey.withOpacity(0.3)),
             ),
-          ],
-        ),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Column(
               children: [
-                Expanded(
-                  child: Row(
-                    spacing: 5,
-                    children: [
-                      Flexible(
-                        child: Opacity(
-                          opacity: isDoneTask! ? 1 : 0.5,
-                          child: (imageMemory == null || imageMemory!.isEmpty)
-                              ? Image.asset(imagePath ?? '')
-                              : Image.memory(imageMemory!,width: 50,),
-                        ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Flexible(
+                            child: (imageMemory == null || imageMemory!.isEmpty)
+                                ? Image.asset(imagePath ?? '')
+                                : Image.memory(imageMemory!),
+                          ),
+                          TextInAppWidget(
+                            text: text ?? '',
+                            textSize: 13,
+                            fontWeightIndex:
+                            FontSelectionData.mediumFontFamily,
+                            textColor: AppColors.darkColor,
+                          ),
+                        ],
                       ),
-                      TextInAppWidget(
-                        text: text!,
-                        textSize: 13,
-                        fontWeightIndex: FontSelectionData.mediumFontFamily,
-                        textColor: AppColors.darkColor,
-                      ),
-                      // if (isDoneTask!)
-                      //   const Expanded(
-                      //     child: TextInAppWidget(
-                      //       text: AppLanguageKeys.allCategories,
-                      //       textSize: 13,
-                      //       fontWeightIndex:
-                      //           FontSelectionData.regularFontFamily,
-                      //       textColor: AppColors.orangeColor,
-                      //     ),
-                      //   ),
-                    ],
-                  ),
+                    ),
+                    ContainerOpenCloseTabSetting(
+                      isDoneTask: isDoneTask,
+                    )
+                  ],
                 ),
-                ContainerOpenCloseTabSetting(
-                  isDoneTask: isDoneTask,
-                )
+
+                BlocBuilder<DetailsContainerSettingCubit,
+                    DetailsContainerSettingState>(
+                  builder: (context, state) {
+                    if (!state.isExpanded) return const SizedBox();
+
+                    return Column(
+                      children: List.generate(sectionsCount, (index) {
+                        return BlocProvider(
+                          key: ValueKey(index),
+                          create: (_) =>
+                              DetailsContainerSettingCubit(), // child cubit
+                          child:
+                          AnimatedCrossFadeInExpansionContainerSettingWidget(
+                            index: index,
+                          ),
+                        );
+                      }),
+                    );
+                  },
+                ),
               ],
             ),
-            const AnimatedCrossFadeInExpansionContainerSettingWidget()
-          ],
-        ),
+          );
+        },
       ),
     );
   }

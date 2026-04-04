@@ -23,7 +23,6 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
   final priceController = TextEditingController();
   final taxController = TextEditingController();
 
-  /// 🔥 dynamic items
   List<TextEditingController> itemsControllers = [];
 
   bool _isSubmitting = false;
@@ -60,7 +59,6 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
           );
         }
 
-        /// ✅ يقفل مباشرة عند النجاح
         if (state is ProviderPackagesSuccess) {
           Navigator.pop(context, true);
         }
@@ -95,7 +93,6 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
 
                 const SizedBox(height: 10),
 
-                /// 🔥 ITEMS (DYNAMIC)
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -222,7 +219,6 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
 
     setState(() => _isSubmitting = true);
 
-    /// 🔥 جمع الـ items
     final items = itemsControllers
         .map((e) => e.text.trim())
         .where((e) => e.isNotEmpty)

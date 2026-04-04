@@ -20,10 +20,10 @@ class ContainerLastTwoButtonInAddedMaintenanceAndInternalServicesInServiceSettin
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsetsGeometry.all(10),
+      padding: const EdgeInsetsGeometry.all(10),
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20), topRight: Radius.circular(20)),
         border: Border.all(color: AppColors.greyColor.withOpacity(0.3)),
         boxShadow: [

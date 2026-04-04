@@ -32,36 +32,49 @@ class _CarImageTextInSettingWidgetState
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
+    return SizedBox(
+      height: 40, // 🔥 يمنع overflow نهائي
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: 5,
         children: [
-          Column(
-            spacing: 5,
-            children: [
-              Image.asset(widget.imagePath),
-              TextInAppWidget(
-                text: widget.text,
-                textSize: 10,
-                fontWeightIndex: FontSelectionData.regularFontFamily,
-                textColor: AppColors.darkColor,
-              ),
-            ],
+          SizedBox(
+            width: 50,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  widget.imagePath,
+                  width: 50,
+                 // height: 20,
+                ),
+                const SizedBox(height: 2),
+                TextInAppWidget(
+                  text: widget.text,
+                  textSize: 9,
+                  fontWeightIndex:
+                  FontSelectionData.regularFontFamily,
+                  textColor: AppColors.darkColor,
+                ),
+              ],
+            ),
           ),
+
+          const SizedBox(width: 8),
+
+          /// RIGHT (input)
           Expanded(
-            child: TextFormFieldWidget(
-              textFormController: textFormController2,
-              fillColor: AppColors.transparent,
-              borderColor: AppColors.darkColor.withOpacity(0.2),
-              hintText: AppLanguageKeys.sar,
-              hintTextSize: 10,
-              hintTextColor: AppColors.orangeColor,
-              textSize: 10,
-              textFormWidth: 200,
-              textFormHeight: 35,
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: SizedBox(
+              height: 35,
+              child: TextFormFieldWidget(
+                textFormController: textFormController2,
+                fillColor: AppColors.transparent,
+                borderColor: AppColors.darkColor.withOpacity(0.2),
+                hintText: AppLanguageKeys.sar,
+                hintTextSize: 10,
+                hintTextColor: AppColors.orangeColor,
+                textSize: 10,
+                contentPadding:
+                const EdgeInsets.symmetric(horizontal: 10),
+              ),
             ),
           ),
         ],

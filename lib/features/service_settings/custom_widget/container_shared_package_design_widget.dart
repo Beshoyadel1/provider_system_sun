@@ -10,22 +10,26 @@ import '../../../../../core/theming/colors.dart';
 
 class ContainerSharedPackageDesignWidget extends StatelessWidget {
   final String textPackage, price;
+  final List<String> items;
   final void Function()? onPressedDelete, onPressedEdit;
 
-  const ContainerSharedPackageDesignWidget(
-      {super.key,
-      required this.textPackage,
-      required this.price,
-      this.onPressedDelete,
-      this.onPressedEdit});
+  const ContainerSharedPackageDesignWidget({
+    super.key,
+    required this.textPackage,
+    required this.price,
+    required this.items,
+    this.onPressedDelete,
+    this.onPressedEdit,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsetsGeometry.all(10),
+      width: 220,
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
-        borderRadius: BorderRadius.all(Radius.circular(20)),
+        borderRadius: BorderRadius.circular(20),
         border: Border.all(color: AppColors.greyColor.withOpacity(0.3)),
         boxShadow: [
           BoxShadow(
@@ -37,9 +41,11 @@ class ContainerSharedPackageDesignWidget extends StatelessWidget {
       ),
       child: Column(
         spacing: 20,
+        mainAxisSize: MainAxisSize.min,
+
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             spacing: 5,
             children: [
               ContainerEditDeleteWidget(
@@ -53,19 +59,19 @@ class ContainerSharedPackageDesignWidget extends StatelessWidget {
               )
             ],
           ),
-          ContainerPackageWidget(
-            text: textPackage,
-          ),
+          ContainerPackageWidget(text: textPackage),
           RowNumberCoinWidget(
-              numberText: price, sizeText: 15, imageSrc: AppImageKeys.coin),
+            numberText: price,
+            sizeText: 15,
+            imageSrc: AppImageKeys.coin,
+          ),
+
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 5,
-            children: [
-              RowTextCorrect(text: AppLanguageKeys.fullCleaning),
-              RowTextCorrect(text: AppLanguageKeys.interiorPolishing),
-              RowTextCorrect(text: AppLanguageKeys.oilChange),
-            ],
+            children: items.map((e) {
+              return RowTextCorrect(text: e);
+            }).toList(),
           )
         ],
       ),

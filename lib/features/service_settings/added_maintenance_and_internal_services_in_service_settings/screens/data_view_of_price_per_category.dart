@@ -1,46 +1,50 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../../../../../core/language/language_constant.dart';
-import '../../../../../../core/theming/colors.dart';
-import '../../../../../../features/service_settings/first_screen_service_settings/screens/container_return_to_page_setting.dart';
-import '../../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/screens/list_mobile_of_data_view_of_price_per_category.dart';
-import '../../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/screens/list_web_of_data_view_of_price_per_category.dart';
-import '../../../../../../core/utilies/map_of_all_app.dart';
+import 'package:sun_web_system/core/theming/assets.dart';
+import 'package:sun_web_system/features/service_settings/custom_widget/car_image_text_in_setting_widget.dart';
+
 
 class DataViewOfPricePerCategory extends StatelessWidget {
   const DataViewOfPricePerCategory({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery
-        .of(context)
-        .size;
-    bool isMobile = size.width <= ValuesOfAllApp.mobileWidth;
+     int itemCount = 4; // 🔥 your data length
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-      child: Column(
-        spacing: 10,
-        children: [
-          isMobile ?
-          ListMobileOfDataViewOfPricePerCategory()
-              :
-          ListWebOfDataViewOfPricePerCategory(),
+      padding: const EdgeInsets.all(10),
+      child: ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: (itemCount / 2).ceil(),
+        itemBuilder: (context, index) {
+          final firstIndex = index * 2;
+          final secondIndex = firstIndex + 1;
 
-          Row(
-            children: [
-              SizedBox(
-                width: 150,
-                child: ContainerReturnToPageSetting(
-                  color: AppColors.orangeColor,
-                  text: AppLanguageKeys.add,
-                  icon: CupertinoIcons.add,
-                  onTap: () {},
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Row(
+              children: [
+                Expanded(
+                  child: CarImageTextInSettingWidget(
+                    imagePath: AppImageKeys.car500,
+                    text: 'Car $firstIndex',
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
+
+                const SizedBox(width: 10),
+                Expanded(
+                  child: secondIndex < itemCount
+                      ? CarImageTextInSettingWidget(
+                    imagePath: AppImageKeys.car501,
+                    text: 'Car $secondIndex',
+                  )
+                      : const SizedBox(), // if odd count
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

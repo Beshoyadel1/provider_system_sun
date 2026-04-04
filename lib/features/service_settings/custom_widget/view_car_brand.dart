@@ -23,42 +23,49 @@ class ViewCarBrand extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        context.read<SelectCarModelSettingCubit>()
-            .selectBrand(index);
+    return BlocProvider(
+      create: (_) => DetailsContainerSettingCubit(),
+      child: GestureDetector(
+        onTap: () {
+          context.read<SelectCarModelSettingCubit>().selectBrand(index);
+
+          /// optional expand
+          context.read<DetailsContainerSettingCubit>().toggle();
         },
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 10),
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: AppColors.whiteColor,
-          borderRadius: BorderRadius.circular(15),
-          border: Border.all(color: Colors.grey.withOpacity(0.3)),
-        ),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                image != null
-                    ? Image.memory(image!, width: 30, height: 30)
-                    : const Icon(Icons.directions_car),
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 10),
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: AppColors.whiteColor,
+            borderRadius: BorderRadius.circular(15),
+            border: Border.all(color: Colors.grey.withOpacity(0.3)),
+          ),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  image != null
+                      ? Image.memory(image!, width: 30, height: 30)
+                      : const Icon(Icons.directions_car),
 
-                const SizedBox(width: 10),
+                  const SizedBox(width: 10),
 
-                TextInAppWidget(
-                  text: name,
-                  textSize: 13,
-                  fontWeightIndex:
-                  FontSelectionData.mediumFontFamily,
-                  textColor: AppColors.darkColor,
-                ),
-              ],
-            ),
+                  TextInAppWidget(
+                    text: name,
+                    textSize: 13,
+                    fontWeightIndex:
+                    FontSelectionData.mediumFontFamily,
+                    textColor: AppColors.darkColor,
+                  ),
+                ],
+              ),
 
-            /// 🔥 IMPORTANT (uses SAME cubit)
-            const AnimatedCrossFadeInExpansionContainerSettingWidget(),
-          ],
+              /// 🔥 IMPORTANT
+              AnimatedCrossFadeInExpansionContainerSettingWidget(
+                index: index,
+              ),
+            ],
+          ),
         ),
       ),
     );

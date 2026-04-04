@@ -9,32 +9,31 @@ import '../../../../../../features/service_settings/added_maintenance_and_intern
 
 class AnimatedCrossFadeInExpansionContainerSettingWidget
     extends StatelessWidget {
-  const AnimatedCrossFadeInExpansionContainerSettingWidget({super.key});
+  final int index;
+
+  const AnimatedCrossFadeInExpansionContainerSettingWidget({
+    super.key,
+    required this.index,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DetailsContainerSettingCubit,
         DetailsContainerSettingState>(
-      buildWhen: (previous, current) {
-        return previous.isExpanded != current.isExpanded ||
-            previous.selectedOption != current.selectedOption;
-      },
       builder: (context, state) {
         return AnimatedSize(
           duration: const Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
-          child: state.isExpanded
-              ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    RowRadioListTileSetting(),
-                    if (state.selectedOption == 0)
-                      const DataViewOfUnifiedPriceForAll()
-                    else if (state.selectedOption == 1)
-                      const DataViewOfPricePerCategory(),
-                  ],
-                )
-              : const SizedBox.shrink(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              RowRadioListTileSetting(index: index),
+
+              if (state.selectedOption == 0)
+                const DataViewOfUnifiedPriceForAll()
+              else if (state.selectedOption == 1)
+                const DataViewOfPricePerCategory(),
+            ],
+          ),
         );
       },
     );

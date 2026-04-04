@@ -6,29 +6,26 @@ import '../../../../../../features/service_settings/added_maintenance_and_intern
 import '../../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/logic/Details_container_setting_state.dart';
 
 class RowRadioListTileSetting extends StatelessWidget {
-  const RowRadioListTileSetting({super.key});
+  final int index;
+
+  const RowRadioListTileSetting({
+    super.key,
+    required this.index,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<
-        DetailsContainerSettingCubit,
-        DetailsContainerSettingState>(
-        buildWhen: (previous, current) =>
-        previous.selectedOption != current.selectedOption,
-        builder: (context, state) {
-          return const Row(
-            children: [
-              CustomWidgetRadioListTile(
-                  text: AppLanguageKeys.unifiedPriceForAll,
-                  value: 0
-              ),
-              CustomWidgetRadioListTile(
-                  text: AppLanguageKeys.pricePerCategory,
-                  value: 1
-              ),
-            ],
-          );
-        }
+    return Row(
+      children: const [
+        CustomWidgetRadioListTile(
+          text: AppLanguageKeys.unifiedPriceForAll,
+          value: 0,
+        ),
+        CustomWidgetRadioListTile(
+          text: AppLanguageKeys.pricePerCategory,
+          value: 1,
+        ),
+      ],
     );
   }
 }
