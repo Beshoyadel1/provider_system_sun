@@ -16,14 +16,16 @@ class RowRadioListTileSetting extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: const [
+      children: [
         CustomWidgetRadioListTile(
           text: AppLanguageKeys.unifiedPriceForAll,
           value: 0,
+          brandIndex: index, // 🔥 مهم
         ),
         CustomWidgetRadioListTile(
           text: AppLanguageKeys.pricePerCategory,
           value: 1,
+          brandIndex: index, // 🔥 مهم
         ),
       ],
     );

@@ -1,13 +1,13 @@
 class DeleteServicePackageRequest {
-  final int packageId;
+  final int servicePackageId;
 
   DeleteServicePackageRequest({
-    required this.packageId,
+    required this.servicePackageId,
   });
 
   Map<String, dynamic> toJson() {
     return {
-      "packageId": packageId,
+      "servicePackageId": servicePackageId,
     };
   }
 }

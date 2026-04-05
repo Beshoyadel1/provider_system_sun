@@ -1,6 +1,7 @@
 import 'package:sun_web_system/core/api_functions/general/car/car_brand/get_car_brand_models_model/car_brand_data_model.dart';
 import 'package:sun_web_system/core/api_functions/general/car/car_model/get_car_brand_models/car_model_data_model.dart';
 
+
 class SelectCarModelSettingState {
   final List<CarBrandDataModel> brands;
   final List<CarModelDataModel> models;
@@ -43,7 +44,7 @@ class SelectCarModelSettingState {
       isLoadingBrands ?? this.isLoadingBrands,
       isLoadingModels:
       isLoadingModels ?? this.isLoadingModels,
-      error: error,
+      error: error ?? this.error, // ✅ FIX
     );
   }
 }

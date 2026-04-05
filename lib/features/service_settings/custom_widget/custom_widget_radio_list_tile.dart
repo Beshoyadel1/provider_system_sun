@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/features/service_settings/logic/select_car_model_setting_cubit/select_car_model_setting_cubit.dart';
 import '../../../../../core/theming/colors.dart';
 import '../../../../../core/theming/fonts.dart';
 import '../../../../../core/theming/text_styles.dart';
@@ -10,15 +11,21 @@ import '../../../../../features/service_settings/added_maintenance_and_internal_
 class CustomWidgetRadioListTile extends StatelessWidget {
   final String text;
   final int value;
+  final int brandIndex; // 🔥 NEW
 
   const CustomWidgetRadioListTile({
     super.key,
     required this.text,
     required this.value,
+    required this.brandIndex,
   });
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<SelectCarModelSettingCubit>();
+
+    final selectedOption =
+        cubit.brandInputs[brandIndex]?.selectedOption;
     return BlocBuilder<DetailsContainerSettingCubit,
         DetailsContainerSettingState>(
       builder: (context, state) {
@@ -28,16 +35,23 @@ class CustomWidgetRadioListTile extends StatelessWidget {
             title: TextInAppWidget(
               text: text,
               textSize: 13,
-              fontWeightIndex: FontSelectionData.mediumFontFamily,
+              fontWeightIndex:
+              FontSelectionData.mediumFontFamily,
               textColor: AppColors.darkColor,
             ),
             value: value,
             groupValue: state.selectedOption,
             contentPadding: EdgeInsets.zero,
-            onChanged: (value) {
+            onChanged: (val) {
+              // 🔹 local state
               context
                   .read<DetailsContainerSettingCubit>()
-                  .selectOption(value!);
+                  .selectOption(val!);
+
+              // 🔥 global state (validation)
+              context
+                  .read<SelectCarModelSettingCubit>()
+                  .setSelectedOption(brandIndex, val);
             },
           ),
         );

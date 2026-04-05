@@ -12,7 +12,7 @@ class IconCarOrangeTextOfAddedMaintenanceAndInternalServices
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return const Row(
       spacing: 5,
       children: [
         Flexible(

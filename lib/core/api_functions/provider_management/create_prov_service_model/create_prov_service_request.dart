@@ -11,13 +11,13 @@ class CreateProvServiceRequest {
   final List<CarModelCreateProvServiceRequest>? cars;
 
   CreateProvServiceRequest({
-    required this.serviceId,
-    required this.provId,
-    required this.taxId,
-    required this.name,
-    required this.latinName,
-    required this.brands,
-    required this.cars,
+     this.serviceId,
+     this.provId,
+     this.taxId,
+     this.name,
+     this.latinName,
+     this.brands,
+     this.cars,
   });
 
   Map<String, dynamic> toJson() => {

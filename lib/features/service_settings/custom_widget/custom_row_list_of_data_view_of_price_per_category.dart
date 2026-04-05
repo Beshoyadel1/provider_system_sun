@@ -22,16 +22,16 @@ class CustomRowListOfDataViewOfPricePerCategory extends StatelessWidget {
         ? Row(
             spacing: 5,
             children: [
-              CarImageTextInSettingWidget(imagePath: imagePath1, text: text1),
-              CarImageTextInSettingWidget(imagePath: imagePath2, text: text2),
+              // CarImageTextInSettingWidget(imagePath: imagePath1, text: text1),
+              // CarImageTextInSettingWidget(imagePath: imagePath2, text: text2),
             ],
           )
         : Row(
             spacing: 5,
             children: [
-              CarImageTextInSettingWidget(imagePath: imagePath1, text: text1),
-              CarImageTextInSettingWidget(imagePath: imagePath2, text: text2),
-              CarImageTextInSettingWidget(imagePath: imagePath3!, text: text3!),
+              // CarImageTextInSettingWidget(imagePath: imagePath1, text: text1),
+              // CarImageTextInSettingWidget(imagePath: imagePath2, text: text2),
+              // CarImageTextInSettingWidget(imagePath: imagePath3!, text: text3!),
             ],
           );
   }

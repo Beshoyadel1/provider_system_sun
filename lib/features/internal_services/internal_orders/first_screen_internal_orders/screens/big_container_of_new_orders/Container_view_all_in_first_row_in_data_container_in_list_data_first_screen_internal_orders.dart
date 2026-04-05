@@ -8,10 +8,11 @@ import '../../../../../../../core/theming/text_styles.dart';
 class ContainerViewAllInFirstRowInDataContainerInListDataFirstScreenInternalOrders
     extends StatelessWidget {
   final void Function()? onTap;
-
+  final String? text;
   const ContainerViewAllInFirstRowInDataContainerInListDataFirstScreenInternalOrders({
     super.key,
     this.onTap,
+    this.text
   });
 
   @override
@@ -31,8 +32,8 @@ class ContainerViewAllInFirstRowInDataContainerInListDataFirstScreenInternalOrde
             ),
           ],
         ),
-        child: const TextInAppWidget(
-          text: AppLanguageKeys.viewAll,
+        child:  TextInAppWidget(
+          text: text??AppLanguageKeys.viewAll,
           textSize: 13,
           fontWeightIndex: FontSelectionData.regularFontFamily,
           textColor: AppColors.whiteColor,

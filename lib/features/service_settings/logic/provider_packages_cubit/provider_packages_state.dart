@@ -2,6 +2,8 @@ import 'package:sun_web_system/core/api_functions/provider_management/get_provid
 
 abstract class ProviderPackagesState {}
 
+class ProviderPackagesDeleteSuccess extends ProviderPackagesState {}
+
 class ProviderPackagesInitial extends ProviderPackagesState {}
 
 class ProviderPackagesLoading extends ProviderPackagesState {}
@@ -17,3 +19,8 @@ class ProviderPackagesError extends ProviderPackagesState {
 
   ProviderPackagesError(this.message);
 }
+/// ✅ CREATE SUCCESS
+class ProviderPackagesCreateSuccess extends ProviderPackagesState {}
+
+/// ✅ UPDATE SUCCESS
+class ProviderPackagesUpdateSuccess extends ProviderPackagesState {}
