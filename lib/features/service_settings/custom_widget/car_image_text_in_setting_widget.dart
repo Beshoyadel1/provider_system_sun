@@ -59,10 +59,10 @@ class _CarImageTextInSettingWidgetState
           child: SizedBox(
             height: 50,
             child: TextFormFieldWidget(
+              hintText: AppLanguageKeys.sar,
               textFormController: widget.controller,
               fillColor: AppColors.transparent,
               borderColor: AppColors.darkColor.withOpacity(0.2),
-              hintText: AppLanguageKeys.sar,
               hintTextSize: 12,
               hintTextColor: AppColors.orangeColor,
               textSize: 15,

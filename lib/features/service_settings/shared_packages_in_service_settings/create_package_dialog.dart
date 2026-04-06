@@ -4,6 +4,7 @@ import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:sun_web_system/core/pages_widgets/text_form_field_widget.dart';
 import 'package:sun_web_system/core/theming/colors.dart';
+import 'package:sun_web_system/core/theming/fonts.dart';
 import 'package:sun_web_system/core/theming/text_styles.dart';
 import 'package:sun_web_system/features/service_settings/logic/provider_packages_cubit/provider_packages_cubit.dart';
 import 'package:sun_web_system/features/service_settings/logic/provider_packages_cubit/provider_packages_state.dart';
@@ -33,6 +34,7 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
   void initState() {
     super.initState();
 
+    /// default one item
     itemsControllers.add(TextEditingController());
 
     if (isEdit) {
@@ -43,6 +45,7 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
       priceController.text = p.price.toString();
       taxController.text = p.taxId.toString();
 
+      /// split existing items
       itemsControllers = p.items
           .split(',')
           .map<TextEditingController>(
@@ -53,6 +56,20 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
   }
 
   @override
+  void dispose() {
+    nameController.dispose();
+    latinNameController.dispose();
+    priceController.dispose();
+    taxController.dispose();
+
+    for (var c in itemsControllers) {
+      c.dispose();
+    }
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocListener<ProviderPackagesCubit, ProviderPackagesState>(
       listener: (context, state) {
@@ -60,40 +77,49 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text(state.message)));
         }
-
-        /// ✅ CLOSE ONLY HERE
         if (state is ProviderPackagesCreateSuccess ||
             state is ProviderPackagesUpdateSuccess) {
           Navigator.pop(context, true);
         }
       },
       child: AlertDialog(
-        title: Text(isEdit ? "Edit Package" : "Create Package"),
+        title:TextInAppWidget(
+          text: isEdit ? AppLanguageKeys.edit : AppLanguageKeys.create,
+          textSize: 18,
+          fontWeightIndex: FontSelectionData.regularFontFamily,
+          textColor: AppColors.orangeColor,
+          isTextCenter: true,
+        ),
+
         content: SingleChildScrollView(
           child: Form(
             key: _formKey,
             child: Column(
+              spacing: 10,
               children: [
                 TextFormFieldWidget(
                   text: AppLanguageKeys.name,
                   textFormController: nameController,
                   isValidator: true,
+                  fillColor: AppColors.transparent,
+                  borderColor: AppColors.darkColor.withOpacity(0.2),
+                  hintTextSize: 12,
+                  hintTextColor: AppColors.orangeColor,
                   textSize: 15,
                 ),
-
-                const SizedBox(height: 10),
 
                 TextFormFieldWidget(
                   text: AppLanguageKeys.latinName,
                   textFormController: latinNameController,
                   isValidator: true,
+                  fillColor: AppColors.transparent,
+                  borderColor: AppColors.darkColor.withOpacity(0.2),
+                  hintTextSize: 12,
+                  hintTextColor: AppColors.orangeColor,
                   textSize: 15,
                 ),
-
-                const SizedBox(height: 10),
-
-                /// ITEMS
                 Column(
+                  spacing: 10,
                   children: List.generate(itemsControllers.length, (index) {
                     return Row(
                       children: [
@@ -102,18 +128,25 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
                             text: "Item ${index + 1}",
                             textFormController: itemsControllers[index],
                             isValidator: true,
+                            fillColor: AppColors.transparent,
+                            borderColor: AppColors.darkColor.withOpacity(0.2),
+                            hintTextSize: 12,
+                            hintTextColor: AppColors.orangeColor,
                             textSize: 15,
                           ),
                         ),
+
+                        /// delete button
                         if (itemsControllers.length > 1)
                           IconButton(
                             icon: const Icon(Icons.close),
                             onPressed: () {
                               setState(() {
+                                itemsControllers[index].dispose();
                                 itemsControllers.removeAt(index);
                               });
                             },
-                          )
+                          ),
                       ],
                     );
                   }),
@@ -121,19 +154,45 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
 
                 const SizedBox(height: 10),
 
+                /// ➕ ADD ITEM BUTTON (NEW)
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: TextButton.icon(
+                    onPressed: () {
+                      setState(() {
+                        itemsControllers.add(TextEditingController());
+                      });
+                    },
+                    icon: const Icon(Icons.add),
+                    label: const Text("Add Item"),
+                  ),
+                ),
+
+                const SizedBox(height: 10),
+
+                /// PRICE
                 TextFormFieldWidget(
                   text: AppLanguageKeys.price,
                   textFormController: priceController,
                   isDigitDot: true,
+                  fillColor: AppColors.transparent,
+                  borderColor: AppColors.darkColor.withOpacity(0.2),
+                  hintTextSize: 12,
+                  hintTextColor: AppColors.orangeColor,
                   textSize: 15,
                 ),
 
                 const SizedBox(height: 10),
 
+                /// TAX
                 TextFormFieldWidget(
                   text: AppLanguageKeys.taxes,
                   textFormController: taxController,
                   isDigitDot: true,
+                  fillColor: AppColors.transparent,
+                  borderColor: AppColors.darkColor.withOpacity(0.2),
+                  hintTextSize: 12,
+                  hintTextColor: AppColors.orangeColor,
                   textSize: 15,
                 ),
               ],
@@ -141,10 +200,18 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
           ),
         ),
         actions: [
+          /// CANCEL
           ElevatedButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text("Cancel"),
+            child: const TextInAppWidget(
+              text:  AppLanguageKeys.cancel,
+              textSize: 18,
+              fontWeightIndex: FontSelectionData.regularFontFamily,
+              textColor: AppColors.blackColor,
+            ),
           ),
+
+          /// SUBMIT
           BlocBuilder<ProviderPackagesCubit, ProviderPackagesState>(
             builder: (context, state) {
               final isLoading = state is ProviderPackagesLoading;
@@ -152,8 +219,17 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
               return ElevatedButton(
                 onPressed: isLoading ? null : _submit,
                 child: isLoading
-                    ? const CircularProgressIndicator()
-                    : Text(isEdit ? "Update" : "Create"),
+                    ? const SizedBox(
+                  height: 20,
+                  width: 20,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
+                    : TextInAppWidget(
+                  text: isEdit ? AppLanguageKeys.edit : AppLanguageKeys.create,
+                  textSize: 18,
+                  fontWeightIndex: FontSelectionData.regularFontFamily,
+                  textColor: AppColors.blackColor,
+                ),
               );
             },
           ),
@@ -165,8 +241,10 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
   void _submit() {
     if (!_formKey.currentState!.validate()) return;
 
-    final items =
-    itemsControllers.map((e) => e.text.trim()).join(",");
+    final items = itemsControllers
+        .map((e) => e.text.trim())
+        .where((e) => e.isNotEmpty)
+        .join(",");
 
     if (isEdit) {
       context.read<ProviderPackagesCubit>().updatePackage(
