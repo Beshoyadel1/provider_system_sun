@@ -12,84 +12,51 @@ class SelectCarModelSettingCubit
       : super(SelectCarModelSettingState());
 
   final Map<int, List<CarModelDataModel>> _modelsCache = {};
+
+  /// 🔥 KEY = brandId (NOT index)
   final Map<int, BrandInputData> brandInputs = {};
 
+  /// =========================
+  /// SETTERS
+  /// =========================
 
-  void setSelectedOption(int brandIndex, int option) {
-    final existing = brandInputs[brandIndex] ?? BrandInputData();
+  void setSelectedOption(int brandId, int option) {
+    final existing = brandInputs[brandId] ?? BrandInputData();
 
     existing.selectedOption = option;
+    brandInputs[brandId] = existing;
 
-    brandInputs[brandIndex] = existing;
-
-    emit(state.copyWith());
+    checkValidation();
   }
-  void setUnifiedPrice(int brandIndex, String value) {
-    final existing = brandInputs[brandIndex] ?? BrandInputData();
+
+  void setUnifiedPrice(int brandId, String value) {
+    final existing = brandInputs[brandId] ?? BrandInputData();
 
     existing.unifiedPrice = value;
+    brandInputs[brandId] = existing;
 
-    brandInputs[brandIndex] = existing;
-
-    emit(state.copyWith());
-  }
-  String? validateBrand(int index) {
-    final brands = state.brands;
-
-    if (index >= brands.length) return "Invalid brand";
-
-    final brand = brands[index];
-    final input = brandInputs[index];
-
-    if (input == null) {
-      return "Please select option for ${brand.name}";
-    }
-
-    if (input.selectedOption == null) {
-      return "Choose option for ${brand.name}";
-    }
-
-    /// 🔹 unified
-    if (input.selectedOption == 0) {
-      if (input.unifiedPrice == null ||
-          input.unifiedPrice!.trim().isEmpty) {
-        return "Enter price for ${brand.name}";
-      }
-    }
-
-    /// 🔹 per model
-    if (input.selectedOption == 1) {
-      final models = getModelsForBrand(brand.id);
-
-      if (models.isEmpty) {
-        return "Models not loaded";
-      }
-
-      for (final model in models) {
-        final price = input.modelPrices[model.id];
-
-        if (price == null || price.trim().isEmpty) {
-          return "Enter price for ${model.name}";
-        }
-      }
-    }
-
-    return null; // ✅ OK
+    checkValidation();
   }
 
-
-  void setModelPrice(int brandIndex, int modelId, String value) {
-    final existing = brandInputs[brandIndex] ?? BrandInputData();
+  void setModelPrice(int brandId, int modelId, String value) {
+    final existing = brandInputs[brandId] ?? BrandInputData();
 
     existing.modelPrices[modelId] = value;
+    brandInputs[brandId] = existing;
 
-    brandInputs[brandIndex] = existing;
-
-    emit(state.copyWith());
+    checkValidation();
   }
-  List<CarModelDataModel> getModelsForBrand(int? brandId) {
-    if (brandId == null) return [];
-    return _modelsCache[brandId] ?? [];
+
+  /// =========================
+  /// VALIDATION
+  /// =========================
+
+  void checkValidation() {
+    final message = validateAllWithMessage();
+
+    emit(state.copyWith(
+      isValid: message == null,
+    ));
   }
 
   String? validateAllWithMessage() {
@@ -99,21 +66,20 @@ class SelectCarModelSettingCubit
 
     bool hasAny = false;
 
-    for (int i = 0; i < brands.length; i++) {
-      final brand = brands[i];
-      final input = brandInputs[i];
+    for (final brand in brands) {
+      final brandId = brand.id;
+      if (brandId == null) continue;
 
-      /// ❗ لو المستخدم ما لمسش البراند ده → تجاهله
+      final input = brandInputs[brandId];
+
       if (input == null) continue;
 
       hasAny = true;
 
-      /// لازم يكون مختار radio
       if (input.selectedOption == null) {
         return "Choose option for ${brand.name}";
       }
 
-      /// unified
       if (input.selectedOption == 0) {
         if (input.unifiedPrice == null ||
             input.unifiedPrice!.trim().isEmpty) {
@@ -121,9 +87,8 @@ class SelectCarModelSettingCubit
         }
       }
 
-      /// per model
       if (input.selectedOption == 1) {
-        final models = getModelsForBrand(brand.id);
+        final models = getModelsForBrand(brandId);
 
         if (models.isEmpty) {
           return "Models not loaded for ${brand.name}";
@@ -139,11 +104,20 @@ class SelectCarModelSettingCubit
       }
     }
 
-    /// ❗ لو المستخدم ما دخلش أي حاجة خالص
     if (!hasAny) return "Select at least one brand";
 
     return null;
-  }  Future<void> fetchBrands() async {
+  }
+
+  /// =========================
+  /// MODELS
+  /// =========================
+
+  List<CarModelDataModel> getModelsForBrand(int? brandId) {
+    if (brandId == null) return [];
+    return _modelsCache[brandId] ?? [];
+  }
+  Future<void> fetchBrands() async {
     emit(state.copyWith(
       isLoadingBrands: true,
       error: null,

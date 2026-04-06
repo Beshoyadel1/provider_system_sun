@@ -8,10 +8,11 @@ import '../../../../../../features/service_settings/added_maintenance_and_intern
 
 class ContainerOpenCloseTabSetting extends StatelessWidget {
   final bool? isDoneTask;
-
+  final void Function()? onTap;
   const ContainerOpenCloseTabSetting({
     super.key,
-    this.isDoneTask = false
+    this.isDoneTask = false,
+    this.onTap,
   });
 
   @override
@@ -28,8 +29,13 @@ class ContainerOpenCloseTabSetting extends StatelessWidget {
               shape: BoxShape.circle,
             ),
             child: IconButton(
-              onPressed: () =>
-                  context.read<DetailsContainerSettingCubit>().toggle(),
+              onPressed: () {
+                /// ✅ 1. toggle
+                context.read<DetailsContainerSettingCubit>().toggle();
+
+                /// ✅ 2. select service
+                if (onTap != null) onTap!();
+              },
               icon: Icon(
                 state.isExpanded
                     ? Icons.keyboard_arrow_up

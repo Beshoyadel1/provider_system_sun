@@ -1,21 +1,21 @@
 class BrandModelCreateProvServiceRequest {
   final int? id;
-  final double? uniformprice;
-  final bool? isuniformprice;
-  final double? cost;
+  final int? uniFormPrice;
+  final bool? isUniFormPrice;
+  final int? cost;
 
   BrandModelCreateProvServiceRequest({
      this.id,
-     this.uniformprice,
-     this.isuniformprice,
+     this.uniFormPrice,
+     this.isUniFormPrice,
      this.cost,
   });
 
   Map<String, dynamic> toJson() {
     return {
       "id": id,
-      "uniformprice": uniformprice,
-      "isuniformprice": isuniformprice,
+      "uniformprice": uniFormPrice,
+      "isuniformprice": isUniFormPrice,
       "cost": cost,
     };
   }

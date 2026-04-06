@@ -22,10 +22,6 @@ class CustomWidgetRadioListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<SelectCarModelSettingCubit>();
-
-    final selectedOption =
-        cubit.brandInputs[brandIndex]?.selectedOption;
     return BlocBuilder<DetailsContainerSettingCubit,
         DetailsContainerSettingState>(
       builder: (context, state) {
@@ -43,12 +39,9 @@ class CustomWidgetRadioListTile extends StatelessWidget {
             groupValue: state.selectedOption,
             contentPadding: EdgeInsets.zero,
             onChanged: (val) {
-              // 🔹 local state
               context
                   .read<DetailsContainerSettingCubit>()
                   .selectOption(val!);
-
-              // 🔥 global state (validation)
               context
                   .read<SelectCarModelSettingCubit>()
                   .setSelectedOption(brandIndex, val);

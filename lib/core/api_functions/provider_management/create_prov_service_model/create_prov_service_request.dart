@@ -2,31 +2,33 @@ import 'package:sun_web_system/core/api_functions/provider_management/create_pro
 import 'package:sun_web_system/core/api_functions/provider_management/create_prov_service_model/car_model_create_prov_service_request.dart';
 
 class CreateProvServiceRequest {
-  final int? serviceId;
-  final int? provId;
-  final int? taxId;
+  final int? serviceid;
+  final int? provid;
+  final int? taxid;
   final String? name;
-  final String? latinName;
+  final String? latinname;
   final List<BrandModelCreateProvServiceRequest>? brands;
   final List<CarModelCreateProvServiceRequest>? cars;
 
   CreateProvServiceRequest({
-     this.serviceId,
-     this.provId,
-     this.taxId,
+     this.serviceid,
+     this.provid,
+     this.taxid,
      this.name,
-     this.latinName,
+     this.latinname,
      this.brands,
      this.cars,
   });
 
-  Map<String, dynamic> toJson() => {
-    "serviceid": serviceId,
-    "provid": provId,
-    "taxid": taxId,
-    "name": name,
-    "latinname": latinName,
-    "brands": brands?.map((e) => e.toJson()).toList(),
-    "cars": cars?.map((e) => e.toJson()).toList(),
-  };
+  Map<String, dynamic> toJson() {
+    return {
+      "serviceid": serviceid,
+      "provid": provid,
+      "taxid": taxid,
+      "name": name,
+      "latinname": latinname,
+      "brands": brands?.map((e) => e.toJson()).toList()??[],
+      "cars": cars?.map((e) => e.toJson()).toList()??[],
+    };
+  }
 }

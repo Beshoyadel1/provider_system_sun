@@ -1,12 +1,10 @@
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/internal_services/internal_orders/first_screen_internal_orders/screens/big_container_of_new_orders/Container_view_all_in_first_row_in_data_container_in_list_data_first_screen_internal_orders.dart';
 import 'package:sun_web_system/features/service_settings/added_maintenance_and_internal_services_in_service_settings/logic/Details_container_setting_state.dart';
 import 'package:sun_web_system/features/service_settings/logic/select_car_model_setting_cubit/select_car_model_setting_cubit.dart';
 import 'package:sun_web_system/features/service_settings/logic/select_car_model_setting_cubit/select_car_model_setting_state.dart';
-import '../../../../../../../core/language/language_constant.dart';
 import '../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/screens/animated_cross_fade_in_expansion_container_setting_widget.dart';
 import '../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/screens/container_open_close_tab_setting.dart';
 import '../../../../../core/theming/colors.dart';
@@ -14,14 +12,12 @@ import '../../../../../core/theming/fonts.dart';
 import '../../../../../core/theming/text_styles.dart';
 import '../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/logic/Details_container_setting_cubit.dart';
 
-import 'dart:typed_data';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ExpansionContainerSettingWidget extends StatelessWidget {
   final String? imagePath, text;
   final bool? isDoneTask;
   final Uint8List? imageMemory;
+  final void Function()? onTap;
 
   const ExpansionContainerSettingWidget({
     super.key,
@@ -29,6 +25,7 @@ class ExpansionContainerSettingWidget extends StatelessWidget {
     this.imageMemory,
     this.text,
     this.isDoneTask = false,
+    this.onTap,
   });
 
   @override
@@ -78,6 +75,7 @@ class ExpansionContainerSettingWidget extends StatelessWidget {
                 ),
                 ContainerOpenCloseTabSetting(
                   isDoneTask: isDoneTask,
+                  onTap:onTap,
                 )
               ],
             ),
@@ -118,18 +116,11 @@ class ExpansionContainerSettingWidget extends StatelessWidget {
                                 index: index,
                                 image: brand.image,
                                 text: brand.name ?? '',
+                                brandId: brand.id??0,
                               ),
-
                             );
                           }),
                         ),
-                        const Row(
-                          children: [
-                            ContainerViewAllInFirstRowInDataContainerInListDataFirstScreenInternalOrders(
-                              //onTap: ,
-                            ),
-                          ],
-                        )
                       ],
                     );
                   },

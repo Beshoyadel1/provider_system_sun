@@ -11,17 +11,12 @@ Future<void> createServicePackageFunction({
   required CreateServicePackageRequest request,
 }) async {
   try {
-    final response = await Network.postDataWithBody(
+    await Network.postDataWithBody(
       request.toJson(),
       ApiLink.createServicePackage,
     );
 
-    print("SUCCESS RESPONSE: $response");
-
   } on DioException catch (e) {
-    print("STATUS CODE: ${e.response?.statusCode}");
-    print("ERROR BODY: ${e.response?.data}");
-
     rethrow; // مهم جدًا
   }
 }

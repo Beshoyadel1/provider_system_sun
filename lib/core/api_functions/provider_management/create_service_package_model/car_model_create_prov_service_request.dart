@@ -1,14 +1,14 @@
 class CarModelCreateProvServiceRequest {
   final int? id;
-  final int? carbrandid;
-  final int? carmodelid;
-  final double? price;
-  final double? cost;
+  final int? carBrandId;
+  final int? carModelId;
+  final int? price;
+  final int? cost;
 
   CarModelCreateProvServiceRequest({
      this.id,
-     this.carbrandid,
-     this.carmodelid,
+     this.carBrandId,
+     this.carModelId,
      this.price,
      this.cost,
   });
@@ -16,8 +16,8 @@ class CarModelCreateProvServiceRequest {
   Map<String, dynamic> toJson() {
     return {
       "id": id,
-      "carbrandid": carbrandid,
-      "carmodelid": carmodelid,
+      "carbrandid": carBrandId,
+      "carmodelid": carModelId,
       "price": price,
       "cost": cost,
     };

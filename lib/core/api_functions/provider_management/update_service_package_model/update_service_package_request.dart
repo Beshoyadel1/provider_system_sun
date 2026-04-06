@@ -1,5 +1,3 @@
-import 'package:sun_web_system/core/api_functions/provider_management/create_prov_service_model/brand_model_create_prov_service_request.dart';
-import 'package:sun_web_system/core/api_functions/provider_management/create_prov_service_model/car_model_create_prov_service_request.dart';
 import 'package:sun_web_system/core/api_functions/provider_management/create_service_package_model/car_model_create_service_package_request.dart';
 
 class UpdateServicePackageRequest {

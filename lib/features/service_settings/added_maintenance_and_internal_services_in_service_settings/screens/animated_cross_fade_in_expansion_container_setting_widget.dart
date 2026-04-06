@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,12 +16,14 @@ class AnimatedCrossFadeInExpansionContainerSettingWidget
   final int index;
   final Uint8List? image;
   final String text;
+  final int brandId;
 
   const AnimatedCrossFadeInExpansionContainerSettingWidget({
     super.key,
     required this.index,
     required this.image,
     required this.text,
+    required this.brandId,
   });
 
   @override
@@ -43,13 +44,11 @@ class _AnimatedCrossFadeInExpansionContainerSettingWidgetState
           .read<SelectCarModelSettingCubit>()
           .selectBrand(widget.index);
     });
+
   }
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<SelectCarModelSettingCubit>();
-    final brandId = cubit.state.brands[widget.index].id;
-
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       padding: const EdgeInsets.all(10),
@@ -80,7 +79,7 @@ class _AnimatedCrossFadeInExpansionContainerSettingWidgetState
                     if (state.selectedOption == 1)
                       DataViewOfPricePerCategory(
                         brandIndex: widget.index,
-                        brandId: brandId,
+                        brandId: widget.brandId,
                       ),
                 ],
               );

@@ -12,6 +12,8 @@ class SelectCarModelSettingState {
   final bool isLoadingBrands;
   final bool isLoadingModels;
 
+  final bool isValid; // 🔥 ADD
+
   final String? error;
 
   SelectCarModelSettingState({
@@ -21,6 +23,7 @@ class SelectCarModelSettingState {
     this.selectedModelIndex = -1,
     this.isLoadingBrands = false,
     this.isLoadingModels = false,
+    this.isValid = false, // 🔥 ADD
     this.error,
   });
 
@@ -31,6 +34,7 @@ class SelectCarModelSettingState {
     int? selectedModelIndex,
     bool? isLoadingBrands,
     bool? isLoadingModels,
+    bool? isValid,
     String? error,
   }) {
     return SelectCarModelSettingState(
@@ -44,7 +48,8 @@ class SelectCarModelSettingState {
       isLoadingBrands ?? this.isLoadingBrands,
       isLoadingModels:
       isLoadingModels ?? this.isLoadingModels,
-      error: error ?? this.error, // ✅ FIX
+      isValid: isValid ?? this.isValid, // 🔥
+      error: error ?? this.error,
     );
   }
 }
