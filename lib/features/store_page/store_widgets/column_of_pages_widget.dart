@@ -30,7 +30,7 @@ class ColumnOfPagesWidget extends StatelessWidget {
                 bottomRight: Radius.circular(10)),
             color: pageNode.number == appCubit.selectedPageIndex
                 ? AppColors.whiteColor
-                : Colors.transparent,
+                : AppColors.transparent,
           ),
           child: ExpansionTileWidget(
             pages: pageNode,
