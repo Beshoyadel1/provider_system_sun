@@ -29,65 +29,65 @@ class ImageWithTwoText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return isLeftToRight!
-        ? Row(
-          spacing: 10,
-          children: [
-            Column(
-              spacing: 5,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextInAppWidget(
-                  text: title,
-                  textSize: textSizeTitle ?? 12,
-                  fontWeightIndex:
-                  isSemiBold
-                      ? FontSelectionData.semiBoldFontFamily
-                      : FontSelectionData.regularFontFamily,
-                  textColor: titleColor ?? AppColors.darkColor,
-                ),
-                TextInAppWidget(
-                  text: subTitle,
-                  textSize: textSizeSubTitle ?? 12,
-                  fontWeightIndex:
-                  isSemiBold
-                      ? FontSelectionData.semiBoldFontFamily
-                      : FontSelectionData.regularFontFamily,
-                  textColor: subTitleColor ?? AppColors.orangeColor,
-                ),
-              ],
-            ),
-            Image.asset(imageSrc, width: widthImage ?? 50),
-          ],
-        )
-        : Row(
-          spacing: 10,
-          children: [
-            Image.asset(imageSrc, width: widthImage ?? 50),
-            Column(
-              spacing: 5,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextInAppWidget(
-                  text: title,
-                  textSize: textSizeTitle ?? 12,
-                  fontWeightIndex:
-                      isSemiBold
-                          ? FontSelectionData.semiBoldFontFamily
-                          : FontSelectionData.regularFontFamily,
-                  textColor: titleColor ?? AppColors.darkColor,
-                ),
-                TextInAppWidget(
-                  text: subTitle,
-                  textSize: textSizeSubTitle ?? 12,
-                  fontWeightIndex:
-                      isSemiBold
-                          ? FontSelectionData.semiBoldFontFamily
-                          : FontSelectionData.regularFontFamily,
-                  textColor: subTitleColor ?? AppColors.orangeColor,
-                ),
-              ],
-            ),
-          ],
-        );
+        ? Wrap(
+            spacing: 10,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            alignment: WrapAlignment.center,
+            children: [
+              Column(
+                spacing: 5,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextInAppWidget(
+                    text: title,
+                    textSize: textSizeTitle ?? 12,
+                    fontWeightIndex: isSemiBold
+                        ? FontSelectionData.semiBoldFontFamily
+                        : FontSelectionData.regularFontFamily,
+                    textColor: titleColor ?? AppColors.darkColor,
+                  ),
+                  TextInAppWidget(
+                    text: subTitle,
+                    textSize: textSizeSubTitle ?? 12,
+                    fontWeightIndex: isSemiBold
+                        ? FontSelectionData.semiBoldFontFamily
+                        : FontSelectionData.regularFontFamily,
+                    textColor: subTitleColor ?? AppColors.orangeColor,
+                  ),
+                ],
+              ),
+              Image.asset(imageSrc, width: widthImage ?? 50),
+            ],
+          )
+        : Wrap(
+            spacing: 10,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            alignment: WrapAlignment.center,
+            children: [
+              Image.asset(imageSrc, width: widthImage ?? 50),
+              Column(
+                spacing: 5,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextInAppWidget(
+                    text: title,
+                    textSize: textSizeTitle ?? 12,
+                    fontWeightIndex: isSemiBold
+                        ? FontSelectionData.semiBoldFontFamily
+                        : FontSelectionData.regularFontFamily,
+                    textColor: titleColor ?? AppColors.darkColor,
+                  ),
+                  TextInAppWidget(
+                    text: subTitle,
+                    textSize: textSizeSubTitle ?? 12,
+                    fontWeightIndex: isSemiBold
+                        ? FontSelectionData.semiBoldFontFamily
+                        : FontSelectionData.regularFontFamily,
+                    textColor: subTitleColor ?? AppColors.orangeColor,
+                  ),
+                ],
+              ),
+            ],
+          );
   }
 }

@@ -1,3 +1,7 @@
+import 'package:sun_web_system/features/accounts_management/details_accounts_management_admin_sun/details_accounts_management_admin_sun.dart';
+import 'package:sun_web_system/features/accounts_management/first_screen_accounts_management_admin_sun/first_screen_accounts_management_admin_sun.dart';
+import 'package:sun_web_system/features/accounts_management/list_payment_view/list_payment_view.dart';
+import 'package:sun_web_system/features/advertisements/first_screen_advertisements/first_screen_advertisements.dart';
 import 'package:sun_web_system/features/car_model_settings/car_add_screen_in_car_model_settings/car_add_screen_in_car_model_settings.dart';
 import 'package:sun_web_system/features/car_model_settings/first_screen_car_model_settings/first_screen_car_model_settings.dart';
 import 'package:sun_web_system/features/internal_services/internal_services_statistics/Internal_services_page/ui/internal_orders_page.dart';
@@ -7,6 +11,7 @@ import 'package:sun_web_system/features/petroleum_service/all_orders_are_filled_
 import 'package:sun_web_system/features/service_settings/petrol_in_service_settings/petrol_in_service_settings.dart';
 import 'package:sun_web_system/features/spare_parts/spare_parts_orders/first_screen_spare_parts_orders/first_screen_spare_parts_orders.dart';
 import 'package:sun_web_system/features/spare_parts/spare_parts_statistics/spare_parts_page/ui/spare_parts_statistics_page.dart';
+import 'package:sun_web_system/features/store_page/store_widgets/facility_account/facility_account.dart';
 import 'package:sun_web_system/features/technical_support/technical_support_emp/technical_support_admin_sun.dart';
 import '../../../core/general_models/pages_model.dart';
 import '../../../features/cars_haraj_page/ui/car_haraj_orders_page.dart';
@@ -215,7 +220,7 @@ class PagesOfAllApp {
   static const int walletPageNumber2 = 527;
   static const int amountPageNumber = 528;
   static const int technicalSupportPageNumber = 529;
-
+  static const int amountPageNumber2 = 530;
 /*
   * PageNodeModel(
             name: AppLanguageKeys.carModelsTitleKey,
@@ -307,12 +312,12 @@ void getPages() {
       page: FirstScreenPermissions(),
     ),
 
-    // const PageNodeModel(
-    //   name: AppLanguageKeys.advertisements,
-    //   image: AppImageKeys.banner,
-    //   number: PagesOfAllApp.advertisementsPageNumber,
-    //   page: FirstScreenAdvertisements(),
-    // ),
+    const PageNodeModel(
+      name: AppLanguageKeys.advertisements,
+      image: AppImageKeys.banner,
+      number: PagesOfAllApp.advertisementsPageNumber,
+      page: FirstScreenAdvertisements(),
+    ),
 
     // const PageNodeModel(
     //     name: AppLanguageKeys.sparePartsSectionKey,
@@ -409,79 +414,79 @@ void getPages() {
             page: PetrolInServiceSettings(),
           ),
         ]),
-    // const PageNodeModel(
-    //     name: AppLanguageKeys.facilityManagementKey,
-    //     image: AppImageKeys.store,
-    //     number: PagesOfAllApp.securityPageNumber,
-    //     children: [
-    //       PageNodeModel(
-    //         name: AppLanguageKeys.facilityAccountKey,
-    //         number: PagesOfAllApp.permissionsGroupPageNumber,
-    //         page: FacilityAccount(),
-    //       ),
-    //       PageNodeModel(
-    //         name: AppLanguageKeys.carModelsTitleKey,
-    //         number: PagesOfAllApp.usersPermissionsPageNumber1,
-    //         image: AppImageKeys.store,
-    //         children: [
-    //           PageNodeModel(
-    //             name: AppLanguageKeys.carModel,
-    //             number: PagesOfAllApp.firstScreenCarModelSettings,
-    //             page: FirstScreenCarModelSettings(),
-    //           ),
-    //           // PageNodeModel(
-    //           //   name: AppLanguageKeys.serviceSettings,
-    //           //   number: PagesOfAllApp.serviceSettingsCarModel,
-    //           //   page: ServiceSettingsCarModel(),
-    //           // ),
-    //           PageNodeModel(
-    //             name: AppLanguageKeys.addCarModel,
-    //             number: PagesOfAllApp.carAddScreenInCarModelSettings,
-    //             page: CarAddScreenInCarModelSettings(),
-    //           ),
-    //         ],
-    //         //page: FirstScreenCarModelSettings(),
-    //       ),
-    //       PageNodeModel(
-    //           name: AppLanguageKeys.serviceSettingsTitleKey,
-    //           number: PagesOfAllApp.serviceSettingsPageNumber,
-    //           image: AppImageKeys.store,
-    //           page: FirstScreenServiceSettings(),
-    //           children: [
-    //             PageNodeModel(
-    //               name: AppLanguageKeys.serviceSettingsTitleKey,
-    //               number: PagesOfAllApp.serviceSettingsPageNumber,
-    //               page: FirstScreenServiceSettings(),
-    //             ),
-    //             PageNodeModel(
-    //               name: AppLanguageKeys.maintenanceAndInternalServicesKey,
-    //               number:
-    //                   PagesOfAllApp.maintenanceAndInteriorServicesPageNumber,
-    //               page: AddedMaintenanceAndInternalServicesInServiceSettings(),
-    //             ),
-    //             PageNodeModel(
-    //               name: AppLanguageKeys.carSpareParts,
-    //               number: PagesOfAllApp.carPartsPageNumber,
-    //               page: CarSparePartsInServiceSettings(),
-    //             ),
-    //             PageNodeModel(
-    //               name: AppLanguageKeys.sharedPackages,
-    //               number: PagesOfAllApp.sharedPackagesPageNumber,
-    //               page: SharedPackagesInServiceSettings(),
-    //             ),
-    //             PageNodeModel(
-    //               name: AppLanguageKeys.mobileServicesKey,
-    //               number:
-    //                   PagesOfAllApp.mobileServicesAndTransportationPageNumber,
-    //               page: InternalMaintenanceAndServicesInServiceSettings(),
-    //             ),
-    //             PageNodeModel(
-    //               name: AppLanguageKeys.petroleum,
-    //               number: PagesOfAllApp.petrolInServiceSettingPageNumber,
-    //               page: PetrolInServiceSettings(),
-    //             ),
-    //           ]),
-    //     ]),
+    const PageNodeModel(
+        name: AppLanguageKeys.facilityManagementKey,
+        image: AppImageKeys.store,
+        number: PagesOfAllApp.securityPageNumber,
+        children: [
+          PageNodeModel(
+            name: AppLanguageKeys.facilityAccountKey,
+            number: PagesOfAllApp.permissionsGroupPageNumber,
+            page: FacilityAccount(),
+          ),
+          // PageNodeModel(
+          //   name: AppLanguageKeys.carModelsTitleKey,
+          //   number: PagesOfAllApp.usersPermissionsPageNumber1,
+          //   image: AppImageKeys.store,
+          //   children: [
+          //     PageNodeModel(
+          //       name: AppLanguageKeys.carModel,
+          //       number: PagesOfAllApp.firstScreenCarModelSettings,
+          //       page: FirstScreenCarModelSettings(),
+          //     ),
+          //     // PageNodeModel(
+          //     //   name: AppLanguageKeys.serviceSettings,
+          //     //   number: PagesOfAllApp.serviceSettingsCarModel,
+          //     //   page: ServiceSettingsCarModel(),
+          //     // ),
+          //     PageNodeModel(
+          //       name: AppLanguageKeys.addCarModel,
+          //       number: PagesOfAllApp.carAddScreenInCarModelSettings,
+          //       page: CarAddScreenInCarModelSettings(),
+          //     ),
+          //   ],
+          //   //page: FirstScreenCarModelSettings(),
+          // ),
+          // PageNodeModel(
+          //     name: AppLanguageKeys.serviceSettingsTitleKey,
+          //     number: PagesOfAllApp.serviceSettingsPageNumber,
+          //     image: AppImageKeys.store,
+          //     page: FirstScreenServiceSettings(),
+          //     children: [
+          //       PageNodeModel(
+          //         name: AppLanguageKeys.serviceSettingsTitleKey,
+          //         number: PagesOfAllApp.serviceSettingsPageNumber,
+          //         page: FirstScreenServiceSettings(),
+          //       ),
+          //       PageNodeModel(
+          //         name: AppLanguageKeys.maintenanceAndInternalServicesKey,
+          //         number:
+          //             PagesOfAllApp.maintenanceAndInteriorServicesPageNumber,
+          //         page: AddedMaintenanceAndInternalServicesInServiceSettings(),
+          //       ),
+          //       PageNodeModel(
+          //         name: AppLanguageKeys.carSpareParts,
+          //         number: PagesOfAllApp.carPartsPageNumber,
+          //         page: CarSparePartsInServiceSettings(),
+          //       ),
+          //       PageNodeModel(
+          //         name: AppLanguageKeys.sharedPackages,
+          //         number: PagesOfAllApp.sharedPackagesPageNumber,
+          //         page: SharedPackagesInServiceSettings(),
+          //       ),
+          //       PageNodeModel(
+          //         name: AppLanguageKeys.mobileServicesKey,
+          //         number:
+          //             PagesOfAllApp.mobileServicesAndTransportationPageNumber,
+          //         page: InternalMaintenanceAndServicesInServiceSettings(),
+          //       ),
+          //       PageNodeModel(
+          //         name: AppLanguageKeys.petroleum,
+          //         number: PagesOfAllApp.petrolInServiceSettingPageNumber,
+          //         page: PetrolInServiceSettings(),
+          //       ),
+          //     ]),
+        ]),
     const PageNodeModel(
         name: AppLanguageKeys.accountManagementKey,
         image: AppImageKeys.wallet,
@@ -489,13 +494,13 @@ void getPages() {
         children: [
           PageNodeModel(
             name: AppLanguageKeys.accountManagementKey,
-            number: PagesOfAllApp.walletPageNumber2,
-            page: PetroleumFillingRequests(),
+            number: PagesOfAllApp.amountPageNumber,
+            page: FirstScreenAccountsManagementAdminSun(),
           ),
           PageNodeModel(
-            name: AppLanguageKeys.wallet,
-            number: PagesOfAllApp.amountPageNumber,
-            page: PetroleumServiceAllOrders(),
+            name: AppLanguageKeys.allPayments,
+            number: PagesOfAllApp.amountPageNumber2,
+            page: ListPaymentView(),
           ),
         ]),
     const PageNodeModel(

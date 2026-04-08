@@ -66,39 +66,7 @@ class TechnicalSupportAdminSun extends StatelessWidget {
               ),
             ),
           ),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.start,
-          //   crossAxisAlignment: CrossAxisAlignment.start,
-          //   children: [
-          //     const Expanded(
-          //       flex: 2,
-          //       child: Padding(
-          //         padding:  EdgeInsets.all(20),
-          //         child: SingleChildScrollView(
-          //           child: ListDataTechnicalSupportAdminSun(),
-          //         ),
-          //       ),
-          //     ),
-          //     if ((!isMobile))
-          //       const Expanded(
-          //         flex: 3,
-          //         child: Padding(
-          //           padding:  EdgeInsets.all(10.0),
-          //           child: ChatInTechnicalSupportEmpAdminSun(),
-          //         ),
-          //       ),
-          //     if ((!isMobile&&!isTabletCustom))
-          //       const Expanded(
-          //         flex: 2,
-          //         child: Padding(
-          //           padding:  EdgeInsets.all(10.0),
-          //           child: SingleChildScrollView(
-          //               child: ContainerDesignTeamWorkAdminSun()
-          //           ),
-          //         ),
-          //       ),
-          //   ],
-          // ),
+
         ));
   }
 }

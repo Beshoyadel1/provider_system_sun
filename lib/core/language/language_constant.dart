@@ -19,6 +19,22 @@ class AppLanguageKeys {
   //end//
 
   //others//
+  static const String invoiceServices = 'invoiceServices';
+  static const String transferDate = 'transferDate';
+  static const String ordersCommission = 'ordersCommission';
+  static const String netBalance = 'netBalance';
+  static const String allPayments = 'allPayments';
+  static const String cardPayments = 'cardPayments';
+  static const String cashOnDeliveryPayments = 'cashOnDeliveryPayments';
+  static const String packageType = 'packageType';
+  static const String subscriptionDuration = 'subscriptionDuration';
+  static const String subscriptionFee = 'subscriptionFee';
+  static const String nextSubscriptionDate = 'nextSubscriptionDate';
+  static const String downloadInvoice = 'downloadInvoice';
+  static const String transactionNumber = 'transactionNumber';
+  static const String invoiceDate = 'invoiceDate';
+  static const String orderStatus = 'orderStatus';
+  static const String transactionDetails = 'transactionDetails';
   static const String latinName = 'latinName';
   static const String items = 'items';
   static const String create = 'create';
