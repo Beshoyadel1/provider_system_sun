@@ -11,7 +11,7 @@ import '../../../../../features/service_settings/added_maintenance_and_internal_
 class CustomWidgetRadioListTile extends StatelessWidget {
   final String text;
   final int value;
-  final int brandIndex; // 🔥 NEW
+  final int brandIndex;
 
   const CustomWidgetRadioListTile({
     super.key,

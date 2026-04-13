@@ -1,22 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:sun_web_system/core/pages_widgets/general_widgets/custom_container.dart';
 import 'package:sun_web_system/core/theming/colors.dart';
 import 'package:sun_web_system/core/theming/fonts.dart';
 import 'package:sun_web_system/core/theming/text_styles.dart';
-import 'package:sun_web_system/features/accounts_management/custom_widget/container_details_of_the_process.dart';
 import 'package:sun_web_system/features/accounts_management/custom_widget/title_with_sub_title.dart';
-import 'package:sun_web_system/features/internal_services/internal_orders/custom_widget/text_with_container_status.dart';
+import 'package:sun_web_system/features/accounts_management/logic/package_cubit/package_cubit.dart';
+import 'package:sun_web_system/features/accounts_management/logic/package_cubit/package_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AllProfitsFromPackagesList extends StatelessWidget {
   const AllProfitsFromPackagesList({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final List<int> items = List.generate(2, (index) => index);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 10,
@@ -27,82 +25,104 @@ class AllProfitsFromPackagesList extends StatelessWidget {
           fontWeightIndex: FontSelectionData.semiBoldFontFamily,
           textColor: AppColors.blackColor,
         ),
-        Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: AppColors.whiteColor,
-            borderRadius: const BorderRadius.all(Radius.circular(20)),
-            border: Border.all(
-              color: AppColors.greyColor.withOpacity(0.3),
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.darkColor.withOpacity(0.1),
-                blurRadius: 4,
-                offset: const Offset(0, 2),
-              ),
-            ],
-          ),
-          child: ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: items.length,
-            separatorBuilder: (context, index) => const SizedBox(height: 20),
-            itemBuilder: (context, index) {
-              return CustomContainer(
-                isSelected: false,
-                onTap: () {},
-                borderRadius: BorderRadius.circular(12),
-                typeWidget: const Wrap(
-                  spacing: 5,
-                  runSpacing: 5,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  alignment: WrapAlignment.spaceBetween,
-                  children: [
-                    TitleWithSubTitle(
-                      title: AppLanguageKeys.packageType,
-                      textSizeTitle: 13,
-                      titleColor: AppColors.greyColor,
-                      subTitle: 'باقة ضمان صان ',
-                      textSizeSubTitle: 12,
-                    ),
-                    TitleWithSubTitle(
-                      title: AppLanguageKeys.subscriptionDuration,
-                      textSizeTitle: 13,
-                      titleColor: AppColors.greyColor,
-                      subTitle: 'سنة',
-                      textSizeSubTitle: 12,
-                    ),
-                    TitleWithSubTitle(
-                      title: AppLanguageKeys.subscriptionFee,
-                      textSizeTitle: 13,
-                      titleColor: AppColors.greyColor,
-                      subTitle: '250',
-                      textSizeSubTitle: 12,
-                    ),
-                    TitleWithSubTitle(
-                      title: AppLanguageKeys.invoiceDate,
-                      textSizeTitle: 13,
-                      titleColor: AppColors.greyColor,
-                      subTitle: '1/1/2025',
-                      textSizeSubTitle: 12,
-                    ),
-                    TitleWithSubTitle(
-                      title: AppLanguageKeys.nextSubscriptionDate,
-                      textSizeTitle: 13,
-                      titleColor: AppColors.greyColor,
-                      subTitle: '1/1/2025',
-                      textSizeSubTitle: 12,
-                    ),
-                    ContainerDetailsOfTheProcess(
-                      status: 5,
-                      title: AppLanguageKeys.downloadInvoice,
-                      icon: Icons.download,
 
+        BlocProvider(
+          create: (_) => PackageCubit()..getPackages(),
+          child: BlocBuilder<PackageCubit, PackageState>(
+            builder: (context, state) {
+
+
+              if (state is PackageLoading) {
+                return const CupertinoActivityIndicator();
+              }
+
+
+              if (state is PackageError) {
+                return const Text("Error loading packages");
+              }
+
+              if (state is PackageSuccess) {
+                final packages = state.packages;
+
+                if (packages.isEmpty) {
+                  return const Text("No packages");
+                }
+
+                return Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: AppColors.whiteColor,
+                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                    border: Border.all(
+                      color: AppColors.greyColor.withOpacity(0.3),
                     ),
-                  ],
-                ),
-              );
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.darkColor.withOpacity(0.1),
+                        blurRadius: 4,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: packages.length,
+                    separatorBuilder: (_, __) => const SizedBox(height: 20),
+                    itemBuilder: (context, index) {
+                      final package = packages[index];
+
+                      return CustomContainer(
+                        isSelected: false,
+                        onTap: () {},
+                        borderRadius: BorderRadius.circular(12),
+                        typeWidget: Wrap(
+                          spacing: 5,
+                          runSpacing: 5,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          alignment: WrapAlignment.spaceBetween,
+                          children: [
+                            /// Name
+                            TitleWithSubTitle(
+                              title: AppLanguageKeys.packageName,
+                              textSizeTitle: 13,
+                              titleColor: AppColors.greyColor,
+                              subTitle: package.getName(context),
+                              textSizeSubTitle: 12,
+                            ),
+
+                            TitleWithSubTitle(
+                              title: AppLanguageKeys.packageType,
+                              textSizeTitle: 13,
+                              titleColor: AppColors.greyColor,
+                              subTitle: package.getDescription(context),
+                              textSizeSubTitle: 12,
+                            ),
+
+                            TitleWithSubTitle(
+                              title: AppLanguageKeys.annualPrice,
+                              textSizeTitle: 13,
+                              titleColor: AppColors.greyColor,
+                              subTitle: "${package.annualPrice}",
+                              textSizeSubTitle: 12,
+                            ),
+
+                            TitleWithSubTitle(
+                              title: AppLanguageKeys.monthlyPrice,
+                              textSizeTitle: 13,
+                              titleColor: AppColors.greyColor,
+                              subTitle: "${package.monthPrice}",
+                              textSizeSubTitle: 12,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                );
+              }
+
+              return const SizedBox();
             },
           ),
         ),

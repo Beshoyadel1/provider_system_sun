@@ -19,6 +19,8 @@ class AppLanguageKeys {
   //end//
 
   //others//
+  static const String annualPrice = 'annualPrice';
+  static const String monthlyPrice = 'monthlyPrice';
   static const String invoiceServices = 'invoiceServices';
   static const String transferDate = 'transferDate';
   static const String ordersCommission = 'ordersCommission';

@@ -7,6 +7,8 @@ import 'package:sun_web_system/features/car_model_settings/first_screen_car_mode
 import 'package:sun_web_system/features/internal_services/internal_services_statistics/Internal_services_page/ui/internal_orders_page.dart';
 import 'package:sun_web_system/features/mobile_services/mobile_services_orders/first_screen_mobile_services_orders/first_screen_mobile_services_orders.dart';
 import 'package:sun_web_system/features/mobile_services/mobile_services_statistics/spare_parts_page/ui/mobile_services_statistics_page.dart';
+import 'package:sun_web_system/features/oil_change_services/oil_change_services_orders/first_screen_oil_change_services_orders/first_screen_oil_change_services_orders.dart';
+import 'package:sun_web_system/features/oil_change_services/oil_change_services_statistics/oil_change_services_page/ui/oil_change_services_statistics_page.dart';
 import 'package:sun_web_system/features/petroleum_service/all_orders_are_filled_petroleum_filling_requests/screens/ui/petroleum_service_all_orders.dart';
 import 'package:sun_web_system/features/service_settings/petrol_in_service_settings/petrol_in_service_settings.dart';
 import 'package:sun_web_system/features/spare_parts/spare_parts_orders/first_screen_spare_parts_orders/first_screen_spare_parts_orders.dart';
@@ -221,6 +223,10 @@ class PagesOfAllApp {
   static const int amountPageNumber = 528;
   static const int technicalSupportPageNumber = 529;
   static const int amountPageNumber2 = 530;
+
+  static const int oilChangeServicePageNumber = 531;
+  static const int oilChangeServiceOrdersPageNumber = 532;
+  static const int oilChangeServiceStaticsPageNumber = 533;
 /*
   * PageNodeModel(
             name: AppLanguageKeys.carModelsTitleKey,
@@ -273,6 +279,7 @@ void getPages() {
             page: InternalOrdersPage(),
           ),
         ]),
+
     const PageNodeModel(
         name: AppLanguageKeys.spareParts,
         image: AppImageKeys.spare,
@@ -287,6 +294,22 @@ void getPages() {
             name: AppLanguageKeys.ordersSectionKey,
             number: PagesOfAllApp.sparePartsStaticsPageNumber,
             page: SparePartsStatisticsPage(),
+          ),
+        ]),
+    const PageNodeModel(
+        name: AppLanguageKeys.oilChange,
+        image: AppImageKeys.oils,
+        number: PagesOfAllApp.oilChangeServicePageNumber,
+        children: [
+          PageNodeModel(
+            name: AppLanguageKeys.statistics,
+            number: PagesOfAllApp.oilChangeServiceOrdersPageNumber,
+            page: FirstScreenOilChangeServicesOrders(),
+          ),
+          PageNodeModel(
+            name: AppLanguageKeys.ordersSectionKey,
+            number: PagesOfAllApp.oilChangeServiceStaticsPageNumber,
+            page: OilChangeServicesStatisticsPage(),
           ),
         ]),
     const PageNodeModel(
@@ -318,23 +341,6 @@ void getPages() {
       number: PagesOfAllApp.advertisementsPageNumber,
       page: FirstScreenAdvertisements(),
     ),
-
-    // const PageNodeModel(
-    //     name: AppLanguageKeys.sparePartsSectionKey,
-    //     image: AppImageKeys.spare,
-    //     number: PagesOfAllApp.sparePageNumber,
-    //     children: [
-    //       PageNodeModel(
-    //         name: AppLanguageKeys.permissionsGroupPageKey,
-    //         number: PagesOfAllApp.internalServicesStatisticsPageNumber,
-    //         page: InternalAndServicesStatisticsPage(),
-    //       ),
-    //       PageNodeModel(
-    //         name: AppLanguageKeys.ordersSectionKey,
-    //         number: PagesOfAllApp.internalOrdersPageNumber,
-    //         page: InternalOrdersPage(),
-    //       ),
-    //     ]),
 
     const PageNodeModel(
         name: AppLanguageKeys.carMarketKey,
@@ -497,11 +503,11 @@ void getPages() {
             number: PagesOfAllApp.amountPageNumber,
             page: FirstScreenAccountsManagementAdminSun(),
           ),
-          PageNodeModel(
-            name: AppLanguageKeys.allPayments,
-            number: PagesOfAllApp.amountPageNumber2,
-            page: ListPaymentView(),
-          ),
+          // PageNodeModel(
+          //   name: AppLanguageKeys.allPayments,
+          //   number: PagesOfAllApp.amountPageNumber2,
+          //   page: ListPaymentView(),
+          // ),
         ]),
     const PageNodeModel(
         name: AppLanguageKeys.petroleum,
@@ -520,12 +526,12 @@ void getPages() {
             number: PagesOfAllApp.ordersPetroleumPageNumber,
             page: PetroleumServiceAllOrders(),
           ),
-          PageNodeModel(
-            name: AppLanguageKeys.oilProducts,
-            image: AppImageKeys.wallet,
-            number: PagesOfAllApp.oilProductsPetroleumPageNumber,
-            page: OilProducts(),
-          ),
+          // PageNodeModel(
+          //   name: AppLanguageKeys.oilProducts,
+          //   image: AppImageKeys.wallet,
+          //   number: PagesOfAllApp.oilProductsPetroleumPageNumber,
+          //   page: OilProducts(),
+          // ),
           // PageNodeModel(
           //   name: AppLanguageKeys.facilityManagementKey,
           //   image: AppImageKeys.FacilityManagement,

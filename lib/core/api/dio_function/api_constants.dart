@@ -16,6 +16,7 @@ class ApiConfig {
   static const String employeeService = "EmployeeService";
   static const String coupon = "Coupon";
   static const String payment = "Payment";
+  static const String wallet = "Wallet";
   static const String paymentCard = "PaymentCard";
   static const String about = "About";
   static const String carBrand = "CarBrand";
@@ -28,6 +29,7 @@ class ApiConfig {
   static const String expectedPetrolSpend = "ExpectedPetrolSpend";
   static const String provService = "ProvService";
   static const String providerServicePackage = "ProviderServicePackage";
+  static const String packages = "Packages";
   static const String serviceProvider = "ServiceProvider";
   static const String workTIme = "WorkTIme";
   static const String branch = "Branch";
@@ -174,7 +176,9 @@ class ApiLink {
   static const String getUserCards =
       "${ApiConfig.baseUrlApi}/${ApiConfig.paymentCard}/GetUserCards";
   static const String getWalletBalance =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.payment}/GetWalletBalance";
+      "${ApiConfig.baseUrlApi}/${ApiConfig.payment}/${ApiConfig.wallet}/Balance";
+  static const String getProviderBalanceDetails =
+      "${ApiConfig.baseUrlApi}/${ApiConfig.payment}/GetProviderBalanceDetails";
   static const String getWalletTransactions =
       "${ApiConfig.baseUrlApi}/${ApiConfig.payment}/GetWalletTransactions";
   static const String rechargeWallet =
@@ -184,6 +188,10 @@ class ApiLink {
   static const String setDefaultCard =
       "${ApiConfig.baseUrlApi}/${ApiConfig.paymentCard}/SetDefaultCard";
 
+
+  //Packages
+  static const String getPackage =
+      "${ApiConfig.baseUrlApi}/${ApiConfig.packages}/GetPackage";
 //Product
   static const String createProduct =
       "${ApiConfig.baseUrlApi}/${ApiConfig.product}/CreateProduct";

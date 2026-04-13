@@ -31,6 +31,8 @@ class AppLocalizations {
       //END//
 
       //others//
+      AppLanguageKeys.annualPrice: 'السعر السنوي',
+      AppLanguageKeys.monthlyPrice: 'السعر الشهري',
       AppLanguageKeys.invoiceServices: 'الخدمات الخاصة بالفاتورة',
       AppLanguageKeys.transferDate: 'تاريخ التحويل',
       AppLanguageKeys.ordersCommission: 'عمولة الطلبات',
@@ -1232,6 +1234,8 @@ class AppLocalizations {
       AppLanguageKeys.cancelledByUser: 'Cancelled by User',
       //END//
       //others//
+      AppLanguageKeys.annualPrice: 'Annual Price',
+      AppLanguageKeys.monthlyPrice: 'Monthly Price',
       AppLanguageKeys.invoiceServices: 'Invoice Services',
       AppLanguageKeys.transferDate: 'Transfer Date',
       AppLanguageKeys.ordersCommission: 'Orders Commission',
