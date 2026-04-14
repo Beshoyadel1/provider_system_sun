@@ -301,11 +301,11 @@ void getPages() {
         image: AppImageKeys.oils,
         number: PagesOfAllApp.oilChangeServicePageNumber,
         children: [
-          PageNodeModel(
-            name: AppLanguageKeys.statistics,
-            number: PagesOfAllApp.oilChangeServiceOrdersPageNumber,
-            page: FirstScreenOilChangeServicesOrders(),
-          ),
+          // PageNodeModel(
+          //   name: AppLanguageKeys.statistics,
+          //   number: PagesOfAllApp.oilChangeServiceOrdersPageNumber,
+          //   page: FirstScreenOilChangeServicesOrders(),
+          // ),
           PageNodeModel(
             name: AppLanguageKeys.ordersSectionKey,
             number: PagesOfAllApp.oilChangeServiceStaticsPageNumber,
