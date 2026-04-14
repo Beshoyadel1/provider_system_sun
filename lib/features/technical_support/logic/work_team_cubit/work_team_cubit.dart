@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
-import 'package:sun_web_system/core/api_functions/chat/get_work_team_chat_model/get_work_team_chat_repository.dart';
-import 'package:sun_web_system/core/api_functions/chat/get_work_team_chat_model/get_work_team_chat_request.dart';
-import 'package:sun_web_system/core/api_functions/user/login_model/login_repository.dart';
-import 'package:sun_web_system/features/technical_support/logic/work_team_cubit/work_team_state.dart';
+import '../../../../../../../core/api/dio_function/api_constants.dart';
+import '../../../../../../../core/api_functions/chat/get_work_team_chat_model/get_work_team_chat_repository.dart';
+import '../../../../../../../core/api_functions/chat/get_work_team_chat_model/get_work_team_chat_request.dart';
+import '../../../../../../../core/api_functions/user/login_model/login_repository.dart';
+import '../../../../../../../features/technical_support/logic/work_team_cubit/work_team_state.dart';
 
 class WorkTeamCubit extends Cubit<WorkTeamState> {
   WorkTeamCubit() : super(WorkTeamInitial());

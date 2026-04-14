@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../../../core/theming/colors.dart';
-import '../../../../../../../core/theming/fonts.dart';
-import '../../../../../../../core/theming/text_styles.dart';
-import '../../../../../../../core/language/language_constant.dart';
-import 'package:sun_web_system/features/technical_support/logic/work_team_cubit/work_team_cubit.dart';
-import 'package:sun_web_system/features/technical_support/logic/work_team_cubit/work_team_state.dart';
+import '../../../../../core/theming/colors.dart';
+import '../../../../../core/theming/fonts.dart';
+import '../../../../../core/theming/text_styles.dart';
+import '../../../../../core/language/language_constant.dart';
+import '../../../../../features/technical_support/logic/work_team_cubit/work_team_cubit.dart';
+import '../../../../../features/technical_support/logic/work_team_cubit/work_team_state.dart';
 
 class TitleWithNumberMembersAdminSun extends StatelessWidget {
   const TitleWithNumberMembersAdminSun({super.key});

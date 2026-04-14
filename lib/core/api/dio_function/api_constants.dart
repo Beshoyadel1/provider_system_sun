@@ -65,6 +65,10 @@ class ApiLink {
   //Chat
   static const String getOtherMessages =
       "${ApiConfig.baseUrlApi}/${ApiConfig.chat}/GetOtherMessages";
+  static const String getChatMessages =
+      "${ApiConfig.baseUrlApi}/${ApiConfig.chat}/GetChatMessages";
+  static const String getUserChats =
+      "${ApiConfig.baseUrlApi}/${ApiConfig.chat}/GetUserChats";
   static const String getUserProviderMessages =
       "${ApiConfig.baseUrlApi}/${ApiConfig.chat}/GetUserProviderMessages";
   static const String getWorkTeamChat =

@@ -9,6 +9,7 @@ import 'package:sun_web_system/features/accounts_management/custom_widget/title_
 import 'package:sun_web_system/features/accounts_management/logic/package_cubit/package_cubit.dart';
 import 'package:sun_web_system/features/accounts_management/logic/package_cubit/package_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/features/internal_services/internal_orders/first_screen_internal_orders/logic/order_funcations/order_functions.dart';
 
 class AllProfitsFromPackagesList extends StatelessWidget {
   const AllProfitsFromPackagesList({super.key});
@@ -112,6 +113,21 @@ class AllProfitsFromPackagesList extends StatelessWidget {
                               textSizeTitle: 13,
                               titleColor: AppColors.greyColor,
                               subTitle: "${package.monthPrice}",
+                              textSizeSubTitle: 12,
+                            ),
+
+                            TitleWithSubTitle(
+                              title: AppLanguageKeys.subscriptionStartDate,
+                              textSizeTitle: 13,
+                              titleColor: AppColors.greyColor,
+                              subTitle:OrderFunctions.formatDateFromDateTime(state.startDate),
+                              textSizeSubTitle: 12,
+                            ),
+                            TitleWithSubTitle(
+                              title: AppLanguageKeys.subscriptionEndDate,
+                              textSizeTitle: 13,
+                              titleColor: AppColors.greyColor,
+                              subTitle: OrderFunctions.formatDateFromDateTime(state.startDate),
                               textSizeSubTitle: 12,
                             ),
                           ],

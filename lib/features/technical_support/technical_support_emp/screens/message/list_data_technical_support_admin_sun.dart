@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sun_web_system/features/technical_support/technical_support_emp/screens/data_container_in_list_data_technical_support_admin_sun.dart';
+import 'data_container_in_list_data_technical_support_admin_sun.dart';
 import '../../../../../../core/theming/colors.dart';
 
 class ListDataTechnicalSupportAdminSun extends StatelessWidget {

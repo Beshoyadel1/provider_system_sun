@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/features/technical_support/custom_widget/row_member_team_work_widget.dart';
-import 'package:sun_web_system/features/technical_support/logic/work_team_cubit/work_team_cubit.dart';
-import 'package:sun_web_system/features/technical_support/logic/work_team_cubit/work_team_state.dart';
-import '../../../../../../../core/theming/assets.dart';
+import '../../../../../features/technical_support/custom_widget/row_member_team_work_widget.dart';
+import '../../../../../features/technical_support/logic/work_team_cubit/work_team_cubit.dart';
+import '../../../../../features/technical_support/logic/work_team_cubit/work_team_state.dart';
 
 class ListTeamWorkViewAdminSun extends StatelessWidget {
   const ListTeamWorkViewAdminSun({super.key});

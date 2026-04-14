@@ -31,6 +31,8 @@ class AppLocalizations {
       //END//
 
       //others//
+      AppLanguageKeys.subscriptionEndDate: 'تاريخ انتهاء الاشتراك',
+      AppLanguageKeys.subscriptionStartDate: 'تاريخ بدء الاشتراك',
       AppLanguageKeys.annualPrice: 'السعر السنوي',
       AppLanguageKeys.monthlyPrice: 'السعر الشهري',
       AppLanguageKeys.invoiceServices: 'الخدمات الخاصة بالفاتورة',
@@ -1234,6 +1236,8 @@ class AppLocalizations {
       AppLanguageKeys.cancelledByUser: 'Cancelled by User',
       //END//
       //others//
+      AppLanguageKeys.subscriptionEndDate: 'Subscription End Date',
+      AppLanguageKeys.subscriptionStartDate: 'Subscription Start Date',
       AppLanguageKeys.annualPrice: 'Annual Price',
       AppLanguageKeys.monthlyPrice: 'Monthly Price',
       AppLanguageKeys.invoiceServices: 'Invoice Services',

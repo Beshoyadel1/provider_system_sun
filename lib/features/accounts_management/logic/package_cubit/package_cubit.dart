@@ -4,30 +4,33 @@ import 'package:sun_web_system/core/api_functions/packages/get_package_model/get
 import 'package:sun_web_system/core/api_functions/user/login_model/login_repository.dart';
 import 'package:sun_web_system/features/accounts_management/logic/package_cubit/package_state.dart';
 
-/// Cubit
 class PackageCubit extends Cubit<PackageState> {
   PackageCubit() : super(PackageInitial());
 
   Future<void> getPackages() async {
     emit(PackageLoading());
+
     try {
       final user = await AuthLocalStorage.getUser();
 
       if (user == null) {
-        emit( PackageError("User not found"));
+        emit(PackageError("User not found"));
         return;
       }
 
       final data = await getPackageFunction(
-        request: GetPackageRequest(packageID: user.providerDetails?.packageid??65),
+        request: GetPackageRequest(
+          packageID: user.providerDetails?.packageid ?? 65,
+        ),
       );
 
-      if (data.isEmpty) {
-        emit(PackageError("No packages found"));
-        return;
-      }
-
-      emit(PackageSuccess(data));
+      emit(
+        PackageSuccess(
+          packages: data,
+          startDate: user.providerDetails?.subscriptionstartdate,
+          endDate: user.providerDetails?.subscriptionenddate,
+        ),
+      );
     } catch (e) {
       emit(PackageError(e.toString()));
     }
