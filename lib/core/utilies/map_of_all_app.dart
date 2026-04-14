@@ -335,12 +335,12 @@ void getPages() {
       page: FirstScreenPermissions(),
     ),
 
-    const PageNodeModel(
-      name: AppLanguageKeys.advertisements,
-      image: AppImageKeys.banner,
-      number: PagesOfAllApp.advertisementsPageNumber,
-      page: FirstScreenAdvertisements(),
-    ),
+    // const PageNodeModel(
+    //   name: AppLanguageKeys.advertisements,
+    //   image: AppImageKeys.banner,
+    //   number: PagesOfAllApp.advertisementsPageNumber,
+    //   page: FirstScreenAdvertisements(),
+    // ),
 
     const PageNodeModel(
         name: AppLanguageKeys.carMarketKey,
