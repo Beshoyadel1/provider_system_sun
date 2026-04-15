@@ -19,6 +19,8 @@ class AppLanguageKeys {
   //end//
 
   //others//
+  static const String enterOtp = 'enterOtp';
+  static const String verify = 'verify';
   static const String subscriptionEndDate = 'subscriptionEndDate';
   static const String subscriptionStartDate = 'subscriptionStartDate';
   static const String annualPrice = 'annualPrice';

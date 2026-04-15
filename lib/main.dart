@@ -2,6 +2,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:sun_web_system/features/auth_page/auth_cubit/auth_cubit.dart';
+import 'package:sun_web_system/features/auth_page/auth_gate.dart';
 import '../../../features/auth_page/login_page/login_page.dart';
 import '../../../core/cubit/app_cubit/app_cubit.dart';
 import '../../../core/language/language_cubit/language_cubit.dart';
@@ -15,18 +17,24 @@ final GlobalKey<ScaffoldMessengerState> scaffoldKey = GlobalKey<ScaffoldMessenge
 
 void main() {
   setupGetIt();
+
   runApp(
     MultiBlocProvider(
       providers: [
         BlocProvider<LanguageCubit>(
           create: (_) =>
-              getIt<LanguageCubit>()..getLanguageFromSharedPreference(),
+          getIt<LanguageCubit>()..getLanguageFromSharedPreference(),
+        ),
+
+        BlocProvider<AuthCubit>(
+          create: (_) => AuthCubit()..checkAuth(),
         ),
       ],
       child: const MyApp(),
     ),
   );
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -68,7 +76,7 @@ class MyApp extends StatelessWidget {
               useMaterial3: true,
             ),
             debugShowCheckedModeBanner: false,
-            home: const LoginPage(),
+            home: const AuthGate(),
           );
         },
       ),

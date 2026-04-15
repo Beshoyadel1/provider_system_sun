@@ -38,3 +38,25 @@ class AuthSignupError extends AuthState {
   final String message;
   AuthSignupError(this.message);
 }
+
+
+class AuthLoading extends AuthState {}
+
+class AuthAuthenticated extends AuthState {}
+
+class AuthUnauthenticated extends AuthState {}
+
+class AuthOtpGenerated extends AuthState {}
+
+
+class AuthOtpTimer extends AuthState {}
+
+class AuthOtpExpired extends AuthState {}
+
+class AuthOtpError extends AuthState {
+  final String message;
+  AuthOtpError(this.message);
+}
+class AuthOtpSuccess extends AuthState {}
+
+class AuthOtpReset extends AuthState {}

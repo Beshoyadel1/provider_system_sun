@@ -19,9 +19,9 @@ Future<GetProviderHarageMonthlySalesResponse?> getProviderHarageMonthlySalesFunc
 
     final data = GetProviderHarageMonthlySalesResponse.fromJson(response.data);
 
-    AppSnackBar.showSuccess(
-      AppLanguageKeys.getProviderHarageMonthlySalesSuccessfully,
-    );
+    // AppSnackBar.showSuccess(
+    //   AppLanguageKeys.getProviderHarageMonthlySalesSuccessfully,
+    // );
 
     return data;
   } catch (e) {

@@ -31,6 +31,8 @@ class AppLocalizations {
       //END//
 
       //others//
+      AppLanguageKeys.enterOtp: 'أدخل رمز مكون من 4 أرقام',
+      AppLanguageKeys.verify: 'تحقق',
       AppLanguageKeys.subscriptionEndDate: 'تاريخ انتهاء الاشتراك',
       AppLanguageKeys.subscriptionStartDate: 'تاريخ بدء الاشتراك',
       AppLanguageKeys.annualPrice: 'السعر السنوي',
@@ -472,7 +474,7 @@ class AppLocalizations {
       AppLanguageKeys.detailsKey: 'تفاصيل',
       AppLanguageKeys.ordersKey: 'الطلبات',
       AppLanguageKeys.internalServicesKey: 'صيانات وخدمات داخلية',
-      AppLanguageKeys.ordersCountKey: '120 طلب',
+      AppLanguageKeys.ordersCountKey: 'عدد طلب',
       AppLanguageKeys.increasePercentKey: 'زيادة 3%',
       AppLanguageKeys.maintenanceAndRepairKey: 'الصيانة والاصلاح',
       AppLanguageKeys.revenueFromOrderKey: 'ايراد من طلب 10054',
@@ -1236,6 +1238,8 @@ class AppLocalizations {
       AppLanguageKeys.cancelledByUser: 'Cancelled by User',
       //END//
       //others//
+      AppLanguageKeys.enterOtp: 'Enter 4 digit code',
+      AppLanguageKeys.verify: 'Verify',
       AppLanguageKeys.subscriptionEndDate: 'Subscription End Date',
       AppLanguageKeys.subscriptionStartDate: 'Subscription Start Date',
       AppLanguageKeys.annualPrice: 'Annual Price',
@@ -1688,7 +1692,7 @@ class AppLocalizations {
       AppLanguageKeys.detailsKey: 'Details',
       AppLanguageKeys.ordersKey: 'Orders',
       AppLanguageKeys.internalServicesKey: 'Internal Maintenance & Services',
-      AppLanguageKeys.ordersCountKey: '120 Orders',
+      AppLanguageKeys.ordersCountKey: 'Orders Count',
       AppLanguageKeys.increasePercentKey: 'Increase 3%',
       AppLanguageKeys.maintenanceAndRepairKey: 'Maintenance & Repair',
       AppLanguageKeys.revenueFromOrderKey: 'Revenue from Order #10054',

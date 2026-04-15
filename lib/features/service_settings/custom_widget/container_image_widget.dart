@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import '../../../../../core/theming/colors.dart';
 
 class ContainerImageWidget extends StatelessWidget {
@@ -12,27 +13,52 @@ class ContainerImageWidget extends StatelessWidget {
 
   const ContainerImageWidget({
     super.key,
-     this.imagePath,
+    this.imagePath,
     required this.color,
     this.width,
     this.height,
     this.isBorder = true,
-    this.imageMemory
+    this.imageMemory,
   });
 
   @override
   Widget build(BuildContext context) {
+    Widget child;
+
+    // ✅ 1. لو فيه imageMemory
+    if (imageMemory != null && imageMemory!.isNotEmpty) {
+      child = Image.memory(
+        imageMemory!,
+        fit: BoxFit.cover,
+      );
+
+      // ✅ 2. لو فيه imagePath
+    } else if (imagePath != null && imagePath!.isNotEmpty) {
+      child = Image.asset(
+        imagePath!,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return _defaultIcon();
+        },
+      );
+
+      // ✅ 3. لو الاتنين null
+    } else {
+      child = _defaultIcon();
+    }
+
     return Container(
       width: width,
       height: height,
-      padding: const EdgeInsetsGeometry.all(10),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: color,
         borderRadius: const BorderRadius.all(Radius.circular(15)),
         border: Border.all(
-            color: isBorder!
-                ? AppColors.greyColor.withOpacity(0.3)
-                : AppColors.transparent),
+          color: isBorder!
+              ? AppColors.greyColor.withOpacity(0.3)
+              : AppColors.transparent,
+        ),
         boxShadow: [
           BoxShadow(
             color: AppColors.darkColor.withOpacity(0.1),
@@ -41,9 +67,15 @@ class ContainerImageWidget extends StatelessWidget {
           ),
         ],
       ),
-      child: (imageMemory == null || imageMemory!.isEmpty)
-          ? Image.asset(imagePath ?? '')
-          : Image.memory(imageMemory!),
+      child: child,
+    );
+  }
+
+  Widget _defaultIcon() {
+    return const Icon(
+      Icons.image,
+      color: Colors.grey,
+      size: 30,
     );
   }
 }

@@ -15,7 +15,7 @@ Future<void> getOtherMessagesFunction({
       getOtherMessagesRequest.toJson(),
       ApiLink.getOtherMessages,
     );
-    AppSnackBar.showSuccess(AppLanguageKeys.getOtherMessagesSuccessfully);
+  //  AppSnackBar.showSuccess(AppLanguageKeys.getOtherMessagesSuccessfully);
   } catch (e) {
     AppSnackBar.showError(
       e is DioException

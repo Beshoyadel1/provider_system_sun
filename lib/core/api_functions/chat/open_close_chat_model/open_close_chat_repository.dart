@@ -16,7 +16,7 @@ Future<void> openCloseChatFunction({
       openCloseChatRequest.toJson(), // params
       ApiLink.openCloseChat,
     );
-    AppSnackBar.showSuccess(AppLanguageKeys.openCloseChatSuccessfully);
+   // AppSnackBar.showSuccess(AppLanguageKeys.openCloseChatSuccessfully);
   } catch (e) {
     AppSnackBar.showError(
       e is DioException

@@ -32,9 +32,9 @@ Future<StatisticsResponse> getProviderMainServiceStatisticsFunction({
     final chartPoints =
         (chartJson as List).map((e) => DataPointsRequest.fromJson(e)).toList();
 
-    AppSnackBar.showSuccess(
-      AppLanguageKeys.getProviderMainServiceStatisticsSuccessfully,
-    );
+    // AppSnackBar.showSuccess(
+    //   AppLanguageKeys.getProviderMainServiceStatisticsSuccessfully,
+    // );
     return StatisticsResponse(
       services: services,
       averageRate: averageRate,

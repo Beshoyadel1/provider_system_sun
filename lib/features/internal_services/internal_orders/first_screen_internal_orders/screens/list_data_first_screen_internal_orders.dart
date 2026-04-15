@@ -20,9 +20,6 @@ class ListDataFirstScreenInternalOrders extends StatelessWidget {
     bool isMobileCustom = size.width <= 720;
     bool isMobile = size.width <= ValuesOfAllApp.mobileWidth+200&&
         size.width>720;
-    bool isTabletCustom = size.width > ValuesOfAllApp.mobileWidth &&
-        size.width <= ValuesOfAllApp.customTabWidth;
-    bool isTab = size.width > ValuesOfAllApp.tabWidth;
     return BlocBuilder<InternalOrdersCubit, InternalOrdersState>(
       builder: (context, state) {
         return Column(

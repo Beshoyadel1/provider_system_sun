@@ -1,4 +1,11 @@
+import 'dart:async';
+import 'dart:math';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
+import 'package:sun_web_system/features/auth_page/check_email_exist/check_email_exist_page.dart';
 import '../../../../core/api_functions/user/change_password_model/change_password_repository.dart';
 import '../../../../core/api_functions/user/change_password_model/change_password_request.dart';
 import '../../../../core/api_functions/user/check_if_user_exist_model/check_if_user_exist_repository.dart';
@@ -12,8 +19,7 @@ import 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(AuthInitial());
-
-  String otpCode = "";
+  static AuthCubit get(context) => BlocProvider.of(context);
 
   String phoneNumber = "";
 
@@ -21,6 +27,69 @@ class AuthCubit extends Cubit<AuthState> {
 
   bool get isConfirmPasswordObscure => _isConfirmPasswordObscure;
   bool isPasswordVisible = false;
+
+
+
+// ================= OTP =================
+
+  Timer? _timer;
+  int secondsRemaining = 30;
+  String otpCode = "";
+
+  void generateOtp() {
+    final random = Random();
+    otpCode = (1000 + random.nextInt(9000)).toString();
+
+    print("OTP CODE: $otpCode");
+
+    startTimer();
+    emit(AuthOtpGenerated());
+  }
+
+  void startTimer() {
+    secondsRemaining = 30;
+    _timer?.cancel();
+
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (secondsRemaining == 0) {
+        timer.cancel();
+        emit(AuthOtpExpired());
+      } else {
+        secondsRemaining--;
+        emit(AuthOtpTimer());
+      }
+    });
+  }
+
+  bool isOtpError = false;
+
+  void validateOtp(String code, BuildContext context) {
+    if (code == otpCode) {
+      isOtpError = false;
+      emit(AuthOtpSuccess());
+
+      Navigator.pop(context);
+      Navigator.push(
+        context,
+        NavigateToPageWidget(const CheckEmailExistPage()),
+      );
+    } else {
+      isOtpError = true;
+      emit(AuthOtpError("Wrong Code"));
+    }
+  }
+
+  void resetOtpError() {
+    if (isOtpError) {
+      isOtpError = false;
+      emit(AuthOtpReset());
+    }
+  }
+  void resendOtp() {
+    generateOtp();
+    isOtpError = false;
+    emit(AuthOtpGenerated());
+  }
 
   void togglePasswordVisibility() {
     isPasswordVisible = !isPasswordVisible;
@@ -48,10 +117,29 @@ class AuthCubit extends Cubit<AuthState> {
     final user = await loginFunction(loginRequest: request);
 
     if (user != null) {
-      emit(AuthLoginSuccess(user));
+      emit(AuthAuthenticated());
     } else {
-      emit(AuthInitial());
+      emit(AuthLoginError("Login failed"));
     }
+  }
+
+  Future<void> checkAuth() async {
+    emit(AuthLoading());
+
+    final isLoggedIn = await AuthLocalStorage.isLoggedIn();
+
+    //print("IS LOGGED IN: $isLoggedIn");
+
+    if (isLoggedIn) {
+      emit(AuthAuthenticated());
+    } else {
+      emit(AuthUnauthenticated());
+    }
+  }
+
+  Future<void> logout() async {
+    await AuthLocalStorage.clearUser();
+    emit(AuthUnauthenticated());
   }
 
   Future<void> checkEmailExist(CheckIfUserExistRequest checkIfUserExistRequest) async {

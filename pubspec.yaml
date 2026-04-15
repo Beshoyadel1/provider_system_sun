@@ -57,7 +57,7 @@ dependencies:
   syncfusion_flutter_charts: ^31.1.22
   timeline_tile_plus:
   number_pagination:
-
+  flutter_secure_storage: ^10.0.0
 
 
 
