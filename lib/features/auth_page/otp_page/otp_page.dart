@@ -9,7 +9,8 @@ import '../../../../core/theming/text_styles.dart';
 import '../../../../core/language/language_constant.dart';
 
 class OtpPage extends StatefulWidget {
-  const OtpPage({super.key});
+  final String email;
+  const OtpPage({super.key,required this.email});
 
   @override
   State<OtpPage> createState() => _OtpPageState();
@@ -69,7 +70,6 @@ class _OtpPageState extends State<OtpPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
 
-              /// Title
               const TextInAppWidget(
                 text: AppLanguageKeys.forgotPasswordKey,
                 textSize: 22,
@@ -144,7 +144,6 @@ class _OtpPageState extends State<OtpPage> {
                       onChanged: (value) {
                         final cubit = context.read<AuthCubit>();
 
-                        /// reset error أول ما يكتب
                         cubit.resetOtpError();
 
                         if (value.isNotEmpty) {
@@ -157,7 +156,7 @@ class _OtpPageState extends State<OtpPage> {
                               final code = getOtp();
 
                               if (code.length == 4) {
-                                cubit.validateOtp(code, context);
+                                cubit.validateOtp(code, context, widget.email);
                               }
                             });
                           }
@@ -174,7 +173,6 @@ class _OtpPageState extends State<OtpPage> {
 
               const SizedBox(height: 25),
 
-              /// Timer
               BlocBuilder<AuthCubit, AuthState>(
                 builder: (context, state) {
                   final cubit = context.read<AuthCubit>();
@@ -211,7 +209,7 @@ class _OtpPageState extends State<OtpPage> {
                       return;
                     }
 
-                    cubit.validateOtp(code, context);
+                    cubit.validateOtp(code, context,widget.email);
                   },
                   child: const TextInAppWidget(
                     text: AppLanguageKeys.verify,
@@ -224,7 +222,7 @@ class _OtpPageState extends State<OtpPage> {
 
               const SizedBox(height: 15),
 
-              /// Resend
+
               BlocBuilder<AuthCubit, AuthState>(
                 builder: (context, state) {
                   final cubit = context.read<AuthCubit>();

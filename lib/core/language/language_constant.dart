@@ -19,6 +19,11 @@ class AppLanguageKeys {
   //end//
 
   //others//
+  static const String emailOrPhoneInvalid = 'emailOrPhoneInvalid';
+  static const String phoneInvalid = 'phoneInvalid';
+  static const String userNotFound = 'userNotFound';
+  static const String wrongCode = 'wrongCode';
+  static const String loginFailed = 'loginFailed';
   static const String enterOtp = 'enterOtp';
   static const String verify = 'verify';
   static const String subscriptionEndDate = 'subscriptionEndDate';

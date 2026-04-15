@@ -53,47 +53,42 @@ class LoginWidget extends StatelessWidget {
             text: AppLanguageKeys.password,
           ),
 
-          BlocBuilder<AuthCubit, AuthState>(
-            buildWhen: (previous, current) =>
-            current is AuthLoginLoading ||
-                current is AuthAuthenticated ||
-                current is AuthLoginError,
-
-            builder: (context, state) {
-              final isLoading = state is AuthLoginLoading;
-
+          BlocListener<AuthCubit, AuthState>(
+            listener: (context, state) {
               if (state is AuthAuthenticated) {
-                Future.microtask(() {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (_) => const StorePage()),
-                  );
-                });
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (_) => const StorePage()),
+                );
               }
 
               if (state is AuthLoginError) {
-                Future.microtask(() {
-                  AppSnackBar.showError(state.message);
-                });
+                AppSnackBar.showError(state.message);
               }
-
-              return LoginButtonWidget(
-                text: AppLanguageKeys.login,
-                isLoading: isLoading,
-                onPressed: isLoading
-                    ? null
-                    : () {
-                  if (!_formKey.currentState!.validate()) return;
-
-                  final loginRequest = LoginRequest(
-                    user: userNameController.text.trim(),
-                    password: passwordController.text.trim(),
-                    type: UserType.providerUser,
-                  );
-
-                  context.read<AuthCubit>().login(loginRequest);
-                },
-              );
             },
+            child: BlocBuilder<AuthCubit, AuthState>(
+              builder: (context, state) {
+                final isLoading = state is AuthLoginLoading;
+
+                return LoginButtonWidget(
+                  text: AppLanguageKeys.login,
+                  isLoading: isLoading,
+                  onPressed: isLoading
+                      ? null
+                      : () {
+                    if (!_formKey.currentState!.validate()) return;
+
+                    final loginRequest = LoginRequest(
+                      user: userNameController.text.trim(),
+                      password: passwordController.text.trim(),
+                      type: UserType.providerUser,
+                    );
+
+                    context.read<AuthCubit>().login(loginRequest);
+                  },
+                );
+              },
+            ),
           ),
           InkWell(
             onTap: () {
@@ -101,7 +96,7 @@ class LoginWidget extends StatelessWidget {
               Navigator.push(
                 context,
                 NavigateToPageWidget(
-                     const OtpPage()
+                     const CheckEmailExistPage()
                 ),
               );
             },

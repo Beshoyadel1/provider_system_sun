@@ -4,8 +4,11 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
-import 'package:sun_web_system/features/auth_page/check_email_exist/check_email_exist_page.dart';
+import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
+import '../../../../core/api_functions/user/check_if_user_exist_or_not_model/check_if_user_exist_or_not_repository.dart';
+import '../../../../core/api_functions/user/check_if_user_exist_or_not_model/check_if_user_exist_or_not_request.dart';
+import '../../../../core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
+import '../../../../features/auth_page/change_password/change_password_page.dart';
 import '../../../../core/api_functions/user/change_password_model/change_password_repository.dart';
 import '../../../../core/api_functions/user/change_password_model/change_password_request.dart';
 import '../../../../core/api_functions/user/check_if_user_exist_model/check_if_user_exist_repository.dart';
@@ -63,7 +66,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   bool isOtpError = false;
 
-  void validateOtp(String code, BuildContext context) {
+  void validateOtp(String code, BuildContext context,String email) {
     if (code == otpCode) {
       isOtpError = false;
       emit(AuthOtpSuccess());
@@ -71,11 +74,11 @@ class AuthCubit extends Cubit<AuthState> {
       Navigator.pop(context);
       Navigator.push(
         context,
-        NavigateToPageWidget(const CheckEmailExistPage()),
+        NavigateToPageWidget(ChangePasswordPage(email: email)),
       );
     } else {
       isOtpError = true;
-      emit(AuthOtpError("Wrong Code"));
+      emit(AuthOtpError(AppLanguageKeys.wrongCode));
     }
   }
 
@@ -101,6 +104,35 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
 
+  Future<void> checkIfUserExistOrNot({
+    required String email,
+    required String phone,
+  }) async {
+    emit(AuthLoginLoading());
+
+    final result = await checkIfUserExistOrNotFunction(
+      request: CheckIfUserExistOrNotRequest(
+        user: email,
+        type: UserType.providerUser,
+      ),
+    );
+
+    if (result != null && result.isNotEmpty) {
+      final user = result.first;
+
+      if (user.value == true &&
+          user.phone == phone) {
+
+        emit(AuthLoginSuccess());
+
+      } else {
+        emit(AuthLoginError(AppLanguageKeys.emailOrPhoneInvalid));
+      }
+
+    } else {
+      emit(AuthLoginError(AppLanguageKeys.userNotFound));
+    }
+  }
 
   void toggleConfirmPasswordVisibility() {
     _isConfirmPasswordObscure = !_isConfirmPasswordObscure;
@@ -110,6 +142,8 @@ class AuthCubit extends Cubit<AuthState> {
   void showLogin() => emit(AuthShowLogin());
   void showSignup() => emit(AuthShowSignup());
   void showRestPassword() => emit(AuthShowRestPassword());
+
+
 
   Future<void> login(LoginRequest request) async {
     emit(AuthLoginLoading());

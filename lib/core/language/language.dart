@@ -31,6 +31,11 @@ class AppLocalizations {
       //END//
 
       //others//
+      AppLanguageKeys.emailOrPhoneInvalid: 'البريد الإلكتروني أو رقم الهاتف غير صحيح أو غير نشط',
+      AppLanguageKeys.phoneInvalid: 'رقم الهاتف غير صحيح أو غير نشط',
+      AppLanguageKeys.userNotFound: 'المستخدم غير موجود',
+      AppLanguageKeys.wrongCode: 'رمز غير صحيح',
+      AppLanguageKeys.loginFailed: 'فشل تسجيل الدخول',
       AppLanguageKeys.enterOtp: 'أدخل رمز مكون من 4 أرقام',
       AppLanguageKeys.verify: 'تحقق',
       AppLanguageKeys.subscriptionEndDate: 'تاريخ انتهاء الاشتراك',
@@ -1238,6 +1243,11 @@ class AppLocalizations {
       AppLanguageKeys.cancelledByUser: 'Cancelled by User',
       //END//
       //others//
+      AppLanguageKeys.emailOrPhoneInvalid: 'Email or phone number is incorrect or inactive',
+      AppLanguageKeys.phoneInvalid: 'Phone number is incorrect or inactive',
+      AppLanguageKeys.userNotFound: 'User not found',
+      AppLanguageKeys.wrongCode: 'Incorrect code',
+      AppLanguageKeys.loginFailed: 'Login failed',
       AppLanguageKeys.enterOtp: 'Enter 4 digit code',
       AppLanguageKeys.verify: 'Verify',
       AppLanguageKeys.subscriptionEndDate: 'Subscription End Date',
