@@ -17,15 +17,17 @@ class ButtonEditDeleteSettingWidget extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsetsGeometry.symmetric(vertical: 5, horizontal: 60),
+        padding: const EdgeInsetsGeometry.symmetric(vertical: 5, horizontal: 60),
         decoration: BoxDecoration(
           color: isDelete ? AppColors.redColor : AppColors.blackColor44,
-          borderRadius: BorderRadius.all(Radius.circular(20)),
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
           border: Border.all(color: AppColors.greyColor.withOpacity(0.3)),
+
         ),
-        child: Row(
+        child: Wrap(
           spacing: 5,
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment:WrapCrossAlignment.center,
+          alignment: WrapAlignment.center,
           children: [
             Icon(
               isDelete ? CupertinoIcons.delete : Icons.edit,

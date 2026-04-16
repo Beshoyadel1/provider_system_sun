@@ -153,7 +153,7 @@ class AuthCubit extends Cubit<AuthState> {
     if (user != null) {
       emit(AuthAuthenticated());
     } else {
-      emit(AuthLoginError("Login failed"));
+      emit(AuthLoginError(AppLanguageKeys.loginFailed));
     }
   }
 

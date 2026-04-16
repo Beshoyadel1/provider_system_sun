@@ -11,6 +11,14 @@ import '../../../../../core/theming/colors.dart';
 import '../../../../../core/theming/fonts.dart';
 import '../../../../../core/theming/text_styles.dart';
 
+import 'dart:typed_data';
+import 'package:flutter/material.dart';
+import '../../../../../core/pages_widgets/text_form_field_widget.dart';
+import '../../../../../core/language/language_constant.dart';
+import '../../../../../core/theming/colors.dart';
+import '../../../../../core/theming/fonts.dart';
+import '../../../../../core/theming/text_styles.dart';
+
 class CarImageTextInSettingWidget extends StatefulWidget {
   final String text;
   final int modelId;
@@ -59,7 +67,7 @@ class _CarImageTextInSettingWidgetState
           child: SizedBox(
             height: 50,
             child: TextFormFieldWidget(
-              hintText: AppLanguageKeys.sar,
+              hintText: AppLanguageKeys.price,
               textFormController: widget.controller,
               fillColor: AppColors.transparent,
               borderColor: AppColors.darkColor.withOpacity(0.2),
@@ -68,7 +76,6 @@ class _CarImageTextInSettingWidgetState
               textSize: 15,
               isDigit: true,
 
-              /// ✅ VALIDATION
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
                   return AppLanguageKeys.addAllRequiredFieldsKey;

@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:flutter/cupertino.dart';
+import 'package:sun_web_system/core/language/language_cubit/language_cubit.dart';
+
 class CarBrandDataModel {
   final int? id;
   final String? name;
@@ -21,5 +24,13 @@ class CarBrandDataModel {
       latinName: json['brandlatinname'],
       image: json['image'] != null ? base64Decode(json["image"]) : null,
     );
+  }
+  String getName(BuildContext context) {
+    final isArabic =
+        LanguageCubit.get(context).isAllAppLanguageArabic;
+
+    return isArabic
+        ? (name ?? "")
+        : (latinName ?? "");
   }
 }

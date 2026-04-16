@@ -51,10 +51,7 @@ class DataContainerInListDataAddedMaintenanceAndInternalServicesInServiceSetting
                       padding: const EdgeInsets.only(bottom: 15),
                       child: ExpansionContainerSettingWidget(
                         imageMemory: service.image,
-                        text: ServiceSettingsHelper.getServiceName(
-                          service: service,
-                          isArabic: isArabic,
-                        ),
+                        text: service.getName(context),
                         isDoneTask: true,
                         onTap: (){
                           context.read<CreateProvServiceCubit>().setService(

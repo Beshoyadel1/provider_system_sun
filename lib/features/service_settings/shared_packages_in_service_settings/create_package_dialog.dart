@@ -34,7 +34,6 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
   void initState() {
     super.initState();
 
-    /// default one item
     itemsControllers.add(TextEditingController());
 
     if (isEdit) {
@@ -45,7 +44,6 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
       priceController.text = p.price.toString();
       taxController.text = p.taxId.toString();
 
-      /// split existing items
       itemsControllers = p.items
           .split(',')
           .map<TextEditingController>(
@@ -77,164 +75,272 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text(state.message)));
         }
+
         if (state is ProviderPackagesCreateSuccess ||
             state is ProviderPackagesUpdateSuccess) {
           Navigator.pop(context, true);
         }
       },
       child: AlertDialog(
-        title:TextInAppWidget(
-          text: isEdit ? AppLanguageKeys.edit : AppLanguageKeys.create,
-          textSize: 18,
-          fontWeightIndex: FontSelectionData.regularFontFamily,
-          textColor: AppColors.orangeColor,
-          isTextCenter: true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18),
+        ),
+        contentPadding:
+        const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+
+        /// 🔹 TITLE
+        title: Column(
+          children: [
+            TextInAppWidget(
+              text:
+              isEdit ? AppLanguageKeys.edit : AppLanguageKeys.create,
+              textSize: 20,
+              fontWeightIndex: FontSelectionData.boldFontFamily,
+              textColor: AppColors.orangeColor,
+              isTextCenter: true,
+            ),
+            const SizedBox(height: 8),
+            Divider(color: AppColors.darkColor.withOpacity(0.1)),
+          ],
         ),
 
-        content: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              spacing: 10,
-              children: [
-                TextFormFieldWidget(
-                  text: AppLanguageKeys.name,
-                  textFormController: nameController,
-                  isValidator: true,
-                  fillColor: AppColors.transparent,
-                  borderColor: AppColors.darkColor.withOpacity(0.2),
-                  hintTextSize: 12,
-                  hintTextColor: AppColors.orangeColor,
-                  textSize: 15,
-                ),
-
-                TextFormFieldWidget(
-                  text: AppLanguageKeys.latinName,
-                  textFormController: latinNameController,
-                  isValidator: true,
-                  fillColor: AppColors.transparent,
-                  borderColor: AppColors.darkColor.withOpacity(0.2),
-                  hintTextSize: 12,
-                  hintTextColor: AppColors.orangeColor,
-                  textSize: 15,
-                ),
-                Column(
-                  spacing: 10,
-                  children: List.generate(itemsControllers.length, (index) {
-                    return Row(
-                      children: [
-                        Expanded(
-                          child: TextFormFieldWidget(
-                            text: "Item ${index + 1}",
-                            textFormController: itemsControllers[index],
-                            isValidator: true,
-                            fillColor: AppColors.transparent,
-                            borderColor: AppColors.darkColor.withOpacity(0.2),
-                            hintTextSize: 12,
-                            hintTextColor: AppColors.orangeColor,
-                            textSize: 15,
-                          ),
-                        ),
-
-                        /// delete button
-                        if (itemsControllers.length > 1)
-                          IconButton(
-                            icon: const Icon(Icons.close),
-                            onPressed: () {
-                              setState(() {
-                                itemsControllers[index].dispose();
-                                itemsControllers.removeAt(index);
-                              });
-                            },
-                          ),
-                      ],
-                    );
-                  }),
-                ),
-
-                const SizedBox(height: 10),
-
-                /// ➕ ADD ITEM BUTTON (NEW)
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: TextButton.icon(
-                    onPressed: () {
-                      setState(() {
-                        itemsControllers.add(TextEditingController());
-                      });
-                    },
-                    icon: const Icon(Icons.add),
-                    label: const Text("Add Item"),
+        content: SizedBox(
+          width: 480,
+          child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _sectionTitle(AppLanguageKeys.name),
+                  const SizedBox(height: 6),
+                  TextFormFieldWidget(
+                   // text: AppLanguageKeys.name,
+                    textFormController: nameController,
+                    isValidator: true,
+                    fillColor: AppColors.transparent,
+                    borderColor:
+                    AppColors.darkColor.withOpacity(0.2),
+                    textSize: 15,
                   ),
-                ),
 
-                const SizedBox(height: 10),
+                  const SizedBox(height: 14),
 
-                /// PRICE
-                TextFormFieldWidget(
-                  text: AppLanguageKeys.price,
-                  textFormController: priceController,
-                  isDigitDot: true,
-                  fillColor: AppColors.transparent,
-                  borderColor: AppColors.darkColor.withOpacity(0.2),
-                  hintTextSize: 12,
-                  hintTextColor: AppColors.orangeColor,
-                  textSize: 15,
-                ),
+                  _sectionTitle(AppLanguageKeys.latinName),
+                  const SizedBox(height: 6),
+                  TextFormFieldWidget(
+                   // text: AppLanguageKeys.latinName,
+                    textFormController: latinNameController,
+                    isValidator: true,
+                    fillColor: AppColors.transparent,
+                    borderColor:
+                    AppColors.darkColor.withOpacity(0.2),
+                    textSize: 15,
+                  ),
 
-                const SizedBox(height: 10),
+                  const SizedBox(height: 20),
+                  _sectionTitle(AppLanguageKeys.items),
+                  const SizedBox(height: 10),
 
-                /// TAX
-                TextFormFieldWidget(
-                  text: AppLanguageKeys.taxes,
-                  textFormController: taxController,
-                  isDigitDot: true,
-                  fillColor: AppColors.transparent,
-                  borderColor: AppColors.darkColor.withOpacity(0.2),
-                  hintTextSize: 12,
-                  hintTextColor: AppColors.orangeColor,
-                  textSize: 15,
-                ),
-              ],
+                  Column(
+                    children:
+                    List.generate(itemsControllers.length, (index) {
+                      return Padding(
+                        padding:
+                        const EdgeInsets.only(bottom: 10),
+                        child: Row(
+                          spacing: 10,
+                          children: [
+                            Expanded(
+                              child: TextFormFieldWidget(
+                               // text: "Item ${index + 1}",
+                                textFormController:
+                                itemsControllers[index],
+                                isValidator: true,
+                                fillColor: AppColors.transparent,
+                                borderColor: AppColors.darkColor
+                                    .withOpacity(0.2),
+                                textSize: 15,
+                              ),
+                            ),
+
+                            if (itemsControllers.length > 1)
+                              Container(
+                                margin:
+                                const EdgeInsets.only(left: 6),
+                                decoration: BoxDecoration(
+                                  color:
+                                  Colors.red.withOpacity(0.08),
+                                  borderRadius:
+                                  BorderRadius.circular(8),
+                                ),
+                                child: IconButton(
+                                  icon: const Icon(Icons.close,
+                                      size: 18,
+                                      color: AppColors.redColor),
+                                  onPressed: () {
+                                    setState(() {
+                                      itemsControllers[index]
+                                          .dispose();
+                                      itemsControllers
+                                          .removeAt(index);
+                                    });
+                                  },
+                                ),
+                              ),
+                          ],
+                        ),
+                      );
+                    }),
+                  ),
+
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(8),
+                      onTap: () {
+                        setState(() {
+                          itemsControllers
+                              .add(TextEditingController());
+                        });
+                      },
+                      child:const Padding(
+                        padding:
+                         EdgeInsets.symmetric(vertical: 6),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.add,
+                                size: 18,
+                                color: AppColors.orangeColor),
+                             SizedBox(width: 5),
+                            TextInAppWidget(
+                              text: AppLanguageKeys.add,
+                              textSize: 13,
+                              textColor:
+                              AppColors.orangeColor,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment.start,
+                          children: [
+                            _sectionTitle(
+                                AppLanguageKeys.price),
+                            const SizedBox(height: 6),
+                            TextFormFieldWidget(
+                             // text: AppLanguageKeys.price,
+                              textFormController:
+                              priceController,
+                              isDigitDot: true,
+                              fillColor:
+                              AppColors.transparent,
+                              borderColor: AppColors.darkColor
+                                  .withOpacity(0.2),
+                              textSize: 15,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment.start,
+                          children: [
+                            _sectionTitle(
+                                AppLanguageKeys.taxes),
+                            const SizedBox(height: 6),
+                            TextFormFieldWidget(
+                            //  text: AppLanguageKeys.taxes,
+                              textFormController:
+                              taxController,
+                              isDigitDot: true,
+                              fillColor:
+                              AppColors.transparent,
+                              borderColor: AppColors.darkColor
+                                  .withOpacity(0.2),
+                              textSize: 15,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
+
+        actionsPadding: const EdgeInsets.symmetric(
+            horizontal: 20, vertical: 12),
         actions: [
-          /// CANCEL
-          ElevatedButton(
+          TextButton(
             onPressed: () => Navigator.pop(context),
             child: const TextInAppWidget(
-              text:  AppLanguageKeys.cancel,
-              textSize: 18,
-              fontWeightIndex: FontSelectionData.regularFontFamily,
-              textColor: AppColors.blackColor,
+              text: AppLanguageKeys.cancel,
+              textSize: 14,
+              textColor: AppColors.darkColor,
             ),
           ),
 
-          /// SUBMIT
-          BlocBuilder<ProviderPackagesCubit, ProviderPackagesState>(
+          BlocBuilder<ProviderPackagesCubit,
+              ProviderPackagesState>(
             builder: (context, state) {
-              final isLoading = state is ProviderPackagesLoading;
+              final isLoading =
+              state is ProviderPackagesLoading;
 
               return ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.orangeColor,
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 18, vertical: 10),
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                    BorderRadius.circular(10),
+                  ),
+                ),
                 onPressed: isLoading ? null : _submit,
                 child: isLoading
                     ? const SizedBox(
-                  height: 20,
-                  width: 20,
-                  child: CircularProgressIndicator(strokeWidth: 2),
+                  height: 18,
+                  width: 18,
+                  child:
+                  CircularProgressIndicator(
+                      strokeWidth: 2),
                 )
                     : TextInAppWidget(
-                  text: isEdit ? AppLanguageKeys.edit : AppLanguageKeys.create,
-                  textSize: 18,
-                  fontWeightIndex: FontSelectionData.regularFontFamily,
-                  textColor: AppColors.blackColor,
+                  text: isEdit
+                      ? AppLanguageKeys.edit
+                      : AppLanguageKeys.create,
+                  textSize: 14,
+                  textColor: AppColors.whiteColor,
                 ),
               );
             },
           ),
         ],
       ),
+    );
+  }
+
+  Widget _sectionTitle(String text) {
+    return TextInAppWidget(
+      text: text,
+      textSize: 13,
+      textColor: AppColors.darkColor.withOpacity(0.6),
+      fontWeightIndex: FontSelectionData.regularFontFamily,
     );
   }
 

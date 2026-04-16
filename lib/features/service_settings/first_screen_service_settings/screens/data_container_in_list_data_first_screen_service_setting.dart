@@ -27,12 +27,6 @@ class DataContainerInListDataFirstScreenServiceSetting extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const FirstRowInDataContainerInListDataFirstScreenServiceSetting(
-            text1: AppLanguageKeys.nissanServiceSettings,
-            text2: AppLanguageKeys.serviceSettingsDetails,
-          ),
-
-          const SizedBox(height: 30),
 
           BlocBuilder<ServiceSettingsCubit, ServiceSettingsState>(
             buildWhen: (previous, current) =>
@@ -57,10 +51,7 @@ class DataContainerInListDataFirstScreenServiceSetting extends StatelessWidget {
                       child:
                       ContainerInDataContainerInListDataFirstScreenServiceSettingWidget(
                         imageMemory: service.image,
-                        title: ServiceSettingsHelper.getServiceName(
-                          service: service,
-                          isArabic: isArabic,
-                        ),
+                        title: service.getName(context),
                           onTap: () {
                             ServiceSettingsHelper.handleNavigation(context, service.id);
                           }

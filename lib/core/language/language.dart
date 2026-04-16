@@ -31,6 +31,10 @@ class AppLocalizations {
       //END//
 
       //others//
+      AppLanguageKeys.confirmDelete: 'هل أنت متأكد أنك تريد حذف هذا العنصر؟',
+      AppLanguageKeys.description: 'الوصف',
+      AppLanguageKeys.mileage: 'عدد الكيلومترات',
+      AppLanguageKeys.carStatus: 'حالة السيارة',
       AppLanguageKeys.emailOrPhoneInvalid: 'البريد الإلكتروني أو رقم الهاتف غير صحيح أو غير نشط',
       AppLanguageKeys.phoneInvalid: 'رقم الهاتف غير صحيح أو غير نشط',
       AppLanguageKeys.userNotFound: 'المستخدم غير موجود',
@@ -1243,6 +1247,10 @@ class AppLocalizations {
       AppLanguageKeys.cancelledByUser: 'Cancelled by User',
       //END//
       //others//
+      AppLanguageKeys.confirmDelete: 'Are you sure you want to delete this item?',
+      AppLanguageKeys.description: 'Description',
+      AppLanguageKeys.mileage: 'Mileage',
+      AppLanguageKeys.carStatus: 'Car Status',
       AppLanguageKeys.emailOrPhoneInvalid: 'Email or phone number is incorrect or inactive',
       AppLanguageKeys.phoneInvalid: 'Phone number is incorrect or inactive',
       AppLanguageKeys.userNotFound: 'User not found',

@@ -20,9 +20,10 @@ class ButtonAcceptRejectOrder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Wrap(
+      spacing: 5,
+      runSpacing: 5,
       children: [
-        /// Work in progress
         ContainerSold(
           text: AppLanguageKeys.workInProgress,
           backGroundColor: AppColors.lightRedColor,
@@ -48,10 +49,6 @@ class ButtonAcceptRejectOrder extends StatelessWidget {
               status: OrderStatus.waitingAppointment,
             );
 
-            // print("========== BUTTON CLICK ==========");
-            // print("Order ID: ${request.orderId}");
-            // print("Status: ${request.status}");
-            // print("=================================");
 
             context.read<OrderStatusCubit>().updateOrderStatus(
               updateOrderStatusRequest: request,
@@ -60,8 +57,6 @@ class ButtonAcceptRejectOrder extends StatelessWidget {
         ),
 
         const SizedBox(width: 20),
-
-        /// Reject
         ContainerSold(
           text: AppLanguageKeys.rejectRequest,
           backGroundColor: AppColors.redColor,
@@ -78,10 +73,6 @@ class ButtonAcceptRejectOrder extends StatelessWidget {
               status: OrderStatus.rejectedByProvider,
             );
 
-            // print("========== BUTTON CLICK ==========");
-            // print("Order ID: ${request.orderId}");
-            // print("Status: ${request.status}");
-            // print("=================================");
 
             context.read<OrderStatusCubit>().updateOrderStatus(
               updateOrderStatusRequest: request,

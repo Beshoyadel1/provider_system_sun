@@ -30,10 +30,46 @@ class GetProviderTotalRateAndEmployeeAndBalanceModel {
 }
 
 class TopEmployee {
-  TopEmployee();
+  final String? employeeName;
+  final String? employeeLatinName;
+  final int? orderCount;
+  final String? jobName;
+  final String? jobLatinName;
+
+  TopEmployee({
+    this.employeeName,
+    this.employeeLatinName,
+    this.orderCount,
+    this.jobName,
+    this.jobLatinName,
+  });
 
   factory TopEmployee.fromJson(Map<String, dynamic> json) {
-    return TopEmployee();
+    return TopEmployee(
+      employeeName: json['employeeName'],
+      employeeLatinName: json['employeeLatinName'],
+      orderCount: json['orderCount'],
+      jobName: json['jobName'],
+      jobLatinName: json['jobLatinName'],
+    );
+  }
+
+  String getName(BuildContext context) {
+    final isArabic =
+        LanguageCubit.get(context).isAllAppLanguageArabic;
+
+    return isArabic
+        ? (employeeName ?? "")
+        : (employeeLatinName ?? "");
+  }
+
+  String getJobName(BuildContext context) {
+    final isArabic =
+        LanguageCubit.get(context).isAllAppLanguageArabic;
+
+    return isArabic
+        ? (jobName ?? "")
+        : (jobLatinName ?? "");
   }
 }
 

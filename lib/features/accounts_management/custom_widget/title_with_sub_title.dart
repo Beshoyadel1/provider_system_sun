@@ -9,6 +9,7 @@ class TitleWithSubTitle extends StatelessWidget {
   final Color? titleColor,subTitleColor,iconDataColor;
   final double? textSizeTitle,textSizeSubTitle,spacing,iconDataSize;
   final IconData? iconData;
+  final CrossAxisAlignment? crossAxisAlignment;
   const TitleWithSubTitle({
     this.title,
     this.subTitle,
@@ -20,13 +21,14 @@ class TitleWithSubTitle extends StatelessWidget {
     this.spacing,
     this.iconDataColor,
     this.iconDataSize,
-    this.numberPercentage
+    this.numberPercentage,
+    this.crossAxisAlignment
   });
   @override
   Widget build(BuildContext context) {
     return Column(
       spacing: spacing??5,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: crossAxisAlignment??CrossAxisAlignment.center,
       children: [
         TextInAppWidget(
           text:title??AppLanguageKeys.employeesLogin,

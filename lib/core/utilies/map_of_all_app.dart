@@ -387,38 +387,38 @@ void getPages() {
         name: AppLanguageKeys.serviceSettingsTitleKey,
         number: PagesOfAllApp.serviceSettingsPageNumber,
         image: AppImageKeys.store,
-        page: FirstScreenServiceSettings(),
+        //page: FirstScreenServiceSettings(),
         children: [
           PageNodeModel(
             name: AppLanguageKeys.serviceSettingsTitleKey,
-            number: PagesOfAllApp.serviceSettingsPageNumber,
+            number: PagesOfAllApp.maintenanceAndInteriorServicesPageNumber,
             page: FirstScreenServiceSettings(),
           ),
-          PageNodeModel(
-            name: AppLanguageKeys.maintenanceAndInternalServicesKey,
-            number: PagesOfAllApp.maintenanceAndInteriorServicesPageNumber,
-            page: AddedMaintenanceAndInternalServicesInServiceSettings(),
-          ),
-          PageNodeModel(
-            name: AppLanguageKeys.carSpareParts,
-            number: PagesOfAllApp.carPartsPageNumber,
-            page: CarSparePartsInServiceSettings(),
-          ),
-          PageNodeModel(
-            name: AppLanguageKeys.sharedPackages,
-            number: PagesOfAllApp.sharedPackagesPageNumber,
-            page: SharedPackagesInServiceSettings(),
-          ),
-          PageNodeModel(
-            name: AppLanguageKeys.mobileServicesKey,
-            number: PagesOfAllApp.mobileServicesAndTransportationPageNumber,
-            page: InternalMaintenanceAndServicesInServiceSettings(),
-          ),
-          PageNodeModel(
-            name: AppLanguageKeys.petroleum,
-            number: PagesOfAllApp.petrolInServiceSettingPageNumber,
-            page: PetrolInServiceSettings(),
-          ),
+          // PageNodeModel(
+          //   name: AppLanguageKeys.maintenanceAndInternalServicesKey,
+          //   number: PagesOfAllApp.maintenanceAndInteriorServicesPageNumber,
+          //   page: AddedMaintenanceAndInternalServicesInServiceSettings(),
+          // ),
+          // PageNodeModel(
+          //   name: AppLanguageKeys.carSpareParts,
+          //   number: PagesOfAllApp.carPartsPageNumber,
+          //   page: CarSparePartsInServiceSettings(),
+          // ),
+          // PageNodeModel(
+          //   name: AppLanguageKeys.sharedPackages,
+          //   number: PagesOfAllApp.sharedPackagesPageNumber,
+          //   page: SharedPackagesInServiceSettings(),
+          // ),
+          // PageNodeModel(
+          //   name: AppLanguageKeys.mobileServicesKey,
+          //   number: PagesOfAllApp.mobileServicesAndTransportationPageNumber,
+          //   page: InternalMaintenanceAndServicesInServiceSettings(),
+          // ),
+          // PageNodeModel(
+          //   name: AppLanguageKeys.petroleum,
+          //   number: PagesOfAllApp.petrolInServiceSettingPageNumber,
+          //   page: PetrolInServiceSettings(),
+          // ),
         ]),
     const PageNodeModel(
         name: AppLanguageKeys.facilityManagementKey,

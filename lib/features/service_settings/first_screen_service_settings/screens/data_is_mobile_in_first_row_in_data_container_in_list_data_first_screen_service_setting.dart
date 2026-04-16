@@ -44,7 +44,7 @@ class DataIsMobileInFirstRowInDataContainerInListDataFirstScreenServiceSetting
                 text: textContainer,
                 onTap: onTap ??
                     () {
-                      AppCubit.get(context).navigateToPage(PagesOfAllApp.serviceSettingsPageNumber);
+                  Navigator.pop(context);
                     },
               ),
             ),

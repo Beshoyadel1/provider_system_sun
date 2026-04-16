@@ -19,6 +19,10 @@ class AppLanguageKeys {
   //end//
 
   //others//
+  static const String confirmDelete = 'confirmDelete';
+  static const String description = 'description';
+  static const String mileage = 'mileage';
+  static const String carStatus = 'carStatus';
   static const String emailOrPhoneInvalid = 'emailOrPhoneInvalid';
   static const String phoneInvalid = 'phoneInvalid';
   static const String userNotFound = 'userNotFound';

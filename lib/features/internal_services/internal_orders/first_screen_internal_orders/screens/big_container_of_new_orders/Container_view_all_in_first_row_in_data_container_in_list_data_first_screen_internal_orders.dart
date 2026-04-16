@@ -20,7 +20,7 @@ class ContainerViewAllInFirstRowInDataContainerInListDataFirstScreenInternalOrde
     return InkWell(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsetsGeometry.symmetric(horizontal: 15, vertical: 10),
+        padding: const EdgeInsetsGeometry.symmetric(horizontal: 40, vertical: 8),
         decoration: BoxDecoration(
           color: AppColors.orangeColor,
           borderRadius: const BorderRadius.all(Radius.circular(20)),
@@ -33,7 +33,7 @@ class ContainerViewAllInFirstRowInDataContainerInListDataFirstScreenInternalOrde
           ],
         ),
         child:  TextInAppWidget(
-          text: text??AppLanguageKeys.viewAll,
+          text: text??AppLanguageKeys.send,
           textSize: 13,
           fontWeightIndex: FontSelectionData.regularFontFamily,
           textColor: AppColors.whiteColor,

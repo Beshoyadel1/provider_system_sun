@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:flutter/cupertino.dart';
+import 'package:sun_web_system/core/language/language_cubit/language_cubit.dart';
+
 class ServiceSettingModel {
   final int? id,parentId;
   final String? name;
@@ -23,5 +26,13 @@ class ServiceSettingModel {
       latinName: json['latinname'],
       image: base64Decode(json['image']),
     );
+  }
+  String getName(BuildContext context) {
+    final isArabic =
+        LanguageCubit.get(context).isAllAppLanguageArabic;
+
+    return isArabic
+        ? (name ?? "")
+        : (latinName ?? "");
   }
 }

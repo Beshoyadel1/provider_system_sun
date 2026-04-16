@@ -54,6 +54,7 @@ class AuthLocalStorage {
     await prefs.remove(userKey);
   }
 }
+
 Future<CreateUserRequest?> loginFunction({
   required LoginRequest loginRequest,
 }) async {

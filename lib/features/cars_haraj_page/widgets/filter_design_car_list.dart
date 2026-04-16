@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
 import 'package:sun_web_system/features/cars_haraj_page/model/car_filter/car_filter.dart';
+import 'package:sun_web_system/features/cars_haraj_page/ui/details_harag_page/details_harag_page.dart';
 import 'package:sun_web_system/features/internal_services/internal_orders/first_screen_internal_orders/logic/tabs_cubit/tabs_cubit.dart';
 import 'package:sun_web_system/features/spare_parts/custom_widget/app_pagination.dart';
 import '../../../../../../features/cars_haraj_page/logic/get_all_harage_cubit/get_all_harage_cubit.dart';
@@ -53,12 +55,19 @@ class FilterDesignCarList extends StatelessWidget {
                         carImage: car.car?.carImage,
                         brandImage: car.car?.brandImage,
                         releaseDate: car.releaseDate,
-                        description: car.description,
+                        addresstext: car.addressText,
                         isSold: car.isSold ?? false,
                         isNew: car.isNew ?? false,
                         brandName: brandNameTitle,
                         price: car.price?.toString() ?? "",
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            NavigateToPageWidget(DetailsHaragPage(
+                              car: car,
+                            )),
+                          );
+                        },
                       ),
                     );
                   },

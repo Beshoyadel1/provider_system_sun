@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
 import 'package:sun_web_system/features/cars_haraj_page/logic/get_all_harage_cubit/get_all_harage_cubit.dart';
 import 'package:sun_web_system/features/cars_haraj_page/logic/get_all_harage_cubit/get_all_harage_state.dart';
+import 'package:sun_web_system/features/cars_haraj_page/ui/details_harag_page/details_harag_page.dart';
 import 'package:sun_web_system/features/cars_haraj_page/widgets/available_cars.dart';
 
 class AvailableListCars extends StatelessWidget {
@@ -29,14 +31,6 @@ class AvailableListCars extends StatelessWidget {
                 cars.length,
                     (index) {
                   final car = cars[index];
-
-                  final isEnglish =
-                      Localizations.localeOf(context).languageCode == 'en';
-
-                  final brandNameTitle = isEnglish
-                      ? (car.car?.brandLatinName ?? "")
-                      : (car.car?.brandName ?? "");
-
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 19),
                     child: AvailableCars(
@@ -44,12 +38,19 @@ class AvailableListCars extends StatelessWidget {
                       releaseDate: car.releaseDate,
                       carImage: car.car?.carImage,
                       brandImage: car.car?.brandImage,
-                      description: car.description,
+                      addresstext: car.addressText,
                       isSold: car.isSold ?? false,
                       isNew: car.isNew ?? false,
-                      brandName: brandNameTitle,
+                      brandName: car.car?.getBrand(context),
                       price: car.price.toString(),
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          NavigateToPageWidget(DetailsHaragPage(
+                            car: car,
+                          )),
+                        );
+                      },
                     ),
                   );
                 },

@@ -77,12 +77,10 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
 
   }
 
-  /// ✅ selected service
   int? serviceId;
   String? name;
   String? latinName;
 
-  /// ✅ set service from list
   void setService({
     required int id,
     required String nameValue,
@@ -94,14 +92,13 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
 
   }
 
-  /// ✅ create service
   Future<void> createProvService({
     required CreateProvServiceRequest request,
   }) async {
     emit(CreateProvServiceLoading());
 
     try {
-      /// 🔥 validation
+
       if (serviceId == null) {
         emit(CreateProvServiceError("Please select service first"));
         return;
@@ -119,7 +116,6 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
         cars: request.cars,
       );
 
-      /// 🔥 debug
       print("📤 SENDING:");
       print(const JsonEncoder.withIndent('')
           .convert(updatedRequest.toJson()));

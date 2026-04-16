@@ -28,7 +28,7 @@ class DataViewOfUnifiedPriceForAll extends StatefulWidget {
 
 class _DataViewOfUnifiedPriceForAllState
     extends State<DataViewOfUnifiedPriceForAll> {
-  late TextEditingController controller;
+  late TextEditingController priceController,taxController;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -37,7 +37,8 @@ class _DataViewOfUnifiedPriceForAllState
   @override
   void initState() {
     super.initState();
-    controller = TextEditingController();
+    priceController = TextEditingController();
+    taxController = TextEditingController();
   }
 
   void onSubmit() {
@@ -48,10 +49,10 @@ class _DataViewOfUnifiedPriceForAllState
     if (!_formKey.currentState!.validate()) return;
 
     final request = CreateProvServiceRequest(
-      taxid: 0,
+      taxid: int.tryParse(taxController.text) ?? 0,
       brands: [
         BrandModelCreateProvServiceRequest(
-          uniformprice: double.tryParse(controller.text) ?? 0,
+          uniformprice: double.tryParse(priceController.text) ?? 0,
           isuniformprice: true,
           cost: 0,
         ),
@@ -73,7 +74,8 @@ class _DataViewOfUnifiedPriceForAllState
 
         if (state is CreateProvServiceSuccess) {
           AppSnackBar.showSuccess(AppLanguageKeys.success);
-          controller.clear();
+          priceController.clear();
+          taxController.clear();
         }
 
         if (state is CreateProvServiceError) {
@@ -90,34 +92,72 @@ class _DataViewOfUnifiedPriceForAllState
               : AutovalidateMode.disabled,
           child: Column(
             children: [
-              TextFormFieldWidget(
-                textFormController: controller,
-                fillColor: AppColors.transparent,
-                borderColor: AppColors.darkColor.withOpacity(0.2),
-                hintText: AppLanguageKeys.sar,
-                hintTextSize: 12,
-                hintTextColor: AppColors.orangeColor,
-                textSize: 15,
-                textFormWidth: 400,
-                isDigit: true,
+              Row(
+                spacing: 10,
+                children: [
+                  Expanded(
+                    child: TextFormFieldWidget(
+                      textFormController: priceController,
+                      fillColor: AppColors.transparent,
+                      borderColor: AppColors.darkColor.withOpacity(0.2),
+                      hintText: AppLanguageKeys.price,
+                      hintTextSize: 12,
+                      hintTextColor: AppColors.orangeColor,
+                      textSize: 15,
+                      textFormWidth: 400,
+                      isDigit: true,
 
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return AppLanguageKeys.addAllRequiredFieldsKey;
-                  }
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return AppLanguageKeys.addAllRequiredFieldsKey;
+                        }
 
-                  if (double.tryParse(value) == null) {
-                    return "Enter valid number";
-                  }
+                        if (double.tryParse(value) == null) {
+                          return "Enter valid number";
+                        }
 
-                  return null;
-                },
+                        return null;
+                      },
 
-                onChanged: (_) {
-                  if (isSubmitted) {
-                    _formKey.currentState!.validate();
-                  }
-                },
+                      onChanged: (_) {
+                        if (isSubmitted) {
+                          _formKey.currentState!.validate();
+                        }
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: TextFormFieldWidget(
+                      textFormController: taxController,
+                      fillColor: AppColors.transparent,
+                      borderColor: AppColors.darkColor.withOpacity(0.2),
+                      hintText: AppLanguageKeys.taxes,
+                      hintTextSize: 12,
+                      hintTextColor: AppColors.orangeColor,
+                      textSize: 15,
+                      textFormWidth: 400,
+                      isDigit: true,
+
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return AppLanguageKeys.addAllRequiredFieldsKey;
+                        }
+
+                        if (int.tryParse(value) == null) {
+                          return "Enter valid number";
+                        }
+
+                        return null;
+                      },
+
+                      onChanged: (_) {
+                        if (isSubmitted) {
+                          _formKey.currentState!.validate();
+                        }
+                      },
+                    ),
+                  ),
+                ],
               ),
 
               const SizedBox(height: 10),

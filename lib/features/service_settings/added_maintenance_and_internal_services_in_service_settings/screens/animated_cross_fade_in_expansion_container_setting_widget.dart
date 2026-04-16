@@ -11,8 +11,21 @@ import '../../../../../../features/service_settings/added_maintenance_and_intern
 import '../../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/logic/Details_container_setting_state.dart';
 import '../../custom_widget/ImageTextWidget.dart';
 
+import 'dart:typed_data';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/core/theming/colors.dart';
+
+import '../../../../../../features/service_settings/logic/select_car_model_setting_cubit/select_car_model_setting_cubit.dart';
+import '../../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/screens/row_radio_list_tile_setting.dart';
+import '../../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/screens/data_view_of_price_per_category.dart';
+import '../../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/screens/data_view_of_unified_price_for_all.dart';
+import '../../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/logic/Details_container_setting_cubit.dart';
+import '../../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/logic/Details_container_setting_state.dart';
+import '../../custom_widget/ImageTextWidget.dart';
+
 class AnimatedCrossFadeInExpansionContainerSettingWidget
-    extends StatefulWidget {
+    extends StatelessWidget {
   final int index;
   final Uint8List? image;
   final String text;
@@ -27,66 +40,88 @@ class AnimatedCrossFadeInExpansionContainerSettingWidget
   });
 
   @override
-  State<AnimatedCrossFadeInExpansionContainerSettingWidget>
-  createState() =>
-      _AnimatedCrossFadeInExpansionContainerSettingWidgetState();
-}
-
-class _AnimatedCrossFadeInExpansionContainerSettingWidgetState
-    extends State<
-        AnimatedCrossFadeInExpansionContainerSettingWidget> {
-  @override
-  void initState() {
-    super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context
-          .read<SelectCarModelSettingCubit>()
-          .selectBrand(widget.index);
-    });
-
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: AppColors.whiteColor,
-        borderRadius: BorderRadius.circular(15),
-        border: Border.all(color: Colors.grey.withOpacity(0.3)),
-      ),
-      child: Column(
-        children: [
-          ImageTextWidget(
-            text: widget.text,
-            image: widget.image,
+    return BlocBuilder<DetailsContainerSettingCubit,
+        DetailsContainerSettingState>(
+      builder: (context, state) {
+        final cubit = context.read<DetailsContainerSettingCubit>();
+
+        return Container(
+          margin: const EdgeInsets.only(bottom: 12),
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: AppColors.whiteColor,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Colors.grey.withOpacity(0.2)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.03),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
           ),
 
-          BlocBuilder<DetailsContainerSettingCubit,
-              DetailsContainerSettingState>(
-            builder: (context, state) {
-              return Column(
-                children: [
-                  RowRadioListTileSetting(index: widget.index),
+          child: Column(
+            children: [
+              InkWell(
+                borderRadius: BorderRadius.circular(12),
+                onTap: () {
+                  cubit.toggle();
 
-                  if (state.selectedOption == 0)
-                    DataViewOfUnifiedPriceForAll(
-                      index: widget.index,
-                    )
-                  else
-                    if (state.selectedOption == 1)
-                      DataViewOfPricePerCategory(
-                        brandIndex: widget.index,
-                        brandId: widget.brandId,
+                  context
+                      .read<SelectCarModelSettingCubit>()
+                      .selectBrand(index);
+                },
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: ImageTextWidget(
+                        text: text,
+                        image: image,
                       ),
-                ],
-              );
-            },
+                    ),
+
+                    /// 🔹 ARROW
+                    AnimatedRotation(
+                      turns: state.isExpanded ? 0.5 : 0,
+                      duration: const Duration(milliseconds: 200),
+                      child: const Icon(Icons.keyboard_arrow_down),
+                    ),
+                  ],
+                ),
+              ),
+
+              AnimatedSize(
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+                child: state.isExpanded
+                    ? Padding(
+                  padding: const EdgeInsets.only(top: 12),
+                  child: Column(
+                    children: [
+                      RowRadioListTileSetting(index: index),
+
+                      if (state.selectedOption == 0)
+                        DataViewOfUnifiedPriceForAll(
+                          index: index,
+                        )
+                      else if (state.selectedOption == 1)
+                        DataViewOfPricePerCategory(
+                          brandIndex: index,
+                          brandId: brandId,
+                        )
+                      else
+                        const SizedBox(),
+                    ],
+                  ),
+                )
+                    : const SizedBox(),
+              )
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

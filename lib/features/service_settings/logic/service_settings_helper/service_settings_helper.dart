@@ -1,54 +1,70 @@
 import 'package:flutter/cupertino.dart';
+import '../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/added_maintenance_and_internal_services_in_service_settings.dart';
+import '../../../../../features/service_settings/car_spare_parts_in_service_settings/car_spare_parts_in_service_settings.dart';
+import '../../../../../features/service_settings/internal_maintenance_and_services_in_service_settings/internal_maintenance_and_services_in_service_settings.dart';
+import '../../../../../features/service_settings/petrol_in_service_settings/petrol_in_service_settings.dart';
+import '../../../../../features/service_settings/shared_packages_in_service_settings/shared_packages_in_service_settings.dart';
+import '../../../../../core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
 import '../../../../../core/api_functions/general/services/get_services_model/service_setting_model.dart';
-import '../../../../../core/cubit/app_cubit/app_cubit.dart';
-import '../../../../../core/utilies/map_of_all_app.dart';
+
 
 class ServiceSettingsHelper {
   static List<ServiceSettingModel> filterByParentId({
     required List<ServiceSettingModel> services,
     required int parentId,
   }) {
-    return services
-        .where((e) => e.parentId == parentId)
-        .toList();
+    return services.where((e) => e.parentId == parentId).toList();
   }
 
   static String getServiceName({
     required ServiceSettingModel service,
     required bool isArabic,
   }) {
-    return isArabic
-        ? service.name ?? ''
-        : service.latinName ?? '';
+    return isArabic ? service.name ?? '' : service.latinName ?? '';
   }
 
   static void handleNavigation(BuildContext context, int? id) {
     switch (id) {
       case 1:
-        AppCubit.get(context).navigateToPage(
-          PagesOfAllApp.maintenanceAndInteriorServicesPageNumber,
+        Navigator.push(
+          context,
+          NavigateToPageWidget(
+            const AddedMaintenanceAndInternalServicesInServiceSettings(),
+          ),
         );
         break;
 
       case 2:
-        AppCubit.get(context).navigateToPage(
-          PagesOfAllApp.mobileServicesAndTransportationPageNumber,
+        Navigator.push(
+          context,
+          NavigateToPageWidget(
+            const InternalMaintenanceAndServicesInServiceSettings(),
+          ),
         );
         break;
 
       case 3:
-        AppCubit.get(context).navigateToPage(
-          PagesOfAllApp.carPartsPageNumber,
+        Navigator.push(
+          context,
+          NavigateToPageWidget(
+            const CarSparePartsInServiceSettings(),
+          ),
         );
         break;
 
       case 4:
-        AppCubit.get(context).navigateToPage(
-          PagesOfAllApp.sharedPackagesPageNumber,
+        Navigator.push(
+          context,
+          NavigateToPageWidget(
+            const SharedPackagesInServiceSettings(),
+          ),
         );
       case 5:
-        AppCubit.get(context).navigateToPage(
-          PagesOfAllApp.petrolInServiceSettingPageNumber,
+        Navigator.push(
+          context,
+          NavigateToPageWidget(
+            const PetrolInServiceSettings(),
+          ),
         );
         break;
     }
