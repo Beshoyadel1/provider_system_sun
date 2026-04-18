@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/theming/colors.dart';
+import 'package:sun_web_system/features/service_settings/logic/create_prov_service_cubit/create_prov_service_cubit.dart';
 import 'package:sun_web_system/features/service_settings/logic/select_car_model_setting_cubit/select_car_model_setting_cubit.dart';
 import '../../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/screens/row_radio_list_tile_setting.dart';
 import '../../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/screens/data_view_of_price_per_category.dart';
@@ -10,7 +11,6 @@ import '../../../../../../features/service_settings/added_maintenance_and_intern
 import '../../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/logic/Details_container_setting_cubit.dart';
 import '../../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/logic/Details_container_setting_state.dart';
 import '../../custom_widget/ImageTextWidget.dart';
-
 
 class AnimatedCrossFadeInExpansionContainerSettingWidget
     extends StatelessWidget {
@@ -32,7 +32,11 @@ class AnimatedCrossFadeInExpansionContainerSettingWidget
     return BlocBuilder<DetailsContainerSettingCubit,
         DetailsContainerSettingState>(
       builder: (context, state) {
-        final cubit = context.read<DetailsContainerSettingCubit>();
+        final detailsCubit = context.read<DetailsContainerSettingCubit>();
+
+        final selected = context
+            .watch<CreateProvServiceCubit>()
+            .brandSelection[brandId];
 
         return Container(
           margin: const EdgeInsets.only(bottom: 12),
@@ -49,13 +53,12 @@ class AnimatedCrossFadeInExpansionContainerSettingWidget
               ),
             ],
           ),
-
           child: Column(
             children: [
               InkWell(
                 borderRadius: BorderRadius.circular(12),
                 onTap: () {
-                  cubit.toggle();
+                  detailsCubit.toggle();
 
                   context
                       .read<SelectCarModelSettingCubit>()
@@ -69,7 +72,6 @@ class AnimatedCrossFadeInExpansionContainerSettingWidget
                         image: image,
                       ),
                     ),
-
                     AnimatedRotation(
                       turns: state.isExpanded ? 0.5 : 0,
                       duration: const Duration(milliseconds: 200),
@@ -85,22 +87,33 @@ class AnimatedCrossFadeInExpansionContainerSettingWidget
                 child: state.isExpanded
                     ? Padding(
                   padding: const EdgeInsets.only(top: 12),
-                  child: Column(
-                    children: [
-                      RowRadioListTileSetting(index: index),
+                  child: Form(
+                    key: context
+                        .read<CreateProvServiceCubit>()
+                        .formKeys
+                        .putIfAbsent(
+                        brandId, () => GlobalKey<FormState>()),
 
-                      if (state.selectedOption == 0)
-                        DataViewOfUnifiedPriceForAll(
-                          index: index,
-                        )
-                      else if (state.selectedOption == 1)
-                        DataViewOfPricePerCategory(
-                          brandIndex: index,
-                          brandId: brandId,
-                        )
-                      else
-                        const SizedBox(),
-                    ],
+                    autovalidateMode: AutovalidateMode.disabled,
+
+                    child: Column(
+                      children: [
+
+                        RowRadioListTileSetting(brandId: brandId),
+
+                        if (selected == 0)
+                          DataViewOfUnifiedPriceForAll(
+                            brandId: brandId,
+                          )
+                        else if (selected == 1)
+                          DataViewOfPricePerCategory(
+                            brandId: brandId,
+                            brandIndex: index,
+                          )
+                        else
+                          const SizedBox(),
+                      ],
+                    ),
                   ),
                 )
                     : const SizedBox(),

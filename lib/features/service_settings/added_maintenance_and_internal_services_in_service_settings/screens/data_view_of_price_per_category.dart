@@ -62,141 +62,39 @@ class DataViewOfPricePerCategory extends StatefulWidget {
 class _DataViewOfPricePerCategoryState
     extends State<DataViewOfPricePerCategory> {
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   final Map<int, TextEditingController> priceControllers = {};
   final Map<int, TextEditingController> costControllers = {};
 
-  bool isSubmitted = false;
-
-  void onSubmit() {
-    setState(() {
-      isSubmitted = true;
-    });
-
-    if (!_formKey.currentState!.validate()) return;
-
-    final cubit = context.read<CreateProvServiceCubit>();
-
-    cubit.cars.clear();
-    cubit.selectedBrandIds.clear();
-
-    priceControllers.forEach((modelId, priceController) {
-      final price = double.tryParse(priceController.text.trim()) ?? 0;
-      final cost = double.tryParse(
-        costControllers[modelId]?.text.trim() ?? '',
-      ) ??
-          0;
-
-      if (price > 0) {
-        cubit.cars.add(
-          CarModelCreateProvServiceRequest(
-            id: 0,
-            carbrandid: widget.brandId,
-            carmodelid: modelId,
-            price: price,
-            cost: cost,
-          ),
-        );
-
-        cubit.selectedBrandIds.add(widget.brandId);
-      }
-    });
-
-    final request = CreateProvServiceRequest(
-      taxid: 0,
-      brands: [
-        BrandModelCreateProvServiceRequest(
-          isuniformprice: false,
-        ),
-      ],
-      cars: cubit.cars,
-    );
-
-    cubit.createProvService(request: request);
-  }
-
   @override
   Widget build(BuildContext context) {
-    return BlocListener<CreateProvServiceCubit, CreateProvServiceState>(
-      listener: (context, state) {
-        if (state is CreateProvServiceSuccess) {
-          AppSnackBar.showSuccess(AppLanguageKeys.success);
+    final cubit = context.read<SelectCarModelSettingCubit>();
+    final models = cubit.getModelsForBrand(widget.brandId);
 
-          for (var c in priceControllers.values) {
-            c.clear();
-          }
-          for (var c in costControllers.values) {
-            c.clear();
-          }
-        }
+    return Column(
+      spacing: 10,
+      children: List.generate(models.length, (index) {
+        final model = models[index];
+        final modelId = model.id ?? 0;
 
-        if (state is CreateProvServiceError) {
-          AppSnackBar.showError(state.error);
-        }
-      },
-      child: BlocBuilder<SelectCarModelSettingCubit,
-          SelectCarModelSettingState>(
-        builder: (context, state) {
-          final cubit = context.read<SelectCarModelSettingCubit>();
-          final models = cubit.getModelsForBrand(widget.brandId);
+        priceControllers.putIfAbsent(
+          modelId,
+              () => TextEditingController(),
+        );
 
-          if (models.isEmpty) {
-            return const Text("No Models");
-          }
+        costControllers.putIfAbsent(
+          modelId,
+              () => TextEditingController(),
+        );
 
-          return Padding(
-            padding: const EdgeInsets.all(10),
-            child: Form(
-              key: _formKey,
-              autovalidateMode: isSubmitted
-                  ? AutovalidateMode.onUnfocus
-                  : AutovalidateMode.disabled,
-              child: Column(
-                children: [
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: models.length,
-                    itemBuilder: (context, index) {
-                      final model = models[index];
-                      final modelId = model.id ?? 0;
-
-                      priceControllers.putIfAbsent(
-                        modelId,
-                            () => TextEditingController(),
-                      );
-
-                      costControllers.putIfAbsent(
-                        modelId,
-                            () => TextEditingController(),
-                      );
-
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: CarImageTextInSettingWidget(
-                          text: model.name ?? '',
-                          modelId: modelId,
-                          brandId: widget.brandId,
-                          imageMemory: model.image,
-                          priceController: priceControllers[modelId]!,
-                          costController: costControllers[modelId]!,
-                        ),
-                      );
-                    },
-                  ),
-
-                  const SizedBox(height: 10),
-
-                  ContainerViewAllInFirstRowInDataContainerInListDataFirstScreenInternalOrders(
-                    onTap: onSubmit,
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
+        return CarImageTextInSettingWidget(
+          text: model.name ?? '',
+          modelId: modelId,
+          brandId: widget.brandId,
+          imageMemory: model.image,
+          priceController: priceControllers[modelId]!,
+          costController: costControllers[modelId]!,
+        );
+      }),
     );
   }
 }

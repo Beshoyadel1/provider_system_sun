@@ -19,6 +19,7 @@ class AppLanguageKeys {
   //end//
 
   //others//
+  static const String selectPricingTypeFirst = "selectPricingTypeFirst";
   static const String cost = 'cost';
   static const String confirmDelete = 'confirmDelete';
   static const String description = 'description';

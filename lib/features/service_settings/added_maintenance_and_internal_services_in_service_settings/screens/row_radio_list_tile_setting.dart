@@ -6,11 +6,11 @@ import '../../../../../../features/service_settings/added_maintenance_and_intern
 import '../../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/logic/Details_container_setting_state.dart';
 
 class RowRadioListTileSetting extends StatelessWidget {
-  final int index;
+  final int brandId;
 
   const RowRadioListTileSetting({
     super.key,
-    required this.index,
+    required this.brandId,
   });
 
   @override
@@ -20,12 +20,12 @@ class RowRadioListTileSetting extends StatelessWidget {
         CustomWidgetRadioListTile(
           text: AppLanguageKeys.unifiedPriceForAll,
           value: 0,
-          brandIndex: index, // 🔥 مهم
+          brandId: brandId,
         ),
         CustomWidgetRadioListTile(
           text: AppLanguageKeys.pricePerCategory,
           value: 1,
-          brandIndex: index, // 🔥 مهم
+          brandId: brandId,
         ),
       ],
     );

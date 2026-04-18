@@ -16,24 +16,25 @@ class AddedMaintenanceAndInternalServicesInServiceSettings
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return  Scaffold(
-      backgroundColor: AppColors.scaffoldColor,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                    child: BlocProvider(
-                        create: (_) => CreateProvServiceCubit(),
-                        child: const ListDataAddedMaintenanceAndInternalServicesInServiceSettings())),
-              ),
-            ],
+    return   BlocProvider(
+      create: (_) => CreateProvServiceCubit(),
+      child: const Scaffold(
+        backgroundColor: AppColors.scaffoldColor,
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                      child: const ListDataAddedMaintenanceAndInternalServicesInServiceSettings()),
+                ),
+              ],
+            ),
           ),
         ),
+        // bottomNavigationBar: ContainerLastTwoButtonInAddedMaintenanceAndInternalServicesInServiceSettings(),
       ),
-      // bottomNavigationBar: ContainerLastTwoButtonInAddedMaintenanceAndInternalServicesInServiceSettings(),
     );
   }
 }

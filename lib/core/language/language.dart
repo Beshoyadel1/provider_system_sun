@@ -31,6 +31,7 @@ class AppLocalizations {
       //END//
 
       //others//
+      AppLanguageKeys.selectPricingTypeFirst : "اختار نوع التسعير الأول",
       AppLanguageKeys.cost: 'التكلفة',
       AppLanguageKeys.confirmDelete: 'هل أنت متأكد أنك تريد حذف هذا العنصر؟',
       AppLanguageKeys.description: 'الوصف',
@@ -1248,6 +1249,7 @@ class AppLocalizations {
       AppLanguageKeys.cancelledByUser: 'Cancelled by User',
       //END//
       //others//
+      AppLanguageKeys.selectPricingTypeFirst : "Please select the pricing type first",
       AppLanguageKeys.cost: 'Cost',
       AppLanguageKeys.confirmDelete: 'Are you sure you want to delete this item?',
       AppLanguageKeys.description: 'Description',

@@ -1,6 +1,8 @@
 import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/features/service_settings/logic/create_prov_service_cubit/create_prov_service_cubit.dart';
 import '../../../../../core/pages_widgets/text_form_field_widget.dart';
 import '../../../../../core/language/language_constant.dart';
 import '../../../../../core/theming/colors.dart';
@@ -41,13 +43,11 @@ class CarImageTextInSettingWidget extends StatelessWidget {
             ),
           ],
         ),
-
         const SizedBox(width: 8),
-
         Expanded(
           child: Row(
+            spacing: 10,
             children: [
-              /// PRICE
               Expanded(
                 child: TextFormFieldWidget(
                   hintText: AppLanguageKeys.price,
@@ -58,21 +58,24 @@ class CarImageTextInSettingWidget extends StatelessWidget {
                   hintTextColor: AppColors.orangeColor,
                   textSize: 15,
                   isDigit: true,
+                  onChanged: (_) {
+                    context.read<CreateProvServiceCubit>().setCarData(
+                          brandId: brandId,
+                          modelId: modelId,
+                          price: double.tryParse(priceController.text) ?? 0,
+                          cost: double.tryParse(costController.text) ?? 0,
+                        );
+                  },
                   validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return AppLanguageKeys.addAllRequiredFieldsKey;
+                    if (value == null || value.isEmpty) {
+                      return AppLanguageKeys.enterYourData;
                     }
-                    if (double.tryParse(value) == null) {
-                      return "Enter valid number";
-                    }
+
                     return null;
                   },
                 ),
               ),
 
-              const SizedBox(width: 8),
-
-              /// COST
               Expanded(
                 child: TextFormFieldWidget(
                   hintText: AppLanguageKeys.cost,
@@ -83,13 +86,19 @@ class CarImageTextInSettingWidget extends StatelessWidget {
                   hintTextColor: AppColors.orangeColor,
                   textSize: 15,
                   isDigit: true,
+                  onChanged: (_) {
+                    context.read<CreateProvServiceCubit>().setCarData(
+                          brandId: brandId,
+                          modelId: modelId,
+                          price: double.tryParse(priceController.text) ?? 0,
+                          cost: double.tryParse(costController.text) ?? 0,
+                        );
+                  },
                   validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return AppLanguageKeys.addAllRequiredFieldsKey;
+                    if (value == null || value.isEmpty) {
+                      return AppLanguageKeys.enterYourData;
                     }
-                    if (double.tryParse(value) == null) {
-                      return "Enter valid number";
-                    }
+
                     return null;
                   },
                 ),

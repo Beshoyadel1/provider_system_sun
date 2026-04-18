@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/api_functions/provider_management/create_prov_service_model/brand_model_create_prov_service_request.dart';
 import 'package:sun_web_system/core/api_functions/provider_management/create_prov_service_model/car_model_create_prov_service_request.dart';
 import 'package:sun_web_system/core/api_functions/user/login_model/login_repository.dart';
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'create_prov_service_state.dart';
 import '../../../../core/api_functions/provider_management/create_prov_service_model/create_prov_service_request.dart';
 import '../../../../core/api_functions/provider_management/create_prov_service_model/create_prov_service_repository.dart';
@@ -15,49 +17,58 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
   final CreateProvServiceRepository _repository =
   CreateProvServiceRepository();
 
-  List<BrandModelCreateProvServiceRequest> buildBrands() {
-    return selectedBrandIds.map((brandId) {
-      return BrandModelCreateProvServiceRequest(
-        id: brandId,
-        uniformprice: 0,
-        isuniformprice: false,
-        cost: 0,
-      );
-    }).toList();
-  }
+  /// 🔵 unified
+  final Map<int, BrandModelCreateProvServiceRequest> brandsData = {};
 
+  /// 🟢 cars
   final List<CarModelCreateProvServiceRequest> cars = [];
 
-  final Set<int> selectedBrandIds = {};
-  void printGroupedCars() {
-    print("📦 RESULT:");
+  /// 📌 radio
+  final Map<int, int> brandSelection = {};
 
-    if (cars.isEmpty) {
-      print("❌ No Data");
-      return;
-    }
+  /// 🧠 form لكل brand
+  final Map<int, GlobalKey<FormState>> formKeys = {};
 
-    final Map<int, List<CarModelCreateProvServiceRequest>> grouped = {};
+  int? serviceId;
 
-    for (var car in cars) {
-      grouped.putIfAbsent(car.carbrandid ?? 0, () => []);
-      grouped[car.carbrandid]!.add(car);
-    }
-
-    grouped.forEach((brandId, models) {
-      String line = "brandId {$brandId} = ";
-
-      for (var m in models) {
-        line += "modelId {${m.carmodelid}} cost {${m.cost}}, ";
-      }
-
-      print(line);
-    });
+  void setService({required int id}) {
+    serviceId = id;
   }
-  void setCarPrice({
+
+  /// 🔘 radio
+  void setBrandSelection({
+    required int brandId,
+    required int option,
+  }) {
+    brandSelection[brandId] = option;
+    brandsData[brandId] = BrandModelCreateProvServiceRequest(
+      id: brandId,
+      isuniformprice: false,
+    );
+
+    emit(CreateProvServiceInitial());
+  }
+
+  void setUnifiedPrice({
+    required int brandId,
+    required double price,
+    required double cost,
+  }) {
+    brandsData[brandId] = BrandModelCreateProvServiceRequest(
+      id: brandId,
+      uniformprice: price,
+      isuniformprice: true,
+      cost: cost,
+    );
+
+    emit(CreateProvServiceInitial());
+  }
+
+  void setCarData({
     required int brandId,
     required int modelId,
     required double price,
+    required double cost,
   }) {
     cars.removeWhere((e) =>
     e.carbrandid == brandId && e.carmodelid == modelId);
@@ -68,23 +79,13 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
         carbrandid: brandId,
         carmodelid: modelId,
         price: price,
-        cost: 0,
+        cost: cost,
       ),
     );
-
-    selectedBrandIds.add(brandId);
-
-
   }
 
-  int? serviceId;
-  String? name;
-  String? latinName;
-
-  void setService({
-    required int id,
-  }) {
-    serviceId = id;
+  List<BrandModelCreateProvServiceRequest> buildBrands() {
+    return brandsData.values.toList();
   }
 
   Future<void> createProvService({
@@ -93,9 +94,8 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
     emit(CreateProvServiceLoading());
 
     try {
-
       if (serviceId == null) {
-        emit(CreateProvServiceError("Please select service first"));
+        emit(CreateProvServiceError(AppLanguageKeys.selectPricingTypeFirst));
         return;
       }
 
@@ -105,18 +105,25 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
         serviceid: serviceId!,
         provid: user?.userid ?? 5,
         taxid: request.taxid,
-        name: name ?? "",
-        latinname: latinName ?? "",
+        name: "",
+        latinname: "",
         brands: request.brands,
         cars: request.cars,
       );
 
       print("📤 SENDING:");
-      print(const JsonEncoder.withIndent('')
+      print(const JsonEncoder.withIndent(' ')
           .convert(updatedRequest.toJson()));
 
       await _repository.createProvService(request: updatedRequest);
 
+      brandsData.clear();
+      cars.clear();
+      brandSelection.clear();
+
+      for (var key in formKeys.values) {
+        key.currentState?.reset();
+      }
 
       emit(CreateProvServiceSuccess());
     } catch (e) {
