@@ -83,13 +83,8 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
 
   void setService({
     required int id,
-    required String nameValue,
-    required String latinValue,
   }) {
     serviceId = id;
-    name = nameValue;
-    latinName = latinValue;
-
   }
 
   Future<void> createProvService({

@@ -31,6 +31,7 @@ class AppLocalizations {
       //END//
 
       //others//
+      AppLanguageKeys.cost: 'التكلفة',
       AppLanguageKeys.confirmDelete: 'هل أنت متأكد أنك تريد حذف هذا العنصر؟',
       AppLanguageKeys.description: 'الوصف',
       AppLanguageKeys.mileage: 'عدد الكيلومترات',
@@ -1247,6 +1248,7 @@ class AppLocalizations {
       AppLanguageKeys.cancelledByUser: 'Cancelled by User',
       //END//
       //others//
+      AppLanguageKeys.cost: 'Cost',
       AppLanguageKeys.confirmDelete: 'Are you sure you want to delete this item?',
       AppLanguageKeys.description: 'Description',
       AppLanguageKeys.mileage: 'Mileage',

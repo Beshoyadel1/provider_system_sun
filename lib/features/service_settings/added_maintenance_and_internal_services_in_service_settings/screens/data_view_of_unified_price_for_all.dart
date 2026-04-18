@@ -1,13 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/core/api_functions/provider_management/create_prov_service_model/brand_model_create_prov_service_request.dart';
-
-import 'package:sun_web_system/core/pages_widgets/general_widgets/snakbar.dart';
-import 'package:sun_web_system/features/internal_services/internal_orders/first_screen_internal_orders/screens/big_container_of_new_orders/Container_view_all_in_first_row_in_data_container_in_list_data_first_screen_internal_orders.dart';
-import 'package:sun_web_system/features/service_settings/logic/create_prov_service_cubit/create_prov_service_cubit.dart';
-import 'package:sun_web_system/features/service_settings/logic/create_prov_service_cubit/create_prov_service_state.dart';
-
+import '../../../../../../core/api_functions/provider_management/create_prov_service_model/brand_model_create_prov_service_request.dart';
+import '../../../../../../core/pages_widgets/general_widgets/snakbar.dart';
+import '../../../../../../features/internal_services/internal_orders/first_screen_internal_orders/screens/big_container_of_new_orders/Container_view_all_in_first_row_in_data_container_in_list_data_first_screen_internal_orders.dart';
+import '../../../../../../features/service_settings/logic/create_prov_service_cubit/create_prov_service_cubit.dart';
+import '../../../../../../features/service_settings/logic/create_prov_service_cubit/create_prov_service_state.dart';
 import '../../../../../../core/pages_widgets/text_form_field_widget.dart';
 import '../../../../../../core/language/language_constant.dart';
 import '../../../../../../core/theming/colors.dart';
@@ -28,7 +26,7 @@ class DataViewOfUnifiedPriceForAll extends StatefulWidget {
 
 class _DataViewOfUnifiedPriceForAllState
     extends State<DataViewOfUnifiedPriceForAll> {
-  late TextEditingController priceController,taxController;
+  late TextEditingController priceController,costController;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -38,7 +36,7 @@ class _DataViewOfUnifiedPriceForAllState
   void initState() {
     super.initState();
     priceController = TextEditingController();
-    taxController = TextEditingController();
+    costController = TextEditingController();
   }
 
   void onSubmit() {
@@ -49,12 +47,12 @@ class _DataViewOfUnifiedPriceForAllState
     if (!_formKey.currentState!.validate()) return;
 
     final request = CreateProvServiceRequest(
-      taxid: int.tryParse(taxController.text) ?? 0,
+      taxid:0,
       brands: [
         BrandModelCreateProvServiceRequest(
           uniformprice: double.tryParse(priceController.text) ?? 0,
           isuniformprice: true,
-          cost: 0,
+          cost: double.tryParse(costController.text) ?? 0,
         ),
       ],
       cars: [],
@@ -75,7 +73,7 @@ class _DataViewOfUnifiedPriceForAllState
         if (state is CreateProvServiceSuccess) {
           AppSnackBar.showSuccess(AppLanguageKeys.success);
           priceController.clear();
-          taxController.clear();
+          costController.clear();
         }
 
         if (state is CreateProvServiceError) {
@@ -128,10 +126,10 @@ class _DataViewOfUnifiedPriceForAllState
                   ),
                   Expanded(
                     child: TextFormFieldWidget(
-                      textFormController: taxController,
+                      textFormController: costController,
                       fillColor: AppColors.transparent,
                       borderColor: AppColors.darkColor.withOpacity(0.2),
-                      hintText: AppLanguageKeys.taxes,
+                      hintText: AppLanguageKeys.cost,
                       hintTextSize: 12,
                       hintTextColor: AppColors.orangeColor,
                       textSize: 15,

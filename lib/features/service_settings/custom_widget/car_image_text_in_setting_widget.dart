@@ -1,57 +1,40 @@
 import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/features/service_settings/logic/create_prov_service_cubit/create_prov_service_cubit.dart';
-import 'package:sun_web_system/features/service_settings/logic/select_car_model_setting_cubit/select_car_model_setting_cubit.dart';
-import '../../../../../core/pages_widgets/text_form_field_widget.dart';
-import '../../../../../core/language/language_constant.dart';
-import '../../../../../core/theming/colors.dart';
-import '../../../../../core/theming/fonts.dart';
-import '../../../../../core/theming/text_styles.dart';
-import 'dart:typed_data';
-import 'package:flutter/material.dart';
 import '../../../../../core/pages_widgets/text_form_field_widget.dart';
 import '../../../../../core/language/language_constant.dart';
 import '../../../../../core/theming/colors.dart';
 import '../../../../../core/theming/fonts.dart';
 import '../../../../../core/theming/text_styles.dart';
 
-class CarImageTextInSettingWidget extends StatefulWidget {
+class CarImageTextInSettingWidget extends StatelessWidget {
   final String text;
   final int modelId;
   final int brandId;
   final Uint8List? imageMemory;
-  final TextEditingController controller;
+  final TextEditingController priceController;
+  final TextEditingController costController;
 
   const CarImageTextInSettingWidget({
     super.key,
     required this.text,
     required this.modelId,
     required this.brandId,
-    required this.controller,
+    required this.priceController,
+    required this.costController,
     this.imageMemory,
   });
-
-  @override
-  State<CarImageTextInSettingWidget> createState() =>
-      _CarImageTextInSettingWidgetState();
-}
-
-class _CarImageTextInSettingWidgetState
-    extends State<CarImageTextInSettingWidget> {
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             _buildImage(),
             const SizedBox(height: 2),
             TextInAppWidget(
-              text: widget.text,
+              text: text,
               textSize: 9,
               fontWeightIndex: FontSelectionData.regularFontFamily,
               textColor: AppColors.darkColor,
@@ -62,30 +45,56 @@ class _CarImageTextInSettingWidgetState
         const SizedBox(width: 8),
 
         Expanded(
-          child: SizedBox(
-            height: 50,
-            child: TextFormFieldWidget(
-              hintText: AppLanguageKeys.price,
-              textFormController: widget.controller,
-              fillColor: AppColors.transparent,
-              borderColor: AppColors.darkColor.withOpacity(0.2),
-              hintTextSize: 12,
-              hintTextColor: AppColors.orangeColor,
-              textSize: 15,
-              isDigit: true,
+          child: Row(
+            children: [
+              /// PRICE
+              Expanded(
+                child: TextFormFieldWidget(
+                  hintText: AppLanguageKeys.price,
+                  textFormController: priceController,
+                  fillColor: AppColors.transparent,
+                  borderColor: AppColors.darkColor.withOpacity(0.2),
+                  hintTextSize: 12,
+                  hintTextColor: AppColors.orangeColor,
+                  textSize: 15,
+                  isDigit: true,
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return AppLanguageKeys.addAllRequiredFieldsKey;
+                    }
+                    if (double.tryParse(value) == null) {
+                      return "Enter valid number";
+                    }
+                    return null;
+                  },
+                ),
+              ),
 
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return AppLanguageKeys.addAllRequiredFieldsKey;
-                }
+              const SizedBox(width: 8),
 
-                if (double.tryParse(value) == null) {
-                  return "Enter valid number";
-                }
-
-                return null;
-              },
-            ),
+              /// COST
+              Expanded(
+                child: TextFormFieldWidget(
+                  hintText: AppLanguageKeys.cost,
+                  textFormController: costController,
+                  fillColor: AppColors.transparent,
+                  borderColor: AppColors.darkColor.withOpacity(0.2),
+                  hintTextSize: 12,
+                  hintTextColor: AppColors.orangeColor,
+                  textSize: 15,
+                  isDigit: true,
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return AppLanguageKeys.addAllRequiredFieldsKey;
+                    }
+                    if (double.tryParse(value) == null) {
+                      return "Enter valid number";
+                    }
+                    return null;
+                  },
+                ),
+              ),
+            ],
           ),
         ),
       ],
@@ -93,11 +102,11 @@ class _CarImageTextInSettingWidgetState
   }
 
   Widget _buildImage() {
-    if (widget.imageMemory != null && widget.imageMemory!.isNotEmpty) {
+    if (imageMemory != null && imageMemory!.isNotEmpty) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(6),
         child: Image.memory(
-          widget.imageMemory!,
+          imageMemory!,
           width: 50,
           height: 30,
           fit: BoxFit.cover,

@@ -56,8 +56,6 @@ class DataContainerInListDataAddedMaintenanceAndInternalServicesInServiceSetting
                         onTap: (){
                           context.read<CreateProvServiceCubit>().setService(
                             id: service.id!,
-                            nameValue: service.name ?? "",
-                            latinValue: service.latinName ?? "",
                           );
                           },
                       ),

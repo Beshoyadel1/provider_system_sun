@@ -11,18 +11,6 @@ import '../../../../../../features/service_settings/added_maintenance_and_intern
 import '../../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/logic/Details_container_setting_state.dart';
 import '../../custom_widget/ImageTextWidget.dart';
 
-import 'dart:typed_data';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/core/theming/colors.dart';
-
-import '../../../../../../features/service_settings/logic/select_car_model_setting_cubit/select_car_model_setting_cubit.dart';
-import '../../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/screens/row_radio_list_tile_setting.dart';
-import '../../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/screens/data_view_of_price_per_category.dart';
-import '../../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/screens/data_view_of_unified_price_for_all.dart';
-import '../../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/logic/Details_container_setting_cubit.dart';
-import '../../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/logic/Details_container_setting_state.dart';
-import '../../custom_widget/ImageTextWidget.dart';
 
 class AnimatedCrossFadeInExpansionContainerSettingWidget
     extends StatelessWidget {
@@ -82,7 +70,6 @@ class AnimatedCrossFadeInExpansionContainerSettingWidget
                       ),
                     ),
 
-                    /// 🔹 ARROW
                     AnimatedRotation(
                       turns: state.isExpanded ? 0.5 : 0,
                       duration: const Duration(milliseconds: 200),
