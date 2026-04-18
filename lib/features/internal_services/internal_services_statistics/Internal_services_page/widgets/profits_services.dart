@@ -29,12 +29,12 @@ class ProfitsServices extends StatelessWidget {
                     textSize: 16,
                     fontWeightIndex: FontSelectionData.regularFontFamily,
                   ),
-                  TextInAppWidget(
-                    text: AppLanguageKeys.priceKey,
-                    textSize: 16,
-                    fontWeightIndex: FontSelectionData.regularFontFamily,
-                    textColor: AppColors.orangeColor,
-                  ),
+                  // TextInAppWidget(
+                  //   text: AppLanguageKeys.priceKey,
+                  //   textSize: 16,
+                  //   fontWeightIndex: FontSelectionData.regularFontFamily,
+                  //   textColor: AppColors.orangeColor,
+                  // ),
                 ],
               ),
              //  SelectDateWidget(),

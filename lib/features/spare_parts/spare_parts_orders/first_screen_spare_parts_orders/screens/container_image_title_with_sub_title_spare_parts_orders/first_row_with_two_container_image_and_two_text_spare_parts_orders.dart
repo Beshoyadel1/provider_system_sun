@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/language/language.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
-import 'package:sun_web_system/core/theming/assets.dart';
-import 'package:sun_web_system/core/utilies/map_of_all_app.dart';
 import 'package:sun_web_system/features/internal_services/internal_orders/custom_widget/container_with_image_container_and_two_text_widget.dart';
 import 'package:sun_web_system/features/internal_services/internal_orders/first_screen_internal_orders/logic/loading_dashboard/loading_dashboard_cubit.dart';
 import 'package:sun_web_system/features/internal_services/internal_orders/first_screen_internal_orders/logic/loading_dashboard/loading_dashboard_state.dart';
@@ -15,69 +13,43 @@ class FirstRowWithTwoContainerImageAndTwoTextSparePartsOrders extends StatelessW
   Widget build(BuildContext context) {
     return BlocBuilder<InternalOrdersCubit, InternalOrdersState>(
       builder: (context, state) {
-        final services = state.services;
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            final isArabic =
+                Localizations.localeOf(context).languageCode == 'ar';
 
-        final size = MediaQuery.of(context).size;
-        final isTab = size.width > ValuesOfAllApp.tabWidth;
+            const minItemWidth = 220.0;
 
-        final itemsPerRow = isTab ? 3 : 2;
-        final rowCount = (services.length / itemsPerRow).ceil();
+            int itemsPerRow =
+            (constraints.maxWidth / minItemWidth).floor();
 
-        final isArabic =
-            Localizations.localeOf(context).languageCode == 'ar';
+            if (itemsPerRow == 0) itemsPerRow = 1;
 
-        return ListView.separated(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: rowCount,
-          separatorBuilder: (_, __) => const SizedBox(height: 10),
+            final itemWidth =
+                (constraints.maxWidth / itemsPerRow) - 10;
 
-          itemBuilder: (context, rowIndex) {
-            final start = rowIndex * itemsPerRow;
-            final end = (start + itemsPerRow).clamp(0, services.length);
+            return Wrap(
+              spacing: 10,
+              runSpacing: 10,
+              children: state.services.map((service) {
+                final title = isArabic
+                    ? (service.serviceName ?? '')
+                    : (service.serviceLatinName ?? '');
 
-            return Row(
-              children: List.generate(
-                itemsPerRow,
-                    (i) {
-                  final index = start + i;
-
-                  if (index >= services.length) {
-                    return const Expanded(child: SizedBox());
-                  }
-
-                  final service = services[index];
-
-                  final title = isArabic
-                      ? (service.serviceName ?? '')
-                      : (service.serviceLatinName ?? '');
-
-                  return Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
-                      child: ContainerWithImageContainerAndTwoTextWidget(
-                        imagePath: service.image,
-                        title: title,
-                        subTitle: '${service.orderCount ?? 0} ${AppLocalizations.of(context).translate(AppLanguageKeys.order)}',
-                      ),
-                    ),
-                  );
-                },
-              ),
+                return SizedBox(
+                  width: itemWidth,
+                  child: ContainerWithImageContainerAndTwoTextWidget(
+                    imagePath: service.image,
+                    title: title,
+                    subTitle:
+                    '${service.orderCount ?? 0} ${AppLocalizations.of(context).translate(AppLanguageKeys.order)}',
+                  ),
+                );
+              }).toList(),
             );
-
           },
         );
       },
     );
   }
 }
-
-final List<String> images = [
-  AppImageKeys.washingAndCleaning,
-  AppImageKeys.maintenanceAndRepair,
-  AppImageKeys.batteries,
-  AppImageKeys.tires,
-  AppImageKeys.routineMaintenance,
-  AppImageKeys.oils,
-];

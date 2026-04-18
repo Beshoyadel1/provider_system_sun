@@ -93,7 +93,6 @@ class _CustomLineChartState extends State<CustomLineChart> {
                     minY: minY,
                     maxY: maxY,
 
-                    /// ✅ نفس التصميم
                     titlesData: FlTitlesData(
                       show: true,
                       bottomTitles: AxisTitles(
@@ -216,8 +215,13 @@ class _CustomLineChartState extends State<CustomLineChart> {
                       enabled: true,
                       handleBuiltInTouches: false,
                       touchCallback: (event, response) {
-                        final spots = response?.lineBarSpots;
+                        if (!event.isInterestedForInteractions) {
+                          setState(() => touchedSpotX = null);
+                          removeOverlay();
+                          return;
+                        }
 
+                        final spots = response?.lineBarSpots;
                         if (spots == null || spots.isEmpty) {
                           setState(() => touchedSpotX = null);
                           removeOverlay();
@@ -225,26 +229,17 @@ class _CustomLineChartState extends State<CustomLineChart> {
                         }
 
                         final touchedSpot = spots.first;
+
                         setState(() => touchedSpotX = touchedSpot.x);
 
-                        final localPos = event.localPosition;
-                        if (localPos == null) {
-                          removeOverlay();
-                          return;
-                        }
-
                         final renderBox =
-                        _chartKey.currentContext
-                            ?.findRenderObject()
-                        as RenderBox?;
+                        _chartKey.currentContext?.findRenderObject() as RenderBox?;
 
                         if (renderBox == null) return;
 
-                        final global =
-                        renderBox.localToGlobal(localPos);
+                        final global = renderBox.localToGlobal(event.localPosition!);
 
-                        showTooltipOverlay(
-                            context, global, touchedSpot);
+                        showTooltipOverlay(context, global, touchedSpot);
                       },
                     ),
                   ),
