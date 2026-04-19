@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/service_settings/logic/create_prov_service_cubit/create_prov_service_cubit.dart';
+import 'package:sun_web_system/features/service_settings/logic/prov_services_cubit/prov_services_cubit.dart';
 import '../../../../../../core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
 import '../../../../../../features/service_settings/car_spare_parts_in_service_settings/sub/add_spare_parts_in_service_settings/add_spare_parts_in_service_settings.dart';
 import '../../../../../../features/service_settings/car_spare_parts_in_service_settings/screens/floating_action_button_screen.dart';
@@ -29,8 +30,15 @@ class CarSparePartsInServiceSettings extends StatelessWidget {
             children: [
               Expanded(
                 child: SingleChildScrollView(
-                    child: BlocProvider(
-                        create: (_) => CreateProvServiceCubit(),
+                    child: MultiBlocProvider(
+                        providers: [
+                          BlocProvider(
+                            create: (_) => CreateProvServiceCubit(),
+                          ),
+                          BlocProvider(
+                            create: (_) => ProvServicesCubit(), // 🔥 مهم
+                          ),
+                        ],
                         child: ListDataCarSparePartsInServiceSettings())),
               ),
             ],

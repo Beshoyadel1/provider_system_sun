@@ -54,6 +54,7 @@ class _EditHaragDialogState extends State<EditHaragDialog> {
       listener: (context, state) {
         if (state is UpdateHarageSuccess) {
           Navigator.pop(context);
+          Navigator.pop(context);
         }
       },
       child: AlertDialog(

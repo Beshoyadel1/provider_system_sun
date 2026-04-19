@@ -8,7 +8,6 @@ import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:sun_web_system/core/theming/colors.dart';
 import 'package:sun_web_system/features/order_status_design/cubit/order_status_cubit/order_status_cubit.dart';
 import 'package:sun_web_system/features/order_status_design/custom_widget/container_sold.dart';
-import 'package:sun_web_system/features/order_status_design/order_details_new_order_emp/sub/dialog_reject_order/dialog_reject_order.dart';
 
 class ButtonAcceptRejectOrder extends StatelessWidget {
   final OrderModel order;
@@ -39,7 +38,6 @@ class ButtonAcceptRejectOrder extends StatelessWidget {
 
         const SizedBox(width: 20),
 
-        /// Waiting appointment
         ContainerSold(
           text: AppLanguageKeys.waitingAppointment,
           backGroundColor: AppColors.yelloContainerLoadingColor,
@@ -61,13 +59,7 @@ class ButtonAcceptRejectOrder extends StatelessWidget {
           text: AppLanguageKeys.rejectRequest,
           backGroundColor: AppColors.redColor,
           onTap: () {
-            // showDialog(
-            //   context: context,
-            //   builder: (dialogContext) => BlocProvider.value(
-            //     value: context.read<OrderStatusCubit>(),
-            //     child: const DialogRejectOrder(),
-            //   ),
-            // );
+
             final request = UpdateOrderStatusRequest(
               orderId: order.id ?? 0,
               status: OrderStatus.rejectedByProvider,

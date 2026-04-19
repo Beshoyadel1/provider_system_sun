@@ -126,7 +126,7 @@ class _ServiceCardState extends State<ServiceCard> {
                   children: [
                     Flexible(
                       child: ContainerViewAllInFirstRowInDataContainerInListDataFirstScreenInternalOrders(
-                        text: AppLanguageKeys.edit,
+                        text: AppLanguageKeys.save,
                         onTap: () {
                           final taxCubit = context.read<GetTaxCubit>();
 
