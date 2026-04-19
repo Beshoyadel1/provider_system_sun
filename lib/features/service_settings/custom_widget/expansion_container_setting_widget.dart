@@ -5,8 +5,12 @@ import 'package:sun_web_system/core/api_functions/provider_management/create_pro
 import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:sun_web_system/core/pages_widgets/general_widgets/snakbar.dart';
 import 'package:sun_web_system/core/pages_widgets/text_form_field_widget.dart';
+import 'package:sun_web_system/features/service_settings/added_maintenance_and_internal_services_in_service_settings/screens/enter_name_laten_name_service.dart';
+import 'package:sun_web_system/features/service_settings/added_maintenance_and_internal_services_in_service_settings/screens/select_tax_page.dart';
 import 'package:sun_web_system/features/service_settings/logic/create_prov_service_cubit/create_prov_service_cubit.dart';
 import 'package:sun_web_system/features/service_settings/logic/create_prov_service_cubit/create_prov_service_state.dart';
+import 'package:sun_web_system/features/service_settings/logic/get_tax_cubit/get_tax_cubit.dart';
+import 'package:sun_web_system/features/service_settings/logic/get_tax_cubit/get_tax_state.dart';
 import '../../../../../features/internal_services/internal_orders/first_screen_internal_orders/screens/big_container_of_new_orders/Container_view_all_in_first_row_in_data_container_in_list_data_first_screen_internal_orders.dart';
 import '../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/logic/Details_container_setting_state.dart';
 import '../../../../../features/service_settings/logic/select_car_model_setting_cubit/select_car_model_setting_cubit.dart';
@@ -17,27 +21,7 @@ import '../../../../../core/theming/colors.dart';
 import '../../../../../core/theming/fonts.dart';
 import '../../../../../core/theming/text_styles.dart';
 import '../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/logic/Details_container_setting_cubit.dart';
-
-
-import 'dart:typed_data';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/core/api_functions/provider_management/create_prov_service_model/create_prov_service_request.dart';
-import 'package:sun_web_system/core/language/language_constant.dart';
-import 'package:sun_web_system/core/pages_widgets/general_widgets/snakbar.dart';
-import 'package:sun_web_system/core/pages_widgets/text_form_field_widget.dart';
-import 'package:sun_web_system/features/service_settings/logic/create_prov_service_cubit/create_prov_service_cubit.dart';
-import 'package:sun_web_system/features/service_settings/logic/create_prov_service_cubit/create_prov_service_state.dart';
-import '../../../../../features/internal_services/internal_orders/first_screen_internal_orders/screens/big_container_of_new_orders/Container_view_all_in_first_row_in_data_container_in_list_data_first_screen_internal_orders.dart';
-import '../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/logic/Details_container_setting_state.dart';
-import '../../../../../features/service_settings/logic/select_car_model_setting_cubit/select_car_model_setting_cubit.dart';
-import '../../../../../features/service_settings/logic/select_car_model_setting_cubit/select_car_model_setting_state.dart';
-import '../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/screens/animated_cross_fade_in_expansion_container_setting_widget.dart';
-import '../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/screens/container_open_close_tab_setting.dart';
-import '../../../../../core/theming/colors.dart';
-import '../../../../../core/theming/fonts.dart';
-import '../../../../../core/theming/text_styles.dart';
-import '../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/logic/Details_container_setting_cubit.dart';
+import '../../../core/language/language.dart';
 
 class ExpansionContainerSettingWidget extends StatefulWidget {
   final String? imagePath, text;
@@ -62,10 +46,8 @@ class ExpansionContainerSettingWidget extends StatefulWidget {
 class _ExpansionContainerSettingWidgetState
     extends State<ExpansionContainerSettingWidget> {
 
-  /// ✅ FORM KEY
   final _formKey = GlobalKey<FormState>();
 
-  /// ✅ CONTROLLERS
   late TextEditingController nameController;
   late TextEditingController latinNameController;
 
@@ -86,6 +68,9 @@ class _ExpansionContainerSettingWidgetState
         ),
         BlocProvider(
           create: (_) => DetailsContainerSettingCubit(),
+        ),
+        BlocProvider(
+          create: (_) => GetTaxCubit()..getTax(),
         ),
       ],
       child: Container(
@@ -151,54 +136,20 @@ class _ExpansionContainerSettingWidgetState
                       return const SizedBox();
 
                     return Column(
+                      spacing: 10,
                       children: [
 
                         Form(
                           key: _formKey,
-                          child: Row(
+                          child: Column(
+                            spacing: 10,
                             children: [
-                              Expanded(
-                                child: TextFormFieldWidget(
-                                  textFormController: nameController,
-                                  hintText: AppLanguageKeys.name,
-                                  fillColor: AppColors.transparent,
-                                  borderColor: AppColors.darkColor.withOpacity(0.2),
-                                  hintTextSize: 12,
-                                  hintTextColor: AppColors.orangeColor,
-                                  textSize: 15,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return AppLanguageKeys.enterYourData;
-                                    }
-                                    return null;
-                                  },
-                                ),
-                              ),
-                              const SizedBox(width: 5),
-                              Expanded(
-                                child: TextFormFieldWidget(
-                                  textFormController: latinNameController,
-                                  fillColor: AppColors.transparent,
-                                  borderColor: AppColors.darkColor.withOpacity(0.2),
-                                  hintTextSize: 12,
-                                  hintTextColor: AppColors.orangeColor,
-                                  textSize: 15,
-                                  hintText: AppLanguageKeys.latinName,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return AppLanguageKeys.enterYourData;
-                                    }
-                                    return null;
-                                  },
-                                ),
-                              ),
+                              EnterNameLatenNameService(nameController: nameController, latinNameController: latinNameController),
+                              const SelectTaxPage()
                             ],
                           ),
                         ),
 
-                        const SizedBox(height: 10),
-
-                        /// 🔹 BRANDS
                         Column(
                           spacing: 10,
                           children: List.generate(brands.length, (index) {
@@ -219,10 +170,15 @@ class _ExpansionContainerSettingWidgetState
                           }),
                         ),
 
-                        BlocListener<CreateProvServiceCubit,
-                            CreateProvServiceState>(
+                        BlocListener<CreateProvServiceCubit, CreateProvServiceState>(
                           listener: (context, state) {
                             if (state is CreateProvServiceSuccess) {
+                              context
+                                  .read<GetTaxCubit>()
+                                  .clearTax();
+
+                              nameController.clear();
+                              latinNameController.clear();
                               AppSnackBar.showSuccess(AppLanguageKeys.success);
                             }
 
@@ -270,10 +226,12 @@ class _ExpansionContainerSettingWidgetState
                                     AppLanguageKeys.enterYourData);
                                 return;
                               }
-
+                              final taxCubit =
+                              context.read<GetTaxCubit>();
                               cubit.createProvService(
                                 request: CreateProvServiceRequest(
-                                  taxid: 0,
+                                  taxid: taxCubit
+                                      .selectedTax!.taxId,
                                   name: nameController.text,
                                   latinname: latinNameController.text,
                                   brands: cubit.buildBrands(),

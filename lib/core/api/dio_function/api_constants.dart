@@ -114,7 +114,7 @@ class ApiLink {
   static const String addTax =
       "${ApiConfig.baseUrlApi}/${ApiConfig.tax}/AddTax";
   static const String getAvailableTaxs =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.tax}/getAvailableTaxs";
+      "${ApiConfig.baseUrlApi}/${ApiConfig.tax}/GetAvailableTaxs";
   static const String getPointInfo =
       "${ApiConfig.baseUrlApi}/${ApiConfig.points}/GetPointInfo";
   static const String createCarBrand =
