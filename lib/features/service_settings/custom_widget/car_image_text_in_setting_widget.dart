@@ -27,6 +27,31 @@ class CarImageTextInSettingWidget extends StatelessWidget {
     this.imageMemory,
   });
 
+  void _updateCubit(BuildContext context) {
+    final cubit = context.read<CreateProvServiceCubit>();
+
+    final priceText = priceController.text.trim();
+    final costText = costController.text.trim();
+
+    final price = priceText.isEmpty ? null : double.tryParse(priceText);
+    final cost = costText.isEmpty ? null : double.tryParse(costText);
+
+    if (price == null && cost == null) {
+      cubit.removeCarData(
+        brandId: brandId,
+        modelId: modelId,
+      );
+      return;
+    }
+
+    cubit.setCarData(
+      brandId: brandId,
+      modelId: modelId,
+      price: price,
+      cost: cost,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -44,61 +69,51 @@ class CarImageTextInSettingWidget extends StatelessWidget {
           ],
         ),
         const SizedBox(width: 8),
+
         Expanded(
           child: Row(
             spacing: 10,
             children: [
+
+              /// 🔵 PRICE
               Expanded(
                 child: TextFormFieldWidget(
                   hintText: AppLanguageKeys.price,
                   textFormController: priceController,
                   fillColor: AppColors.transparent,
-                  borderColor: AppColors.darkColor.withOpacity(0.2),
+                  borderColor:
+                  AppColors.darkColor.withOpacity(0.2),
                   hintTextSize: 12,
                   hintTextColor: AppColors.orangeColor,
                   textSize: 15,
                   isDigit: true,
-                  onChanged: (_) {
-                    context.read<CreateProvServiceCubit>().setCarData(
-                          brandId: brandId,
-                          modelId: modelId,
-                          price: double.tryParse(priceController.text) ?? 0,
-                          cost: double.tryParse(costController.text) ?? 0,
-                        );
-                  },
+                  onChanged: (_) => _updateCubit(context),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return AppLanguageKeys.enterYourData;
                     }
-
                     return null;
                   },
                 ),
               ),
 
+              /// 🔵 COST
               Expanded(
                 child: TextFormFieldWidget(
                   hintText: AppLanguageKeys.cost,
                   textFormController: costController,
                   fillColor: AppColors.transparent,
-                  borderColor: AppColors.darkColor.withOpacity(0.2),
+                  borderColor:
+                  AppColors.darkColor.withOpacity(0.2),
                   hintTextSize: 12,
                   hintTextColor: AppColors.orangeColor,
                   textSize: 15,
                   isDigit: true,
-                  onChanged: (_) {
-                    context.read<CreateProvServiceCubit>().setCarData(
-                          brandId: brandId,
-                          modelId: modelId,
-                          price: double.tryParse(priceController.text) ?? 0,
-                          cost: double.tryParse(costController.text) ?? 0,
-                        );
-                  },
+                  onChanged: (_) => _updateCubit(context),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return AppLanguageKeys.enterYourData;
                     }
-
                     return null;
                   },
                 ),
@@ -123,6 +138,7 @@ class CarImageTextInSettingWidget extends StatelessWidget {
       );
     }
 
-    return const Icon(Icons.directions_car, size: 28, color: Colors.grey);
+    return const Icon(Icons.directions_car,
+        size: 28, color: Colors.grey);
   }
 }

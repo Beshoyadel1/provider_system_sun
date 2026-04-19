@@ -31,6 +31,10 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
 
   int? serviceId;
 
+  void removeBrandData(int brandId) {
+    brandsData.remove(brandId);
+    emit(CreateProvServiceInitial());
+  }
   void setService({required int id}) {
     serviceId = id;
   }
@@ -40,35 +44,57 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
     required int brandId,
     required int option,
   }) {
+    if (option == -1) {
+      brandSelection.remove(brandId);
+      brandsData.remove(brandId);
+
+      /// 🧹 امسح كل الـ cars الخاصة بالبراند
+      cars.removeWhere((e) => e.carbrandid == brandId);
+
+      emit(CreateProvServiceInitial());
+      return;
+    }
+
     brandSelection[brandId] = option;
-    brandsData[brandId] = BrandModelCreateProvServiceRequest(
-      id: brandId,
-      isuniformprice: false,
-    );
+
+    if (option == 1) {
+      brandsData.remove(brandId);
+    }
+
+    if (option == 0) {
+      cars.removeWhere((e) => e.carbrandid == brandId);
+    }
 
     emit(CreateProvServiceInitial());
   }
 
   void setUnifiedPrice({
     required int brandId,
-    required double price,
-    required double cost,
+    double? price,
+    double? cost,
   }) {
+    if (price == null && cost == null) {
+      brandsData.remove(brandId);
+      emit(CreateProvServiceInitial());
+      return;
+    }
+
     brandsData[brandId] = BrandModelCreateProvServiceRequest(
       id: brandId,
       uniformprice: price,
-      isuniformprice: true,
       cost: cost,
+      isuniformprice: true,
     );
 
     emit(CreateProvServiceInitial());
   }
 
+
   void setCarData({
     required int brandId,
     required int modelId,
-    required double price,
-    required double cost,
+    double? price,
+    double? cost,
   }) {
     cars.removeWhere((e) =>
     e.carbrandid == brandId && e.carmodelid == modelId);
@@ -82,6 +108,16 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
         cost: cost,
       ),
     );
+  }
+
+  void removeCarData({
+    required int brandId,
+    required int modelId,
+  }) {
+    cars.removeWhere((e) =>
+    e.carbrandid == brandId && e.carmodelid == modelId);
+
+    emit(CreateProvServiceInitial());
   }
 
   List<BrandModelCreateProvServiceRequest> buildBrands() {
@@ -105,8 +141,8 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
         serviceid: serviceId!,
         provid: user?.userid ?? 5,
         taxid: request.taxid,
-        name: "",
-        latinname: "",
+        name: request.name,
+        latinname: request.latinname,
         brands: request.brands,
         cars: request.cars,
       );

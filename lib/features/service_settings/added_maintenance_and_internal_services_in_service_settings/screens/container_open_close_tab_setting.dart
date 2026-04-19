@@ -30,10 +30,7 @@ class ContainerOpenCloseTabSetting extends StatelessWidget {
             ),
             child: IconButton(
               onPressed: () {
-                /// ✅ 1. toggle
                 context.read<DetailsContainerSettingCubit>().toggle();
-
-                /// ✅ 2. select service
                 if (onTap != null) onTap!();
               },
               icon: Icon(

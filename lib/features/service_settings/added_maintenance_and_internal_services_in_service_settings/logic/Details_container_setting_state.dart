@@ -1,3 +1,5 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 class DetailsContainerSettingState {
   final bool isExpanded;
   final int? selectedOption;

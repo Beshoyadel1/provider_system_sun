@@ -67,24 +67,53 @@ class _DataViewOfPricePerCategoryState
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<SelectCarModelSettingCubit>();
-    final models = cubit.getModelsForBrand(widget.brandId);
+    final cubit = context.watch<CreateProvServiceCubit>(); // 👈 مهم watch
+
+    final selected = cubit.brandSelection[widget.brandId];
+
+    final models = context
+        .read<SelectCarModelSettingCubit>()
+        .getModelsForBrand(widget.brandId);
+
+    if (selected != 1) {
+      for (var c in priceControllers.values) {
+        c.clear();
+      }
+      for (var c in costControllers.values) {
+        c.clear();
+      }
+    }
 
     return Column(
       spacing: 10,
-      children: List.generate(models.length, (index) {
-        final model = models[index];
+      children: models.map((model) {
         final modelId = model.id ?? 0;
 
-        priceControllers.putIfAbsent(
-          modelId,
-              () => TextEditingController(),
-        );
+        priceControllers.putIfAbsent(modelId, () {
+          final existing = cubit.cars.firstWhere(
+                (e) =>
+            e.carbrandid == widget.brandId &&
+                e.carmodelid == modelId,
+            orElse: () => CarModelCreateProvServiceRequest(),
+          );
 
-        costControllers.putIfAbsent(
-          modelId,
-              () => TextEditingController(),
-        );
+          return TextEditingController(
+            text: existing.price?.toString() ?? '',
+          );
+        });
+
+        costControllers.putIfAbsent(modelId, () {
+          final existing = cubit.cars.firstWhere(
+                (e) =>
+            e.carbrandid == widget.brandId &&
+                e.carmodelid == modelId,
+            orElse: () => CarModelCreateProvServiceRequest(),
+          );
+
+          return TextEditingController(
+            text: existing.cost?.toString() ?? '',
+          );
+        });
 
         return CarImageTextInSettingWidget(
           text: model.name ?? '',
@@ -94,7 +123,7 @@ class _DataViewOfPricePerCategoryState
           priceController: priceControllers[modelId]!,
           costController: costControllers[modelId]!,
         );
-      }),
+      }).toList(),
     );
   }
 }

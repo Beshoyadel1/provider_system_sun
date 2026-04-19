@@ -28,8 +28,33 @@ class _DataViewOfUnifiedPriceForAllState
   @override
   void initState() {
     super.initState();
-    priceController = TextEditingController();
-    costController = TextEditingController();
+
+    final cubit = context.read<CreateProvServiceCubit>();
+    final existing = cubit.brandsData[widget.brandId];
+
+    priceController = TextEditingController(
+      text: existing?.uniformprice?.toString() ?? '',
+    );
+
+    costController = TextEditingController(
+      text: existing?.cost?.toString() ?? '',
+    );
+  }
+
+  void _updateCubit() {
+    final cubit = context.read<CreateProvServiceCubit>();
+
+    final priceText = priceController.text.trim();
+    final costText = costController.text.trim();
+
+    final price = double.tryParse(priceText);
+    final cost = double.tryParse(costText);
+
+    cubit.setUnifiedPrice(
+      brandId: widget.brandId,
+      price: price,
+      cost: cost,
+    );
   }
 
   @override
@@ -48,26 +73,22 @@ class _DataViewOfUnifiedPriceForAllState
               hintTextColor: AppColors.orangeColor,
               textSize: 15,
               isDigit: true,
+
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return AppLanguageKeys.enterYourData;
                 }
-
                 return null;
               },
-              onChanged: (_) {
-                context.read<CreateProvServiceCubit>().setUnifiedPrice(
-                  brandId: widget.brandId,
-                  price: double.tryParse(priceController.text) ?? 0,
-                  cost: double.tryParse(costController.text) ?? 0,
-                );
-              },
+
+              onChanged: (_) => _updateCubit(),
             ),
           ),
+
           const SizedBox(width: 10),
+
           Expanded(
             child: TextFormFieldWidget(
-
               textFormController: costController,
               hintText: AppLanguageKeys.cost,
               fillColor: AppColors.transparent,
@@ -76,20 +97,15 @@ class _DataViewOfUnifiedPriceForAllState
               hintTextColor: AppColors.orangeColor,
               textSize: 15,
               isDigit: true,
+
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return AppLanguageKeys.enterYourData;
                 }
-
                 return null;
               },
-              onChanged: (_) {
-                context.read<CreateProvServiceCubit>().setUnifiedPrice(
-                  brandId: widget.brandId,
-                  price: double.tryParse(priceController.text) ?? 0,
-                  cost: double.tryParse(costController.text) ?? 0,
-                );
-              },
+
+              onChanged: (_) => _updateCubit(),
             ),
           ),
         ],

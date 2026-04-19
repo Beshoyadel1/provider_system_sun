@@ -27,6 +27,11 @@ class RowRadioListTileSetting extends StatelessWidget {
           value: 1,
           brandId: brandId,
         ),
+        CustomWidgetRadioListTile(
+          text: AppLanguageKeys.restAll,
+          value: -1,
+          brandId: brandId,
+        ),
       ],
     );
   }

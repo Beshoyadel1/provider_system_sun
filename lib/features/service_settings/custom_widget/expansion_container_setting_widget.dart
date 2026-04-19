@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/api_functions/provider_management/create_prov_service_model/create_prov_service_request.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:sun_web_system/core/pages_widgets/general_widgets/snakbar.dart';
+import 'package:sun_web_system/core/pages_widgets/text_form_field_widget.dart';
 import 'package:sun_web_system/features/service_settings/logic/create_prov_service_cubit/create_prov_service_cubit.dart';
 import 'package:sun_web_system/features/service_settings/logic/create_prov_service_cubit/create_prov_service_state.dart';
 import '../../../../../features/internal_services/internal_orders/first_screen_internal_orders/screens/big_container_of_new_orders/Container_view_all_in_first_row_in_data_container_in_list_data_first_screen_internal_orders.dart';
@@ -18,7 +19,27 @@ import '../../../../../core/theming/text_styles.dart';
 import '../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/logic/Details_container_setting_cubit.dart';
 
 
-class ExpansionContainerSettingWidget extends StatelessWidget {
+import 'dart:typed_data';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/core/api_functions/provider_management/create_prov_service_model/create_prov_service_request.dart';
+import 'package:sun_web_system/core/language/language_constant.dart';
+import 'package:sun_web_system/core/pages_widgets/general_widgets/snakbar.dart';
+import 'package:sun_web_system/core/pages_widgets/text_form_field_widget.dart';
+import 'package:sun_web_system/features/service_settings/logic/create_prov_service_cubit/create_prov_service_cubit.dart';
+import 'package:sun_web_system/features/service_settings/logic/create_prov_service_cubit/create_prov_service_state.dart';
+import '../../../../../features/internal_services/internal_orders/first_screen_internal_orders/screens/big_container_of_new_orders/Container_view_all_in_first_row_in_data_container_in_list_data_first_screen_internal_orders.dart';
+import '../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/logic/Details_container_setting_state.dart';
+import '../../../../../features/service_settings/logic/select_car_model_setting_cubit/select_car_model_setting_cubit.dart';
+import '../../../../../features/service_settings/logic/select_car_model_setting_cubit/select_car_model_setting_state.dart';
+import '../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/screens/animated_cross_fade_in_expansion_container_setting_widget.dart';
+import '../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/screens/container_open_close_tab_setting.dart';
+import '../../../../../core/theming/colors.dart';
+import '../../../../../core/theming/fonts.dart';
+import '../../../../../core/theming/text_styles.dart';
+import '../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/logic/Details_container_setting_cubit.dart';
+
+class ExpansionContainerSettingWidget extends StatefulWidget {
   final String? imagePath, text;
   final bool? isDoneTask;
   final Uint8List? imageMemory;
@@ -32,6 +53,28 @@ class ExpansionContainerSettingWidget extends StatelessWidget {
     this.isDoneTask = false,
     this.onTap,
   });
+
+  @override
+  State<ExpansionContainerSettingWidget> createState() =>
+      _ExpansionContainerSettingWidgetState();
+}
+
+class _ExpansionContainerSettingWidgetState
+    extends State<ExpansionContainerSettingWidget> {
+
+  /// ✅ FORM KEY
+  final _formKey = GlobalKey<FormState>();
+
+  /// ✅ CONTROLLERS
+  late TextEditingController nameController;
+  late TextEditingController latinNameController;
+
+  @override
+  void initState() {
+    super.initState();
+    nameController = TextEditingController();
+    latinNameController = TextEditingController();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +96,8 @@ class ExpansionContainerSettingWidget extends StatelessWidget {
           border: Border.all(color: Colors.grey.withOpacity(0.3)),
         ),
         child: Column(
-          spacing: 10,
           children: [
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -62,14 +105,14 @@ class ExpansionContainerSettingWidget extends StatelessWidget {
                   child: Row(
                     children: [
                       Flexible(
-                        child: (imageMemory == null ||
-                            imageMemory!.isEmpty)
-                            ? Image.asset(imagePath ?? '')
-                            : Image.memory(imageMemory!,width: 50,),
+                        child: (widget.imageMemory == null ||
+                            widget.imageMemory!.isEmpty)
+                            ? Image.asset(widget.imagePath ?? '')
+                            : Image.memory(widget.imageMemory!, width: 50),
                       ),
                       const SizedBox(width: 5),
                       TextInAppWidget(
-                        text: text ?? '',
+                        text: widget.text ?? '',
                         textSize: 13,
                         fontWeightIndex:
                         FontSelectionData.mediumFontFamily,
@@ -79,11 +122,13 @@ class ExpansionContainerSettingWidget extends StatelessWidget {
                   ),
                 ),
                 ContainerOpenCloseTabSetting(
-                  isDoneTask: isDoneTask,
-                  onTap:onTap,
+                  isDoneTask: widget.isDoneTask,
+                  onTap: widget.onTap,
                 )
               ],
             ),
+
+            const SizedBox(height: 10),
 
             BlocBuilder<SelectCarModelSettingCubit,
                 SelectCarModelSettingState>(
@@ -106,11 +151,57 @@ class ExpansionContainerSettingWidget extends StatelessWidget {
                       return const SizedBox();
 
                     return Column(
-                      spacing: 10,
                       children: [
+
+                        Form(
+                          key: _formKey,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: TextFormFieldWidget(
+                                  textFormController: nameController,
+                                  hintText: AppLanguageKeys.name,
+                                  fillColor: AppColors.transparent,
+                                  borderColor: AppColors.darkColor.withOpacity(0.2),
+                                  hintTextSize: 12,
+                                  hintTextColor: AppColors.orangeColor,
+                                  textSize: 15,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return AppLanguageKeys.enterYourData;
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
+                              const SizedBox(width: 5),
+                              Expanded(
+                                child: TextFormFieldWidget(
+                                  textFormController: latinNameController,
+                                  fillColor: AppColors.transparent,
+                                  borderColor: AppColors.darkColor.withOpacity(0.2),
+                                  hintTextSize: 12,
+                                  hintTextColor: AppColors.orangeColor,
+                                  textSize: 15,
+                                  hintText: AppLanguageKeys.latinName,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return AppLanguageKeys.enterYourData;
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        const SizedBox(height: 10),
+
+                        /// 🔹 BRANDS
                         Column(
-                          children:
-                          List.generate(brands.length, (index) {
+                          spacing: 10,
+                          children: List.generate(brands.length, (index) {
                             final brand = brands[index];
 
                             return BlocProvider(
@@ -122,12 +213,14 @@ class ExpansionContainerSettingWidget extends StatelessWidget {
                                 index: index,
                                 image: brand.image,
                                 text: brand.getName(context),
-                                brandId: brand.id??0,
+                                brandId: brand.id ?? 0,
                               ),
                             );
                           }),
                         ),
-                        BlocListener<CreateProvServiceCubit, CreateProvServiceState>(
+
+                        BlocListener<CreateProvServiceCubit,
+                            CreateProvServiceState>(
                           listener: (context, state) {
                             if (state is CreateProvServiceSuccess) {
                               AppSnackBar.showSuccess(AppLanguageKeys.success);
@@ -137,43 +230,59 @@ class ExpansionContainerSettingWidget extends StatelessWidget {
                               AppSnackBar.showError(state.error);
                             }
                           },
-                          child: ContainerViewAllInFirstRowInDataContainerInListDataFirstScreenInternalOrders(
-                              onTap: () {
-                                final cubit = context.read<CreateProvServiceCubit>();
-                                if (cubit.brandSelection.isEmpty) {
-                                  AppSnackBar.showError(AppLanguageKeys.selectPricingTypeFirst);
-                                  return;
-                                }
+                          child:
+                          ContainerViewAllInFirstRowInDataContainerInListDataFirstScreenInternalOrders(
+                            onTap: () {
+                              final cubit =
+                              context.read<CreateProvServiceCubit>();
 
-                                bool isValid = true;
+                              if (!(_formKey.currentState?.validate() ??
+                                  false)) {
+                                AppSnackBar.showError(
+                                    AppLanguageKeys.enterYourData);
+                                return;
+                              }
 
-                                for (var entry in cubit.brandSelection.entries) {
-                                  final brandId = entry.key;
+                              if (cubit.brandSelection.isEmpty) {
+                                AppSnackBar.showError(
+                                    AppLanguageKeys.selectPricingTypeFirst);
+                                return;
+                              }
 
-                                  final formKey = cubit.formKeys[brandId];
+                              bool isValid = true;
 
-                                  if (formKey != null) {
-                                    final valid = formKey.currentState?.validate() ?? false;
+                              for (var entry
+                              in cubit.brandSelection.entries) {
+                                final formKey =
+                                cubit.formKeys[entry.key];
 
-                                    if (!valid) isValid = false;
+                                if (formKey != null) {
+                                  if (!(formKey.currentState
+                                      ?.validate() ??
+                                      false)) {
+                                    isValid = false;
                                   }
                                 }
-
-                                if (!isValid) {
-                                  AppSnackBar.showError(AppLanguageKeys.enterYourData);
-                                  return;
-                                }
-
-                                cubit.createProvService(
-                                  request: CreateProvServiceRequest(
-                                    taxid: 0,
-                                    brands: cubit.buildBrands(),
-                                    cars: cubit.cars,
-                                    name: "",
-                                    latinname: "",
-                                  ),
-                                );
                               }
+
+                              if (!isValid) {
+                                AppSnackBar.showError(
+                                    AppLanguageKeys.enterYourData);
+                                return;
+                              }
+
+                              cubit.createProvService(
+                                request: CreateProvServiceRequest(
+                                  taxid: 0,
+                                  name: nameController.text,
+                                  latinname: latinNameController.text,
+                                  brands: cubit.buildBrands(),
+                                  cars: cubit.cars,
+                                ),
+                              );
+                              nameController.clear();
+                              latinNameController.clear();
+                            },
                           ),
                         ),
                       ],
