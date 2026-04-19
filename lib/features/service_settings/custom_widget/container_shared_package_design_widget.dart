@@ -26,6 +26,7 @@ class ContainerSharedPackageDesignWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 220,
+      height: 260,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
@@ -41,7 +42,7 @@ class ContainerSharedPackageDesignWidget extends StatelessWidget {
       ),
       child: Column(
         spacing: 20,
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: MainAxisSize.max,
 
         children: [
           Row(
@@ -66,13 +67,17 @@ class ContainerSharedPackageDesignWidget extends StatelessWidget {
             imageSrc: AppImageKeys.coin,
           ),
 
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 5,
-            children: items.map((e) {
-              return RowTextCorrect(text: e);
-            }).toList(),
-          )
+          Expanded(
+            child: ListView.builder(
+              itemCount: items.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 5),
+                  child: RowTextCorrect(text: items[index]),
+                );
+              },
+            ),
+          ),
         ],
       ),
     );

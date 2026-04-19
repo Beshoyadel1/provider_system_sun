@@ -8,8 +8,9 @@ class GetTaxLoading extends GetTaxState {}
 
 class GetTaxSuccess extends GetTaxState {
   final List<GetTaxModel> taxes;
+  final GetTaxModel? selectedTax;
 
-  GetTaxSuccess(this.taxes);
+  GetTaxSuccess(this.taxes, {this.selectedTax});
 }
 
 class GetTaxError extends GetTaxState {

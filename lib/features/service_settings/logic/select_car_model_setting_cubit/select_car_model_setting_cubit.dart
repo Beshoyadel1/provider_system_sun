@@ -117,6 +117,7 @@ class SelectCarModelSettingCubit
     if (brandId == null) return [];
     return _modelsCache[brandId] ?? [];
   }
+
   Future<void> fetchBrands() async {
     emit(state.copyWith(
       isLoadingBrands: true,

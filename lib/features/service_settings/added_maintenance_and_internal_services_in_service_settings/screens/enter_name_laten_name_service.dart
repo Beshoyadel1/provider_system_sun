@@ -14,7 +14,7 @@ class EnterNameLatenNameService extends StatelessWidget {
         Expanded(
           child: TextFormFieldWidget(
             textFormController: nameController,
-            hintText: AppLanguageKeys.name,
+            hintText: AppLanguageKeys.serviceNameAr,
             fillColor: AppColors.transparent,
             borderColor: AppColors.darkColor.withOpacity(0.2),
             hintTextSize: 12,
@@ -37,7 +37,7 @@ class EnterNameLatenNameService extends StatelessWidget {
             hintTextSize: 12,
             hintTextColor: AppColors.orangeColor,
             textSize: 15,
-            hintText: AppLanguageKeys.latinName,
+            hintText: AppLanguageKeys.serviceNameEn,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return AppLanguageKeys.enterYourData;

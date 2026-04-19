@@ -39,7 +39,6 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
     serviceId = id;
   }
 
-  /// 🔘 radio
   void setBrandSelection({
     required int brandId,
     required int option,
@@ -48,7 +47,6 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
       brandSelection.remove(brandId);
       brandsData.remove(brandId);
 
-      /// 🧹 امسح كل الـ cars الخاصة بالبراند
       cars.removeWhere((e) => e.carbrandid == brandId);
 
       emit(CreateProvServiceInitial());
@@ -59,6 +57,10 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
 
     if (option == 1) {
       brandsData.remove(brandId);
+      brandsData[brandId] = BrandModelCreateProvServiceRequest(
+        id: brandId,
+        isuniformprice: false,
+      );
     }
 
     if (option == 0) {
@@ -165,5 +167,44 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
     } catch (e) {
       emit(CreateProvServiceError(e.toString()));
     }
+  }
+  void initFromApi(Map<String, dynamic> data) {
+    brandsData.clear();
+    cars.clear();
+    brandSelection.clear();
+
+    /// 🔥 brands
+    for (var b in data["brands"]) {
+      final brandId = b["brandId"]; // 👈 نستخدم brand الحقيقي
+
+      brandsData[brandId] = BrandModelCreateProvServiceRequest(
+        id: b["id"], // 👈 provServiceBrand.id
+        uniformprice: b["uniformprice"],
+        cost: b["cost"],
+        isuniformprice: b["isuniformprice"],
+      );
+
+      /// تحديد نوع السعر
+      if (b["isuniformprice"] == true) {
+        brandSelection[brandId] = 0;
+      } else {
+        brandSelection[brandId] = 1;
+      }
+    }
+
+    /// 🔥 cars
+    for (var c in data["cars"]) {
+      cars.add(
+        CarModelCreateProvServiceRequest(
+          id: c["id"],
+          carbrandid: c["carbrandid"],
+          carmodelid: c["carmodelid"],
+          price: c["price"],
+          cost: c["cost"],
+        ),
+      );
+    }
+
+    emit(CreateProvServiceInitial());
   }
 }

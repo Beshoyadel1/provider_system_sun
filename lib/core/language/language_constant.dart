@@ -19,6 +19,8 @@ class AppLanguageKeys {
   //end//
 
   //others//
+  static const String serviceNameAr = 'serviceNameAr';
+  static const String serviceNameEn = 'serviceNameEn';
   static const String restAll = 'restAll';
   static const String selectPricingTypeFirst = "selectPricingTypeFirst";
   static const String cost = 'cost';

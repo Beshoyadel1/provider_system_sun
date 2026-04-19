@@ -46,6 +46,7 @@ class DataContainerInListDataCarSparePartsInServiceSettings
                       padding: const EdgeInsets.only(bottom: 15),
                       child: ExpansionContainerSettingWidget(
                         imageMemory: service.image,
+                        serviceId: service.id!,
                         text: ServiceSettingsHelper.getServiceName(
                           service: service,
                           isArabic: isArabic,

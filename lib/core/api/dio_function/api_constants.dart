@@ -227,6 +227,8 @@ class ApiLink {
       "${ApiConfig.baseUrlApi}/${ApiConfig.providerServicePackage}/DeleteServicePackage";
   static const String getBranchEmployees =
       "${ApiConfig.baseUrlApi}/${ApiConfig.branch}/GetBranchEmployees";
+  static const String getProvServices =
+      "${ApiConfig.baseUrlApi}/${ApiConfig.provService}/GetProvServices";
   static const String getExpectedPetrolSpend =
       "${ApiConfig.baseUrlApi}/${ApiConfig.expectedPetrolSpend}/GetExpectedPetrolSpend";
   static const String getProviderBranches =

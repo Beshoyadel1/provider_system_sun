@@ -26,13 +26,18 @@ class GetTaxCubit extends Cubit<GetTaxState> {
       emit(GetTaxError(errorMessage));
     }
   }
-
   void selectTax(GetTaxModel tax) {
     selectedTax = tax;
-    emit(GetTaxSuccess(taxes)); // refresh UI
+    emit(GetTaxSuccess(taxes, selectedTax: selectedTax));
+  }
+  void selectTaxById(int id) {
+    try {
+      selectedTax = taxes.firstWhere((e) => e.taxId == id);
+      emit(GetTaxSuccess(taxes, selectedTax: selectedTax));
+    } catch (_) {}
   }
   void clearTax() {
     selectedTax = null;
-    emit(GetTaxSuccess(taxes)); // refresh UI
+    emit(GetTaxSuccess(taxes));
   }
 }

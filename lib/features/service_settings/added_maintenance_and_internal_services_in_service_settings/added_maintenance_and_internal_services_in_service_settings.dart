@@ -22,12 +22,12 @@ class AddedMaintenanceAndInternalServicesInServiceSettings
         backgroundColor: AppColors.scaffoldColor,
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(20),
+            padding:  EdgeInsets.all(20),
             child: Column(
               children: [
                 Expanded(
                   child: SingleChildScrollView(
-                      child: const ListDataAddedMaintenanceAndInternalServicesInServiceSettings()),
+                      child:  ListDataAddedMaintenanceAndInternalServicesInServiceSettings()),
                 ),
               ],
             ),

@@ -31,6 +31,8 @@ class AppLocalizations {
       //END//
 
       //others//
+      AppLanguageKeys.serviceNameAr: 'اسم الخدمة (عربي)',
+      AppLanguageKeys.serviceNameEn: 'اسم الخدمة (إنجليزي)',
       AppLanguageKeys.restAll: 'إعادة تعيين الكل',
       AppLanguageKeys.selectPricingTypeFirst : "اختار نوع التسعير الأول",
       AppLanguageKeys.cost: 'التكلفة',
@@ -1235,6 +1237,8 @@ class AppLocalizations {
     },
     'en': {
       //status//
+      AppLanguageKeys.serviceNameAr: 'Service Name (Arabic)',
+      AppLanguageKeys.serviceNameEn: 'Service Name (English)',
       AppLanguageKeys.notSold: 'Not Sold',
       AppLanguageKeys.sold: 'Sold',
       AppLanguageKeys.newCar: 'New',

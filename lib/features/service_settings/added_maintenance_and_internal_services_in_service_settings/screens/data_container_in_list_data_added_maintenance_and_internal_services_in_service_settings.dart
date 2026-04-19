@@ -19,7 +19,6 @@ class DataContainerInListDataAddedMaintenanceAndInternalServicesInServiceSetting
 
   @override
   Widget build(BuildContext context) {
-    final isArabic = AppCubit.get(context).isAllAppLanguageArabic;
 
     return  Padding(
       padding:  const EdgeInsets.all(15.0),
@@ -52,6 +51,7 @@ class DataContainerInListDataAddedMaintenanceAndInternalServicesInServiceSetting
                       child: ExpansionContainerSettingWidget(
                         imageMemory: service.image,
                         text: service.getName(context),
+                        serviceId: service.id!,
                         isDoneTask: true,
                         onTap: (){
                           context.read<CreateProvServiceCubit>().setService(

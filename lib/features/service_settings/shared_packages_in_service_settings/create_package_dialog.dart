@@ -88,7 +88,6 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
         contentPadding:
         const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
 
-        /// 🔹 TITLE
         title: Column(
           children: [
             TextInAppWidget(
