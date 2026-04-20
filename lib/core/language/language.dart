@@ -31,6 +31,8 @@ class AppLocalizations {
       //END//
 
       //others//
+      AppLanguageKeys.oldService: 'خدمة سابقة',
+      AppLanguageKeys.createService: 'إنشاء خدمة',
       AppLanguageKeys.serviceNameAr: 'اسم الخدمة (عربي)',
       AppLanguageKeys.serviceNameEn: 'اسم الخدمة (إنجليزي)',
       AppLanguageKeys.restAll: 'إعادة تعيين الكل',
@@ -1254,6 +1256,8 @@ class AppLocalizations {
       AppLanguageKeys.cancelledByUser: 'Cancelled by User',
       //END//
       //others//
+      AppLanguageKeys.oldService: 'Old Service',
+      AppLanguageKeys.createService: 'Create Service',
       AppLanguageKeys.restAll: 'Reset All',
       AppLanguageKeys.selectPricingTypeFirst : "Please select the pricing type first",
       AppLanguageKeys.cost: 'Cost',

@@ -218,7 +218,8 @@ class _PhoneTextFieldState extends State<PhoneTextField> {
             ),
 
             onChanged: (phone) {
-              widget.controller.text = phone.completeNumber;
+
+              widget.controller.text = removePlusFromPhone(phone.completeNumber);
             },
           ),
 
@@ -226,6 +227,13 @@ class _PhoneTextFieldState extends State<PhoneTextField> {
         )
       ],
     );
+  }
+  String removePlusFromPhone(String phone) {
+    if (phone.startsWith('+')) {
+      return phone.substring(1);
+    } else {
+      return phone;
+    }
   }
 
   Map<String, String> parsePhoneNumber(String phone) {

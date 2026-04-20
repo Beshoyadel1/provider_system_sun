@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/core/cubit/new_orders_cubit/new_orders_cubit.dart';
-import 'package:sun_web_system/core/language/language_constant.dart';
-import 'package:sun_web_system/core/pages_widgets/general_widgets/custom_container.dart';
-import 'package:sun_web_system/core/theming/colors.dart';
-import 'package:sun_web_system/core/theming/text_styles.dart';
-import 'package:sun_web_system/features/cars_haraj_page/model/filter_orders_model/filter_orders_model.dart';
-import 'package:sun_web_system/features/internal_services/internal_orders/first_screen_internal_orders/logic/tabs_cubit/tabs_cubit.dart';
-import 'package:sun_web_system/features/petroleum_service/all_orders_are_filled_petroleum_filling_requests/screens/widgets/filters_tabs_widget_petroleum_service_all_orders.dart';
-import 'package:sun_web_system/features/spare_parts/spare_parts_statistics/spare_parts_page/widgets/filters_tabs_widget_spare_parts_statistics.dart';
+import '../../../../../core/api/dio_function/api_constants.dart';
+import '../../../../../features/cars_haraj_page/model/internal_orders_filter/internal_orders_filter.dart';
+import '../../../../../features/internal_services/internal_orders/first_screen_internal_orders/logic/get_provider_internal_order/get_provider_internal_order_state.dart';
+import '../../../../../core/cubit/new_orders_cubit/new_orders_cubit.dart';
+import '../../../../../core/language/language_constant.dart';
+import '../../../../../core/pages_widgets/general_widgets/custom_container.dart';
+import '../../../../../core/theming/colors.dart';
+import '../../../../../core/theming/text_styles.dart';
+import '../../../../../features/cars_haraj_page/model/filter_orders_model/filter_orders_model.dart';
+import '../../../../../features/internal_services/internal_orders/first_screen_internal_orders/logic/tabs_cubit/tabs_cubit.dart';
+import '../../../../../features/petroleum_service/all_orders_are_filled_petroleum_filling_requests/screens/widgets/filters_tabs_widget_petroleum_service_all_orders.dart';
 
 class OrdersPagePetroleumServiceAllOrders extends StatelessWidget {
   const OrdersPagePetroleumServiceAllOrders({super.key, required this.cubit});
@@ -48,8 +50,17 @@ class OrdersPagePetroleumServiceAllOrders extends StatelessWidget {
               ],
             ),
             Expanded(
-                child: BlocProvider(
-              create: (_) => TabsCubit(),
+                child: MultiBlocProvider(
+                  providers: [
+                    BlocProvider(create: (_) => TabsCubit()),
+                    BlocProvider(
+                      create: (_) => GetProviderInternalOrderCubit()
+                        ..loadInternalOrders(
+                          serviceId: MainCategoryConstants.petrolMainID,
+                          orderType: mapOrderType(0),
+                        ),
+                    ),
+                  ],
               child: FiltersTabsWidgetPetroleumServiceAllOrders(
                 filterOptions: filterOrders,
               ),

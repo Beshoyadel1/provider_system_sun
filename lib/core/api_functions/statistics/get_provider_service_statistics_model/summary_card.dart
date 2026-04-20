@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:sun_web_system/core/language/language_cubit/language_cubit.dart';
+import '../../../../core/language/language_cubit/language_cubit.dart';
 
 class SummaryCard {
   final String? serviceName;

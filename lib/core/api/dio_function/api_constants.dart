@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:sun_web_system/core/theming/colors.dart';
+import '../../../../core/theming/colors.dart';
 
 class ApiConfig {
   static const String baseUrlApi = "http://89.117.62.174:809";

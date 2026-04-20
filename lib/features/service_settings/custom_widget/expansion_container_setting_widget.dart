@@ -102,7 +102,7 @@ class _ExpansionContainerSettingWidgetState
         ),
         child: Column(
           children: [
-             ProvServiceBrandsListView(serviceId: widget.serviceId),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -158,7 +158,16 @@ class _ExpansionContainerSettingWidgetState
                     return Column(
                       spacing: 10,
                       children: [
-
+                        ProvServiceBrandsListView(serviceId: widget.serviceId),
+                        const Row(
+                          children: [
+                            TextInAppWidget(
+                              text: AppLanguageKeys.createService,
+                              textSize: 15,
+                              fontWeightIndex: FontSelectionData.boldFontFamily,
+                            ),
+                          ],
+                        ),
                         Form(
                           key: _formKey,
                           child: Column(
@@ -194,11 +203,9 @@ class _ExpansionContainerSettingWidgetState
                           listener: (context, state) {
                             if (state is CreateProvServiceSuccess) {
 
-                              /// 🔥 refresh list
                               context.read<ProvServicesCubit>()
                                   .getProvServices(serviceId: widget.serviceId);
 
-                              /// 🔥 clear UI
                               nameController.clear();
                               latinNameController.clear();
 

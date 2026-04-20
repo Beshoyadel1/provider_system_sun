@@ -14,125 +14,83 @@ class SelectTaxPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  BlocBuilder<GetTaxCubit, GetTaxState>(
+    return BlocBuilder<GetTaxCubit, GetTaxState>(
       builder: (context, state) {
-
-        final taxCubit =
-        context.read<GetTaxCubit>();
+        final taxCubit = context.read<GetTaxCubit>();
 
         if (state is GetTaxLoading) {
           return const CircularProgressIndicator();
         }
 
         if (state is GetTaxSuccess) {
-          return DropdownButtonFormField<String>(
-            value: taxCubit.selectedTax
-                ?.taxPercentage
-                .toString(),
+          return DropdownButtonFormField<int>(
+            value: taxCubit.selectedTax?.taxId,
 
             items: taxCubit.taxes.map((tax) {
-              return DropdownMenuItem(
-                value: tax.taxPercentage.toString(),
+              return DropdownMenuItem<int>(
+                value: tax.taxId,
                 child: TextInAppWidget(
-                  text:
-                  "${tax.taxPercentage}%",
+                  text: "${tax.taxPercentage}%",
                   textSize: 14,
-                  fontWeightIndex:
-                  FontSelectionData
-                      .regularFontFamily,
-                  textColor:
-                  AppColors.darkColor,
+                  fontWeightIndex: FontSelectionData.regularFontFamily,
+                  textColor: AppColors.darkColor,
                 ),
               );
             }).toList(),
 
             onChanged: (value) {
-              final selected =
-              taxCubit.taxes.firstWhere(
-                    (e) =>
-                e.taxPercentage
-                    .toString() ==
-                    value,
+              final selected = taxCubit.taxes.firstWhere(
+                    (e) => e.taxId == value,
               );
 
               taxCubit.selectTax(selected);
             },
 
             validator: (value) {
-              if (value == null ||
-                  value.isEmpty) {
-                return AppLocalizations.of(context).translate(AppLanguageKeys.enterYourData);
+              if (value == null) {
+                return AppLocalizations.of(context)
+                    .translate(AppLanguageKeys.enterYourData);
               }
               return null;
             },
 
             decoration: InputDecoration(
               filled: true,
-              fillColor:
-              AppColors.whiteColor,
+              fillColor: AppColors.whiteColor,
               contentPadding:
-              const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 14),
-
-              enabledBorder:
-              OutlineInputBorder(
-                borderRadius:
-                BorderRadius.circular(
-                    10),
+              const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide(
-                  color: AppColors.darkColor
-                      .withOpacity(0.2),
+                  color: AppColors.darkColor.withOpacity(0.2),
                 ),
               ),
-
-              focusedBorder:
-              OutlineInputBorder(
-                borderRadius:
-                BorderRadius.circular(
-                    10),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide(
-                  color: AppColors.darkColor
-                      .withOpacity(0.2),
+                  color: AppColors.darkColor.withOpacity(0.2),
                   width: 1.5,
                 ),
               ),
-
-              errorBorder:
-              OutlineInputBorder(
-                borderRadius:
-                BorderRadius.circular(
-                    10),
-                borderSide:
-                const BorderSide(
-                    color: AppColors.redColor),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: const BorderSide(color: AppColors.redColor),
               ),
-
-              focusedErrorBorder:
-              OutlineInputBorder(
-                borderRadius:
-                BorderRadius.circular(
-                    10),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
                 borderSide:
-                const BorderSide(
-                    color: AppColors.redColor,
-                    width: 1.5),
+                const BorderSide(color: AppColors.redColor, width: 1.5),
               ),
             ),
 
             hint: const TextInAppWidget(
-              text:
-              AppLanguageKeys.taxes,
+              text: AppLanguageKeys.taxes,
               textSize: 14,
-              fontWeightIndex:
-              FontSelectionData
-                  .regularFontFamily,
-              textColor:
-              AppColors.orangeColor,
+              fontWeightIndex: FontSelectionData.regularFontFamily,
+              textColor: AppColors.orangeColor,
             ),
 
-            icon: const Icon(
-                Icons.arrow_drop_down),
+            icon: const Icon(Icons.arrow_drop_down),
           );
         }
 

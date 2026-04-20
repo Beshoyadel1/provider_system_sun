@@ -2,11 +2,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/core/language/language_constant.dart';
-import 'package:sun_web_system/core/pages_widgets/general_widgets/snakbar.dart';
-import 'package:sun_web_system/features/service_settings/added_maintenance_and_internal_services_in_service_settings/screens/service_card.dart';
-import 'package:sun_web_system/features/service_settings/logic/prov_services_cubit/prov_services_cubit.dart';
-import 'package:sun_web_system/features/service_settings/logic/prov_services_cubit/prov_services_state.dart';
+import '../../../../core/language/language_constant.dart';
+import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
+import '../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/screens/service_card.dart';
+import '../../../../features/service_settings/logic/prov_services_cubit/prov_services_cubit.dart';
+import '../../../../features/service_settings/logic/prov_services_cubit/prov_services_state.dart';
 
 class ProvServiceBrandsListView extends StatelessWidget {
   final int serviceId;

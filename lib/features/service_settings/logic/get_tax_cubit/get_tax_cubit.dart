@@ -11,6 +11,25 @@ class GetTaxCubit extends Cubit<GetTaxState> {
   List<GetTaxModel> taxes = [];
   GetTaxModel? selectedTax;
 
+  Future<void> getTaxAndSelect(int taxId) async {
+    emit(GetTaxLoading());
+
+    try {
+      final data = await getTaxFunction();
+      taxes = data;
+
+      /// ✅ IMPORTANT: select AFTER fetch
+      selectedTax = taxes.firstWhere(
+            (e) => e.taxId == taxId,
+        orElse: () => taxes.first,
+      );
+
+      emit(GetTaxSuccess(taxes, selectedTax: selectedTax));
+    } catch (e) {
+      emit(GetTaxError(e.toString()));
+    }
+  }
+
   Future<void> getTax() async {
     emit(GetTaxLoading());
 

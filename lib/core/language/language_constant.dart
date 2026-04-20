@@ -1,4 +1,4 @@
-import 'package:sun_web_system/core/utilies/map_of_all_app.dart';
+import '../../../../core/utilies/map_of_all_app.dart';
 
 class AppLanguageKeys {
   //status//
@@ -19,6 +19,8 @@ class AppLanguageKeys {
   //end//
 
   //others//
+  static const String oldService = 'oldService';
+  static const String createService = 'createService';
   static const String serviceNameAr = 'serviceNameAr';
   static const String serviceNameEn = 'serviceNameEn';
   static const String restAll = 'restAll';

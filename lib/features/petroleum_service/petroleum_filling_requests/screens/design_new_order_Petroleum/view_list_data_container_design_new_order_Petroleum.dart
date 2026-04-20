@@ -34,7 +34,8 @@ class ViewListDataContainerDesignNewOrderPetroleum extends StatelessWidget {
             create: (_) =>
             GetProviderInternalOrderCubit()
               ..loadInternalOrders(
-                  serviceId: CategoryConstants.petrolService
+                serviceId: MainCategoryConstants
+                    .petrolMainID,
               ),
           ),
           BlocProvider(
@@ -46,7 +47,7 @@ class ViewListDataContainerDesignNewOrderPetroleum extends StatelessWidget {
             if (state is OrderStatusSuccess) {
               context.read<GetProviderInternalOrderCubit>().loadInternalOrders(
                 serviceId:
-                CategoryConstants.petrolService,
+                MainCategoryConstants.petrolMainID,
               );
             }
           },
@@ -91,7 +92,7 @@ class ViewListDataContainerDesignNewOrderPetroleum extends StatelessWidget {
                       timePart5: OrderFunctions.formatDate(order.orderDate),
                       pricePart6: order.totalPrice?.toString() ?? "0",
                       order: order,
-                      serviceId: CategoryConstants.petrolService,
+                      serviceId:MainCategoryConstants.maintenanceAndInternalServicesID,
                     );
                   },
                 );
