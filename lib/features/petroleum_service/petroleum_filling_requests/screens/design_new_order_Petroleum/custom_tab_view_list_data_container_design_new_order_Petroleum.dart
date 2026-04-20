@@ -10,9 +10,9 @@ import '../../../../../features/Petroleum_Service/custom_widget/row_name_emp_wid
 class CustomTabViewListDataContainerDesignNewOrderPetroleum
     extends StatelessWidget {
   final String? nameEmp, date, quantity, price;
-
+  final int serviceId;
   const CustomTabViewListDataContainerDesignNewOrderPetroleum(
-      {super.key, this.date, this.nameEmp, this.price, this.quantity});
+      {super.key, this.date, this.nameEmp, this.price, this.quantity,required this.serviceId});
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +48,7 @@ class CustomTabViewListDataContainerDesignNewOrderPetroleum
              ContainerDetailsWidget(
               status: 0,
               order: OrderModel(),
+              serviceId: serviceId,
             ),
           ],
         ),

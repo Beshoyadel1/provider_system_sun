@@ -18,7 +18,7 @@ class DeleteDialog extends StatelessWidget {
       listener: (context, state) {
         if (state is DeleteHarageSuccess) {
           Navigator.pop(context);
-          Navigator.pop(context);
+          Navigator.pop(context, true);
         }
       },
       child: AlertDialog(

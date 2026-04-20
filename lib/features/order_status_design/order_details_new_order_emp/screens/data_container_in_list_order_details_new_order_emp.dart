@@ -72,7 +72,39 @@ class DataContainerInListOrderDetailsNewOrderEmp extends StatelessWidget {
                 builder: (context, state) {
                   return Stack(
                     children: [
-                      ButtonAcceptRejectOrder(order: order),
+                      BlocProvider(
+                        create: (_) => OrderStatusCubit(),
+                        child: BlocListener<OrderStatusCubit, OrderStatusState>(
+                          listener: (context, state) {
+                            if (!context.mounted) return;
+
+                            if (state is OrderStatusSuccess) {
+                              AppSnackBar.showSuccess(
+                                AppLanguageKeys.updateOrderStatusSuccessfully,
+                              );
+
+                              /// 🔥 أهم سطر
+                              Navigator.pop(context, true);
+                            }
+
+                            if (state is OrderStatusError) {
+                              AppSnackBar.showError(state.message);
+                            }
+                          },
+                          child: BlocBuilder<OrderStatusCubit, OrderStatusState>(
+                            builder: (context, state) {
+                              return Stack(
+                                children: [
+                                  ButtonAcceptRejectOrder(order: order),
+
+                                  if (state is OrderStatusLoading)
+                                    const Center(child: CircularProgressIndicator()),
+                                ],
+                              );
+                            },
+                          ),
+                        ),
+                      ),
 
                       if (state is OrderStatusLoading)
                         const Center(child: CircularProgressIndicator()),

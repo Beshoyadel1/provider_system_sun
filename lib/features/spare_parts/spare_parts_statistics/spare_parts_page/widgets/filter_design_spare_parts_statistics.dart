@@ -70,6 +70,7 @@ class FilterDesignSparePartsStatistics extends StatelessWidget {
                         timePart5: OrderFunctions.formatDate(order.orderDate),
                         pricePart6: order.totalPrice?.toString() ?? "0",
                         order: order,
+                        serviceId: MainCategoryConstants.carSparePartsID,
                       );
                     }
                 ),

@@ -23,7 +23,7 @@ class MobileSecondPartDataContainerInListDataFirstScreenInternalOrders
       subTitlePart3,
       timePart5,
       pricePart6;
-  final int? status;
+  final int? status,serviceId;
   final Uint8List? imagePathPart1,imagePathPart3;
   final OrderModel order;
   const MobileSecondPartDataContainerInListDataFirstScreenInternalOrders({
@@ -40,7 +40,8 @@ class MobileSecondPartDataContainerInListDataFirstScreenInternalOrders
     this.status,
     required this.timePart5,
     required this.pricePart6,
-    required this.order
+    required this.order,
+    required this.serviceId
   });
 
   @override
@@ -103,6 +104,7 @@ class MobileSecondPartDataContainerInListDataFirstScreenInternalOrders
           children: [Expanded(child: ContainerDetailsWidget(
             status: status ?? 0,
             order: order,
+            serviceId: serviceId??1,
           ))],
         ),
       ],

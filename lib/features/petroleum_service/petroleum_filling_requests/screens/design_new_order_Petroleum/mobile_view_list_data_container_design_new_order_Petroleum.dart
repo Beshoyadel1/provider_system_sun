@@ -9,12 +9,15 @@ import '../../../../../features/Petroleum_Service/custom_widget/row_name_emp_wid
 
 class MobileViewListDataContainerDesignNewOrderPetroleum extends StatelessWidget {
   final String? nameEmp, date, quantity, price;
+  final int serviceId;
+
   const MobileViewListDataContainerDesignNewOrderPetroleum({
     super.key,
     this.date,
     this.nameEmp,
     this.price,
-    this.quantity
+    this.quantity,
+    required this.serviceId,
   });
 
   @override
@@ -55,6 +58,7 @@ class MobileViewListDataContainerDesignNewOrderPetroleum extends StatelessWidget
              ContainerDetailsWidget(
               status: 0,
               order: OrderModel(),
+               serviceId: serviceId,
             ),
           ],
         ),

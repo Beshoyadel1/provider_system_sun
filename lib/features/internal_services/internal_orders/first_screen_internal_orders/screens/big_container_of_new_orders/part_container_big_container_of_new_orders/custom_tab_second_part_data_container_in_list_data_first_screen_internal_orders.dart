@@ -22,7 +22,7 @@ class CustomTabSecondPartDataContainerInListDataFirstScreenInternalOrders
       timePart5,
       pricePart6;
 
-  final int? status;
+  final int? status,serviceId;
   final Uint8List? imagePathPart1,imagePathPart3;
   final OrderModel order;
 
@@ -41,6 +41,7 @@ class CustomTabSecondPartDataContainerInListDataFirstScreenInternalOrders
     required this.timePart5,
     required this.pricePart6,
     required this.order,
+    required this.serviceId
   });
 
   @override
@@ -94,9 +95,11 @@ class CustomTabSecondPartDataContainerInListDataFirstScreenInternalOrders
         ),
          Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [Expanded(child: ContainerDetailsWidget(
+          children: [Expanded(child:
+          ContainerDetailsWidget(
             status: status ?? 0,
             order: order,
+            serviceId: serviceId??5,
           ))],
         ),
       ],

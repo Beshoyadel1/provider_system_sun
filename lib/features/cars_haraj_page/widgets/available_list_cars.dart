@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
+import 'package:sun_web_system/core/theming/colors.dart';
 import 'package:sun_web_system/features/cars_haraj_page/logic/get_all_harage_cubit/get_all_harage_cubit.dart';
 import 'package:sun_web_system/features/cars_haraj_page/logic/get_all_harage_cubit/get_all_harage_state.dart';
 import 'package:sun_web_system/features/cars_haraj_page/ui/details_harag_page/details_harag_page.dart';
@@ -14,51 +15,67 @@ class AvailableListCars extends StatelessWidget {
     return BlocBuilder<GetAllHarageCubit, GetAllHarageState>(
       builder: (context, state) {
 
-        if (state is GetAllHarageLoading) {
-          return const Center(child: CupertinoActivityIndicator());
-        }
-
         if (state is GetAllHarageError) {
           return Center(child: Text(state.message));
         }
 
-        if (state is GetAllHarageSuccess) {
-          final cars = state.response.data ?? [];
+        List cars = [];
 
-          return Column(
-            children: [
-              ...List.generate(
-                cars.length,
-                    (index) {
-                  final car = cars[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 19),
-                    child: AvailableCars(
-                      id: car.id.toString(),
-                      releaseDate: car.releaseDate,
-                      carImage: car.car?.carImage,
-                      brandImage: car.car?.brandImage,
-                      addresstext: car.addressText,
-                      isSold: car.isSold ?? false,
-                      isNew: car.isNew ?? false,
-                      brandName: car.car?.getBrand(context),
-                      price: car.price.toString(),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          NavigateToPageWidget(DetailsHaragPage(
-                            car: car,
-                          )),
-                        );
-                      },
-                    ),
-                  );
-                },
-              ),
-            ],
-          );
+        if (state is GetAllHarageSuccess) {
+          cars = state.response.data ?? [];
         }
-        return const SizedBox();
+
+        return Stack(
+          children: [
+            Column(
+              children: [
+                ...List.generate(
+                  cars.length,
+                      (index) {
+                    final car = cars[index];
+
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 19),
+                      child: AvailableCars(
+                        id: car.id.toString(),
+                        releaseDate: car.releaseDate,
+                        carImage: car.car?.carImage,
+                        brandImage: car.car?.brandImage,
+                        addresstext: car.addressText,
+                        isSold: car.isSold ?? false,
+                        isNew: car.isNew ?? false,
+                        brandName: car.car?.getBrand(context),
+                        price: car.price.toString(),
+
+                        onTap: () async {
+                          final result = await Navigator.push(
+                            context,
+                            NavigateToPageWidget(
+                              DetailsHaragPage(car: car),
+                            ),
+                          );
+
+                          if (result == true && context.mounted) {
+                            context.read<GetAllHarageCubit>()
+                                .getAllHarage(page: 1);
+                          }
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+
+            if (state is GetAllHarageLoading)
+              Container(
+                color: AppColors.blackColor,
+                child: const Center(
+                  child: CupertinoActivityIndicator(),
+                ),
+              ),
+          ],
+        );
       },
     );
   }

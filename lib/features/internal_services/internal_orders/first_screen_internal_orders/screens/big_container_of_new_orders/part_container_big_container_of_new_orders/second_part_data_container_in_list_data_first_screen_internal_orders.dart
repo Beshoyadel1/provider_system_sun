@@ -27,23 +27,26 @@ class SecondPartDataContainerInListDataFirstScreenInternalOrders
       _SecondPartDataContainerInListDataFirstScreenInternalOrdersState();
 }
 
-class _SecondPartDataContainerInListDataFirstScreenInternalOrdersState extends State<SecondPartDataContainerInListDataFirstScreenInternalOrders> {
+class _SecondPartDataContainerInListDataFirstScreenInternalOrdersState
+    extends State<SecondPartDataContainerInListDataFirstScreenInternalOrders> {
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (_) => GetProviderInternalOrderCubit()
-            ..loadInternalOrders(
-              serviceId: MainCategoryConstants.maintenanceAndInternalServicesID,
-            ),
-        ),
-        BlocProvider(
-          create: (_) => OrderStatusCubit(),
-        ),
-      ],
-      child: BlocListener<OrderStatusCubit, OrderStatusState>(
+        providers: [
+          BlocProvider(
+            create: (_) =>
+            GetProviderInternalOrderCubit()
+              ..loadInternalOrders(
+                serviceId: MainCategoryConstants
+                    .maintenanceAndInternalServicesID,
+              ),
+          ),
+          BlocProvider(
+            create: (_) => OrderStatusCubit(),
+          ),
+        ],
+        child: BlocListener<OrderStatusCubit, OrderStatusState>(
           listener: (context, state) {
             if (state is OrderStatusSuccess) {
               context.read<GetProviderInternalOrderCubit>().loadInternalOrders(
@@ -93,6 +96,7 @@ class _SecondPartDataContainerInListDataFirstScreenInternalOrdersState extends S
                       timePart5: OrderFunctions.formatDate(order.orderDate),
                       pricePart6: order.totalPrice?.toString() ?? "0",
                       order: order,
+                      serviceId:MainCategoryConstants.maintenanceAndInternalServicesID,
                     );
                   },
                 );
@@ -105,7 +109,7 @@ class _SecondPartDataContainerInListDataFirstScreenInternalOrdersState extends S
               return const SizedBox();
             },
           ),
-      )
+        )
     );
   }
 }
