@@ -25,7 +25,6 @@ class ContainerImageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget child;
 
-    // ✅ 1. لو فيه imageMemory
     if (imageMemory != null && imageMemory!.isNotEmpty) {
       child = Image.memory(
         imageMemory!,

@@ -22,6 +22,7 @@ class AvailableCars extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomContainer(
       isSelected: false,
+      containerWidth: 800,
       onTap: () {},
       borderRadius: BorderRadius.circular(12),
       typeWidget: Wrap(

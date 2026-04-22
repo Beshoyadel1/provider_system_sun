@@ -53,7 +53,7 @@ class DataContainerInListDataFirstScreenServiceSetting extends StatelessWidget {
                         imageMemory: service.image,
                         title: service.getName(context),
                           onTap: () {
-                            ServiceSettingsHelper.handleNavigation(context, service.id);
+                            ServiceSettingsHelper.handleNavigation(context, service.id,service.getName(context),service.image);
                           }
                       ),
                     );

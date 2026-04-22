@@ -6,8 +6,11 @@ import 'package:sun_web_system/core/pages_widgets/text_form_field_widget.dart';
 import 'package:sun_web_system/core/theming/colors.dart';
 import 'package:sun_web_system/core/theming/fonts.dart';
 import 'package:sun_web_system/core/theming/text_styles.dart';
+import 'package:sun_web_system/features/service_settings/added_maintenance_and_internal_services_in_service_settings/screens/select_tax_page.dart';
+import 'package:sun_web_system/features/service_settings/logic/get_tax_cubit/get_tax_cubit.dart';
 import 'package:sun_web_system/features/service_settings/logic/provider_packages_cubit/provider_packages_cubit.dart';
 import 'package:sun_web_system/features/service_settings/logic/provider_packages_cubit/provider_packages_state.dart';
+import 'package:sun_web_system/features/service_settings/shared_packages_in_service_settings/select_tax_packages.dart';
 
 class CreatePackageDialog extends StatefulWidget {
   final dynamic package;
@@ -24,7 +27,6 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
   final nameController = TextEditingController();
   final latinNameController = TextEditingController();
   final priceController = TextEditingController();
-  final taxController = TextEditingController();
 
   List<TextEditingController> itemsControllers = [];
 
@@ -42,7 +44,6 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
       nameController.text = p.name ?? "";
       latinNameController.text = p.latinName ?? "";
       priceController.text = p.price.toString();
-      taxController.text = p.taxId.toString();
 
       itemsControllers = p.items
           .split(',')
@@ -58,7 +59,6 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
     nameController.dispose();
     latinNameController.dispose();
     priceController.dispose();
-    taxController.dispose();
 
     for (var c in itemsControllers) {
       c.dispose();
@@ -116,11 +116,18 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
                   TextFormFieldWidget(
                    // text: AppLanguageKeys.name,
                     textFormController: nameController,
-                    isValidator: true,
+                    hintText: AppLanguageKeys.name,
                     fillColor: AppColors.transparent,
-                    borderColor:
-                    AppColors.darkColor.withOpacity(0.2),
+                    borderColor: AppColors.darkColor.withOpacity(0.2),
+                    hintTextSize: 12,
+                    hintTextColor: AppColors.orangeColor,
                     textSize: 15,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return AppLanguageKeys.enterYourData;
+                      }
+                      return null;
+                    },
                   ),
 
                   const SizedBox(height: 14),
@@ -130,11 +137,18 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
                   TextFormFieldWidget(
                    // text: AppLanguageKeys.latinName,
                     textFormController: latinNameController,
-                    isValidator: true,
+                    hintText: AppLanguageKeys.latinName,
                     fillColor: AppColors.transparent,
-                    borderColor:
-                    AppColors.darkColor.withOpacity(0.2),
+                    borderColor: AppColors.darkColor.withOpacity(0.2),
+                    hintTextSize: 12,
+                    hintTextColor: AppColors.orangeColor,
                     textSize: 15,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return AppLanguageKeys.enterYourData;
+                      }
+                      return null;
+                    },
                   ),
 
                   const SizedBox(height: 20),
@@ -155,11 +169,18 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
                                // text: "Item ${index + 1}",
                                 textFormController:
                                 itemsControllers[index],
-                                isValidator: true,
+                                hintText: AppLanguageKeys.items,
                                 fillColor: AppColors.transparent,
-                                borderColor: AppColors.darkColor
-                                    .withOpacity(0.2),
+                                borderColor: AppColors.darkColor.withOpacity(0.2),
+                                hintTextSize: 12,
+                                hintTextColor: AppColors.orangeColor,
                                 textSize: 15,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return AppLanguageKeys.enterYourData;
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
 
@@ -242,11 +263,18 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
                               textFormController:
                               priceController,
                               isDigitDot: true,
-                              fillColor:
-                              AppColors.transparent,
-                              borderColor: AppColors.darkColor
-                                  .withOpacity(0.2),
+                              hintText: AppLanguageKeys.price,
+                              fillColor: AppColors.transparent,
+                              borderColor: AppColors.darkColor.withOpacity(0.2),
+                              hintTextSize: 12,
+                              hintTextColor: AppColors.orangeColor,
                               textSize: 15,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return AppLanguageKeys.enterYourData;
+                                }
+                                return null;
+                              },
                             ),
                           ],
                         ),
@@ -260,17 +288,7 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
                             _sectionTitle(
                                 AppLanguageKeys.taxes),
                             const SizedBox(height: 6),
-                            TextFormFieldWidget(
-                            //  text: AppLanguageKeys.taxes,
-                              textFormController:
-                              taxController,
-                              isDigitDot: true,
-                              fillColor:
-                              AppColors.transparent,
-                              borderColor: AppColors.darkColor
-                                  .withOpacity(0.2),
-                              textSize: 15,
-                            ),
+                            const SelectTaxPackages(),
                           ],
                         ),
                       ),
@@ -346,6 +364,15 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
   void _submit() {
     if (!_formKey.currentState!.validate()) return;
 
+    final taxCubit = context.read<GetTaxCubit>();
+
+    if (taxCubit.selectedTax == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Select tax")),
+      );
+      return;
+    }
+
     final items = itemsControllers
         .map((e) => e.text.trim())
         .where((e) => e.isNotEmpty)
@@ -358,7 +385,7 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
         latinName: latinNameController.text,
         items: items,
         price: double.parse(priceController.text),
-        tax: int.parse(taxController.text),
+        tax: taxCubit.selectedTax!.taxId,
       );
     } else {
       context.read<ProviderPackagesCubit>().createPackage(
@@ -366,7 +393,7 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
         latinName: latinNameController.text,
         items: items,
         price: double.parse(priceController.text),
-        tax: int.parse(taxController.text),
+        tax: taxCubit.selectedTax!.taxId,
       );
     }
   }

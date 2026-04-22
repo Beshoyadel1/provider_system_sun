@@ -1,4 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/features/internal_services/internal_orders/first_screen_internal_orders/logic/order_funcations/order_functions.dart';
+import '../../../../../../core/api_functions/user/login_model/login_repository.dart';
+import '../../../../../../core/pages_widgets/text_form_field_widget.dart';
+import '../../../../../../core/utilies/map_of_all_app.dart';
+import '../../../../../../core/theming/colors.dart';
+import '../../../../../../core/language/language_constant.dart';
+import '../../general_widgets_in_store/attach_file.dart';
+
+import 'package:flutter/material.dart';
+import 'package:sun_web_system/features/internal_services/internal_orders/first_screen_internal_orders/logic/order_funcations/order_functions.dart';
 import '../../../../../../core/api_functions/user/login_model/login_repository.dart';
 import '../../../../../../core/pages_widgets/text_form_field_widget.dart';
 import '../../../../../../core/utilies/map_of_all_app.dart';
@@ -19,28 +29,44 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController genderController = TextEditingController();
   final TextEditingController ageController = TextEditingController();
-  final TextEditingController nationalityController = TextEditingController();
-  final TextEditingController joiningDateController =
-  TextEditingController();
+  //final TextEditingController nationalityController = TextEditingController();
+  final TextEditingController joiningDateController = TextEditingController();
+
+  bool _isLoaded = false;
 
   @override
-  void initState() {
-    super.initState();
-    _loadUser();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (!_isLoaded) {
+      _loadUser();
+      _isLoaded = true;
+    }
   }
 
   Future<void> _loadUser() async {
     final user = await AuthLocalStorage.getUser();
 
     if (user != null) {
-      usernameController.text = user.username ?? "";
-      phoneController.text = user.phone ?? "";
-      emailController.text = user.email ?? "";
-      genderController.text = user.gander == 0 ? "Male" : "Female";
-      ageController.text = user.age?.toString() ?? "";
-      nationalityController.text = user.nationality ?? "";
+      usernameController.text =
+          OrderFunctions.valueOrEmpty(user.username, context);
+
+      phoneController.text =
+          OrderFunctions.valueOrEmpty(user.phone, context);
+
+      emailController.text =
+          OrderFunctions.valueOrEmpty(user.email, context);
+
+
+
+      ageController.text =
+          OrderFunctions.valueOrEmpty(user.age, context);
+
+      genderController.text =
+          OrderFunctions.getGenderText(user.age, context);
+
       joiningDateController.text =
-          user.joinDate?.toString().split("T").first ?? "";
+          OrderFunctions.formatDateFromDateTime(user.joinDate);
 
       setState(() {});
     }
@@ -64,7 +90,7 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
             _buildField(isMobile, AppLanguageKeys.email, emailController),
             _buildField(isMobile, AppLanguageKeys.gender, genderController),
             _buildField(isMobile, AppLanguageKeys.age, ageController),
-            _buildField(isMobile, AppLanguageKeys.nationality, nationalityController),
+          //  _buildField(isMobile, AppLanguageKeys.nationality, nationalityController),
             _buildField(isMobile, AppLanguageKeys.joiningDate, joiningDateController),
           ],
         ),
@@ -92,13 +118,14 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
       width: isMobile ? double.infinity : 280,
       child: TextFormFieldWidget(
         textFormController: controller,
-        text: label,
+        text: label, // ✅ translation handled inside widget
         textSize: 16,
         isColumn: true,
         textColor: AppColors.darkColor,
         borderColor: AppColors.darkGreyColor,
         fillColor: AppColors.whiteColor,
         textFormHeight: 35,
+        hintTextColor: AppColors.greyColor,
         readOnly: true,
       ),
     );

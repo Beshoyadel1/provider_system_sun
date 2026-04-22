@@ -29,11 +29,17 @@ class NewOrdersCubit extends Cubit<NewOrdersState> {
     try {
       await Future.delayed(const Duration(seconds: 1));
 
+      if (isClosed) return;
+
       List<String> orders = List.generate(
           5, (index) => "Order ${index + 1} - Page $page");
 
       emit(NewOrdersLoaded(orders));
+
     } catch (e) {
+
+      if (isClosed) return;
+
       emit(NewOrdersError("Failed to load orders"));
     }
   }

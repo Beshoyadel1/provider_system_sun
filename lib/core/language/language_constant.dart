@@ -19,6 +19,9 @@ class AppLanguageKeys {
   //end//
 
   //others//
+  static const String male = 'male';
+  static const String female = 'female';
+  static const String servicePackage = 'servicePackage';
   static const String oldService = 'oldService';
   static const String createService = 'createService';
   static const String serviceNameAr = 'serviceNameAr';

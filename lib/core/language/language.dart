@@ -31,6 +31,9 @@ class AppLocalizations {
       //END//
 
       //others//
+      AppLanguageKeys.male: 'ذكر',
+      AppLanguageKeys.female: 'أنثى',
+      AppLanguageKeys.servicePackage: 'باقة الخدمة',
       AppLanguageKeys.oldService: 'خدمة سابقة',
       AppLanguageKeys.createService: 'إنشاء خدمة',
       AppLanguageKeys.serviceNameAr: 'اسم الخدمة (عربي)',
@@ -1256,6 +1259,9 @@ class AppLocalizations {
       AppLanguageKeys.cancelledByUser: 'Cancelled by User',
       //END//
       //others//
+      AppLanguageKeys.male: 'Male',
+      AppLanguageKeys.female: 'Female',
+      AppLanguageKeys.servicePackage: 'Service Package',
       AppLanguageKeys.oldService: 'Old Service',
       AppLanguageKeys.createService: 'Create Service',
       AppLanguageKeys.restAll: 'Reset All',

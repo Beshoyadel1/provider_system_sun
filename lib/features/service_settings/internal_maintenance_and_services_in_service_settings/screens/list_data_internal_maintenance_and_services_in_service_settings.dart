@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,7 +9,9 @@ import '../../../../../../core/theming/colors.dart';
 
 class ListDataInternalMaintenanceAndServicesInServiceSettings
     extends StatelessWidget {
-  const ListDataInternalMaintenanceAndServicesInServiceSettings({super.key});
+  final String textServiceScreen;
+  final Uint8List imageMemory;
+  const ListDataInternalMaintenanceAndServicesInServiceSettings({super.key,required this.textServiceScreen,required this.imageMemory});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +33,10 @@ class ListDataInternalMaintenanceAndServicesInServiceSettings
       ),
       child: BlocProvider(
           create: (_) => ServiceSettingsCubit()..getServices(parentId: 2),
-          child: const DataContainerInListDataAddedMaintenanceAndInternalServicesInServiceSettings()),
+          child:  DataContainerInListDataAddedMaintenanceAndInternalServicesInServiceSettings(
+            textServiceScreen: textServiceScreen,
+            imageMemory:imageMemory ,
+          )),
     );
   }
 }

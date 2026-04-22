@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,15 +11,18 @@ import '../../../../../core/utilies/map_of_all_app.dart';
 import '../../../../../core/theming/colors.dart';
 
 class InternalMaintenanceAndServicesInServiceSettings extends StatelessWidget {
-  const InternalMaintenanceAndServicesInServiceSettings({super.key});
+  final String textServiceScreen;
+  final Uint8List imageMemory;
+  const InternalMaintenanceAndServicesInServiceSettings({super.key,required this.textServiceScreen,required this.imageMemory});
 
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
       backgroundColor: AppColors.scaffoldColor,
+      appBar: AppBar(),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(20),
+          padding:const EdgeInsets.all(20),
           child: Column(
             children: [
               Expanded(
@@ -28,10 +33,13 @@ class InternalMaintenanceAndServicesInServiceSettings extends StatelessWidget {
                             create: (_) => CreateProvServiceCubit(),
                           ),
                           BlocProvider(
-                            create: (_) => ProvServicesCubit(), // 🔥 مهم
+                            create: (_) => ProvServicesCubit(),
                           ),
                         ],
-                        child: const ListDataInternalMaintenanceAndServicesInServiceSettings())),
+                        child: ListDataInternalMaintenanceAndServicesInServiceSettings(
+                          imageMemory:imageMemory ,
+                          textServiceScreen:textServiceScreen,
+                        ))),
               ),
             ],
           ),

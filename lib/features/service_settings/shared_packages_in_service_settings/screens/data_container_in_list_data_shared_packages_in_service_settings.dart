@@ -18,13 +18,13 @@ class DataContainerInListDataSharedPackagesInServiceSettings
         spacing: 30,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          FirstRowInDataContainerInListDataFirstScreenServiceSetting(
-            text1: AppLanguageKeys.sharedPackages,
-            text2: AppLanguageKeys.addDifferentServices,
-            textContainer: AppLanguageKeys.back,
-          ),
+          // FirstRowInDataContainerInListDataFirstScreenServiceSetting(
+          //   text1: AppLanguageKeys.sharedPackages,
+          //   text2: AppLanguageKeys.addDifferentServices,
+          //   textContainer: AppLanguageKeys.back,
+          // ),
           IconCarOrangeTextOfCarSparePartsInServiceSettings(
-            text: AppLanguageKeys.sharedPackages,
+            text: AppLanguageKeys.servicePackage,
             imagePath: AppImageKeys.car4_service,
           ),
           ListDataOfPackagesInSharedPackagesInServiceSettings()

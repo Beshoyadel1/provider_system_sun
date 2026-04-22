@@ -20,45 +20,43 @@ class DashboardPage extends StatelessWidget {
     return Center(
       child: SingleChildScrollView(
         child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Center(
-                child: Wrap(
-                  alignment: WrapAlignment.center,
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: [
-                    BlocProvider(
-                      create: (_) => GetProviderServiceStatisticsCubit()
-                        ..getProviderServiceStatistics(),
-                      child: const ListCustomChart(),
-                    ),
-                    const ServicesStatistics(),
-                    const ChartOrder(),
-                    BlocProvider(
-                      create: (_) => GetProviderTotalRateAndEmployeeAndBalanceCubit()
-                        ..getProviderTotalRateAndEmployeeAndBalance(),
-                     child: const Wrap(
-                         alignment: WrapAlignment.center,
-                         spacing: 10,
-                         runSpacing: 10,
-                         children: [
-                        Column(
-                          spacing: 10,
-                          children: [
-                            SizedBox(width: 310, child: ServicesEvaluation()),
-                            EmployeesPerformance(),
-                          ],
-                        ),
-                         AccountBalance(),
-                      ]),
-                   ),
-                  ],
-                ),
+          child: MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (_) => GetProviderServiceStatisticsCubit()
+                  ..getProviderServiceStatistics(),
               ),
+              BlocProvider(
+                create: (_) => GetProviderTotalRateAndEmployeeAndBalanceCubit()
+                  ..getProviderTotalRateAndEmployeeAndBalance(),
+              )
             ],
+            child: const Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: [
+                      ListCustomChart(),
+                      AccountBalance(),
+                      ChartOrder(),
+                      Column(
+                        spacing: 10,
+                        children: [
+                          SizedBox(width: 310, child: ServicesEvaluation()),
+                          EmployeesPerformance(),
+                        ],
+                      ),
+                      ServicesStatistics(),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

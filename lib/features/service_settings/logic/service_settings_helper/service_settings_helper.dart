@@ -1,6 +1,6 @@
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/features/service_settings/logic/create_prov_service_cubit/create_prov_service_cubit.dart';
 import '../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/added_maintenance_and_internal_services_in_service_settings.dart';
 import '../../../../../features/service_settings/car_spare_parts_in_service_settings/car_spare_parts_in_service_settings.dart';
 import '../../../../../features/service_settings/internal_maintenance_and_services_in_service_settings/internal_maintenance_and_services_in_service_settings.dart';
@@ -24,13 +24,16 @@ class ServiceSettingsHelper {
     return isArabic ? service.name ?? '' : service.latinName ?? '';
   }
 
-  static void handleNavigation(BuildContext context, int? id) {
+  static void handleNavigation(BuildContext context, int? id ,String textServiceScreen, Uint8List? imageMemory) {
     switch (id) {
       case 1:
         Navigator.push(
           context,
           NavigateToPageWidget(
-            const AddedMaintenanceAndInternalServicesInServiceSettings(),
+            AddedMaintenanceAndInternalServicesInServiceSettings(
+              imageMemory: imageMemory!,
+              textServiceScreen:textServiceScreen ,
+            ),
           ),
         );
         break;
@@ -39,7 +42,10 @@ class ServiceSettingsHelper {
         Navigator.push(
           context,
           NavigateToPageWidget(
-            const InternalMaintenanceAndServicesInServiceSettings(),
+             InternalMaintenanceAndServicesInServiceSettings(
+              imageMemory: imageMemory!,
+              textServiceScreen:textServiceScreen ,
+            ),
           ),
         );
         break;
@@ -48,7 +54,10 @@ class ServiceSettingsHelper {
         Navigator.push(
           context,
           NavigateToPageWidget(
-            const CarSparePartsInServiceSettings(),
+             CarSparePartsInServiceSettings(
+               imageMemory: imageMemory!,
+               textServiceScreen:textServiceScreen ,
+             ),
           ),
         );
         break;
@@ -64,7 +73,10 @@ class ServiceSettingsHelper {
         Navigator.push(
           context,
           NavigateToPageWidget(
-            const PetrolInServiceSettings(),
+             PetrolInServiceSettings(
+               imageMemory: imageMemory!,
+               textServiceScreen:textServiceScreen ,
+             ),
           ),
         );
         break;

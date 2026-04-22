@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,8 +16,11 @@ import '../../../../../../core/theming/assets.dart';
 
 class DataContainerInListDataAddedMaintenanceAndInternalServicesInServiceSettings
     extends StatelessWidget {
+  final String textServiceScreen;
+  final Uint8List imageMemory;
+
   const DataContainerInListDataAddedMaintenanceAndInternalServicesInServiceSettings(
-      {super.key});
+      {super.key,required this.textServiceScreen,required this.imageMemory});
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +31,11 @@ class DataContainerInListDataAddedMaintenanceAndInternalServicesInServiceSetting
         spacing: 30,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const FirstRowInDataContainerInListDataFirstScreenServiceSetting(),
-          const IconCarOrangeTextOfAddedMaintenanceAndInternalServices(),
+        //  const FirstRowInDataContainerInListDataFirstScreenServiceSetting(),
+          IconCarOrangeTextOfAddedMaintenanceAndInternalServices(
+            text: textServiceScreen,
+            imageMemory: imageMemory,
+          ),
           BlocBuilder<ServiceSettingsCubit, ServiceSettingsState>(
             buildWhen: (previous, current) =>
             current is ServiceSettingsLoading ||

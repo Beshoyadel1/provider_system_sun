@@ -57,24 +57,24 @@ class FacilityAccount extends StatelessWidget {
                     ),
                     onTap: () {},
                   ),
-                  BlocBuilder<FacilityTabCubit, FacilityTabState>(
-                    builder: (context, state) {
-                      final cubit = context.read<FacilityTabCubit>();
-                      final isLastTab =
-                          cubit.selectedIndex == facilityTabs.length - 1;
-                      return isLastTab
-                          ? NavigatorButton(
-                              textGrayButton: AppLanguageKeys.backKey,
-                              onTapGrayButton: () => cubit.previousTab(),
-                            )
-                          : NavigatorButton(
-                              textOrangeButton: AppLanguageKeys.nextKey,
-                              textGrayButton: AppLanguageKeys.backKey,
-                              onTapGrayButton: () => cubit.previousTab(),
-                              onTapOrangeButton: () => cubit.nextTab(),
-                            );
-                    },
-                  ),
+                  // BlocBuilder<FacilityTabCubit, FacilityTabState>(
+                  //   builder: (context, state) {
+                  //     final cubit = context.read<FacilityTabCubit>();
+                  //     final isLastTab =
+                  //         cubit.selectedIndex == facilityTabs.length - 1;
+                  //     return isLastTab
+                  //         ? NavigatorButton(
+                  //             textGrayButton: AppLanguageKeys.backKey,
+                  //             onTapGrayButton: () => cubit.previousTab(),
+                  //           )
+                  //         : NavigatorButton(
+                  //             textOrangeButton: AppLanguageKeys.nextKey,
+                  //             textGrayButton: AppLanguageKeys.backKey,
+                  //             onTapGrayButton: () => cubit.previousTab(),
+                  //             onTapOrangeButton: () => cubit.nextTab(),
+                  //           );
+                  //   },
+                  // ),
                 ],
               ),
             ),

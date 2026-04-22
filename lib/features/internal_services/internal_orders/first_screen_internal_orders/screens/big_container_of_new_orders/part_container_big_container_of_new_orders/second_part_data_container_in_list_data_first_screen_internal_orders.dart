@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/core/theming/colors.dart';
+import 'package:sun_web_system/core/theming/text_styles.dart';
 import 'package:sun_web_system/features/internal_services/internal_orders/first_screen_internal_orders/logic/order_funcations/order_functions.dart';
 import 'package:sun_web_system/features/order_status_design/cubit/order_status_cubit/order_status_cubit.dart';
 import 'package:sun_web_system/features/order_status_design/cubit/order_status_cubit/order_status_state.dart';
@@ -61,10 +63,20 @@ class _SecondPartDataContainerInListDataFirstScreenInternalOrdersState
               if (state is GetProviderInternalOrderLoading) {
                 return const Center(child: CircularProgressIndicator());
               }
+              
 
               if (state is GetProviderInternalOrderSuccess) {
                 final orders = state.orders;
 
+                if (state.orders.isEmpty) {
+                  return const Center(
+                    child:  TextInAppWidget(
+                      text: AppLanguageKeys.empty,
+                      textSize: 15,
+                      textColor: AppColors.greyColor,
+                    ),
+                  );
+                }
                 return ListView.separated(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),

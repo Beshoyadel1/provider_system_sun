@@ -21,9 +21,12 @@ class ProviderHarageStatisticsCubit
     String? startDate,
     String? endDate,
   }) async {
+    if (isClosed) return;
+
     emit(ProviderHarageStatisticsLoading());
 
     try {
+
       final results = await Future.wait([
         getProviderHarageMonthlySalesFunction(
           getProviderHarageMonthlySalesRequest:
@@ -50,6 +53,7 @@ class ProviderHarageStatisticsCubit
         ),
       ]);
 
+      if (isClosed) return;
       final monthlyResponse =
           results[0] as GetProviderHarageMonthlySalesResponse?;
       final chartResponse = results[1] as GetProviderHarageDataPointsResponse?;
@@ -71,6 +75,7 @@ class ProviderHarageStatisticsCubit
         ),
       );
     } catch (e) {
+      if (isClosed) return;
       emit(ProviderHarageStatisticsError(e.toString()));
     }
   }

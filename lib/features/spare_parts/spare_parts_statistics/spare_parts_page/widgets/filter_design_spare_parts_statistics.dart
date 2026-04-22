@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/core/theming/colors.dart';
+import 'package:sun_web_system/core/theming/text_styles.dart';
 import 'package:sun_web_system/features/cars_haraj_page/model/internal_orders_filter/internal_orders_filter.dart';
 import 'package:sun_web_system/features/internal_services/internal_orders/first_screen_internal_orders/logic/order_funcations/order_functions.dart';
 import 'package:sun_web_system/features/internal_services/internal_orders/first_screen_internal_orders/logic/tabs_cubit/tabs_cubit.dart';
@@ -27,7 +29,15 @@ class FilterDesignSparePartsStatistics extends StatelessWidget {
 
         if (state is GetProviderInternalOrderSuccess) {
           final orders = state.orders;
-
+          if (state.orders.isEmpty) {
+            return const Center(
+              child:  TextInAppWidget(
+                text: AppLanguageKeys.empty,
+                textSize: 15,
+                textColor: AppColors.greyColor,
+              ),
+            );
+          }
           return Column(
             children: [
               Expanded(
@@ -74,11 +84,10 @@ class FilterDesignSparePartsStatistics extends StatelessWidget {
                   context
                       .read<GetProviderInternalOrderCubit>()
                       .loadInternalOrders(
-                    serviceId: MainCategoryConstants
-                        .carSparePartsID,
-                    pageNumber: page,
-                    orderType: mapOrderType(selectedTab),
-                  );
+                        serviceId: MainCategoryConstants.carSparePartsID,
+                        pageNumber: page,
+                        orderType: mapOrderType(selectedTab),
+                      );
                 },
               ),
             ],
