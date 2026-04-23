@@ -12,16 +12,17 @@ class TextWithTextFormFieldAsColumn2Widget extends StatelessWidget {
   final TextEditingController textFormController = TextEditingController();
   final int? maxLines;
   final double? textFormWidth, textFormHeight, borderRadius, textSize;
-
+  final bool? isDigit;
   TextWithTextFormFieldAsColumn2Widget(
       {super.key,
       required this.text,
-      required this.hint,
+       this.hint="",
       this.options,
       this.maxLines,
       this.textFormWidth,
       this.textFormHeight,
       this.borderRadius,
+        this.isDigit=false,
       this.textSize});
 
   @override
@@ -108,6 +109,7 @@ class TextWithTextFormFieldAsColumn2Widget extends StatelessWidget {
                 textFormWidth: textFormWidth,
                 focusedBorderRadius: BorderRadius.circular(borderRadius ?? 15),
                 enabledBorderRadius: BorderRadius.circular(borderRadius ?? 15),
+                isDigit:isDigit,
               ),
       ],
     );

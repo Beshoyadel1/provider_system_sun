@@ -15,7 +15,7 @@ class EmployeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
-      containerHeight: 70,
+     // containerHeight: 70,
       borderRadius: BorderRadius.circular(12),
       isSelected: false,
       onTap: () {},

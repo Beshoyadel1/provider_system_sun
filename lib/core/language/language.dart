@@ -31,6 +31,13 @@ class AppLocalizations {
       //END//
 
       //others//
+      AppLanguageKeys.attachImages: 'إرفاق الصور',
+      AppLanguageKeys.productCategoryId: 'معرف فئة المنتج',
+      AppLanguageKeys.latinDesc: 'الوصف اللاتيني',
+      AppLanguageKeys.inStock: 'متوفر في المخزون',
+      AppLanguageKeys.instructions: 'التعليمات',
+      AppLanguageKeys.isNew: 'جديد',
+      AppLanguageKeys.sizes: 'المقاسات',
       AppLanguageKeys.selectConversation: 'اختر محادثة',
       AppLanguageKeys.male: 'ذكر',
       AppLanguageKeys.female: 'أنثى',
@@ -1260,6 +1267,13 @@ class AppLocalizations {
       AppLanguageKeys.cancelledByUser: 'Cancelled by User',
       //END//
       //others//
+      AppLanguageKeys.attachImages: 'Attach Images',
+      AppLanguageKeys.productCategoryId: 'Product Category ID',
+      AppLanguageKeys.latinDesc: 'Description',
+      AppLanguageKeys.inStock: 'In Stock',
+      AppLanguageKeys.instructions: 'Instructions',
+      AppLanguageKeys.isNew: 'New',
+      AppLanguageKeys.sizes: 'Sizes',
       AppLanguageKeys.selectConversation: 'Select Conversation',
       AppLanguageKeys.male: 'Male',
       AppLanguageKeys.female: 'Female',

@@ -19,6 +19,13 @@ class AppLanguageKeys {
   //end//
 
   //others//
+  static const String attachImages = 'attachImages';
+  static const String productCategoryId = 'productCategoryId';
+  static const String latinDesc = 'latinDesc';
+  static const String inStock = 'inStock';
+  static const String instructions = 'instructions';
+  static const String isNew = 'isNew';
+  static const String sizes = 'sizes';
   static const String selectConversation = 'selectConversation';
   static const String male = 'male';
   static const String female = 'female';
