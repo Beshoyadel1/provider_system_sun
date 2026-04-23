@@ -1,57 +1,60 @@
+import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../../core/cubit/app_cubit/app_cubit.dart';
-import '../../../../../../features/service_settings/custom_widget/expansion_container_setting_widget.dart';
-import '../../../../../../features/service_settings/logic/cubit/service_settings_cubit/service_settings_cubit.dart';
-import '../../../../../../features/service_settings/logic/cubit/service_settings_cubit/service_settings_state.dart';
-import '../../../../../../features/service_settings/logic/service_settings_helper/service_settings_helper.dart';
-import '../../../../../../features/service_settings/car_spare_parts_in_service_settings/screens/icon_car_orange_text_of_car_spare_parts_in_service_settings.dart';
-import '../../../../../../features/service_settings/first_screen_service_settings/screens/first_row_in_data_container_in_list_data_first_screen_service_setting.dart';
+import 'package:sun_web_system/features/service_settings/car_spare_parts_in_service_settings/screens/expansion_container_spare_parts_setting_widget.dart';
+import 'package:sun_web_system/features/service_settings/logic/create_prov_service_cubit/create_prov_service_cubit.dart';
+import 'package:sun_web_system/features/service_settings/logic/get_all_product_categories_cubit/get_all_product_categories_cubit.dart';
+import 'package:sun_web_system/features/service_settings/logic/get_all_product_categories_cubit/get_all_product_categories_state.dart';
+import '../../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/screens/icon_car_orange_text_of_added_maintenance_and_internal_services.dart';
 
 class DataContainerInListDataCarSparePartsInServiceSettings
     extends StatelessWidget {
-  const DataContainerInListDataCarSparePartsInServiceSettings({super.key});
+  final String textServiceScreen;
+  final Uint8List imageMemory;
+
+  const DataContainerInListDataCarSparePartsInServiceSettings(
+      {super.key, required this.textServiceScreen, required this.imageMemory});
 
   @override
   Widget build(BuildContext context) {
-    final isArabic = AppCubit.get(context).isAllAppLanguageArabic;
-    return  Padding(
+    return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Column(
         spacing: 30,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const FirstRowInDataContainerInListDataFirstScreenServiceSetting(),
-          const IconCarOrangeTextOfCarSparePartsInServiceSettings(),
-          BlocBuilder<ServiceSettingsCubit, ServiceSettingsState>(
+          IconCarOrangeTextOfAddedMaintenanceAndInternalServices(
+            text: textServiceScreen,
+            imageMemory: imageMemory,
+          ),
+          BlocBuilder<GetAllProductCategoriesCubit, GetAllProductCategoriesState>(
             buildWhen: (previous, current) =>
-            current is ServiceSettingsLoading ||
-                current is ServiceSettingsSuccess ||
-                current is ServiceSettingsError,
+            current is GetAllProductCategoriesLoading ||
+                current is GetAllProductCategoriesSuccess ||
+                current is GetAllProductCategoriesError,
             builder: (context, state) {
-              if (state is ServiceSettingsLoading) {
+              if (state is GetAllProductCategoriesLoading) {
                 return const Center(child: CircularProgressIndicator());
               }
 
-              if (state is ServiceSettingsError) {
-                return Text(state.message);
-              }
-              if (state is ServiceSettingsSuccess) {
+              if (state is GetAllProductCategoriesSuccess) {
                 return Column(
-                  children: List.generate(state.services.length, (index) {
-                    final service = state.services[index];
+                  children: List.generate(state.categories.length, (index) {
+                    final categories = state.categories[index];
 
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 15),
-                      child: ExpansionContainerSettingWidget(
-                        imageMemory: service.image,
-                        serviceId: service.id!,
-                        text: ServiceSettingsHelper.getServiceName(
-                          service: service,
-                          isArabic: isArabic,
-                        ),
+                      child: ExpansionContainerSparePartsSettingWidget(
+                        imageMemory: categories.image,
+                        text: categories.getName(context),
+                        serviceId: categories.id!,
                         isDoneTask: true,
+                        onTap: () {
+                          context.read<CreateProvServiceCubit>().setService(
+                            id: categories.id!,
+                          );
+                        },
                       ),
                     );
                   }),
@@ -61,7 +64,6 @@ class DataContainerInListDataCarSparePartsInServiceSettings
               return const SizedBox();
             },
           ),
-          //ListViewDataContainerCarSparePartsDetails()
         ],
       ),
     );

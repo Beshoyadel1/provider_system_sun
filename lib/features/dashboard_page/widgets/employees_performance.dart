@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/dashboard_page/logic/get_provider_total_rate_and_employee_and_balance_cubit/get_provider_total_rate_and_employee_and_balance_cubit.dart';
 import 'package:sun_web_system/features/dashboard_page/logic/get_provider_total_rate_and_employee_and_balance_cubit/get_provider_total_rate_and_employee_and_balance_state.dart';
+import 'package:sun_web_system/features/internal_services/internal_orders/custom_widget/text_empty_view_data.dart';
 import '../../../../../core/language/language_constant.dart';
 import '../../../../../core/theming/colors.dart';
 import '../../../../../core/theming/fonts.dart';
@@ -14,8 +15,11 @@ class EmployeesPerformance extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    bool isMobile = size.width <= 1280;
     return CustomContainer(
-      containerWidth: 280,
+      containerWidth:isMobile?double.infinity: 500,
+      containerHeight: 350,
       borderRadius: BorderRadius.circular(20),
       isSelected: false,
       onTap: () {},
@@ -52,7 +56,7 @@ class EmployeesPerformance extends StatelessWidget {
                   final employees = state.data.topEmployees;
 
                   if (employees.isEmpty) {
-                    return const Text("No Employees");
+                    return const TextEmptyViewData();
                   }
 
                   return Column(

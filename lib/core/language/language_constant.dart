@@ -19,6 +19,7 @@ class AppLanguageKeys {
   //end//
 
   //others//
+  static const String selectConversation = 'selectConversation';
   static const String male = 'male';
   static const String female = 'female';
   static const String servicePackage = 'servicePackage';

@@ -38,6 +38,7 @@ class AccountBalance extends StatelessWidget {
               }
 
               if (state is WalletBalanceSuccess) {
+
                 return RowTextIconOrange(
                   text: state.balance.toString(),
                   imagePath: AppImageKeys.coin,

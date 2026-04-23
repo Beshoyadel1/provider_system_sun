@@ -29,7 +29,6 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController genderController = TextEditingController();
   final TextEditingController ageController = TextEditingController();
-  //final TextEditingController nationalityController = TextEditingController();
   final TextEditingController joiningDateController = TextEditingController();
 
   bool _isLoaded = false;
@@ -51,19 +50,13 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
       usernameController.text =
           OrderFunctions.valueOrEmpty(user.username, context);
 
-      phoneController.text =
-          OrderFunctions.valueOrEmpty(user.phone, context);
+      phoneController.text = OrderFunctions.valueOrEmpty(user.phone, context);
 
-      emailController.text =
-          OrderFunctions.valueOrEmpty(user.email, context);
+      emailController.text = OrderFunctions.valueOrEmpty(user.email, context);
 
+      ageController.text = OrderFunctions.valueOrEmpty(user.age, context);
 
-
-      ageController.text =
-          OrderFunctions.valueOrEmpty(user.age, context);
-
-      genderController.text =
-          OrderFunctions.getGenderText(user.age, context);
+      genderController.text = OrderFunctions.getGenderText(user.gander, context);
 
       joiningDateController.text =
           OrderFunctions.formatDateFromDateTime(user.joinDate);
@@ -90,8 +83,9 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
             _buildField(isMobile, AppLanguageKeys.email, emailController),
             _buildField(isMobile, AppLanguageKeys.gender, genderController),
             _buildField(isMobile, AppLanguageKeys.age, ageController),
-          //  _buildField(isMobile, AppLanguageKeys.nationality, nationalityController),
-            _buildField(isMobile, AppLanguageKeys.joiningDate, joiningDateController),
+            //  _buildField(isMobile, AppLanguageKeys.nationality, nationalityController),
+            _buildField(
+                isMobile, AppLanguageKeys.joiningDate, joiningDateController),
           ],
         ),
         const Wrap(
@@ -118,7 +112,7 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
       width: isMobile ? double.infinity : 280,
       child: TextFormFieldWidget(
         textFormController: controller,
-        text: label, // ✅ translation handled inside widget
+        text: label,
         textSize: 16,
         isColumn: true,
         textColor: AppColors.darkColor,

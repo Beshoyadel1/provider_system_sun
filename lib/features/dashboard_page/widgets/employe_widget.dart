@@ -38,7 +38,6 @@ class EmployeWidget extends StatelessWidget {
 
             const SizedBox(width: 10),
 
-            /// 🔹 Name + Job
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

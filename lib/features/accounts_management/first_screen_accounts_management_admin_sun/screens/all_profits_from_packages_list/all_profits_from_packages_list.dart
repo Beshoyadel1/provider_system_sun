@@ -9,6 +9,7 @@ import 'package:sun_web_system/features/accounts_management/custom_widget/title_
 import 'package:sun_web_system/features/accounts_management/logic/package_cubit/package_cubit.dart';
 import 'package:sun_web_system/features/accounts_management/logic/package_cubit/package_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/features/internal_services/internal_orders/custom_widget/text_empty_view_data.dart';
 import 'package:sun_web_system/features/internal_services/internal_orders/first_screen_internal_orders/logic/order_funcations/order_functions.dart';
 
 class AllProfitsFromPackagesList extends StatelessWidget {
@@ -46,7 +47,7 @@ class AllProfitsFromPackagesList extends StatelessWidget {
                 final packages = state.packages;
 
                 if (packages.isEmpty) {
-                  return const Text("No packages");
+                  return const TextEmptyViewData();
                 }
 
                 return Container(

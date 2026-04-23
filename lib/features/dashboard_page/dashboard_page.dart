@@ -3,11 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/dashboard_page/logic/get_provider_service_statistics_cubit/get_provider_service_statistics_cubit.dart';
 import 'package:sun_web_system/features/dashboard_page/logic/get_provider_total_rate_and_employee_and_balance_cubit/get_provider_total_rate_and_employee_and_balance_cubit.dart';
 import 'package:sun_web_system/features/dashboard_page/widgets/list_custom_chart.dart';
-import '../../../../core/theming/assets.dart';
-import '../../../../core/theming/colors.dart';
 import 'widgets/account_balance.dart';
 import 'widgets/chart_order.dart';
-import 'widgets/custom_chart.dart';
 import 'widgets/employees_performance.dart';
 import 'widgets/services_evaluation.dart';
 import 'widgets/services_statistics.dart';
@@ -45,13 +42,13 @@ class DashboardPage extends StatelessWidget {
                       AccountBalance(),
                       ChartOrder(),
                       Column(
-                        spacing: 10,
+                        spacing: 5,
                         children: [
-                          SizedBox(width: 310, child: ServicesEvaluation()),
-                          EmployeesPerformance(),
+                          ServicesEvaluation(),
+                          ServicesStatistics(),
                         ],
                       ),
-                      ServicesStatistics(),
+                      EmployeesPerformance(),
                     ],
                   ),
                 ),
@@ -63,3 +60,4 @@ class DashboardPage extends StatelessWidget {
     );
   }
 }
+

@@ -7,6 +7,7 @@ import 'package:sun_web_system/core/theming/text_styles.dart';
 import 'package:sun_web_system/features/accounts_management/custom_widget/title_with_sub_title.dart';
 import 'package:sun_web_system/features/accounts_management/logic/provider_balances_cubit/provider_balances_cubit.dart';
 import 'package:sun_web_system/features/accounts_management/logic/provider_balances_cubit/provider_balances_state.dart';
+import 'package:sun_web_system/features/internal_services/internal_orders/custom_widget/text_empty_view_data.dart';
 import 'package:sun_web_system/features/internal_services/internal_orders/custom_widget/text_with_container_status.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -38,10 +39,11 @@ class NumberOfTransactionList extends StatelessWidget {
               return const Text("Error loading transactions");
             }
 
-            /// ✅ Success
             if (state is ProviderBalanceSuccess) {
               final orders = state.model.recentOrders;
-
+              if (orders.isEmpty) {
+                return const TextEmptyViewData();
+              }
               return Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(

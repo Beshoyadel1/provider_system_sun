@@ -31,6 +31,7 @@ class AppLocalizations {
       //END//
 
       //others//
+      AppLanguageKeys.selectConversation: 'اختر محادثة',
       AppLanguageKeys.male: 'ذكر',
       AppLanguageKeys.female: 'أنثى',
       AppLanguageKeys.servicePackage: 'باقة الخدمة',
@@ -1259,6 +1260,7 @@ class AppLocalizations {
       AppLanguageKeys.cancelledByUser: 'Cancelled by User',
       //END//
       //others//
+      AppLanguageKeys.selectConversation: 'Select Conversation',
       AppLanguageKeys.male: 'Male',
       AppLanguageKeys.female: 'Female',
       AppLanguageKeys.servicePackage: 'Service Package',
