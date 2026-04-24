@@ -11,7 +11,9 @@ class AddSparePartsInServiceSettings extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.scaffoldColor,
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: AppColors.scaffoldColor,
+      ),
       body: const SafeArea(
         child: Padding(
           padding: EdgeInsets.all(20),

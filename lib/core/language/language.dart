@@ -32,6 +32,7 @@ class AppLocalizations {
 
       //others//
       AppLanguageKeys.outOfStock: 'غير متوفر',
+      AppLanguageKeys.mustImageUpload: 'يجب رفع صورة',
       AppLanguageKeys.attachImages: 'إرفاق الصور',
       AppLanguageKeys.productCategoryId: 'معرف فئة المنتج',
       AppLanguageKeys.latinDesc: 'الوصف اللاتيني',
@@ -1270,6 +1271,7 @@ class AppLocalizations {
       //END//
       //others//
       AppLanguageKeys.outOfStock: 'Out of Stock',
+      AppLanguageKeys.mustImageUpload: 'Image upload is required',
       AppLanguageKeys.attachImages: 'Attach Images',
       AppLanguageKeys.productCategoryId: 'Product Category ID',
       AppLanguageKeys.latinDesc: 'Description',

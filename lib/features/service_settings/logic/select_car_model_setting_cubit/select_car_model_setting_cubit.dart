@@ -13,12 +13,8 @@ class SelectCarModelSettingCubit
 
   final Map<int, List<CarModelDataModel>> _modelsCache = {};
 
-  /// 🔥 KEY = brandId (NOT index)
   final Map<int, BrandInputData> brandInputs = {};
 
-  /// =========================
-  /// SETTERS
-  /// =========================
 
   void setSelectedOption(int brandId, int option) {
     final existing = brandInputs[brandId] ?? BrandInputData();
@@ -46,10 +42,6 @@ class SelectCarModelSettingCubit
 
     checkValidation();
   }
-
-  /// =========================
-  /// VALIDATION
-  /// =========================
 
   void checkValidation() {
     final message = validateAllWithMessage();

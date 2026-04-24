@@ -20,6 +20,7 @@ class AppLanguageKeys {
 
   //others//
   static const String outOfStock = 'outOfStock';
+  static const String mustImageUpload = 'mustImageUpload';
   static const String attachImages = 'attachImages';
   static const String productCategoryId = 'productCategoryId';
   static const String latinDesc = 'latinDesc';
@@ -420,6 +421,7 @@ class AppLanguageKeys {
   static const String facilityIdentityKey = 'facilityIdentityEN';
   static const String attachIdentityKey = 'attachIdentityEN';
   static const String imageRequirementsKey = 'imageRequirementsEN';
+
   static const String facilityNameKey = 'facilityNameEN';
   static const String facilityNameENKey = 'facilityNameENEN';
   static const String activityTypeKey = 'activityTypeEN';

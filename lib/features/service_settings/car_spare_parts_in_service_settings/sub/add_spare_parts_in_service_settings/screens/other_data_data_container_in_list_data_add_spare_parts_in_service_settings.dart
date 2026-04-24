@@ -2,13 +2,21 @@ import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/core/pages_widgets/general_widgets/snakbar.dart';
+import 'package:sun_web_system/features/service_settings/car_spare_parts_in_service_settings/sub/add_spare_parts_in_service_settings/screens/car_selection_controller.dart';
+import 'package:sun_web_system/features/service_settings/car_spare_parts_in_service_settings/sub/add_spare_parts_in_service_settings/screens/car_selection_item_widget.dart';
 import 'package:sun_web_system/features/service_settings/car_spare_parts_in_service_settings/sub/add_spare_parts_in_service_settings/screens/image_compressor.dart';
 import 'package:sun_web_system/features/service_settings/car_spare_parts_in_service_settings/sub/add_spare_parts_in_service_settings/screens/is_new_switch.dart';
 import 'package:sun_web_system/features/service_settings/car_spare_parts_in_service_settings/sub/add_spare_parts_in_service_settings/screens/select_product_category.dart';
 import 'package:sun_web_system/features/service_settings/car_spare_parts_in_service_settings/sub/add_spare_parts_in_service_settings/screens/select_tax_product.dart';
+import 'package:sun_web_system/features/service_settings/car_spare_parts_in_service_settings/sub/add_spare_parts_in_service_settings/screens/size_controllers.dart';
+import 'package:sun_web_system/features/service_settings/car_spare_parts_in_service_settings/sub/add_spare_parts_in_service_settings/screens/size_item_widget.dart';
 import 'package:sun_web_system/features/service_settings/custom_widget/text_with_text_form_field_as_column2_widget.dart';
+import 'package:sun_web_system/features/service_settings/logic/car_selection_cubit/CarSelectionCubit.dart';
 import 'package:sun_web_system/features/service_settings/logic/get_all_product_categories_cubit/get_all_product_categories_cubit.dart';
 import 'package:sun_web_system/features/service_settings/logic/get_tax_cubit/get_tax_cubit.dart';
+import 'package:sun_web_system/features/service_settings/logic/select_car_model_setting_cubit/select_car_model_setting_cubit.dart';
+import 'package:sun_web_system/features/service_settings/logic/select_car_model_setting_cubit/select_car_model_setting_state.dart';
 import '../../../../../../../../features/advertisements/first_screen_advertisements/screens/last_button_in_list_data_first_screen_advertisements.dart';
 import '../../../../../../../../features/permissions/custom_widget/text_with_container_as_column_widget.dart';
 import '../../../../../../../../core/language/language_constant.dart';
@@ -32,14 +40,15 @@ class _OtherDataDataContainerInListDataAddSparePartsInServiceSettingsState exten
   final priceController = TextEditingController();
   final costController = TextEditingController();
   final instructionsController = TextEditingController();
-  final sizesController = TextEditingController();
   final inStockController = TextEditingController();
+  List<CarSelectionController> cars = [CarSelectionController()];
 
   final formKey = GlobalKey<FormState>();
   Uint8List? imageBytes;
   String? imageName;
   int? originalSize;
   int? compressedSize;
+
   Future<void> pickImage() async {
     final file = await ImagePicker().pickImage(source: ImageSource.gallery);
 
@@ -62,6 +71,34 @@ class _OtherDataDataContainerInListDataAddSparePartsInServiceSettingsState exten
       });
     }
   }
+  List<SizeControllers> sizes = [SizeControllers()];
+
+  @override
+  void dispose() {
+    for (var s in sizes) {
+      s.nameController.dispose();
+      s.latinNameController.dispose();
+      s.priceController.dispose();
+      s.costController.dispose();
+    }
+    descController.dispose();
+    latinDescController.dispose();
+    instructionsController.dispose();
+    inStockController.dispose();
+    super.dispose();
+  }
+
+  void printSizes() {
+    debugPrint("===== SIZES DATA =====");
+    for (int i = 0; i < sizes.length; i++) {
+      final s = sizes[i];
+      debugPrint("=== SIZE ${i + 1} ===");
+      debugPrint("Name: ${s.nameController.text}");
+      debugPrint("Latin: ${s.latinNameController.text}");
+      debugPrint("Price: ${s.priceController.text}");
+      debugPrint("Cost: ${s.costController.text}");
+    }
+  }
   void printControllers() {
     final fields = {
       "name": nameController.text,
@@ -71,7 +108,6 @@ class _OtherDataDataContainerInListDataAddSparePartsInServiceSettingsState exten
       "price": priceController.text,
       "cost": costController.text,
       "instructions": instructionsController.text,
-      "sizes": sizesController.text,
       "inStockController": inStockController.text,
     };
 
@@ -108,6 +144,12 @@ class _OtherDataDataContainerInListDataAddSparePartsInServiceSettingsState exten
         BlocProvider(
           create: (_) =>
               GetAllProductCategoriesCubit()..getAllProductCategories(),
+        ),
+        BlocProvider(
+          create: (_) => SelectCarModelSettingCubit()..fetchBrands(),
+        ),
+        BlocProvider(
+          create: (_) => CarSelectionCubit(),
         ),
       ],
       child: Builder(builder: (context) {
@@ -176,21 +218,8 @@ class _OtherDataDataContainerInListDataAddSparePartsInServiceSettingsState exten
                       TextWithTextFormFieldAsColumn2Widget(
                         text: AppLanguageKeys.inStock,
                         textFormController: inStockController,
+                        isDigit: true,
                       )),
-                  _item(
-                      itemWidth,
-                      TextWithTextFormFieldAsColumn2Widget(
-                        text: AppLanguageKeys.sizes,
-                        textFormController: sizesController,
-                      )),
-                  _item(
-                    itemWidth,
-                    IsNewSwitch(
-                      onChanged: (value) {
-                        isInStockValue = value;
-                      },
-                    ),
-                  ),
                   _item(
                     itemWidth,
                     TextWithContainerAsColumnWidget(
@@ -201,6 +230,59 @@ class _OtherDataDataContainerInListDataAddSparePartsInServiceSettingsState exten
                       onTap: pickImage,
                     ),
                   ),
+                  _item(
+                    itemWidth,
+                    IsNewSwitch(
+                      onChanged: (value) {
+                        isInStockValue = value;
+                      },
+                    ),
+                  ),
+
+                  ...List.generate(sizes.length, (index) {
+                    return _item(
+                      itemWidth,
+                      SizeItemWidget(
+                        title: AppLanguageKeys.sizes,
+                        controllers: sizes[index],
+                        itemWidth: itemWidth,
+                        showDelete: sizes.length > 1,
+
+                        onDelete: () {
+                          setState(() {
+                            sizes.removeAt(index);
+                          });
+                        },
+                        onAdd: () {
+                          setState(() {
+                            sizes.insert(index + 1, SizeControllers());
+                          });
+                        },
+                      ),
+                    );
+                  }),
+
+                  ...List.generate(cars.length, (index) {
+                    return _item(
+                      itemWidth,
+                      CarSelectionItemWidget(
+                        controller: cars[index],
+                        showDelete: cars.length > 1,
+
+                        onAdd: () {
+                          setState(() {
+                            cars.insert(index + 1, CarSelectionController());
+                          });
+                        },
+
+                        onDelete: () {
+                          setState(() {
+                            cars.removeAt(index);
+                          });
+                        },
+                      ),
+                    );
+                  }),
                 ],
               ),
               Row(
@@ -210,7 +292,33 @@ class _OtherDataDataContainerInListDataAddSparePartsInServiceSettingsState exten
                     text: AppLanguageKeys.save,
                     onTap: () {
                       if (formKey.currentState!.validate()) {
+                        if (imageBytes == null) {
+                          AppSnackBar.showError(AppLanguageKeys.mustImageUpload);
+                          return;
+                        }
+                        for (var car in cars) {
+                          if (car.brandId == null ||
+                              car.modelId == null ||
+                              car.categoryId == null) {
+
+                            AppSnackBar.showError("Complete car data");
+                            return;
+                          }
+                        }
+                        AppSnackBar.showSuccess(AppLanguageKeys.success);
+
                         printControllers();
+                        printSizes();
+
+                        for (int i = 0; i < cars.length; i++) {
+                          final c = cars[i];
+
+                          debugPrint("=== CAR ${i + 1} ===");
+                          debugPrint("Brand ID: ${c.brandId}");
+                          debugPrint("Model ID: ${c.modelId}");
+                          debugPrint("Category ID: ${c.categoryId}");
+                          debugPrint("Category Name: ${c.categoryName}");
+                        }
 
                         final taxCubit = context.read<GetTaxCubit>();
                         final selectedTax = taxCubit.selectedTax;
@@ -248,8 +356,10 @@ class _OtherDataDataContainerInListDataAddSparePartsInServiceSettingsState exten
                         } else {
                           debugPrint("No Image Selected");
                         }
+
                       } else {
                         debugPrint("❌ Form not valid");
+                        AppSnackBar.showError(AppLanguageKeys.enterYourData);
                       }
                     },
                   ),
