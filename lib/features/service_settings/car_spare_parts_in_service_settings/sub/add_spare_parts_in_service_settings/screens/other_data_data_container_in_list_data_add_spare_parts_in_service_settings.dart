@@ -1,19 +1,91 @@
+import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sun_web_system/core/theming/assets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/features/service_settings/car_spare_parts_in_service_settings/sub/add_spare_parts_in_service_settings/screens/image_compressor.dart';
+import 'package:sun_web_system/features/service_settings/car_spare_parts_in_service_settings/sub/add_spare_parts_in_service_settings/screens/is_new_switch.dart';
+import 'package:sun_web_system/features/service_settings/car_spare_parts_in_service_settings/sub/add_spare_parts_in_service_settings/screens/select_product_category.dart';
+import 'package:sun_web_system/features/service_settings/car_spare_parts_in_service_settings/sub/add_spare_parts_in_service_settings/screens/select_tax_product.dart';
 import 'package:sun_web_system/features/service_settings/custom_widget/text_with_text_form_field_as_column2_widget.dart';
+import 'package:sun_web_system/features/service_settings/logic/get_all_product_categories_cubit/get_all_product_categories_cubit.dart';
+import 'package:sun_web_system/features/service_settings/logic/get_tax_cubit/get_tax_cubit.dart';
 import '../../../../../../../../features/advertisements/first_screen_advertisements/screens/last_button_in_list_data_first_screen_advertisements.dart';
-import '../../../../../../../../core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
-import '../../../../../../../../features/service_settings/car_spare_parts_in_service_settings/sub/edit_delete_spare_parts_in_service_settings/edit_delete_spare_parts_in_service_settings.dart';
 import '../../../../../../../../features/permissions/custom_widget/text_with_container_as_column_widget.dart';
 import '../../../../../../../../core/language/language_constant.dart';
-import '../../../../../../../../features/permissions/custom_widget/text_with_text_form_field_as_column_widget.dart';
+import 'package:image_picker/image_picker.dart';
 
 class OtherDataDataContainerInListDataAddSparePartsInServiceSettings
-    extends StatelessWidget {
+    extends StatefulWidget {
   const OtherDataDataContainerInListDataAddSparePartsInServiceSettings(
       {super.key});
 
+  @override
+  State<OtherDataDataContainerInListDataAddSparePartsInServiceSettings> createState() => _OtherDataDataContainerInListDataAddSparePartsInServiceSettingsState();
+}
+
+class _OtherDataDataContainerInListDataAddSparePartsInServiceSettingsState extends State<OtherDataDataContainerInListDataAddSparePartsInServiceSettings> {
+  bool isInStockValue = false;
+  final nameController = TextEditingController();
+  final latinNameController = TextEditingController();
+  final descController = TextEditingController();
+  final latinDescController = TextEditingController();
+  final priceController = TextEditingController();
+  final costController = TextEditingController();
+  final instructionsController = TextEditingController();
+  final sizesController = TextEditingController();
+  final inStockController = TextEditingController();
+
+  final formKey = GlobalKey<FormState>();
+  Uint8List? imageBytes;
+  String? imageName;
+  int? originalSize;
+  int? compressedSize;
+  Future<void> pickImage() async {
+    final file = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (file != null) {
+      final originalBytesLocal = await file.readAsBytes();
+
+      final compressedBytesLocal = await ImageCompressor.compressImage(
+        originalBytesLocal,
+        minWidth: 800,
+        minHeight: 800,
+        quality: 70,
+      );
+
+      setState(() {
+        imageBytes = compressedBytesLocal;
+        imageName = file.name;
+
+        originalSize = originalBytesLocal.length;
+        compressedSize = compressedBytesLocal!.length;
+      });
+    }
+  }
+  void printControllers() {
+    final fields = {
+      "name": nameController.text,
+      "latinName": latinNameController.text,
+      "description": descController.text,
+      "latinDesc": latinDescController.text,
+      "price": priceController.text,
+      "cost": costController.text,
+      "instructions": instructionsController.text,
+      "sizes": sizesController.text,
+      "inStockController": inStockController.text,
+    };
+
+    debugPrint("===== FORM DATA =====");
+
+    fields.forEach((key, value) {
+      if (value.trim().isNotEmpty) {
+        debugPrint("$key: $value");
+      } else {
+        debugPrint("$key: ❌ EMPTY");
+      }
+    });
+
+  }
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -26,79 +98,167 @@ class OtherDataDataContainerInListDataAddSparePartsInServiceSettings
     } else {
       itemsPerRow = 1;
     }
-
     final itemWidth = (width - ((itemsPerRow - 1) * 10)) / itemsPerRow;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: 20,
-      children: [
-        Wrap(
-          spacing: 10,
-          runSpacing: 20,
-          children: [
-            _item(
-                itemWidth,
-                TextWithTextFormFieldAsColumn2Widget(
-                    text: AppLanguageKeys.name,)),
-            _item(
-                itemWidth,
-                TextWithTextFormFieldAsColumn2Widget(
-                    text: AppLanguageKeys.latinName,)),
-            _item(
-                itemWidth,
-                TextWithTextFormFieldAsColumn2Widget(
-                    text: AppLanguageKeys.taxes,
-                   )),
-            _item(
-                itemWidth,
-                TextWithTextFormFieldAsColumn2Widget(
-                    text: AppLanguageKeys.description, maxLines: 5)),
-            _item(
-                itemWidth,
-                TextWithTextFormFieldAsColumn2Widget(
-                    text: AppLanguageKeys.latinDesc, maxLines: 5)),
-            _item(
-                itemWidth,
-                TextWithTextFormFieldAsColumn2Widget(
-                  text: AppLanguageKeys.productCategoryId,)),
-            _item(
-                itemWidth,
-                TextWithTextFormFieldAsColumn2Widget(
-                    text: AppLanguageKeys.price,isDigit: true,)),
-            _item(
-                itemWidth,
-                TextWithTextFormFieldAsColumn2Widget(
-                    text: AppLanguageKeys.cost,isDigit: true,)),
-            _item(
-                itemWidth,
-                TextWithTextFormFieldAsColumn2Widget(
-                    text: AppLanguageKeys.inStock,isDigit: true,)),
-            _item(
-                itemWidth,
-                TextWithTextFormFieldAsColumn2Widget(
-                    text: AppLanguageKeys.instructions,)),
-            _item(
-                itemWidth,
-                TextWithTextFormFieldAsColumn2Widget(
-                    text: AppLanguageKeys.isNew,)),
-            _item(
-                itemWidth,
-                TextWithTextFormFieldAsColumn2Widget(
-                    text: AppLanguageKeys.sizes,)),
-            _item(
-                itemWidth,
-                const TextWithContainerAsColumnWidget(
-                  title: AppLanguageKeys.sparePartImage,
-                  textContainer: AppLanguageKeys.attachImages,
-                )),
-          ],
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => GetTaxCubit()..getTax(),
         ),
-        LastButtonInListDataFirstScreenAdvertisements(
-          text: AppLanguageKeys.save,
-          onTap: () {},
+        BlocProvider(
+          create: (_) =>
+              GetAllProductCategoriesCubit()..getAllProductCategories(),
         ),
       ],
+      child: Builder(builder: (context) {
+        return Form(
+          key: formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 20,
+            children: [
+              Wrap(
+                spacing: 10,
+                runSpacing: 20,
+                children: [
+                  _item(
+                      itemWidth,
+                      TextWithTextFormFieldAsColumn2Widget(
+                        text: AppLanguageKeys.name,
+                        textFormController: nameController,
+                      )),
+                  _item(
+                      itemWidth,
+                      TextWithTextFormFieldAsColumn2Widget(
+                        text: AppLanguageKeys.latinName,
+                        textFormController: latinNameController,
+                      )),
+                  _item(
+                    itemWidth,
+                    const SelectTaxProduct(),
+                  ),
+                  _item(
+                      itemWidth,
+                      TextWithTextFormFieldAsColumn2Widget(
+                          text: AppLanguageKeys.description,
+                          textFormController: descController,
+                          maxLines: 5)),
+                  _item(
+                      itemWidth,
+                      TextWithTextFormFieldAsColumn2Widget(
+                          text: AppLanguageKeys.latinDesc,
+                          textFormController: latinDescController,
+                          maxLines: 5)),
+                  _item(
+                      itemWidth,
+                      TextWithTextFormFieldAsColumn2Widget(
+                        text: AppLanguageKeys.instructions,
+                        textFormController: instructionsController,
+                        maxLines: 5,
+                      )),
+                  _item(itemWidth, const SelectProductCategory()),
+                  _item(
+                      itemWidth,
+                      TextWithTextFormFieldAsColumn2Widget(
+                        text: AppLanguageKeys.price,
+                        isDigit: true,
+                        textFormController: priceController,
+                      )),
+                  _item(
+                      itemWidth,
+                      TextWithTextFormFieldAsColumn2Widget(
+                        text: AppLanguageKeys.cost,
+                        isDigit: true,
+                        textFormController: costController,
+                      )),
+                  _item(
+                      itemWidth,
+                      TextWithTextFormFieldAsColumn2Widget(
+                        text: AppLanguageKeys.inStock,
+                        textFormController: inStockController,
+                      )),
+                  _item(
+                      itemWidth,
+                      TextWithTextFormFieldAsColumn2Widget(
+                        text: AppLanguageKeys.sizes,
+                        textFormController: sizesController,
+                      )),
+                  _item(
+                    itemWidth,
+                    IsNewSwitch(
+                      onChanged: (value) {
+                        isInStockValue = value;
+                      },
+                    ),
+                  ),
+                  _item(
+                    itemWidth,
+                    TextWithContainerAsColumnWidget(
+                      title: AppLanguageKeys.sparePartImage,
+                      textContainer: AppLanguageKeys.attachImages,
+                      fileName: imageName,
+                      imageBytes: imageBytes,
+                      onTap: pickImage,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  LastButtonInListDataFirstScreenAdvertisements(
+                    text: AppLanguageKeys.save,
+                    onTap: () {
+                      if (formKey.currentState!.validate()) {
+                        printControllers();
+
+                        final taxCubit = context.read<GetTaxCubit>();
+                        final selectedTax = taxCubit.selectedTax;
+
+                        if (selectedTax != null) {
+                          debugPrint("===== TAX DATA =====");
+                          debugPrint("Tax ID: ${selectedTax.taxId}");
+                          debugPrint("Tax %: ${selectedTax.taxPercentage}");
+                        } else {
+                          debugPrint("❌ No Tax Selected");
+                        }
+                        debugPrint("===== Category DATA =====");
+                        final categoryCubit =
+                            context.read<GetAllProductCategoriesCubit>();
+
+                        final selectedCategory = categoryCubit.selectedCategory;
+
+                        if (selectedCategory != null) {
+                          debugPrint("Category ID: ${selectedCategory.id}");
+                          debugPrint(
+                              "Category Name: ${selectedCategory.getName(context)}");
+                        }
+                        debugPrint("===== Is New =====");
+                        debugPrint("Is New: $isInStockValue");
+                        if (imageBytes != null) {
+                          debugPrint("===== Image =====");
+                          debugPrint("Image Name: $imageName");
+                          debugPrint(
+                            "Original Size: ${(originalSize! / 1024).toStringAsFixed(2)} KB",
+                          );
+
+                          debugPrint(
+                            "Compressed Size: ${(compressedSize! / 1024).toStringAsFixed(2)} KB",
+                          );
+                        } else {
+                          debugPrint("No Image Selected");
+                        }
+                      } else {
+                        debugPrint("❌ Form not valid");
+                      }
+                    },
+                  ),
+                ],
+              )
+            ],
+          ),
+        );
+      }),
     );
   }
 }

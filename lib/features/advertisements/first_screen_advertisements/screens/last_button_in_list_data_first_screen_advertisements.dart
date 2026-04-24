@@ -23,6 +23,7 @@ class LastButtonInListDataFirstScreenAdvertisements extends StatelessWidget {
       widthContainer: 150,
       borderRadius: 30,
       onTap: onTap,
+      isTextCenter: true,
     );
   }
 }

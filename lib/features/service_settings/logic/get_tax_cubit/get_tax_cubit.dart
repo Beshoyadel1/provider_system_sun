@@ -18,7 +18,6 @@ class GetTaxCubit extends Cubit<GetTaxState> {
       final data = await getTaxFunction();
       taxes = data;
 
-      /// ✅ IMPORTANT: select AFTER fetch
       selectedTax = taxes.firstWhere(
             (e) => e.taxId == taxId,
         orElse: () => taxes.first,

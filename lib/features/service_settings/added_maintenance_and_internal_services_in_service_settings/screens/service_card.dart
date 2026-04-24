@@ -60,7 +60,7 @@ class _ServiceCardState extends State<ServiceCard> {
         ),
         BlocProvider(
           create: (_) => GetTaxCubit()
-            ..getTaxAndSelect(service.taxid ?? 0),
+            ..getTaxAndSelect(service.taxid),
         ),
       ],
       child: Builder(

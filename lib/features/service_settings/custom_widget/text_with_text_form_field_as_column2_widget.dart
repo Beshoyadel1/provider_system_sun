@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/core/language/language_constant.dart';
 import '../../../../../../features/permissions/first_screen_permissions/logic/option_dashboard_cubit.dart';
 import '../../../../../core/pages_widgets/text_form_field_widget.dart';
 import '../../../../../core/theming/colors.dart';
@@ -9,24 +10,28 @@ import '../../../../../core/theming/text_styles.dart';
 class TextWithTextFormFieldAsColumn2Widget extends StatelessWidget {
   final String text, hint;
   final List<String>? options;
-  final TextEditingController textFormController = TextEditingController();
+  final TextEditingController? textFormController;
   final int? maxLines;
   final double? textFormWidth, textFormHeight, borderRadius, textSize;
   final bool? isDigit;
+
   TextWithTextFormFieldAsColumn2Widget(
       {super.key,
       required this.text,
-       this.hint="",
+      this.hint = "",
       this.options,
       this.maxLines,
       this.textFormWidth,
       this.textFormHeight,
       this.borderRadius,
-        this.isDigit=false,
+      this.isDigit = false,
+      this.textFormController,
       this.textSize});
 
   @override
   Widget build(BuildContext context) {
+    final controller = textFormController ?? TextEditingController();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -84,7 +89,7 @@ class TextWithTextFormFieldAsColumn2Widget extends StatelessWidget {
                               context
                                   .read<OptionDashboardCubit>()
                                   .selectOption(value);
-                              textFormController.text = value ?? "";
+                              controller.text = value ?? "";
                             },
                           ),
                         ),
@@ -94,14 +99,14 @@ class TextWithTextFormFieldAsColumn2Widget extends StatelessWidget {
                 ),
               )
             : TextFormFieldWidget(
-                textFormController: textFormController,
+                textFormController: controller,
                 fillColor: AppColors.transparent,
                 borderColor: AppColors.darkColor.withOpacity(0.2),
                 hintText: hint,
                 hintTextSize: 11,
                 hintTextColor: AppColors.darkColor.withOpacity(0.4),
-                textSize: 11,
-                contentPadding: EdgeInsetsGeometry.all(5),
+                textSize: 14,
+                contentPadding: const EdgeInsetsGeometry.all(5),
                 textFormHeight: maxLines != null && maxLines! > 1
                     ? null
                     : (textFormHeight ?? 35),
@@ -109,7 +114,13 @@ class TextWithTextFormFieldAsColumn2Widget extends StatelessWidget {
                 textFormWidth: textFormWidth,
                 focusedBorderRadius: BorderRadius.circular(borderRadius ?? 15),
                 enabledBorderRadius: BorderRadius.circular(borderRadius ?? 15),
-                isDigit:isDigit,
+                isDigit: isDigit,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return AppLanguageKeys.enterYourData;
+                  }
+                  return null;
+                },
               ),
       ],
     );
