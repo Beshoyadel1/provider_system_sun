@@ -282,7 +282,7 @@ class _OtherDataDataContainerInListDataAddSparePartsInServiceSettingsState exten
 
                             for (var car in cars) {
                               if (car.brandId == null ||
-                                  car.modelId == null ||
+                                  car.selectedModelIds.isEmpty ||
                                   car.categoryId == null) {
                                 AppSnackBar.showError(AppLanguageKeys.enterYourData);
                                 return;
@@ -301,13 +301,15 @@ class _OtherDataDataContainerInListDataAddSparePartsInServiceSettingsState exten
                                 .map((c) => ProductBrand(brandid: c.brandId))
                                 .toList();
 
-                            final carModels = cars
-                                .map((c) => ProductCarModel(
-                              carBrandId: c.brandId,
-                              carModelId: c.modelId,
-                              productCarBrandId: c.categoryId,
-                            ))
-                                .toList();
+                            final carModels = cars.expand((c) {
+                              return c.selectedModelIds.map((modelId) {
+                                return ProductCarModel(
+                                  carBrandId: c.brandId,
+                                  carModelId: modelId,
+                                  productCarBrandId: c.categoryId,
+                                );
+                              });
+                            }).toList();
 
                             final sizesList = sizes
                                 .map((s) => ProductSize(

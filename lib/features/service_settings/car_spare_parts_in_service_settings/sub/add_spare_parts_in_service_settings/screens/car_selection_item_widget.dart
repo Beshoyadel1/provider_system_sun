@@ -79,7 +79,7 @@ class _CarSelectionItemWidgetState extends State<CarSelectionItemWidget> {
                           GetAllProductCategoriesState>(
                         builder: (context, state) {
                           final cubit =
-                              context.read<GetAllProductCategoriesCubit>();
+                          context.read<GetAllProductCategoriesCubit>();
 
                           if (state is GetAllProductCategoriesLoading) {
                             return const CircularProgressIndicator();
@@ -103,7 +103,7 @@ class _CarSelectionItemWidgetState extends State<CarSelectionItemWidget> {
                                 }).toList(),
                                 onChanged: (value) {
                                   final selected = cubit.categories.firstWhere(
-                                    (e) => e.id == value,
+                                        (e) => e.id == value,
                                   );
                                   setState(() {
                                     widget.controller.categoryId = selected.id;
@@ -151,19 +151,18 @@ class _CarSelectionItemWidgetState extends State<CarSelectionItemWidget> {
                                 children: [
                                   brand.image != null
                                       ? Image.memory(
-                                          brand.image!,
-                                          width: 25,
-                                          height: 25,
-                                        )
-                                      : const Icon(Icons.directions_car,
-                                          size: 20),
+                                    brand.image!,
+                                    width: 25,
+                                    height: 25,
+                                  )
+                                      : const Icon(Icons.directions_car, size: 20),
                                   const SizedBox(width: 8),
                                   Expanded(
                                     child: TextInAppWidget(
                                       text: brand.getName(context),
                                       textSize: 12,
                                       fontWeightIndex:
-                                          FontSelectionData.regularFontFamily,
+                                      FontSelectionData.regularFontFamily,
                                       textColor: AppColors.blackColor,
                                     ),
                                   ),
@@ -176,7 +175,8 @@ class _CarSelectionItemWidgetState extends State<CarSelectionItemWidget> {
 
                             setState(() {
                               widget.controller.brandId = value;
-                              widget.controller.modelId = null;
+                              widget.controller.selectedModelIds.clear();
+                              widget.controller.models.clear(); // ✅ مهم
                               widget.controller.isLoading = true;
                             });
 
@@ -199,74 +199,68 @@ class _CarSelectionItemWidgetState extends State<CarSelectionItemWidget> {
                       ),
                     ],
                   ),
-                  widget.controller.isLoading
-                      ? const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: CircularProgressIndicator(),
-                        )
-                      : Column(
-                          spacing: 10,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const TextInAppWidget(
-                              text: AppLanguageKeys.selectCarModel,
-                              textSize: 11,
-                              fontWeightIndex:
-                                  FontSelectionData.regularFontFamily,
-                              textColor: AppColors.blackColor,
-                            ),
-                            SizedBox(
-                              height: 35,
-                              child: DropdownButtonFormField<int>(
-                                isDense: true,
-                                isExpanded: true,
-                                value: widget.controller.modelId,
-                                items: widget.controller.models.map((model) {
-                                  return DropdownMenuItem<int>(
-                                    value: model.id,
-                                    child: Row(
-                                      children: [
-                                        model.image != null
-                                            ? Image.memory(
-                                                model.image!,
-                                                width: 25,
-                                                height: 25,
-                                              )
-                                            : const Icon(Icons.car_repair,
-                                                size: 20),
-                                        const SizedBox(width: 8),
-                                        Expanded(
-                                          child: TextInAppWidget(
-                                            text: model.name ?? "",
-                                            textSize: 12,
-                                            fontWeightIndex: FontSelectionData
-                                                .regularFontFamily,
-                                            textColor: AppColors.blackColor,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }).toList(),
-                                onChanged: widget.controller.brandId == null
-                                    ? null
-                                    : (value) {
-                                        setState(() {
-                                          widget.controller.modelId = value;
-                                        });
-                                      },
-                                validator: (value) {
-                                  if (value == null) {
-                                    return '';
-                                  }
-                                  return null;
-                                },
-                                decoration: _inputDecoration(),
-                                icon: const Icon(Icons.arrow_drop_down),
-                              ),
-                            ),
-                          ],
+
+                  /// 🔥 الجزء الذكي للـ Models
+                  if (widget.controller.brandId == null)
+                    const SizedBox() // 👈 فاضي خالص قبل اختيار البراند
+
+                  else if (widget.controller.isLoading)
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: CircularProgressIndicator(),
+                    )
+
+                  else if (widget.controller.models.isEmpty)
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "لا توجد موديلات",
+                          style: TextStyle(color: Colors.grey),
                         ),
+                      )
+
+                    else
+                      Column(
+                        spacing: 10,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const TextInAppWidget(
+                            text: AppLanguageKeys.selectCarModel,
+                            textSize: 11,
+                            fontWeightIndex: FontSelectionData.regularFontFamily,
+                            textColor: AppColors.blackColor,
+                          ),
+
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey.shade300),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Column(
+                              children: widget.controller.models.map((model) {
+                                final isSelected = widget.controller.selectedModelIds.contains(model.id);
+
+                                return CheckboxListTile(
+                                  value: isSelected,
+                                  dense: true,
+                                  controlAffinity: ListTileControlAffinity.leading,
+                                  title: Text(model.name ?? ""),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      if (value == true) {
+                                        widget.controller.selectedModelIds.add(model.id!);
+                                      } else {
+                                        widget.controller.selectedModelIds.remove(model.id);
+                                      }
+                                    });
+                                  },
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ],
+                      ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

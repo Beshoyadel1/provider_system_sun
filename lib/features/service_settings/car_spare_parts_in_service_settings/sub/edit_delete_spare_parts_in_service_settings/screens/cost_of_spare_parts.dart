@@ -9,19 +9,19 @@ import 'package:sun_web_system/features/service_settings/car_spare_parts_in_serv
 import '../../../../../../../../features/internal_services/internal_orders/custom_widget/row_number_coin_widget.dart';
 import '../../../../../../../../core/theming/assets.dart';
 
-class PriceOfSpareParts extends StatelessWidget {
-  final String price;
+class CostOfSpareParts extends StatelessWidget {
+  final String cost;
 
-  const PriceOfSpareParts({
+  const CostOfSpareParts({
     super.key,
-    required this.price,
+    required this.cost,
   });
 
   @override
   Widget build(BuildContext context) {
     return SectionCard(
-      title: AppLanguageKeys.price,
-      child: RowTextIconOrange(text: price, imagePath: AppImageKeys.coin,textSize: 15,textColor: AppColors.orangeColor,),
+      title: AppLanguageKeys.cost,
+      child: RowTextIconOrange(text: cost, imagePath: AppImageKeys.coin,textSize: 15,textColor: AppColors.orangeColor,),
     );
   }
 }

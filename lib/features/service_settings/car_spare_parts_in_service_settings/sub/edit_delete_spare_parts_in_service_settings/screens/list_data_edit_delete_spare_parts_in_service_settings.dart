@@ -1,29 +1,30 @@
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/core/api_functions/product/get_products_by_category_model/product_model_get_products_by_category.dart';
 import '../../../../../../../../features/service_settings/car_spare_parts_in_service_settings/sub/edit_delete_spare_parts_in_service_settings/screens/data_container_in_list_data_edit_delete_spare_parts_in_service_settings.dart';
 import '../../../../../../../../core/theming/colors.dart';
 
 class ListDataEditDeleteSparePartsInServiceSettings extends StatelessWidget {
-  const ListDataEditDeleteSparePartsInServiceSettings({super.key});
+  final ProductModelGetProductsByCategory product;
+
+  const ListDataEditDeleteSparePartsInServiceSettings({
+    super.key,
+    required this.product,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsetsGeometry.all(10),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
-        borderRadius: const BorderRadius.all(Radius.circular(20)),
-        border: Border.all(color: AppColors.greyColor.withOpacity(0.3)),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.darkColor.withOpacity(0.1),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
+        borderRadius: BorderRadius.circular(20),
       ),
-      child:
-          const DataContainerInListDataEditDeleteSparePartsInServiceSettings(),
+      child: DataContainerInListDataEditDeleteSparePartsInServiceSettings(
+        product: product,
+      ),
     );
   }
 }

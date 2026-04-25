@@ -15,7 +15,6 @@ class DataContainerInListDataAddSparePartsInServiceSettings
         spacing: 30,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          //RowRadioButtonInDataContainerInListDataAddSparePartsInServiceSettings(),
           OtherDataDataContainerInListDataAddSparePartsInServiceSettings(),
         ],
       ),

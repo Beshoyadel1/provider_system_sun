@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
 import 'package:sun_web_system/features/internal_services/internal_orders/custom_widget/text_empty_view_data.dart';
+import 'package:sun_web_system/features/service_settings/car_spare_parts_in_service_settings/sub/edit_delete_spare_parts_in_service_settings/edit_delete_spare_parts_in_service_settings.dart';
 import 'package:sun_web_system/features/service_settings/custom_widget/container_car_spare_parts_details_widget.dart';
 import 'package:sun_web_system/features/service_settings/logic/get_products_by_category_cubit/get_products_by_category_cubit.dart';
 import 'package:sun_web_system/features/service_settings/logic/get_products_by_category_cubit/get_products_by_category_state.dart';
@@ -59,8 +61,10 @@ class DesignCreateSparePartsDesign extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5),
                         child: ContainerCarSparePartsDetailsWidget(
-                          nameCategoryProduct: item.getCategoryName(context),
-                          nameBrandCar: item.getBrandName(context),
+                          nameCategoryProduct: item.category!.getName(context),
+                          nameBrandCar: item.brands.isNotEmpty
+                              ? item.brands.first.getBrandName(context)
+                              : "",
                           nameProduct: item.getName(context),
                           stock: (item.inStock ?? 0).toString(),
                           priceProduct: (item.price ?? 0).toString(),
@@ -68,6 +72,16 @@ class DesignCreateSparePartsDesign extends StatelessWidget {
                           imageCarBrandBytes: item.brands.isNotEmpty
                               ? item.brands.first.image
                               : null,
+                          onTap: (){
+                            Navigator.push(
+                              context,
+                              NavigateToPageWidget(
+                                   EditDeleteSparePartsInServiceSettings(
+                                     product: item,
+                                  )
+                              ),
+                            );
+                          },
                         ),
                       ),
                     );

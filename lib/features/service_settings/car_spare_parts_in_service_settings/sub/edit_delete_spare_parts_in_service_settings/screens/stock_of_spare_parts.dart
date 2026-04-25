@@ -5,20 +5,20 @@ import '../../../../../../../../core/theming/colors.dart';
 import '../../../../../../../../core/theming/fonts.dart';
 import '../../../../../../../../core/theming/text_styles.dart';
 
-class TextDescriptionOfSpareParts extends StatelessWidget {
-  final String description;
+class StockOfSpareParts extends StatelessWidget {
+  final String stock;
 
-  const TextDescriptionOfSpareParts({
+  const StockOfSpareParts({
     super.key,
-    required this.description,
+    required this.stock,
   });
 
   @override
   Widget build(BuildContext context) {
     return SectionCard(
-      title: AppLanguageKeys.description,
+      title: AppLanguageKeys.inStock,
       child: TextInAppWidget(
-        text: description.isEmpty ? 'No description available' : description,
+        text: stock.isEmpty ? 'No description available' : stock,
         textSize: 14,
         fontWeightIndex: FontSelectionData.regularFontFamily,
         textColor: AppColors.blackColor.withOpacity(0.8),

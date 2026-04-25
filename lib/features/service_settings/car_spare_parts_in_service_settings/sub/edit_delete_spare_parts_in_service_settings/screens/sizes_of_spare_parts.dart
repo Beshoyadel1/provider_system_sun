@@ -1,4 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:sun_web_system/core/api_functions/product/get_products_by_category_model/product_model_get_products_by_category.dart';
+import 'package:sun_web_system/core/language/language_cubit/language_cubit.dart';
+import 'package:sun_web_system/features/service_settings/car_spare_parts_in_service_settings/sub/edit_delete_spare_parts_in_service_settings/screens/section_card.dart';
 import '../../../../../../../../features/service_settings/custom_widget/Container_number_widget.dart';
 import '../../../../../../../../core/language/language_constant.dart';
 import '../../../../../../../../core/theming/colors.dart';
@@ -6,60 +10,73 @@ import '../../../../../../../../core/theming/fonts.dart';
 import '../../../../../../../../core/theming/text_styles.dart';
 
 class SizesOfSpareParts extends StatelessWidget {
-  const SizesOfSpareParts({super.key});
+  final List<ProductSizeModel> sizes;
+
+  const SizesOfSpareParts({
+    super.key,
+    required this.sizes,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: 20,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextInAppWidget(
-              text: AppLanguageKeys.sizesOrDimensions,
-              textSize: 16,
-              fontWeightIndex: FontSelectionData.regularFontFamily,
-              textColor: AppColors.darkColor,
+    final isArabic =
+        LanguageCubit.get(context).isAllAppLanguageArabic;
+
+    return SectionCard(
+      title: isArabic ? 'الأحجام' : 'Sizes',
+      child: sizes.isEmpty
+          ? Text(isArabic
+          ? 'لا يوجد أحجام'
+          : 'No sizes available')
+          : Column(
+        children: sizes.map((size) {
+          return Container(
+            margin: const EdgeInsets.only(bottom: 10),
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: AppColors.greyColor.withOpacity(0.05),
+              borderRadius: BorderRadius.circular(12),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              spacing: 10,
+            child: Row(
               children: [
-                ContainerNumberWidget(
-                  textNumber: '1',
+                /// 🔹 Size Name
+                Expanded(
+                  child: Text(
+                    isArabic
+                        ? (size.name ?? "")
+                        : (size.latinName ?? ""),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-                ContainerNumberWidget(
-                  textNumber: '2',
+
+                /// 🔥 Price + Cost Column
+                Column(
+                  crossAxisAlignment:
+                  CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      "Price: ${size.price ?? 0}",
+                      style: TextStyle(
+                        color: AppColors.orangeColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      "Cost: ${size.cost ?? 0}",
+                      style: TextStyle(
+                        color: AppColors.greyColor,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
                 ),
-                ContainerNumberWidget(
-                  textNumber: '3',
-                )
               ],
-            )
-          ],
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextInAppWidget(
-              text: AppLanguageKeys.availableQuantity,
-              textSize: 16,
-              fontWeightIndex: FontSelectionData.regularFontFamily,
-              textColor: AppColors.darkColor,
             ),
-            Row(
-              spacing: 10,
-              children: [
-                ContainerNumberWidget(
-                  textNumber: '1',
-                ),
-              ],
-            )
-          ],
-        ),
-      ],
+          );
+        }).toList(),
+      ),
     );
   }
 }

@@ -1,5 +1,11 @@
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/core/api_functions/product/get_products_by_category_model/product_model_get_products_by_category.dart';
+import 'package:sun_web_system/features/service_settings/car_spare_parts_in_service_settings/sub/edit_delete_spare_parts_in_service_settings/screens/brand_of_spare_parts.dart';
+import 'package:sun_web_system/features/service_settings/car_spare_parts_in_service_settings/sub/edit_delete_spare_parts_in_service_settings/screens/cost_of_spare_parts.dart';
+import 'package:sun_web_system/features/service_settings/car_spare_parts_in_service_settings/sub/edit_delete_spare_parts_in_service_settings/screens/stock_of_spare_parts.dart';
 import '../../../../../../../../features/service_settings/car_spare_parts_in_service_settings/sub/edit_delete_spare_parts_in_service_settings/screens/sizes_of_spare_parts.dart';
 import '../../../../../../../../features/service_settings/car_spare_parts_in_service_settings/sub/edit_delete_spare_parts_in_service_settings/screens/categories_of_spare_parts.dart';
 import '../../../../../../../../features/service_settings/car_spare_parts_in_service_settings/sub/edit_delete_spare_parts_in_service_settings/screens/text_image_of_spare_parts.dart';
@@ -9,25 +15,42 @@ import '../../../../../../../../features/service_settings/car_spare_parts_in_ser
 
 class DataContainerInListDataEditDeleteSparePartsInServiceSettings
     extends StatelessWidget {
-  const DataContainerInListDataEditDeleteSparePartsInServiceSettings(
-      {super.key});
+  final ProductModelGetProductsByCategory product;
+
+  const DataContainerInListDataEditDeleteSparePartsInServiceSettings({
+    super.key,
+    required this.product,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.all(15.0),
-      child: Column(
-        spacing: 30,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          FirstRowInDataContainerInListDataEditDeleteSparePartsInServiceSettings(),
-          TextDescriptionOfSpareParts(),
-          PriceOfSpareParts(),
-          TextImageOfSpareParts(),
-          CategoriesOfSpareParts(),
-          SizesOfSpareParts()
-        ],
-      ),
+    return Column(
+      spacing: 10,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        FirstRowInDataContainerInListDataEditDeleteSparePartsInServiceSettings(
+          nameCategory: product.category?.getName(context) ?? "",
+          imageProduct: product.image,
+          nameProduct: product.getName(context),
+        ),
+        TextDescriptionOfSpareParts(
+          description: product.getDescription(context),
+        ),
+        PriceOfSpareParts(
+          price: (product.price ?? 0).toString(),
+        ),
+        CostOfSpareParts(cost: (product.cost ?? 0).toString()),
+        StockOfSpareParts(stock: product.inStock.toString()),
+        CategoriesOfSpareParts(
+          categoryName: product.category?.getName(context) ?? "",
+        ),
+        BrandOfSpareParts(
+          brands: product.brands,
+        ),
+        SizesOfSpareParts(
+          sizes: product.sizes,
+        ),
+      ],
     );
   }
 }
