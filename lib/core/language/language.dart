@@ -31,6 +31,9 @@ class AppLocalizations {
       //END//
 
       //others//
+      AppLanguageKeys.remainingQuantity: 'باقي عدد قطع',
+      AppLanguageKeys.selectCarBrand: 'ماركة السيارة',
+      AppLanguageKeys.selectCarModel: 'موديل السيارة',
       AppLanguageKeys.outOfStock: 'غير متوفر',
       AppLanguageKeys.mustImageUpload: 'يجب رفع صورة',
       AppLanguageKeys.attachImages: 'إرفاق الصور',
@@ -1270,6 +1273,9 @@ class AppLocalizations {
       AppLanguageKeys.cancelledByUser: 'Cancelled by User',
       //END//
       //others//
+      AppLanguageKeys.remainingQuantity: 'Remaining Quantity',
+      AppLanguageKeys.selectCarBrand: 'Car Brand',
+      AppLanguageKeys.selectCarModel: 'Car Model',
       AppLanguageKeys.outOfStock: 'Out of Stock',
       AppLanguageKeys.mustImageUpload: 'Image upload is required',
       AppLanguageKeys.attachImages: 'Attach Images',

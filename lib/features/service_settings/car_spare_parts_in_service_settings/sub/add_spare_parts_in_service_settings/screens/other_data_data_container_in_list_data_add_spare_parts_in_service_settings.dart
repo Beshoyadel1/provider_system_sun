@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/core/api_functions/product/create_product_model/create_product_request.dart';
 import 'package:sun_web_system/core/pages_widgets/general_widgets/snakbar.dart';
 import 'package:sun_web_system/features/service_settings/car_spare_parts_in_service_settings/sub/add_spare_parts_in_service_settings/screens/car_selection_controller.dart';
 import 'package:sun_web_system/features/service_settings/car_spare_parts_in_service_settings/sub/add_spare_parts_in_service_settings/screens/car_selection_item_widget.dart';
@@ -13,10 +15,11 @@ import 'package:sun_web_system/features/service_settings/car_spare_parts_in_serv
 import 'package:sun_web_system/features/service_settings/car_spare_parts_in_service_settings/sub/add_spare_parts_in_service_settings/screens/size_item_widget.dart';
 import 'package:sun_web_system/features/service_settings/custom_widget/text_with_text_form_field_as_column2_widget.dart';
 import 'package:sun_web_system/features/service_settings/logic/car_selection_cubit/CarSelectionCubit.dart';
+import 'package:sun_web_system/features/service_settings/logic/create_product_cubit/create_product_cubit.dart';
+import 'package:sun_web_system/features/service_settings/logic/create_product_cubit/create_product_state.dart';
 import 'package:sun_web_system/features/service_settings/logic/get_all_product_categories_cubit/get_all_product_categories_cubit.dart';
 import 'package:sun_web_system/features/service_settings/logic/get_tax_cubit/get_tax_cubit.dart';
 import 'package:sun_web_system/features/service_settings/logic/select_car_model_setting_cubit/select_car_model_setting_cubit.dart';
-import 'package:sun_web_system/features/service_settings/logic/select_car_model_setting_cubit/select_car_model_setting_state.dart';
 import '../../../../../../../../features/advertisements/first_screen_advertisements/screens/last_button_in_list_data_first_screen_advertisements.dart';
 import '../../../../../../../../features/permissions/custom_widget/text_with_container_as_column_widget.dart';
 import '../../../../../../../../core/language/language_constant.dart';
@@ -32,7 +35,8 @@ class OtherDataDataContainerInListDataAddSparePartsInServiceSettings
 }
 
 class _OtherDataDataContainerInListDataAddSparePartsInServiceSettingsState extends State<OtherDataDataContainerInListDataAddSparePartsInServiceSettings> {
-  bool isInStockValue = false;
+  bool isNewValue = false;
+
   final nameController = TextEditingController();
   final latinNameController = TextEditingController();
   final descController = TextEditingController();
@@ -88,40 +92,6 @@ class _OtherDataDataContainerInListDataAddSparePartsInServiceSettingsState exten
     super.dispose();
   }
 
-  void printSizes() {
-    debugPrint("===== SIZES DATA =====");
-    for (int i = 0; i < sizes.length; i++) {
-      final s = sizes[i];
-      debugPrint("=== SIZE ${i + 1} ===");
-      debugPrint("Name: ${s.nameController.text}");
-      debugPrint("Latin: ${s.latinNameController.text}");
-      debugPrint("Price: ${s.priceController.text}");
-      debugPrint("Cost: ${s.costController.text}");
-    }
-  }
-  void printControllers() {
-    final fields = {
-      "name": nameController.text,
-      "latinName": latinNameController.text,
-      "description": descController.text,
-      "latinDesc": latinDescController.text,
-      "price": priceController.text,
-      "cost": costController.text,
-      "instructions": instructionsController.text,
-      "inStockController": inStockController.text,
-    };
-
-    debugPrint("===== FORM DATA =====");
-
-    fields.forEach((key, value) {
-      if (value.trim().isNotEmpty) {
-        debugPrint("$key: $value");
-      } else {
-        debugPrint("$key: ❌ EMPTY");
-      }
-    });
-
-  }
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -138,19 +108,11 @@ class _OtherDataDataContainerInListDataAddSparePartsInServiceSettingsState exten
 
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (_) => GetTaxCubit()..getTax(),
-        ),
-        BlocProvider(
-          create: (_) =>
-              GetAllProductCategoriesCubit()..getAllProductCategories(),
-        ),
-        BlocProvider(
-          create: (_) => SelectCarModelSettingCubit()..fetchBrands(),
-        ),
-        BlocProvider(
-          create: (_) => CarSelectionCubit(),
-        ),
+        BlocProvider(create: (_) => GetTaxCubit()..getTax()),
+        BlocProvider(create: (_) => GetAllProductCategoriesCubit()..getAllProductCategories()),
+        BlocProvider(create: (_) => SelectCarModelSettingCubit()..fetchBrands()),
+        BlocProvider(create: (_) => CarSelectionCubit()),
+        BlocProvider(create: (_) => CreateProductCubit()),
       ],
       child: Builder(builder: (context) {
         return Form(
@@ -234,7 +196,7 @@ class _OtherDataDataContainerInListDataAddSparePartsInServiceSettingsState exten
                     itemWidth,
                     IsNewSwitch(
                       onChanged: (value) {
-                        isInStockValue = value;
+                        isNewValue = value;
                       },
                     ),
                   ),
@@ -285,85 +247,124 @@ class _OtherDataDataContainerInListDataAddSparePartsInServiceSettingsState exten
                   }),
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  LastButtonInListDataFirstScreenAdvertisements(
-                    text: AppLanguageKeys.save,
-                    onTap: () {
-                      if (formKey.currentState!.validate()) {
-                        if (imageBytes == null) {
-                          AppSnackBar.showError(AppLanguageKeys.mustImageUpload);
-                          return;
-                        }
-                        for (var car in cars) {
-                          if (car.brandId == null ||
-                              car.modelId == null ||
-                              car.categoryId == null) {
+              BlocListener<CreateProductCubit, CreateProductState>(
+                listener: (context, state) {
+                  if (state is CreateProductSuccess) {
+                    AppSnackBar.showSuccess(AppLanguageKeys.success);
+                    Navigator.pop(context);
+                  }
 
-                            AppSnackBar.showError("Complete car data");
-                            return;
-                          }
-                        }
-                        AppSnackBar.showSuccess(AppLanguageKeys.success);
+                  if (state is CreateProductError) {
+                    AppSnackBar.showError(state.error);
+                  }
+                },
+                child: BlocBuilder<CreateProductCubit, CreateProductState>(
+                  builder: (context, state) {
+                    final isLoading = state is CreateProductLoading;
 
-                        printControllers();
-                        printSizes();
+                    return Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        LastButtonInListDataFirstScreenAdvertisements(
+                          text: isLoading ? " " : AppLanguageKeys.save,
+                          onTap: isLoading
+                              ? null
+                              : () {
+                            if (!formKey.currentState!.validate()) {
+                              AppSnackBar.showError(AppLanguageKeys.enterYourData);
+                              return;
+                            }
 
-                        for (int i = 0; i < cars.length; i++) {
-                          final c = cars[i];
+                            if (imageBytes == null) {
+                              AppSnackBar.showError(AppLanguageKeys.mustImageUpload);
+                              return;
+                            }
 
-                          debugPrint("=== CAR ${i + 1} ===");
-                          debugPrint("Brand ID: ${c.brandId}");
-                          debugPrint("Model ID: ${c.modelId}");
-                          debugPrint("Category ID: ${c.categoryId}");
-                          debugPrint("Category Name: ${c.categoryName}");
-                        }
+                            for (var car in cars) {
+                              if (car.brandId == null ||
+                                  car.modelId == null ||
+                                  car.categoryId == null) {
+                                AppSnackBar.showError(AppLanguageKeys.enterYourData);
+                                return;
+                              }
+                            }
 
-                        final taxCubit = context.read<GetTaxCubit>();
-                        final selectedTax = taxCubit.selectedTax;
+                            final taxCubit = context.read<GetTaxCubit>();
+                            final selectedTax = taxCubit.selectedTax;
 
-                        if (selectedTax != null) {
-                          debugPrint("===== TAX DATA =====");
-                          debugPrint("Tax ID: ${selectedTax.taxId}");
-                          debugPrint("Tax %: ${selectedTax.taxPercentage}");
-                        } else {
-                          debugPrint("❌ No Tax Selected");
-                        }
-                        debugPrint("===== Category DATA =====");
-                        final categoryCubit =
+                            final categoryCubit =
                             context.read<GetAllProductCategoriesCubit>();
+                            final selectedCategory =
+                                categoryCubit.selectedCategory;
 
-                        final selectedCategory = categoryCubit.selectedCategory;
+                            final brands = cars
+                                .map((c) => ProductBrand(brandid: c.brandId))
+                                .toList();
 
-                        if (selectedCategory != null) {
-                          debugPrint("Category ID: ${selectedCategory.id}");
-                          debugPrint(
-                              "Category Name: ${selectedCategory.getName(context)}");
-                        }
-                        debugPrint("===== Is New =====");
-                        debugPrint("Is New: $isInStockValue");
-                        if (imageBytes != null) {
-                          debugPrint("===== Image =====");
-                          debugPrint("Image Name: $imageName");
-                          debugPrint(
-                            "Original Size: ${(originalSize! / 1024).toStringAsFixed(2)} KB",
-                          );
+                            final carModels = cars
+                                .map((c) => ProductCarModel(
+                              carBrandId: c.brandId,
+                              carModelId: c.modelId,
+                              productCarBrandId: c.categoryId,
+                            ))
+                                .toList();
 
-                          debugPrint(
-                            "Compressed Size: ${(compressedSize! / 1024).toStringAsFixed(2)} KB",
-                          );
-                        } else {
-                          debugPrint("No Image Selected");
-                        }
+                            final sizesList = sizes
+                                .map((s) => ProductSize(
+                              name: s.nameController.text,
+                              latinName: s.latinNameController.text,
+                              price: int.tryParse(s.priceController.text),
+                              cost: int.tryParse(s.costController.text),
+                            ))
+                                .toList();
 
-                      } else {
-                        debugPrint("❌ Form not valid");
-                        AppSnackBar.showError(AppLanguageKeys.enterYourData);
-                      }
-                    },
-                  ),
-                ],
+                            final request = CreateProductRequest(
+                              name: nameController.text,
+                              latinName: latinNameController.text,
+                              description: descController.text,
+                              latinDesc: latinDescController.text,
+                              instructions: instructionsController.text,
+                              price: int.tryParse(priceController.text),
+                              cost: int.tryParse(costController.text),
+                              inStock:
+                              int.tryParse(inStockController.text),
+                              taxId: selectedTax?.taxId,
+                              productCategoryId: selectedCategory?.id,
+                              isNew: isNewValue,
+                              image: imageBytes,
+                              brands: brands,
+                              carModels: carModels,
+                              sizes: sizesList,
+                            );
+
+                            debugPrint("===== JSON =====");
+                            debugPrint(const JsonEncoder.withIndent('  ')
+                                .convert(request.toJson()));
+
+                            context.read<CreateProductCubit>().createProduct(
+                              request: request,
+                            );
+                          },
+                        ),
+
+                        /// Loader في النص
+                        if (isLoading)
+                          const Positioned.fill(
+                            child: Center(
+                              child: SizedBox(
+                                height: 18,
+                                width: 18,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
+                    );
+                  },
+                ),
               )
             ],
           ),

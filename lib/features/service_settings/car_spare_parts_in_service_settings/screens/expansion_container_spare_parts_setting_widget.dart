@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/service_settings/car_spare_parts_in_service_settings/screens/design_create_spare_parts_design.dart';
+import 'package:sun_web_system/features/service_settings/logic/get_products_by_category_cubit/get_products_by_category_cubit.dart';
 import 'package:sun_web_system/features/service_settings/logic/prov_services_cubit/prov_services_cubit.dart';
 import '../../../../../core/api_functions/provider_management/create_prov_service_model/create_prov_service_request.dart';
 import '../../../../../core/language/language_constant.dart';
@@ -56,6 +57,7 @@ class ExpansionContainerSparePartsSettingWidget extends StatefulWidget {
   final String? initialLatinName;
   final int? initialTaxId;
   final int serviceId;
+  final int categoryId;
 
   const ExpansionContainerSparePartsSettingWidget({
     super.key,
@@ -68,6 +70,7 @@ class ExpansionContainerSparePartsSettingWidget extends StatefulWidget {
     this.initialLatinName,
     this.initialTaxId,
     required this.serviceId,
+    required this.categoryId,
   });
 
   @override
@@ -77,29 +80,7 @@ class ExpansionContainerSparePartsSettingWidget extends StatefulWidget {
 
 class _ExpansionContainerSparePartsSettingWidgetState
     extends State<ExpansionContainerSparePartsSettingWidget> {
-  final _formKey = GlobalKey<FormState>();
 
-  late TextEditingController nameController;
-  late TextEditingController latinNameController;
-
-  @override
-  void initState() {
-    super.initState();
-
-    nameController = TextEditingController(
-      text: widget.initialName ?? '',
-    );
-
-    latinNameController = TextEditingController(
-      text: widget.initialLatinName ?? '',
-    );
-
-    if (widget.initialTaxId != null) {
-      Future.microtask(() {
-        context.read<GetTaxCubit>().selectTaxById(widget.initialTaxId!);
-      });
-    }
-  }
 
   Widget _buildImage() {
     // memory image
@@ -186,23 +167,16 @@ class _ExpansionContainerSparePartsSettingWidgetState
               ],
             ),
             const SizedBox(height: 10),
-            BlocBuilder<SelectCarModelSettingCubit, SelectCarModelSettingState>(
-              builder: (context, brandState) {
-                if (brandState.isLoadingBrands) {
-                  return const CircularProgressIndicator();
-                }
+            BlocBuilder<DetailsContainerSettingCubit, DetailsContainerSettingState>(
+              builder: (context, state) {
+                if (!state.isExpanded) return const SizedBox();
 
-                return BlocBuilder<DetailsContainerSettingCubit,
-                    DetailsContainerSettingState>(
-                  builder: (context, state) {
-                    if (!state.isExpanded) return const SizedBox();
-
-                    return DesignCreateSparePartsDesign(
-                        latinNameController: latinNameController,
-                        nameController: nameController,
-                    );
-                  },
-                );
+                return  BlocProvider(
+                    create: (_) => GetProductsByCategoryCubit()
+                      ..getProductsByCategory(
+                        categoryId: widget.categoryId,
+                      ),
+                child: const DesignCreateSparePartsDesign());
               },
             ),
           ],

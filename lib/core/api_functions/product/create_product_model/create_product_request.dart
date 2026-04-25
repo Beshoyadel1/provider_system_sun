@@ -96,7 +96,6 @@ class CreateProductRequest {
     if (instructions != null) data["instructions"] = instructions;
     if (isNew != null) data["isnew"] = isNew;
 
-    // 🔥 Lists
     if (brands != null) {
       data["brands"] = brands!.map((e) => e.toJson()).toList();
     }

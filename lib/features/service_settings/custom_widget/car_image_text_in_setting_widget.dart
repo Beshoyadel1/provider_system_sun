@@ -76,7 +76,6 @@ class CarImageTextInSettingWidget extends StatelessWidget {
             spacing: 10,
             children: [
 
-              /// 🔵 PRICE
               Expanded(
                 child: TextFormFieldWidget(
                   hintText: AppLanguageKeys.price,

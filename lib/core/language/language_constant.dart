@@ -19,6 +19,9 @@ class AppLanguageKeys {
   //end//
 
   //others//
+  static const String remainingQuantity = 'remainingQuantity';
+  static const String selectCarBrand = 'selectCarBrand';
+  static const String selectCarModel = 'selectCarModel';
   static const String outOfStock = 'outOfStock';
   static const String mustImageUpload = 'mustImageUpload';
   static const String attachImages = 'attachImages';

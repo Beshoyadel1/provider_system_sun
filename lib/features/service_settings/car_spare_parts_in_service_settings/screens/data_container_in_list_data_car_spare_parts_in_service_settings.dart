@@ -49,6 +49,7 @@ class DataContainerInListDataCarSparePartsInServiceSettings
                         imageMemory: categories.image,
                         text: categories.getName(context),
                         serviceId: categories.id!,
+                        categoryId: categories.id!,
                         isDoneTask: true,
                         onTap: () {
                           context.read<CreateProvServiceCubit>().setService(
