@@ -74,7 +74,7 @@ class TextWithContainerAsColumnWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                     child: Image.memory(
                       imageBytes!,
-                      height: 1,
+                      height: 30,
                       width: 50,
                       fit: BoxFit.cover,
                     ),

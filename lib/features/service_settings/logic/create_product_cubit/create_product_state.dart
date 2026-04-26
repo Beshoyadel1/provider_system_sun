@@ -11,3 +11,6 @@ class CreateProductError extends CreateProductState {
   final String error;
   CreateProductError(this.error);
 }
+
+class UpdateProductLoading extends CreateProductState {}
+class UpdateProductSuccess extends CreateProductState {}

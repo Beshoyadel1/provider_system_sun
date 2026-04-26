@@ -70,69 +70,6 @@ class _CarSelectionItemWidgetState extends State<CarSelectionItemWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const TextInAppWidget(
-                        text: AppLanguageKeys.productCategoryId,
-                        textSize: 11,
-                        fontWeightIndex: FontSelectionData.regularFontFamily,
-                        textColor: AppColors.blackColor,
-                      ),
-                      BlocBuilder<GetAllProductCategoriesCubit,
-                          GetAllProductCategoriesState>(
-                        builder: (context, state) {
-                          final cubit =
-                          context.read<GetAllProductCategoriesCubit>();
-
-                          if (state is GetAllProductCategoriesLoading) {
-                            return const CircularProgressIndicator();
-                          }
-
-                          if (state is GetAllProductCategoriesSuccess) {
-                            return SizedBox(
-                              height: 35,
-                              child: DropdownButtonFormField<int>(
-                                isDense: true,
-                                isExpanded: true,
-                                value: widget.controller.categoryId,
-                                items: cubit.categories.map((cat) {
-                                  return DropdownMenuItem<int>(
-                                    value: cat.id,
-                                    child: Text(
-                                      cat.getName(context),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  );
-                                }).toList(),
-                                onChanged: (value) {
-                                  final selected = cubit.categories.firstWhere(
-                                        (e) => e.id == value,
-                                  );
-                                  setState(() {
-                                    widget.controller.categoryId = selected.id;
-                                    widget.controller.categoryName =
-                                        selected.getName(context);
-                                  });
-                                },
-                                validator: (value) {
-                                  if (value == null) {
-                                    return '';
-                                  }
-                                  return null;
-                                },
-                                decoration: _inputDecoration(),
-                                icon: const Icon(Icons.arrow_drop_down),
-                              ),
-                            );
-                          }
-
-                          return const SizedBox();
-                        },
-                      ),
-                    ],
-                  ),
-                  Column(
-                    spacing: 10,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const TextInAppWidget(
                         text: AppLanguageKeys.selectCarBrand,
                         textSize: 11,
                         fontWeightIndex: FontSelectionData.regularFontFamily,
@@ -140,43 +77,63 @@ class _CarSelectionItemWidgetState extends State<CarSelectionItemWidget> {
                       ),
                       SizedBox(
                         height: 35,
-                        child: DropdownButtonFormField<int>(
+                        child:DropdownButtonFormField<int>(
                           isDense: true,
                           isExpanded: true,
-                          value: widget.controller.brandId,
-                          items: brands.map((brand) {
-                            return DropdownMenuItem<int>(
-                              value: brand.id,
-                              child: Row(
-                                children: [
-                                  brand.image != null
-                                      ? Image.memory(
-                                    brand.image!,
-                                    width: 25,
-                                    height: 25,
-                                  )
-                                      : const Icon(Icons.directions_car, size: 20),
-                                  const SizedBox(width: 8),
-                                  Expanded(
-                                    child: TextInAppWidget(
-                                      text: brand.getName(context),
-                                      textSize: 12,
-                                      fontWeightIndex:
-                                      FontSelectionData.regularFontFamily,
-                                      textColor: AppColors.blackColor,
-                                    ),
-                                  ),
-                                ],
+                          value: widget.controller.isAllBrandsSelected
+                              ? -1
+                              : widget.controller.brandId,
+                          items: [
+                            const DropdownMenuItem<int>(
+                              value: -1,
+                              child: TextInAppWidget(
+                                text: AppLanguageKeys.allBrands,
+                                textSize: 11,
+                                fontWeightIndex: FontSelectionData.regularFontFamily,
+                                textColor: AppColors.blackColor,
                               ),
-                            );
-                          }).toList(),
+                            ),
+                            ...brands.map((brand) {
+                              return DropdownMenuItem<int>(
+                                value: brand.id,
+                                child: Row(
+                                  children: [
+                                    brand.image != null
+                                        ? Image.memory(brand.image!, width: 25, height: 25)
+                                        : const Icon(Icons.directions_car, size: 20),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: TextInAppWidget(
+                                        text: brand.getName(context),
+                                        textSize: 12,
+                                        fontWeightIndex:
+                                        FontSelectionData.regularFontFamily,
+                                        textColor: AppColors.blackColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }),
+                          ],
                           onChanged: (value) async {
                             if (value == null) return;
 
+                            if (value == -1) {
+                              setState(() {
+                                widget.controller.isAllBrandsSelected = true;
+                                widget.controller.brandId = null;
+                                widget.controller.selectedModelIds.clear();
+                                widget.controller.models.clear();
+                              });
+                              return;
+                            }
+
                             setState(() {
+                              widget.controller.isAllBrandsSelected = false;
                               widget.controller.brandId = value;
                               widget.controller.selectedModelIds.clear();
-                              widget.controller.models.clear(); // ✅ مهم
+                              widget.controller.models.clear();
                               widget.controller.isLoading = true;
                             });
 
@@ -187,12 +144,6 @@ class _CarSelectionItemWidgetState extends State<CarSelectionItemWidget> {
                               widget.controller.isLoading = false;
                             });
                           },
-                          validator: (value) {
-                            if (value == null) {
-                              return '';
-                            }
-                            return null;
-                          },
                           decoration: _inputDecoration(),
                           icon: const Icon(Icons.arrow_drop_down),
                         ),
@@ -200,9 +151,8 @@ class _CarSelectionItemWidgetState extends State<CarSelectionItemWidget> {
                     ],
                   ),
 
-                  /// 🔥 الجزء الذكي للـ Models
                   if (widget.controller.brandId == null)
-                    const SizedBox() // 👈 فاضي خالص قبل اختيار البراند
+                    const SizedBox()
 
                   else if (widget.controller.isLoading)
                     const Padding(
@@ -238,25 +188,51 @@ class _CarSelectionItemWidgetState extends State<CarSelectionItemWidget> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Column(
-                              children: widget.controller.models.map((model) {
-                                final isSelected = widget.controller.selectedModelIds.contains(model.id);
-
-                                return CheckboxListTile(
-                                  value: isSelected,
+                              children: [
+                                CheckboxListTile(
+                                  value: widget.controller.selectedModelIds.length ==
+                                      widget.controller.models.length,
                                   dense: true,
                                   controlAffinity: ListTileControlAffinity.leading,
-                                  title: Text(model.name ?? ""),
+                                  title: const TextInAppWidget(
+                                      text:AppLanguageKeys.allModels,
+                                    textSize: 13,
+                                  ),
                                   onChanged: (value) {
                                     setState(() {
                                       if (value == true) {
-                                        widget.controller.selectedModelIds.add(model.id!);
+                                        widget.controller.selectedModelIds = widget.controller.models
+                                            .map((e) => e.id!)
+                                            .toList();
                                       } else {
-                                        widget.controller.selectedModelIds.remove(model.id);
+                                        widget.controller.selectedModelIds.clear();
                                       }
                                     });
                                   },
-                                );
-                              }).toList(),
+                                ),
+
+                                const Divider(),
+
+                                ...widget.controller.models.map((model) {
+                                  final isSelected = widget.controller.selectedModelIds.contains(model.id);
+
+                                  return CheckboxListTile(
+                                    value: isSelected,
+                                    dense: true,
+                                    controlAffinity: ListTileControlAffinity.leading,
+                                    title: Text(model.name ?? ""),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        if (value == true) {
+                                          widget.controller.selectedModelIds.add(model.id!);
+                                        } else {
+                                          widget.controller.selectedModelIds.remove(model.id);
+                                        }
+                                      });
+                                    },
+                                  );
+                                }).toList(),
+                              ],
                             ),
                           ),
                         ],

@@ -13,11 +13,14 @@ class FirstRowInDataContainerInListDataEditDeleteSparePartsInServiceSettings
   final String? nameProduct;
   final String nameCategory;
   final Uint8List? imageProduct;
+  final void Function()? onTapDelete,onTapEdit;
   const FirstRowInDataContainerInListDataEditDeleteSparePartsInServiceSettings({
     super.key,
     required this.nameProduct,
     required this.nameCategory,
     this.imageProduct,
+    this.onTapDelete,
+    this.onTapEdit
   });
 
   @override
@@ -72,19 +75,26 @@ class FirstRowInDataContainerInListDataEditDeleteSparePartsInServiceSettings
       ],
     );
 
-    Widget buttonsRow = const Row(
+    Widget buttonsRow = Row(
       children: [
-        ButtonEditDeleteSettingWidget(),
-        SizedBox(width: 5),
-        ButtonEditDeleteSettingWidget(isDelete: true),
+        ButtonEditDeleteSettingWidget(
+          onTap: onTapEdit,
+        ),
+        const SizedBox(width: 5),
+        ButtonEditDeleteSettingWidget(
+          isDelete: true,
+          onTap: onTapDelete,
+        ),
       ],
     );
 
-    Widget buttonsColumn =const Row(
+    Widget buttonsColumn = Row(
+      spacing: 5,
       children: [
-        Expanded(child: ButtonEditDeleteSettingWidget()),
-        SizedBox(width: 5),
-        Expanded(child: ButtonEditDeleteSettingWidget(isDelete: true)),
+        Expanded(child: ButtonEditDeleteSettingWidget(
+          onTap: onTapEdit,
+        )),
+        Expanded(child: ButtonEditDeleteSettingWidget(isDelete: true,onTap: onTapDelete,)),
       ],
     );
 

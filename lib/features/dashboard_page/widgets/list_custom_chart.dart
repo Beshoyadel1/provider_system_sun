@@ -57,6 +57,7 @@ class ListCustomChart extends StatelessWidget {
 
                   return SizedBox(
                     width: itemWidth,
+                    height: 200,
                     child: CustomChart(
                       serviceName: item.getName(context),
                       orderCount: item.orderCount,

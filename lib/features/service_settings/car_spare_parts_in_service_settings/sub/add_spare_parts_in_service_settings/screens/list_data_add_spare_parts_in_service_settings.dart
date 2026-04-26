@@ -1,11 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/core/api_functions/product/get_products_by_category_model/product_model_get_products_by_category.dart';
 import 'data_container_in_list_data_add_spare_parts_in_service_settings.dart';
 import '../../../../../../../../core/theming/colors.dart';
 
 class ListDataAddSparePartsInServiceSettings extends StatelessWidget {
-  const ListDataAddSparePartsInServiceSettings({super.key});
+  final ProductModelGetProductsByCategory? product;
 
+  const ListDataAddSparePartsInServiceSettings({
+    super.key,
+    this.product,
+  });
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,7 +27,9 @@ class ListDataAddSparePartsInServiceSettings extends StatelessWidget {
           ),
         ],
       ),
-      child: const DataContainerInListDataAddSparePartsInServiceSettings(),
+      child:  DataContainerInListDataAddSparePartsInServiceSettings(
+        product:product,
+      ),
     );
   }
 }

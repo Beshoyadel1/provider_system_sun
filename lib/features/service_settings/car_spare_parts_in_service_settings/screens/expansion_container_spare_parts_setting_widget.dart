@@ -123,13 +123,7 @@ class _ExpansionContainerSparePartsSettingWidgetState
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => SelectCarModelSettingCubit()..fetchBrands(),
-        ),
-        BlocProvider(
           create: (_) => DetailsContainerSettingCubit(),
-        ),
-        BlocProvider(
-          create: (_) => GetTaxCubit()..getTax(),
         ),
       ],
       child: Container(

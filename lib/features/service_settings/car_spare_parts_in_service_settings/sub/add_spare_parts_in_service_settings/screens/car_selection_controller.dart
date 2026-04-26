@@ -4,10 +4,9 @@ class CarSelectionController {
   int? brandId;
 
   List<int> selectedModelIds = [];
-
   List<CarModelDataModel> models = [];
+
   bool isLoading = false;
 
-  int? categoryId;
-  String? categoryName;
+  bool isAllBrandsSelected = false;
 }

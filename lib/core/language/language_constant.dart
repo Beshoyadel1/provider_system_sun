@@ -19,6 +19,9 @@ class AppLanguageKeys {
   //end//
 
   //others//
+  static const String allBrands = 'allBrands';
+  static const String allModels = 'allModels';
+  static const String areYouSure = 'areYouSure';
   static const String remainingQuantity = 'remainingQuantity';
   static const String selectCarBrand = 'selectCarBrand';
   static const String selectCarModel = 'selectCarModel';

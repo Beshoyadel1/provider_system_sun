@@ -17,9 +17,7 @@ class ImageCompressor {
 
       Uint8List? result;
 
-      // 1. Try native compression (fast, but fails on Windows/Linux desktop)
       try {
-        // We avoid calling native plugins on Windows if we know they fail
         if (!kIsWeb && Platform.isWindows) {
           throw UnimplementedError("Native compress not supported on Windows");
         }

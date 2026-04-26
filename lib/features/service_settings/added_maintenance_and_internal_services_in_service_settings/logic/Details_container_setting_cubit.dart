@@ -7,6 +7,8 @@ class DetailsContainerSettingCubit extends Cubit<DetailsContainerSettingState> {
 
   void toggle() => emit(state.copyWith(isExpanded: !state.isExpanded));
 
+  void collapse() => emit(state.copyWith(isExpanded: false));
+
   void selectOption(int value) =>
       emit(state.copyWith(selectedOption: value));
 }

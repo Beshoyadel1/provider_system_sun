@@ -31,6 +31,9 @@ class AppLocalizations {
       //END//
 
       //others//
+      AppLanguageKeys.allBrands: 'كل الماركات',
+      AppLanguageKeys.allModels: 'كل الموديلات',
+      AppLanguageKeys.areYouSure: 'هل أنت متأكد؟',
       AppLanguageKeys.remainingQuantity: 'باقي عدد قطع',
       AppLanguageKeys.selectCarBrand: 'ماركة السيارة',
       AppLanguageKeys.selectCarModel: 'موديل السيارة',
@@ -785,7 +788,7 @@ class AppLocalizations {
       AppLanguageKeys.advertisements: 'الاعلانات',
       AppLanguageKeys.bannerImage: 'صورة البنر',
       AppLanguageKeys.bannerSizeNote: 'المقاس المناسب للصورة هو 1108×428 بكسل',
-      AppLanguageKeys.uploadImage: 'ارفع صورة (jpg.jpeg.gif.png.webp)',
+      AppLanguageKeys.uploadImage: 'ارفع صورة',
       AppLanguageKeys.link: 'الرابط',
       AppLanguageKeys.category: 'تصنيف',
       AppLanguageKeys.storeOffers: 'عروض المتجر',
@@ -1273,6 +1276,9 @@ class AppLocalizations {
       AppLanguageKeys.cancelledByUser: 'Cancelled by User',
       //END//
       //others//
+      AppLanguageKeys.allBrands: 'All Brands',
+      AppLanguageKeys.allModels: 'All Models',
+      AppLanguageKeys.areYouSure: 'Are you sure?',
       AppLanguageKeys.remainingQuantity: 'Remaining Quantity',
       AppLanguageKeys.selectCarBrand: 'Car Brand',
       AppLanguageKeys.selectCarModel: 'Car Model',
@@ -2036,7 +2042,7 @@ Providers will be notified of any major changes via the platform or email.
       AppLanguageKeys.bannerImage: 'Banner Image',
       AppLanguageKeys.bannerSizeNote:
           'Recommended image size is 1108×428 pixels',
-      AppLanguageKeys.uploadImage: 'Upload Image (jpg, jpeg, gif, png, webp)',
+      AppLanguageKeys.uploadImage: 'Upload Image',
       AppLanguageKeys.link: 'Link',
       AppLanguageKeys.category: 'Category',
       AppLanguageKeys.storeOffers: 'Store Offers',

@@ -1,12 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/core/api_functions/product/get_products_by_category_model/product_model_get_products_by_category.dart';
 import '../../../../../../../features/service_settings/car_spare_parts_in_service_settings/sub/add_spare_parts_in_service_settings/screens/list_data_add_spare_parts_in_service_settings.dart';
 import '../../../../../../../core/utilies/map_of_all_app.dart';
 import '../../../../../../../core/theming/colors.dart';
 
 class AddSparePartsInServiceSettings extends StatelessWidget {
-  const AddSparePartsInServiceSettings({super.key});
+  final ProductModelGetProductsByCategory? product;
 
+  const AddSparePartsInServiceSettings({
+    super.key,
+    this.product,
+  });
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,11 +19,13 @@ class AddSparePartsInServiceSettings extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.scaffoldColor,
       ),
-      body: const SafeArea(
+      body:  SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: SingleChildScrollView(
-            child: ListDataAddSparePartsInServiceSettings(),
+            child: ListDataAddSparePartsInServiceSettings(
+              product:product,
+            ),
           ),
         ),
       ),
