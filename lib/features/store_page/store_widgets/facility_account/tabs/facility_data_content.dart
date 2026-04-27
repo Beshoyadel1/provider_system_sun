@@ -141,6 +141,12 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
               type: UserFieldType.name,
               readOnly: true,
             ),
+            UserTextFieldWidget(
+              controller: genderController,
+              text: AppLanguageKeys.gender,
+              type: UserFieldType.gender,
+              readOnly: !isEditMode,
+            ),
           ],
         ),
 

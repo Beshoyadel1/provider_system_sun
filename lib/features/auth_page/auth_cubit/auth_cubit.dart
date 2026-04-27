@@ -34,8 +34,6 @@ class AuthCubit extends Cubit<AuthState> {
 
 
 
-// ================= OTP =================
-
   Timer? _timer;
   int secondsRemaining = 30;
   String otpCode = "";
@@ -101,7 +99,7 @@ class AuthCubit extends Cubit<AuthState> {
   }
   void updatePhone(String phone) {
     phoneNumber = phone;
-    emit(AuthInitial()); // optional state
+    emit(AuthInitial());
   }
 
 
@@ -175,13 +173,11 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> updateUser(CreateUserRequest request) async {
-    emit(AuthUpdateLoading());
+    /// 🔥 خليه authenticated قبل أي حاجة
+    emit(AuthAuthenticated());
 
     try {
       final oldUser = await AuthLocalStorage.getUser();
-
-      debugPrint("========== OLD USER ==========");
-      debugPrint(oldUser?.toJson().toString());
 
       final bool isSuccess = await updateUserFunction(
         createUserRequest: request,
@@ -190,41 +186,30 @@ class AuthCubit extends Cubit<AuthState> {
       if (isSuccess) {
         final updatedUser = CreateUserRequest(
           userid: oldUser?.userid,
-
           username: request.username ?? oldUser?.username,
           phone: request.phone ?? oldUser?.phone,
           email: request.email ?? oldUser?.email,
           age: request.age ?? oldUser?.age,
           gander: request.gander ?? oldUser?.gander,
-
           image: request.image ?? oldUser?.image,
-
           type: oldUser?.type,
           isActive: oldUser?.isActive,
           joinDate: oldUser?.joinDate,
-
           providerDetails:
           request.providerDetails ?? oldUser?.providerDetails,
         );
 
-        debugPrint("========== SAVED USER ==========");
-        debugPrint(updatedUser.toJson().toString());
-
         await AuthLocalStorage.saveUser(updatedUser);
 
-        emit(AuthUpdateSuccess());
+        /// 🔥 نفس الحالة (مايتغيرش الـ navigation)
+        emit(AuthAuthenticated());
       } else {
-        emit(AuthUpdateError("Update failed from API"));
+        emit(AuthUpdateError("Update failed"));
       }
-    } catch (e, stackTrace) {
-      debugPrint("❌ AUTH CUBIT ERROR:");
-      debugPrint(e.toString());
-      debugPrint(stackTrace.toString());
-
+    } catch (e) {
       emit(AuthUpdateError(e.toString()));
     }
   }
-
   Future<void> logout() async {
     await AuthLocalStorage.clearUser();
     emit(AuthUnauthenticated());
@@ -242,18 +227,22 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthInitial());
     }
   }
-  Future<void> changePassword(ChangePasswordRequest changePasswordRequest) async {
+  Future<void> changePassword(ChangePasswordRequest request) async {
     emit(AuthLoginLoading());
 
     final bool isSuccess =
-    await changePasswordFunction(changePasswordRequest: changePasswordRequest);
+    await changePasswordFunction(changePasswordRequest: request);
 
     if (isSuccess) {
-      emit(AuthLoginSuccess());
+      await AuthLocalStorage.clearUser();
+
+      emit(AuthUnauthenticated());
+
     } else {
-      emit(AuthInitial());
+      emit(AuthLoginError("Change password failed"));
     }
   }
+
   Future<void> signup(CreateUserRequest request) async {
     emit(AuthSignupLoading());
 
