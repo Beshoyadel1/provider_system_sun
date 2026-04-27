@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
+import 'package:sun_web_system/core/api_functions/user/update_user_model/update_user_repository.dart';
 import '../../../../core/api_functions/user/check_if_user_exist_or_not_model/check_if_user_exist_or_not_repository.dart';
 import '../../../../core/api_functions/user/check_if_user_exist_or_not_model/check_if_user_exist_or_not_request.dart';
 import '../../../../core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
@@ -157,17 +158,70 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+  static Future<void> saveUserFromRequest(CreateUserRequest request) async {
+    await AuthLocalStorage.saveUser(request);
+  }
+
   Future<void> checkAuth() async {
     emit(AuthLoading());
 
     final isLoggedIn = await AuthLocalStorage.isLoggedIn();
 
-    //print("IS LOGGED IN: $isLoggedIn");
-
     if (isLoggedIn) {
       emit(AuthAuthenticated());
     } else {
       emit(AuthUnauthenticated());
+    }
+  }
+
+  Future<void> updateUser(CreateUserRequest request) async {
+    emit(AuthUpdateLoading());
+
+    try {
+      final oldUser = await AuthLocalStorage.getUser();
+
+      debugPrint("========== OLD USER ==========");
+      debugPrint(oldUser?.toJson().toString());
+
+      final bool isSuccess = await updateUserFunction(
+        createUserRequest: request,
+      );
+
+      if (isSuccess) {
+        final updatedUser = CreateUserRequest(
+          userid: oldUser?.userid,
+
+          username: request.username ?? oldUser?.username,
+          phone: request.phone ?? oldUser?.phone,
+          email: request.email ?? oldUser?.email,
+          age: request.age ?? oldUser?.age,
+          gander: request.gander ?? oldUser?.gander,
+
+          image: request.image ?? oldUser?.image,
+
+          type: oldUser?.type,
+          isActive: oldUser?.isActive,
+          joinDate: oldUser?.joinDate,
+
+          providerDetails:
+          request.providerDetails ?? oldUser?.providerDetails,
+        );
+
+        debugPrint("========== SAVED USER ==========");
+        debugPrint(updatedUser.toJson().toString());
+
+        await AuthLocalStorage.saveUser(updatedUser);
+
+        emit(AuthUpdateSuccess());
+      } else {
+        emit(AuthUpdateError("Update failed from API"));
+      }
+    } catch (e, stackTrace) {
+      debugPrint("❌ AUTH CUBIT ERROR:");
+      debugPrint(e.toString());
+      debugPrint(stackTrace.toString());
+
+      emit(AuthUpdateError(e.toString()));
     }
   }
 

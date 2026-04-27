@@ -20,8 +20,8 @@ final List<FacilityModel> facilityTabs = [
     title: AppLanguageKeys.facilityDataKey,
     content: const FacilityDataContent(),
   ),
-  FacilityModel(
-      title: AppLanguageKeys.identityKey, content: const IdentityContent()),
+  // FacilityModel(
+  //     title: AppLanguageKeys.identityKey, content: const IdentityContent()),
   FacilityModel(
       title: AppLanguageKeys.branchesKey, content: const BranchesContent()),
   FacilityModel(

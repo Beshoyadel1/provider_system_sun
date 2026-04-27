@@ -441,6 +441,7 @@ class AppLanguageKeys {
   static const String buildingNumberAgainKey = 'buildingNumberAgainEN';
   static const String commercialRecordFileKey = 'commercialRecordFileEN';
   static const String attachFileKey = 'attachFileEN';
+
   static const String ownerIdKey = 'ownerIdEN';
   static const String bankNameKey = 'bankNameEN';
   static const String beneficiaryNameKey = 'beneficiaryNameEN';

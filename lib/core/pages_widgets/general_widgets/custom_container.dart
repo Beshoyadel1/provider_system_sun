@@ -6,7 +6,7 @@ import '../../../core/theming/fonts.dart';
 class CustomContainer extends StatelessWidget {
   final String? text;
   final bool isSelected;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final Widget? typeWidget;
   final BorderRadius? borderRadius;
   final BoxBorder? border;

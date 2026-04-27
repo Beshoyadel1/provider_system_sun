@@ -296,7 +296,6 @@ class _OtherDataDataContainerInListDataAddSparePartsInServiceSettingsState
                         ),
                       ),
 
-                      /// ===== SIZES SECTION =====
 
                       if (sizes.isEmpty)
                         _item(
@@ -417,6 +416,29 @@ class _OtherDataDataContainerInListDataAddSparePartsInServiceSettingsState
 
                                   if (categoryCubit.selectedCategory == null) {
                                     AppSnackBar.showError(AppLanguageKeys.enterYourData);
+                                    return;
+                                  }
+                                  if (imageBytes == null) {
+                                    AppSnackBar.showError(AppLanguageKeys.uploadImage);
+                                    return;
+                                  }
+
+                                  bool hasValidCar = cars.any((c) {
+                                    if (c.isAllBrandsSelected) return true;
+
+                                    if (c.brandId == null) return false;
+
+                                    bool isAllModelsSelected =
+                                        c.models.isNotEmpty &&
+                                            c.selectedModelIds.length == c.models.length;
+
+                                    if (isAllModelsSelected) return true;
+
+                                    return c.selectedModelIds.isNotEmpty;
+                                  });
+
+                                  if (!hasValidCar) {
+                                    AppSnackBar.showError(AppLanguageKeys.selectCarModelByServices);
                                     return;
                                   }
 

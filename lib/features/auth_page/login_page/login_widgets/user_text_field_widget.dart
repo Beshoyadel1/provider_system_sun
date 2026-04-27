@@ -20,6 +20,7 @@ enum UserFieldType {
   phone,
   name,
   password,
+  gender,
 }
 
 class UserTextFieldWidget extends StatelessWidget {
@@ -28,141 +29,108 @@ class UserTextFieldWidget extends StatelessWidget {
     required this.controller,
     this.text,
     this.type = UserFieldType.normal,
-    this.borderRadius,
-    this.readOnly,
-    this.maxLines = 1,
+    this.readOnly = false,
   });
 
   final TextEditingController controller;
   final String? text;
   final UserFieldType type;
-  final BorderRadius? borderRadius;
-  final bool? readOnly;
-  final int maxLines;
+  final bool readOnly;
 
   @override
   Widget build(BuildContext context) {
     final bool isMobile = MediaQuery.of(context).size.width < 600;
 
+    Widget child;
+
     if (type == UserFieldType.phone) {
-      return SizedBox(
-        width: isMobile ? double.infinity : 500,
-        child: PhoneTextField(
+      if (readOnly) {
+        child = TextFormFieldWidget(
+          textFormController: controller,
+          text: text ?? "",
+          isColumn: true,
+          readOnly: true,
+          textSize: 16,
+          borderColor: AppColors.darkGreyColor,
+          fillColor: AppColors.whiteColor,
+          textFormHeight: 35,
+
+        );
+      } else {
+        child = PhoneTextField(
           controller: controller,
           aboveText: text,
-          borderRadius: 10,
-          validator: context.read<AuthCubit>().phoneValidator,
-        ),
+        );
+      }
+    }
+
+    else if (type == UserFieldType.gender) {
+      child = GenderField(
+        controller: controller,
+        text: text,
+        readOnly: readOnly,
+      );
+    }
+
+    else {
+      child = TextFormFieldWidget(
+        textFormController: controller,
+        text: text ?? "",
+        isColumn: true,
+        readOnly: readOnly,
+        textSize: 16,
+        borderColor: AppColors.darkGreyColor,
+        fillColor: AppColors.whiteColor,
+        textFormHeight: 35,
       );
     }
 
     return SizedBox(
       width: isMobile ? double.infinity : 500,
-      child: BlocBuilder<AuthCubit, AuthState>(
-        buildWhen: (previous, current) =>
-        current is AuthPasswordVisibilityChanged,
-        builder: (context, state) {
-          final cubit = context.read<AuthCubit>();
-
-          final bool isPasswordField =
-              type == UserFieldType.password;
-
-          return TextFormFieldWidget(
-            textFormController: controller,
-            text: text ?? '',
-            isColumn: true,
-            readOnly: readOnly,
-            maxLines: isPasswordField ? 1 : maxLines,
-            validator: _getValidator(cubit),
-            inputFormatters: _getFormatters(),
-            textSize: isMobile ? 14 : 16,
-            fontWeightIndex:
-            FontSelectionData.semiBoldFontFamily,
-            borderColor: AppColors.lightGreyColor,
-            fillColor: AppColors.whiteColor,
-            enabledBorderRadius:
-            borderRadius ??
-                const BorderRadius.all(Radius.circular(10)),
-
-            obscureText: isPasswordField
-                ? !cubit.isPasswordVisible
-                : false,
-
-            suffixIcon: isPasswordField
-                ? (cubit.isPasswordVisible
-                ? Icons.visibility
-                : Icons.visibility_off
-            )
-                : null,
-
-            suffixOnPressed: isPasswordField
-                ? () {
-              cubit.togglePasswordVisibility();
-            }
-                : null,
-          );
-        },
-      ),
+      child: child,
     );
   }
-
-  FormFieldValidator<String>? _getValidator(AuthCubit cubit) {
-    switch (type) {
-      case UserFieldType.email:
-        return cubit.emailValidator;
-
-      case UserFieldType.name:
-        return cubit.nameValidator;
-
-      case UserFieldType.password:
-        return cubit.passwordValidator;
-
-      default:
-        return null;
-    }
-  }
-
-  List<TextInputFormatter>? _getFormatters() {
-    if (type == UserFieldType.email) {
-      return [
-        FilteringTextInputFormatter.deny(RegExp(r'\s')),
-      ];
-    }
-    return null;
-  }
 }
 
+class GenderField extends StatefulWidget {
+  final TextEditingController controller;
+  final String? text;
+  final bool readOnly;
 
-class PhoneTextField extends StatefulWidget {
-  const PhoneTextField({
+  const GenderField({
     super.key,
     required this.controller,
-    this.validator,
-    this.aboveText,
-    this.isReadOnly = false,
-    this.borderRadius,
+    this.text,
+    required this.readOnly,
   });
 
-  final TextEditingController controller;
-  final FormFieldValidator<String>? validator;
-  final String? aboveText;
-  final bool isReadOnly;
-  final double? borderRadius;
-
   @override
-  State<PhoneTextField> createState() => _PhoneTextFieldState();
+  State<GenderField> createState() => _GenderFieldState();
 }
 
-class _PhoneTextFieldState extends State<PhoneTextField> {
-  String initialCountry = 'SA';
-  String initialNumber = '';
+class _GenderFieldState extends State<GenderField> {
+  int? selectedValue;
 
   @override
   void initState() {
     super.initState();
-    final parsed = parsePhoneNumber(widget.controller.text);
-    initialCountry = parsed['countryCode']!;
-    initialNumber = parsed['number']!;
+    _setValue();
+  }
+
+  @override
+  void didUpdateWidget(covariant GenderField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _setValue();
+  }
+
+  void _setValue() {
+    if (widget.controller.text == "0") {
+      selectedValue = 0;
+    } else if (widget.controller.text == "1") {
+      selectedValue = 1;
+    } else {
+      selectedValue = null;
+    }
   }
 
   @override
@@ -170,95 +138,134 @@ class _PhoneTextFieldState extends State<PhoneTextField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (widget.aboveText != null)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 6),
-            child: TextInAppWidget(
-              text: widget.aboveText!,
-              textSize: 14,
-              fontWeightIndex: FontSelectionData.regularFontFamily,
-              //textColor: AppColors.darkColor,
-            ),
+        if (widget.text != null)
+          TextInAppWidget(
+            text: widget.text!,
+            textSize: 14,
           ),
-        Directionality(
-          textDirection: TextDirection.ltr,
-          child: IntlPhoneField(
-            initialCountryCode: initialCountry,
-            initialValue: initialNumber,
-            readOnly: widget.isReadOnly,
-            keyboardType: TextInputType.number,
-            languageCode: Localizations.localeOf(context).languageCode,
 
-            invalidNumberMessage:
-            AppLocalizations.of(context)
-                .translate(AppLanguageKeys.authEnterCorrectPhoneNumber),
-
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-            ],
-
-            validator: (phone) {
-              final local = AppLocalizations.of(context);
-
-              if (phone == null || phone.number.isEmpty) {
-                return local.translate(
-                    AppLanguageKeys.authPhoneNumberRequired);
-              }
-
-              return null;
-            },
-
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: AppColors.whiteColor,
-              border: OutlineInputBorder(
-                borderRadius:
-                BorderRadius.circular(widget.borderRadius ?? 12),
+        Row(
+          children: [
+            Expanded(
+              child: RadioListTile<int>(
+                value: 0,
+                groupValue: selectedValue,
+                title: const TextInAppWidget(
+                  text: AppLanguageKeys.male,
+                  textSize: 15,
+                ),
+                onChanged: widget.readOnly
+                    ? null
+                    : (v) {
+                  setState(() {
+                    selectedValue = v;
+                    widget.controller.text = "0";
+                  });
+                },
               ),
             ),
-
-            onChanged: (phone) {
-
-              widget.controller.text = removePlusFromPhone(phone.completeNumber);
-            },
-          ),
-
-
-        )
+            Expanded(
+              child: RadioListTile<int>(
+                value: 1,
+                groupValue: selectedValue,
+                title: const TextInAppWidget(
+                  text: AppLanguageKeys.female,
+                  textSize: 15,
+                ),
+                onChanged: widget.readOnly
+                    ? null
+                    : (v) {
+                  setState(() {
+                    selectedValue = v;
+                    widget.controller.text = "1";
+                  });
+                },
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }
-  String removePlusFromPhone(String phone) {
-    if (phone.startsWith('+')) {
-      return phone.substring(1);
-    } else {
-      return phone;
-    }
-  }
+}
 
-  Map<String, String> parsePhoneNumber(String phone) {
-    if (phone.trim().isEmpty) {
-      return {'countryCode': 'SA', 'number': ''};
-    }
 
-    String normalized = phone.trim();
-    if (!normalized.startsWith('+')) {
-      normalized = '+$normalized';
-    }
+class PhoneTextField extends StatelessWidget {
+  const PhoneTextField({
+    super.key,
+    required this.controller,
+    this.aboveText,
+    this.isReadOnly = false,
+  });
 
-    for (final country in countries) {
-      final dialCode = '+${country.dialCode}';
-      if (normalized.startsWith(dialCode)) {
-        return {
-          'countryCode': country.code,
-          'number': normalized.substring(dialCode.length),
-        };
-      }
-    }
+  final TextEditingController controller;
+  final String? aboveText;
+  final bool isReadOnly;
 
-    return {
-      'countryCode': 'SA',
-      'number': normalized.replaceAll('+', ''),
-    };
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (aboveText != null)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 6),
+            child: TextInAppWidget(
+              text: aboveText!,
+              textSize: 14,
+            ),
+          ),
+
+        Container(
+          height: 35,
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          decoration: BoxDecoration(
+            color: AppColors.whiteColor,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: AppColors.darkGreyColor),
+          ),
+
+          child: Center(
+            child: IntlPhoneField(
+              initialCountryCode: 'EG',
+              disableLengthCheck: true,
+              readOnly: isReadOnly,
+
+              textAlignVertical: TextAlignVertical.center,
+
+              style: const TextStyle(
+                fontSize: 14,
+                height: 1.2,
+              ),
+
+              dropdownTextStyle: const TextStyle(
+                fontSize: 14,
+                height: 1.2,
+              ),
+
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+                isCollapsed: true, // 🔥 ده الحل السحري
+                contentPadding: EdgeInsets.zero,
+              ),
+
+              /// 🔹 المسافات
+              flagsButtonPadding: const EdgeInsets.only(right: 6),
+              dropdownIconPosition: IconPosition.trailing,
+
+              onChanged: isReadOnly
+                  ? null
+                  : (phone) {
+                controller.text =
+                    phone.completeNumber.replaceFirst("+", "");
+              },
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
+
+
+
