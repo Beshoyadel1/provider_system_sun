@@ -150,8 +150,6 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
           ],
         ),
 
-        const SizedBox(height: 20),
-
         /// ================= IMAGES =================
         Wrap(
           spacing: 20,
@@ -174,8 +172,6 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
             ),
           ],
         ),
-
-        const SizedBox(height: 10),
 
         const TextInAppWidget(
           text: AppLanguageKeys.imageRequirementsKey,

@@ -37,7 +37,6 @@ class AttachImage extends StatelessWidget {
 
             Uint8List? image = cubit.images[type];
 
-            /// 🔥 لو المستخدم مسح الصورة → متجبهاش من API
             if (image == null &&
                 user != null &&
                 !cubit.deletedImages.contains(type)) {
@@ -54,13 +53,14 @@ class AttachImage extends StatelessWidget {
             final isUploaded = image != null;
 
             return Column(
+              spacing: 10,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextInAppWidget(text: title, textSize: 13),
-                const SizedBox(height: 10),
-
                 isUploaded
-                    ? Row(
+                    ? Wrap(
+                  spacing: 5,
+                  runSpacing: 5,
                   children: [
                     CircleAvatar(
                       radius: 40,

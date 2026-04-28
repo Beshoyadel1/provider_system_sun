@@ -25,7 +25,6 @@ class AddBranchUI extends StatelessWidget {
       final editingBranch = cubit.branches[cubit.editingIndex!];
       textController.text = editingBranch.name;
     }
-
     return Column(
       spacing: 20,
       crossAxisAlignment: CrossAxisAlignment.start,

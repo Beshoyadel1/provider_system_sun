@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import '../../../../core/api_functions/provider_management/get_branch_employees_model/get_branch_employees_request.dart';
+import 'package:sun_web_system/core/api_functions/branch/get_branch_employees_model/get_branch_employees_request.dart';
 import '../../../../core/api/dio_function/api_constants.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
@@ -12,7 +12,7 @@ Future<void> getBranchEmployeesFunction({
   try {
     await Network.getDataWithBodyAndParams(
       {},
-      getBranchEmployeesRequest.toJson(), // params
+      getBranchEmployeesRequest.toJson(),
       ApiLink.getBranchEmployees,
     );
     AppSnackBar.showSuccess(AppLanguageKeys.getBranchEmployeesSuccess);

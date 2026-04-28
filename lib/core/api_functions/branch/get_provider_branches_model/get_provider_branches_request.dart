@@ -1,13 +1,13 @@
 class GetProviderBranchesRequest {
-  final int productId;
+  final int providerId;
 
   GetProviderBranchesRequest({
-    required this.productId,
+    required this.providerId,
   });
 
   Map<String, dynamic> toJson() {
     return {
-      "productId": productId,
+      "providerId": providerId,
     };
   }
 }
