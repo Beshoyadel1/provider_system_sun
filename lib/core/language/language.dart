@@ -31,6 +31,11 @@ class AppLocalizations {
       //END//
 
       //others//
+      AppLanguageKeys.branchName: 'اسم الفرع',
+      AppLanguageKeys.branchLatinName: 'اسم الفرع بالإنجليزية',
+      AppLanguageKeys.addressText: 'وصف العنوان',
+      AppLanguageKeys.addressLatinText: 'وصف العنوان بالإنجليزية',
+
       AppLanguageKeys.allBrands: 'كل الماركات',
       AppLanguageKeys.allModels: 'كل الموديلات',
       AppLanguageKeys.areYouSure: 'هل أنت متأكد؟',
@@ -1276,6 +1281,10 @@ class AppLocalizations {
       AppLanguageKeys.cancelledByUser: 'Cancelled by User',
       //END//
       //others//
+      AppLanguageKeys.branchName: 'Branch Name',
+      AppLanguageKeys.branchLatinName: 'Branch Name (Latin)',
+      AppLanguageKeys.addressText: 'Address Description',
+      AppLanguageKeys.addressLatinText: 'Address Description (Latin)',
       AppLanguageKeys.allBrands: 'All Brands',
       AppLanguageKeys.allModels: 'All Models',
       AppLanguageKeys.areYouSure: 'Are you sure?',

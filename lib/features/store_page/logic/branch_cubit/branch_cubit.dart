@@ -60,10 +60,10 @@ class BranchCubit extends Cubit<BranchState> {
       final response = await addBranchFunction(body: body);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        final newBranch =
-        ProviderBranchModel.fromJson(response.data);
-
-        branches.add(newBranch);
+        if (response.data is Map<String, dynamic>) {
+          final newBranch = ProviderBranchModel.fromJson(response.data);
+          branches.add(newBranch);
+        }
 
         emit(BranchSuccess(branches: List.from(branches)));
       }
@@ -80,8 +80,10 @@ class BranchCubit extends Cubit<BranchState> {
       final response = await updateBranchFunction(body: body);
 
       if (response.statusCode == 200) {
-        branches[index] =
-            ProviderBranchModel.fromJson(response.data);
+        if (response.data is Map<String, dynamic>) {
+          branches[index] =
+              ProviderBranchModel.fromJson(response.data);
+        }
 
         emit(BranchSuccess(branches: List.from(branches)));
       }

@@ -19,6 +19,10 @@ class AppLanguageKeys {
   //end//
 
   //others//
+  static const String branchName = 'branchName';
+  static const String branchLatinName = 'branchLatinName';
+  static const String addressText = 'addressText';
+  static const String addressLatinText = 'addressLatinText';
   static const String allBrands = 'allBrands';
   static const String allModels = 'allModels';
   static const String areYouSure = 'areYouSure';

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/core/api_functions/branch/get_provider_branches_model/provider_branch_model.dart';
+import 'package:sun_web_system/features/store_page/logic/branch_cubit/branch_cubit.dart';
+import 'package:sun_web_system/features/store_page/logic/branch_cubit/branch_state.dart';
 import '../../../../../../../features/store_page/model/facility_cubit/facility_tab_cubit/facility_tab_cubit.dart';
 import '../../../../../../../features/store_page/model/facility_cubit/facility_tab_cubit/facility_tab_state.dart';
 import '../../../../../core/pages_widgets/general_widgets/custom_container.dart';
@@ -13,11 +16,11 @@ import '../../../../../core/language/language_constant.dart';
 class BranchesAddedUi extends StatelessWidget {
   const BranchesAddedUi({super.key, required this.state});
 
-  final FacilityTabState state;
+  final BranchSuccess state;
 
   @override
   Widget build(BuildContext context) {
-    final branches = context.read<FacilityTabCubit>().branches;
+    final branches = state.branches;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,14 +51,16 @@ class BranchesAddedUi extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const TextInAppWidget(
-                        text: AppLanguageKeys.mainBranchKey,
+                        text: AppLanguageKeys.branchName,
                         textSize: 16,
-                        fontWeightIndex: FontSelectionData.boldFontFamily,
+                        fontWeightIndex:
+                        FontSelectionData.boldFontFamily,
                       ),
                       TextInAppWidget(
-                        text: branch.name,
+                        text: branch.getBranchName(context),
                         textSize: 16,
-                        fontWeightIndex: FontSelectionData.boldFontFamily,
+                        fontWeightIndex:
+                        FontSelectionData.boldFontFamily,
                       ),
                     ],
                   ),
@@ -65,8 +70,8 @@ class BranchesAddedUi extends StatelessWidget {
                   isSelected: false,
                   onTap: () {
                     context
-                        .read<FacilityTabCubit>()
-                        .editBranch(branches.indexOf(branch));
+                        .read<BranchCubit>()
+                        .edit(branches.indexOf(branch));
                   },
                   containerColor: AppColors.darkGreyColor,
                   containerWidth: 162,
@@ -83,7 +88,8 @@ class BranchesAddedUi extends StatelessWidget {
                         text: AppLanguageKeys.editKey,
                         textSize: 16,
                         textColor: AppColors.whiteColor,
-                        fontWeightIndex: FontSelectionData.boldFontFamily,
+                        fontWeightIndex:
+                        FontSelectionData.boldFontFamily,
                       ),
                     ],
                   ),
@@ -95,8 +101,9 @@ class BranchesAddedUi extends StatelessWidget {
         CustomAddButton(
           width: 198,
           text: AppLanguageKeys.addNewBranchKey,
-          onTap: () => context.read<FacilityTabCubit>().goToAddBranches(),
+          onTap: () => context.read<BranchCubit>().goToAdd(),
         ),
+
       ],
     );
   }
