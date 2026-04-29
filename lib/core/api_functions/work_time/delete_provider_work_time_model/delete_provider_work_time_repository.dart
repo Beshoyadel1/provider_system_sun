@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import '../../../../core/api_functions/provider_management/delete_provider_work_time_model/delete_provider_work_time_request.dart';
+import 'package:sun_web_system/core/api_functions/work_time/delete_provider_work_time_model/delete_provider_work_time_request.dart';
 import '../../../../core/api/dio_function/api_constants.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
@@ -12,7 +12,7 @@ Future<void> deleteProviderWorkTimeFunction({
   try {
     await Network.postDataWithBodyAndParams(
       {},
-      deleteProviderWorkTimeRequest.toJson(), // params
+      deleteProviderWorkTimeRequest.toJson(),
         ApiLink.deleteProviderWorkTime
     );
     AppSnackBar.showSuccess(AppLanguageKeys.deleteProviderWorkTimeSuccess);

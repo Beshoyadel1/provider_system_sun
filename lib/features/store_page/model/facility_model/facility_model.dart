@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/auth_page/auth_cubit/auth_cubit.dart';
 import 'package:sun_web_system/features/store_page/logic/branch_cubit/branch_cubit.dart';
+import 'package:sun_web_system/features/store_page/logic/work_time_cubit/work_time_cubit.dart';
 import 'package:sun_web_system/features/store_page/model/location_cubit/location_cubit.dart';
 import '../../../../../../core/language/language_constant.dart';
 import '../../../../../../features/store_page/store_widgets/facility_account/tabs/Identity_content.dart';
@@ -22,8 +23,7 @@ final List<FacilityModel> facilityTabs = [
     title: AppLanguageKeys.facilityDataKey,
     content: const FacilityDataContent(),
   ),
-  // FacilityModel(
-  //     title: AppLanguageKeys.identityKey, content: const IdentityContent()),
+
   FacilityModel(
     title: AppLanguageKeys.branchesKey,
     content: MultiBlocProvider(
@@ -35,8 +35,12 @@ final List<FacilityModel> facilityTabs = [
   ),
   FacilityModel(
     title: AppLanguageKeys.workingHoursKey,
-    content: WorkingHoursContent(),
-  ),
+    content: BlocProvider(
+        create: (context) => UpdateWorkTimeCubit(),
+        child: const WorkingHoursContent(),
+      ),
+    ),
+
   FacilityModel(
       title: AppLanguageKeys.bankAccountKey,
       content: const BankAccountContent()),

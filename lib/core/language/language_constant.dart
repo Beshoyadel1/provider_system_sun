@@ -19,6 +19,8 @@ class AppLanguageKeys {
   //end//
 
   //others//
+  static const String editWorkingHours = 'editWorkingHours';
+  static const String addWorkingHours = 'addWorkingHours';
   static const String branchName = 'branchName';
   static const String branchLatinName = 'branchLatinName';
   static const String addressText = 'addressText';

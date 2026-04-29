@@ -1,198 +1,290 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/core/api_functions/branch/add_branch_model/add_branch_request.dart';
-import 'package:sun_web_system/features/store_page/logic/branch_cubit/branch_cubit.dart';
-import 'package:sun_web_system/features/store_page/logic/branch_cubit/branch_state.dart';
+import '../../../../../core/api_functions/branch/add_branch_model/add_branch_request.dart';
+import '../../../../../core/pages_widgets/general_widgets/snakbar.dart';
+import '../../../../../features/store_page/logic/branch_cubit/branch_cubit.dart';
+import '../../../../../features/store_page/logic/branch_cubit/branch_state.dart';
 import '../../../../../features/store_page/model/location_cubit/location_cubit.dart';
 import '../../../../../features/store_page/model/location_cubit/location_state.dart';
-import '../../../../../features/store_page/model/branch_model/branch_model_dashboard.dart';
 import '../../../../../core/theming/colors.dart';
-import '../../../../../core/theming/fonts.dart';
-import '../../../../../../../features/store_page/model/facility_cubit/facility_tab_cubit/facility_tab_cubit.dart';
 import '../../../../../core/pages_widgets/text_form_field_widget.dart';
 import '../../../../../core/pages_widgets/general_widgets/custom_container.dart';
 import '../../../../../core/theming/text_styles.dart';
 import '../../../../../core/language/language_constant.dart';
 import 'square_map_widget.dart';
 
-class AddBranchUI extends StatelessWidget {
-  AddBranchUI({super.key});
+class AddBranchUI extends StatefulWidget {
+  const AddBranchUI({super.key});
+
+  @override
+  State<AddBranchUI> createState() => _AddBranchUIState();
+}
+
+class _AddBranchUIState extends State<AddBranchUI> {
+  final _formKey = GlobalKey<FormState>();
 
   final nameController = TextEditingController();
+
   final latinController = TextEditingController();
+
   final addressTextController = TextEditingController();
+
   final addressLatinController = TextEditingController();
-  final addressController  = TextEditingController();
+
+  final addressController = TextEditingController();
+
+  bool isInit = false;
+
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<BranchCubit>();
-    final state = cubit.state as BranchSuccess;
+    return BlocConsumer<BranchCubit, BranchState>(
+      listener: (context, state) {
+        if (state is BranchSuccess) {
+          AppSnackBar.showSuccess(AppLanguageKeys.success);
+        }
 
-    if (state.editingIndex != null) {
-      final branch = state.branches[state.editingIndex!];
+        if (state is BranchError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.message)),
+          );
+        }
+      },
 
-      nameController.text = branch.branchName ?? '';
-      latinController.text = branch.branchLatinName ?? '';
-      addressTextController.text = branch.addressText ?? '';
-      addressLatinController.text = branch.addressLatinText ?? '';
-      addressController.text = branch.address ?? '';
-    }
+      builder: (context, state) {
+        final isLoading = state is BranchLoading;
+        final successState = state is BranchSuccess ? state : null;
 
-    return Column(
-      spacing: 20,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        TextInAppWidget(
-          text: state.editingIndex != null
-              ? AppLanguageKeys.editKey
-              : AppLanguageKeys.addMainBranchKey,
-          textSize: 20,
-        ),
+        if (successState == null) {
+          return const SizedBox();
+        }
+        if (state is! BranchSuccess) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-        TextFormFieldWidget(
-          textFormController: nameController,
-          text: AppLanguageKeys.branchName,
-          hintText: AppLanguageKeys.branchName,
-          textSize: 16,
-          isColumn: true,
-          textColor: AppColors.darkColor,
-          borderColor: AppColors.darkGreyColor,
-          //borderRadius: 20,
-          fillColor: AppColors.whiteColor,
-          textFormHeight: 35,
-        ),
 
-        TextFormFieldWidget(
-          textFormController: latinController,
-          text: AppLanguageKeys.branchLatinName,
-          hintText: AppLanguageKeys.branchLatinName,
-          textSize: 16,
-          isColumn: true,
-          textColor: AppColors.darkColor,
-          borderColor: AppColors.darkGreyColor,
-          //borderRadius: 20,
-          fillColor: AppColors.whiteColor,
-          textFormHeight: 35,
-        ),
+        if (state.editingIndex != null) {
+          final branch = successState.branches[successState.editingIndex!];
 
-        TextFormFieldWidget(
-          textFormController: addressTextController,
-          text: AppLanguageKeys.addressText,
-          hintText: AppLanguageKeys.addressText,
-          textSize: 16,
-          isColumn: true,
-          textColor: AppColors.darkColor,
-          borderColor: AppColors.darkGreyColor,
-          //borderRadius: 20,
-          fillColor: AppColors.whiteColor,
-          textFormHeight: 35,
-        ),
+          nameController.text = branch.branchName ?? '';
+          latinController.text = branch.branchLatinName ?? '';
+          addressTextController.text = branch.addressText ?? '';
+          addressLatinController.text = branch.addressLatinText ?? '';
+          addressController.text = branch.address ?? '';
+          isInit = true;
+        }
 
-        TextFormFieldWidget(
-          textFormController: addressLatinController,
-          text: AppLanguageKeys.addressLatinText,
-          hintText: AppLanguageKeys.addressLatinText,
-          textSize: 16,
-          isColumn: true,
-          textColor: AppColors.darkColor,
-          borderColor: AppColors.darkGreyColor,
-          //borderRadius: 20,
-          fillColor: AppColors.whiteColor,
-          textFormHeight: 35,
-        ),
+        return Form(
+          key: _formKey,
+          child: Column(
+            spacing: 20,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextInAppWidget(
+                text: state.editingIndex != null
+                    ? AppLanguageKeys.editKey
+                    : AppLanguageKeys.addMainBranchKey,
+                textSize: 20,
+              ),
 
-        TextFormFieldWidget(
-          textFormController: addressController,
-          text: AppLanguageKeys.branchAddressKey,
-          isColumn: true,
-          textColor: AppColors.darkGreyColor,
-          fillColor: AppColors.whiteColor,
-          textSize: 16,
-          hintText: AppLanguageKeys.addressDetailsKey,
-          textFormHeight: 35,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-          fontWeightIndex: FontSelectionData.semiBoldFontFamily,
-          borderColor: AppColors.lightGreyColor,
-          //borderRadius: 20,
-          onChanged: (value) {
-            if (value.trim().isNotEmpty) {
-              context.read<LocationCubit>().searchLocation(value.trim());
-            }
-          },
-        ),
-
-        const TextInAppWidget(
-          text: AppLanguageKeys.confirmBranchLocationKey,
-          textSize: 18,
-        ),
-
-        SizedBox(
-          height: 370,
-          width: 408,
-          child: SquareMapWidget(),
-        ),
-        Wrap(
-          spacing: 10,
-          runSpacing: 10,
-          children: [
-            CustomContainer(
-              isSelected: false,
-              onTap: () {
-                final locationState = context.read<LocationCubit>().state;
-
-                if (locationState is LocationLoaded) {
-                  final cubit = context.read<BranchCubit>();
-
-                  if (state.editingIndex != null) {
-                    final branch = state.branches[state.editingIndex!];
-
-                    final request = AddBranchRequest(
-                      branchId: branch.branchId,
-                      branchName: nameController.text,
-                      branchLatinName: latinController.text,
-                      address:
-                      "${locationState.latLng.latitude},${locationState.latLng.longitude}",
-                      addressText: addressTextController.text,
-                      addressLatinText: addressLatinController.text,
-                      isActive: branch.isActive ?? false,
-                    );
-
-                    cubit.updateBranch(state.editingIndex!, request);
+              TextFormFieldWidget(
+                textFormController: nameController,
+                text: AppLanguageKeys.branchName,
+                hintText: AppLanguageKeys.branchName,
+                isColumn: true,
+                textSize: 16,
+                textColor: AppColors.darkColor,
+                borderColor: AppColors.darkGreyColor,
+                fillColor: AppColors.whiteColor,
+                textFormHeight: 35,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return AppLanguageKeys.enterYourData;
                   }
+                  return null;
+                },
+              ),
 
-                  // ✅ حالة CREATE
-                  else {
-                    final request = AddBranchRequest(
-                      branchName: nameController.text,
-                      branchLatinName: latinController.text,
-                      address:
-                      "${locationState.latLng.latitude},${locationState.latLng.longitude}",
-                      addressText: addressTextController.text,
-                      addressLatinText: addressLatinController.text,
-                      isActive: false, // أو true حسب business
-                    );
-
-                    cubit.addBranch(request);
+              /// 🔥 Latin Name
+              TextFormFieldWidget(
+                textFormController: latinController,
+                text: AppLanguageKeys.branchLatinName,
+                hintText: AppLanguageKeys.branchLatinName,
+                isColumn: true,
+                textSize: 16,
+                textColor: AppColors.darkColor,
+                borderColor: AppColors.darkGreyColor,
+                fillColor: AppColors.whiteColor,
+                textFormHeight: 35,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return AppLanguageKeys.enterYourData;
                   }
-                }
-              },
-              text: state.editingIndex != null
-                  ? AppLanguageKeys.editKey
-                  : AppLanguageKeys.saveKey,
-              containerColor: AppColors.orangeColor,
-            ),
-            CustomContainer(
-              isSelected: false,
-              onTap: () {
-                context.read<BranchCubit>().back();
-              },
-              text: AppLanguageKeys.cancel,
-              containerColor: AppColors.blackColor,
-            ),
-          ],
-        )
+                  return null;
+                },
+              ),
 
-      ],
+              /// 🔥 Address Text
+              TextFormFieldWidget(
+                textFormController: addressTextController,
+                text: AppLanguageKeys.addressText,
+                hintText: AppLanguageKeys.addressText,
+                isColumn: true,
+                textSize: 16,
+                textColor: AppColors.darkColor,
+                borderColor: AppColors.darkGreyColor,
+                fillColor: AppColors.whiteColor,
+                textFormHeight: 35,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return AppLanguageKeys.enterYourData;
+                  }
+                  return null;
+                },
+              ),
+
+              /// 🔥 Address Latin
+              TextFormFieldWidget(
+                textFormController: addressLatinController,
+                text: AppLanguageKeys.addressLatinText,
+                hintText: AppLanguageKeys.addressLatinText,
+                isColumn: true,
+                textSize: 16,
+                textColor: AppColors.darkColor,
+                borderColor: AppColors.darkGreyColor,
+                fillColor: AppColors.whiteColor,
+                textFormHeight: 35,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return AppLanguageKeys.enterYourData;
+                  }
+                  return null;
+                },
+              ),
+
+              TextFormFieldWidget(
+                textFormController: addressController,
+                text: AppLanguageKeys.branchAddressKey,
+                isColumn: true,
+                textColor: AppColors.darkGreyColor,
+                fillColor: AppColors.whiteColor,
+                textSize: 16,
+                hintText: AppLanguageKeys.addressDetailsKey,
+                textFormHeight: 35,
+                borderColor: AppColors.lightGreyColor,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return AppLanguageKeys.enterYourData;
+                  }
+                  return null;
+                },
+                onChanged: (value) {
+                  if (value.trim().isNotEmpty) {
+                    context
+                        .read<LocationCubit>()
+                        .searchLocation(value.trim());
+                  }
+                },
+              ),
+
+              const TextInAppWidget(
+                text: AppLanguageKeys.confirmBranchLocationKey,
+                textSize: 18,
+              ),
+
+              SizedBox(
+                height: 370,
+                width: 408,
+                child: SquareMapWidget(),
+              ),
+
+              Wrap(
+                spacing: 10,
+                runSpacing: 10,
+                children: [
+                  CustomContainer(
+                    isSelected: false,
+                    onTap: isLoading
+                        ? null
+                        : () {
+                      if (!_formKey.currentState!.validate()) {
+                        AppSnackBar.showError(AppLanguageKeys.enterYourData);
+                        return;
+                      }
+
+                      final locationState =
+                          context.read<LocationCubit>().state;
+
+                      if (locationState is! LocationLoaded) {
+                        AppSnackBar.showError(AppLanguageKeys.enterYourData);
+                        return;
+                      }
+
+                      if (successState.editingIndex != null) {
+                        final branch =
+                        successState.branches[successState.editingIndex!];
+
+                        final request = AddBranchRequest(
+                          branchId: branch.branchId,
+                          branchName: nameController.text,
+                          branchLatinName: latinController.text,
+                          address:
+                          "${locationState.latLng.latitude},${locationState.latLng.longitude}",
+                          addressText: addressTextController.text,
+                          addressLatinText: addressLatinController.text,
+                          isActive: branch.isActive ?? false,
+                        );
+
+                        context.read<BranchCubit>().updateBranch(request);
+                      } else {
+                        final request = AddBranchRequest(
+                          branchName: nameController.text,
+                          branchLatinName: latinController.text,
+                          address:
+                          "${locationState.latLng.latitude},${locationState.latLng.longitude}",
+                          addressText: addressTextController.text,
+                          addressLatinText: addressLatinController.text,
+                          isActive: false,
+                        );
+
+                        context.read<BranchCubit>().addBranch(request);
+                      }
+                    },
+
+                    /// 🔥 هنا السحر
+                    typeWidget: isLoading
+                        ? const SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Colors.white,
+                      ),
+                    )
+                        : TextInAppWidget(
+                      text: successState.editingIndex != null
+                          ? AppLanguageKeys.editKey
+                          : AppLanguageKeys.saveKey,
+                      textSize: 16,
+                      textColor: AppColors.whiteColor,
+                    ),
+
+                    containerColor: AppColors.orangeColor,
+                  ),
+
+                  CustomContainer(
+                    isSelected: false,
+                    onTap: () {
+                      context.read<BranchCubit>().back();
+                    },
+                    text: AppLanguageKeys.cancel,
+                    containerColor: AppColors.blackColor,
+                  ),
+                ],
+              )
+            ],
+          ),
+        );
+      },
     );
   }
 }

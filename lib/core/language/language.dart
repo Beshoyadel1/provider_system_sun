@@ -31,6 +31,10 @@ class AppLocalizations {
       //END//
 
       //others//
+      AppLanguageKeys.editWorkingHours: 'تعديل مواعيد العمل',
+      AppLanguageKeys.addWorkingHours: 'إضافة مواعيد العمل',
+
+
       AppLanguageKeys.branchName: 'اسم الفرع',
       AppLanguageKeys.branchLatinName: 'اسم الفرع بالإنجليزية',
       AppLanguageKeys.addressText: 'وصف العنوان',
@@ -431,7 +435,7 @@ class AppLocalizations {
       AppLanguageKeys.sundayKey: 'الاحد',
       AppLanguageKeys.mondayKey: 'الاثنين',
       AppLanguageKeys.tuesdayKey: 'الثلاثاء',
-      AppLanguageKeys.wednesdayKey: 'الاربعا',
+      AppLanguageKeys.wednesdayKey: 'الاربعاء',
       AppLanguageKeys.thursdayKey: 'الخميس',
       AppLanguageKeys.fridayKey: 'الجمعة',
       AppLanguageKeys.weekDaysKey: 'ايام الاسبوع',
@@ -1281,6 +1285,8 @@ class AppLocalizations {
       AppLanguageKeys.cancelledByUser: 'Cancelled by User',
       //END//
       //others//
+      AppLanguageKeys.editWorkingHours: 'Edit Working Hours',
+      AppLanguageKeys.addWorkingHours: 'Add Working Hours',
       AppLanguageKeys.branchName: 'Branch Name',
       AppLanguageKeys.branchLatinName: 'Branch Name (Latin)',
       AppLanguageKeys.addressText: 'Address Description',

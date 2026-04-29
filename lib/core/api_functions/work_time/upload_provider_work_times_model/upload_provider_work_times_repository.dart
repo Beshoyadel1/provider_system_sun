@@ -1,21 +1,23 @@
+import 'dart:convert';
 import 'package:dio/dio.dart';
-import '../../../../core/api_functions/provider_management/get_provider_work_time_model/get_provider_work_time_request.dart';
+import 'package:sun_web_system/core/api_functions/work_time/upload_provider_work_times_model/upload_provider_work_times_request.dart';
 import '../../../../core/api/dio_function/api_constants.dart';
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
 import '../../../../core/language/language_constant.dart';
 
-Future<void> getProviderWorkTimeFunction({
-  required GetProviderWorkTimeRequest getProviderWorkTimeRequest,
-}) async {
+Future<void> uploadProviderWorkTimesFunction({required UploadProviderWorkTimesRequest uploadProviderWorkTimesRequest}) async {
   try {
-    await Network.postDataWithBodyAndParams(
-      {},
-      getProviderWorkTimeRequest.toJson(), // params
-      ApiLink.getProviderWorkTime,
-    );
-    AppSnackBar.showSuccess(AppLanguageKeys.getProviderWorkTimeSuccess);
+    String jsonString = json.encode(uploadProviderWorkTimesRequest.toJson());
+
+    await Network.postDataWithBody(
+      jsonString,
+      ApiLink.uploadProviderWorkTimes,
+    ).then((value) {
+      
+    });
+
   } catch (e) {
     AppSnackBar.showError(
       e is DioException

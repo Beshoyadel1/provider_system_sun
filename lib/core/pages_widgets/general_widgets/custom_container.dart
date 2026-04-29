@@ -16,6 +16,7 @@ class CustomContainer extends StatelessWidget {
   final EdgeInsets? padding;
   final List<BoxShadow>? boxShadow;
   final Color? textColor;
+  final bool isLoading;
 
   const CustomContainer({
     super.key,
@@ -31,12 +32,13 @@ class CustomContainer extends StatelessWidget {
     this.padding,
     this.boxShadow,
     this.textColor,
+    this.isLoading = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: isLoading ? null : onTap,
       child: Container(
         height: containerHeight,
         width: containerWidth,

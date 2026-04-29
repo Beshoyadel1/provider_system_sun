@@ -72,7 +72,7 @@ class BranchCubit extends Cubit<BranchState> {
     }
   }
 
-  Future<void> updateBranch(int index, AddBranchRequest request) async {
+  Future<void> updateBranch(AddBranchRequest request) async {
     try {
       await _initUser();
 
@@ -80,9 +80,34 @@ class BranchCubit extends Cubit<BranchState> {
       final response = await updateBranchFunction(body: body);
 
       if (response.statusCode == 200) {
+
         if (response.data is Map<String, dynamic>) {
-          branches[index] =
-              ProviderBranchModel.fromJson(response.data);
+          final updated =
+          ProviderBranchModel.fromJson(response.data);
+
+          final index = branches.indexWhere(
+                  (e) => e.branchId == updated.branchId);
+
+          if (index != -1) {
+            branches[index] = updated;
+          }
+        }
+        else {
+          final index = branches.indexWhere(
+                  (e) => e.branchId == request.branchId);
+
+          if (index != -1) {
+            branches[index] = ProviderBranchModel(
+              branchId: request.branchId,
+              branchName: request.branchName,
+              branchLatinName: request.branchLatinName,
+              address: request.address,
+              addressText: request.addressText,
+              addressLatinText: request.addressLatinText,
+              providerId: myUserId,
+              isActive: request.isActive,
+            );
+          }
         }
 
         emit(BranchSuccess(branches: List.from(branches)));

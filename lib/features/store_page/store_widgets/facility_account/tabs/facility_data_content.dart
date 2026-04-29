@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/core/pages_widgets/general_widgets/snakbar.dart';
 import 'package:sun_web_system/features/auth_page/login_page/login_widgets/user_text_field_widget.dart';
 import 'package:sun_web_system/features/internal_services/internal_orders/first_screen_internal_orders/logic/order_funcations/order_functions.dart';
 
@@ -106,6 +107,7 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      spacing: 10,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Wrap(
@@ -150,7 +152,6 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
           ],
         ),
 
-        /// ================= IMAGES =================
         Wrap(
           spacing: 20,
           runSpacing: 20,
@@ -172,19 +173,13 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
             ),
           ],
         ),
-
-        const TextInAppWidget(
-          text: AppLanguageKeys.imageRequirementsKey,
-          textSize: 12,
-          textColor: AppColors.darkGreyColor,
-        ),
-
-        const SizedBox(height: 30),
+        
 
         BlocConsumer<AuthCubit, AuthState>(
           listener: (context, state) {
             if (state is AuthUpdateSuccess) {
               setState(() => isEditMode = false);
+              AppSnackBar.showSuccess(AppLanguageKeys.success);
             }
 
             if (state is AuthUpdateError) {

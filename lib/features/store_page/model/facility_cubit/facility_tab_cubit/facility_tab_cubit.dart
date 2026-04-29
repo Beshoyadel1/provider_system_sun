@@ -89,11 +89,16 @@ class FacilityTabCubit extends Cubit<FacilityTabState> {
   }
 
   ////////// Working hours //////
-  int? selectedDayIndex;
+  Set<int> selectedDays = {};
 
   void selectDay(int index) {
-    selectedDayIndex = index;
-    emit(WorkingHoursDaySelectedState(index));
+    if (selectedDays.contains(index)) {
+      selectedDays.remove(index);
+    } else {
+      selectedDays.add(index);
+    }
+
+    emit(WorkingHoursDaySelectedState(Set.from(selectedDays)));
   }
 
   /////////// Branches ///////////
