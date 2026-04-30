@@ -39,17 +39,29 @@ class BranchCubit extends Cubit<BranchState> {
 
   void goToAdd() {
     final current = state as BranchSuccess;
-    emit(current.copyWith(isAdding: true, editingIndex: null));
+    emit(current.copyWith(
+      isAdding: true,
+      editingIndex: null,
+      fromSubmit: false,
+    ));
   }
 
   void edit(int index) {
     final current = state as BranchSuccess;
-    emit(current.copyWith(isAdding: true, editingIndex: index));
+    emit(current.copyWith(
+      isAdding: true,
+      editingIndex: index,
+      fromSubmit: false,
+    ));
   }
 
   void back() {
     final current = state as BranchSuccess;
-    emit(current.copyWith(isAdding: false, editingIndex: null));
+    emit(current.copyWith(
+      isAdding: false,
+      editingIndex: null,
+      fromSubmit: false, // ❌ مهم جدًا
+    ));
   }
 
   Future<void> addBranch(AddBranchRequest request) async {
@@ -65,7 +77,10 @@ class BranchCubit extends Cubit<BranchState> {
           branches.add(newBranch);
         }
 
-        emit(BranchSuccess(branches: List.from(branches)));
+        emit(BranchSuccess(
+          branches: List.from(branches),
+          fromSubmit: true,
+        ));
       }
     } catch (e) {
       emit(BranchError(e.toString()));
@@ -110,7 +125,10 @@ class BranchCubit extends Cubit<BranchState> {
           }
         }
 
-        emit(BranchSuccess(branches: List.from(branches)));
+        emit(BranchSuccess(
+          branches: List.from(branches),
+          fromSubmit: true,
+        ));
       }
     } catch (e) {
       emit(BranchError(e.toString()));

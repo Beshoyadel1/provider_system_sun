@@ -19,7 +19,7 @@ class WorkingHoursContent extends StatefulWidget {
 }
 
 class _WorkingHoursContentState extends State<WorkingHoursContent> {
-
+  bool isExpanded = false;
   @override
   void initState() {
     super.initState();
@@ -61,117 +61,176 @@ class _WorkingHoursContentState extends State<WorkingHoursContent> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
-              ListView.separated(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: cubit.workTimes.length,
-                separatorBuilder: (_, __) => const SizedBox(height: 10),
+              CustomContainer(
+                isSelected: false,
+                onTap: () {
+                  setState(() {
+                    isExpanded = !isExpanded;
+                  });
+                },
+                containerColor: AppColors.whiteColor,
+                border: Border.all(color: AppColors.lightGreyColor),
+                borderRadius: BorderRadius.circular(10),
+                padding: const EdgeInsets.all(12),
 
-                itemBuilder: (context, index) {
-                  final item = cubit.workTimes[index];
+                typeWidget: Row(
+                  children: [
+                    const Expanded(
+                      child: TextInAppWidget(
+                        text: AppLanguageKeys.allWorkingHours,
+                        textSize: 16,
+                        fontWeightIndex: FontSelectionData.mediumFontFamily,
+                        textColor: AppColors.darkColor,
+                      ),
+                    ),
+                    Icon(
+                      isExpanded
+                          ? Icons.keyboard_arrow_up
+                          : Icons.keyboard_arrow_down,
+                      color: AppColors.orangeColor,
+                    ),
+                  ],
+                ),
+              ),
 
-                  final isSelected =
-                      cubit.selectedWorkTimeId == item.worktimeid;
+              AnimatedSize(
+                duration: const Duration(milliseconds: 400),
+                curve: Curves.easeInOut,
+                alignment: Alignment.topCenter,
 
-                  return CustomContainer(
-                    isSelected: isSelected,
-                    onTap: (){},
-                    border: Border.all(color: AppColors.lightGreyColor),
+                child: ClipRect(
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    heightFactor: isExpanded ? 1 : 0,
 
-                    containerColor: isSelected
-                        ? AppColors.orangeColor.withOpacity(0.08)
-                        : AppColors.whiteColor,
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      primary: false,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: cubit.workTimes.length,
+                      separatorBuilder: (_, __) =>
+                      const SizedBox(height: 10),
 
-                    textColor: isSelected
-                        ? AppColors.orangeColor
-                        : AppColors.whiteColor,
+                      itemBuilder: (context, index) {
+                        final item = cubit.workTimes[index];
 
+                        final isSelected =
+                            cubit.selectedWorkTimeId == item.worktimeid;
+                        return CustomContainer(
+                          isSelected: isSelected,
+                          onTap: (){},
+                          border: Border.all(color: AppColors.lightGreyColor),
+                          containerColor: isSelected
+                              ? AppColors.orangeColor.withOpacity(0.08)
+                              : AppColors.whiteColor,
 
-                    typeWidget: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-
-                        /// LEFT
-                        Expanded(
-                          child: Column(
+                          typeWidget: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
 
-                              TextInAppWidget(
-                                text:
-                                "${formatTime(item.fromTime ?? '', context)} - ${formatTime(item.toTime ?? '', context)}",
-                                textSize: 18,
-                                fontWeightIndex: FontSelectionData.mediumFontFamily,
-                                textColor: AppColors.darkColor,
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+
+                                    TextInAppWidget(
+                                      text:
+                                      "${formatTime(item.fromTime ?? '', context)} - ${formatTime(item.toTime ?? '', context)}",
+                                      textSize: 18,
+                                      fontWeightIndex:
+                                      FontSelectionData.mediumFontFamily,
+                                      textColor: AppColors.darkColor,
+                                    ),
+
+                                    const SizedBox(height: 10),
+
+                                    Wrap(
+                                      spacing: 6,
+                                      runSpacing: 6,
+                                      children: List.generate(
+                                          daysOfWeek.length,
+                                              (dayIndex) {
+
+                                            bool isDaySelected = false;
+
+                                            if (dayIndex == 0)
+                                              isDaySelected =
+                                                  item.sat == true;
+                                            if (dayIndex == 1)
+                                              isDaySelected =
+                                                  item.sun == true;
+                                            if (dayIndex == 2)
+                                              isDaySelected =
+                                                  item.mon == true;
+                                            if (dayIndex == 3)
+                                              isDaySelected =
+                                                  item.tue == true;
+                                            if (dayIndex == 4)
+                                              isDaySelected =
+                                                  item.wed == true;
+                                            if (dayIndex == 5)
+                                              isDaySelected =
+                                                  item.thr == true;
+                                            if (dayIndex == 6)
+                                              isDaySelected =
+                                                  item.fri == true;
+
+                                            return CustomContainer(
+                                              isSelected: isDaySelected,
+                                              onTap: null,
+                                              text: daysOfWeek[dayIndex],
+                                              containerColor: isDaySelected
+                                                  ? AppColors.whiteColor
+                                                  : AppColors.lightGreyColor,
+                                              textColor: isDaySelected
+                                                  ? AppColors.orangeColor
+                                                  : AppColors.darkGreyColor,
+                                              border: isDaySelected
+                                                  ? Border.all(
+                                                  color: AppColors.orangeColor)
+                                                  : Border(),
+                                              padding:
+                                              const EdgeInsets.symmetric(
+                                                horizontal: 8,
+                                                vertical: 4,
+                                              ),
+                                            );
+                                          }),
+                                    ),
+                                  ],
+                                ),
                               ),
 
-                              const SizedBox(height: 10),
+                              const SizedBox(width: 10),
 
                               Wrap(
-                                spacing: 6,
-                                runSpacing: 6,
-                                children: List.generate(daysOfWeek.length, (dayIndex) {
-
-                                  bool isDaySelected = false;
-
-                                  if (dayIndex == 0) isDaySelected = item.sat == true;
-                                  if (dayIndex == 1) isDaySelected = item.sun == true;
-                                  if (dayIndex == 2) isDaySelected = item.mon == true;
-                                  if (dayIndex == 3) isDaySelected = item.tue == true;
-                                  if (dayIndex == 4) isDaySelected = item.wed == true;
-                                  if (dayIndex == 5) isDaySelected = item.thr == true;
-                                  if (dayIndex == 6) isDaySelected = item.fri == true;
-
-                                  return CustomContainer(
-                                    isSelected: isDaySelected,
-                                    onTap: null,
-                                    text: daysOfWeek[dayIndex],
-                                    containerColor: isDaySelected
-                                        ? AppColors.whiteColor
-                                        : AppColors.lightGreyColor,
-                                    textColor: isDaySelected
-                                        ? AppColors.orangeColor
-                                        : AppColors.darkGreyColor,
-                                    border: isDaySelected
-                                        ? Border.all(color: AppColors.orangeColor)
-                                        : Border(),
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 8,
-                                      vertical: 4,
-                                    ),
-                                  );
-                                }),
+                                spacing: 10,
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.edit,
+                                        color: Colors.blue),
+                                    onPressed: () {
+                                      cubit.selectWorkTime(item);
+                                    },
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(Icons.delete,
+                                        color: Colors.red),
+                                    onPressed: () {
+                                      cubit.deleteWorkTime(
+                                          item.worktimeid!);
+                                    },
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ),
-
-                        const SizedBox(width: 10),
-
-                        Wrap(
-                          spacing: 10,
-
-                          children: [
-
-                            IconButton(
-                              icon: const Icon(Icons.edit, color: Colors.blue),
-                              onPressed: () {
-                                cubit.selectWorkTime(item);
-                              },
-                            ),
-
-                            IconButton(
-                              icon: const Icon(Icons.delete, color: Colors.red),
-                              onPressed: () {
-                                cubit.deleteWorkTime(item.worktimeid!);
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
+                        );
+                      },
                     ),
-                  );
-                },
+                  ),
+                ),
               ),
 
               Container(

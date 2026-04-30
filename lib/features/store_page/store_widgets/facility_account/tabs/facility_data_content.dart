@@ -26,7 +26,11 @@ class FacilityDataContent extends StatefulWidget {
 }
 
 class _FacilityDataContentState extends State<FacilityDataContent> {
-  final usernameController = TextEditingController();
+  final facilityNameController = TextEditingController();
+  final facilityNameEnController = TextEditingController();
+  final vatNoController = TextEditingController();
+  final crController = TextEditingController();
+  final nationalAddressController = TextEditingController();
   final phoneController = TextEditingController();
   final emailController = TextEditingController();
   final genderController = TextEditingController();
@@ -49,7 +53,15 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
     final user = await AuthLocalStorage.getUser();
 
     if (user != null) {
-      usernameController.text = user.username ?? "";
+      facilityNameController.text = user.providerDetails?.name ?? "";
+      facilityNameEnController.text = user.providerDetails?.latinname ?? "";
+
+      /// ✅ FIX mapping
+      crController.text = user.providerDetails?.cr ?? "";
+      vatNoController.text = user.providerDetails?.vatno ?? "";
+
+      nationalAddressController.text =
+          user.providerDetails?.nationaladdress ?? "";
       phoneController.text = user.phone ?? "";
       emailController.text = user.email ?? "";
       ageController.text = user.age?.toString() ?? "";
@@ -71,34 +83,47 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
     final request = CreateUserRequest(
       userid: user?.userid,
       type: user?.type,
-      username: usernameController.text,
       phone: phoneController.text,
       email: emailController.text,
-      age: int.tryParse(ageController.text),
-      gander: int.tryParse(genderController.text),
+      username: user?.username,
+
+      /// ✅ SAFE parsing
+      age: ageController.text.isNotEmpty
+          ? int.parse(ageController.text)
+          : null,
+      gander: genderController.text.isNotEmpty
+          ? int.parse(genderController.text)
+          : null,
+
       image: facilityCubit.images['image'] ?? user?.image,
+
       providerDetails: ProviderDetailsRequest(
         id: oldProvider?.id,
         provid: oldProvider?.provid,
-        name: oldProvider?.name,
-        latinname: oldProvider?.latinname,
+        name: facilityNameController.text,
+        latinname: facilityNameEnController.text,
         description: oldProvider?.description,
         latindesc: oldProvider?.latindesc,
-        cr: oldProvider?.cr,
-        vatno: oldProvider?.vatno,
+
+        /// ✅ FIX
+        cr: crController.text,
+        vatno: vatNoController.text,
+
         packageid: oldProvider?.packageid,
         iban: oldProvider?.iban,
-        nationaladdress: oldProvider?.nationaladdress,
+        nationaladdress: nationalAddressController.text,
         subscriptionstartdate: oldProvider?.subscriptionstartdate,
         subscriptionenddate: oldProvider?.subscriptionenddate,
 
-        /// الصور الجديدة فقط
-        crimage: facilityCubit.images['crimage'],
-        vatnoimage: facilityCubit.images['vatnoimage'],
+        /// ✅ KEEP OLD IF NULL
+        crimage:
+        facilityCubit.images['crimage'] ?? oldProvider?.crimage,
+        vatnoimage:
+        facilityCubit.images['vatnoimage'] ?? oldProvider?.vatnoimage,
       ),
     );
 
-    debugPrint("========== FIXED REQUEST ==========");
+    debugPrint("========== REQUEST ==========");
     debugPrint(request.toJson().toString());
 
     context.read<AuthCubit>().updateUser(request);
@@ -107,50 +132,87 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      spacing: 10,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        /// 🔹 spacing
+        const SizedBox(height: 20),
+
         Wrap(
           spacing: 10,
           runSpacing: 10,
           children: [
             UserTextFieldWidget(
-              controller: usernameController,
-              text: AppLanguageKeys.username,
+              controller: facilityNameController,
+              text: AppLanguageKeys.facilityName,
               type: UserFieldType.name,
               readOnly: !isEditMode,
+              width: 250,
+            ),
+            UserTextFieldWidget(
+              controller: facilityNameEnController,
+              text: AppLanguageKeys.facilityNameEn,
+              type: UserFieldType.name,
+              readOnly: !isEditMode,
+              width: 250,
+            ),
+
+            /// ✅ FIX order
+            UserTextFieldWidget(
+              controller: crController,
+              text: AppLanguageKeys.commercialRecordKey,
+              readOnly: !isEditMode,
+              width: 250,
+            ),
+            UserTextFieldWidget(
+              controller: vatNoController,
+              text: AppLanguageKeys.taxNumber,
+              readOnly: !isEditMode,
+              width: 250,
+            ),
+
+            UserTextFieldWidget(
+              controller: nationalAddressController,
+              text: AppLanguageKeys.shortAddress,
+              readOnly: !isEditMode,
+              width: 250,
             ),
             UserTextFieldWidget(
               controller: phoneController,
               text: AppLanguageKeys.phoneNumber,
               type: UserFieldType.phone,
               readOnly: !isEditMode,
+              width: 250,
             ),
             UserTextFieldWidget(
               controller: emailController,
               text: AppLanguageKeys.email,
               type: UserFieldType.email,
               readOnly: !isEditMode,
+              width: 250,
             ),
             UserTextFieldWidget(
               controller: ageController,
               text: AppLanguageKeys.age,
               readOnly: !isEditMode,
+              width: 250,
             ),
             UserTextFieldWidget(
               controller: dateController,
               text: AppLanguageKeys.joiningDate,
-              type: UserFieldType.name,
               readOnly: true,
+              width: 250,
             ),
             UserTextFieldWidget(
               controller: genderController,
               text: AppLanguageKeys.gender,
               type: UserFieldType.gender,
               readOnly: !isEditMode,
+              width: 250,
             ),
           ],
         ),
+
+        const SizedBox(height: 20),
 
         Wrap(
           spacing: 20,
@@ -173,12 +235,17 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
             ),
           ],
         ),
-        
+
+        const SizedBox(height: 20),
 
         BlocConsumer<AuthCubit, AuthState>(
           listener: (context, state) {
             if (state is AuthUpdateSuccess) {
               setState(() => isEditMode = false);
+
+              /// 🔥 refresh data
+              _loadUser();
+
               AppSnackBar.showSuccess(AppLanguageKeys.success);
             }
 
@@ -197,33 +264,34 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
                   onPressed: isLoading
                       ? null
                       : () {
-                          if (!isEditMode) {
-                            setState(() => isEditMode = true);
-                          } else {
-                            _onUpdate();
-                          }
-                        },
+                    if (!isEditMode) {
+                      setState(() => isEditMode = true);
+                    } else {
+                      _onUpdate();
+                    }
+                  },
                   child: isLoading
                       ? const SizedBox(
-                          width: 18,
-                          height: 18,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
+                    width: 18,
+                    height: 18,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
                       : TextInAppWidget(
-                          text: isEditMode ? AppLanguageKeys.save : AppLanguageKeys.edit,
-                          textSize: 13,
-                        ),
+                    text: isEditMode
+                        ? AppLanguageKeys.save
+                        : AppLanguageKeys.edit,
+                    textSize: 13,
+                  ),
                 ),
                 const SizedBox(width: 10),
                 if (isEditMode)
                   ElevatedButton(
-
                     onPressed: () {
                       setState(() => isEditMode = false);
                       _loadUser();
                     },
                     child: const TextInAppWidget(
-                      text:  AppLanguageKeys.cancel,
+                      text: AppLanguageKeys.cancel,
                       textSize: 13,
                     ),
                   ),

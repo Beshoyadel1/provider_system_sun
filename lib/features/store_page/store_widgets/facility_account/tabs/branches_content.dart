@@ -27,7 +27,7 @@ class BranchesContent extends StatelessWidget {
 
           if (state is BranchSuccess) {
             return state.isAdding
-                ? AddBranchUI()
+                ? const AddBranchUI()
                 : BranchesAddedUi(state:state);
           }
 

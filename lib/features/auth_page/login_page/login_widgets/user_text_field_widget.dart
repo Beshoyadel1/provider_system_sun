@@ -30,13 +30,14 @@ class UserTextFieldWidget extends StatelessWidget {
     this.text,
     this.type = UserFieldType.normal,
     this.readOnly = false,
+    this.width
   });
 
   final TextEditingController controller;
   final String? text;
   final UserFieldType type;
   final bool readOnly;
-
+  final double? width;
   @override
   Widget build(BuildContext context) {
     final bool isMobile = MediaQuery.of(context).size.width < 600;
@@ -86,7 +87,7 @@ class UserTextFieldWidget extends StatelessWidget {
     }
 
     return SizedBox(
-      width: isMobile ? double.infinity : 500,
+      width:width ?? (isMobile ? double.infinity : 500),
       child: child,
     );
   }
@@ -109,7 +110,7 @@ class GenderField extends StatefulWidget {
 }
 
 class _GenderFieldState extends State<GenderField> {
-  int? selectedValue;
+  String? selectedValue;
 
   @override
   void initState() {
@@ -125,9 +126,9 @@ class _GenderFieldState extends State<GenderField> {
 
   void _setValue() {
     if (widget.controller.text == "0") {
-      selectedValue = 0;
+      selectedValue = "0";
     } else if (widget.controller.text == "1") {
-      selectedValue = 1;
+      selectedValue = "1";
     } else {
       selectedValue = null;
     }
@@ -139,50 +140,57 @@ class _GenderFieldState extends State<GenderField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (widget.text != null)
-          TextInAppWidget(
-            text: widget.text!,
-            textSize: 14,
+          Padding(
+            padding: const EdgeInsets.only(bottom: 6),
+            child: TextInAppWidget(
+              text: widget.text!,
+              textSize: 14,
+            ),
           ),
 
-        Row(
-          children: [
-            Expanded(
-              child: RadioListTile<int>(
-                value: 0,
-                groupValue: selectedValue,
-                title: const TextInAppWidget(
-                  text: AppLanguageKeys.male,
-                  textSize: 15,
-                ),
-                onChanged: widget.readOnly
-                    ? null
-                    : (v) {
-                  setState(() {
-                    selectedValue = v;
-                    widget.controller.text = "0";
-                  });
-                },
+        Container(
+          height: 35,
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          decoration: BoxDecoration(
+            color: AppColors.whiteColor,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: AppColors.darkGreyColor),
+          ),
+
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+              value: selectedValue,
+              isExpanded: true,
+              hint: TextInAppWidget(
+                text: AppLanguageKeys.selectGender,
+                textSize: 14,
               ),
-            ),
-            Expanded(
-              child: RadioListTile<int>(
-                value: 1,
-                groupValue: selectedValue,
-                title: const TextInAppWidget(
-                  text: AppLanguageKeys.female,
-                  textSize: 15,
+              items: const [
+                DropdownMenuItem(
+                  value: "0",
+                  child: TextInAppWidget(
+                    text: AppLanguageKeys.male,
+                    textSize: 14,
+                  ),
                 ),
-                onChanged: widget.readOnly
-                    ? null
-                    : (v) {
-                  setState(() {
-                    selectedValue = v;
-                    widget.controller.text = "1";
-                  });
-                },
-              ),
+                DropdownMenuItem(
+                  value: "1",
+                  child: TextInAppWidget(
+                    text: AppLanguageKeys.female,
+                    textSize: 14,
+                  ),
+                ),
+              ],
+              onChanged: widget.readOnly
+                  ? null
+                  : (value) {
+                setState(() {
+                  selectedValue = value;
+                  widget.controller.text = value ?? "";
+                });
+              },
             ),
-          ],
+          ),
         ),
       ],
     );

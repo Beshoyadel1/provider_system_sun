@@ -45,3 +45,34 @@ final List<FacilityModel> facilityTabs = [
       title: AppLanguageKeys.bankAccountKey,
       content: const BankAccountContent()),
 ];
+
+
+final List<FacilityModel> facilityTabsCompleteData = [
+
+  FacilityModel(
+    title: AppLanguageKeys.facilityDataKey,
+    content: const FacilityDataContent(),
+  ),
+
+  FacilityModel(
+    title: AppLanguageKeys.branchesKey,
+    content: MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => BranchCubit()..getProviderBranches()),
+      ],
+      child: const BranchesContent(),
+    ),
+  ),
+  FacilityModel(
+    title: AppLanguageKeys.workingHoursKey,
+    content: BlocProvider(
+      create: (context) => UpdateWorkTimeCubit(),
+      child: const WorkingHoursContent(),
+    ),
+  ),
+
+  FacilityModel(
+      title: AppLanguageKeys.bankAccountKey,
+      content: const BankAccountContent()
+  ),
+];

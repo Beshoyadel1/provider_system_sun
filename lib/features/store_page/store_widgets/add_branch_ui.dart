@@ -24,13 +24,9 @@ class _AddBranchUIState extends State<AddBranchUI> {
   final _formKey = GlobalKey<FormState>();
 
   final nameController = TextEditingController();
-
   final latinController = TextEditingController();
-
   final addressTextController = TextEditingController();
-
   final addressLatinController = TextEditingController();
-
   final addressController = TextEditingController();
 
   bool isInit = false;
@@ -39,8 +35,14 @@ class _AddBranchUIState extends State<AddBranchUI> {
   Widget build(BuildContext context) {
     return BlocConsumer<BranchCubit, BranchState>(
       listener: (context, state) {
-        if (state is BranchSuccess) {
+        if (state is BranchSuccess && state.fromSubmit) {
           AppSnackBar.showSuccess(AppLanguageKeys.success);
+          nameController.clear();
+          latinController.clear();
+          addressTextController.clear();
+          addressLatinController.clear();
+          addressController.clear();
+          isInit = false;
         }
 
         if (state is BranchError) {
@@ -54,22 +56,18 @@ class _AddBranchUIState extends State<AddBranchUI> {
         final isLoading = state is BranchLoading;
         final successState = state is BranchSuccess ? state : null;
 
-        if (successState == null) {
-          return const SizedBox();
-        }
-        if (state is! BranchSuccess) {
-          return const Center(child: CircularProgressIndicator());
-        }
+        int? editingIndex = successState?.editingIndex;
+        List branches = successState?.branches ?? [];
 
-
-        if (state.editingIndex != null) {
-          final branch = successState.branches[successState.editingIndex!];
+        if (editingIndex != null && !isInit && successState != null) {
+          final branch = branches[editingIndex];
 
           nameController.text = branch.branchName ?? '';
           latinController.text = branch.branchLatinName ?? '';
           addressTextController.text = branch.addressText ?? '';
           addressLatinController.text = branch.addressLatinText ?? '';
           addressController.text = branch.address ?? '';
+
           isInit = true;
         }
 
@@ -79,8 +77,9 @@ class _AddBranchUIState extends State<AddBranchUI> {
             spacing: 20,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+
               TextInAppWidget(
-                text: state.editingIndex != null
+                text: editingIndex != null
                     ? AppLanguageKeys.editKey
                     : AppLanguageKeys.addMainBranchKey,
                 textSize: 20,
@@ -104,7 +103,6 @@ class _AddBranchUIState extends State<AddBranchUI> {
                 },
               ),
 
-              /// 🔥 Latin Name
               TextFormFieldWidget(
                 textFormController: latinController,
                 text: AppLanguageKeys.branchLatinName,
@@ -123,7 +121,6 @@ class _AddBranchUIState extends State<AddBranchUI> {
                 },
               ),
 
-              /// 🔥 Address Text
               TextFormFieldWidget(
                 textFormController: addressTextController,
                 text: AppLanguageKeys.addressText,
@@ -142,7 +139,6 @@ class _AddBranchUIState extends State<AddBranchUI> {
                 },
               ),
 
-              /// 🔥 Address Latin
               TextFormFieldWidget(
                 textFormController: addressLatinController,
                 text: AppLanguageKeys.addressLatinText,
@@ -207,7 +203,8 @@ class _AddBranchUIState extends State<AddBranchUI> {
                         ? null
                         : () {
                       if (!_formKey.currentState!.validate()) {
-                        AppSnackBar.showError(AppLanguageKeys.enterYourData);
+                        AppSnackBar.showError(
+                            AppLanguageKeys.enterYourData);
                         return;
                       }
 
@@ -215,13 +212,13 @@ class _AddBranchUIState extends State<AddBranchUI> {
                           context.read<LocationCubit>().state;
 
                       if (locationState is! LocationLoaded) {
-                        AppSnackBar.showError(AppLanguageKeys.enterYourData);
+                        AppSnackBar.showError(
+                            AppLanguageKeys.enterYourData);
                         return;
                       }
 
-                      if (successState.editingIndex != null) {
-                        final branch =
-                        successState.branches[successState.editingIndex!];
+                      if (editingIndex != null) {
+                        final branch = branches[editingIndex];
 
                         final request = AddBranchRequest(
                           branchId: branch.branchId,
@@ -230,11 +227,14 @@ class _AddBranchUIState extends State<AddBranchUI> {
                           address:
                           "${locationState.latLng.latitude},${locationState.latLng.longitude}",
                           addressText: addressTextController.text,
-                          addressLatinText: addressLatinController.text,
+                          addressLatinText:
+                          addressLatinController.text,
                           isActive: branch.isActive ?? false,
                         );
 
-                        context.read<BranchCubit>().updateBranch(request);
+                        context
+                            .read<BranchCubit>()
+                            .updateBranch(request);
                       } else {
                         final request = AddBranchRequest(
                           branchName: nameController.text,
@@ -242,15 +242,16 @@ class _AddBranchUIState extends State<AddBranchUI> {
                           address:
                           "${locationState.latLng.latitude},${locationState.latLng.longitude}",
                           addressText: addressTextController.text,
-                          addressLatinText: addressLatinController.text,
+                          addressLatinText:
+                          addressLatinController.text,
                           isActive: false,
                         );
 
-                        context.read<BranchCubit>().addBranch(request);
+                        context
+                            .read<BranchCubit>()
+                            .addBranch(request);
                       }
                     },
-
-                    /// 🔥 هنا السحر
                     typeWidget: isLoading
                         ? const SizedBox(
                       height: 20,
@@ -261,19 +262,19 @@ class _AddBranchUIState extends State<AddBranchUI> {
                       ),
                     )
                         : TextInAppWidget(
-                      text: successState.editingIndex != null
+                      text: editingIndex != null
                           ? AppLanguageKeys.editKey
                           : AppLanguageKeys.saveKey,
                       textSize: 16,
                       textColor: AppColors.whiteColor,
                     ),
-
                     containerColor: AppColors.orangeColor,
                   ),
 
                   CustomContainer(
                     isSelected: false,
                     onTap: () {
+                      isInit = false;
                       context.read<BranchCubit>().back();
                     },
                     text: AppLanguageKeys.cancel,

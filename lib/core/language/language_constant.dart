@@ -19,6 +19,12 @@ class AppLanguageKeys {
   //end//
 
   //others//
+  static const String facilityName = 'facilityName';
+  static const String facilityNameEn = 'facilityNameEn';
+  static const String commercialRegister = 'commercialRegister';
+  static const String shortAddress = 'shortAddress';
+  static const String selectGender = 'selectGender';
+  static const String allWorkingHours = 'allWorkingHours';
   static const String editWorkingHours = 'editWorkingHours';
   static const String addWorkingHours = 'addWorkingHours';
   static const String branchName = 'branchName';

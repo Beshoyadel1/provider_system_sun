@@ -31,15 +31,18 @@ class AppLocalizations {
       //END//
 
       //others//
+      AppLanguageKeys.facilityName: 'اسم المنشأة',
+      AppLanguageKeys.facilityNameEn: 'اسم المنشأة بالإنجليزية',
+      AppLanguageKeys.commercialRegister: 'السجل التجاري',
+      AppLanguageKeys.shortAddress: 'العنوان المختصر',
+      AppLanguageKeys.selectGender: 'اختر النوع',
+      AppLanguageKeys.allWorkingHours: 'كل مواعيد العمل',
       AppLanguageKeys.editWorkingHours: 'تعديل مواعيد العمل',
       AppLanguageKeys.addWorkingHours: 'إضافة مواعيد العمل',
-
-
       AppLanguageKeys.branchName: 'اسم الفرع',
       AppLanguageKeys.branchLatinName: 'اسم الفرع بالإنجليزية',
       AppLanguageKeys.addressText: 'وصف العنوان',
       AppLanguageKeys.addressLatinText: 'وصف العنوان بالإنجليزية',
-
       AppLanguageKeys.allBrands: 'كل الماركات',
       AppLanguageKeys.allModels: 'كل الموديلات',
       AppLanguageKeys.areYouSure: 'هل أنت متأكد؟',
@@ -65,13 +68,14 @@ class AppLocalizations {
       AppLanguageKeys.serviceNameAr: 'اسم الخدمة (عربي)',
       AppLanguageKeys.serviceNameEn: 'اسم الخدمة (إنجليزي)',
       AppLanguageKeys.restAll: 'إعادة تعيين الكل',
-      AppLanguageKeys.selectPricingTypeFirst : "اختار نوع التسعير الأول",
+      AppLanguageKeys.selectPricingTypeFirst: "اختار نوع التسعير الأول",
       AppLanguageKeys.cost: 'التكلفة',
       AppLanguageKeys.confirmDelete: 'هل أنت متأكد أنك تريد حذف هذا العنصر؟',
       AppLanguageKeys.description: 'الوصف',
       AppLanguageKeys.mileage: 'عدد الكيلومترات',
       AppLanguageKeys.carStatus: 'حالة السيارة',
-      AppLanguageKeys.emailOrPhoneInvalid: 'البريد الإلكتروني أو رقم الهاتف غير صحيح أو غير نشط',
+      AppLanguageKeys.emailOrPhoneInvalid:
+          'البريد الإلكتروني أو رقم الهاتف غير صحيح أو غير نشط',
       AppLanguageKeys.phoneInvalid: 'رقم الهاتف غير صحيح أو غير نشط',
       AppLanguageKeys.userNotFound: 'المستخدم غير موجود',
       AppLanguageKeys.wrongCode: 'رمز غير صحيح',
@@ -105,10 +109,12 @@ class AppLocalizations {
       AppLanguageKeys.rejectionReason: 'سبب رفض الطلب',
       AppLanguageKeys.orderInProgress: 'جاري تنفيذ الطلب',
       AppLanguageKeys.waitingForInvoicePayment: 'انتظار دفع الفاتورة',
-      AppLanguageKeys.carsListCurrentAndSold: 'قائمة السيارات من السيارات الحالية والمباعة سابقاً',
+      AppLanguageKeys.carsListCurrentAndSold:
+          'قائمة السيارات من السيارات الحالية والمباعة سابقاً',
       AppLanguageKeys.soldCars: 'سيارة مباعة',
       AppLanguageKeys.carList: 'قائمة السيارات',
-      AppLanguageKeys.availableCarsShortList: 'قائمة مختصرة من السيارات المتاحة',
+      AppLanguageKeys.availableCarsShortList:
+          'قائمة مختصرة من السيارات المتاحة',
       AppLanguageKeys.filling: 'التعبئة',
       AppLanguageKeys.fillingDate: 'تاريخ التعبئة',
       AppLanguageKeys.gender: 'الجنس',
@@ -130,7 +136,8 @@ class AppLocalizations {
       AppLanguageKeys.emailExist: 'البريد الإلكتروني موجود بالفعل',
       AppLanguageKeys.emailNotExist: 'البريد الإلكتروني غير موجود',
       AppLanguageKeys.phoneExist: 'رقم الهاتف موجود بالفعل',
-      AppLanguageKeys.emailOrPhoneExist: 'البريد الإلكتروني أو رقم الهاتف موجود بالفعل',
+      AppLanguageKeys.emailOrPhoneExist:
+          'البريد الإلكتروني أو رقم الهاتف موجود بالفعل',
       AppLanguageKeys.done: 'تمت العملية بنجاح',
       AppLanguageKeys.notFound: 'غير موجود',
       AppLanguageKeys.storeNotExist: 'المتجر غير موجود',
@@ -141,20 +148,26 @@ class AppLocalizations {
       AppLanguageKeys.notEnoughPoints: 'النقاط غير كافية',
       AppLanguageKeys.notEnoughBalance: 'الرصيد غير كافٍ',
       AppLanguageKeys.reservedUser: 'المستخدم محجوز',
-      AppLanguageKeys.haveOperationForDelete: 'لا يمكن الحذف لوجود عمليات مرتبطة',
+      AppLanguageKeys.haveOperationForDelete:
+          'لا يمكن الحذف لوجود عمليات مرتبطة',
       AppLanguageKeys.wrongReferralCode: 'كود الإحالة غير صحيح',
       AppLanguageKeys.empty: 'لا توجد بيانات',
       AppLanguageKeys.expired: 'منتهي الصلاحية',
-      AppLanguageKeys.couponReachMaxUse: 'تم الوصول للحد الأقصى لاستخدام الكوبون',
-      AppLanguageKeys.userReachMaxUseCoupon: 'وصل المستخدم للحد الأقصى لاستخدام الكوبون',
+      AppLanguageKeys.couponReachMaxUse:
+          'تم الوصول للحد الأقصى لاستخدام الكوبون',
+      AppLanguageKeys.userReachMaxUseCoupon:
+          'وصل المستخدم للحد الأقصى لاستخدام الكوبون',
       AppLanguageKeys.pointsFromNewOrder: 'تمت إضافة نقاط من طلب جديد',
       AppLanguageKeys.categoryExist: 'التصنيف موجود بالفعل',
       //End//
 
       //Api Failures//
-      AppLanguageKeys.oopsErrorTryAgain: 'عذراً، حدث خطأ ما، يرجى المحاولة مرة أخرى.',
-      AppLanguageKeys.internalServerError: 'خطأ في الخادم الداخلي، يرجى المحاولة لاحقاً.',
-      AppLanguageKeys.requestNotFound: 'لم يتم العثور على طلبك، يرجى المحاولة لاحقاً!',
+      AppLanguageKeys.oopsErrorTryAgain:
+          'عذراً، حدث خطأ ما، يرجى المحاولة مرة أخرى.',
+      AppLanguageKeys.internalServerError:
+          'خطأ في الخادم الداخلي، يرجى المحاولة لاحقاً.',
+      AppLanguageKeys.requestNotFound:
+          'لم يتم العثور على طلبك، يرجى المحاولة لاحقاً!',
       AppLanguageKeys.badResponseError: 'استجابة غير صحيحة، حدث خطأ ما.',
       AppLanguageKeys.success: 'تمت العملية بنجاح',
       AppLanguageKeys.badRequestError: 'طلب غير صالح',
@@ -174,24 +187,31 @@ class AppLocalizations {
 
       //login//
       AppLanguageKeys.fillAllFields: 'من فضلك قم بملء جميع الحقول',
-      AppLanguageKeys.enterUsernameAndPassword: 'من فضلك أدخل اسم المستخدم وكلمة المرور',
+      AppLanguageKeys.enterUsernameAndPassword:
+          'من فضلك أدخل اسم المستخدم وكلمة المرور',
       //End//
 
       //Model Messages//
       AppLanguageKeys.changePasswordSuccessfully: 'تم تغيير كلمة المرور بنجاح',
-      AppLanguageKeys.checkIfUserExistSuccessfully: 'تم التحقق من وجود المستخدم بنجاح',
-      AppLanguageKeys.checkIfUserExistOrNotSuccessfully: 'تم التحقق من وجود المستخدم أو عدمه بنجاح',
+      AppLanguageKeys.checkIfUserExistSuccessfully:
+          'تم التحقق من وجود المستخدم بنجاح',
+      AppLanguageKeys.checkIfUserExistOrNotSuccessfully:
+          'تم التحقق من وجود المستخدم أو عدمه بنجاح',
       AppLanguageKeys.accountCreatedSuccessfully: 'تم إنشاء الحساب بنجاح',
       AppLanguageKeys.deleteUserSuccessfully: 'تم حذف المستخدم بنجاح',
-      AppLanguageKeys.getAppUserInfoSuccessfully: 'تم جلب معلومات مستخدم التطبيق بنجاح',
+      AppLanguageKeys.getAppUserInfoSuccessfully:
+          'تم جلب معلومات مستخدم التطبيق بنجاح',
       AppLanguageKeys.accountLoginSuccessfully: 'تم تسجيل الدخول بنجاح',
       AppLanguageKeys.restoreUserSuccessfully: 'تم استرجاع المستخدم بنجاح',
       AppLanguageKeys.updateUserSuccessfully: 'تم تحديث المستخدم بنجاح',
 
-      AppLanguageKeys.changeCouponStatusSuccessfully: 'تم تغيير حالة الكوبون بنجاح',
+      AppLanguageKeys.changeCouponStatusSuccessfully:
+          'تم تغيير حالة الكوبون بنجاح',
       AppLanguageKeys.getCarSuccessfully: 'تم جلب بيانات السيارة بنجاح',
-      AppLanguageKeys.getCouponByCodeSuccessfully: 'تم جلب الكوبون بواسطة الكود بنجاح',
-      AppLanguageKeys.getStaticsForCouponSuccessfully: 'تم جلب إحصائيات الكوبون بنجاح',
+      AppLanguageKeys.getCouponByCodeSuccessfully:
+          'تم جلب الكوبون بواسطة الكود بنجاح',
+      AppLanguageKeys.getStaticsForCouponSuccessfully:
+          'تم جلب إحصائيات الكوبون بنجاح',
       AppLanguageKeys.uploadCouponSuccessfully: 'تم رفع الكوبون بنجاح',
 
       AppLanguageKeys.createRateSuccessfully: 'تم إنشاء التقييم بنجاح',
@@ -462,7 +482,7 @@ class AppLocalizations {
       AppLanguageKeys.attachFileKey: 'إرفاق الملف',
       AppLanguageKeys.ownerIdKey: 'بطاقة الهوية او اقامة صاحب الشركة',
       AppLanguageKeys.bankNameKey: 'اسم البنك',
-      AppLanguageKeys.beneficiaryNameKey: 'اسم االمستفيد',
+      AppLanguageKeys.beneficiaryNameKey: 'اسم المستفيد',
       AppLanguageKeys.bankAccountNumberKey: 'رقم حساب البنكي',
       AppLanguageKeys.swiftCodeKey: 'رقم السويفت',
       AppLanguageKeys.ibanNumberKey: 'رقم حساب الدولي الدولي الايبان',
@@ -1268,8 +1288,6 @@ class AppLocalizations {
     },
     'en': {
       //status//
-      AppLanguageKeys.serviceNameAr: 'Service Name (Arabic)',
-      AppLanguageKeys.serviceNameEn: 'Service Name (English)',
       AppLanguageKeys.notSold: 'Not Sold',
       AppLanguageKeys.sold: 'Sold',
       AppLanguageKeys.newCar: 'New',
@@ -1285,6 +1303,14 @@ class AppLocalizations {
       AppLanguageKeys.cancelledByUser: 'Cancelled by User',
       //END//
       //others//
+      AppLanguageKeys.facilityName: 'Facility Name',
+      AppLanguageKeys.facilityNameEn: 'Facility Name (EN)',
+      AppLanguageKeys.commercialRegister: 'Commercial Register',
+      AppLanguageKeys.shortAddress: 'Short Address',
+      AppLanguageKeys.serviceNameAr: 'Service Name (Arabic)',
+      AppLanguageKeys.serviceNameEn: 'Service Name (English)',
+      AppLanguageKeys.selectGender: 'Select Gender',
+      AppLanguageKeys.allWorkingHours: 'All Working Hours',
       AppLanguageKeys.editWorkingHours: 'Edit Working Hours',
       AppLanguageKeys.addWorkingHours: 'Add Working Hours',
       AppLanguageKeys.branchName: 'Branch Name',
@@ -1314,13 +1340,16 @@ class AppLocalizations {
       AppLanguageKeys.oldService: 'Old Service',
       AppLanguageKeys.createService: 'Create Service',
       AppLanguageKeys.restAll: 'Reset All',
-      AppLanguageKeys.selectPricingTypeFirst : "Please select the pricing type first",
+      AppLanguageKeys.selectPricingTypeFirst:
+          "Please select the pricing type first",
       AppLanguageKeys.cost: 'Cost',
-      AppLanguageKeys.confirmDelete: 'Are you sure you want to delete this item?',
+      AppLanguageKeys.confirmDelete:
+          'Are you sure you want to delete this item?',
       AppLanguageKeys.description: 'Description',
       AppLanguageKeys.mileage: 'Mileage',
       AppLanguageKeys.carStatus: 'Car Status',
-      AppLanguageKeys.emailOrPhoneInvalid: 'Email or phone number is incorrect or inactive',
+      AppLanguageKeys.emailOrPhoneInvalid:
+          'Email or phone number is incorrect or inactive',
       AppLanguageKeys.phoneInvalid: 'Phone number is incorrect or inactive',
       AppLanguageKeys.userNotFound: 'User not found',
       AppLanguageKeys.wrongCode: 'Incorrect code',
@@ -1354,7 +1383,8 @@ class AppLocalizations {
       AppLanguageKeys.rejectionReason: 'Reason for Request Rejection',
       AppLanguageKeys.orderInProgress: 'Order in Progress',
       AppLanguageKeys.waitingForInvoicePayment: 'Waiting for Invoice Payment',
-      AppLanguageKeys.carsListCurrentAndSold: 'List of current and previously sold cars',
+      AppLanguageKeys.carsListCurrentAndSold:
+          'List of current and previously sold cars',
       AppLanguageKeys.soldCars: 'Sold Cars',
       AppLanguageKeys.carList: 'Car List',
       AppLanguageKeys.availableCarsShortList: 'Short List of Available Cars',
@@ -1365,11 +1395,13 @@ class AppLocalizations {
       AppLanguageKeys.order: 'Order',
       AppLanguageKeys.authCompanyNameRequired: 'Company name is required',
       AppLanguageKeys.authEmailRequired: 'Email is required',
-      AppLanguageKeys.authEnterCorrectEmail: 'Please enter a valid email address',
+      AppLanguageKeys.authEnterCorrectEmail:
+          'Please enter a valid email address',
       AppLanguageKeys.authPasswordRequired: 'Password is required',
       AppLanguageKeys.authWeakPassword: 'Password is too weak',
       AppLanguageKeys.authPhoneNumberRequired: 'Phone number is required',
-      AppLanguageKeys.authEnterCorrectPhoneNumber: 'Please enter a valid phone number',
+      AppLanguageKeys.authEnterCorrectPhoneNumber:
+          'Please enter a valid phone number',
       AppLanguageKeys.createNewPassword: 'Create New Password',
       //end//
       //message api response//
@@ -1390,19 +1422,24 @@ class AppLocalizations {
       AppLanguageKeys.notEnoughPoints: 'Not enough points',
       AppLanguageKeys.notEnoughBalance: 'Not enough balance',
       AppLanguageKeys.reservedUser: 'User is reserved',
-      AppLanguageKeys.haveOperationForDelete: 'Cannot delete, related operations exist',
+      AppLanguageKeys.haveOperationForDelete:
+          'Cannot delete, related operations exist',
       AppLanguageKeys.wrongReferralCode: 'Wrong referral code',
       AppLanguageKeys.empty: 'No data available',
       AppLanguageKeys.expired: 'Expired',
       AppLanguageKeys.couponReachMaxUse: 'Coupon reached maximum usage',
-      AppLanguageKeys.userReachMaxUseCoupon: 'User reached maximum coupon usage',
+      AppLanguageKeys.userReachMaxUseCoupon:
+          'User reached maximum coupon usage',
       AppLanguageKeys.pointsFromNewOrder: 'Points added from new order',
       AppLanguageKeys.categoryExist: 'Category already exists',
       //End//
       //Api Failures//
-      AppLanguageKeys.oopsErrorTryAgain: 'Oops! There was an error, please try again.',
-      AppLanguageKeys.internalServerError: 'Internal server error, please try later.',
-      AppLanguageKeys.requestNotFound: 'Your request was not found, please try later!',
+      AppLanguageKeys.oopsErrorTryAgain:
+          'Oops! There was an error, please try again.',
+      AppLanguageKeys.internalServerError:
+          'Internal server error, please try later.',
+      AppLanguageKeys.requestNotFound:
+          'Your request was not found, please try later!',
       AppLanguageKeys.badResponseError: 'Bad response, something went wrong.',
       AppLanguageKeys.success: 'Success',
       AppLanguageKeys.badRequestError: 'Bad request',
@@ -1421,25 +1458,34 @@ class AppLocalizations {
       //End//
 
       //login//
-      AppLanguageKeys.enterUsernameAndPassword: 'Please enter username and password',
+      AppLanguageKeys.enterUsernameAndPassword:
+          'Please enter username and password',
       AppLanguageKeys.fillAllFields: 'Please fill all fields',
       //End//
 
       //Model Messages//
-      AppLanguageKeys.changePasswordSuccessfully: 'Change Password successfully',
-      AppLanguageKeys.checkIfUserExistSuccessfully: 'Check If User Exist successfully',
-      AppLanguageKeys.checkIfUserExistOrNotSuccessfully: 'Check If User Exist Or Not successfully',
-      AppLanguageKeys.accountCreatedSuccessfully: 'Account created successfully',
+      AppLanguageKeys.changePasswordSuccessfully:
+          'Change Password successfully',
+      AppLanguageKeys.checkIfUserExistSuccessfully:
+          'Check If User Exist successfully',
+      AppLanguageKeys.checkIfUserExistOrNotSuccessfully:
+          'Check If User Exist Or Not successfully',
+      AppLanguageKeys.accountCreatedSuccessfully:
+          'Account created successfully',
       AppLanguageKeys.deleteUserSuccessfully: 'Delete User successfully',
-      AppLanguageKeys.getAppUserInfoSuccessfully: 'Get App User Info successfully',
+      AppLanguageKeys.getAppUserInfoSuccessfully:
+          'Get App User Info successfully',
       AppLanguageKeys.accountLoginSuccessfully: 'Account Login successfully',
       AppLanguageKeys.restoreUserSuccessfully: 'Restore User successfully',
       AppLanguageKeys.updateUserSuccessfully: 'Update User successfully',
 
-      AppLanguageKeys.changeCouponStatusSuccessfully: 'Change Coupon Status successfully',
+      AppLanguageKeys.changeCouponStatusSuccessfully:
+          'Change Coupon Status successfully',
       AppLanguageKeys.getCarSuccessfully: 'Get Car successfully',
-      AppLanguageKeys.getCouponByCodeSuccessfully: 'Get Coupon By Code successfully',
-      AppLanguageKeys.getStaticsForCouponSuccessfully: 'Get Statics For Coupon successfully',
+      AppLanguageKeys.getCouponByCodeSuccessfully:
+          'Get Coupon By Code successfully',
+      AppLanguageKeys.getStaticsForCouponSuccessfully:
+          'Get Statics For Coupon successfully',
       AppLanguageKeys.uploadCouponSuccessfully: 'Upload Coupon successfully',
 
       AppLanguageKeys.createRateSuccessfully: 'Create Rate successfully',
@@ -1964,7 +2010,8 @@ class AppLocalizations {
           'Select car models based on the services you offer to your customers',
       AppLanguageKeys.multipleCarSelectionNote:
           'You can select multiple cars at once',
-      AppLanguageKeys.searchCarModel: 'You can search to select your car api_functions',
+      AppLanguageKeys.searchCarModel:
+          'You can search to select your car api_functions',
       AppLanguageKeys.chooseCategory: 'Choose Category',
       AppLanguageKeys.selectModelYears: 'Select Model Years',
       AppLanguageKeys.carCategory: 'Car Category',
@@ -2003,40 +2050,40 @@ class AppLocalizations {
           'Reviews list for all services',
       AppLanguageKeys.totalReviews: 'Total Reviews',
       AppLanguageKeys.providersTermsAndConditions: '''
-1. Registration and Approval  
-The service center must register with accurate and valid information.  
-Sun reserves the right to review, approve, or reject any registration request without stating reasons.  
-The provider is responsible for keeping their information updated.  
+1. Registration and Approval
+The service center must register with accurate and valid information.
+Sun reserves the right to review, approve, or reject any registration request without stating reasons.
+The provider is responsible for keeping their information updated.
 
-2. Use of the Platform  
-The provider agrees to use the platform only for authorized purposes (offering car maintenance services).  
-Misuse of the platform or attempts to manipulate the system or customers are strictly prohibited.  
-Any violation may result in account suspension or termination.  
+2. Use of the Platform
+The provider agrees to use the platform only for authorized purposes (offering car maintenance services).
+Misuse of the platform or attempts to manipulate the system or customers are strictly prohibited.
+Any violation may result in account suspension or termination.
 
-3. Orders and Services  
-The provider commits to delivering the agreed services with high quality and within the specified time.  
-Prices offered to customers must be clear and transparent.  
-Customers have the right to cancel or modify their orders according to the published cancellation policy.  
+3. Orders and Services
+The provider commits to delivering the agreed services with high quality and within the specified time.
+Prices offered to customers must be clear and transparent.
+Customers have the right to cancel or modify their orders according to the published cancellation policy.
 
-4. Financial Obligations  
-Payment and collection mechanisms are managed through the Sun platform.  
-The provider is responsible for any financial obligations toward customers resulting from service failure.  
-Service fees or commissions may be deducted by Sun according to the approved policy.  
+4. Financial Obligations
+Payment and collection mechanisms are managed through the Sun platform.
+The provider is responsible for any financial obligations toward customers resulting from service failure.
+Service fees or commissions may be deducted by Sun according to the approved policy.
 
-5. Ratings and Reviews  
-Customers have the right to rate the provided services.  
-Ratings are part of the platform’s public system and cannot be deleted unless they violate the policy.  
+5. Ratings and Reviews
+Customers have the right to rate the provided services.
+Ratings are part of the platform’s public system and cannot be deleted unless they violate the policy.
 
-6. Liability  
-The provider bears full responsibility for the quality of services provided.  
-Sun is not responsible for any direct or indirect damages resulting from service execution; its role is limited to mediation between the provider and the customer.  
+6. Liability
+The provider bears full responsibility for the quality of services provided.
+Sun is not responsible for any direct or indirect damages resulting from service execution; its role is limited to mediation between the provider and the customer.
 
-7. Termination of Service  
-Sun reserves the right to suspend or terminate a provider’s account in case of violations or harm to the platform’s reputation.  
-The provider may request account closure at any time after settling financial obligations.  
+7. Termination of Service
+Sun reserves the right to suspend or terminate a provider’s account in case of violations or harm to the platform’s reputation.
+The provider may request account closure at any time after settling financial obligations.
 
-8. Amendments to the Terms  
-Sun reserves the right to modify or update these terms and conditions at any time.  
+8. Amendments to the Terms
+Sun reserves the right to modify or update these terms and conditions at any time.
 Providers will be notified of any major changes via the platform or email.
 ''',
       AppLanguageKeys.providersPrivacyPolicy:
@@ -2298,9 +2345,9 @@ Providers will be notified of any major changes via the platform or email.
       AppLanguageKeys.onTheWay: 'On the Way to You',
       AppLanguageKeys.privacyTitle: 'Privacy Policy',
       AppLanguageKeys.privacyIntro: '''
-      At "Sun" app, we place the utmost importance on the privacy of our users and always strive to protect their personal data. 
+      At "Sun" app, we place the utmost importance on the privacy of our users and always strive to protect their personal data.
       This policy explains how information is collected, used, and shared when you use our services.
-      
+
       Information We Collect
       When using Sun App, we may collect some necessary information to provide the service, such as:
       - Full Name
@@ -2308,32 +2355,32 @@ Providers will be notified of any major changes via the platform or email.
       - Email Address
       - Location (with your permission, to identify the car location)
       - Order history and payment records
-      
+
       How We Use the Information
       We use the collected information to:
       - Provide maintenance services accurately and efficiently
       - Communicate with you regarding order status or special offers
       - Improve app performance and user experience
       - Ensure security and prevent unauthorized use
-      
+
       Information Sharing
       We do not share your data with any third party outside the "Sun" app except in the following cases:
       - With authorized maintenance centers to fulfill your requests
       - With online payment gateways to complete transactions
       - When legally required or requested by authorities
-      
+
       Data Protection
       We are committed to applying the highest security standards to protect your data and use advanced protection technologies to prevent unauthorized access.
-      
+
       User Rights
       You have the right at any time to:
       - Request a copy of your personal data
       - Modify or update your data
       - Request to delete your account from the app
-      
+
       Policy Changes
       We may update the privacy policy from time to time. You will be notified of any major changes via the app or email.
-      
+
       Contact Us
       For any inquiries regarding the privacy policy, you can contact us via:
       📧 Email: privacy@sun-app.com
