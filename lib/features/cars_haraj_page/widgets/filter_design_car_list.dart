@@ -84,7 +84,6 @@ class FilterDesignCarList extends StatelessWidget {
                       isNew: car.isNew ?? false,
                       brandName: brandNameTitle,
                       price: car.price?.toString() ?? "",
-
                       onTap: () async {
                         final result = await Navigator.push(
                           context,

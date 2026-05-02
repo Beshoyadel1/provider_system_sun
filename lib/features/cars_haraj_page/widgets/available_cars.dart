@@ -10,13 +10,26 @@ import '../../../../../core/theming/text_styles.dart';
 import 'car_model.dart';
 
 class AvailableCars extends StatelessWidget {
-  const AvailableCars({super.key,this.price,this.brandName,this.isSold=false,this.isNew=false,this.addresstext,this.releaseDate,this.id, this.spacing, required this.onTap,required this.carImage,required this.brandImage});
-  final String? id,addresstext,releaseDate,brandName,price;
+  const AvailableCars(
+      {super.key,
+      this.price,
+      this.cost,
+      this.brandName,
+      this.isSold = false,
+      this.isNew = false,
+      this.addresstext,
+      this.releaseDate,
+      this.id,
+      this.spacing,
+      required this.onTap,
+      required this.carImage,
+      required this.brandImage});
+
+  final String? id, addresstext, releaseDate, brandName, price, cost;
   final double? spacing;
   final VoidCallback onTap;
-  final bool isNew,isSold;
-  final Uint8List? carImage,brandImage;
-
+  final bool isNew, isSold;
+  final Uint8List? carImage, brandImage;
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +44,15 @@ class AvailableCars extends StatelessWidget {
         crossAxisAlignment: WrapCrossAlignment.center,
         alignment: WrapAlignment.spaceBetween,
         children: [
-          TextInAppWidget(text: id??'1#', textSize: 16, textColor: AppColors.darkColor),
-           CarModel(
-            addresstext:addresstext ,
-            releaseDate:releaseDate ,
-            imageBytes:carImage,
+          TextInAppWidget(
+              text: id ?? '1#', textSize: 16, textColor: AppColors.darkColor),
+          CarModel(
+            addresstext: addresstext,
+            releaseDate: releaseDate,
+            imageBytes: carImage,
           ),
           TextWithContainerStatusCar(
-            isNew:isNew,
+            isNew: isNew,
             text: AppLanguageKeys.carStatus,
           ),
           Column(
@@ -47,30 +61,27 @@ class AvailableCars extends StatelessWidget {
             children: [
               brandImage != null
                   ? Image.memory(
-                brandImage!,
-                width: 65,
-                height: 40,
-                fit: BoxFit.contain,
-              )
+                      brandImage!,
+                      width: 65,
+                      height: 40,
+                      fit: BoxFit.contain,
+                    )
                   : Image.asset(
-                AppImageKeys.nesan,
-                width: 30,
-                height: 34,
-                fit: BoxFit.contain,
-              ),
-
-               TextInAppWidget(
-                  text: brandName??'نيسان',
+                      AppImageKeys.nesan,
+                      width: 30,
+                      height: 34,
+                      fit: BoxFit.contain,
+                    ),
+              TextInAppWidget(
+                  text: brandName ?? 'نيسان',
                   textSize: 14,
-                  textColor: AppColors.darkColor
-               ),
+                  textColor: AppColors.darkColor),
             ],
           ),
           TextWithContainerStatusCar(
-            isSold:isSold,
+            isSold: isSold,
           ),
-        //  const MessageNumbers(),
-           Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -79,11 +90,25 @@ class AvailableCars extends StatelessWidget {
                   textSize: 14,
                   textColor: AppColors.darkColor),
               TextInAppWidget(
-                  text: price??AppLanguageKeys.priceKey,
+                  text: price ?? '',
                   textSize: 14,
                   textColor: AppColors.darkColor),
             ],
           ),
+          // Column(
+          //   crossAxisAlignment: CrossAxisAlignment.start,
+          //   mainAxisAlignment: MainAxisAlignment.start,
+          //   children: [
+          //     const TextInAppWidget(
+          //         text: AppLanguageKeys.cost,
+          //         textSize: 14,
+          //         textColor: AppColors.darkColor),
+          //     TextInAppWidget(
+          //         text: cost ?? '',
+          //         textSize: 14,
+          //         textColor: AppColors.darkColor),
+          //   ],
+          // ),
           CustomContainer(
             containerHeight: 32,
             containerWidth: 80,
@@ -95,8 +120,7 @@ class AvailableCars extends StatelessWidget {
               child: TextInAppWidget(
                   text: AppLanguageKeys.detailsKey,
                   textSize: 14,
-                  textColor: AppColors.orangeColor
-              ),
+                  textColor: AppColors.orangeColor),
             ),
           ),
         ],

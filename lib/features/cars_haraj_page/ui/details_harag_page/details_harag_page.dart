@@ -85,6 +85,7 @@ class DetailsHaragPage extends StatelessWidget {
               isNew: car.isNew ?? false,
               brandName: car.car?.getBrand(context),
               price: car.price.toString(),
+              cost: car.cost.toString(),
               kilometers: car.kilometers.toString(),
               userName: car.user?.getName(context),
             ),

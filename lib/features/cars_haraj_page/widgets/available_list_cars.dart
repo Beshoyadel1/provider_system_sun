@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:sun_web_system/core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
@@ -28,7 +29,7 @@ class AvailableListCars extends StatelessWidget {
         }
         if (state is GetAllHarageLoading) {
           const Center(
-            child: CupertinoActivityIndicator(),
+            child: CircularProgressIndicator(),
           );
         }
         if (cars.isEmpty) {
@@ -59,7 +60,6 @@ class AvailableListCars extends StatelessWidget {
                     isNew: car.isNew ?? false,
                     brandName: car.car?.getBrand(context),
                     price: car.price.toString(),
-
                     onTap: () async {
                       final result = await Navigator.push(
                         context,

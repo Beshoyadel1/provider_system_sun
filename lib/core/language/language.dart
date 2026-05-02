@@ -31,6 +31,11 @@ class AppLocalizations {
       //END//
 
       //others//
+      AppLanguageKeys.isSold: 'تم البيع',
+      AppLanguageKeys.releaseDate: 'تاريخ الإصدار',
+      AppLanguageKeys.transmissionType: 'نوع ناقل الحركة',
+      AppLanguageKeys.fuelType: 'نوع الوقود',
+
       AppLanguageKeys.facilityName: 'اسم المنشأة',
       AppLanguageKeys.facilityNameEn: 'اسم المنشأة بالإنجليزية',
       AppLanguageKeys.commercialRegister: 'السجل التجاري',
@@ -1303,6 +1308,10 @@ class AppLocalizations {
       AppLanguageKeys.cancelledByUser: 'Cancelled by User',
       //END//
       //others//
+      AppLanguageKeys.isSold: 'Is Sold',
+      AppLanguageKeys.releaseDate: 'Release Date',
+      AppLanguageKeys.transmissionType: 'Transmission Type',
+      AppLanguageKeys.fuelType: 'Fuel Type',
       AppLanguageKeys.facilityName: 'Facility Name',
       AppLanguageKeys.facilityNameEn: 'Facility Name (EN)',
       AppLanguageKeys.commercialRegister: 'Commercial Register',

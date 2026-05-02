@@ -19,6 +19,10 @@ class AppLanguageKeys {
   //end//
 
   //others//
+  static const String isSold = 'isSold';
+  static const String releaseDate = 'releaseDate';
+  static const String transmissionType = 'transmissionType';
+  static const String fuelType = 'fuelType';
   static const String facilityName = 'facilityName';
   static const String facilityNameEn = 'facilityNameEn';
   static const String commercialRegister = 'commercialRegister';
