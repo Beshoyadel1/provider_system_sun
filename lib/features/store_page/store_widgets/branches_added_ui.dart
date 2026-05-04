@@ -73,6 +73,7 @@ class BranchesAddedUi extends StatelessWidget {
                         .read<BranchCubit>()
                         .edit(branches.indexOf(branch));
                   },
+
                   containerColor: AppColors.darkGreyColor,
                   containerWidth: 162,
                   containerHeight: 42,

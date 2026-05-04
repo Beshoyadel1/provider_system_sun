@@ -261,6 +261,9 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
             return Row(
               children: [
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.orangeColor,
+                  ),
                   onPressed: isLoading
                       ? null
                       : () {
@@ -280,12 +283,16 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
                     text: isEditMode
                         ? AppLanguageKeys.save
                         : AppLanguageKeys.edit,
+                    textColor: AppColors.whiteColor,
                     textSize: 13,
                   ),
                 ),
                 const SizedBox(width: 10),
                 if (isEditMode)
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.orangeColor,
+                    ),
                     onPressed: () {
                       setState(() => isEditMode = false);
                       _loadUser();
@@ -293,6 +300,7 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
                     child: const TextInAppWidget(
                       text: AppLanguageKeys.cancel,
                       textSize: 13,
+                      textColor: AppColors.whiteColor,
                     ),
                   ),
               ],

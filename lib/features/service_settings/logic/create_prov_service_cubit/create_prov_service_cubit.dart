@@ -147,6 +147,9 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
         latinname: request.latinname,
         brands: request.brands,
         cars: request.cars,
+        isuniformprice: request.isuniformprice,
+        cost: request.cost,
+        uniformprice: request.uniformprice
       );
 
       print("📤 SENDING:");
@@ -154,10 +157,10 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
           .convert(updatedRequest.toJson()));
 
       await _repository.createProvService(request: updatedRequest);
-
       brandsData.clear();
       cars.clear();
       brandSelection.clear();
+
 
       for (var key in formKeys.values) {
         key.currentState?.reset();
@@ -173,7 +176,6 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
     cars.clear();
     brandSelection.clear();
 
-    /// 🔥 brands
     for (var b in data["brands"]) {
       final brandId = b["brandId"]; // 👈 نستخدم brand الحقيقي
 

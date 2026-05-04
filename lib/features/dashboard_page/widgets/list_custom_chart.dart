@@ -48,7 +48,6 @@ class ListCustomChart extends StatelessWidget {
               final itemWidth =
                   (width - ((itemsPerRow - 1) * 10)) / itemsPerRow;
 
-              /// 👇 مهم: نخلي الجزء ده يسمع للغة
               return BlocBuilder<LanguageCubit, LanguageStates>(
                 builder: (context, langState) {
                   final isArabic =

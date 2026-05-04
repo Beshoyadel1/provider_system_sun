@@ -34,6 +34,7 @@ class _ServiceCardState extends State<ServiceCard> {
   late TextEditingController nameController;
   late TextEditingController latinController;
   bool isExpanded = false;
+
   @override
   void initState() {
     super.initState();
@@ -59,8 +60,7 @@ class _ServiceCardState extends State<ServiceCard> {
           create: (_) => SelectCarModelSettingCubit()..fetchBrands(),
         ),
         BlocProvider(
-          create: (_) => GetTaxCubit()
-            ..getTaxAndSelect(service.taxid),
+          create: (_) => GetTaxCubit()..getTaxAndSelect(service.taxid),
         ),
       ],
       child: Builder(
@@ -86,7 +86,6 @@ class _ServiceCardState extends State<ServiceCard> {
                     ),
                   ],
                 ),
-
                 GestureDetector(
                   onTap: () {
                     setState(() {
@@ -95,7 +94,8 @@ class _ServiceCardState extends State<ServiceCard> {
                   },
                   child: Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12, horizontal: 10),
                     decoration: BoxDecoration(
                       color: AppColors.greyColor.withOpacity(.1),
                       borderRadius: BorderRadius.circular(12),
@@ -104,8 +104,9 @@ class _ServiceCardState extends State<ServiceCard> {
                       children: [
                         Expanded(
                           child: TextInAppWidget(
-                            text: "${latinController.text} - ${nameController.text}",
-                           textSize: 15,
+                            text:
+                                "${latinController.text} - ${nameController.text}",
+                            textSize: 15,
                             fontWeightIndex: FontSelectionData.boldFontFamily,
                           ),
                         ),
@@ -118,136 +119,144 @@ class _ServiceCardState extends State<ServiceCard> {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 10),
                 AnimatedSize(
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeInOut,
                   child: isExpanded
                       ? Column(
-                    children: [
-                      Form(
-                        key: _formKey,
-                        child: Column(
                           children: [
-                            EnterNameLatenNameService(
-                              nameController: nameController,
-                              latinNameController: latinController,
+                            Form(
+                              key: _formKey,
+                              child: Column(
+                                children: [
+                                  EnterNameLatenNameService(
+                                    nameController: nameController,
+                                    latinNameController: latinController,
+                                  ),
+                                  const SizedBox(height: 10),
+                                  const SelectTaxPage(),
+                                ],
+                              ),
                             ),
                             const SizedBox(height: 10),
-                            const SelectTaxPage(),
-                          ],
-                        ),
-                      ),
-
-                      const SizedBox(height: 10),
-
-                      BlocBuilder<SelectCarModelSettingCubit,
-                          SelectCarModelSettingState>(
-                        builder: (context, state) {
-                          if (state.isLoadingBrands) {
-                            return const CircularProgressIndicator();
-                          }
-
-                          return Column(
-                            children: List.generate(state.brands.length, (index) {
-                              final brand = state.brands[index];
-
-                              return BlocProvider(
-                                key: ValueKey(brand.id),
-                                create: (_) => DetailsContainerSettingCubit(),
-                                child:
-                                AnimatedCrossFadeInExpansionContainerSettingWidget(
-                                  index: index,
-                                  image: brand.image,
-                                  text: brand.getName(context),
-                                  brandId: brand.id ?? 0,
-                                ),
-                              );
-                            }),
-                          );
-                        },
-                      ),
-
-                      const SizedBox(height: 15),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Flexible(
-                            child:
-                            ContainerViewAllInFirstRowInDataContainerInListDataFirstScreenInternalOrders(
-                              text: AppLanguageKeys.save,
-                              onTap: () {
-                                final taxCubit = context.read<GetTaxCubit>();
-
-                                if (!(_formKey.currentState?.validate() ?? false)) {
-                                  AppSnackBar.showError(
-                                      AppLanguageKeys.enterYourData);
-                                  return;
+                            BlocBuilder<SelectCarModelSettingCubit,
+                                SelectCarModelSettingState>(
+                              builder: (context, state) {
+                                if (state.isLoadingBrands) {
+                                  return const CircularProgressIndicator();
                                 }
 
-                                final request = UpdateProvServiceRequest(
-                                  id: service.id,
-                                  serviceId: service.serviceid,
-                                  provId: service.provid,
-                                  taxId: taxCubit.selectedTax!.taxId,
-                                  name: nameController.text,
-                                  latinName: latinController.text,
-                                  brands: cubit.buildBrands(),
-                                  cars: cubit.cars,
-                                );
+                                return Column(
+                                  children: List.generate(state.brands.length,
+                                      (index) {
+                                    final brand = state.brands[index];
 
-                                context
-                                    .read<ProvServicesCubit>()
-                                    .updateProvService(request: request);
+                                    return BlocProvider(
+                                      key: ValueKey(brand.id),
+                                      create: (_) =>
+                                          DetailsContainerSettingCubit(),
+                                      child:
+                                          AnimatedCrossFadeInExpansionContainerSettingWidget(
+                                        index: index,
+                                        image: brand.image,
+                                        text: brand.getName(context),
+                                        brandId: brand.id ?? 0,
+                                      ),
+                                    );
+                                  }),
+                                );
                               },
                             ),
-                          ),
+                            const SizedBox(height: 15),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Flexible(
+                                  child:
+                                      ContainerViewAllInFirstRowInDataContainerInListDataFirstScreenInternalOrders(
+                                    text: AppLanguageKeys.save,
+                                    onTap: () {
+                                      final taxCubit =
+                                          context.read<GetTaxCubit>();
 
-                          const SizedBox(width: 10),
+                                      if (!(_formKey.currentState?.validate() ??
+                                          false)) {
+                                        AppSnackBar.showError(
+                                            AppLanguageKeys.enterYourData);
+                                        return;
+                                      }
 
-                          Flexible(
-                            child:
-                            ContainerViewAllInFirstRowInDataContainerInListDataFirstScreenInternalOrders(
-                              text: AppLanguageKeys.delete,
-                              backGroundColor: AppColors.redColor,
-                              onTap: () async {
-                                final confirm = await showDialog<bool>(
-                                  context: context,
-                                  builder: (_) => AlertDialog(
-                                    title: const Text("Delete Service"),
-                                    content: const Text(
-                                        "Are you sure you want to delete this service?"),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () =>
-                                            Navigator.pop(context, false),
-                                        child: const Text("Cancel"),
-                                      ),
-                                      TextButton(
-                                        onPressed: () =>
-                                            Navigator.pop(context, true),
-                                        child: const Text("Delete"),
-                                      ),
-                                    ],
+                                      final request = UpdateProvServiceRequest(
+                                        id: service.id,
+                                        serviceId: service.serviceid,
+                                        provId: service.provid,
+                                        taxId: taxCubit.selectedTax!.taxId,
+                                        name: nameController.text,
+                                        latinName: latinController.text,
+                                        brands: cubit.buildBrands(),
+                                        cars: cubit.cars,
+                                      );
+
+                                      context
+                                          .read<ProvServicesCubit>()
+                                          .updateProvService(request: request);
+                                    },
                                   ),
-                                );
+                                ),
+                                const SizedBox(width: 10),
+                                Flexible(
+                                  child:
+                                      ContainerViewAllInFirstRowInDataContainerInListDataFirstScreenInternalOrders(
+                                    text: AppLanguageKeys.delete,
+                                    backGroundColor: AppColors.redColor,
+                                    onTap: () async {
+                                      final confirm = await showDialog<bool>(
+                                        context: context,
+                                        builder: (_) => AlertDialog(
+                                          title: const TextInAppWidget(
+                                            text: AppLanguageKeys.delete,
+                                            textSize: 20,
+                                          ),
+                                          content: const TextInAppWidget(
+                                            text: AppLanguageKeys.areYouSure,
+                                            textSize: 20,
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () =>
+                                                  Navigator.pop(context, false),
+                                              child: const TextInAppWidget(
+                                                text: AppLanguageKeys.cancel,
+                                                textSize: 20,
+                                              ),
+                                            ),
+                                            TextButton(
+                                              onPressed: () =>
+                                                  Navigator.pop(context, true),
+                                              child: const TextInAppWidget(
+                                                text: AppLanguageKeys.delete,
+                                                textSize: 20,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
 
-                                if (confirm == true) {
-                                  context
-                                      .read<ProvServicesCubit>()
-                                      .deleteProvService(
-                                    provServiceId: service.id,
-                                  );
-                                }
-                              },
+                                      if (confirm == true) {
+                                        context
+                                            .read<ProvServicesCubit>()
+                                            .deleteProvService(
+                                              provServiceId: service.id,
+                                            );
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  )
+                          ],
+                        )
                       : const SizedBox(),
                 ),
               ],
@@ -258,8 +267,7 @@ class _ServiceCardState extends State<ServiceCard> {
     );
   }
 
-  Map<String, dynamic> _mapToCreateFormat(
-      GetProvServicesResponse service) {
+  Map<String, dynamic> _mapToCreateFormat(GetProvServicesResponse service) {
     return {
       "serviceid": service.provService.serviceid,
       "brands": service.brands.map((b) {
@@ -271,9 +279,7 @@ class _ServiceCardState extends State<ServiceCard> {
           "isuniformprice": b.provServiceBrand.isuniformprice,
         };
       }).toList(),
-      "cars": service.brands
-          .expand((b) => b.models)
-          .map((m) {
+      "cars": service.brands.expand((b) => b.models).map((m) {
         return {
           "id": m.id ?? 0,
           "carbrandid": m.carbrandid,

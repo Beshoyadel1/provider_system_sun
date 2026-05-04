@@ -41,6 +41,7 @@ class LogoutDashboard extends StatelessWidget {
                   );
                   context.read<AuthCubit>().logout();
                 },
+                onTapCancel: (){},
               ),
             ],
           ),

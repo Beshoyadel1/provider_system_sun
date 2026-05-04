@@ -158,6 +158,9 @@ class _BankAccountContentState extends State<BankAccountContent> {
             return Row(
               children: [
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.orangeColor,
+                  ),
                   onPressed: isLoading
                       ? null
                       : () {
@@ -176,18 +179,22 @@ class _BankAccountContentState extends State<BankAccountContent> {
                       : TextInAppWidget(
                     text: isEditMode ? AppLanguageKeys.save : AppLanguageKeys.edit,
                     textSize: 13,
+                    textColor: AppColors.whiteColor,
                   ),
                 ),
                 const SizedBox(width: 10),
                 if (isEditMode)
                   ElevatedButton(
-
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.orangeColor,
+                    ),
                     onPressed: () {
                       setState(() => isEditMode = false);
                       _loadData();
                     },
                     child: const TextInAppWidget(
                       text:  AppLanguageKeys.cancel,
+                      textColor: AppColors.whiteColor,
                       textSize: 13,
                     ),
                   ),

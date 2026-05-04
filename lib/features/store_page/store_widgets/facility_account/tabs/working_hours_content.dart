@@ -252,12 +252,6 @@ class _WorkingHoursContentState extends State<WorkingHoursContent> {
                       fontWeightIndex: FontSelectionData.mediumFontFamily,
                       textColor: AppColors.darkColor,
                     ),
-                    // const TextInAppWidget(
-                    //   text: AppLanguageKeys.weekDaysKey,
-                    //   textSize: 18,
-                    //   fontWeightIndex: FontSelectionData.mediumFontFamily,
-                    //   textColor: AppColors.darkColor,
-                    // ),
                     const TextInAppWidget(
                       text: AppLanguageKeys.selectWorkDaysKey,
                       textSize: 15,

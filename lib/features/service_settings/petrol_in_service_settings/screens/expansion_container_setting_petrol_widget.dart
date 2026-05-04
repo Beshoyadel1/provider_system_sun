@@ -2,6 +2,8 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/service_settings/logic/prov_services_cubit/prov_services_cubit.dart';
+import 'package:sun_web_system/features/service_settings/petrol_in_service_settings/screens/enter_price_cost_petrol_service.dart';
+import 'package:sun_web_system/features/service_settings/petrol_in_service_settings/screens/prov_service_petrol_list_view.dart';
 import '../../../../../core/api_functions/provider_management/create_prov_service_model/create_prov_service_request.dart';
 import '../../../../../core/language/language_constant.dart';
 import '../../../../../core/pages_widgets/general_widgets/snakbar.dart';
@@ -22,7 +24,7 @@ import '../../../../../core/theming/fonts.dart';
 import '../../../../../core/theming/text_styles.dart';
 import '../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/logic/Details_container_setting_cubit.dart';
 
-class ExpansionContainerSettingWidget extends StatefulWidget {
+class ExpansionContainerSettingPetrolWidget extends StatefulWidget {
   final String? imagePath, text;
   final bool? isDoneTask;
   final Uint8List? imageMemory;
@@ -32,7 +34,7 @@ class ExpansionContainerSettingWidget extends StatefulWidget {
   final int? initialTaxId;
   final int serviceId;
 
-  const ExpansionContainerSettingWidget({
+  const ExpansionContainerSettingPetrolWidget({
     super.key,
     this.imagePath,
     this.imageMemory,
@@ -46,17 +48,18 @@ class ExpansionContainerSettingWidget extends StatefulWidget {
   });
 
   @override
-  State<ExpansionContainerSettingWidget> createState() =>
-      _ExpansionContainerSettingWidgetState();
+  State<ExpansionContainerSettingPetrolWidget> createState() =>
+      _ExpansionContainerSettingPetrolWidgetState();
 }
 
-class _ExpansionContainerSettingWidgetState
-    extends State<ExpansionContainerSettingWidget> {
-
+class _ExpansionContainerSettingPetrolWidgetState
+    extends State<ExpansionContainerSettingPetrolWidget> {
   final _formKey = GlobalKey<FormState>();
 
-  late TextEditingController nameController;
-  late TextEditingController latinNameController;
+  late TextEditingController nameController,
+      latinNameController,
+      priceController,
+      costController;
 
   @override
   void initState() {
@@ -69,8 +72,13 @@ class _ExpansionContainerSettingWidgetState
     latinNameController = TextEditingController(
       text: widget.initialLatinName ?? '',
     );
+    priceController = TextEditingController(
+      text: widget.initialLatinName ?? '',
+    );
+    costController = TextEditingController(
+      text: widget.initialLatinName ?? '',
+    );
 
-    /// 🔥 set tax from API
     if (widget.initialTaxId != null) {
       Future.microtask(() {
         context.read<GetTaxCubit>().selectTaxById(widget.initialTaxId!);
@@ -83,8 +91,7 @@ class _ExpansionContainerSettingWidgetState
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) =>
-          SelectCarModelSettingCubit()..fetchBrands(),
+          create: (_) => SelectCarModelSettingCubit()..fetchBrands(),
         ),
         BlocProvider(
           create: (_) => DetailsContainerSettingCubit(),
@@ -102,7 +109,6 @@ class _ExpansionContainerSettingWidgetState
         ),
         child: Column(
           children: [
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -111,7 +117,7 @@ class _ExpansionContainerSettingWidgetState
                     children: [
                       Flexible(
                         child: (widget.imageMemory == null ||
-                            widget.imageMemory!.isEmpty)
+                                widget.imageMemory!.isEmpty)
                             ? Image.asset(widget.imagePath ?? '')
                             : Image.memory(widget.imageMemory!, width: 50),
                       ),
@@ -119,8 +125,7 @@ class _ExpansionContainerSettingWidgetState
                       TextInAppWidget(
                         text: widget.text ?? '',
                         textSize: 13,
-                        fontWeightIndex:
-                        FontSelectionData.mediumFontFamily,
+                        fontWeightIndex: FontSelectionData.mediumFontFamily,
                         textColor: AppColors.darkColor,
                       ),
                     ],
@@ -132,11 +137,8 @@ class _ExpansionContainerSettingWidgetState
                 )
               ],
             ),
-
             const SizedBox(height: 10),
-
-            BlocBuilder<SelectCarModelSettingCubit,
-                SelectCarModelSettingState>(
+            BlocBuilder<SelectCarModelSettingCubit, SelectCarModelSettingState>(
               builder: (context, brandState) {
                 final brands = brandState.brands;
 
@@ -148,17 +150,15 @@ class _ExpansionContainerSettingWidgetState
                   return const Text("No Brands");
                 }
 
-                return BlocBuilder<
-                    DetailsContainerSettingCubit,
+                return BlocBuilder<DetailsContainerSettingCubit,
                     DetailsContainerSettingState>(
                   builder: (context, state) {
-                    if (!state.isExpanded)
-                      return const SizedBox();
+                    if (!state.isExpanded) return const SizedBox();
 
                     return Column(
                       spacing: 10,
                       children: [
-                        ProvServiceBrandsListView(serviceId: widget.serviceId),
+                        ProvServicePetrolListView(serviceId: widget.serviceId),
                         const Row(
                           children: [
                             TextInAppWidget(
@@ -173,42 +173,28 @@ class _ExpansionContainerSettingWidgetState
                           child: Column(
                             spacing: 10,
                             children: [
-                              EnterNameLatenNameService(nameController: nameController, latinNameController: latinNameController),
+                              EnterNameLatenNameService(
+                                  nameController: nameController,
+                                  latinNameController: latinNameController),
+                              EnterPriceCostPetrolService(
+                                  priceController: priceController,
+                                  costController: costController),
                               const SelectTaxPage()
                             ],
                           ),
                         ),
-
-                        Column(
-                          spacing: 10,
-                          children: List.generate(brands.length, (index) {
-                            final brand = brands[index];
-
-                            return BlocProvider(
-                              key: ValueKey(brand.id),
-                              create: (_) =>
-                                  DetailsContainerSettingCubit(),
-                              child:
-                              AnimatedCrossFadeInExpansionContainerSettingWidget(
-                                index: index,
-                                image: brand.image,
-                                text: brand.getName(context),
-                                brandId: brand.id ?? 0,
-                              ),
-                            );
-                          }),
-                        ),
-
-                        BlocListener<CreateProvServiceCubit, CreateProvServiceState>(
+                        BlocListener<CreateProvServiceCubit,
+                            CreateProvServiceState>(
                           listener: (context, state) {
                             if (state is CreateProvServiceSuccess) {
-
-                              context.read<ProvServicesCubit>()
+                              context
+                                  .read<ProvServicesCubit>()
                                   .getProvServices(serviceId: widget.serviceId);
 
                               nameController.clear();
                               latinNameController.clear();
-
+                              costController.clear();
+                              priceController.clear();
                               context.read<GetTaxCubit>().clearTax();
 
                               AppSnackBar.showSuccess(AppLanguageKeys.success);
@@ -223,32 +209,13 @@ class _ExpansionContainerSettingWidgetState
                               ContainerViewAllInFirstRowInDataContainerInListDataFirstScreenInternalOrders(
                                 text: AppLanguageKeys.add,
                                 onTap: () {
-                                  final cubit = context.read<CreateProvServiceCubit>();
+                                  final cubit =
+                                      context.read<CreateProvServiceCubit>();
 
-                                  if (!(_formKey.currentState?.validate() ?? false)) {
-                                    AppSnackBar.showError(AppLanguageKeys.enterYourData);
-                                    return;
-                                  }
-
-                                  if (cubit.brandSelection.isEmpty) {
-                                    AppSnackBar.showError(AppLanguageKeys.selectPricingTypeFirst);
-                                    return;
-                                  }
-
-                                  bool isValid = true;
-
-                                  for (var entry in cubit.brandSelection.entries) {
-                                    final formKey = cubit.formKeys[entry.key];
-
-                                    if (formKey != null) {
-                                      if (!(formKey.currentState?.validate() ?? false)) {
-                                        isValid = false;
-                                      }
-                                    }
-                                  }
-
-                                  if (!isValid) {
-                                    AppSnackBar.showError(AppLanguageKeys.enterYourData);
+                                  if (!(_formKey.currentState?.validate() ??
+                                      false)) {
+                                    AppSnackBar.showError(
+                                        AppLanguageKeys.enterYourData);
                                     return;
                                   }
 
@@ -256,12 +223,16 @@ class _ExpansionContainerSettingWidgetState
 
                                   cubit.createProvService(
                                     request: CreateProvServiceRequest(
-                                      taxid: taxCubit.selectedTax!.taxId,
-                                      name: nameController.text,
-                                      latinname: latinNameController.text,
-                                      brands: cubit.buildBrands(),
-                                      cars: cubit.cars,
-                                    ),
+                                        taxid: taxCubit.selectedTax!.taxId,
+                                        name: nameController.text,
+                                        latinname: latinNameController.text,
+                                        uniformprice: double.tryParse(
+                                            priceController.text),
+                                        cost: double.tryParse(
+                                            costController.text),
+                                        brands: [],
+                                        cars: [],
+                                        isuniformprice: true),
                                   );
                                 },
                               ),

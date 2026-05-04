@@ -296,6 +296,18 @@ class _OtherDataDataContainerInListDataAddSparePartsInServiceSettingsState
                         ),
                       ),
 
+                      ...List.generate(cars.length, (index) {
+                        return _item(
+                          itemWidth,
+                          CarSelectionItemWidget(
+                            controller: cars[index],
+                            showDelete: cars.length > 1,
+                            onAdd: () => setState(() => cars.insert(index + 1, CarSelectionController())),
+                            onDelete: () => setState(() => cars.removeAt(index)),
+                          ),
+                        );
+                      }),
+
 
                       if (sizes.isEmpty)
                         _item(
@@ -323,7 +335,7 @@ class _OtherDataDataContainerInListDataAddSparePartsInServiceSettingsState
                                       sizes.add(SizeControllers());
                                     });
                                   },
-                                  child: Icon(Icons.add, color: Colors.green, size: 30),
+                                  child: const Icon(Icons.add, color: Colors.green, size: 30),
                                 ),
                               ),
                             ],
@@ -348,18 +360,6 @@ class _OtherDataDataContainerInListDataAddSparePartsInServiceSettingsState
                                 sizes.insert(index + 1, SizeControllers());
                               });
                             },
-                          ),
-                        );
-                      }),
-
-                      ...List.generate(cars.length, (index) {
-                        return _item(
-                          itemWidth,
-                          CarSelectionItemWidget(
-                            controller: cars[index],
-                            showDelete: cars.length > 1,
-                            onAdd: () => setState(() => cars.insert(index + 1, CarSelectionController())),
-                            onDelete: () => setState(() => cars.removeAt(index)),
                           ),
                         );
                       }),

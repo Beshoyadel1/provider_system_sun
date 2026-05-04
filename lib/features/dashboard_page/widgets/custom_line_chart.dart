@@ -98,7 +98,7 @@ class _CustomLineChartState extends State<CustomLineChart> {
                         sideTitles: SideTitles(
                           showTitles: true,
                           reservedSize: 60,
-                          interval: (maxX - minX) / 4,
+                          interval: (maxX - minX)<=0?1:  (maxX - minX) / 4,
                           getTitlesWidget: (value, meta) {
                             final date = DateTime
                                 .fromMillisecondsSinceEpoch(
