@@ -32,14 +32,14 @@ class LogoutDashboard extends StatelessWidget {
               const FirstPartInLogoutDashboard(),
               LastTwoButtonInLogoutDashboard(
                 onTapConfirm: () {
-
                   Navigator.pop(context);
-                  Navigator.of(context).push(
-                    NavigateToPageWidget(
-                      const LoginPage(),
-                    ),
-                  );
+
                   context.read<AuthCubit>().logout();
+
+                  Navigator.of(context).pushAndRemoveUntil(
+                    NavigateToPageWidget(const LoginPage()),
+                        (route) => false,
+                  );
                 },
                 onTapCancel: (){},
               ),

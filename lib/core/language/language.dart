@@ -31,6 +31,11 @@ class AppLocalizations {
       //END//
 
       //others//
+      AppLanguageKeys.check: 'تحقق',
+      AppLanguageKeys.addAtLeastOneBranch: 'أضف فرع واحد على الأقل',
+      AppLanguageKeys.addAtLeastOneWorkingHours: 'أضف مواعيد عمل واحدة على الأقل',
+
+      AppLanguageKeys.noBranchesYet: 'لا توجد فروع حتى الآن',
       AppLanguageKeys.isSold: 'تم البيع',
       AppLanguageKeys.releaseDate: 'تاريخ الإصدار',
       AppLanguageKeys.transmissionType: 'نوع ناقل الحركة',
@@ -770,7 +775,7 @@ class AppLocalizations {
       AppLanguageKeys.providersTermsAndConditions: '''
 1. التسجيل والاعتماد
 يشترط تسجيل المركز ببيانات صحيحة ودقيقة.
-يحق لـ صن مراجعة واعتماد أو رفض طلب التسجيل دون إبداء الأسباب.
+يحق لـ صان مراجعة واعتماد أو رفض طلب التسجيل دون إبداء الأسباب.
 يتحمل المزود مسؤولية تحديث بياناته باستمرار.
 
 2. استخدام المنصة
@@ -784,9 +789,9 @@ class AppLocalizations {
 يحق للعميل إلغاء أو تعديل الطلب وفق سياسات الإلغاء المعلنة.
 
 4. الالتزامات المالية
-يتم الاتفاق على آلية الدفع والتحصيل من خلال منصة صن.
+يتم الاتفاق على آلية الدفع والتحصيل من خلال منصة صان.
 يتحمل المزود أي التزامات مالية تجاه العملاء نتيجة الإخلال بتنفيذ الخدمة.
-قد يتم خصم رسوم خدمة أو عمولات لصالح صن حسب السياسة المعتمدة.
+قد يتم خصم رسوم خدمة أو عمولات لصالح صان حسب السياسة المعتمدة.
 
 5. التقييمات والمراجعات
 يحق للعملاء تقييم الخدمات المقدمة.
@@ -794,24 +799,24 @@ class AppLocalizations {
 
 6. المسؤولية
 يتحمل المزود المسؤولية الكاملة عن جودة الخدمات المقدمة.
-صن ليست مسؤولة عن أي أضرار مباشرة أو غير مباشرة تنتج عن تنفيذ الخدمة، وإنما دورها يقتصر على الوساطة بين المزود والعميل.
+صان ليست مسؤولة عن أي أضرار مباشرة أو غير مباشرة تنتج عن تنفيذ الخدمة، وإنما دورها يقتصر على الوساطة بين المزود والعميل.
 
 7. إنهاء الخدمة
-يحق لـ صن إيقاف أو إنهاء حساب المزود عند مخالفة الشروط أو الإضرار بسمعة المنصة.
+يحق لـ صان إيقاف أو إنهاء حساب المزود عند مخالفة الشروط أو الإضرار بسمعة المنصة.
 يحق للمزود طلب إغلاق حسابه في أي وقت بعد تسوية الالتزامات المالية.
 
 8. التعديلات على الشروط
-تحتفظ صن بحق تعديل أو تحديث الشروط والأحكام في أي وقت.
+تحتفظ صان بحق تعديل أو تحديث الشروط والأحكام في أي وقت.
 يتم إخطار المزودين بالتعديلات عبر المنصة أو البريد الإلكتروني.
 ''',
       AppLanguageKeys.providersPrivacyPolicy:
           "سياسة الخصوصية لمراكز السيارات (المزودين الخدميين)\n\n1. جمع المعلومات\nنقوم بجمع البيانات الأساسية الخاصة بالمراكز المزودة للخدمة مثل:\n- معلومات المركز (الاسم التجاري – الموقع – نوع الخدمات).\n- بيانات التواصل (الهاتف – البريد الإلكتروني).\n- بيانات الحساب (اسم المستخدم – كلمة المرور).\n\n2. استخدام المعلومات\nتُستخدم المعلومات فقط من أجل:\n- إنشاء الحساب وتفعيله.\n- إدارة الطلبات والخدمات.\n- التواصل بين المركز والعميل.\n- تحسين جودة الخدمة وتجربة الاستخدام.\n\n3. مشاركة المعلومات\nلا تتم مشاركة بيانات المزودين مع أي طرف ثالث خارج نطاق المنصة، إلا إذا كان ذلك مطلوبًا قانونيًا.\nبعض المعلومات مثل اسم المركز والخدمات متاحة للعملاء لتمكينهم من اختيار الخدمة.\n\n4. حماية البيانات\nنلتزم بحماية بيانات المزودين من أي وصول غير مصرح به عبر أنظمة آمنة وتشفير المعلومات الحساسة.\n\n5. حقوق المزود\n- الاطلاع على بياناته المسجلة وتحديثها.\n- طلب حذف الحساب من المنصة.\n- تقديم ملاحظات أو شكاوى بخصوص إدارة البيانات.\n\n6. التعديلات على السياسة\nقد نقوم بتحديث سياسة الخصوصية من وقت لآخر، وسيتم إخطار المزودين عند وجود أي تغييرات جوهرية.",
       AppLanguageKeys.aboutSunIntro:
-          "صن هو منصّة رقمية متخصصة في ربط أصحاب السيارات بمراكز الصيانة والخدمات المعتمدة. نهدف إلى تسهيل وصول العملاء إلى خدماتك وزيادة فرص مركزك في النمو، من خلال إدارة الطلبات بشكل منظم واحترافي عبر منصّة موثوقة وسهلة الاستخدام.\n\nمع صن، تحصل مراكز السيارات على:\n- قاعدة عملاء أوسع.\n- إدارة سهلة للطلبات والخدمات.\n- متابعة دقيقة للتقييمات والأداء.\n- فرص أكبر لزيادة الإيرادات وتوسيع النشاط.",
+          "صان هو منصّة رقمية متخصصة في ربط أصحاب السيارات بمراكز الصيانة والخدمات المعتمدة. نهدف إلى تسهيل وصول العملاء إلى خدماتك وزيادة فرص مركزك في النمو، من خلال إدارة الطلبات بشكل منظم واحترافي عبر منصّة موثوقة وسهلة الاستخدام.\n\nمع صان، تحصل مراكز السيارات على:\n- قاعدة عملاء أوسع.\n- إدارة سهلة للطلبات والخدمات.\n- متابعة دقيقة للتقييمات والأداء.\n- فرص أكبر لزيادة الإيرادات وتوسيع النشاط.",
 
       AppLanguageKeys.contactAndPoliciesPages: 'صفحات التواصل والسياسات',
       AppLanguageKeys.contactUs: 'تواصل معنا',
-      AppLanguageKeys.aboutSun: 'عن صن',
+      AppLanguageKeys.aboutSun: 'عن صان ',
       AppLanguageKeys.privacyPolicy: 'سياسة الخصوصية',
       AppLanguageKeys.termsAndConditions: 'الشروط والاحكام',
       AppLanguageKeys.sendUsMessage: 'قم بارسال رسالتك',
@@ -1063,7 +1068,7 @@ class AppLocalizations {
       توضح هذه السياسة كيفية جمع واستخدام ومشاركة المعلومات عند استخدامك لخدماتنا.
       
       المعلومات التي نقوم بجمعها
-      عند استخدامك لتطبيق صن، قد نقوم بجمع بعض المعلومات اللازمة لتقديم الخدمة، مثل:
+      عند استخدامك لتطبيق صان، قد نقوم بجمع بعض المعلومات اللازمة لتقديم الخدمة، مثل:
       - الاسم الكامل
       - رقم الجوال
       - عنوان البريد الإلكتروني
@@ -1097,7 +1102,7 @@ class AppLocalizations {
       
       التواصل معنا
       لأي استفسارات تتعلق بسياسة الخصوصية، يمكنك التواصل معنا عبر:
-      📧 البريد الإلكتروني: privacy@sun-app.com
+      📧 البريد الإلكتروني: privacy@san-app.com
       📞 الدعم الفني: 9200XXXXXX
       ''',
       AppLanguageKeys.personalData: 'البيانات الشخصية',
@@ -1162,7 +1167,7 @@ class AppLocalizations {
       AppLanguageKeys.insuranceType: 'نوع التأمين',
       AppLanguageKeys.insuranceValue: 'قيمة التأمين',
       AppLanguageKeys.installmentValue: 'قيمة القسط',
-      AppLanguageKeys.linkInsuranceWithSanad: 'ربط حساب التأمين مع صن',
+      AppLanguageKeys.linkInsuranceWithSanad: 'ربط حساب التأمين مع صان',
       AppLanguageKeys.pleaseWait: 'برجاء الانتظار',
       AppLanguageKeys.policyData: 'بيانات بوليصة التأمين',
       AppLanguageKeys.annualPayments: 'الدفعات السنوية',
@@ -1257,10 +1262,10 @@ class AppLocalizations {
       AppLanguageKeys.chooseFavoriteServices: 'أختر الخدمات المفضلة',
       AppLanguageKeys.congratulations: 'مبروووووك, لقد حصلت علي',
       AppLanguageKeys.gift: 'هدية',
-      AppLanguageKeys.sunWarranty: 'ضمان صن',
+      AppLanguageKeys.sunWarranty: 'ضمان صان',
       AppLanguageKeys.fiveYearsWarranty: 'لمدة 5 سنوات هدية',
       AppLanguageKeys.showServicesNow: 'عرض الخدمات الأن',
-      AppLanguageKeys.sunWarrantyFeatures: 'مميزات ضمان صن',
+      AppLanguageKeys.sunWarrantyFeatures: 'مميزات ضمان صان',
       AppLanguageKeys.warrantyCenters:
           'الاستفادة من ضمان الخدمات عبر مراكزنا المتعمدة',
       AppLanguageKeys.carWarrantyAuction:
@@ -1308,6 +1313,10 @@ class AppLocalizations {
       AppLanguageKeys.cancelledByUser: 'Cancelled by User',
       //END//
       //others//
+      AppLanguageKeys.check: 'Check',
+      AppLanguageKeys.addAtLeastOneBranch: 'Add at least one branch',
+      AppLanguageKeys.addAtLeastOneWorkingHours: 'Add at least one working hour',
+      AppLanguageKeys.noBranchesYet: 'No branches yet',
       AppLanguageKeys.isSold: 'Is Sold',
       AppLanguageKeys.releaseDate: 'Release Date',
       AppLanguageKeys.transmissionType: 'Transmission Type',
@@ -2061,7 +2070,7 @@ class AppLocalizations {
       AppLanguageKeys.providersTermsAndConditions: '''
 1. Registration and Approval
 The service center must register with accurate and valid information.
-Sun reserves the right to review, approve, or reject any registration request without stating reasons.
+San reserves the right to review, approve, or reject any registration request without stating reasons.
 The provider is responsible for keeping their information updated.
 
 2. Use of the Platform
@@ -2075,9 +2084,9 @@ Prices offered to customers must be clear and transparent.
 Customers have the right to cancel or modify their orders according to the published cancellation policy.
 
 4. Financial Obligations
-Payment and collection mechanisms are managed through the Sun platform.
+Payment and collection mechanisms are managed through the San platform.
 The provider is responsible for any financial obligations toward customers resulting from service failure.
-Service fees or commissions may be deducted by Sun according to the approved policy.
+Service fees or commissions may be deducted by San according to the approved policy.
 
 5. Ratings and Reviews
 Customers have the right to rate the provided services.
@@ -2085,23 +2094,23 @@ Ratings are part of the platform’s public system and cannot be deleted unless 
 
 6. Liability
 The provider bears full responsibility for the quality of services provided.
-Sun is not responsible for any direct or indirect damages resulting from service execution; its role is limited to mediation between the provider and the customer.
+San is not responsible for any direct or indirect damages resulting from service execution; its role is limited to mediation between the provider and the customer.
 
 7. Termination of Service
-Sun reserves the right to suspend or terminate a provider’s account in case of violations or harm to the platform’s reputation.
+San reserves the right to suspend or terminate a provider’s account in case of violations or harm to the platform’s reputation.
 The provider may request account closure at any time after settling financial obligations.
 
 8. Amendments to the Terms
-Sun reserves the right to modify or update these terms and conditions at any time.
+San reserves the right to modify or update these terms and conditions at any time.
 Providers will be notified of any major changes via the platform or email.
 ''',
       AppLanguageKeys.providersPrivacyPolicy:
           "Privacy Policy for Car Service Providers\n\n1. Information Collection\nWe collect essential data related to service provider centers such as:\n- Center information (trade name – location – type of services).\n- Contact details (phone – email).\n- Account information (username – password).\n\n2. Use of Information\nThe collected information is used only for:\n- Creating and activating accounts.\n- Managing orders and services.\n- Facilitating communication between the center and the customer.\n- Improving service quality and user experience.\n\n3. Information Sharing\nWe do not share provider data with any third party outside the platform unless legally required.\nSome information, such as the center name and offered services, is visible to customers to help them choose services.\n\n4. Data Protection\nWe are committed to protecting provider data from unauthorized access through secure systems and encryption of sensitive information.\n\n5. Provider Rights\n- Access and update their registered data.\n- Request account deletion from the platform.\n- Submit feedback or complaints regarding data management.\n\n6. Policy Updates\nWe may update the privacy policy from time to time, and providers will be notified of any significant changes.",
       AppLanguageKeys.aboutSunIntro:
-          "Sun is a digital platform that connects car owners with certified maintenance and service centers. We aim to make it easier for customers to reach your services and help your center grow by managing requests efficiently and professionally through a trusted, user-friendly platform.\n\nWith Sun, car centers get:\n- A wider customer base.\n- Easy management of orders and services.\n- Accurate tracking of reviews and performance.\n- Greater opportunities to increase revenue and expand operations.",
+          "San is a digital platform that connects car owners with certified maintenance and service centers. We aim to make it easier for customers to reach your services and help your center grow by managing requests efficiently and professionally through a trusted, user-friendly platform.\n\nWith San, car centers get:\n- A wider customer base.\n- Easy management of orders and services.\n- Accurate tracking of reviews and performance.\n- Greater opportunities to increase revenue and expand operations.",
       AppLanguageKeys.contactAndPoliciesPages: 'Contact & Policy Pages',
       AppLanguageKeys.contactUs: 'Contact Us',
-      AppLanguageKeys.aboutSun: 'About Sun',
+      AppLanguageKeys.aboutSun: 'About San',
       AppLanguageKeys.privacyPolicy: 'Privacy Policy',
       AppLanguageKeys.termsAndConditions: 'Terms and Conditions',
       AppLanguageKeys.sendUsMessage: 'Send Us Your Message',
@@ -2354,11 +2363,11 @@ Providers will be notified of any major changes via the platform or email.
       AppLanguageKeys.onTheWay: 'On the Way to You',
       AppLanguageKeys.privacyTitle: 'Privacy Policy',
       AppLanguageKeys.privacyIntro: '''
-      At "Sun" app, we place the utmost importance on the privacy of our users and always strive to protect their personal data.
+      At "San" app, we place the utmost importance on the privacy of our users and always strive to protect their personal data.
       This policy explains how information is collected, used, and shared when you use our services.
 
       Information We Collect
-      When using Sun App, we may collect some necessary information to provide the service, such as:
+      When using San App, we may collect some necessary information to provide the service, such as:
       - Full Name
       - Mobile Number
       - Email Address
@@ -2373,7 +2382,7 @@ Providers will be notified of any major changes via the platform or email.
       - Ensure security and prevent unauthorized use
 
       Information Sharing
-      We do not share your data with any third party outside the "Sun" app except in the following cases:
+      We do not share your data with any third party outside the "San" app except in the following cases:
       - With authorized maintenance centers to fulfill your requests
       - With online payment gateways to complete transactions
       - When legally required or requested by authorities
@@ -2392,7 +2401,7 @@ Providers will be notified of any major changes via the platform or email.
 
       Contact Us
       For any inquiries regarding the privacy policy, you can contact us via:
-      📧 Email: privacy@sun-app.com
+      📧 Email: privacy@san-app.com
       📞 Support: 9200XXXXXX
       ''',
       AppLanguageKeys.personalData: 'Personal Data',
@@ -2557,10 +2566,10 @@ Providers will be notified of any major changes via the platform or email.
       AppLanguageKeys.chooseFavoriteServices: 'Choose favorite services',
       AppLanguageKeys.congratulations: 'Congratulations, you got',
       AppLanguageKeys.gift: 'Gift',
-      AppLanguageKeys.sunWarranty: 'Sun warranty',
+      AppLanguageKeys.sunWarranty: 'San warranty',
       AppLanguageKeys.fiveYearsWarranty: '5 years warranty gift',
       AppLanguageKeys.showServicesNow: 'Show services now',
-      AppLanguageKeys.sunWarrantyFeatures: 'Sun warranty features',
+      AppLanguageKeys.sunWarrantyFeatures: 'San warranty features',
       AppLanguageKeys.warrantyCenters:
           'Benefit from warranty at our authorized centers',
       AppLanguageKeys.carWarrantyAuction:

@@ -69,3 +69,8 @@ class AuthUpdateError extends AuthState {
   final String error;
   AuthUpdateError(this.error);
 }
+class AuthIncompleteProfile extends AuthState {
+  final List<String> missing;
+
+  AuthIncompleteProfile(this.missing);
+}

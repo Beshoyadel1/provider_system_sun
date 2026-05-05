@@ -42,7 +42,7 @@ class _IsNewSwitchState extends State<IsNewSwitch> {
       children: [
         Switch(
           value: isNew,
-          activeColor: AppColors.greenColor,
+          activeColor: AppColors.orangeColor,
           onChanged: (value) {
             setState(() {
               isNew = value;

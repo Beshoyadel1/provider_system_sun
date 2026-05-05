@@ -19,7 +19,7 @@ class ProviderBranchModel {
      this.addressText,
      this.addressLatinText,
      this.providerId,
-     this.isActive,
+     this.isActive=true,
   });
 
   factory ProviderBranchModel.fromJson(Map<String, dynamic> json) {

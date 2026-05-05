@@ -15,26 +15,17 @@ Future<bool> updateUserFunction({
     final jsonMap = createUserRequest.toJson();
     final jsonString = json.encode(jsonMap);
 
-    /// 🔥 PRINT REQUEST
-    debugPrint("========== UPDATE USER REQUEST ==========");
-    debugPrint(jsonString);
-
     final response = await Network.postDataWithBody(
       jsonString,
       ApiLink.updateUser,
     );
 
-    /// 🔥 PRINT RESPONSE
-    debugPrint("========== UPDATE USER RESPONSE ==========");
-    debugPrint("Status Code: ${response.statusCode}");
-    debugPrint("Data: ${response.data}");
-
     final body = response.data.toString().trim();
 
     if (body == "Done") {
-      AppSnackBar.showSuccess(
-        AppLanguageKeys.accountCreatedSuccessfully,
-      );
+      // AppSnackBar.showSuccess(
+      //   AppLanguageKeys.accountCreatedSuccessfully,
+      // );
       return true;
     }
 

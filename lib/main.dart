@@ -16,7 +16,6 @@ final GlobalKey<ScaffoldMessengerState> scaffoldKey = GlobalKey<ScaffoldMessenge
 
 void main() {
   setupGetIt();
-
   runApp(
     MultiBlocProvider(
       providers: [

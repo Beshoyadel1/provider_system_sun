@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/core/api_functions/branch/get_provider_branches_model/provider_branch_model.dart';
 import '../../../../../core/api_functions/branch/add_branch_model/add_branch_request.dart';
 import '../../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../../features/store_page/logic/branch_cubit/branch_cubit.dart';
@@ -12,6 +13,7 @@ import '../../../../../core/pages_widgets/general_widgets/custom_container.dart'
 import '../../../../../core/theming/text_styles.dart';
 import '../../../../../core/language/language_constant.dart';
 import 'square_map_widget.dart';
+
 
 class AddBranchUI extends StatefulWidget {
   const AddBranchUI({super.key});
@@ -37,11 +39,13 @@ class _AddBranchUIState extends State<AddBranchUI> {
       listener: (context, state) {
         if (state is BranchSuccess && state.fromSubmit) {
           AppSnackBar.showSuccess(AppLanguageKeys.success);
+
           nameController.clear();
           latinController.clear();
           addressTextController.clear();
           addressLatinController.clear();
           addressController.clear();
+
           isInit = false;
         }
 
@@ -56,12 +60,19 @@ class _AddBranchUIState extends State<AddBranchUI> {
         final isLoading = state is BranchLoading;
         final successState = state is BranchSuccess ? state : null;
 
-        int? editingIndex = successState?.editingIndex;
-        List branches = successState?.branches ?? [];
+        final editingId = successState?.editingBranchId;
+        final branches = successState?.branches ?? [];
 
-        if (editingIndex != null && !isInit && successState != null) {
-          final branch = branches[editingIndex];
+        ProviderBranchModel? branch;
 
+        if (editingId != null) {
+          branch = branches.firstWhere(
+                (e) => e.branchId == editingId,
+            orElse: () => ProviderBranchModel(),
+          );
+        }
+
+        if (branch != null && editingId != null && !isInit) {
           nameController.text = branch.branchName ?? '';
           latinController.text = branch.branchLatinName ?? '';
           addressTextController.text = branch.addressText ?? '';
@@ -77,14 +88,14 @@ class _AddBranchUIState extends State<AddBranchUI> {
             spacing: 20,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               TextInAppWidget(
-                text: editingIndex != null
+                text: editingId != null
                     ? AppLanguageKeys.editKey
                     : AppLanguageKeys.addMainBranchKey,
                 textSize: 20,
               ),
 
+              /// Branch Name
               TextFormFieldWidget(
                 textFormController: nameController,
                 text: AppLanguageKeys.branchName,
@@ -95,14 +106,13 @@ class _AddBranchUIState extends State<AddBranchUI> {
                 borderColor: AppColors.darkGreyColor,
                 fillColor: AppColors.whiteColor,
                 textFormHeight: 35,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return AppLanguageKeys.enterYourData;
-                  }
-                  return null;
-                },
+                validator: (value) =>
+                value == null || value.isEmpty
+                    ? AppLanguageKeys.enterYourData
+                    : null,
               ),
 
+              /// Latin Name
               TextFormFieldWidget(
                 textFormController: latinController,
                 text: AppLanguageKeys.branchLatinName,
@@ -113,14 +123,13 @@ class _AddBranchUIState extends State<AddBranchUI> {
                 borderColor: AppColors.darkGreyColor,
                 fillColor: AppColors.whiteColor,
                 textFormHeight: 35,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return AppLanguageKeys.enterYourData;
-                  }
-                  return null;
-                },
+                validator: (value) =>
+                value == null || value.isEmpty
+                    ? AppLanguageKeys.enterYourData
+                    : null,
               ),
 
+              /// Address Text
               TextFormFieldWidget(
                 textFormController: addressTextController,
                 text: AppLanguageKeys.addressText,
@@ -131,14 +140,13 @@ class _AddBranchUIState extends State<AddBranchUI> {
                 borderColor: AppColors.darkGreyColor,
                 fillColor: AppColors.whiteColor,
                 textFormHeight: 35,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return AppLanguageKeys.enterYourData;
-                  }
-                  return null;
-                },
+                validator: (value) =>
+                value == null || value.isEmpty
+                    ? AppLanguageKeys.enterYourData
+                    : null,
               ),
 
+              /// Address Latin
               TextFormFieldWidget(
                 textFormController: addressLatinController,
                 text: AppLanguageKeys.addressLatinText,
@@ -149,14 +157,13 @@ class _AddBranchUIState extends State<AddBranchUI> {
                 borderColor: AppColors.darkGreyColor,
                 fillColor: AppColors.whiteColor,
                 textFormHeight: 35,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return AppLanguageKeys.enterYourData;
-                  }
-                  return null;
-                },
+                validator: (value) =>
+                value == null || value.isEmpty
+                    ? AppLanguageKeys.enterYourData
+                    : null,
               ),
 
+              /// Address
               TextFormFieldWidget(
                 textFormController: addressController,
                 text: AppLanguageKeys.branchAddressKey,
@@ -167,12 +174,10 @@ class _AddBranchUIState extends State<AddBranchUI> {
                 hintText: AppLanguageKeys.addressDetailsKey,
                 textFormHeight: 35,
                 borderColor: AppColors.lightGreyColor,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return AppLanguageKeys.enterYourData;
-                  }
-                  return null;
-                },
+                validator: (value) =>
+                value == null || value.isEmpty
+                    ? AppLanguageKeys.enterYourData
+                    : null,
                 onChanged: (value) {
                   if (value.trim().isNotEmpty) {
                     context
@@ -193,6 +198,7 @@ class _AddBranchUIState extends State<AddBranchUI> {
                 child: SquareMapWidget(),
               ),
 
+              /// Buttons
               Wrap(
                 spacing: 10,
                 runSpacing: 10,
@@ -217,34 +223,38 @@ class _AddBranchUIState extends State<AddBranchUI> {
                         return;
                       }
 
-                      if (editingIndex != null) {
-                        final branch = branches[editingIndex];
-
+                      /// ✅ EDIT
+                      if (editingId != null && branch != null) {
                         final request = AddBranchRequest(
                           branchId: branch.branchId,
                           branchName: nameController.text,
                           branchLatinName: latinController.text,
                           address:
                           "${locationState.latLng.latitude},${locationState.latLng.longitude}",
-                          addressText: addressTextController.text,
+                          addressText:
+                          addressTextController.text,
                           addressLatinText:
                           addressLatinController.text,
-                          isActive: branch.isActive ?? false,
+                          isActive: branch.isActive ?? true,
                         );
 
                         context
                             .read<BranchCubit>()
                             .updateBranch(request);
-                      } else {
+                      }
+
+                      /// ✅ ADD
+                      else {
                         final request = AddBranchRequest(
                           branchName: nameController.text,
                           branchLatinName: latinController.text,
                           address:
                           "${locationState.latLng.latitude},${locationState.latLng.longitude}",
-                          addressText: addressTextController.text,
+                          addressText:
+                          addressTextController.text,
                           addressLatinText:
                           addressLatinController.text,
-                          isActive: false,
+                          isActive: true,
                         );
 
                         context
@@ -262,7 +272,7 @@ class _AddBranchUIState extends State<AddBranchUI> {
                       ),
                     )
                         : TextInAppWidget(
-                      text: editingIndex != null
+                      text: editingId != null
                           ? AppLanguageKeys.editKey
                           : AppLanguageKeys.saveKey,
                       textSize: 16,

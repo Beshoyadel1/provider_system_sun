@@ -9,26 +9,26 @@ class BranchLoading extends BranchState {}
 class BranchSuccess extends BranchState {
   final List<ProviderBranchModel> branches;
   final bool isAdding;
-  final int? editingIndex;
+  final int? editingBranchId;
   final bool fromSubmit;
 
   BranchSuccess({
     required this.branches,
     this.isAdding = false,
-    this.editingIndex,
+    this.editingBranchId,
     this.fromSubmit = false,
   });
 
   BranchSuccess copyWith({
     List<ProviderBranchModel>? branches,
     bool? isAdding,
-    int? editingIndex,
+    int? editingBranchId,
     bool? fromSubmit,
   }) {
     return BranchSuccess(
       branches: branches ?? this.branches,
       isAdding: isAdding ?? this.isAdding,
-      editingIndex: editingIndex,
+      editingBranchId: editingBranchId,
       fromSubmit: fromSubmit ?? false,
     );
   }

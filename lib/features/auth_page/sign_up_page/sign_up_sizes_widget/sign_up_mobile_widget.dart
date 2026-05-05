@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:sun_web_system/core/api_functions/user/login_model/login_request.dart';
 import '../../../../core/api_functions/user/create_user_model/provider_details_request.dart';
 import '../../../../core/api/dio_function/api_constants.dart';
 import '../../../../features/auth_page/auth_cubit/auth_cubit.dart';
@@ -33,7 +34,7 @@ class _SignUpMobileWidgetState extends State<SignUpMobileWidget> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
-  TextEditingController();
+      TextEditingController();
 
   @override
   void dispose() {
@@ -76,11 +77,8 @@ class _SignUpMobileWidgetState extends State<SignUpMobileWidget> {
                     const TextInAppWidget(
                       text: AppLanguageKeys.signUpTitleKey,
                       textSize: 25,
-                      fontWeightIndex:
-                      FontSelectionData.boldFontFamily,
+                      fontWeightIndex: FontSelectionData.boldFontFamily,
                     ),
-
-                    /// fields
                     UserTextFieldWidget(
                       type: UserFieldType.name,
                       controller: usernameController,
@@ -110,58 +108,69 @@ class _SignUpMobileWidgetState extends State<SignUpMobileWidget> {
                     ),
                     const SizedBox(height: 10),
 
-                    BlocBuilder<AuthCubit, AuthState>(
-                      buildWhen: (previous, current) =>
-                      current is AuthSignupLoading ||
-                          current is AuthSignupSuccess ||
-                          current is AuthSignupError ||
-                          previous is AuthSignupLoading,
-                      builder: (context, state) {
-                        final bool isLoading = state is AuthSignupLoading;
-
+                    BlocListener<AuthCubit, AuthState>(
+                      listener: (context, state) async {
                         if (state is AuthSignupSuccess) {
-                          Future.microtask(() {
-                            Navigator.of(context).pushReplacement(
-                              NavigateToPageWidget(const LoginPage()),
-                            );
-                          });
+                          AppSnackBar.showSuccess("Account created successfully");
+                          Navigator.pop(context);
+                          context.read<AuthCubit>().login(
+                            LoginRequest(
+                              user: emailController.text.trim(),
+                              password: passwordController.text.trim(),
+                              type: UserType.providerUser,
+                            ),
+                          );
                         }
 
                         if (state is AuthSignupError) {
-                          Future.microtask(() {
-                            AppSnackBar.showError(state.message);
-                          });
+                          AppSnackBar.showError(state.message);
                         }
-
-                        return LoginButtonWidget(
-                          text: AppLanguageKeys.login,
-                          isLoading: isLoading,
-                          onPressed: isLoading
-                              ? null
-                              : () {
-                            if (!_formKey.currentState!.validate()) return;
-
-                            final password = passwordController.text.trim();
-                            final confirm = confirmPasswordController.text.trim();
-
-                            if (password != confirm) {
-                              AppSnackBar.showError(
-                                  AppLanguageKeys.passwordsDoNotMatch);
-                              return;
-                            }
-                            context.read<AuthCubit>().signup(
-                              CreateUserRequest(
-                                username: usernameController.text.trim(),
-                                phone: phoneController.text.trim(),
-                                email: emailController.text.trim(),
-                                password: password,
-                                type: UserType.providerUser,
-                                providerDetails: const ProviderDetailsRequest(),
-                              ),
-                            );
-                          },
-                        );
                       },
+                      child: BlocBuilder<AuthCubit, AuthState>(
+                        buildWhen: (previous, current) =>
+                            current is AuthSignupLoading ||
+                            current is AuthSignupSuccess ||
+                            current is AuthSignupError ||
+                            previous is AuthSignupLoading,
+                        builder: (context, state) {
+                          final isLoading = state is AuthSignupLoading;
+
+                          return LoginButtonWidget(
+                            text: AppLanguageKeys.signUpTitleKey,
+                            isLoading: isLoading,
+                            onPressed: isLoading
+                                ? null
+                                : () {
+                                    if (!_formKey.currentState!.validate())
+                                      return;
+
+                                    final password =
+                                        passwordController.text.trim();
+                                    final confirm =
+                                        confirmPasswordController.text.trim();
+
+                                    if (password != confirm) {
+                                      AppSnackBar.showError(
+                                          AppLanguageKeys.passwordsDoNotMatch);
+                                      return;
+                                    }
+
+                                    context.read<AuthCubit>().signup(
+                                          CreateUserRequest(
+                                            username:
+                                                usernameController.text.trim(),
+                                            phone: phoneController.text.trim(),
+                                            email: emailController.text.trim(),
+                                            password: password,
+                                            type: UserType.providerUser,
+                                            providerDetails:
+                                                const ProviderDetailsRequest(),
+                                          ),
+                                        );
+                                  },
+                          );
+                        },
+                      ),
                     ),
                     const SizedBox(height: 10),
                   ],

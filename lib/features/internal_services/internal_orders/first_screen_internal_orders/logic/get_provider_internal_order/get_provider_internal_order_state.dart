@@ -17,13 +17,17 @@ class GetProviderInternalOrderCubit
     int? pageNumber,
   }) async {
 
-    emit(GetProviderInternalOrderLoading());
+    if (!isClosed) {
+      emit(GetProviderInternalOrderLoading());
+    }
 
     try {
       final user = await AuthLocalStorage.getUser();
 
       if (user == null) {
-        emit(const GetProviderInternalOrderError("User not found"));
+        if (!isClosed) {
+          emit(const GetProviderInternalOrderError("User not found"));
+        }
         return;
       }
 
@@ -37,22 +41,21 @@ class GetProviderInternalOrderCubit
         ),
       );
 
-      final currentPage = response.currentPage ?? 1;
-      final pageCount = response.pageCount ?? 1;
-      final totalCount = response.totalCount ?? 1;
-
-
-      emit(
-        GetProviderInternalOrderSuccess(
-          response.data ?? [],
-          currentPage: currentPage,
-          pageCount: pageCount,
-          totalCount: totalCount,
-        ),
-      );
+      if (!isClosed) {
+        emit(
+          GetProviderInternalOrderSuccess(
+            response.data ?? [],
+            currentPage: response.currentPage ?? 1,
+            pageCount: response.pageCount ?? 1,
+            totalCount: response.totalCount ?? 1,
+          ),
+        );
+      }
 
     } catch (e) {
-      emit(GetProviderInternalOrderError(e.toString()));
+      if (!isClosed) {
+        emit(GetProviderInternalOrderError(e.toString()));
+      }
     }
   }
 }

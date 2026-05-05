@@ -3,20 +3,20 @@ import 'package:sun_web_system/core/language/language_cubit/language_cubit.dart'
 
 class AddBranchRequest {
   final int? branchId;
-  final String branchName;
-  final String branchLatinName;
-  final String address;
-  final String addressText;
-  final String addressLatinText;
-  final bool isActive;
+  final String? branchName;
+  final String? branchLatinName;
+  final String? address;
+  final String? addressText;
+  final String? addressLatinText;
+  final bool? isActive;
 
   AddBranchRequest({
     this.branchId,
-    required this.branchName,
-    required this.branchLatinName,
-    required this.address,
-    required this.addressText,
-    required this.addressLatinText,
+     this.branchName,
+     this.branchLatinName,
+     this.address,
+     this.addressText,
+     this.addressLatinText,
     this.isActive = true,
   });
 
@@ -33,14 +33,14 @@ class AddBranchRequest {
     };
   }
 
-  String getBranchName(BuildContext context) {
+  String? getBranchName(BuildContext context) {
     final isArabic =
         LanguageCubit.get(context).isAllAppLanguageArabic;
 
     return isArabic ? branchName : branchLatinName;
   }
 
-  String getAddressText(BuildContext context) {
+  String? getAddressText(BuildContext context) {
     final isArabic =
         LanguageCubit.get(context).isAllAppLanguageArabic;
 

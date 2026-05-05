@@ -19,6 +19,10 @@ class AppLanguageKeys {
   //end//
 
   //others//
+  static const String check = 'check';
+  static const String addAtLeastOneBranch = 'addAtLeastOneBranch';
+  static const String addAtLeastOneWorkingHours = 'addAtLeastOneWorkingHours';
+  static const String noBranchesYet = 'noBranchesYet';
   static const String isSold = 'isSold';
   static const String releaseDate = 'releaseDate';
   static const String transmissionType = 'transmissionType';

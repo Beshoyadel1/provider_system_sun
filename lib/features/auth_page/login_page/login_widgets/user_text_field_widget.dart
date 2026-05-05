@@ -72,7 +72,44 @@ class UserTextFieldWidget extends StatelessWidget {
         readOnly: readOnly,
       );
     }
+    else if (type == UserFieldType.password) {
+      child = BlocBuilder<AuthCubit, AuthState>(
+        builder: (context, state) {
+          final cubit = context.read<AuthCubit>();
 
+          final isConfirm = text == AppLanguageKeys.confirmPasswordKey;
+
+          final isVisible = isConfirm
+              ? cubit.isConfirmPasswordVisible
+              : cubit.isPasswordVisible;
+
+          return TextFormFieldWidget(
+            textFormController: controller,
+            text: text ?? "",
+            isColumn: true,
+            readOnly: readOnly,
+            textSize: 16,
+            borderColor: AppColors.darkGreyColor,
+            fillColor: AppColors.whiteColor,
+            textFormHeight: 35,
+
+            obscureText: !isVisible,
+
+            suffixIcon: isVisible
+                ? Icons.visibility
+                : Icons.visibility_off,
+
+            suffixOnPressed: () {
+              if (isConfirm) {
+                cubit.toggleConfirmPasswordVisibility();
+              } else {
+                cubit.togglePasswordVisibility();
+              }
+            },
+          );
+        },
+      );
+    }
     else {
       child = TextFormFieldWidget(
         textFormController: controller,
@@ -224,56 +261,61 @@ class PhoneTextField extends StatelessWidget {
             ),
           ),
 
-        Container(
-          height: 35,
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          decoration: BoxDecoration(
-            color: AppColors.whiteColor,
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: AppColors.darkGreyColor),
-          ),
+        SizedBox(
+          height: 60,
+          child: IntlPhoneField(
+            initialCountryCode: 'EG',
+            disableLengthCheck: false,
+            readOnly: isReadOnly,
+            keyboardType: TextInputType.number,
 
-          child: Center(
-            child: IntlPhoneField(
-              initialCountryCode: 'EG',
-              disableLengthCheck: true,
-              readOnly: isReadOnly,
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+            ],
 
-              textAlignVertical: TextAlignVertical.center,
+            style: const TextStyle(fontSize: 14, height: 1.2),
+            dropdownTextStyle: const TextStyle(fontSize: 14),
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: AppColors.whiteColor,
 
-              style: const TextStyle(
-                fontSize: 14,
-                height: 1.2,
+              isDense: true,
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 8,
               ),
 
-              dropdownTextStyle: const TextStyle(
-                fontSize: 14,
-                height: 1.2,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: AppColors.darkGreyColor),
               ),
 
-              decoration: const InputDecoration(
-                border: InputBorder.none,
-                isCollapsed: true, // 🔥 ده الحل السحري
-                contentPadding: EdgeInsets.zero,
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: AppColors.darkGreyColor),
               ),
 
-              /// 🔹 المسافات
-              flagsButtonPadding: const EdgeInsets.only(right: 6),
-              dropdownIconPosition: IconPosition.trailing,
-
-              onChanged: isReadOnly
-                  ? null
-                  : (phone) {
-                controller.text =
-                    phone.completeNumber.replaceFirst("+", "");
-              },
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
+
+            /// 🔧 ضبط الأيقونات
+            flagsButtonPadding: const EdgeInsets.only(left: 6, right: 4),
+            dropdownIconPosition: IconPosition.trailing,
+
+            /// 🔧 يمنع التمدد الغريب
+            dropdownIcon: const Icon(Icons.arrow_drop_down, size: 18),
+
+            onChanged: isReadOnly
+                ? null
+                : (phone) {
+              controller.text =
+                  phone.completeNumber.replaceFirst("+", "");
+            },
           ),
         ),
       ],
     );
   }
 }
-
-
-

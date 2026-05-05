@@ -48,6 +48,11 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
       isLoaded = true;
     }
   }
+  T? safe<T>(T? value) {
+    if (value == null) return null;
+    if (value is String && value.trim().isEmpty) return null;
+    return value;
+  }
 
   Future<void> _loadUser() async {
     final user = await AuthLocalStorage.getUser();
@@ -56,7 +61,6 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
       facilityNameController.text = user.providerDetails?.name ?? "";
       facilityNameEnController.text = user.providerDetails?.latinname ?? "";
 
-      /// ✅ FIX mapping
       crController.text = user.providerDetails?.cr ?? "";
       vatNoController.text = user.providerDetails?.vatno ?? "";
 
@@ -81,43 +85,36 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
     final oldProvider = user?.providerDetails;
 
     final request = CreateUserRequest(
-      userid: user?.userid,
+      userid: user?.userid ?? 0,
       type: user?.type,
-      phone: phoneController.text,
-      email: emailController.text,
+      phone: safe(phoneController.text),
+      email: safe(emailController.text),
       username: user?.username,
 
-      /// ✅ SAFE parsing
       age: ageController.text.isNotEmpty
-          ? int.parse(ageController.text)
+          ? int.tryParse(ageController.text)
           : null,
+
       gander: genderController.text.isNotEmpty
-          ? int.parse(genderController.text)
+          ? int.tryParse(genderController.text)
           : null,
 
       image: facilityCubit.images['image'] ?? user?.image,
 
       providerDetails: ProviderDetailsRequest(
-        id: oldProvider?.id,
-        provid: oldProvider?.provid,
-        name: facilityNameController.text,
-        latinname: facilityNameEnController.text,
-        description: oldProvider?.description,
-        latindesc: oldProvider?.latindesc,
+        id: oldProvider?.id ?? 0,
+        provid: oldProvider?.provid ?? 0,
 
-        /// ✅ FIX
-        cr: crController.text,
-        vatno: vatNoController.text,
+        name: safe(facilityNameController.text),
+        latinname: safe(facilityNameEnController.text),
 
-        packageid: oldProvider?.packageid,
-        iban: oldProvider?.iban,
-        nationaladdress: nationalAddressController.text,
-        subscriptionstartdate: oldProvider?.subscriptionstartdate,
-        subscriptionenddate: oldProvider?.subscriptionenddate,
+        cr: safe(crController.text),
+        vatno: safe(vatNoController.text),
+        nationaladdress: safe(nationalAddressController.text),
 
-        /// ✅ KEEP OLD IF NULL
         crimage:
         facilityCubit.images['crimage'] ?? oldProvider?.crimage,
+
         vatnoimage:
         facilityCubit.images['vatnoimage'] ?? oldProvider?.vatnoimage,
       ),
@@ -155,8 +152,6 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
               readOnly: !isEditMode,
               width: 250,
             ),
-
-            /// ✅ FIX order
             UserTextFieldWidget(
               controller: crController,
               text: AppLanguageKeys.commercialRecordKey,
@@ -169,7 +164,6 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
               readOnly: !isEditMode,
               width: 250,
             ),
-
             UserTextFieldWidget(
               controller: nationalAddressController,
               text: AppLanguageKeys.shortAddress,
@@ -243,10 +237,10 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
             if (state is AuthUpdateSuccess) {
               setState(() => isEditMode = false);
 
-              /// 🔥 refresh data
               _loadUser();
 
               AppSnackBar.showSuccess(AppLanguageKeys.success);
+
             }
 
             if (state is AuthUpdateError) {
@@ -267,25 +261,25 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
                   onPressed: isLoading
                       ? null
                       : () {
-                    if (!isEditMode) {
-                      setState(() => isEditMode = true);
-                    } else {
-                      _onUpdate();
-                    }
-                  },
+                          if (!isEditMode) {
+                            setState(() => isEditMode = true);
+                          } else {
+                            _onUpdate();
+                          }
+                        },
                   child: isLoading
                       ? const SizedBox(
-                    width: 18,
-                    height: 18,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
+                          width: 18,
+                          height: 18,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
                       : TextInAppWidget(
-                    text: isEditMode
-                        ? AppLanguageKeys.save
-                        : AppLanguageKeys.edit,
-                    textColor: AppColors.whiteColor,
-                    textSize: 13,
-                  ),
+                          text: isEditMode
+                              ? AppLanguageKeys.save
+                              : AppLanguageKeys.edit,
+                          textColor: AppColors.whiteColor,
+                          textSize: 13,
+                        ),
                 ),
                 const SizedBox(width: 10),
                 if (isEditMode)

@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
 import 'package:sun_web_system/core/api_functions/user/update_user_model/update_user_repository.dart';
+import 'package:sun_web_system/features/auth_page/auth_cubit/FacilityValidator.dart';
+import 'package:sun_web_system/features/store_page/logic/branch_cubit/branch_cubit.dart';
+import 'package:sun_web_system/features/store_page/logic/work_time_cubit/work_time_cubit.dart';
 import '../../../../core/api_functions/user/check_if_user_exist_or_not_model/check_if_user_exist_or_not_repository.dart';
 import '../../../../core/api_functions/user/check_if_user_exist_or_not_model/check_if_user_exist_or_not_request.dart';
 import '../../../../core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
@@ -31,8 +34,30 @@ class AuthCubit extends Cubit<AuthState> {
 
   bool get isConfirmPasswordObscure => _isConfirmPasswordObscure;
   bool isPasswordVisible = false;
+  bool isConfirmPasswordVisible = false;
 
+  void togglePasswordVisibility() {
+    isPasswordVisible = !isPasswordVisible;
+    emit(AuthPasswordVisibilityChanged());
+  }
 
+  void toggleConfirmPasswordVisibility() {
+    isConfirmPasswordVisible = !isConfirmPasswordVisible;
+    emit(AuthPasswordVisibilityChanged());
+  }
+
+  Future<void> init() async {
+    emit(AuthLoading());
+
+    final user = await AuthLocalStorage.getUser();
+
+    if (user == null) {
+      emit(AuthUnauthenticated());
+      return;
+    }
+
+    await _checkFacilityCompletion(user);
+  }
 
   Timer? _timer;
   int secondsRemaining = 30;
@@ -93,10 +118,6 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthOtpGenerated());
   }
 
-  void togglePasswordVisibility() {
-    isPasswordVisible = !isPasswordVisible;
-    emit(AuthPasswordVisibilityChanged());
-  }
   void updatePhone(String phone) {
     phoneNumber = phone;
     emit(AuthInitial());
@@ -133,11 +154,6 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  void toggleConfirmPasswordVisibility() {
-    _isConfirmPasswordObscure = !_isConfirmPasswordObscure;
-    emit(AuthPasswordVisibilityChanged());
-  }
-
   void showLogin() => emit(AuthShowLogin());
   void showSignup() => emit(AuthShowSignup());
   void showRestPassword() => emit(AuthShowRestPassword());
@@ -150,9 +166,36 @@ class AuthCubit extends Cubit<AuthState> {
     final user = await loginFunction(loginRequest: request);
 
     if (user != null) {
-      emit(AuthAuthenticated());
+      await AuthLocalStorage.saveUser(user);
+
+      await _checkFacilityCompletion(user); // 🔥 هنا
     } else {
       emit(AuthLoginError(AppLanguageKeys.loginFailed));
+    }
+  }
+  Future<void> _checkFacilityCompletion(CreateUserRequest user) async {
+    final branchCubit = BranchCubit();
+    final workTimeCubit = UpdateWorkTimeCubit();
+
+    await Future.wait([
+      branchCubit.getProviderBranches(),
+      workTimeCubit.getWorkTimes(),
+    ]);
+
+    if (isClosed) return;
+
+    final result = FacilityValidator.validate(
+      user: user,
+      branchCubit: branchCubit,
+      workTimeCubit: workTimeCubit,
+    );
+
+    if (isClosed) return;
+
+    if (result.isValid) {
+      emit(AuthAuthenticated());
+    } else {
+      emit(AuthIncompleteProfile(result.missingFields));
     }
   }
 
@@ -161,9 +204,16 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> checkAuth() async {
-    emit(AuthLoading());
-
     final isLoggedIn = await AuthLocalStorage.isLoggedIn();
+
+    /// ✅ أهم شرط
+    if (state is AuthUpdateLoading || state is AuthUpdateSuccess) {
+      return;
+    }
+
+    if (state is AuthAuthenticated && isLoggedIn) {
+      return;
+    }
 
     if (isLoggedIn) {
       emit(AuthAuthenticated());
@@ -171,17 +221,50 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthUnauthenticated());
     }
   }
+  Future<void> reCheckFacility() async {
+    final user = await AuthLocalStorage.getUser();
 
+    if (user == null) {
+      emit(AuthUnauthenticated());
+      return;
+    }
+
+    final branchCubit = BranchCubit();
+    final workTimeCubit = UpdateWorkTimeCubit();
+
+    await Future.wait([
+      branchCubit.getProviderBranches(),
+      workTimeCubit.getWorkTimes(),
+    ]);
+
+    final result = FacilityValidator.validate(
+      user: user,
+      branchCubit: branchCubit,
+      workTimeCubit: workTimeCubit,
+    );
+
+    if (result.isValid) {
+      emit(AuthAuthenticated());
+    } else {
+      emit(AuthIncompleteProfile(result.missingFields)); // 👉 يظهر SnackBar
+    }
+  }
   Future<void> updateUser(CreateUserRequest request) async {
-    /// 🔥 خليه authenticated قبل أي حاجة
-    emit(AuthAuthenticated());
+    if (isClosed) return;
+
+    emit(AuthUpdateLoading());
 
     try {
       final oldUser = await AuthLocalStorage.getUser();
 
+      print("========== REQUEST ==========");
+      print(request.toJson());
+
       final bool isSuccess = await updateUserFunction(
         createUserRequest: request,
       );
+
+      if (isClosed) return;
 
       if (isSuccess) {
         final updatedUser = CreateUserRequest(
@@ -201,17 +284,22 @@ class AuthCubit extends Cubit<AuthState> {
 
         await AuthLocalStorage.saveUser(updatedUser);
 
-        /// 🔥 نفس الحالة (مايتغيرش الـ navigation)
-        emit(AuthAuthenticated());
+        emit(AuthUpdateSuccess());
       } else {
         emit(AuthUpdateError("Update failed"));
       }
     } catch (e) {
+      print("🔥 ERROR: $e");
+      if (isClosed) return;
       emit(AuthUpdateError(e.toString()));
     }
   }
+
   Future<void> logout() async {
+    emit(AuthLoading()); // optional loading
+
     await AuthLocalStorage.clearUser();
+
     emit(AuthUnauthenticated());
   }
 
@@ -244,10 +332,14 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> signup(CreateUserRequest request) async {
+    if (isClosed) return;
+
     emit(AuthSignupLoading());
 
     final bool isSuccess =
     await createUserFunction(createUserRequest: request);
+
+    if (isClosed) return;
 
     if (isSuccess) {
       emit(AuthSignupSuccess());

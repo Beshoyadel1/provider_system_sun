@@ -190,6 +190,7 @@ class _CarSelectionItemWidgetState extends State<CarSelectionItemWidget> {
                             child: Column(
                               children: [
                                 CheckboxListTile(
+                                  activeColor: AppColors.orangeColor,
                                   value: widget.controller.selectedModelIds.length ==
                                       widget.controller.models.length,
                                   dense: true,
@@ -217,6 +218,7 @@ class _CarSelectionItemWidgetState extends State<CarSelectionItemWidget> {
                                   final isSelected = widget.controller.selectedModelIds.contains(model.id);
 
                                   return CheckboxListTile(
+                                    activeColor: AppColors.orangeColor,
                                     value: isSelected,
                                     dense: true,
                                     controlAffinity: ListTileControlAffinity.leading,

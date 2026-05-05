@@ -6,6 +6,14 @@ import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../core/api/dio_function/failures.dart';
 
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:sun_web_system/core/api_functions/branch/get_provider_branches_model/get_provider_branches_request.dart';
+import 'package:sun_web_system/core/api_functions/branch/get_provider_branches_model/provider_branch_model.dart';
+import '../../../../core/api/dio_function/api_constants.dart';
+import '../../../../core/api/dio_function/dio_controller.dart';
+import '../../../../core/api/dio_function/failures.dart';
+
 Future<List<ProviderBranchModel>> getProviderBranchesFunction({
   required GetProviderBranchesRequest getProviderBranchesRequest,
 }) async {
@@ -18,13 +26,23 @@ Future<List<ProviderBranchModel>> getProviderBranchesFunction({
 
     final data = response.data;
 
-    return ProviderBranchModel.fromList(data);
+    if (data is List) {
+      return data
+          .map((e) => ProviderBranchModel.fromJson(e))
+          .toList();
+    }
 
+    return [];
   } catch (e) {
-    throw Exception(
-      e is DioException
-          ? responseOfStatusCode(e.response?.statusCode)
-          : e.toString(),
-    );
+    if (e is DioException) {
+
+      throw Exception(
+        e.response?.data.toString() ??
+            responseOfStatusCode(e.response?.statusCode),
+      );
+    } else {
+
+      throw Exception(e.toString());
+    }
   }
 }

@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/api_functions/branch/add_branch_model/add_branch_repository.dart';
 import 'package:sun_web_system/core/api_functions/branch/add_branch_model/add_branch_request.dart';
@@ -33,7 +35,14 @@ class BranchCubit extends Cubit<BranchState> {
 
       emit(BranchSuccess(branches: branches));
     } catch (e) {
-      emit(BranchError(e.toString()));
+      if (e is DioException) {
+
+        emit(BranchError(
+          e.response?.data.toString() ?? e.message ?? "Server error",
+        ));
+      } else {
+        emit(BranchError(e.toString()));
+      }
     }
   }
 
@@ -41,7 +50,7 @@ class BranchCubit extends Cubit<BranchState> {
     final current = state as BranchSuccess;
     emit(current.copyWith(
       isAdding: true,
-      editingIndex: null,
+      editingBranchId: null,
       fromSubmit: false,
     ));
   }
@@ -50,7 +59,7 @@ class BranchCubit extends Cubit<BranchState> {
     final current = state as BranchSuccess;
     emit(current.copyWith(
       isAdding: true,
-      editingIndex: index,
+      editingBranchId: index,
       fromSubmit: false,
     ));
   }
@@ -59,8 +68,8 @@ class BranchCubit extends Cubit<BranchState> {
     final current = state as BranchSuccess;
     emit(current.copyWith(
       isAdding: false,
-      editingIndex: null,
-      fromSubmit: false, // ❌ مهم جدًا
+      editingBranchId: null,
+      fromSubmit: false,
     ));
   }
 
@@ -124,6 +133,32 @@ class BranchCubit extends Cubit<BranchState> {
             );
           }
         }
+
+        emit(BranchSuccess(
+          branches: List.from(branches),
+          fromSubmit: true,
+        ));
+      }
+    } catch (e) {
+      emit(BranchError(e.toString()));
+    }
+  }
+  Future<void> deleteBranch(int branchId) async {
+    try {
+      await _initUser();
+
+      final request = AddBranchRequest(
+        branchId: branchId,
+        isActive: false,
+      );
+
+      final response = await updateBranchFunction(
+        body: request.toJson(myUserId!),
+      );
+
+      if (response.statusCode == 200) {
+        /// 👇 حدّث الليست محليًا (remove من UI)
+        branches.removeWhere((b) => b.branchId == branchId);
 
         emit(BranchSuccess(
           branches: List.from(branches),

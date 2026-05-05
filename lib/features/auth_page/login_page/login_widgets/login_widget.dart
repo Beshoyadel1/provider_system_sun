@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/features/auth_page/auth_gate.dart';
 import 'package:sun_web_system/features/auth_page/otp_page/otp_page.dart';
 import '../../../../core/api/dio_function/api_constants.dart';
 import '../../../../features/auth_page/check_email_exist/check_email_exist_page.dart';
@@ -55,10 +56,11 @@ class LoginWidget extends StatelessWidget {
 
           BlocListener<AuthCubit, AuthState>(
             listener: (context, state) {
+
               if (state is AuthAuthenticated) {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (_) => const StorePage()),
+                  NavigateToPageWidget(const AuthGate()),
                 );
               }
 
@@ -76,6 +78,7 @@ class LoginWidget extends StatelessWidget {
                   onPressed: isLoading
                       ? null
                       : () {
+
                     if (!_formKey.currentState!.validate()) return;
 
                     final loginRequest = LoginRequest(
@@ -85,6 +88,7 @@ class LoginWidget extends StatelessWidget {
                     );
 
                     context.read<AuthCubit>().login(loginRequest);
+
                   },
                 );
               },
@@ -112,4 +116,3 @@ class LoginWidget extends StatelessWidget {
     );
   }
 }
-
