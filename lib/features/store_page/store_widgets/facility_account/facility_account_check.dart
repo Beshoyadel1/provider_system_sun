@@ -95,7 +95,7 @@ class FacilityAccountCheck extends StatelessWidget {
                                       containerHeight: 45,
                                       typeWidget: const Center(
                                         child: TextInAppWidget(
-                                          text: AppLanguageKeys.login,
+                                          text: AppLanguageKeys.next,
                                           textSize: 16,
                                           textColor: Colors.white,
                                         ),

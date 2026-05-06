@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
@@ -258,7 +259,7 @@ class AuthCubit extends Cubit<AuthState> {
       final oldUser = await AuthLocalStorage.getUser();
 
       print("========== REQUEST ==========");
-      print(request.toJson());
+      print(jsonEncode(request.toJson()));
 
       final bool isSuccess = await updateUserFunction(
         createUserRequest: request,

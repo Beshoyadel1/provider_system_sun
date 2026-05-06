@@ -274,7 +274,7 @@ class PhoneTextField extends StatelessWidget {
         SizedBox(
           height: 60,
           child: IntlPhoneField(
-            initialCountryCode: 'EG',
+            initialCountryCode: 'SA',
             disableLengthCheck: false,
             readOnly: isReadOnly,
             keyboardType: TextInputType.number,

@@ -26,7 +26,7 @@ class ContainerSharedPackageDesignWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 220,
-      height: 260,
+      height: 275,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
