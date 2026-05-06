@@ -214,29 +214,35 @@ class _ServiceCardState extends State<ServiceCard> {
                                       final confirm = await showDialog<bool>(
                                         context: context,
                                         builder: (_) => AlertDialog(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(16),
+                                          ),
                                           title: const TextInAppWidget(
                                             text: AppLanguageKeys.delete,
-                                            textSize: 20,
+                                            textSize: 18,
+                                            textColor: AppColors.redColor,
                                           ),
                                           content: const TextInAppWidget(
-                                            text: AppLanguageKeys.areYouSure,
-                                            textSize: 20,
+                                            text: AppLanguageKeys.confirmDelete,
+                                            textSize: 14,
                                           ),
                                           actions: [
                                             TextButton(
-                                              onPressed: () =>
-                                                  Navigator.pop(context, false),
+                                              onPressed: () => Navigator.pop(context,false),
                                               child: const TextInAppWidget(
                                                 text: AppLanguageKeys.cancel,
-                                                textSize: 20,
+                                                textSize: 14,
                                               ),
                                             ),
-                                            TextButton(
-                                              onPressed: () =>
-                                                  Navigator.pop(context, true),
+                                            ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: AppColors.redColor,
+                                              ),
+                                              onPressed: () => Navigator.pop(context, true),
                                               child: const TextInAppWidget(
+                                                textSize: 14,
                                                 text: AppLanguageKeys.delete,
-                                                textSize: 20,
+                                                textColor: AppColors.whiteColor,
                                               ),
                                             ),
                                           ],

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/core/theming/colors.dart';
 import '../../../../../../../../core/api_functions/product/get_products_by_category_model/product_model_get_products_by_category.dart';
 import '../../../../../../../../core/language/language_constant.dart';
 import '../../../../../../../../core/pages_widgets/general_widgets/snakbar.dart';
@@ -40,7 +41,6 @@ class DataContainerInListDataEditDeleteSparePartsInServiceSettings
                 nameCategory: product.category?.getName(context) ?? "",
                 imageProduct: product.image,
                 nameProduct: product.getName(context),
-
                 onTapDelete: () {
                   showDialog(
                     context: context,
@@ -64,16 +64,18 @@ class DataContainerInListDataEditDeleteSparePartsInServiceSettings
                             final isLoading = state is DeleteProductLoading;
 
                             return AlertDialog(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
                               title: const TextInAppWidget(
                                 text: AppLanguageKeys.delete,
-                                textSize: 20,
+                                textSize: 18,
+                                textColor: AppColors.redColor,
                               ),
-
-                              content:const TextInAppWidget(
-                                text: AppLanguageKeys.areYouSure,
-                                textSize: 20,
+                              content: const TextInAppWidget(
+                                text: AppLanguageKeys.confirmDelete,
+                                textSize: 14,
                               ),
-
                               actions: [
                                 TextButton(
                                   onPressed: isLoading
@@ -81,11 +83,13 @@ class DataContainerInListDataEditDeleteSparePartsInServiceSettings
                                       : () => Navigator.pop(dialogContext),
                                   child: const TextInAppWidget(
                                     text: AppLanguageKeys.cancel,
-                                    textSize: 20,
+                                    textSize: 14,
                                   ),
                                 ),
-
-                                TextButton(
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppColors.redColor,
+                                  ),
                                   onPressed: isLoading
                                       ? null
                                       : () {
@@ -95,15 +99,14 @@ class DataContainerInListDataEditDeleteSparePartsInServiceSettings
                                   },
                                   child: isLoading
                                       ? const SizedBox(
-                                    height: 16,
-                                    width: 16,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                    ),
+                                    height: 18,
+                                    width: 18,
+                                    child: CircularProgressIndicator(strokeWidth: 2),
                                   )
                                       : const TextInAppWidget(
+                                    textSize: 14,
                                     text: AppLanguageKeys.delete,
-                                    textSize: 20,
+                                    textColor: AppColors.whiteColor,
                                   ),
                                 ),
                               ],

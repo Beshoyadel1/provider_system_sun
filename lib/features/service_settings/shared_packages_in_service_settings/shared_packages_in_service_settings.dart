@@ -58,13 +58,12 @@ class SharedPackagesInServiceSettings extends StatelessWidget {
                         value: context.read<ProviderPackagesCubit>(),
                       ),
 
-                      /// ✅ FIX: create بدون package
                       BlocProvider(
                         create: (_) => GetTaxCubit()..getTax(),
                       ),
                     ],
                     child: const CreatePackageDialog(
-                      package: null, // ✅ مهم جدًا
+                      package: null,
                     ),
                   ),
                 );
@@ -81,93 +80,3 @@ class SharedPackagesInServiceSettings extends StatelessWidget {
     );
   }
 }
-/*
-*  BlocBuilder<ProviderPackagesCubit, ProviderPackagesState>(
-        builder: (context, state) {
-          if (state is ProviderPackagesLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          if (state is ProviderPackagesSuccess) {
-            final packages = state.packages;
-
-            return SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: packages.map((e) {
-                  final package = e.package;
-
-                  final itemsList =
-                  package.items.split(',').map((e) => e.trim()).toList();
-
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: ContainerSharedPackageDesignWidget(
-                      textPackage: package.getLocalizedName(context),
-                      price: package.price.toString(),
-                      items: itemsList,
-
-                        onPressedEdit: () async {
-                          final result = await showDialog(
-                            context: context,
-                            builder: (_) => MultiBlocProvider(
-                              providers: [
-                                BlocProvider.value(
-                                  value: context.read<ProviderPackagesCubit>(),
-                                ),
-                                BlocProvider(
-                                  create: (_) => GetTaxCubit()
-                                    ..getTaxAndSelect(package.taxId),
-                                ),
-                              ],
-                              child: CreatePackageDialog(
-                                package: package,
-                              ),
-                            ),
-                          );
-
-                          if (result == true) {
-                            context.read<ProviderPackagesCubit>().getPackages();
-                          }
-                        },
-
-                      onPressedDelete: () async {
-                        final confirm = await showDialog(
-                          context: context,
-                          builder: (_) => AlertDialog(
-                            title: const Text("Confirm Delete"),
-                            content: const Text(
-                                "Are you sure you want to delete this package?"),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context, false),
-                                child: const Text("Cancel"),
-                              ),
-                              TextButton(
-                                onPressed: () => Navigator.pop(context, true),
-                                child: const Text("Delete"),
-                              ),
-                            ],
-                          ),
-                        );
-
-                        if (confirm == true) {
-                          context.read<ProviderPackagesCubit>().deletePackage(
-                                id: package.id,
-                              );
-                        }
-                      },
-                    ),
-                  );
-                }).toList(),
-              ),
-            );
-          }
-
-          if (state is ProviderPackagesError) {
-            return Text(state.message);
-          }
-
-          return const SizedBox();
-        },
-      ),*/
