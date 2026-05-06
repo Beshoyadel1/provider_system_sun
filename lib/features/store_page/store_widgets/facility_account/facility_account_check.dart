@@ -23,6 +23,7 @@ class FacilityAccountCheck extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.scaffoldColor,
       body: BlocProvider(
         create: (context) => FacilityTabCubit(),
         child: BlocConsumer<AuthCubit, AuthState>(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/core/theming/colors.dart';
 import 'package:sun_web_system/features/dashboard_page/logic/get_provider_service_statistics_cubit/get_provider_service_statistics_cubit.dart';
 import 'package:sun_web_system/features/dashboard_page/logic/get_provider_total_rate_and_employee_and_balance_cubit/get_provider_total_rate_and_employee_and_balance_cubit.dart';
 import 'package:sun_web_system/features/dashboard_page/widgets/list_custom_chart.dart';
@@ -14,45 +15,48 @@ class DashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SingleChildScrollView(
-        child: Center(
-          child: MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (_) => GetProviderServiceStatisticsCubit()
-                  ..getProviderServiceStatistics(),
-              ),
-              BlocProvider(
-                create: (_) => GetProviderTotalRateAndEmployeeAndBalanceCubit()
-                  ..getProviderTotalRateAndEmployeeAndBalance(),
-              )
-            ],
-            child: const Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Center(
-                  child: Wrap(
-                    alignment: WrapAlignment.center,
-                    spacing: 10,
-                    runSpacing: 10,
-                    children: [
-                      ListCustomChart(),
-                      AccountBalance(),
-                      ChartOrder(),
-                      Column(
-                        spacing: 5,
-                        children: [
-                          ServicesEvaluation(),
-                          ServicesStatistics(),
-                        ],
-                      ),
-                      EmployeesPerformance(),
-                    ],
-                  ),
+    return Scaffold(
+      backgroundColor: AppColors.scaffoldColor,
+      body: Center(
+        child: SingleChildScrollView(
+          child: Center(
+            child: MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (_) => GetProviderServiceStatisticsCubit()
+                    ..getProviderServiceStatistics(),
                 ),
+                BlocProvider(
+                  create: (_) => GetProviderTotalRateAndEmployeeAndBalanceCubit()
+                    ..getProviderTotalRateAndEmployeeAndBalance(),
+                )
               ],
+              child: const Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child: Wrap(
+                      alignment: WrapAlignment.center,
+                      spacing: 10,
+                      runSpacing: 10,
+                      children: [
+                        ListCustomChart(),
+                        AccountBalance(),
+                        ChartOrder(),
+                        EmployeesPerformance(),
+                        Column(
+                          spacing: 5,
+                          children: [
+                            ServicesEvaluation(),
+                            ServicesStatistics(),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

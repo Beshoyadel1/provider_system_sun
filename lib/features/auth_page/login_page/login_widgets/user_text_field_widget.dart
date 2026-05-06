@@ -55,7 +55,6 @@ class UserTextFieldWidget extends StatelessWidget {
           borderColor: AppColors.darkGreyColor,
           fillColor: AppColors.whiteColor,
           textFormHeight: 35,
-
         );
       } else {
         child = PhoneTextField(
@@ -92,8 +91,13 @@ class UserTextFieldWidget extends StatelessWidget {
             borderColor: AppColors.darkGreyColor,
             fillColor: AppColors.whiteColor,
             textFormHeight: 35,
-
             obscureText: !isVisible,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return AppLanguageKeys.enterYourData;
+              }
+              return null;
+            },
 
             suffixIcon: isVisible
                 ? Icons.visibility
@@ -120,6 +124,12 @@ class UserTextFieldWidget extends StatelessWidget {
         borderColor: AppColors.darkGreyColor,
         fillColor: AppColors.whiteColor,
         textFormHeight: 35,
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return AppLanguageKeys.enterYourData;
+          }
+          return null;
+        },
       );
     }
 
@@ -198,7 +208,7 @@ class _GenderFieldState extends State<GenderField> {
             child: DropdownButton<String>(
               value: selectedValue,
               isExpanded: true,
-              hint: TextInAppWidget(
+              hint: const TextInAppWidget(
                 text: AppLanguageKeys.selectGender,
                 textSize: 14,
               ),

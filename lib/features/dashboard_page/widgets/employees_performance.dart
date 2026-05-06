@@ -19,7 +19,7 @@ class EmployeesPerformance extends StatelessWidget {
     bool isMobile = size.width <= 1280;
     return CustomContainer(
       containerWidth:isMobile?double.infinity: 500,
-      containerHeight: 350,
+      containerHeight: 504,
       borderRadius: BorderRadius.circular(20),
       isSelected: false,
       onTap: () {},

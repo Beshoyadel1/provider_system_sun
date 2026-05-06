@@ -29,7 +29,7 @@ class ListCustomChart extends StatelessWidget {
           final data = state.data.summaryCards;
 
           if (data.isEmpty) {
-            return const TextEmptyViewData();
+            return const SizedBox();
           }
 
           return LayoutBuilder(

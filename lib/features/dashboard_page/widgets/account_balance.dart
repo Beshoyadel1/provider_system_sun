@@ -23,7 +23,7 @@ class AccountBalance extends StatelessWidget {
             ? state.data.accountsBalance
             : [];
         if (data.isEmpty) {
-          return const TextEmptyViewData();
+          return const SizedBox();
         }
         return CustomContainer(
           containerWidth: isMobile?double.infinity:520,

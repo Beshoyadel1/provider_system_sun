@@ -19,73 +19,71 @@ class FacilityAccount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocProvider(
-        create: (context) => FacilityTabCubit(),
-        child: BlocBuilder<FacilityTabCubit, FacilityTabState>(
-          buildWhen: (previous, current) => current is ChangeIndexState,
-          builder: (context, state) {
-            return Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    CustomContainer(
-                      containerWidth: double.infinity,
-                      isSelected: false,
-                      border: const Border(
-                        top: BorderSide(color: AppColors.lightGreyColor),
-                        left: BorderSide(color: AppColors.lightGreyColor),
-                        right: BorderSide(color: AppColors.lightGreyColor),
-                      ),
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        topRight: Radius.circular(10),
-                      ),
-                      typeWidget: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const TextInAppWidget(
-                            text: AppLanguageKeys.continueFacilityDataKey,
-                            textSize: 22,
-                            fontWeightIndex: FontSelectionData.mediumFontFamily,
-                          ),
-                          const SizedBox(height: 10),
-                          const TabsWidget(),
-                          const SizedBox(height: 30),
-                          facilityTabs[
-                                  context.read<FacilityTabCubit>().selectedIndex]
-                              .content,
-                          const SizedBox(height: 100),
-                        ],
-                      ),
-                      onTap: () {},
+    return BlocProvider(
+      create: (context) => FacilityTabCubit(),
+      child: BlocBuilder<FacilityTabCubit, FacilityTabState>(
+        buildWhen: (previous, current) => current is ChangeIndexState,
+        builder: (context, state) {
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  CustomContainer(
+                    containerWidth: double.infinity,
+                    isSelected: false,
+                    border: const Border(
+                      top: BorderSide(color: AppColors.lightGreyColor),
+                      left: BorderSide(color: AppColors.lightGreyColor),
+                      right: BorderSide(color: AppColors.lightGreyColor),
                     ),
-                    const SizedBox(height: 20),
-                    // BlocBuilder<FacilityTabCubit, FacilityTabState>(
-                    //   builder: (context, state) {
-                    //     final cubit = context.read<FacilityTabCubit>();
-                    //     final isLastTab =
-                    //         cubit.selectedIndex == facilityTabs.length - 1;
-                    //     return isLastTab
-                    //         ? NavigatorButton(
-                    //             textGrayButton: AppLanguageKeys.backKey,
-                    //             onTapGrayButton: () => cubit.previousTab(),
-                    //           )
-                    //         : NavigatorButton(
-                    //             textOrangeButton: AppLanguageKeys.nextKey,
-                    //             textGrayButton: AppLanguageKeys.backKey,
-                    //             onTapGrayButton: () => cubit.previousTab(),
-                    //             onTapOrangeButton: () => cubit.nextTab(),
-                    //           );
-                    //   },
-                    // ),
-                  ],
-                ),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
+                    ),
+                    typeWidget: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const TextInAppWidget(
+                          text: AppLanguageKeys.continueFacilityDataKey,
+                          textSize: 22,
+                          fontWeightIndex: FontSelectionData.mediumFontFamily,
+                        ),
+                        const SizedBox(height: 10),
+                        const TabsWidget(),
+                        const SizedBox(height: 30),
+                        facilityTabs[
+                        context.read<FacilityTabCubit>().selectedIndex]
+                            .content,
+                        const SizedBox(height: 100),
+                      ],
+                    ),
+                    onTap: () {},
+                  ),
+                  const SizedBox(height: 20),
+                  // BlocBuilder<FacilityTabCubit, FacilityTabState>(
+                  //   builder: (context, state) {
+                  //     final cubit = context.read<FacilityTabCubit>();
+                  //     final isLastTab =
+                  //         cubit.selectedIndex == facilityTabs.length - 1;
+                  //     return isLastTab
+                  //         ? NavigatorButton(
+                  //             textGrayButton: AppLanguageKeys.backKey,
+                  //             onTapGrayButton: () => cubit.previousTab(),
+                  //           )
+                  //         : NavigatorButton(
+                  //             textOrangeButton: AppLanguageKeys.nextKey,
+                  //             textGrayButton: AppLanguageKeys.backKey,
+                  //             onTapGrayButton: () => cubit.previousTab(),
+                  //             onTapOrangeButton: () => cubit.nextTab(),
+                  //           );
+                  //   },
+                  // ),
+                ],
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }
