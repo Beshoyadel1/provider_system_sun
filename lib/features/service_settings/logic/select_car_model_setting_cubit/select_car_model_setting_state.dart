@@ -1,4 +1,4 @@
-import 'package:sun_web_system/core/api_functions/general/car/car_brand/get_car_brand_models_model/car_brand_data_model.dart';
+import 'package:sun_web_system/features/cars_haraj_page/data/model/get_car_brand_models_model/car_brand_data_model.dart';
 import 'package:sun_web_system/core/api_functions/general/car/car_model/get_car_brand_models/car_model_data_model.dart';
 
 

@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
 import 'package:sun_web_system/core/pages_widgets/general_widgets/snakbar.dart';
-import 'package:sun_web_system/features/auth_page/auth_cubit/auth_cubit.dart';
-import 'package:sun_web_system/features/auth_page/auth_cubit/auth_state.dart';
-import 'package:sun_web_system/features/auth_page/login_page/login_page.dart';
-import 'package:sun_web_system/features/store_page/store_page.dart';
+import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_cubit.dart';
+import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_state.dart';
 import '../../../../../../features/store_page/store_widgets/car_model_widget/widgets/tabs_widget.dart';
-import '../../../../../../features/store_page/store_widgets/navigator_button.dart';
 import '../../../../../../../features/store_page/model/facility_model/facility_model.dart';
 import '../../../../../../../features/store_page/model/facility_cubit/facility_tab_cubit/facility_tab_cubit.dart';
 import '../../../../../../../features/store_page/model/facility_cubit/facility_tab_cubit/facility_tab_state.dart';
@@ -87,7 +83,6 @@ class FacilityAccountCheck extends StatelessWidget {
                                     child: CustomContainer(
                                       isSelected: false,
                                       onTap: () {
-                                        print("🔘 CHECK BUTTON CLICKED");
                                           context.read<AuthCubit>().reCheckFacility();
                                       },
                                       containerColor:
@@ -95,7 +90,7 @@ class FacilityAccountCheck extends StatelessWidget {
                                       containerHeight: 45,
                                       typeWidget: const Center(
                                         child: TextInAppWidget(
-                                          text: AppLanguageKeys.next,
+                                          text: AppLanguageKeys.enterSystem,
                                           textSize: 16,
                                           textColor: Colors.white,
                                         ),
@@ -109,8 +104,6 @@ class FacilityAccountCheck extends StatelessWidget {
                                     child: CustomContainer(
                                       isSelected: false,
                                       onTap: () {
-                                        print("🚪 LOGOUT CLICKED");
-
                                         context
                                             .read<AuthCubit>()
                                             .logout();

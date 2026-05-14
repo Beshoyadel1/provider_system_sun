@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../../core/api/dio_function/api_constants.dart';
 import '../../../../../../../core/api_functions/chat/get_work_team_chat_model/get_work_team_chat_repository.dart';
 import '../../../../../../../core/api_functions/chat/get_work_team_chat_model/get_work_team_chat_request.dart';
-import '../../../../../../../core/api_functions/user/login_model/login_repository.dart';
+import '../../../auth_page/data/datasource/login_datasource/login_repository.dart';
 import '../../../../../../../features/technical_support/logic/work_team_cubit/work_team_state.dart';
 
 class WorkTeamCubit extends Cubit<WorkTeamState> {

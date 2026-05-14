@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/api_functions/provider_management/create_prov_service_model/brand_model_create_prov_service_request.dart';
 import 'package:sun_web_system/core/api_functions/provider_management/create_prov_service_model/car_model_create_prov_service_request.dart';
-import 'package:sun_web_system/core/api_functions/user/login_model/login_repository.dart';
+import 'package:sun_web_system/features/auth_page/data/datasource/login_datasource/login_repository.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
 import 'create_prov_service_state.dart';
 import '../../../../core/api_functions/provider_management/create_prov_service_model/create_prov_service_request.dart';

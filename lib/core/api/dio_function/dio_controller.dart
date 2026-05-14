@@ -8,6 +8,13 @@ class Network {
       receiveDataWhenStatusError: true,
       connectTimeout: const Duration(seconds: 20),
       receiveTimeout: const Duration(seconds: 20),
+
+      followRedirects: true,
+      maxRedirects: 5,
+
+      validateStatus: (status) {
+        return status != null && status < 500;
+      },
     ),
   );
 

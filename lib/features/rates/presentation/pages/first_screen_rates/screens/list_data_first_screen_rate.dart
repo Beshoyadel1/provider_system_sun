@@ -1,0 +1,57 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
+import 'package:sun_web_system/features/internal_services/presentation/cubit/loading_dashboard/loading_dashboard_cubit.dart';
+import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/custom_widget/text_empty_view_data.dart';
+import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/first_screen_internal_orders/screens/container_image_title_with_sub_title/first_row_with_two_container_image_and_two_text.dart';
+import 'package:sun_web_system/features/rates/presentation/bloc/cubit_rates/provider_rates_cubit.dart';
+import 'package:sun_web_system/features/rates/presentation/bloc/cubit_rates/provider_rates_state.dart';
+import '../../../../../../features/rates/presentation/pages/first_screen_rates/screens/container_review_data_person_design/list_data_container_review_data_person_design.dart';
+import '../../../../../../features/rates/presentation/pages/first_screen_rates/screens/title_total_rate_in_list_data_first_screen_rate.dart';
+import '../../../../../../features/rates/presentation/pages/first_screen_rates/screens/first_title_in_list_data_first_screen_rate.dart';
+
+class ListDataFirstScreenRate extends StatelessWidget {
+  const ListDataFirstScreenRate({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ProviderRatesCubit, ProviderRatesState>(
+      builder: (context, state) {
+        if (state is ProviderRatesLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (state is ProviderRatesError) {
+          return Center(child: Text(state.message));
+        }
+
+        if (state is ProviderRatesSuccess) {
+          if (state.rates.isEmpty) {
+            return const TextEmptyViewData();
+          }
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 30,
+            children: [
+              const FirstTitleInListDataFirstScreenRate(),
+              BlocProvider(
+                  create: (_) => InternalOrdersCubit()
+                    ..getStatistics(
+                      mainServiceId: MainCategoryConstants
+                          .maintenanceAndInternalServicesID,
+                    ),
+                  child: const FirstRowWithTwoContainerImageAndTwoText()),
+              TitleTotalRateInListDataFirstScreenRate(
+                averageRate: state.averageRate,
+              ),
+              ListDataContainerReviewDataPersonDesign(
+                rates: state.rates,
+              ),
+            ],
+          );
+        }
+        return const SizedBox();
+      },
+    );
+  }
+}

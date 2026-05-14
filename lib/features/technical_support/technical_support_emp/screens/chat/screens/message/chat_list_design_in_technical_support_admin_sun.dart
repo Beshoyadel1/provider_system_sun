@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:sun_web_system/core/theming/text_styles.dart';
-import '../../../../../../../features/internal_services/internal_orders/first_screen_internal_orders/logic/order_funcations/order_functions.dart';
+import 'package:sun_web_system/features/internal_services/presentation/cubit/order_funcations/order_functions.dart';
 import '../../../../../../../features/technical_support/logic/chat_details_cubit/chat_details_cubit.dart';
 import '../../../../../../../features/technical_support/logic/chat_details_cubit/chat_details_state.dart';
 import '../../../../../../../features/technical_support/technical_support_emp/screens/chat/screens/message/text_direction_technical_support_admin_sun.dart';

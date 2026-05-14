@@ -1,7 +1,7 @@
 // import 'package:flutter/material.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:sun_web_system/features/service_settings/logic/select_car_model_setting_cubit/select_car_model_setting_cubit.dart';
-// import 'package:sun_web_system/features/service_settings/logic/select_car_model_setting_cubit/select_car_model_setting_state.dart';
+// import 'package:sun_web_system/features/service_settings/cubit/select_car_model_setting_cubit/select_car_model_setting_cubit.dart';
+// import 'package:sun_web_system/features/service_settings/cubit/select_car_model_setting_cubit/select_car_model_setting_state.dart';
 // import '../../../../custom_widget/select_model_car_text_image_orange_line_widget.dart';
 //
 // class ListOfChooseModelCarInSecondContainerFirstScreenCarModelSettings

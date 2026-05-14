@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/features/internal_services/internal_orders/custom_widget/text_empty_view_data.dart';
+import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/custom_widget/text_empty_view_data.dart';
 import '../../../../../features/technical_support/logic/chat_details_cubit/chat_details_cubit.dart';
-import '../../../../../features/internal_services/internal_orders/first_screen_internal_orders/logic/order_funcations/order_functions.dart';
+import 'package:sun_web_system/features/internal_services/presentation/cubit/order_funcations/order_functions.dart';
 import '../../../../../features/technical_support/custom_widget/row_message_support_widget.dart';
 import '../../../../../features/technical_support/logic/message_cubit/message_cubit.dart';
 import '../../../../../features/technical_support/logic/message_cubit/message_state.dart';

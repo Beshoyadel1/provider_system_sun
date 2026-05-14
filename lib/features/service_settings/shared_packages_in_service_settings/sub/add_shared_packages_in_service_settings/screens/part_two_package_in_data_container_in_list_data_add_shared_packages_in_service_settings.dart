@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import '../../../../../../../../core/theming/assets.dart';
-import '../../../../../../../../features/permissions/custom_widget/check_box_with_text_widget.dart';
+import '../../../../../../../../features/permissions/presentation/custom_widget/check_box_with_text_widget.dart';
 import '../../../../../../../../core/theming/colors.dart';
 import '../../../../../../../../core/theming/fonts.dart';
 import '../../../../../../../../core/theming/text_styles.dart';

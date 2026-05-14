@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/core/pages_widgets/general_widgets/snakbar.dart';
-import 'package:sun_web_system/features/auth_page/auth_cubit/auth_cubit.dart';
-import 'package:sun_web_system/features/auth_page/auth_cubit/auth_state.dart';
 import '../../../../../../features/store_page/store_widgets/car_model_widget/widgets/tabs_widget.dart';
-import '../../../../../../features/store_page/store_widgets/navigator_button.dart';
 import '../../../../../../../features/store_page/model/facility_model/facility_model.dart';
 import '../../../../../../../features/store_page/model/facility_cubit/facility_tab_cubit/facility_tab_cubit.dart';
 import '../../../../../../../features/store_page/model/facility_cubit/facility_tab_cubit/facility_tab_state.dart';

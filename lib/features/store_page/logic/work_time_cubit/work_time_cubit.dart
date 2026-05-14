@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/core/api_functions/user/login_model/login_repository.dart';
+import 'package:sun_web_system/features/auth_page/data/datasource/login_datasource/login_repository.dart';
 import 'package:sun_web_system/core/api_functions/work_time/delete_provider_work_time_model/delete_provider_work_time_repository.dart';
 import 'package:sun_web_system/core/api_functions/work_time/delete_provider_work_time_model/delete_provider_work_time_request.dart';
 import 'package:sun_web_system/core/api_functions/work_time/get_provider_work_time_model/get_provider_work_time_repository.dart';

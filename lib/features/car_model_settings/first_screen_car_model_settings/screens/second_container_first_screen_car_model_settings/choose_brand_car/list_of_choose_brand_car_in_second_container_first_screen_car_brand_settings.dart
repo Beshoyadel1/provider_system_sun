@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/core/api_functions/general/car/car_brand/get_car_brand_models_model/car_brand_data_model.dart';
+import 'package:sun_web_system/features/cars_haraj_page/data/model/get_car_brand_models_model/car_brand_data_model.dart';
 import 'package:sun_web_system/features/service_settings/logic/select_car_model_setting_cubit/select_car_model_setting_cubit.dart';
 import 'package:sun_web_system/features/service_settings/logic/select_car_model_setting_cubit/select_car_model_setting_state.dart';
 import '../../../../custom_widget/select_model_car_text_image_orange_line_widget.dart';

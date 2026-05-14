@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/features/auth_page/auth_cubit/auth_cubit.dart';
 import 'package:sun_web_system/features/store_page/logic/branch_cubit/branch_cubit.dart';
 import 'package:sun_web_system/features/store_page/logic/work_time_cubit/work_time_cubit.dart';
 import 'package:sun_web_system/features/store_page/model/location_cubit/location_cubit.dart';

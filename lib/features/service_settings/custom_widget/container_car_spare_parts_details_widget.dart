@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:sun_web_system/core/theming/fonts.dart';
-import 'package:sun_web_system/features/internal_services/internal_orders/custom_widget/row_number_coin_widget.dart';
+import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/custom_widget/row_number_coin_widget.dart';
 import 'package:sun_web_system/features/service_settings/custom_widget/wrap_number_coin_widget.dart';
 import '../../../../../core/language/language_constant.dart';
 import '../../../../../core/theming/assets.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
-import 'package:sun_web_system/features/internal_services/internal_orders/custom_widget/text_empty_view_data.dart';
+import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/custom_widget/text_empty_view_data.dart';
 import 'package:sun_web_system/features/service_settings/added_maintenance_and_internal_services_in_service_settings/logic/Details_container_setting_cubit.dart';
 import 'package:sun_web_system/features/service_settings/car_spare_parts_in_service_settings/sub/edit_delete_spare_parts_in_service_settings/edit_delete_spare_parts_in_service_settings.dart';
 import 'package:sun_web_system/features/service_settings/custom_widget/container_car_spare_parts_details_widget.dart';

@@ -7,7 +7,7 @@ import '../../../../core/api_functions/provider_management/update_prov_service_m
 import '../../../../core/api_functions/provider_management/update_prov_service_model/update_prov_service_request.dart';
 import '../../../../core/api_functions/provider_management/delete_prov_service_model/delete_prov_service_repository.dart';
 import '../../../../core/api_functions/provider_management/delete_prov_service_model/delete_prov_service_request.dart';
-import '../../../../core/api_functions/user/login_model/login_repository.dart';
+import '../../../auth_page/data/datasource/login_datasource/login_repository.dart';
 import '../../../../core/api/dio_function/failures.dart';
 import '../../../../features/service_settings/logic/prov_services_cubit/prov_services_state.dart';
 

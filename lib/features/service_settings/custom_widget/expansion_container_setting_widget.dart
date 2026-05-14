@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/first_screen_internal_orders/screens/big_container_of_new_orders/Container_view_all_in_first_row_in_data_container_in_list_data_first_screen_internal_orders.dart';
 import 'package:sun_web_system/features/service_settings/logic/prov_services_cubit/prov_services_cubit.dart';
 import '../../../../../core/api_functions/provider_management/create_prov_service_model/create_prov_service_request.dart';
 import '../../../../../core/language/language_constant.dart';
@@ -11,7 +12,6 @@ import '../../../../../features/service_settings/added_maintenance_and_internal_
 import '../../../../../features/service_settings/logic/create_prov_service_cubit/create_prov_service_cubit.dart';
 import '../../../../../features/service_settings/logic/create_prov_service_cubit/create_prov_service_state.dart';
 import '../../../../../features/service_settings/logic/get_tax_cubit/get_tax_cubit.dart';
-import '../../../../../features/internal_services/internal_orders/first_screen_internal_orders/screens/big_container_of_new_orders/Container_view_all_in_first_row_in_data_container_in_list_data_first_screen_internal_orders.dart';
 import '../../../../../features/service_settings/added_maintenance_and_internal_services_in_service_settings/logic/Details_container_setting_state.dart';
 import '../../../../../features/service_settings/logic/select_car_model_setting_cubit/select_car_model_setting_cubit.dart';
 import '../../../../../features/service_settings/logic/select_car_model_setting_cubit/select_car_model_setting_state.dart';

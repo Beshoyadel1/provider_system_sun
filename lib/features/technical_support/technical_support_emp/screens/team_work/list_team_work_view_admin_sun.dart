@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/features/internal_services/internal_orders/custom_widget/text_empty_view_data.dart';
+import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/custom_widget/text_empty_view_data.dart';
 import '../../../../../features/technical_support/custom_widget/row_member_team_work_widget.dart';
 import '../../../../../features/technical_support/logic/work_team_cubit/work_team_cubit.dart';
 import '../../../../../features/technical_support/logic/work_team_cubit/work_team_state.dart';

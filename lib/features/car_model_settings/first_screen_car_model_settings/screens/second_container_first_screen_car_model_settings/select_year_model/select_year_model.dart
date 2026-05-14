@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:sun_web_system/features/internal_services/internal_orders/custom_widget/select_time_profit_service_widget.dart';
+import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/custom_widget/select_time_profit_service_widget.dart';
 import '../../../../../../../../core/language/language_constant.dart';
 import '../../../../../../../../core/theming/colors.dart';
 import '../../../../../../../../core/theming/fonts.dart';

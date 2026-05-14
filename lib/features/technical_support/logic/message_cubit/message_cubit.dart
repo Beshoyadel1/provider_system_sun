@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/api_functions/chat/get_user_chats_model/get_user_chats_repository.dart';
 import '../../../../core/api_functions/chat/get_user_chats_model/get_user_chats_request.dart';
-import '../../../../core/api_functions/user/login_model/login_repository.dart';
+import '../../../auth_page/data/datasource/login_datasource/login_repository.dart';
 import '../../../../features/technical_support/logic/message_cubit/message_state.dart';
 
 class MessageCubit extends Cubit<MessageState> {

@@ -5,7 +5,7 @@ import '../../../../core/api_functions/chat/send_message_model/send_message_repo
 import '../../../../core/api_functions/chat/send_message_model/send_message_request.dart';
 import '../../../../core/api_functions/chat/get_chat_messages_model/get_chat_messages_repository.dart';
 import '../../../../core/api_functions/chat/get_chat_messages_model/get_chat_messages_request.dart';
-import '../../../../core/api_functions/user/login_model/login_repository.dart';
+import '../../../auth_page/data/datasource/login_datasource/login_repository.dart';
 import 'chat_details_state.dart';
 
 class ChatDetailsCubit extends Cubit<ChatDetailsState> {

@@ -6,7 +6,7 @@ import 'package:sun_web_system/core/api_functions/branch/add_branch_model/add_br
 import 'package:sun_web_system/core/api_functions/branch/get_provider_branches_model/get_provider_branches_repository.dart';
 import 'package:sun_web_system/core/api_functions/branch/get_provider_branches_model/provider_branch_model.dart';
 import 'package:sun_web_system/core/api_functions/branch/update_branch_model/update_branch_repository.dart';
-import 'package:sun_web_system/core/api_functions/user/login_model/login_repository.dart';
+import 'package:sun_web_system/features/auth_page/data/datasource/login_datasource/login_repository.dart';
 import 'branch_state.dart';
 import '../../../../core/api_functions/branch/get_provider_branches_model/get_provider_branches_request.dart';
 

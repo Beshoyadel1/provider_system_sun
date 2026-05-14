@@ -3,22 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/pages_widgets/general_widgets/snakbar.dart';
 import 'package:sun_web_system/core/pages_widgets/text_form_field_widget.dart';
 import 'package:sun_web_system/core/utilies/map_of_all_app.dart';
-import 'package:sun_web_system/features/auth_page/login_page/login_widgets/user_text_field_widget.dart';
-import 'package:sun_web_system/features/internal_services/internal_orders/first_screen_internal_orders/logic/order_funcations/order_functions.dart';
-
-import '../../../../../../core/api_functions/user/create_user_model/create_user_request.dart';
-import '../../../../../../core/api_functions/user/create_user_model/provider_details_request.dart';
-import '../../../../../../core/api_functions/user/login_model/login_repository.dart';
+import '../../../../auth_page/data/model/create_user_model/create_user_request.dart';
+import '../../../../auth_page/data/model/create_user_model/provider_details_request.dart';
+import '../../../../auth_page/data/datasource/login_datasource/login_repository.dart';
 import '../../../../../../core/language/language_constant.dart';
 import '../../../../../../core/theming/colors.dart';
 import '../../../../../../core/theming/text_styles.dart';
 
-import '../../../../../../features/auth_page/auth_cubit/auth_cubit.dart';
-import '../../../../../../features/auth_page/auth_cubit/auth_state.dart';
-
-import '../../../../../../features/store_page/model/facility_cubit/facility_tab_cubit/facility_tab_cubit.dart';
-
-import '../../general_widgets_in_store/attach_file.dart';
+import '../../../../../../features/auth_page/presentation/bloc/auth_cubit/auth_cubit.dart';
+import '../../../../../../features/auth_page/presentation/bloc/auth_cubit/auth_state.dart';
 
 class BankAccountContent extends StatefulWidget {
   const BankAccountContent({super.key});

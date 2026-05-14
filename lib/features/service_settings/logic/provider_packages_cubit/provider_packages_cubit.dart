@@ -12,7 +12,7 @@ import 'package:sun_web_system/core/api_functions/provider_management/update_pro
 import 'package:sun_web_system/core/api_functions/provider_management/update_prov_service_model/update_prov_service_request.dart';
 import 'package:sun_web_system/core/api_functions/provider_management/update_service_package_model/update_service_package_repository.dart';
 import 'package:sun_web_system/core/api_functions/provider_management/update_service_package_model/update_service_package_request.dart';
-import 'package:sun_web_system/core/api_functions/user/login_model/login_repository.dart';
+import 'package:sun_web_system/features/auth_page/data/datasource/login_datasource/login_repository.dart';
 import 'package:sun_web_system/features/service_settings/logic/provider_packages_cubit/provider_packages_state.dart';
 
 class ProviderPackagesCubit extends Cubit<ProviderPackagesState> {

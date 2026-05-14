@@ -28,7 +28,7 @@ import '../../../../../../../../features/service_settings/logic/get_tax_cubit/ge
 import '../../../../../../../../features/service_settings/logic/get_tax_cubit/get_tax_state.dart';
 import '../../../../../../../../features/service_settings/logic/select_car_model_setting_cubit/select_car_model_setting_cubit.dart';
 import '../../../../../../../../features/advertisements/first_screen_advertisements/screens/last_button_in_list_data_first_screen_advertisements.dart';
-import '../../../../../../../../features/permissions/custom_widget/text_with_container_as_column_widget.dart';
+import '../../../../../../../../features/permissions/presentation/custom_widget/text_with_container_as_column_widget.dart';
 import '../../../../../../../../core/language/language_constant.dart';
 import 'package:image_picker/image_picker.dart';
 
