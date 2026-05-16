@@ -12,7 +12,7 @@ import 'package:sun_web_system/features/order_status_design/presentation/pages/o
 import 'package:sun_web_system/features/order_status_design/presentation/pages/order_details_new_order_emp/screens/part_left_screen/button_accept_reject_order.dart';
 import 'package:sun_web_system/features/order_status_design/presentation/pages/order_details_new_order_emp/screens/part_left_screen/container_contact_with_customer_order_details_new_order_emp.dart';
 import 'package:sun_web_system/features/order_status_design/presentation/pages/order_details_new_order_emp/screens/part_left_screen/data_time_line_tile_order_details_new_order_emp.dart';
-import 'package:sun_web_system/features/service_settings/first_screen_service_settings/screens/container_return_to_page_setting.dart';
+import 'package:sun_web_system/features/service_settings/presentation/pages/first_screen_service_settings/screens/container_return_to_page_setting.dart';
 
 
 class DataContainerInListOrderDetailsNewOrderEmp extends StatelessWidget {

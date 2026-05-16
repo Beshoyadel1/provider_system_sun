@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sun_web_system/features/accounts_management/presentation/custom_widget/title_with_sub_title.dart';
-import 'package:sun_web_system/features/service_settings/custom_widget/container_image_widget.dart';
+import 'package:sun_web_system/features/service_settings/presentation/custom_widget/container_image_widget.dart';
 import '../../../../../../core/theming/assets.dart';
 import '../../../../../../core/theming/colors.dart';
 

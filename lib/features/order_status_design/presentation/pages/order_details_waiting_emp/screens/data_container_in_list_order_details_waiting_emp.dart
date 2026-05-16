@@ -13,12 +13,15 @@ import '../../../../../../features/order_status_design/presentation/custom_widge
 import '../../../../../../features/order_status_design/presentation/custom_widget/title_with_sub_title_in_order_details_emp.dart';
 import '../../../../../../features/order_status_design/presentation/pages/order_details_on_the_way_emp/screens/part_left_screen/container_contact_with_customer_order_details_on_the_way_emp.dart';
 import '../../../../../../features/order_status_design/presentation/pages/order_details_on_the_way_emp/screens/part_left_screen/data_time_line_tile_order_details_on_the_way_emp.dart';
-import '../../../../../../features/service_settings/first_screen_service_settings/screens/container_return_to_page_setting.dart';
+import '../../../../../../features/service_settings/presentation/pages/first_screen_service_settings/screens/container_return_to_page_setting.dart';
 import '../../../../../../core/theming/colors.dart';
 
 class DataContainerInListOrderDetailsWaitingEmp extends StatelessWidget {
   final OrderModel order;
-  const DataContainerInListOrderDetailsWaitingEmp({super.key,required this.order});
+
+  const DataContainerInListOrderDetailsWaitingEmp(
+      {super.key, required this.order});
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -29,18 +32,16 @@ class DataContainerInListOrderDetailsWaitingEmp extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         spacing: 30,
         children: [
-          if(isMobile)
+          if (isMobile)
             ContainerReturnToPageSetting(
               text: AppLanguageKeys.back,
-              onTap: (){
+              onTap: () {
                 Navigator.pop(context);
               },
             ),
           const TitleWithSubTitleInOrderDetailsEmp(),
-          CustomContainerOrder(
-               order:order
-           ),
-          if(isMobile)
+          CustomContainerOrder(order: order),
+          if (isMobile)
             const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               spacing: 30,
@@ -76,14 +77,14 @@ class DataContainerInListOrderDetailsWaitingEmp extends StatelessWidget {
                         backGroundColor: AppColors.orangeColor,
                         onTap: () {
                           context.read<OrderStatusCubit>().updateOrderStatus(
-                            updateOrderStatusRequest: UpdateOrderStatusRequest(
-                              orderId: order.id ?? 0,
-                              status: OrderStatus.employeeInRoad,
-                            ),
-                          );
+                                updateOrderStatusRequest:
+                                    UpdateOrderStatusRequest(
+                                  orderId: order.id ?? 0,
+                                  status: OrderStatus.employeeInRoad,
+                                ),
+                              );
                         },
                       ),
-
                       if (state is OrderStatusLoading)
                         const Center(child: CircularProgressIndicator()),
                     ],

@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_cubit.dart';
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_state.dart';
 import 'package:sun_web_system/features/auth_page/presentation/pages/login_page/login_page.dart';
-import 'package:sun_web_system/features/store_page/store_widgets/facility_account/facility_account_check.dart';
-import '../../../../../../features/store_page/store_page.dart';
+import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/facility_account/facility_account_check.dart';
+import '../../../store_page/presentation/pages/store_page.dart';
 
 class AuthGate extends StatefulWidget {
   const AuthGate({super.key});

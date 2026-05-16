@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'screens/list_data_first_screen_communication_and_policies_pages.dart';
-import '../../../../../../features/service_settings/custom_widget/backgroundDesktop.dart';
-import '../../../../../../features/service_settings/custom_widget/appbar_dashboard_widget.dart';
 import '../../../../../../core/utilies/map_of_all_app.dart';
 import '../../../../../../core/theming/colors.dart';
 

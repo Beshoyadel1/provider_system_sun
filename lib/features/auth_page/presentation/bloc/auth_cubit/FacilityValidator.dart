@@ -1,7 +1,7 @@
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/create_user_request.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
-import 'package:sun_web_system/features/store_page/logic/branch_cubit/branch_cubit.dart';
-import 'package:sun_web_system/features/store_page/logic/work_time_cubit/work_time_cubit.dart';
+import 'package:sun_web_system/features/store_page/presentation/bloc/branch_cubit/branch_cubit.dart';
+import 'package:sun_web_system/features/store_page/presentation/bloc/work_time_cubit/work_time_cubit.dart';
 
 class FacilityValidationResult {
   final bool isValid;

@@ -1,11 +1,5 @@
 class AppImageKeys {
-
   //statics//
-  static const String washingAndCleaning = 'assets/images/washingAndCleaning.png';
-  static const String maintenanceAndRepair = 'assets/images/maintenanceAndRepair.png';
-  static const String batteries = 'assets/images/batteries.png';
-  static const String tires = 'assets/images/tires.png';
-  static const String routineMaintenance = 'assets/images/routineMaintenance.png';
   static const String oils = 'assets/images/oils.png';
 
   //end//
@@ -52,7 +46,6 @@ class AppImageKeys {
   static const String store = 'assets/images/Store.png';
   static const String starsIcons = 'assets/images/stars_icons.png';
   static const String maintenance = 'assets/images/maintenance.png';
-  static const String vector = 'assets/images/Vector.png';
 
   static const String filter = 'assets/images/filter.png';
   static const String payIcon = 'assets/images/pay_icon.png';
@@ -89,7 +82,6 @@ class AppImageKeys {
   static const String logo11 = 'assets/images/logo11.png';
   static const String logo12 = 'assets/images/logo12.png';
   static const String logo13 = 'assets/images/logo13.png';
-  static const String car1_service = 'assets/images/car1_service.png';
   static const String car3_service = 'assets/images/car3_service.png';
   static const String car4_service = 'assets/images/car4_service.png';
   static const String car500 = 'assets/images/car500.png';
@@ -138,15 +130,12 @@ class AppImageKeys {
 
   ////END////
 
-
   ////Warranty////
   static const String correct = 'assets/images/correct.png';
 
   ////End////
 
   ////Profile////
-  static const String spare_parts = 'assets/images/spare_parts.png';
-  static const String spare_parts2 = 'assets/images/spare_parts2.png';
   static const String mobile_maintenance =
       'assets/images/mobile_maintenance.png';
 
@@ -167,5 +156,4 @@ class AppImageKeys {
 
   ////main layout////
   static const String map = 'assets/images/Map.png';
-
 }

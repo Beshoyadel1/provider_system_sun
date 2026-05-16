@@ -12,13 +12,12 @@ import 'package:sun_web_system/features/petroleum_service/presentation/pages/pet
 import 'package:sun_web_system/features/rates/presentation/pages/first_screen_rates/first_screen_rates.dart';
 import 'package:sun_web_system/features/spare_parts/presentation/pages/spare_parts_orders/first_screen_spare_parts_orders/first_screen_spare_parts_orders.dart';
 import 'package:sun_web_system/features/spare_parts/presentation/pages/spare_parts_statistics/spare_parts_page/ui/spare_parts_statistics_page.dart';
+import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/facility_account/facility_account.dart';
+import 'package:sun_web_system/features/technical_support/presentation/pages/technical_support_emp/technical_support_admin_sun.dart';
 import '../../../features/accounts_management/presentation/pages/first_screen_accounts_management_admin_sun/first_screen_accounts_management_admin_sun.dart';
-import '../../../features/store_page/store_widgets/facility_account/facility_account.dart';
-import '../../../features/technical_support/technical_support_emp/technical_support_admin_sun.dart';
 import '../../../core/general_models/pages_model.dart';
-
 import '../../features/dashboard_page/presentation/dashboard_page.dart';
-import '../../../features/service_settings/first_screen_service_settings/first_screen_service_settings.dart';
+import '../../../features/service_settings/presentation/pages/first_screen_service_settings/first_screen_service_settings.dart';
 import '../../../core/language/language_constant.dart';
 import '../../../core/theming/assets.dart';
 import '../../../features/permissions/presentation/pages/first_screen_permissions/first_screen_permissions.dart';

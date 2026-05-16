@@ -6,7 +6,6 @@ import 'package:sun_web_system/features/order_status_design/data/model/update_or
 import 'package:sun_web_system/core/pages_widgets/general_widgets/snakbar.dart';
 import 'package:sun_web_system/features/order_status_design/presentation/cubit/order_status_cubit/order_status_cubit.dart';
 import 'package:sun_web_system/features/order_status_design/presentation/cubit/order_status_cubit/order_status_state.dart';
-import 'package:sun_web_system/features/order_status_design/presentation/pages/order_details_new_order_emp/screens/part_left_screen/button_accept_reject_order.dart';
 import 'package:sun_web_system/features/internal_services/data/model/get_provider_orders_model/order_model.dart';
 import '../../../../../../features/order_status_design/presentation/pages/order_details_new_order_emp/screens/custom_container_order.dart';
 import '../../../../../../core/language/language_constant.dart';
@@ -14,7 +13,7 @@ import '../../../../../../features/order_status_design/presentation/custom_widge
 import '../../../../../../features/order_status_design/presentation/custom_widget/title_with_sub_title_in_order_details_emp.dart';
 import '../../../../../../features/order_status_design/presentation/pages/order_details_under_service_emp/screens/part_left_screen/container_contact_with_customer_order_details_under_service_emp.dart';
 import '../../../../../../features/order_status_design/presentation/pages/order_details_under_service_emp/screens/part_left_screen/data_time_line_tile_order_details_under_service_emp.dart';
-import '../../../../../../features/service_settings/first_screen_service_settings/screens/container_return_to_page_setting.dart';
+import '../../../../../../features/service_settings/presentation/pages/first_screen_service_settings/screens/container_return_to_page_setting.dart';
 import '../../../../../../core/theming/colors.dart';
 
 class DataContainerInListOrderDetailsUnderServiceEmp extends StatelessWidget {

@@ -12,7 +12,7 @@ import 'package:sun_web_system/features/cars_haraj_page/presentation/ui/details_
 import 'package:sun_web_system/features/cars_haraj_page/presentation/ui/details_harag_page/widgets/car_specifications.dart';
 import 'package:sun_web_system/features/cars_haraj_page/presentation/ui/details_harag_page/widgets/delete_dialog.dart';
 import 'package:sun_web_system/features/cars_haraj_page/presentation/ui/details_harag_page/widgets/edit_harag_dialog.dart';
-import 'package:sun_web_system/features/service_settings/custom_widget/button_edit_delete_setting_widget.dart';
+import 'package:sun_web_system/features/service_settings/presentation/custom_widget/button_edit_delete_setting_widget.dart';
 
 class DetailsHaragPage extends StatelessWidget {
   final HarageData car;
