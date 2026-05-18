@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/features/auth_page/data/request/login_request/login_request.dart';
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_cubit.dart';
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_state.dart';
 import 'package:sun_web_system/features/auth_page/presentation/pages/auth_gate.dart';
 import 'package:sun_web_system/features/auth_page/presentation/pages/check_email_exist/check_email_exist_page.dart';
 import '../../../../../../core/api/dio_function/api_constants.dart';
 import '../../../../../../core/theming/colors.dart';
-import '../../../../data/model/login_model/login_request.dart';
 import '../../../../../../core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
 import '../../../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../../../core/language/language_constant.dart';

@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import '../../model/delete_product_model/delete_product_request.dart';
+import '../../request/delete_product_request/delete_product_request.dart';
 import '../../../../../core/api/dio_function/api_constants.dart';
 import '../../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../../core/api/dio_function/dio_controller.dart';

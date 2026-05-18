@@ -15,7 +15,7 @@ import 'package:sun_web_system/features/service_settings/presentation/pages/adde
 import 'package:sun_web_system/features/service_settings/presentation/pages/added_maintenance_and_internal_services_in_service_settings/screens/enter_name_laten_name_service.dart';
 import 'package:sun_web_system/features/service_settings/presentation/pages/added_maintenance_and_internal_services_in_service_settings/screens/prov_service_brands_list_view.dart';
 import 'package:sun_web_system/features/service_settings/presentation/pages/added_maintenance_and_internal_services_in_service_settings/screens/select_tax_page.dart';
-import '../../data/model/create_prov_service_model/create_prov_service_request.dart';
+import '../../data/request/create_prov_service_request/create_prov_service_request.dart';
 import '../../../../../core/language/language_constant.dart';
 import '../../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../../core/theming/colors.dart';

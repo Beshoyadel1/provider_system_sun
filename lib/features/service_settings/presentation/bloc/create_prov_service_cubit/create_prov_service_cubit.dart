@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/features/service_settings/data/model/create_prov_service_model/brand_model_create_prov_service_request.dart';
-import 'package:sun_web_system/features/service_settings/data/model/create_prov_service_model/car_model_create_prov_service_request.dart';
+import 'package:sun_web_system/features/service_settings/data/model/create_prov_service_model/brand_model_create_prov_service_model.dart';
+import 'package:sun_web_system/features/service_settings/data/model/create_prov_service_model/car_model_create_prov_service_model.dart';
 import 'package:sun_web_system/features/service_settings/data/datasource/create_prov_service_datasource/create_prov_service_repository.dart';
-import 'package:sun_web_system/features/service_settings/data/model/create_prov_service_model/create_prov_service_request.dart';
+import 'package:sun_web_system/features/service_settings/data/request/create_prov_service_request/create_prov_service_request.dart';
 import 'package:sun_web_system/features/auth_page/data/datasource/login_datasource/login_repository.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
 import 'create_prov_service_state.dart';
@@ -18,10 +18,10 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
   CreateProvServiceRepository();
 
   /// 🔵 unified
-  final Map<int, BrandModelCreateProvServiceRequest> brandsData = {};
+  final Map<int, BrandModelCreateProvServiceModel> brandsData = {};
 
   /// 🟢 cars
-  final List<CarModelCreateProvServiceRequest> cars = [];
+  final List<CarModelCreateProvServiceModel> cars = [];
 
   /// 📌 radio
   final Map<int, int> brandSelection = {};
@@ -57,7 +57,7 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
 
     if (option == 1) {
       brandsData.remove(brandId);
-      brandsData[brandId] = BrandModelCreateProvServiceRequest(
+      brandsData[brandId] = BrandModelCreateProvServiceModel(
         id: brandId,
         isuniformprice: false,
       );
@@ -81,7 +81,7 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
       return;
     }
 
-    brandsData[brandId] = BrandModelCreateProvServiceRequest(
+    brandsData[brandId] = BrandModelCreateProvServiceModel(
       id: brandId,
       uniformprice: price,
       cost: cost,
@@ -102,7 +102,7 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
     e.carbrandid == brandId && e.carmodelid == modelId);
 
     cars.add(
-      CarModelCreateProvServiceRequest(
+      CarModelCreateProvServiceModel(
         id: 0,
         carbrandid: brandId,
         carmodelid: modelId,
@@ -122,7 +122,7 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
     emit(CreateProvServiceInitial());
   }
 
-  List<BrandModelCreateProvServiceRequest> buildBrands() {
+  List<BrandModelCreateProvServiceModel> buildBrands() {
     return brandsData.values.toList();
   }
 
@@ -179,7 +179,7 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
     for (var b in data["brands"]) {
       final brandId = b["brandId"]; // 👈 نستخدم brand الحقيقي
 
-      brandsData[brandId] = BrandModelCreateProvServiceRequest(
+      brandsData[brandId] = BrandModelCreateProvServiceModel(
         id: b["id"], // 👈 provServiceBrand.id
         uniformprice: b["uniformprice"],
         cost: b["cost"],
@@ -197,7 +197,7 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
     /// 🔥 cars
     for (var c in data["cars"]) {
       cars.add(
-        CarModelCreateProvServiceRequest(
+        CarModelCreateProvServiceModel(
           id: c["id"],
           carbrandid: c["carbrandid"],
           carmodelid: c["carmodelid"],

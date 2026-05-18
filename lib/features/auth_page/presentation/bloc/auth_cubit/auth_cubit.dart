@@ -6,22 +6,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
 import 'package:sun_web_system/features/auth_page/data/datasource/update_user_datasource/update_user_repository.dart';
-import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/FacilityValidator.dart';
+import 'package:sun_web_system/features/auth_page/data/request/change_password_request/change_password_request.dart';
+import 'package:sun_web_system/features/auth_page/data/request/check_if_user_exist_or_not_request/check_if_user_exist_or_not_request.dart';
+import 'package:sun_web_system/features/auth_page/data/request/check_if_user_exist_request/check_if_user_exist_request.dart';
+import 'package:sun_web_system/features/auth_page/data/request/login_request/login_request.dart';
+import 'package:sun_web_system/features/auth_page/domain/validation/facility_validator_result.dart';
 import 'package:sun_web_system/features/store_page/presentation/bloc/branch_cubit/branch_cubit.dart';
 import 'package:sun_web_system/features/store_page/presentation/bloc/work_time_cubit/work_time_cubit.dart';
 import '../../../data/datasource/check_if_user_exist_or_not_datasource/check_if_user_exist_or_not_repository.dart';
-import '../../../data/model/check_if_user_exist_or_not_model/check_if_user_exist_or_not_request.dart';
 import '../../../../../../core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
 import '../../../../../../features/auth_page/presentation/pages/change_password/change_password_page.dart';
 import '../../../data/datasource/change_password_datasource/change_password_repository.dart';
-import '../../../data/model/change_password_model/change_password_request.dart';
 import '../../../data/datasource/check_if_user_exist_datasource/check_if_user_exist_repository.dart';
-import '../../../data/model/check_if_user_exist_model/check_if_user_exist_request.dart';
 import '../../../../../../core/language/language_constant.dart';
 import '../../../data/datasource/create_user_datasource/create_user_repository.dart';
 import '../../../data/model/create_user_model/create_user_request.dart';
 import '../../../data/datasource/login_datasource/login_repository.dart';
-import '../../../data/model/login_model/login_request.dart';
 import 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {

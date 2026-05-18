@@ -4,7 +4,7 @@ import 'package:sun_web_system/core/api/dio_function/dio_controller.dart';
 import 'package:sun_web_system/core/api/dio_function/failures.dart';
 import 'package:sun_web_system/core/pages_widgets/general_widgets/snakbar.dart';
 import 'package:sun_web_system/features/dashboard_page/data/model/get_provider_orders_sales_model/get_provider_orders_sales_model.dart';
-import 'package:sun_web_system/features/dashboard_page/data/model/get_provider_orders_sales_model/get_provider_orders_sales_request.dart';
+import 'package:sun_web_system/features/dashboard_page/data/request/get_provider_orders_sales_request/get_provider_orders_sales_request.dart';
 
 
 Future<GetProviderOrdersSalesModel?> getProviderOrdersSalesFunction({

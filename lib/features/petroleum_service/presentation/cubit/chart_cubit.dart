@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/petroleum_service/presentation/cubit/chart_state.dart';
 import '../../data/datasource/get_provider_petrol_sales_chart_datasource/get_provider_petrol_sales_chart_repository.dart';
-import '../../data/model/get_provider_petrol_sales_chart_model/get_provider_petrol_sales_chart_request.dart';
+import '../../data/request/get_provider_petrol_sales_chart_request/get_provider_petrol_sales_chart_request.dart';
 
 class PetrolChartCubit extends Cubit<PetrolChartState> {
   PetrolChartCubit() : super(PetrolChartInitial());

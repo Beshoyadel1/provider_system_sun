@@ -1,10 +1,10 @@
-class BrandModelCreateProvServiceRequest {
+class BrandModelCreateProvServiceModel {
   final int? id;
   final double? uniformprice;
   final bool? isuniformprice;
   final double? cost;
 
-  BrandModelCreateProvServiceRequest({
+  BrandModelCreateProvServiceModel({
      this.id,
      this.uniformprice,
      this.isuniformprice,

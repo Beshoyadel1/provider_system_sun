@@ -3,8 +3,8 @@ import 'package:dio/dio.dart';
 import 'package:sun_web_system/features/cars_haraj_page/data/datasource/create_harage_datasource/create_harage_repository.dart';
 import 'package:sun_web_system/features/cars_haraj_page/data/datasource/update_harage_datasource/update_harage_repository.dart';
 import 'package:sun_web_system/features/auth_page/data/datasource/login_datasource/login_repository.dart';
+import 'package:sun_web_system/features/cars_haraj_page/data/request/update_harage_request/update_harage_request.dart';
 import 'package:sun_web_system/features/cars_haraj_page/presentation/bloc/update_harage_cubit/update_harage_state.dart';
-import '../../../data/model/update_harage_model/update_harage_request.dart';
 import '../../../../../../core/api/dio_function/failures.dart';
 
 

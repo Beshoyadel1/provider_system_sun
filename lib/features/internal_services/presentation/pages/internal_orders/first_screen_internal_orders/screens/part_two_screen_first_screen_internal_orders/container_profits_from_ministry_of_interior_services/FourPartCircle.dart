@@ -3,21 +3,21 @@ import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:sun_web_system/core/theming/fonts.dart';
 import 'package:sun_web_system/core/theming/text_styles.dart';
-import 'package:sun_web_system/features/internal_services/data/model/get_provider_main_service_statistics_model/sub_service_summaries_request.dart';
+import 'package:sun_web_system/features/internal_services/data/model/get_provider_main_service_statistics_model/sub_service_summaries_model.dart';
 import '../../../../../../../../../core/theming/colors.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class FourPartDoughnut extends StatelessWidget {
 
-  final List<SubServiceSummariesRequest> services;
+  final List<SubServiceSummariesModel> services;
 
   const FourPartDoughnut({
     super.key,
     required this.services,
   });
 
-  List<SubServiceSummariesRequest> get _sortedServices {
-    final sorted = List<SubServiceSummariesRequest>.from(services);
+  List<SubServiceSummariesModel> get _sortedServices {
+    final sorted = List<SubServiceSummariesModel>.from(services);
 
     sorted.sort(
           (a, b) => (b.orderCount ?? 0).compareTo(a.orderCount ?? 0),

@@ -3,11 +3,11 @@ import 'package:sun_web_system/features/service_settings/data/datasource/create_
 import 'package:sun_web_system/features/service_settings/data/model/create_service_package_model/car_model_create_service_package_request.dart';
 import 'package:sun_web_system/features/service_settings/data/model/create_service_package_model/create_service_package_request.dart';
 import 'package:sun_web_system/features/service_settings/data/datasource/delete_service_package_datasource/delete_service_package_repository.dart';
-import 'package:sun_web_system/features/service_settings/data/model/delete_service_package_model/delete_service_package_request.dart';
+import 'package:sun_web_system/features/service_settings/data/request/delete_service_package_request/delete_service_package_request.dart';
 import 'package:sun_web_system/features/service_settings/data/datasource/get_provider_service_packages_datasource/get_provider_service_packages_repository.dart';
-import 'package:sun_web_system/features/service_settings/data/model/get_provider_service_packages_model/get_provider_service_packages_request.dart';
+import 'package:sun_web_system/features/service_settings/data/request/get_provider_service_packages_request/get_provider_service_packages_request.dart';
 import 'package:sun_web_system/features/service_settings/data/datasource/update_service_package_datasource/update_service_package_repository.dart';
-import 'package:sun_web_system/features/service_settings/data/model/update_service_package_model/update_service_package_request.dart';
+import 'package:sun_web_system/features/service_settings/data/request/update_service_package_request/update_service_package_request.dart';
 import 'package:sun_web_system/features/auth_page/data/datasource/login_datasource/login_repository.dart';
 import 'package:sun_web_system/features/service_settings/presentation/bloc/provider_packages_cubit/provider_packages_state.dart';
 

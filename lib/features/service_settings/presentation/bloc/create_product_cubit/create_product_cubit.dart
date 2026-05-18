@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/service_settings/data/datasource/create_product_datasource/create_product_repository.dart';
-import 'package:sun_web_system/features/service_settings/data/model/create_product_model/create_product_request.dart';
+import 'package:sun_web_system/features/service_settings/data/request/create_product_request/create_product_request.dart';
 import 'package:sun_web_system/features/service_settings/data/datasource/update_product_datasource/update_product_repository.dart';
 import 'package:sun_web_system/features/auth_page/data/datasource/login_datasource/login_repository.dart';
 import 'package:sun_web_system/features/service_settings/presentation/bloc/create_product_cubit/create_product_state.dart';

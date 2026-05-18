@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:sun_web_system/features/store_page/data/model/location_cubit/location_cubit.dart';
-import 'package:sun_web_system/features/store_page/data/model/location_cubit/location_state.dart';
+import 'package:sun_web_system/features/store_page/presentation/bloc/location_cubit/location_cubit.dart';
+import 'package:sun_web_system/features/store_page/presentation/bloc/location_cubit/location_state.dart';
 import 'flutter_map_widget.dart';
 
 class SquareMapWidget extends StatelessWidget {

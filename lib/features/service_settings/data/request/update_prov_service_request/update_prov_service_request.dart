@@ -1,6 +1,6 @@
 
-import 'package:sun_web_system/features/service_settings/data/model/create_prov_service_model/brand_model_create_prov_service_request.dart';
-import 'package:sun_web_system/features/service_settings/data/model/create_prov_service_model/car_model_create_prov_service_request.dart';
+import 'package:sun_web_system/features/service_settings/data/model/create_prov_service_model/brand_model_create_prov_service_model.dart';
+import 'package:sun_web_system/features/service_settings/data/model/create_prov_service_model/car_model_create_prov_service_model.dart';
 
 class UpdateProvServiceRequest {
   final int? id;
@@ -12,8 +12,8 @@ class UpdateProvServiceRequest {
   final double? uniformprice;
   final double? cost;
   final bool? isuniformprice;
-  final List<BrandModelCreateProvServiceRequest>? brands;
-  final List<CarModelCreateProvServiceRequest>? cars;
+  final List<BrandModelCreateProvServiceModel>? brands;
+  final List<CarModelCreateProvServiceModel>? cars;
 
   UpdateProvServiceRequest({
     this.id,

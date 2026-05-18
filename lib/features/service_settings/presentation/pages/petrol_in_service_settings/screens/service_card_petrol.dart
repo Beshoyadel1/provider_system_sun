@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/features/service_settings/data/model/get_prov_services_model/get_prov_services_response.dart';
+import 'package:sun_web_system/features/service_settings/data/response/get_prov_services_response/get_prov_services_response.dart';
 import 'package:sun_web_system/core/theming/fonts.dart';
 import 'package:sun_web_system/core/theming/text_styles.dart';
 import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/first_screen_internal_orders/screens/big_container_of_new_orders/Container_view_all_in_first_row_in_data_container_in_list_data_first_screen_internal_orders.dart';
 import 'package:sun_web_system/features/service_settings/presentation/pages/petrol_in_service_settings/screens/enter_price_cost_petrol_service.dart';
-import '../../../../data/model/update_prov_service_model/update_prov_service_request.dart';
+import '../../../../data/request/update_prov_service_request/update_prov_service_request.dart';
 import '../../../../../../../core/language/language_constant.dart';
 import '../../../../../../../core/theming/colors.dart';
 import '../../../../../../../features/service_settings/presentation/bloc/create_prov_service_cubit/create_prov_service_cubit.dart';

@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:sun_web_system/features/service_settings/data/model/get_car_brand_models/car_model_data_model.dart';
-import 'package:sun_web_system/features/service_settings/data/model/get_car_brand_models/get_car_brand_models_request.dart';
+import 'package:sun_web_system/features/service_settings/data/request/get_car_brand_request/get_car_brand_models_request.dart';
 import '../../../../../core/api/dio_function/api_constants.dart';
 import '../../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../../core/api/dio_function/failures.dart';

@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/cars_haraj_page/data/datasource/get_car_brand_models_datasource/get_car_brand_repository.dart';
 import 'package:sun_web_system/features/service_settings/data/model/get_car_brand_models/car_model_data_model.dart';
 import 'package:sun_web_system/features/service_settings/data/datasource/get_car_brand_datasource/get_car_brand_models_repository.dart';
-import 'package:sun_web_system/features/service_settings/data/model/get_car_brand_models/get_car_brand_models_request.dart';
+import 'package:sun_web_system/features/service_settings/data/request/get_car_brand_request/get_car_brand_models_request.dart';
 import 'package:sun_web_system/features/service_settings/presentation/bloc/brand_input_data/brand_input_data.dart';
 import 'select_car_model_setting_state.dart';
 

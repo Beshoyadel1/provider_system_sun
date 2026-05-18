@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/rates/data/datasource/get_provider_details_rates_datasource/get_provider_details_rates_repository.dart';
-import 'package:sun_web_system/features/rates/data/model/get_provider_details_rates_model/get_provider_details_rates_request.dart';
+import 'package:sun_web_system/features/rates/data/request/get_provider_details_rates_request/get_provider_details_rates_request.dart';
 import 'package:sun_web_system/features/rates/data/model/get_provider_details_rates_model/rate_item.dart';
 import 'package:sun_web_system/features/rates/presentation/bloc/cubit_rates/provider_rates_state.dart';
 

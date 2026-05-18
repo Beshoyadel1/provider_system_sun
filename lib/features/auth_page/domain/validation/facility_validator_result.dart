@@ -3,18 +3,18 @@ import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:sun_web_system/features/store_page/presentation/bloc/branch_cubit/branch_cubit.dart';
 import 'package:sun_web_system/features/store_page/presentation/bloc/work_time_cubit/work_time_cubit.dart';
 
-class FacilityValidationResult {
+class FacilityValidatorResult {
   final bool isValid;
   final List<String> missingFields;
 
-  FacilityValidationResult({
+  FacilityValidatorResult({
     required this.isValid,
     required this.missingFields,
   });
 }
 
 class FacilityValidator {
-  static FacilityValidationResult validate({
+  static FacilityValidatorResult validate({
     required CreateUserRequest user,
     required BranchCubit branchCubit,
     required UpdateWorkTimeCubit workTimeCubit,
@@ -53,7 +53,7 @@ class FacilityValidator {
       missing.add(AppLanguageKeys.addAtLeastOneWorkingHours);
     }
 
-    return FacilityValidationResult(
+    return FacilityValidatorResult(
       isValid: missing.isEmpty,
       missingFields: missing,
     );

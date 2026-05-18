@@ -1,5 +1,5 @@
-import 'provider.dart';
-import 'service_rates.dart';
+import '../../model/get_provider_details_rates_model/provider.dart';
+import '../../model/get_provider_details_rates_model/service_rates.dart';
 
 class ProviderDetailsRatesResponse {
   final Provider provider;

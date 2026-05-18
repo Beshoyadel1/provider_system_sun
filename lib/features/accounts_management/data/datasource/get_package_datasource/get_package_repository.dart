@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:sun_web_system/features/accounts_management/data/model/get_package_model/get_package_request.dart';
+import 'package:sun_web_system/features/accounts_management/data/request/get_package_request/get_package_request.dart';
 import 'package:sun_web_system/features/accounts_management/data/model/get_package_model/package_model_get_package_repository.dart';
 import '../../../../../core/api/dio_function/api_constants.dart';
 import '../../../../../core/pages_widgets/general_widgets/snakbar.dart';

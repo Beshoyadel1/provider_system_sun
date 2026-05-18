@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
 import 'package:sun_web_system/features/internal_services/data/model/get_provider_orders_model/order_model.dart';
-import 'package:sun_web_system/features/order_status_design/data/model/update_order_status_model/update_order_status_request.dart';
+import 'package:sun_web_system/features/order_status_design/data/request/update_order_status_request.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:sun_web_system/core/theming/colors.dart';
 import 'package:sun_web_system/features/order_status_design/presentation/cubit/order_status_cubit/order_status_cubit.dart';

@@ -8,7 +8,7 @@ import 'package:sun_web_system/core/theming/fonts.dart';
 import 'package:sun_web_system/core/theming/text_styles.dart';
 import 'package:sun_web_system/features/advertisements/presentation/pages/first_screen_advertisements/screens/last_button_in_list_data_first_screen_advertisements.dart';
 import '../../../../../../data/model/get_car_brand_models/car_model_data_model.dart';
-import '../../../../../../data/model/create_product_model/create_product_request.dart';
+import '../../../../../../data/request/create_product_request/create_product_request.dart';
 import 'package:sun_web_system/features/service_settings/data/model/get_products_by_category_model/product_model_get_products_by_category.dart';
 import '../../../../../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../../../../../features/service_settings/presentation/pages/car_spare_parts_in_service_settings/sub/add_spare_parts_in_service_settings/screens/car_selection_controller.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../data/model/change_password_model/change_password_request.dart';
+import 'package:sun_web_system/features/auth_page/data/request/change_password_request/change_password_request.dart';
 import '../../../../../features/auth_page/presentation/bloc/auth_cubit/auth_cubit.dart';
 import '../../../../../features/auth_page/presentation/bloc/auth_cubit/auth_state.dart';
 import '../../../../../features/auth_page/presentation/pages/login_page/login_widgets/login_button_widget.dart';

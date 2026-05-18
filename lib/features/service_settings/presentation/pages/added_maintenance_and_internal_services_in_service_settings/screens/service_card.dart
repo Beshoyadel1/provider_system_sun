@@ -13,8 +13,8 @@ import 'package:sun_web_system/features/service_settings/presentation/bloc/selec
 import 'package:sun_web_system/features/service_settings/presentation/pages/added_maintenance_and_internal_services_in_service_settings/screens/animated_cross_fade_in_expansion_container_setting_widget.dart';
 import 'package:sun_web_system/features/service_settings/presentation/pages/added_maintenance_and_internal_services_in_service_settings/screens/enter_name_laten_name_service.dart';
 import 'package:sun_web_system/features/service_settings/presentation/pages/added_maintenance_and_internal_services_in_service_settings/screens/select_tax_page.dart';
-import '../../../../data/model/get_prov_services_model/get_prov_services_response.dart';
-import '../../../../data/model/update_prov_service_model/update_prov_service_request.dart';
+import '../../../../data/response/get_prov_services_response/get_prov_services_response.dart';
+import '../../../../data/request/update_prov_service_request/update_prov_service_request.dart';
 import '../../../../../../../core/language/language_constant.dart';
 import '../../../../../../../core/theming/colors.dart';
 import '../../../../../../../core/pages_widgets/general_widgets/snakbar.dart';

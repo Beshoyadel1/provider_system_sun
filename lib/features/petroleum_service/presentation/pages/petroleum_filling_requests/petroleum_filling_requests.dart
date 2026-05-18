@@ -5,7 +5,7 @@ import 'package:sun_web_system/features/Petroleum_Service/presentation/pages/Pet
 import 'package:sun_web_system/features/Petroleum_Service/presentation/pages/Petroleum_Filling_Requests/screens/design_digram_for_petroleum/design_digram_for_petroleum.dart';
 import 'package:sun_web_system/features/Petroleum_Service/presentation/pages/Petroleum_Filling_Requests/screens/list_data_Petroleum_Filling_Requests.dart';
 import 'package:sun_web_system/features/petroleum_service/presentation/cubit/chart_cubit.dart';
-import '../../../data/model/get_provider_petrol_sales_chart_model/get_provider_petrol_sales_chart_request.dart';
+import '../../../data/request/get_provider_petrol_sales_chart_request/get_provider_petrol_sales_chart_request.dart';
 import '../../../../../core/utilies/map_of_all_app.dart';
 import '../../../../../core/theming/colors.dart';
 

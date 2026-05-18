@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/features/cars_haraj_page/data/model/get_all_harage_model/get_all_harage_request.dart';
+import 'package:sun_web_system/features/cars_haraj_page/data/request/get_all_harage_request/get_all_harage_request.dart';
 import '../../../data/datasource/get_all_harage_datasource/get_all_harage_repository.dart';
 import 'get_all_harage_state.dart';
 

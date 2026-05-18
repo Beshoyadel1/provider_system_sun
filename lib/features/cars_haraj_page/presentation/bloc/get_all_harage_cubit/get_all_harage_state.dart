@@ -1,4 +1,4 @@
-import 'package:sun_web_system/features/cars_haraj_page/data/model/get_all_harage_model/get_all_harage_response.dart';
+import 'package:sun_web_system/features/cars_haraj_page/data/response/get_all_harage_response/get_all_harage_response.dart';
 
 abstract class GetAllHarageState {}
 

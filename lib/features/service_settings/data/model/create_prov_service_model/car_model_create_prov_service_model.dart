@@ -1,11 +1,11 @@
-class CarModelCreateProvServiceRequest {
+class CarModelCreateProvServiceModel {
   final int? id;
   final int? carbrandid;
   final int? carmodelid;
   final double? price;
   final double? cost;
 
-  CarModelCreateProvServiceRequest({
+  CarModelCreateProvServiceModel({
      this.id,
      this.carbrandid,
      this.carmodelid,

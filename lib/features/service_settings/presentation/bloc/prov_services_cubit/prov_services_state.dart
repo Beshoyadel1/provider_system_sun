@@ -1,4 +1,4 @@
-import 'package:sun_web_system/features/service_settings/data/model/get_prov_services_model/get_prov_services_response.dart';
+import 'package:sun_web_system/features/service_settings/data/response/get_prov_services_response/get_prov_services_response.dart';
 
 abstract class ProvServicesState {}
 

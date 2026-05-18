@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:sun_web_system/features/service_settings/data/model/get_products_by_category_model/product_model_get_products_by_category.dart';
-import '../../model/get_products_by_category_model/get_products_by_category_request.dart';
+import '../../request/get_products_by_category_request/get_products_by_category_request.dart';
 import '../../../../../core/api/dio_function/api_constants.dart';
 import '../../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../../core/api/dio_function/dio_controller.dart';

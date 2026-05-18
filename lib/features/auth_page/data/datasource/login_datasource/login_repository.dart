@@ -2,20 +2,12 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/create_user_request.dart';
+import 'package:sun_web_system/features/auth_page/data/request/login_request/login_request.dart';
 import '../../../../../core/language/language_constant.dart';
 import '../../../../../core/api/dio_function/failures.dart';
-import '../../model/login_model/login_request.dart';
 import '../../../../../core/api/dio_function/api_constants.dart';
 import '../../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../../core/api/dio_function/dio_controller.dart';
-
-import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sun_web_system/features/auth_page/data/model/create_user_model/create_user_request.dart';
-
-import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sun_web_system/features/auth_page/data/model/create_user_model/create_user_request.dart';
 
 class AuthLocalStorage {
   static const String userKey = "user_data";

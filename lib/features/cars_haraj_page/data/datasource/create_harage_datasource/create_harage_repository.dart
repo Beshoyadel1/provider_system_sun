@@ -1,11 +1,9 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:sun_web_system/features/cars_haraj_page/data/model/update_harage_model/update_harage_request.dart';
-import '../../model/create_harage_model/create_harage_request.dart';
+import 'package:sun_web_system/features/cars_haraj_page/data/request/update_harage_request/update_harage_request.dart';
 import '../../../../../core/api/dio_function/api_constants.dart';
 import '../../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../../core/api/dio_function/dio_controller.dart';
-import '../../../../../core/api/dio_function/failures.dart';
 import '../../../../../core/language/language_constant.dart';
 
 
