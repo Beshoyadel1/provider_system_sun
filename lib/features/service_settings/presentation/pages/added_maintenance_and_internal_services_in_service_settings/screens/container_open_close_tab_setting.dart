@@ -1,0 +1,47 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/features/service_settings/presentation/bloc/Details_container_setting_cubit/Details_container_setting_cubit.dart';
+import 'package:sun_web_system/features/service_settings/presentation/bloc/Details_container_setting_cubit/Details_container_setting_state.dart';
+import '../../../../../../core/theming/colors.dart';
+
+
+class ContainerOpenCloseTabSetting extends StatelessWidget {
+  final bool? isDoneTask;
+  final void Function()? onTap;
+  const ContainerOpenCloseTabSetting({
+    super.key,
+    this.isDoneTask = false,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<
+        DetailsContainerSettingCubit,
+        DetailsContainerSettingState>(
+        buildWhen: (previous, current) =>
+        previous.isExpanded != current.isExpanded,
+        builder: (context, state) {
+          return Container(
+            decoration: BoxDecoration(
+              color: isDoneTask! ? AppColors.orangeColor : AppColors.greyColor,
+              shape: BoxShape.circle,
+            ),
+            child: IconButton(
+              onPressed: () {
+                context.read<DetailsContainerSettingCubit>().toggle();
+                if (onTap != null) onTap!();
+              },
+              icon: Icon(
+                state.isExpanded
+                    ? Icons.keyboard_arrow_up
+                    : Icons.keyboard_arrow_down,
+                color: AppColors.whiteColor,
+              ),
+            ),
+          );
+        }
+    );
+  }
+}

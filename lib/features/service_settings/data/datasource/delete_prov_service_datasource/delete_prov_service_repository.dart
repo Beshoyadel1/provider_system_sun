@@ -1,0 +1,23 @@
+import 'package:dio/dio.dart';
+import '../../request/delete_prov_service_request/delete_prov_service_request.dart';
+import '../../../../../core/api/dio_function/api_constants.dart';
+import '../../../../../core/pages_widgets/general_widgets/snakbar.dart';
+import '../../../../../core/api/dio_function/dio_controller.dart';
+import '../../../../../core/api/dio_function/failures.dart';
+import '../../../../../core/language/language_constant.dart';
+
+Future<bool> deleteProvServiceFunction({
+  required DeleteProvServiceRequest deleteProvServiceRequest,
+}) async {
+  try {
+    await Network.postDataWithBodyAndParams(
+      {},
+      deleteProvServiceRequest.toJson(),
+      ApiLink.deleteProvService,
+    );
+
+    return true;
+  } catch (e) {
+    throw e;
+  }
+}

@@ -1,0 +1,53 @@
+import 'package:flutter/cupertino.dart';
+import 'package:sun_web_system/core/language/language_constant.dart';
+import 'package:sun_web_system/features/internal_services/data/model/get_provider_orders_model/order_model.dart';
+import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/custom_widget/container_details_widget.dart';
+import 'package:sun_web_system/features/petroleum_service/presentation/pages/custom_widget/column_packing_date_widget.dart';
+import 'package:sun_web_system/features/petroleum_service/presentation/pages/custom_widget/column_subscription_fees_widget.dart';
+import 'package:sun_web_system/features/petroleum_service/presentation/pages/custom_widget/row_main_branch_widget.dart';
+import 'package:sun_web_system/features/petroleum_service/presentation/pages/custom_widget/row_name_emp_widget.dart';
+
+
+class TabViewListDataContainerDesignNewOrderPetroleum extends StatelessWidget {
+  final String? nameEmp,date,quantity,price;
+  final int serviceId;
+  const TabViewListDataContainerDesignNewOrderPetroleum({
+    super.key,
+    this.date,
+    this.nameEmp,
+    this.price,
+    this.quantity,
+    required this.serviceId
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return  Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        RowNameEmpWidget(
+          title: AppLanguageKeys.employeeName,
+          subTitle: nameEmp,
+        ),
+        const RowMainBranchWidget(),
+        ColumnPackingDateWidget(
+          title: AppLanguageKeys.fillingDate,
+          subTitle:date,
+        ),
+        ColumnPackingDateWidget(
+          title: AppLanguageKeys.filling,
+          subTitle: quantity,
+        ),
+        ColumnSubscriptionFeesWidget(
+          title:AppLanguageKeys.price,
+          budget: price,
+        ),
+         ContainerDetailsWidget(
+          status: 0,
+          order: OrderModel(),
+           serviceId: serviceId,
+        ),
+      ],
+    );
+  }
+}

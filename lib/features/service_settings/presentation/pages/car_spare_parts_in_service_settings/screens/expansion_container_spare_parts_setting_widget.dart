@@ -1,0 +1,146 @@
+import 'dart:typed_data';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/features/service_settings/presentation/bloc/Details_container_setting_cubit/Details_container_setting_cubit.dart';
+import 'package:sun_web_system/features/service_settings/presentation/bloc/Details_container_setting_cubit/Details_container_setting_state.dart';
+import 'package:sun_web_system/features/service_settings/presentation/bloc/get_products_by_category_cubit/get_products_by_category_cubit.dart';
+import 'package:sun_web_system/features/service_settings/presentation/pages/added_maintenance_and_internal_services_in_service_settings/screens/container_open_close_tab_setting.dart';
+import 'package:sun_web_system/features/service_settings/presentation/pages/car_spare_parts_in_service_settings/screens/design_create_spare_parts_design.dart';
+
+import '../../../../../../../features/service_settings/presentation/bloc/select_car_model_setting_cubit/select_car_model_setting_cubit.dart';
+import '../../../../../../../features/service_settings/presentation/bloc/select_car_model_setting_cubit/select_car_model_setting_state.dart';
+import '../../../../../../../core/theming/colors.dart';
+import '../../../../../../../core/theming/fonts.dart';
+import '../../../../../../../core/theming/text_styles.dart';
+
+class ExpansionContainerSparePartsSettingWidget extends StatefulWidget {
+  final String? imagePath, text;
+  final bool? isDoneTask;
+  final Uint8List? imageMemory;
+  final void Function()? onTap;
+  final String? initialName;
+  final String? initialLatinName;
+  final int? initialTaxId;
+  final int serviceId;
+  final int categoryId;
+
+  const ExpansionContainerSparePartsSettingWidget({
+    super.key,
+    this.imagePath,
+    this.imageMemory,
+    this.text,
+    this.isDoneTask = false,
+    this.onTap,
+    this.initialName,
+    this.initialLatinName,
+    this.initialTaxId,
+    required this.serviceId,
+    required this.categoryId,
+  });
+
+  @override
+  State<ExpansionContainerSparePartsSettingWidget> createState() =>
+      _ExpansionContainerSparePartsSettingWidgetState();
+}
+
+class _ExpansionContainerSparePartsSettingWidgetState
+    extends State<ExpansionContainerSparePartsSettingWidget> {
+
+
+  Widget _buildImage() {
+    // memory image
+    if (widget.imageMemory != null && widget.imageMemory!.isNotEmpty) {
+      return Image.memory(
+        widget.imageMemory!,
+        width: 50,
+        height: 50,
+        fit: BoxFit.cover,
+      );
+    }
+
+    // asset image
+    if (widget.imagePath != null && widget.imagePath!.isNotEmpty) {
+      return Image.asset(
+        widget.imagePath!,
+        width: 50,
+        height: 50,
+        fit: BoxFit.cover,
+      );
+    }
+
+    return Container(
+      width: 50,
+      height: 50,
+      decoration: BoxDecoration(
+        color: Colors.grey.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: const Icon(
+        Icons.ac_unit,
+        color: Colors.grey,
+        size: 28,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => DetailsContainerSettingCubit(),
+        ),
+      ],
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: AppColors.whiteColor,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: Colors.grey.withOpacity(0.3)),
+        ),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      Flexible(
+                        child: _buildImage(),
+                      ),
+                      const SizedBox(width: 5),
+                      TextInAppWidget(
+                        text: widget.text ?? '',
+                        textSize: 13,
+                        fontWeightIndex: FontSelectionData.mediumFontFamily,
+                        textColor: AppColors.darkColor,
+                      ),
+                    ],
+                  ),
+                ),
+                ContainerOpenCloseTabSetting(
+                  isDoneTask: widget.isDoneTask,
+                  onTap: widget.onTap,
+                )
+              ],
+            ),
+            const SizedBox(height: 10),
+            BlocBuilder<DetailsContainerSettingCubit, DetailsContainerSettingState>(
+              builder: (context, state) {
+                if (!state.isExpanded) return const SizedBox();
+
+                return  BlocProvider(
+                    create: (_) => GetProductsByCategoryCubit()
+                      ..getProductsByCategory(
+                        categoryId: widget.categoryId,
+                      ),
+                child: const DesignCreateSparePartsDesign());
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

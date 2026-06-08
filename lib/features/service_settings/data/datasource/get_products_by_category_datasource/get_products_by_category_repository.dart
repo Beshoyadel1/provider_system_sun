@@ -1,0 +1,34 @@
+import 'package:dio/dio.dart';
+import 'package:sun_web_system/features/service_settings/data/model/get_products_by_category_model/product_model_get_products_by_category.dart';
+import '../../request/get_products_by_category_request/get_products_by_category_request.dart';
+import '../../../../../core/api/dio_function/api_constants.dart';
+import '../../../../../core/pages_widgets/general_widgets/snakbar.dart';
+import '../../../../../core/api/dio_function/dio_controller.dart';
+import '../../../../../core/api/dio_function/failures.dart';
+
+Future<List<ProductModelGetProductsByCategory>> getProductsByCategoryFunction({
+  required GetProductsByCategoryRequest request,
+}) async {
+  try {
+    final response = await Network.postDataWithBodyAndParams(
+      {},
+      request.toJson(),
+      ApiLink.getProductsByCategory,
+    );
+
+    final List list = response.data['data'] ?? [];
+
+    return list
+        .map((e) => ProductModelGetProductsByCategory.fromJson(
+            e as Map<String, dynamic>))
+        .toList();
+  } catch (e) {
+    AppSnackBar.showError(
+      e is DioException
+          ? responseOfStatusCode(e.response?.statusCode)
+          : e.toString(),
+    );
+
+    return [];
+  }
+}
