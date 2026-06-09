@@ -1,13 +1,14 @@
 import 'package:flutter/cupertino.dart';
-import '../../../../../../core/language/language_constant.dart';
-import '../../../../../../../features/permissions/presentation/custom_widget/check_box_with_text_widget.dart';
+import 'package:sun_web_system/core/language/language_constant.dart';
+
+import '../../../custom_widget/check_box_with_text_widget.dart';
 
 class MobileAsPartUserSelectPermissions extends StatelessWidget {
   const MobileAsPartUserSelectPermissions({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       spacing: 10,
       children: [
         Row(

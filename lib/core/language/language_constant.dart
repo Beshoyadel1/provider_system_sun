@@ -785,6 +785,8 @@ class AppLanguageKeys {
 
   static const String addNewUser = 'addNewUser';
   static const String userPermissionsSettings = 'userPermissionsSettings';
+  static const String addNewEmployee = 'addNewEmployee';
+  static const String employeeSettings = 'employeeSettings';
   static const String employeeName = 'employeeName';
   static const String jobTitle = 'jobTitle';
   static const String accountStatus = 'accountStatus';

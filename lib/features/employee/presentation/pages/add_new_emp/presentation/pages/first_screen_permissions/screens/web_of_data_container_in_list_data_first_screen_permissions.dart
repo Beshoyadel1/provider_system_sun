@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
-import '../../../../../../features/permissions/presentation/custom_widget/text_with_container_as_column_widget.dart';
-import '../../../../../../core/language/language_constant.dart';
-import '../../../../../../features/permissions/presentation/custom_widget/text_with_text_form_field_as_column_widget.dart';
+import 'package:sun_web_system/core/language/language_constant.dart';
+import 'package:sun_web_system/features/employee/presentation/pages/add_new_emp/presentation/custom_widget/text_with_container_as_column_widget.dart';
+import 'package:sun_web_system/features/employee/presentation/pages/add_new_emp/presentation/custom_widget/text_with_text_form_field_as_column_widget.dart';
 
-class MobileOfDataContainerInListDataFirstScreenPermissions
+class WebOfDataContainerInListDataFirstScreenPermissions
     extends StatelessWidget {
-  const MobileOfDataContainerInListDataFirstScreenPermissions({super.key});
+  const WebOfDataContainerInListDataFirstScreenPermissions({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,6 @@ class MobileOfDataContainerInListDataFirstScreenPermissions
       spacing: 10,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        //row_
         Row(
           spacing: 5,
           children: [
@@ -25,10 +24,6 @@ class MobileOfDataContainerInListDataFirstScreenPermissions
               text: AppLanguageKeys.jobTitle,
               hint: AppLanguageKeys.jobTitle,
             ),
-          ],
-        ),
-        Row(
-          children: [
             TextWithTextFormFieldAsColumnWidget(
               text: AppLanguageKeys.accountStatus,
               hint: AppLanguageKeys.accountStatus,
@@ -37,29 +32,22 @@ class MobileOfDataContainerInListDataFirstScreenPermissions
           ],
         ),
         Row(
+          spacing: 5,
           children: [
             TextWithTextFormFieldAsColumnWidget(
               text: AppLanguageKeys.email,
               hint: AppLanguageKeys.email,
             ),
-          ],
-        ),
-        Row(
-          children: [
             TextWithTextFormFieldAsColumnWidget(
               text: AppLanguageKeys.phoneNumber,
               hint: AppLanguageKeys.phoneNumber,
             ),
-          ],
-        ),
-        Row(
-          children: [
-            TextWithContainerAsColumnWidget(
+            const TextWithContainerAsColumnWidget(
               title: AppLanguageKeys.picture,
               textContainer: AppLanguageKeys.uploadPicture,
-            ),
+            )
           ],
-        )
+        ),
       ],
     );
   }

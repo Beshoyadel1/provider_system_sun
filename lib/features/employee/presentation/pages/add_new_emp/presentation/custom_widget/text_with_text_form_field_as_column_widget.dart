@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/features/permissions/presentation/bloc/option_dashboard_cubit.dart';
-import '../../../../../core/pages_widgets/text_form_field_widget.dart';
-import '../../../../../core/theming/colors.dart';
-import '../../../../../core/theming/fonts.dart';
-import '../../../../../core/theming/text_styles.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:sun_web_system/core/pages_widgets/text_form_field_widget.dart';
+import 'package:sun_web_system/core/theming/colors.dart';
+import 'package:sun_web_system/core/theming/fonts.dart';
+import 'package:sun_web_system/core/theming/text_styles.dart';
+import 'package:sun_web_system/features/employee/presentation/pages/add_new_emp/presentation/bloc/option_dashboard_cubit.dart';
+
 
 class TextWithTextFormFieldAsColumnWidget extends StatelessWidget {
   final String text, hint;

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import '../../../../../../core/language/language_constant.dart';
-import '../../../../../../core/theming/assets.dart';
-import '../../../../../../features/permissions/presentation/custom_widget/check_box_with_text_widget.dart';
+import 'package:sun_web_system/core/language/language_constant.dart';
+import 'package:sun_web_system/core/theming/assets.dart';
+import 'package:sun_web_system/features/employee/presentation/pages/add_new_emp/presentation/custom_widget/check_box_with_text_widget.dart';
 
 class SelectPermissionsAndServicesProvidedToTheUserWithImage
     extends StatelessWidget {
@@ -9,7 +9,7 @@ class SelectPermissionsAndServicesProvidedToTheUserWithImage
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       children: [
         Row(
           children: [

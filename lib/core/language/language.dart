@@ -864,6 +864,8 @@ class AppLocalizations {
       AppLanguageKeys.addNewUser: 'أضافة مستخدم جديد',
       AppLanguageKeys.userPermissionsSettings:
           'إعدادات صلاحيات المستخدمين داخل النظام',
+      AppLanguageKeys.addNewEmployee: 'إضافة موظف جديد',
+      AppLanguageKeys.employeeSettings: 'إعدادات موظفين المستخدمين داخل النظام',
       AppLanguageKeys.employeeName: 'أسم الموظف',
       AppLanguageKeys.jobTitle: 'اسم الوظيفة',
       AppLanguageKeys.accountStatus: 'حالة الحساب',
@@ -2166,6 +2168,9 @@ Providers will be notified of any major changes via the platform or email.
       AppLanguageKeys.addNewUser: 'Add New User',
       AppLanguageKeys.userPermissionsSettings:
           'User permissions_user Settings in the System',
+      AppLanguageKeys.addNewEmployee: 'Add New Employee',
+      AppLanguageKeys.employeeSettings:
+      'Employee settings for system users',
       AppLanguageKeys.employeeName: 'Employee Name',
       AppLanguageKeys.jobTitle: 'Job Title',
       AppLanguageKeys.accountStatus: 'Account Status',

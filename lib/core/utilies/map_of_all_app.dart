@@ -1,6 +1,7 @@
 import 'package:sun_web_system/features/cars_haraj_page/presentation/ui/car_haraj_orders_page.dart';
 import 'package:sun_web_system/features/cars_haraj_page/presentation/ui/cars_haraj_statistics_page.dart';
 import 'package:sun_web_system/features/communication_and_policies_pages/presentation/pages/first_screen_communication_and_policies_pages/first_screen_communication_and_policies_pages.dart';
+import 'package:sun_web_system/features/employee/presentation/pages/add_new_emp/presentation/pages/first_screen_permissions/first_screen_permissions.dart';
 import 'package:sun_web_system/features/employee/presentation/pages/sign_up_page_emp/sign_up_page_emp.dart';
 import 'package:sun_web_system/features/employee/presentation/pages/view_employee_data/view_employee_data.dart';
 import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/first_screen_internal_orders/first_screen_internal_orders.dart';
@@ -22,7 +23,6 @@ import '../../features/dashboard_page/presentation/dashboard_page.dart';
 import '../../../features/service_settings/presentation/pages/first_screen_service_settings/first_screen_service_settings.dart';
 import '../../../core/language/language_constant.dart';
 import '../../../core/theming/assets.dart';
-import '../../../features/permissions/presentation/pages/first_screen_permissions/first_screen_permissions.dart';
 
 class AppStatesApi {
   static const String phoneExist = 'PhoneExist';

@@ -7,6 +7,7 @@ import 'package:sun_web_system/core/theming/colors.dart';
 import 'package:sun_web_system/core/theming/fonts.dart';
 import 'package:sun_web_system/core/theming/text_styles.dart';
 import 'package:sun_web_system/features/advertisements/presentation/pages/first_screen_advertisements/screens/last_button_in_list_data_first_screen_advertisements.dart';
+import 'package:sun_web_system/features/employee/presentation/pages/add_new_emp/presentation/custom_widget/text_with_container_as_column_widget.dart';
 import '../../../../../../data/model/get_car_brand_models/car_model_data_model.dart';
 import '../../../../../../data/request/create_product_request/create_product_request.dart';
 import 'package:sun_web_system/features/service_settings/data/model/get_products_by_category_model/product_model_get_products_by_category.dart';
@@ -28,7 +29,6 @@ import '../../../../../../../../features/service_settings/presentation/bloc/get_
 import '../../../../../../../../features/service_settings/presentation/bloc/get_tax_cubit/get_tax_cubit.dart';
 import '../../../../../../../../features/service_settings/presentation/bloc/get_tax_cubit/get_tax_state.dart';
 import '../../../../../../../../features/service_settings/presentation/bloc/select_car_model_setting_cubit/select_car_model_setting_cubit.dart';
-import '../../../../../../../../features/permissions/presentation/custom_widget/text_with_container_as_column_widget.dart';
 import '../../../../../../../../core/language/language_constant.dart';
 import 'package:image_picker/image_picker.dart';
 

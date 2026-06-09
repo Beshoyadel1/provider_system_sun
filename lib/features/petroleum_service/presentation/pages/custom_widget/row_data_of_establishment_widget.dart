@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:sun_web_system/features/employee/presentation/pages/add_new_emp/presentation/custom_widget/text_with_text_form_field_as_column_widget.dart';
 import '../../../../../../../core/language/language_constant.dart';
-import '../../../../../../../features/permissions/presentation/custom_widget/text_with_text_form_field_as_column_widget.dart';
 
 class RowDataOfEstablishmentWidget extends StatelessWidget {
   final String? text1, text2, text3, text4, hint1, hint2, hint3, hint4;

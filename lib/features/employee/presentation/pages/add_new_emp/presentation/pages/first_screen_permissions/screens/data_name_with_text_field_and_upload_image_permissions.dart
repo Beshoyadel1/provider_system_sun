@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import '../../../../../../features/permissions/presentation/pages/first_screen_permissions/screens/mobile_of_data_container_in_list_data_first_screen_permissions.dart';
-import '../../../../../../features/permissions/presentation/pages/first_screen_permissions/screens/web_of_data_container_in_list_data_first_screen_permissions.dart';
-import '../../../../../../core/utilies/map_of_all_app.dart';
+import 'package:sun_web_system/core/utilies/map_of_all_app.dart';
+import 'package:sun_web_system/features/employee/presentation/pages/add_new_emp/presentation/pages/first_screen_permissions/screens/mobile_of_data_container_in_list_data_first_screen_permissions.dart';
+import 'package:sun_web_system/features/employee/presentation/pages/add_new_emp/presentation/pages/first_screen_permissions/screens/web_of_data_container_in_list_data_first_screen_permissions.dart';
+
 
 class DataNameWithTextFieldAndUploadImagePermissions extends StatelessWidget {
   const DataNameWithTextFieldAndUploadImagePermissions({super.key});
