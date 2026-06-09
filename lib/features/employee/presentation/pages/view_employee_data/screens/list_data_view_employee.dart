@@ -45,7 +45,6 @@ class ListDataViewEmployee extends StatelessWidget {
               return CustomContainer(
                 isSelected: false,
                 onTap: () {
-                  print("Employee Clicked: ${employee.userId}");
                   Navigator.push(
                     context,
                     NavigateToPageWidget(
@@ -57,41 +56,57 @@ class ListDataViewEmployee extends StatelessWidget {
                 },
                 borderRadius: BorderRadius.circular(12),
                 containerWidth: double.infinity,
-                typeWidget: Wrap(
-                  spacing: 35,
-                  runSpacing: 10,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  alignment: WrapAlignment.spaceBetween,
-                  children: [
-                    TitleWithSubTitle(
-                      title: AppLanguageKeys.identity,
-                      subTitle: employee.userId.toString(),
-                      titleColor: AppColors.greyColor,
-                      textSizeTitle: 15,
-                      textSizeSubTitle: 14,
-                    ),
-                    TitleWithSubTitle(
-                      title: AppLanguageKeys.name,
-                      subTitle: employee.userName,
-                      titleColor: AppColors.greyColor,
-                      textSizeTitle: 15,
-                      textSizeSubTitle: 14,
-                    ),
-                    TitleWithSubTitle(
-                      title: AppLanguageKeys.phoneNumber,
-                      subTitle: employee.phone,
-                      titleColor: AppColors.greyColor,
-                      textSizeTitle: 15,
-                      textSizeSubTitle: 14,
-                    ),
-                    TitleWithSubTitle(
-                      title: AppLanguageKeys.email,
-                      subTitle: employee.email,
-                      titleColor: AppColors.greyColor,
-                      textSizeTitle: 15,
-                      textSizeSubTitle: 14,
-                    ),
-                  ],
+                typeWidget: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final double itemWidth;
+
+                    if (constraints.maxWidth >= 700) {
+                      itemWidth = (constraints.maxWidth - 90) / 4;
+                    } else if (constraints.maxWidth >= 300) {
+                      itemWidth = (constraints.maxWidth - 20) / 2;
+                    } else {
+                      itemWidth = constraints.maxWidth;
+                    }
+
+                    Widget buildItem({
+                      required String title,
+                      required String value,
+                    }) {
+                      return SizedBox(
+                        width: itemWidth,
+                        child: TitleWithSubTitle(
+                          title: title,
+                          subTitle: value,
+                          titleColor: AppColors.greyColor,
+                          textSizeTitle: 15,
+                          textSizeSubTitle: 14,
+                        ),
+                      );
+                    }
+
+                    return Wrap(
+                      spacing: 20,
+                      runSpacing: 15,
+                      children: [
+                        buildItem(
+                          title: AppLanguageKeys.identity,
+                          value: employee.userId.toString(),
+                        ),
+                        buildItem(
+                          title: AppLanguageKeys.name,
+                          value: employee.userName,
+                        ),
+                        buildItem(
+                          title: AppLanguageKeys.phoneNumber,
+                          value: employee.phone,
+                        ),
+                        buildItem(
+                          title: AppLanguageKeys.email,
+                          value: employee.email,
+                        ),
+                      ],
+                    );
+                  },
                 ),
               );
             },

@@ -104,7 +104,7 @@ class _SignUpMobileEmpWidgetState extends State<SignUpMobileEmpWidget> {
                         AppLanguageKeys.success,
                       );
                       if (context.mounted) {
-                        Navigator.pop(context);
+                        Navigator.pop(context,true);
                       }
                     }
 
@@ -152,8 +152,10 @@ class _SignUpMobileEmpWidgetState extends State<SignUpMobileEmpWidget> {
                             email: emailController.text.trim(),
                             password: password,
                             type: UserType.employeeUser,
-                            employeeDetails: EmployeeDetailsRequest(
-                              provid: user?.userid,
+                            employeeDetails: EmployeeWrapperRequest(
+                              employeeDetails: EmployeeDetailsRequest(
+                                provid: user?.userid,
+                              ),
                             ),
                           );
 

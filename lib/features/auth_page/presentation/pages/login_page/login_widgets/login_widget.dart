@@ -99,11 +99,31 @@ class _LoginWidgetState extends State<LoginWidget> {
                   onPressed: isLoading
                       ? null
                       : () {
+                    final email = userNameController.text.trim();
+                    final password = passwordController.text.trim();
+                    if (email.isEmpty||password.isEmpty) {
+                      AppSnackBar.showError(
+                        AppLanguageKeys.enterYourData,
+                      );
+                      return;
+                    }
+
+                    final emailRegex = RegExp(
+                      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                    );
+
+                    if (!emailRegex.hasMatch(email)) {
+                      AppSnackBar.showError(
+                        AppLanguageKeys.pleaseEnterValidEmail,
+                      );
+                      return;
+                    }
+
                     if (!_formKey.currentState!.validate()) return;
 
                     context.read<AuthCubit>().login(
                       LoginRequest(
-                        user: userNameController.text.trim(),
+                        user: email,
                         password: passwordController.text.trim(),
                         type: UserType.providerUser,
                       ),

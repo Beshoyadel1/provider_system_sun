@@ -11,6 +11,7 @@ class TitleWithSubTitle extends StatelessWidget {
   final IconData? iconData;
   final CrossAxisAlignment? crossAxisAlignment;
   const TitleWithSubTitle({
+    super.key,
     this.title,
     this.subTitle,
     this.subTitleColor,
@@ -55,8 +56,8 @@ class TitleWithSubTitle extends StatelessWidget {
           spacing: 5,
           children: [
             Container(
-              padding: EdgeInsetsGeometry.symmetric(horizontal: 8,vertical: 1),
-              decoration: BoxDecoration(
+              padding: const EdgeInsetsGeometry.symmetric(horizontal: 8,vertical: 1),
+              decoration: const BoxDecoration(
                 color: AppColors.orangeColor,
                 borderRadius: BorderRadius.all(Radius.circular(20)),
               ),

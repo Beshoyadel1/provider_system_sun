@@ -142,33 +142,56 @@ class _SignUpMobileEmpState extends State<SignUpMobileEmp> {
                             onPressed: isLoading
                                 ? null
                                 : () {
-                                    if (!_formKey.currentState!.validate())
-                                      return;
+                              final username = usernameController.text.trim();
+                              final phone = phoneController.text.trim();
+                              final email = emailController.text.trim();
+                              final password = passwordController.text.trim();
+                              final confirm = confirmPasswordController.text.trim();
 
-                                    final password =
-                                        passwordController.text.trim();
-                                    final confirm =
-                                        confirmPasswordController.text.trim();
+                              if (username.isEmpty ||
+                                  phone.isEmpty ||
+                                  email.isEmpty ||
+                                  password.isEmpty ||
+                                  confirm.isEmpty) {
+                                AppSnackBar.showError(
+                                  AppLanguageKeys.enterYourData,
+                                );
+                                return;
+                              }
 
-                                    if (password != confirm) {
-                                      AppSnackBar.showError(
-                                          AppLanguageKeys.passwordsDoNotMatch);
-                                      return;
-                                    }
+                              final emailRegex = RegExp(
+                                r'^[\w\-.]+@([\w-]+\.)+[\w-]{2,4}$',
+                              );
 
-                                    context.read<AuthCubit>().signup(
-                                          CreateUserRequest(
-                                            username:
-                                                usernameController.text.trim(),
-                                            phone: phoneController.text.trim(),
-                                            email: emailController.text.trim(),
-                                            password: password,
-                                            type: UserType.providerUser,
-                                            providerDetails:
-                                                const ProviderDetailsRequest(),
-                                          ),
-                                        );
-                                  },
+                              if (!emailRegex.hasMatch(email)) {
+                                AppSnackBar.showError(
+                                  AppLanguageKeys.pleaseEnterValidEmail,
+                                );
+                                return;
+                              }
+
+                              if (password != confirm) {
+                                AppSnackBar.showError(
+                                  AppLanguageKeys.passwordsDoNotMatch,
+                                );
+                                return;
+                              }
+
+                              if (!_formKey.currentState!.validate()) {
+                                return;
+                              }
+
+                              context.read<AuthCubit>().signup(
+                                CreateUserRequest(
+                                  username: username,
+                                  phone: phone,
+                                  email: email,
+                                  password: password,
+                                  type: UserType.providerUser,
+                                  providerDetails: const ProviderDetailsRequest(),
+                                ),
+                              );
+                            },
                           );
                         },
                       ),

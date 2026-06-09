@@ -32,6 +32,7 @@ class AppLocalizations {
 
       //others//
       AppLanguageKeys.employees: 'الموظفين',
+      AppLanguageKeys.pleaseEnterValidEmail: 'يرجى إدخال بريد إلكتروني صحيح',
       AppLanguageKeys.allRegisteredEmployeesInFacility:
           'جميع الموظفين المسجلين داخل المؤسسة',
       AppLanguageKeys.viewEmployees: 'عرض الموظفين',
@@ -1323,6 +1324,7 @@ class AppLocalizations {
       //END//
       //others//
       AppLanguageKeys.employees: 'Employees',
+      AppLanguageKeys.pleaseEnterValidEmail: 'Please enter a valid email',
       AppLanguageKeys.allRegisteredEmployeesInFacility:
           'All registered employees in the facility',
       AppLanguageKeys.viewEmployees: 'View Employees',
