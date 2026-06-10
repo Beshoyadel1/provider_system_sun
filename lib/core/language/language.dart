@@ -31,6 +31,7 @@ class AppLocalizations {
       //END//
 
       //others//
+      AppLanguageKeys.editEmployee: 'تعديل موظف',
       AppLanguageKeys.employees: 'الموظفين',
       AppLanguageKeys.pleaseEnterValidEmail: 'يرجى إدخال بريد إلكتروني صحيح',
       AppLanguageKeys.allRegisteredEmployeesInFacility:
@@ -1323,6 +1324,7 @@ class AppLocalizations {
       AppLanguageKeys.cancelledByUser: 'Cancelled by User',
       //END//
       //others//
+      AppLanguageKeys.editEmployee: 'Edit Employee',
       AppLanguageKeys.employees: 'Employees',
       AppLanguageKeys.pleaseEnterValidEmail: 'Please enter a valid email',
       AppLanguageKeys.allRegisteredEmployeesInFacility:

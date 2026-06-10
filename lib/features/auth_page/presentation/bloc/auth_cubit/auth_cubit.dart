@@ -312,7 +312,7 @@ class AuthCubit extends Cubit<AuthState> {
           fcmToken: oldUser?.fcmToken,
           defaultcarid: oldUser?.defaultcarid,
           providerDetails: request.providerDetails ?? oldUser?.providerDetails,
-          employeeDetails: request.employeeDetails ?? oldUser?.employeeDetails,
+          //employeeDetails: request.employeeDetails ?? oldUser?.employeeDetails,
         );
 
         print("========== SAVED USER ==========");
@@ -430,7 +430,31 @@ class AuthCubit extends Cubit<AuthState> {
       );
     }
   }
+  Future<void> signupEmp(CreateUserRequest request) async {
+    if (isClosed) return;
 
+    emit(AuthSignupLoading());
+
+    final result = await createUserFunction(
+      createUserRequest: request,
+    );
+
+    if (isClosed) return;
+
+    if (result.success) {
+      emit(
+        AuthSignupSuccess(
+          result.message,
+        ),
+      );
+    } else {
+      emit(
+        AuthSignupError(
+          result.message,
+        ),
+      );
+    }
+  }
   // ================= Validators =================
 
   String? nameValidator(String? value) {

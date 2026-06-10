@@ -5,7 +5,7 @@ import 'package:sun_web_system/core/pages_widgets/general_widgets/navigate_to_pa
 import 'package:sun_web_system/core/theming/colors.dart';
 import 'package:sun_web_system/core/theming/fonts.dart';
 import 'package:sun_web_system/core/theming/text_styles.dart';
-import 'package:sun_web_system/features/employee/presentation/pages/sign_up_page_emp/sign_up_page_emp.dart';
+import 'package:sun_web_system/features/employee/presentation/pages/add_edit_employee_data/facility_account_emp/facility_account_emp.dart';
 import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/first_screen_internal_orders/screens/big_container_of_new_orders/Container_view_all_in_first_row_in_data_container_in_list_data_first_screen_internal_orders.dart';
 
 class TitleViewEmployeeData extends StatelessWidget {
@@ -41,7 +41,7 @@ class TitleViewEmployeeData extends StatelessWidget {
             Navigator.push(
               context,
               NavigateToPageWidget(
-                const SignUpPageEmp(),
+                const FacilityAccountEmp(),
               ),
             );
           },

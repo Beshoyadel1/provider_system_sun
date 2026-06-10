@@ -20,6 +20,7 @@ class AppLanguageKeys {
   //end//
 
   //others//
+  static const String editEmployee = 'editEmployee';
   static const String pleaseEnterValidEmail =
       'pleaseEnterValidEmail';
   static const String employees = 'employees';

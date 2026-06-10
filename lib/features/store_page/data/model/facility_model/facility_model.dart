@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/employee/data/model/employee_model/employee_model.dart';
-import 'package:sun_web_system/features/employee/presentation/bloc/employee_cubit/employee_cubit.dart';
-import 'package:sun_web_system/features/employee/presentation/pages/edit_employee_data/facility_account_emp/tabs/branches_content_emp.dart';
-import 'package:sun_web_system/features/employee/presentation/pages/edit_employee_data/facility_account_emp/tabs/facility_data_content_emp.dart';
-import 'package:sun_web_system/features/employee/presentation/pages/edit_employee_data/facility_account_emp/tabs/working_hours_content_emp.dart';
+import 'package:sun_web_system/features/employee/presentation/pages/add_edit_employee_data/facility_account_emp/tabs/facility_data_content_emp.dart';
 import 'package:sun_web_system/features/store_page/presentation/bloc/branch_cubit/branch_cubit.dart';
 import 'package:sun_web_system/features/store_page/presentation/bloc/work_time_cubit/work_time_cubit.dart';
 import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/facility_account/tabs/bank_account_content.dart';
@@ -81,15 +78,15 @@ List<FacilityModel> facilityTabsEmployee(
     EmployeeModel employee,
     ) {
   return [
-    FacilityModel(
-      title: AppLanguageKeys.facilityDataKey,
-      content: BlocProvider(
-        create: (_) => EmployeeCubit(),
-        child: FacilityDataContentEmp(
-          employee: employee,
-        ),
-      ),
-    ),
+    // FacilityModel(
+    //   title: AppLanguageKeys.facilityDataKey,
+    //   content: BlocProvider(
+    //     create: (_) => EmployeeCubit(),
+    //     child: FacilityDataContentEmp(
+    //       employee: employee,
+    //     ),
+    //   ),
+    // ),
 
     // FacilityModel(
     //   title: AppLanguageKeys.branchesKey,

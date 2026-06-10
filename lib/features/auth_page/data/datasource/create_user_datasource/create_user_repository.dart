@@ -20,49 +20,51 @@ class CreateUserResult {
 Future<CreateUserResult> createUserFunction({
   required CreateUserRequest createUserRequest,
 }) async {
-
   try {
-
-    String jsonString = json.encode(
+    final jsonString = json.encode(
       createUserRequest.toJson(),
     );
+
+    print('REQUEST => $jsonString');
 
     final response = await Network.postDataWithBody(
       jsonString,
       ApiLink.createUser,
     );
 
-    final Map<String, dynamic> body = response.data;
+    print('STATUS => ${response.statusCode}');
+    print('RESPONSE => ${response.data}');
+
+    final Map<String, dynamic> body =
+    Map<String, dynamic>.from(response.data);
 
     return CreateUserResult(
-      success: body["success"] ?? false,
-      message: body["message"] ?? "",
+      success: body["success"] == true,
+      message: body["message"]?.toString() ?? "",
     );
-
   } on DioException catch (e) {
+    print('DIO STATUS => ${e.response?.statusCode}');
+    print('DIO RESPONSE => ${e.response?.data}');
 
     String errorMessage = "حدث خطأ ما";
 
-    if (e.response?.data != null) {
+    final data = e.response?.data;
 
-      final data = e.response?.data;
-
-      if (data is Map<String, dynamic>) {
-
-        errorMessage =
-            data["message"] ??
-                responseOfStatusCode(
-                  e.response?.statusCode,
-                );
-      }
+    if (data is Map<String, dynamic>) {
+      errorMessage =
+          data["message"]?.toString() ??
+              responseOfStatusCode(
+                e.response?.statusCode,
+              );
     }
 
     return CreateUserResult(
       success: false,
       message: errorMessage,
     );
-
-  } catch (e) {
+  } catch (e, s) {
+    print('ERROR => $e');
+    print('STACK => $s');
 
     return CreateUserResult(
       success: false,

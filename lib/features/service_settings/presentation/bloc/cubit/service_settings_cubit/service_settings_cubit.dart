@@ -32,4 +32,21 @@ class ServiceSettingsCubit extends Cubit<ServiceSettingsState> {
       emit(ServiceSettingsError(e.toString()));
     }
   }
+  Future<void> getChildServices() async {
+    emit(ServiceSettingsLoading());
+
+    try {
+      if (allServices.isEmpty) {
+        allServices = await getServicesFunction();
+      }
+
+      final childServices = allServices
+          .where((e) => (e.parentId ?? 0) != 0)
+          .toList();
+
+      emit(ServiceSettingsSuccess(childServices));
+    } catch (e) {
+      emit(ServiceSettingsError(e.toString()));
+    }
+  }
 }

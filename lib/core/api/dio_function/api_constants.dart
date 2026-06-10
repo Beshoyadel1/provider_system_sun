@@ -56,6 +56,10 @@ class ApiLink {
       "${ApiConfig.baseUrlApi}/${ApiConfig.user}/UpdateUser";
 
   //Employee
+  static const String getProviderEmployees =
+      "${ApiConfig.baseUrlApi}/${ApiConfig.employeeService}/GetProviderEmployees";
+  static const String getEmployeeServices =
+      "${ApiConfig.baseUrlApi}/${ApiConfig.branch}/GetEmployeeServices";
   static const String getBranchEmployees =
       "${ApiConfig.baseUrlApi}/${ApiConfig.branch}/getBranchEmployees";
   //Banner
@@ -109,8 +113,6 @@ class ApiLink {
 //Employee Management
   static const String assignServiceToEmployee =
       "${ApiConfig.baseUrlApi}/${ApiConfig.employeeService}/AssignServiceToEmployee";
-  static const String getEmployeeServices =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.employeeService}/GetEmployeeServices";
 
 //General Setup And Config
   static const String addTax =

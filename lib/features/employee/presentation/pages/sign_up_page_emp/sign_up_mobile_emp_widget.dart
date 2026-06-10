@@ -11,13 +11,13 @@ import 'package:sun_web_system/core/pages_widgets/general_widgets/snakbar.dart';
 import 'package:sun_web_system/core/theming/assets.dart';
 import 'package:sun_web_system/core/theming/fonts.dart';
 import 'package:sun_web_system/core/theming/text_styles.dart';
-import 'package:sun_web_system/features/auth_page/data/model/create_user_model/employee_details_request.dart';
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/employee_wrapper_request.dart';
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_cubit.dart';
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_state.dart';
 import 'package:sun_web_system/features/auth_page/presentation/pages/login_page/login_widgets/login_button_widget.dart';
 import 'package:sun_web_system/features/auth_page/presentation/pages/login_page/login_widgets/login_language_button_widget.dart';
 import 'package:sun_web_system/features/auth_page/presentation/pages/login_page/login_widgets/user_text_field_widget.dart';
+import 'package:sun_web_system/features/employee/data/model/employee_model/employee_model.dart';
 
 class SignUpMobileEmpWidget extends StatefulWidget {
   const SignUpMobileEmpWidget({super.key});
@@ -153,7 +153,7 @@ class _SignUpMobileEmpWidgetState extends State<SignUpMobileEmpWidget> {
                             password: password,
                             type: UserType.employeeUser,
                             employeeDetails: EmployeeWrapperRequest(
-                              employeeDetails: EmployeeDetailsRequest(
+                              employeeDetails: EmployeeModel(
                                 provid: user?.userid,
                               ),
                             ),

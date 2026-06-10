@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
@@ -5,9 +7,9 @@ import 'package:sun_web_system/core/pages_widgets/general_widgets/custom_contain
 import 'package:sun_web_system/core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
 import 'package:sun_web_system/core/theming/colors.dart';
 import 'package:sun_web_system/features/accounts_management/presentation/custom_widget/title_with_sub_title.dart';
-import 'package:sun_web_system/features/employee/presentation/bloc/employee_cubit/employee_cubit.dart';
-import 'package:sun_web_system/features/employee/presentation/bloc/employee_cubit/employee_state.dart';
-import 'package:sun_web_system/features/employee/presentation/pages/edit_employee_data/facility_account_emp/facility_account_emp.dart';
+import 'package:sun_web_system/features/employee/presentation/bloc/provider_employees_cubit/provider_employees_cubit.dart';
+import 'package:sun_web_system/features/employee/presentation/bloc/provider_employees_cubit/provider_employees_state.dart';
+import 'package:sun_web_system/features/employee/presentation/pages/add_edit_employee_data/facility_account_emp/facility_account_emp.dart';
 import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/custom_widget/text_empty_view_data.dart';
 
 class ListDataViewEmployee extends StatelessWidget {
@@ -15,21 +17,21 @@ class ListDataViewEmployee extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<EmployeeCubit, EmployeeState>(
+    return BlocBuilder<ProviderEmployeesCubit, ProviderEmployeesState>(
       builder: (context, state) {
-        if (state is EmployeeLoading) {
+        if (state is ProviderEmployeesLoading) {
           return const Center(
             child: CircularProgressIndicator(),
           );
         }
 
-        if (state is EmployeeError) {
+        if (state is ProviderEmployeesError) {
           return Center(
             child: Text(state.message),
           );
         }
 
-        if (state is EmployeeSuccess) {
+        if (state is ProviderEmployeesSuccess) {
           if (state.employees.isEmpty) {
             return const TextEmptyViewData();
           }
@@ -45,6 +47,9 @@ class ListDataViewEmployee extends StatelessWidget {
               return CustomContainer(
                 isSelected: false,
                 onTap: () {
+                  debugPrint(
+                    jsonEncode(employee.toJson()),
+                  );
                   Navigator.push(
                     context,
                     NavigateToPageWidget(
@@ -90,19 +95,19 @@ class ListDataViewEmployee extends StatelessWidget {
                       children: [
                         buildItem(
                           title: AppLanguageKeys.identity,
-                          value: employee.userId.toString(),
+                          value: employee.userid.toString(),
                         ),
                         buildItem(
                           title: AppLanguageKeys.name,
-                          value: employee.userName,
+                          value: employee.username??"",
                         ),
                         buildItem(
                           title: AppLanguageKeys.phoneNumber,
-                          value: employee.phone,
+                          value: employee.phone??"",
                         ),
                         buildItem(
                           title: AppLanguageKeys.email,
-                          value: employee.email,
+                          value: employee.email??"",
                         ),
                       ],
                     );

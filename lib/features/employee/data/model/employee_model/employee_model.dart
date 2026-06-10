@@ -1,49 +1,83 @@
-class EmployeeModel {
-  final int userId;
-  final String userName;
-  final String phone;
-  final String email;
-  final int type;
-  final int gender;
-  final String nationality;
-  final bool isActive;
-  final String fcmToken;
-  final int providerId;
-  final String jobName;
-  final String jobLatinName;
-  final int age;
+import 'package:flutter/foundation.dart';
 
-  EmployeeModel({
-    required this.userId,
-    required this.userName,
-    required this.phone,
-    required this.email,
-    required this.type,
-    required this.gender,
-    required this.nationality,
-    required this.isActive,
-    required this.fcmToken,
-    required this.providerId,
-    required this.jobName,
-    required this.jobLatinName,
-    required this.age
+class EmployeeModel {
+  final int? id;
+  final int? provid;
+  final String? jobname;
+  final String? joblatinname;
+  final int? branchid;
+
+  const EmployeeModel({
+    this.id,
+    this.provid,
+    this.jobname,
+    this.joblatinname,
+    this.branchid,
   });
 
-  factory EmployeeModel.fromJson(Map<String, dynamic> json) {
+  static int? _toInt(dynamic value) {
+    if (value == null) return null;
+
+    if (value is int) {
+      return value;
+    }
+
+    if (value is String) {
+      return int.tryParse(value);
+    }
+
+    return int.tryParse(value.toString());
+  }
+
+  factory EmployeeModel.fromJson(
+      Map<String, dynamic> json,
+      ) {
     return EmployeeModel(
-      userId: int.tryParse('${json['userid']}') ?? 0,
-      userName: json['username']?.toString() ?? '',
-      phone: json['phone']?.toString() ?? '',
-      email: json['email']?.toString() ?? '',
-      type: int.tryParse('${json['type']}') ?? 0,
-      gender: int.tryParse('${json['gender']}') ?? 0,
-      nationality: json['nationality']?.toString() ?? '',
-      isActive: json['isactive'] == true,
-      fcmToken: json['fcmtoken']?.toString() ?? '',
-      providerId: int.tryParse('${json['provid']}') ?? 0,
-      jobName: json['jobname']?.toString() ?? '',
-      jobLatinName: json['joblatinname']?.toString() ?? '',
-      age: int.tryParse('${json['age']}') ?? 0,
+      id: _toInt(json["id"]),
+      provid: _toInt(json["provid"]),
+      branchid: _toInt(json["branchid"]),
+      jobname: json["jobname"]?.toString(),
+      joblatinname: json["joblatinname"]?.toString(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = {};
+
+    if (id != null) {
+      data["id"] = id;
+    }
+
+    if (provid != null) {
+      data["provid"] = provid;
+    }
+
+    if (jobname != null && jobname!.isNotEmpty) {
+      data["jobname"] = jobname;
+    }
+
+    if (joblatinname != null &&
+        joblatinname!.isNotEmpty) {
+      data["joblatinname"] = joblatinname;
+    }
+
+    if (branchid != null) {
+      data["branchid"] = branchid;
+    }
+
+    return data;
+  }
+
+  @override
+  String toString() {
+    return '''
+EmployeeModel(
+id: $id,
+provid: $provid,
+jobname: $jobname,
+joblatinname: $joblatinname,
+branchid: $branchid
+)
+''';
   }
 }
