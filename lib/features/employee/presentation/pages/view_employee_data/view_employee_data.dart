@@ -11,25 +11,23 @@ class ViewEmployeeData extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: AppColors.scaffoldColor,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: SingleChildScrollView(
-            child: Column(
-                spacing: 10,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const TitleViewEmployeeData(),
-                  BlocProvider(
-                    create: (_) => ProviderEmployeesCubit()..getEmployees(),
-                    child: const ListDataViewEmployee(),
-                  ),
-                ]
-            ),
-          )
-        ),
+            padding: const EdgeInsets.all(20),
+            child: SingleChildScrollView(
+              child: BlocProvider(
+                create: (_) => ProviderEmployeesCubit()..getEmployees(),
+                child: const Column(
+                    spacing: 10,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TitleViewEmployeeData(),
+                      ListDataViewEmployee(),
+                    ]),
+              ),
+            )),
       ),
     );
   }

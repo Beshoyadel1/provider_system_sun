@@ -46,11 +46,8 @@ class ListDataViewEmployee extends StatelessWidget {
 
               return CustomContainer(
                 isSelected: false,
-                onTap: () {
-                  debugPrint(
-                    jsonEncode(employee.toJson()),
-                  );
-                  Navigator.push(
+                onTap: () async {
+                  final result = await Navigator.push(
                     context,
                     NavigateToPageWidget(
                       FacilityAccountEmp(
@@ -58,6 +55,11 @@ class ListDataViewEmployee extends StatelessWidget {
                       ),
                     ),
                   );
+
+                  if (result == true && context.mounted) {
+                    debugPrint('REFRESH EMPLOYEES');
+                    context.read<ProviderEmployeesCubit>().getEmployees();
+                  }
                 },
                 borderRadius: BorderRadius.circular(12),
                 containerWidth: double.infinity,

@@ -1,8 +1,6 @@
 import 'package:sun_web_system/features/cars_haraj_page/presentation/ui/car_haraj_orders_page.dart';
 import 'package:sun_web_system/features/cars_haraj_page/presentation/ui/cars_haraj_statistics_page.dart';
 import 'package:sun_web_system/features/communication_and_policies_pages/presentation/pages/first_screen_communication_and_policies_pages/first_screen_communication_and_policies_pages.dart';
-import 'package:sun_web_system/features/employee/presentation/pages/add_new_emp/presentation/pages/first_screen_permissions/first_screen_permissions.dart';
-import 'package:sun_web_system/features/employee/presentation/pages/sign_up_page_emp/sign_up_page_emp.dart';
 import 'package:sun_web_system/features/employee/presentation/pages/view_employee_data/view_employee_data.dart';
 import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/first_screen_internal_orders/first_screen_internal_orders.dart';
 import 'package:sun_web_system/features/internal_services/presentation/pages/internal_services_statistics/Internal_services_page/ui/internal_orders_page.dart';
@@ -297,12 +295,7 @@ void getPages() {
             page: MobileServicesStatisticsPage(),
           ),
         ]),
-    const PageNodeModel(
-      name: AppLanguageKeys.permissionsKey,
-      image: AppImageKeys.userPermissions,
-      number: PagesOfAllApp.permissionsPageNumber,
-      page: FirstScreenPermissions(),
-    ),
+
     const PageNodeModel(
         name: AppLanguageKeys.carMarketKey,
         image: AppImageKeys.sell,

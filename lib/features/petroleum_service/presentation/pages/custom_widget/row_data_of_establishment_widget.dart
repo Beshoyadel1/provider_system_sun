@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:sun_web_system/features/employee/presentation/pages/add_new_emp/presentation/custom_widget/text_with_text_form_field_as_column_widget.dart';
+import 'package:sun_web_system/features/employee/presentation/custom_widget/text_with_text_form_field_as_column_widget.dart';
 import '../../../../../../../core/language/language_constant.dart';
 
 class RowDataOfEstablishmentWidget extends StatelessWidget {

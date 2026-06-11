@@ -1,20 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/core/language/language_constant.dart';
-import 'package:sun_web_system/core/theming/assets.dart';
-import 'package:sun_web_system/features/employee/presentation/pages/add_new_emp/presentation/custom_widget/check_box_with_text_widget.dart';
+import 'package:sun_web_system/features/employee/presentation/custom_widget/check_box_with_text_widget.dart';
 import 'package:sun_web_system/features/service_settings/presentation/bloc/cubit/service_settings_cubit/service_settings_cubit.dart';
 import 'package:sun_web_system/features/service_settings/presentation/bloc/cubit/service_settings_cubit/service_settings_state.dart';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/features/employee/presentation/pages/add_new_emp/presentation/custom_widget/check_box_with_text_widget.dart';
-import 'package:sun_web_system/features/service_settings/presentation/bloc/cubit/service_settings_cubit/service_settings_cubit.dart';
-import 'package:sun_web_system/features/service_settings/presentation/bloc/cubit/service_settings_cubit/service_settings_state.dart';
 
-class SelectPermissionsAndServicesProvidedToTheUserWithImage extends StatelessWidget {
-  const SelectPermissionsAndServicesProvidedToTheUserWithImage({super.key});
+class SelectPermissionsAndServicesProvidedToTheUserWithImage
+    extends StatelessWidget {
+  final bool isEditMode;
+  final List<int> selectedServiceIds;
+
+  const SelectPermissionsAndServicesProvidedToTheUserWithImage({
+    super.key,
+    required this.isEditMode,
+    required this.selectedServiceIds,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +28,17 @@ class SelectPermissionsAndServicesProvidedToTheUserWithImage extends StatelessWi
         }
 
         if (state is ServiceSettingsSuccess) {
-          final childServices = state.services
+          var childServices = state.services
               .where((service) => (service.parentId ?? 0) != 0)
               .toList();
 
+          // لو مش Edit Mode اعرض المختار فقط
+          if (!isEditMode) {
+            childServices = childServices.where(
+                  (service) =>
+                  selectedServiceIds.contains(service.id),
+            ).toList();
+          }
 
           return Wrap(
             spacing: 10,
@@ -40,6 +48,7 @@ class SelectPermissionsAndServicesProvidedToTheUserWithImage extends StatelessWi
                 serviceId: service.id ?? 0,
                 text: service.getName(context),
                 imageBytes: service.image,
+                readOnly: !isEditMode,
               );
             }).toList(),
           );

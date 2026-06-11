@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
-import 'package:sun_web_system/features/employee/presentation/pages/add_new_emp/presentation/bloc/option_dashboard_cubit.dart';
+import 'package:sun_web_system/features/employee/presentation/bloc/option_dashboard_cubit/option_dashboard_cubit.dart';
 import '../../../../../core/pages_widgets/text_form_field_widget.dart';
 import '../../../../../core/theming/colors.dart';
 import '../../../../../core/theming/fonts.dart';

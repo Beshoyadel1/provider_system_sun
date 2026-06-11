@@ -9,7 +9,7 @@ class PermissionsAndServicesProvidedToTheUserText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextInAppWidget(
+    return const TextInAppWidget(
       text: AppLanguageKeys.permissionsFromServices,
       textSize: 16,
       fontWeightIndex: FontSelectionData.mediumFontFamily,

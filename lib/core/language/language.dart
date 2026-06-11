@@ -53,6 +53,7 @@ class AppLocalizations {
 
       AppLanguageKeys.facilityName: 'اسم المنشأة',
       AppLanguageKeys.facilityNameEn: 'اسم المنشأة بالإنجليزية',
+      AppLanguageKeys.jobNameEnglish: 'اسم الوظيفة بالإنجليزية',
       AppLanguageKeys.commercialRegister: 'السجل التجاري',
       AppLanguageKeys.shortAddress: 'العنوان المختصر',
       AppLanguageKeys.selectGender: 'اختر النوع',
@@ -884,7 +885,7 @@ class AppLocalizations {
       AppLanguageKeys.permissionsManagement: 'ادارة الصلاحيات',
       AppLanguageKeys.organizationManagement: 'ادارة المنشأة',
       AppLanguageKeys.permissionsFromServices:
-          'صلاحيات من الخدمات التي يحصل عليها المستخدم',
+          'الخدمات المتاحة للموظف',
       AppLanguageKeys.maintenanceServices: 'خدمات الصيانة',
 
       AppLanguageKeys.nissanServiceSettings:
@@ -1345,6 +1346,7 @@ class AppLocalizations {
       AppLanguageKeys.fuelType: 'Fuel Type',
       AppLanguageKeys.facilityName: 'Facility Name',
       AppLanguageKeys.facilityNameEn: 'Facility Name (EN)',
+      AppLanguageKeys.jobNameEnglish: 'Job Name English',
       AppLanguageKeys.commercialRegister: 'Commercial Register',
       AppLanguageKeys.shortAddress: 'Short Address',
       AppLanguageKeys.serviceNameAr: 'Service Name (Arabic)',
@@ -2192,7 +2194,7 @@ Providers will be notified of any major changes via the platform or email.
       AppLanguageKeys.permissionsManagement: 'permissions_user Management',
       AppLanguageKeys.organizationManagement: 'Organization Management',
       AppLanguageKeys.permissionsFromServices:
-          'permissions_user from Services available to the user',
+          'Services available to the Employee',
       AppLanguageKeys.maintenanceServices: 'Maintenance Services',
 
       AppLanguageKeys.nissanServiceSettings: 'Nissan Car Service Settings',

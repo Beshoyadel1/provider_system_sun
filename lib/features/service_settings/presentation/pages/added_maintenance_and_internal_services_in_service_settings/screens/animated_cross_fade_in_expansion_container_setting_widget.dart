@@ -81,7 +81,6 @@ class AnimatedCrossFadeInExpansionContainerSettingWidget
                   ],
                 ),
               ),
-
               AnimatedSize(
                 duration: const Duration(milliseconds: 300),
                 curve: Curves.easeInOut,

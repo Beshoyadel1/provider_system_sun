@@ -7,7 +7,7 @@ import 'package:sun_web_system/core/theming/colors.dart';
 import 'package:sun_web_system/core/theming/fonts.dart';
 import 'package:sun_web_system/core/theming/text_styles.dart';
 import 'package:sun_web_system/features/employee/presentation/bloc/service_permission_cubit/service_permission_cubit.dart';
-import 'package:sun_web_system/features/employee/presentation/pages/add_new_emp/presentation/bloc/check_box_with_text_cubit.dart';
+import 'package:sun_web_system/features/employee/presentation/bloc/check_box_with_text_cubit/check_box_with_text_cubit.dart';
 
 
 class CheckBoxWithText extends StatelessWidget {
@@ -15,6 +15,7 @@ class CheckBoxWithText extends StatelessWidget {
   final String text;
   final String? imageSelect;
   final Uint8List? imageBytes;
+  final bool readOnly;
 
   const CheckBoxWithText({
     super.key,
@@ -22,6 +23,7 @@ class CheckBoxWithText extends StatelessWidget {
     required this.text,
     this.imageSelect,
     this.imageBytes,
+    this.readOnly = false,
   });
 
   @override
@@ -31,10 +33,10 @@ class CheckBoxWithText extends StatelessWidget {
         final isChecked = selectedIds.contains(serviceId);
 
         return InkWell(
-          onTap: () {
-            context
-                .read<ServicePermissionCubit>()
-                .toggle(serviceId);
+          onTap: readOnly
+              ? null
+              : () {
+            context.read<ServicePermissionCubit>().toggle(serviceId);
           },
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -42,7 +44,9 @@ class CheckBoxWithText extends StatelessWidget {
               Checkbox(
                 activeColor: AppColors.orangeColor,
                 value: isChecked,
-                onChanged: (_) {
+                onChanged: readOnly
+                    ? null
+                    : (_) {
                   context
                       .read<ServicePermissionCubit>()
                       .toggle(serviceId);

@@ -5,7 +5,7 @@ import 'package:sun_web_system/core/pages_widgets/text_form_field_widget.dart';
 import 'package:sun_web_system/core/theming/colors.dart';
 import 'package:sun_web_system/core/theming/fonts.dart';
 import 'package:sun_web_system/core/theming/text_styles.dart';
-import 'package:sun_web_system/features/employee/presentation/pages/add_new_emp/presentation/bloc/option_dashboard_cubit.dart';
+import 'package:sun_web_system/features/employee/presentation/bloc/option_dashboard_cubit/option_dashboard_cubit.dart';
 
 
 class TextWithTextFormFieldAsColumnWidget extends StatelessWidget {
