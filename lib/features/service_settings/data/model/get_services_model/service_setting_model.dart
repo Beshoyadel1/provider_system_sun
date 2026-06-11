@@ -5,10 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:sun_web_system/core/language/language_cubit/language_cubit.dart';
 
 class ServiceSettingModel {
-
   final int? id;
   final int? parentId;
-
   final String? name;
   final String? latinName;
 

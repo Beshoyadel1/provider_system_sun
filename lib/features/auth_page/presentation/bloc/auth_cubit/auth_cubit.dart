@@ -219,6 +219,7 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthIncompleteProfile(result.missingFields));
     }
   }
+
   static Future<void> saveUserFromRequest(CreateUserRequest request) async {
     await AuthLocalStorage.saveUser(request);
   }
