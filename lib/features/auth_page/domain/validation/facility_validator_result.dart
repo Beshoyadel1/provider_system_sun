@@ -23,35 +23,35 @@ class FacilityValidator {
 
     List<String> missing = [];
 
-   //  bool isValid(String? value) {
-   //    return value != null &&
-   //        value.trim().isNotEmpty &&
-   //        value.trim() != "null";
-   //  }
-   //
-   //  /// 🔴 Basic data
-   //  if (!isValid(p?.name)) missing.add(AppLanguageKeys.facilityName);
-   //  if (!isValid(p?.latinname)) missing.add(AppLanguageKeys.facilityNameEn);
-   //  if (!isValid(p?.cr)) missing.add(AppLanguageKeys.commercialRecordKey);
-   //  if (!isValid(p?.vatno)) missing.add(AppLanguageKeys.taxNumber);
-   // // if (!isValid(p?.nationaladdress)) missing.add(AppLanguageKeys.nationality);
-   //  if (!isValid(user.phone)) missing.add(AppLanguageKeys.phoneNumber);
-   //  if (!isValid(user.email)) missing.add(AppLanguageKeys.email);
-   //
-   //  /// 🔴 Images
-   //  if (!isValid(p?.crimage?.toString())) missing.add(AppLanguageKeys.commercialRecordKey);
-   //  if (!isValid(p?.vatnoimage?.toString())) missing.add(AppLanguageKeys.taxNumber);
-   //  if (!isValid(user.image?.toString())) missing.add(AppLanguageKeys.ownerIdKey);
-   //
-   //  /// 🔴 Branch
-   //  if (branchCubit.branches.isEmpty) {
-   //    missing.add(AppLanguageKeys.addAtLeastOneBranch);
-   //  }
-   //
-   //  /// 🔴 Work Time
-   //  if (workTimeCubit.workTimes.isEmpty) {
-   //    missing.add(AppLanguageKeys.addAtLeastOneWorkingHours);
-   //  }
+    bool isValid(String? value) {
+      return value != null &&
+          value.trim().isNotEmpty &&
+          value.trim() != "null";
+    }
+
+    /// 🔴 Basic data
+    if (!isValid(p?.name)) missing.add(AppLanguageKeys.facilityName);
+    if (!isValid(p?.latinname)) missing.add(AppLanguageKeys.facilityNameEn);
+    if (!isValid(p?.cr)) missing.add(AppLanguageKeys.commercialRecordKey);
+    if (!isValid(p?.vatno)) missing.add(AppLanguageKeys.taxNumber);
+   // if (!isValid(p?.nationaladdress)) missing.add(AppLanguageKeys.nationality);
+    if (!isValid(user.phone)) missing.add(AppLanguageKeys.phoneNumber);
+    if (!isValid(user.email)) missing.add(AppLanguageKeys.email);
+
+    /// 🔴 Images
+    if (!isValid(p?.crimage?.toString())) missing.add(AppLanguageKeys.commercialRecordKey);
+    if (!isValid(p?.vatnoimage?.toString())) missing.add(AppLanguageKeys.taxNumber);
+    if (!isValid(user.image?.toString())) missing.add(AppLanguageKeys.ownerIdKey);
+
+    /// 🔴 Branch
+    if (branchCubit.branches.isEmpty) {
+      missing.add(AppLanguageKeys.addAtLeastOneBranch);
+    }
+
+    /// 🔴 Work Time
+    if (workTimeCubit.workTimes.isEmpty) {
+      missing.add(AppLanguageKeys.addAtLeastOneWorkingHours);
+    }
 
     return FacilityValidatorResult(
       isValid: missing.isEmpty,
