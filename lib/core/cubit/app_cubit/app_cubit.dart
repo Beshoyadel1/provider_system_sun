@@ -35,7 +35,9 @@ class AppCubit extends Cubit<AppStates> {
   void changeSelectedPageIndex() {
     emit(ChangeSelectedPageIndexState());
   }
-
+  void dropDown() {
+    emit(DropDownState());
+  }
   List<String> data = [];
 
   bool isAllAppLanguageArabic = true;

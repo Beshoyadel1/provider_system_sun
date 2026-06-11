@@ -14,4 +14,5 @@ class ChangeSelectedPageIndexState extends AppStates {}
 
 class ChangeOpenedPagesState extends AppStates {}
 
+class DropDownState extends AppStates {}
 
