@@ -10,6 +10,7 @@ import 'package:sun_web_system/features/employee/presentation/bloc/provider_empl
 import 'package:sun_web_system/features/employee/presentation/bloc/service_permission_cubit/service_permission_cubit.dart';
 import 'package:sun_web_system/features/employee/presentation/pages/add_new_emp/presentation/pages/first_screen_permissions/screens/select_permissions_and_services_provided_to_the_user_with_image.dart';
 import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/general_widgets_in_store/attach_file.dart';
+import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/general_widgets_in_store/attach_image_emp.dart';
 import '../../../../../../../features/auth_page/data/model/create_user_model/create_user_request.dart';
 import '../../../../../../../features/auth_page/data/model/create_user_model/employee_wrapper_request.dart';
 import '../../../../../../../features/auth_page/presentation/pages/login_page/login_widgets/user_text_field_widget.dart';
@@ -54,6 +55,7 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
 
   bool isEditMode = false;
   final _formKey = GlobalKey<FormState>();
+
   @override
   void initState() {
     super.initState();
@@ -65,6 +67,13 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
         context.read<ServicePermissionCubit>().setSelected(
           widget.employee?.employeeDetails?.serviceIds ?? [],
         );
+
+        final employeeImage = widget.employee?.image;
+
+        if (employeeImage != null) {
+          context.read<FacilityTabCubit>().images['image'] =
+              employeeImage;
+        }
       });
     } else {
       isEditMode = true;
@@ -126,23 +135,16 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
   }
 
   void _onUpdate() {
-
     final current = widget.employee;
 
     if (current == null) return;
-    debugPrint(
-      jsonEncode(current.toJson()),
-    );
-    debugPrint(
-      'providerId => ${current.employeeDetails?.employeeDetails?.provid}',
-    );
 
-    debugPrint(
-      'userId => ${current.employeeDetails?.employeeDetails?.id}',
-    );
     final facilityCubit = context.read<FacilityTabCubit>();
     final serviceIds =
         context.read<ServicePermissionCubit>().state;
+
+    final selectedImage =
+    facilityCubit.images['image'];
 
     final request = CreateUserEmpRequest(
       userid: current.userid,
@@ -152,7 +154,9 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
       age: int.tryParse(ageController.text),
       gender: int.tryParse(genderController.text),
       type: current.type,
-      image: facilityCubit.images['image'],
+
+      image: selectedImage ?? current.image,
+
       employeeDetails: EmployeeWrapperRequest(
         employeeDetails: EmployeeModel(
           id: current.employeeDetails?.employeeDetails?.id,
@@ -164,12 +168,12 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
         serviceIds: serviceIds,
       ),
     );
+    debugPrint(
+      "UPDATE REQUEST => ${jsonEncode(request.toJson())}",
+    );
+
     context.read<ProviderEmployeesCubit>().updateEmployee(
       request,
-    );
-    debugPrint(
-      "UPDATE REQUEST => "
-          "${jsonEncode(request.toJson())}",
     );
   }
 
@@ -183,8 +187,14 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
       );
       return;
     }
-    final facilityCubit = context.read<FacilityTabCubit>();
 
+    final facilityCubit = context.read<FacilityTabCubit>();
+    final image = facilityCubit.images['image'];
+
+    if (image == null || image.toString().isEmpty) {
+      AppSnackBar.showError(AppLanguageKeys.pleaseSelectImage);
+      return;
+    }
     final request = CreateUserRequest(
       username: usernameController.text.trim(),
       phone: phoneController.text.trim(),
@@ -336,10 +346,11 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
                   readOnly: !isCreateMode && !isEditMode,
                   width: 250,
                 ),
-                AttachImage(
+                AttachImageEmp(
                   title: AppLanguageKeys.ownerIdKey,
                   type: 'image',
                   isEditMode: isCreateMode || isEditMode,
+                  initialImage: widget.employee?.image,
                 ),
               ],
             ),

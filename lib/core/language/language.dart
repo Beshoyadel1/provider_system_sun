@@ -31,6 +31,7 @@ class AppLocalizations {
       //END//
 
       //others//
+      AppLanguageKeys.pleaseSelectImage: 'يرجى اختيار صورة',
       AppLanguageKeys.editEmployee: 'تعديل موظف',
       AppLanguageKeys.employees: 'الموظفين',
       AppLanguageKeys.pleaseEnterValidEmail: 'يرجى إدخال بريد إلكتروني صحيح',
@@ -1324,6 +1325,7 @@ class AppLocalizations {
       AppLanguageKeys.cancelledByUser: 'Cancelled by User',
       //END//
       //others//
+      AppLanguageKeys.pleaseSelectImage: 'Please select an image',
       AppLanguageKeys.editEmployee: 'Edit Employee',
       AppLanguageKeys.employees: 'Employees',
       AppLanguageKeys.pleaseEnterValidEmail: 'Please enter a valid email',

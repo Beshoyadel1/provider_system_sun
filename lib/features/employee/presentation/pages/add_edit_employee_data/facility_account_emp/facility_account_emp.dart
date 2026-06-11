@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:sun_web_system/core/theming/colors.dart';
 import 'package:sun_web_system/core/theming/text_styles.dart';
-import 'package:sun_web_system/features/auth_page/data/model/create_user_model/create_user_emp_request.dart';
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/create_user_request.dart';
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_cubit.dart';
 import 'package:sun_web_system/features/employee/presentation/bloc/provider_employees_cubit/provider_employees_cubit.dart';
