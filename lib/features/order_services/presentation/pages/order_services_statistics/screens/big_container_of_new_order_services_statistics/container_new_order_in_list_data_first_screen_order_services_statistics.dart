@@ -1,15 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:sun_web_system/core/theming/colors.dart';
-import 'package:sun_web_system/features/mobile_services/presentation/pages/mobile_services_orders/first_screen_mobile_services_orders/screens/part_two_screen_first_screen_mobile_services_orders/container_profits_from_ministry_of_mobile_services_orders/data_in_container_profits_from_ministry_of_mobile_services_orders.dart';
+import 'package:sun_web_system/features/order_services/presentation/pages/order_services_statistics/screens/big_container_of_new_order_services_statistics/data_container_in_list_data_first_screen_order_services_statistics.dart';
 
 
-class ContainerProfitsFromMinistryOfSparePartsOrders extends StatelessWidget {
-  const ContainerProfitsFromMinistryOfSparePartsOrders({super.key});
+class ContainerNewOrderInListDataFirstScreenOrderServicesStatistics extends StatelessWidget {
+  final void Function()? onTap;
+  final int serviceId;
+
+  const ContainerNewOrderInListDataFirstScreenOrderServicesStatistics(
+      {super.key, this.onTap,required this.serviceId});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-
       padding: const EdgeInsetsGeometry.all(10),
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
@@ -23,7 +26,10 @@ class ContainerProfitsFromMinistryOfSparePartsOrders extends StatelessWidget {
           ),
         ],
       ),
-      child: const DataInContainerProfitsFromMinistryOfMobileServicesOrders(),
+      child: DataContainerInListDataFirstScreenOrderServicesStatistics(
+        onTap: onTap,
+        serviceId: serviceId,
+      ),
     );
   }
 }

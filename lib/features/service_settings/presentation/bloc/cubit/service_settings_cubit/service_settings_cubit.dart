@@ -10,6 +10,9 @@ class ServiceSettingsCubit extends Cubit<ServiceSettingsState> {
   static ServiceSettingsCubit get(context) => BlocProvider.of(context);
 
   List<ServiceSettingModel> allServices = [];
+
+  List<ServiceSettingModel> allMainServices = [];
+
   int currentParentId = 0;
 
   Future<void> getServices({required int parentId}) async {
@@ -32,6 +35,26 @@ class ServiceSettingsCubit extends Cubit<ServiceSettingsState> {
       emit(ServiceSettingsError(e.toString()));
     }
   }
+  Future<void> getMainServices() async {
+    emit(ServiceSettingsLoading());
+
+    try {
+      if (allServices.isEmpty) {
+        allServices = await getServicesFunction();
+      }
+
+      final mainServices = allServices.where((e) {
+        return (e.parentId ?? 0) == 0 &&
+            (e.id ?? 0) != 4;
+      }).toList();
+
+      allMainServices=mainServices;
+      emit(ServiceSettingsSuccess(mainServices));
+    } catch (e) {
+      emit(ServiceSettingsError(e.toString()));
+    }
+  }
+  
   Future<void> getChildServices() async {
     emit(ServiceSettingsLoading());
 
@@ -43,6 +66,7 @@ class ServiceSettingsCubit extends Cubit<ServiceSettingsState> {
       final childServices = allServices
           .where((e) => (e.parentId ?? 0) != 0)
           .toList();
+
 
       emit(ServiceSettingsSuccess(childServices));
     } catch (e) {

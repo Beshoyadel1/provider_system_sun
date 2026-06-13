@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/features/service_settings/presentation/bloc/cubit/service_settings_cubit/service_settings_cubit.dart';
+import 'package:sun_web_system/features/service_settings/presentation/bloc/cubit/service_settings_cubit/service_settings_state.dart';
 import '../../../../../core/cubit/app_cubit/app_cubit.dart';
 import '../../../../../core/cubit/app_cubit/app_states.dart';
 import '../../../../../core/setup_git_it.dart';
@@ -41,38 +43,43 @@ class _PagesSelectionBarState extends State<PagesSelectionBar> {
           const SizedBox(
             height: 60,
           ),
-          BlocBuilder<AppCubit, AppStates>(
-            buildWhen: (previous, current) {
-              return current is ChangeSelectedPageIndexState;
-            },
-            builder: (BuildContext context, AppStates state) {
-              return Expanded(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        for (final page in appPages) ...[
-                          ColumnOfPagesWidget(
-                            pageNode: page,
-                            appCubit: _appCubit,
-                            isMobile: isMobile,
-                          ),
-                          if (_appCubit.selectedPageIndex != page.number)
-                            const Divider(
-                              thickness: 1,
-                              color: AppColors.whiteColor,
-                            )
-                        ]
-                      ],
+          BlocBuilder<ServiceSettingsCubit, ServiceSettingsState>(
+            bloc: getIt<ServiceSettingsCubit>(),
+            builder: (context, serviceState) {
+              return BlocBuilder<AppCubit, AppStates>(
+                buildWhen: (previous, current) {
+                  return current is ChangeSelectedPageIndexState;
+                },
+                builder: (BuildContext context, AppStates state) {
+                  return Expanded(
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            for (final page in appPages) ...[
+                              ColumnOfPagesWidget(
+                                pageNode: page,
+                                appCubit: _appCubit,
+                                isMobile: isMobile,
+                              ),
+                              if (_appCubit.selectedPageIndex != page.number)
+                                const Divider(
+                                  thickness: 1,
+                                  color: AppColors.whiteColor,
+                                )
+                            ]
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                },
               );
             },
-          ),
+          )
         ],
       ),
     );

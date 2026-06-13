@@ -1,0 +1,114 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/features/cars_haraj_page/data/model/filter_orders_model/filter_orders_model.dart';
+import 'package:sun_web_system/features/cars_haraj_page/data/model/internal_orders_filter/internal_orders_filter.dart';
+import 'package:sun_web_system/features/internal_services/presentation/cubit/get_provider_internal_order/get_provider_internal_order_state.dart';
+import 'package:sun_web_system/features/internal_services/presentation/cubit/tabs_cubit/tabs_cubit.dart';
+import 'package:sun_web_system/features/mobile_services/presentation/pages/mobile_services_statistics/mobile_services_page/widgets/filter_design_mobile_services_statistics.dart';
+import 'package:sun_web_system/features/order_services/presentation/pages/order_services_type/widgets/filter_design_order_services_type.dart';
+import '../../../../../../../core/api/dio_function/api_constants.dart';
+import '../../../../../../../core/theming/colors.dart';
+import '../../../../../../../core/theming/text_styles.dart';
+
+class FiltersTabsWidgetOrderServicesType extends StatefulWidget {
+  final int serviceId;
+  final List<filterOrdersModel> filterOptions;
+
+  const FiltersTabsWidgetOrderServicesType({
+    super.key,
+    required this.filterOptions,
+    required this.serviceId
+  });
+
+
+  @override
+  State<FiltersTabsWidgetOrderServicesType> createState() => _FiltersTabsWidgetOrderServicesTypeState();
+}
+
+class _FiltersTabsWidgetOrderServicesTypeState extends State<FiltersTabsWidgetOrderServicesType>
+    with SingleTickerProviderStateMixin {
+
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _tabController =
+        TabController(length: widget.filterOptions.length, vsync: this);
+
+    _tabController.addListener(() {
+      if (_tabController.indexIsChanging) {
+        final tabIndex = _tabController.index;
+        context.read<TabsCubit>().changeTab(tabIndex);
+        context.read<GetProviderInternalOrderCubit>().loadInternalOrders(
+          serviceId: widget.serviceId,
+          orderType: mapOrderType(tabIndex),
+          pageNumber: 1,
+        );
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<TabsCubit, int>(
+      builder: (context, selectedIndex) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TabBar(
+              tabAlignment: TabAlignment.start,
+              controller: _tabController,
+              isScrollable: true,
+              indicator: const BoxDecoration(),
+              dividerColor: Colors.transparent,
+              tabs: List.generate(widget.filterOptions.length, (index) {
+
+                final isSelected = selectedIndex == index;
+
+                return Tab(
+                  child: Container(
+                    width: 150,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: isSelected
+                          ? AppColors.orangeColor
+                          : AppColors.greyColor,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Center(
+                      child: TextInAppWidget(
+                        text: widget.filterOptions[index].text,
+                        textSize: 16,
+                        textColor: AppColors.whiteColor,
+                      ),
+                    ),
+                  ),
+                );
+              }),
+            ),
+
+            const SizedBox(height: 20),
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: List.generate(
+                  widget.filterOptions.length,
+                      (index) =>  FilterDesignOrderServicesType(serviceId: widget.serviceId,),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+}

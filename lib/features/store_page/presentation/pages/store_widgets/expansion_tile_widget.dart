@@ -42,14 +42,26 @@ class _ExpansionTileWidgetState extends State<ExpansionTileWidget> {
             crossAxisAlignment: CrossAxisAlignment.center,
             spacing: 5,
             children: [
-              Image.asset(
-                widget.pages.image ?? "",
-                color: widget.pages.number == _appCubit.selectedPageIndex
-                    ? AppColors.secondaryColor
-                    : AppColors.whiteColor,
-                height: 18,
-                width: 18,
-              ),
+              if ((widget.pages.image ?? '').isNotEmpty)
+                Image.asset(
+                  widget.pages.image!,
+                  color: widget.pages.number == _appCubit.selectedPageIndex
+                      ? AppColors.secondaryColor
+                      : AppColors.whiteColor,
+                  height: 18,
+                  width: 18,
+                ),
+
+              if (widget.pages.imageUint8List != null &&
+                  widget.pages.imageUint8List!.isNotEmpty)
+                Image.memory(
+                  widget.pages.imageUint8List!,
+                  color: widget.pages.number == _appCubit.selectedPageIndex
+                      ? AppColors.secondaryColor
+                      : AppColors.whiteColor,
+                  height: 18,
+                  width: 18,
+                ),
               Expanded(
                 child: TextInAppWidget(
                   text: widget.pages.name,

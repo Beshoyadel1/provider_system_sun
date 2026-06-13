@@ -94,6 +94,16 @@ class ColumnOfPagesWidget extends StatelessWidget {
                             height: 18,
                             width: 18,
                           ),
+                        if (pageNode.imageUint8List != null &&
+                            pageNode.imageUint8List!.isNotEmpty)
+                          Image.memory(
+                            pageNode.imageUint8List!,
+                            color: pageNode.number == appCubit.selectedPageIndex
+                                ? AppColors.orangeColor
+                                : AppColors.whiteColor,
+                            height: 18,
+                            width: 18,
+                          ),
                         Expanded(
                           child: TextInAppWidget(
                             text: pageNode.name,

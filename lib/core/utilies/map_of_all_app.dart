@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:sun_web_system/core/setup_git_it.dart';
 import 'package:sun_web_system/features/cars_haraj_page/presentation/ui/car_haraj_orders_page.dart';
 import 'package:sun_web_system/features/cars_haraj_page/presentation/ui/cars_haraj_statistics_page.dart';
 import 'package:sun_web_system/features/communication_and_policies_pages/presentation/pages/first_screen_communication_and_policies_pages/first_screen_communication_and_policies_pages.dart';
@@ -8,9 +10,12 @@ import 'package:sun_web_system/features/logout_dashboard/presentation/first_scre
 import 'package:sun_web_system/features/mobile_services/presentation/pages/mobile_services_orders/first_screen_mobile_services_orders/first_screen_mobile_services_orders.dart';
 import 'package:sun_web_system/features/mobile_services/presentation/pages/mobile_services_statistics/mobile_services_page/ui/mobile_services_statistics_page.dart';
 import 'package:sun_web_system/features/oil_change_services/presentation/pages/oil_change_services_statistics/oil_change_services_page/ui/oil_change_services_statistics_page.dart';
+import 'package:sun_web_system/features/order_services/presentation/pages/order_services_statistics/order_services_statistics.dart';
+import 'package:sun_web_system/features/order_services/presentation/pages/order_services_type/ui/order_services_type_page.dart';
 import 'package:sun_web_system/features/petroleum_service/presentation/pages/all_orders_are_filled_petroleum_filling_requests/screens/ui/petroleum_service_all_orders.dart';
 import 'package:sun_web_system/features/petroleum_service/presentation/pages/petroleum_filling_requests/petroleum_filling_requests.dart';
 import 'package:sun_web_system/features/rates/presentation/pages/first_screen_rates/first_screen_rates.dart';
+import 'package:sun_web_system/features/service_settings/presentation/bloc/cubit/service_settings_cubit/service_settings_cubit.dart';
 import 'package:sun_web_system/features/spare_parts/presentation/pages/spare_parts_orders/first_screen_spare_parts_orders/first_screen_spare_parts_orders.dart';
 import 'package:sun_web_system/features/spare_parts/presentation/pages/spare_parts_statistics/spare_parts_page/ui/spare_parts_statistics_page.dart';
 import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/facility_account/facility_account.dart';
@@ -48,7 +53,7 @@ class ValuesOfAllApp {
 
 class PagesOfAllApp {
   static const String dashboardPage = 'Dashboard_Page';
-  static const int dashboardPageNumber = 1;
+  static const int dashboardPageNumber = 100;
 
   static const String securityPage = 'Security_Page';
   static const int securityPageNumber = 2;
@@ -220,7 +225,11 @@ class PagesOfAllApp {
 
 List<PageNodeModel> appPages = [];
 
-void getPages() {
+final services = getIt<ServiceSettingsCubit>().allMainServices;
+
+void getPages(BuildContext context) {
+  final services = getIt<ServiceSettingsCubit>().allMainServices;
+
   appPages.clear();
   appPages = [
     const PageNodeModel(
@@ -229,6 +238,49 @@ void getPages() {
       number: PagesOfAllApp.dashboardPageNumber,
       page: DashboardPage(),
     ),
+
+    ...services.map(
+          (service) {
+        return PageNodeModel(
+          name: service.getName(context),
+          // image: AppImageKeys.carServices,
+          imageUint8List: service.image,
+          number: service.id ?? 0,
+          children: [
+            PageNodeModel(
+              name: AppLanguageKeys.statistics,
+              number: (service.id ?? 0) + 20,
+              page: OrderServicesStatistics(
+                serviceId: service.id!,
+              ),
+            ),
+            PageNodeModel(
+              name: AppLanguageKeys.ordersSectionKey,
+              number: (service.id ?? 0) + 10,
+              page: OrderServicesTypePage(
+                serviceId: service.id!,
+              ),
+            ),
+          ],
+        );
+      },
+    ),
+    const PageNodeModel(
+        name: AppLanguageKeys.maintenanceAndInternalServicesKey,
+        image: AppImageKeys.carServices,
+        number: PagesOfAllApp.internalServicesPageNumber,
+        children: [
+          PageNodeModel(
+            name: AppLanguageKeys.permissionsGroupPageKey,
+            number: PagesOfAllApp.internalServicesStatisticsPageNumber,
+            page: OrderServicesStatistics(serviceId: 5),
+          ),
+          PageNodeModel(
+            name: AppLanguageKeys.ordersSectionKey,
+            number: PagesOfAllApp.internalOrdersPageNumber,
+            page: OrderServicesTypePage(serviceId: 5),
+          ),
+        ]),
 
     const PageNodeModel(
       name: AppLanguageKeys.viewEmployees,
