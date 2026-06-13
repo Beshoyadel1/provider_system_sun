@@ -34,7 +34,6 @@ class FacilityValidator {
     if (!isValid(p?.latinname)) missing.add(AppLanguageKeys.facilityNameEn);
     if (!isValid(p?.cr)) missing.add(AppLanguageKeys.commercialRecordKey);
     if (!isValid(p?.vatno)) missing.add(AppLanguageKeys.taxNumber);
-   // if (!isValid(p?.nationaladdress)) missing.add(AppLanguageKeys.nationality);
     if (!isValid(user.phone)) missing.add(AppLanguageKeys.phoneNumber);
     if (!isValid(user.email)) missing.add(AppLanguageKeys.email);
 
