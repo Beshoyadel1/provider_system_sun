@@ -31,6 +31,8 @@ class AppLocalizations {
       //END//
 
       //others//
+      AppLanguageKeys.searchTheMap: 'البحث في الخريطة',
+      AppLanguageKeys.branchNationalAddress: 'العنوان الوطني للفرع',
       AppLanguageKeys.pleaseSelectImage: 'يرجى اختيار صورة',
       AppLanguageKeys.editEmployee: 'تعديل موظف',
       AppLanguageKeys.employees: 'الموظفين',
@@ -985,6 +987,8 @@ class AppLocalizations {
       AppLanguageKeys.thursday: 'الخميس',
       AppLanguageKeys.friday: 'الجمعة',
       AppLanguageKeys.enterYourData: 'أدخل بياناتك',
+      AppLanguageKeys.nationalAddressMustBe8CharactersAndDigits:
+      'يجب أن يتكون العنوان الوطني من 8 أحرف وأرقام',
       AppLanguageKeys.waitingForOffers: 'في انتظار استقبال العروض',
       AppLanguageKeys.serviceCenterOffers: 'العروض المقدمة من مراكز الخدمة',
       AppLanguageKeys.mobileMaintenanceOffer: 'صيانة متنقلة',
@@ -1326,6 +1330,8 @@ class AppLocalizations {
       AppLanguageKeys.cancelledByUser: 'Cancelled by User',
       //END//
       //others//
+      AppLanguageKeys.searchTheMap: 'Search the Map',
+      AppLanguageKeys.branchNationalAddress: 'Branch National Address',
       AppLanguageKeys.pleaseSelectImage: 'Please select an image',
       AppLanguageKeys.editEmployee: 'Edit Employee',
       AppLanguageKeys.employees: 'Employees',
@@ -2297,6 +2303,8 @@ Providers will be notified of any major changes via the platform or email.
       AppLanguageKeys.thursday: 'Thursday',
       AppLanguageKeys.friday: 'Friday',
       AppLanguageKeys.enterYourData: 'Enter your data',
+      AppLanguageKeys.nationalAddressMustBe8CharactersAndDigits:
+      'National address must be 8 characters and digits',
       AppLanguageKeys.waitingForOffers: 'Waiting to receive offers',
       AppLanguageKeys.serviceCenterOffers: 'Offers from Service Centers',
       AppLanguageKeys.mobileMaintenanceOffer: 'Mobile Maintenance',

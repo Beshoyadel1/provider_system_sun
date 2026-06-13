@@ -8,15 +8,20 @@ class AddBranchRequest {
   final String? address;
   final String? addressText;
   final String? addressLatinText;
+  final String? nationalAddress;
+  final double? lat, long;
   final bool? isActive;
 
   AddBranchRequest({
     this.branchId,
-     this.branchName,
-     this.branchLatinName,
-     this.address,
-     this.addressText,
-     this.addressLatinText,
+    this.branchName,
+    this.branchLatinName,
+    this.address,
+    this.addressText,
+    this.addressLatinText,
+    this.nationalAddress,
+    this.lat,
+    this.long,
     this.isActive = true,
   });
 
@@ -28,21 +33,22 @@ class AddBranchRequest {
       "address": address,
       "addresstext": addressText,
       "addresslatintext": addressLatinText,
+      "nationaladdress": nationalAddress,
+      "lat": lat,
+      "long": long,
       "provid": providerId,
       "isactive": isActive,
     };
   }
 
   String? getBranchName(BuildContext context) {
-    final isArabic =
-        LanguageCubit.get(context).isAllAppLanguageArabic;
+    final isArabic = LanguageCubit.get(context).isAllAppLanguageArabic;
 
     return isArabic ? branchName : branchLatinName;
   }
 
   String? getAddressText(BuildContext context) {
-    final isArabic =
-        LanguageCubit.get(context).isAllAppLanguageArabic;
+    final isArabic = LanguageCubit.get(context).isAllAppLanguageArabic;
 
     return isArabic ? addressText : addressLatinText;
   }

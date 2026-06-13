@@ -24,6 +24,7 @@ class FacilityDataContent extends StatefulWidget {
 }
 
 class _FacilityDataContentState extends State<FacilityDataContent> {
+  final idController = TextEditingController();
   final facilityNameController = TextEditingController();
   final facilityNameEnController = TextEditingController();
   final vatNoController = TextEditingController();
@@ -56,6 +57,7 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
     final user = await AuthLocalStorage.getUser();
 
     if (user != null) {
+      idController.text=user.userid.toString();
       facilityNameController.text = user.providerDetails?.name ?? "";
       facilityNameEnController.text = user.providerDetails?.latinname ?? "";
       crController.text = user.providerDetails?.cr ?? "";
@@ -205,6 +207,13 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
           spacing: 10,
           runSpacing: 10,
           children: [
+            UserTextFieldWidget(
+              controller: idController,
+              text: AppLanguageKeys.identity,
+              type: UserFieldType.name,
+              readOnly: true,
+              width: 250,
+            ),
             UserTextFieldWidget(
               controller: facilityNameController,
               text: AppLanguageKeys.facilityName,

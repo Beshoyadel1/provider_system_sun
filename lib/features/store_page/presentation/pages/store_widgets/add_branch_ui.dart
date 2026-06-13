@@ -25,11 +25,12 @@ class AddBranchUI extends StatefulWidget {
 class _AddBranchUIState extends State<AddBranchUI> {
   final _formKey = GlobalKey<FormState>();
 
+  final nationalAddressController = TextEditingController();
   final nameController = TextEditingController();
   final latinController = TextEditingController();
   final addressTextController = TextEditingController();
   final addressLatinController = TextEditingController();
-  final addressController = TextEditingController();
+  final searchTheMapController = TextEditingController();
 
   bool isInit = false;
 
@@ -39,13 +40,12 @@ class _AddBranchUIState extends State<AddBranchUI> {
       listener: (context, state) {
         if (state is BranchSuccess && state.fromSubmit) {
           AppSnackBar.showSuccess(AppLanguageKeys.success);
-
+          nationalAddressController.clear();
           nameController.clear();
           latinController.clear();
           addressTextController.clear();
           addressLatinController.clear();
-          addressController.clear();
-
+          searchTheMapController.clear();
           isInit = false;
         }
 
@@ -55,7 +55,6 @@ class _AddBranchUIState extends State<AddBranchUI> {
           );
         }
       },
-
       builder: (context, state) {
         final isLoading = state is BranchLoading;
         final successState = state is BranchSuccess ? state : null;
@@ -73,11 +72,37 @@ class _AddBranchUIState extends State<AddBranchUI> {
         }
 
         if (branch != null && editingId != null && !isInit) {
-          nameController.text = branch.branchName ?? '';
-          latinController.text = branch.branchLatinName ?? '';
-          addressTextController.text = branch.addressText ?? '';
-          addressLatinController.text = branch.addressLatinText ?? '';
-          addressController.text = branch.address ?? '';
+          nationalAddressController.text =
+              branch.nationalAddress ?? '';
+
+          nameController.text =
+              branch.branchName ?? '';
+
+          latinController.text =
+              branch.branchLatinName ?? '';
+
+          addressTextController.text =
+              branch.addressText ?? '';
+
+          addressLatinController.text =
+              branch.addressLatinText ?? '';
+
+          searchTheMapController.text =
+          "${branch.lat ?? ''}, ${branch.long ?? ''}";
+
+          debugPrint(
+            'Lat: ${branch.lat} , Long: ${branch.long}',
+          );
+
+          if (branch.lat != null &&
+              branch.long != null &&
+              branch.lat != 0 &&
+              branch.long != 0) {
+            context.read<LocationCubit>().setLocation(
+              branch.lat!,
+              branch.long!,
+            );
+          }
 
           isInit = true;
         }
@@ -163,17 +188,41 @@ class _AddBranchUIState extends State<AddBranchUI> {
                     : null,
               ),
 
+              TextFormFieldWidget(
+                textFormController: nationalAddressController,
+                text: AppLanguageKeys.branchNationalAddress ,
+                hintText: AppLanguageKeys.branchNationalAddress ,
+                isColumn: true,
+                textSize: 16,
+                textColor: AppColors.darkColor,
+                borderColor: AppColors.darkGreyColor,
+                fillColor: AppColors.whiteColor,
+                textFormHeight: 35,
+                maxLength: 8,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return AppLanguageKeys.enterYourData;
+                  }
+
+                  if (value.trim().length != 8) {
+                    return AppLanguageKeys.nationalAddressMustBe8CharactersAndDigits;
+                  }
+
+                  return null;
+                },
+              ),
+
               /// Address
               TextFormFieldWidget(
-                textFormController: addressController,
-                text: AppLanguageKeys.branchAddressKey,
+                textFormController: searchTheMapController,
+                text: AppLanguageKeys.searchTheMap,
+                hintText: AppLanguageKeys.searchTheMap,
                 isColumn: true,
-                textColor: AppColors.darkGreyColor,
-                fillColor: AppColors.whiteColor,
                 textSize: 16,
-                hintText: AppLanguageKeys.addressDetailsKey,
+                textColor: AppColors.darkColor,
+                borderColor: AppColors.darkGreyColor,
+                fillColor: AppColors.whiteColor,
                 textFormHeight: 35,
-                borderColor: AppColors.lightGreyColor,
                 validator: (value) =>
                 value == null || value.isEmpty
                     ? AppLanguageKeys.enterYourData
@@ -208,12 +257,17 @@ class _AddBranchUIState extends State<AddBranchUI> {
                     onTap: isLoading
                         ? null
                         : () {
+                      if (nationalAddressController.text.trim().length != 8) {
+                        AppSnackBar.showError(
+                          AppLanguageKeys.nationalAddressMustBe8CharactersAndDigits,
+                        );
+                        return;
+                      }
                       if (!_formKey.currentState!.validate()) {
                         AppSnackBar.showError(
                             AppLanguageKeys.enterYourData);
                         return;
                       }
-
                       final locationState =
                           context.read<LocationCubit>().state;
 
@@ -229,15 +283,13 @@ class _AddBranchUIState extends State<AddBranchUI> {
                           branchId: branch.branchId,
                           branchName: nameController.text,
                           branchLatinName: latinController.text,
-                          address:
-                          "${locationState.latLng.latitude},${locationState.latLng.longitude}",
-                          addressText:
-                          addressTextController.text,
-                          addressLatinText:
-                          addressLatinController.text,
+                          lat: locationState.latLng.latitude,
+                          long: locationState.latLng.longitude,
+                          addressText: addressTextController.text,
+                          addressLatinText: addressLatinController.text,
+                          nationalAddress: nationalAddressController.text,
                           isActive: branch.isActive ?? true,
                         );
-
                         context
                             .read<BranchCubit>()
                             .updateBranch(request);
@@ -248,12 +300,11 @@ class _AddBranchUIState extends State<AddBranchUI> {
                         final request = AddBranchRequest(
                           branchName: nameController.text,
                           branchLatinName: latinController.text,
-                          address:
-                          "${locationState.latLng.latitude},${locationState.latLng.longitude}",
-                          addressText:
-                          addressTextController.text,
-                          addressLatinText:
-                          addressLatinController.text,
+                          lat: locationState.latLng.latitude,
+                          long: locationState.latLng.longitude,
+                          addressText: addressTextController.text,
+                          addressLatinText: addressLatinController.text,
+                          nationalAddress: nationalAddressController.text,
                           isActive: true,
                         );
 

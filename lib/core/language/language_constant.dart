@@ -20,6 +20,8 @@ class AppLanguageKeys {
   //end//
 
   //others//
+  static const String searchTheMap = 'searchTheMap';
+  static const String branchNationalAddress = 'branchNationalAddress';
   static const String pleaseSelectImage = 'pleaseSelectImage';
   static const String editEmployee = 'editEmployee';
   static const String pleaseEnterValidEmail =
@@ -1081,6 +1083,8 @@ class AppLanguageKeys {
   static const String thirdInstallmentDetails = 'thirdInstallmentDetails';
   static const String paidBy = 'paidBy';
   static const String enterYourData = 'enterYourData';
+  static const String nationalAddressMustBe8CharactersAndDigits =
+      'nationalAddressMustBe8CharactersAndDigits';
   static const String waitingForOffers = 'waitingForOffers';
 
   ////End////

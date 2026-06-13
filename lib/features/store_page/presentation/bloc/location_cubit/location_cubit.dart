@@ -8,7 +8,18 @@ import 'location_state.dart';
 
 class LocationCubit extends Cubit<LocationState> {
   LocationCubit() : super(LocationInitial());
-
+  void setLocation(
+      double latitude,
+      double longitude, {
+        String address = '',
+      }) {
+    emit(
+      LocationLoaded(
+        LatLng(latitude, longitude),
+        address,
+      ),
+    );
+  }
   Future<void> getUserLocation() async {
     emit(LocationLoading());
     try {
