@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl_phone_field/phone_number.dart';
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_cubit.dart';
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_state.dart';
 import '../../../../../../core/language/language_constant.dart';
 import '../../../../../../core/theming/text_styles.dart';
-import '../../../../../../core/language/language.dart';
 import '../../../../../../core/pages_widgets/text_form_field_widget.dart';
 import '../../../../../../core/theming/colors.dart';
-import '../../../../../../core/theming/fonts.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:intl_phone_field/countries.dart';
 
 
 enum UserFieldType {
