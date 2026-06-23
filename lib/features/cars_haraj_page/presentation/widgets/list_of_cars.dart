@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/cubit/app_cubit/app_cubit.dart';
 import 'package:sun_web_system/core/utilies/map_of_all_app.dart';
 import 'package:sun_web_system/features/cars_haraj_page/presentation/bloc/get_all_harage_cubit/get_all_harage_cubit.dart';
+import 'package:sun_web_system/features/cars_haraj_page/presentation/bloc/get_user_harages_cubit/get_user_harages_cubit.dart';
 import 'package:sun_web_system/features/cars_haraj_page/presentation/widgets/available_list_cars.dart';
 import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/first_screen_internal_orders/screens/big_container_of_new_orders/Container_view_all_in_first_row_in_data_container_in_list_data_first_screen_internal_orders.dart';
 import '../../../../../core/language/language_constant.dart';
@@ -18,13 +19,13 @@ class ListOfCars extends StatefulWidget {
 
 class _ListOfCarsState extends State<ListOfCars> {
 
-  late final GetAllHarageCubit cubit;
+  late final GetUserHaragesCubit cubit;
 
   @override
   void initState() {
     super.initState();
-    cubit = GetAllHarageCubit()
-      ..getAllHarage(page: 1);
+    cubit = GetUserHaragesCubit()
+      ..getUserHarages(pageNumber: 1);
   }
 
   @override

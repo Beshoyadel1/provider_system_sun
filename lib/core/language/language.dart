@@ -31,6 +31,10 @@ class AppLocalizations {
       //END//
 
       //others//
+      AppLanguageKeys.petrol: 'بنزين',
+      AppLanguageKeys.diesel: 'ديزل',
+      AppLanguageKeys.electricity: 'كهرباء',
+      AppLanguageKeys.hybrid: 'هجين',
       AppLanguageKeys.searchTheMap: 'البحث في الخريطة',
       AppLanguageKeys.branchNationalAddress: 'العنوان الوطني للفرع',
       AppLanguageKeys.pleaseSelectImage: 'يرجى اختيار صورة',
@@ -1330,6 +1334,10 @@ class AppLocalizations {
       AppLanguageKeys.cancelledByUser: 'Cancelled by User',
       //END//
       //others//
+      AppLanguageKeys.petrol: 'Petrol',
+      AppLanguageKeys.diesel: 'Diesel',
+      AppLanguageKeys.electricity: 'Electricity',
+      AppLanguageKeys.hybrid: 'Hybrid',
       AppLanguageKeys.searchTheMap: 'Search the Map',
       AppLanguageKeys.branchNationalAddress: 'Branch National Address',
       AppLanguageKeys.pleaseSelectImage: 'Please select an image',

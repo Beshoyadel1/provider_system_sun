@@ -38,10 +38,10 @@ class GetAllHarageCubit extends Cubit<GetAllHarageState> {
 
     } catch (e) {
 
-      // 🔥 لازم check هنا برضه
       if (isClosed) return;
 
       emit(GetAllHarageError(e.toString()));
     }
   }
+
 }

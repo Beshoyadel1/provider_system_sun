@@ -14,27 +14,28 @@ class GetAllHarageResponse {
   });
 
   factory GetAllHarageResponse.fromJson(
-      Map<String, dynamic> json) {
-
+      Map<String, dynamic> json,
+      ) {
     final responseData =
         json['data'] as Map<String, dynamic>? ?? {};
 
     return GetAllHarageResponse(
-      data: (responseData['data'] as List<dynamic>?)
-          ?.map((e) =>
-          HarageData.fromJson(
-              e as Map<String, dynamic>))
-          .toList() ??
-          [],
+      data: (responseData['data'] as List<dynamic>? ?? [])
+          .map(
+            (e) => HarageData.fromJson(
+          e as Map<String, dynamic>,
+        ),
+      )
+          .toList(),
 
       pageCount:
-      (responseData['pageCount'] ?? 0) as int,
+      (responseData['pageCount'] ?? 0).toInt(),
 
       totalCount:
-      (responseData['totalCount'] ?? 0) as int,
+      (responseData['totalCount'] ?? 0).toInt(),
 
       currentPage:
-      (responseData['currentPage'] ?? 0) as int,
+      (responseData['currentPage'] ?? 1).toInt(),
     );
   }
 }

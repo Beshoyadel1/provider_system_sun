@@ -5,8 +5,9 @@ import 'package:sun_web_system/core/pages_widgets/general_widgets/navigate_to_pa
 import 'package:sun_web_system/core/theming/colors.dart';
 import 'package:sun_web_system/core/theming/text_styles.dart';
 import 'package:sun_web_system/features/cars_haraj_page/data/model/car_filter/car_filter.dart';
-import 'package:sun_web_system/features/cars_haraj_page/presentation/bloc/get_all_harage_cubit/get_all_harage_cubit.dart';
 import 'package:sun_web_system/features/cars_haraj_page/presentation/bloc/get_all_harage_cubit/get_all_harage_state.dart';
+import 'package:sun_web_system/features/cars_haraj_page/presentation/bloc/get_user_harages_cubit/get_user_harages_cubit.dart';
+import 'package:sun_web_system/features/cars_haraj_page/presentation/bloc/get_user_harages_cubit/get_user_harages_state.dart';
 import 'package:sun_web_system/features/cars_haraj_page/presentation/ui/details_harag_page/details_harag_page.dart';
 import 'package:sun_web_system/features/cars_haraj_page/presentation/widgets/available_cars.dart';
 import 'package:sun_web_system/features/internal_services/presentation/cubit/tabs_cubit/tabs_cubit.dart';
@@ -17,21 +18,21 @@ class FilterDesignCarList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GetAllHarageCubit, GetAllHarageState>(
+    return BlocBuilder<GetUserHaragesCubit, GetUserHaragesState>(
       builder: (context, state) {
 
-        if (state is GetAllHarageError) {
-          return Center(child: Text(state.message));
+        if (state is GetUserHaragesError) {
+          return Center(child: Text(state.error));
         }
 
         List cars = [];
         int currentPage = 1;
         int totalPages = 1;
 
-        if (state is GetAllHarageSuccess) {
+        if (state is GetUserHaragesSuccess) {
           final selectedTab = context.watch<TabsCubit>().state;
 
-          final allCars = state.response.data ?? [];
+          final allCars = state.data;
 
           cars = CarFilter.filterCars(
             allCars,
@@ -93,8 +94,8 @@ class FilterDesignCarList extends StatelessWidget {
                         );
 
                         if (result == true && context.mounted) {
-                          context.read<GetAllHarageCubit>()
-                              .getAllHarage(page: currentPage);
+                          context.read<GetUserHaragesCubit>()
+                              .getUserHarages(pageNumber: currentPage);
                         }
                       },
                     ),
@@ -108,8 +109,8 @@ class FilterDesignCarList extends StatelessWidget {
               totalPages: totalPages,
               onPageChanged: (page) {
                 context
-                    .read<GetAllHarageCubit>()
-                    .getAllHarage(page: page);
+                    .read<GetUserHaragesCubit>()
+                    .getUserHarages(pageNumber: page);
               },
             ),
           ],

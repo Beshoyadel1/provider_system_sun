@@ -1,5 +1,6 @@
 import 'dart:ui';
 import '../../../../core/theming/colors.dart';
+import '../../language/language_constant.dart';
 
 class ApiConfig {
   static const String baseUrlApi = "https://api.sanmotorss.com";
@@ -153,6 +154,10 @@ class ApiLink {
       "${ApiConfig.baseUrlApi}/${ApiConfig.harage}/DeleteHarage";
   static const String getAllHarage =
       "${ApiConfig.baseUrlApi}/${ApiConfig.harage}/GetAllHarages";
+
+  static const String getUserHarages =
+      "${ApiConfig.baseUrlApi}/${ApiConfig.harage}/GetUserHarages";
+
   static const String getHarage =
       "${ApiConfig.baseUrlApi}/${ApiConfig.harage}/GetHarage";
   static const String updateHarage =
@@ -320,6 +325,37 @@ class ApiLink {
       "${ApiConfig.baseUrlApi}/${ApiConfig.coupon}/GetStaticsForCoupon";
   static const String uploadCoupon =
       "${ApiConfig.baseUrlApi}/${ApiConfig.coupon}/UploadCoupon";
+}
+
+class FuelTypeModel {
+  final int id;
+  final String name;
+
+  const FuelTypeModel({
+    required this.id,
+    required this.name,
+  });
+}
+
+class FuelTypes {
+  static const FuelTypeModel petrol =
+  FuelTypeModel(id: 1, name: AppLanguageKeys.petrol);
+
+  static const FuelTypeModel diesel =
+  FuelTypeModel(id: 2, name: AppLanguageKeys.diesel);
+
+  static const FuelTypeModel electricity =
+  FuelTypeModel(id: 3, name: AppLanguageKeys.electricity);
+
+  static const FuelTypeModel hybrid =
+  FuelTypeModel(id: 4, name: AppLanguageKeys.hybrid);
+
+  static const List<FuelTypeModel> all = [
+    petrol,
+    diesel,
+    electricity,
+    hybrid,
+  ];
 }
 
 class OrderStatus {

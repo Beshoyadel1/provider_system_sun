@@ -32,7 +32,6 @@ class SelectPermissionsAndServicesProvidedToTheUserWithImage
               .where((service) => (service.parentId ?? 0) != 0)
               .toList();
 
-          // لو مش Edit Mode اعرض المختار فقط
           if (!isEditMode) {
             childServices = childServices.where(
                   (service) =>

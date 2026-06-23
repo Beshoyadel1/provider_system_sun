@@ -20,6 +20,10 @@ class AppLanguageKeys {
   //end//
 
   //others//
+  static const String petrol = 'petrol';
+  static const String diesel = 'diesel';
+  static const String electricity = 'electricity';
+  static const String hybrid = 'hybrid';
   static const String searchTheMap = 'searchTheMap';
   static const String branchNationalAddress = 'branchNationalAddress';
   static const String pleaseSelectImage = 'pleaseSelectImage';

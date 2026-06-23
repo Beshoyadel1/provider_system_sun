@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:sun_web_system/core/pages_widgets/text_form_field_widget.dart';
 import 'package:sun_web_system/core/theming/colors.dart';
@@ -27,8 +28,7 @@ class _CreateHaragDialogState extends State<CreateHaragDialog> {
 
   final releaseDateController = TextEditingController();
   final transmissionTypeController = TextEditingController();
-  final fuelTypeController = TextEditingController();
-
+  int? selectedFuelTypeId;
   bool isNew = false;
   bool isSold = false;
 
@@ -41,7 +41,6 @@ class _CreateHaragDialogState extends State<CreateHaragDialog> {
     addressController.dispose();
     releaseDateController.dispose();
     transmissionTypeController.dispose();
-    fuelTypeController.dispose();
     super.dispose();
   }
 
@@ -69,6 +68,7 @@ class _CreateHaragDialogState extends State<CreateHaragDialog> {
             child: Form(
               key: _formKey,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 15,
                 children: [
                   _field(AppLanguageKeys.description, descriptionController),
@@ -87,9 +87,38 @@ class _CreateHaragDialogState extends State<CreateHaragDialog> {
                   _switch(AppLanguageKeys.isNew, isNew, (v) => setState(() => isNew = v)),
                   _switch(AppLanguageKeys.isSold, isSold, (v) => setState(() => isSold = v)),
 
-                  _field(AppLanguageKeys.releaseDate, releaseDateController),
+                  _field(AppLanguageKeys.releaseDate, releaseDateController, isInt: true),
                   _field(AppLanguageKeys.transmissionType, transmissionTypeController, isInt: true),
-                  _field(AppLanguageKeys.fuelType, fuelTypeController, isInt: true),
+                  _title(AppLanguageKeys.fuelType),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: AppColors.darkColor.withOpacity(0.2),
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<int>(
+                        value: selectedFuelTypeId,
+                        isExpanded: true,
+                        items: FuelTypes.all.map((fuel) {
+                          return DropdownMenuItem<int>(
+                            value: fuel.id,
+                            child: TextInAppWidget(
+                              text: fuel.name,
+                              textSize: 15,
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            selectedFuelTypeId = value;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -173,9 +202,9 @@ class _CreateHaragDialogState extends State<CreateHaragDialog> {
         kilometers: int.tryParse(kilometersController.text),
         isNew: isNew,
         isSold: isSold,
-        releaseDate: releaseDateController.text,
+        releaseDate: int.tryParse(releaseDateController.text),
         transmissionType: int.tryParse(transmissionTypeController.text),
-        fuelType: int.tryParse(fuelTypeController.text),
+        fuelType: selectedFuelTypeId,
       ),
     );
   }

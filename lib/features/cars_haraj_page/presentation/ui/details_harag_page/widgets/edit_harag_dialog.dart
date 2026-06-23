@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
 import 'package:sun_web_system/features/cars_haraj_page/data/model/get_all_harage_model/harage_data.dart';
 import 'package:sun_web_system/features/cars_haraj_page/data/request/update_harage_request/update_harage_request.dart';
 import 'package:sun_web_system/features/cars_haraj_page/presentation/bloc/update_harage_cubit/update_harage_cubit.dart';
@@ -32,7 +33,7 @@ class _EditHaragDialogState extends State<EditHaragDialog> {
 
   final releaseDateController = TextEditingController();
   final transmissionTypeController = TextEditingController();
-  final fuelTypeController = TextEditingController();
+  int? selectedFuelTypeId;
 
   bool isNew = false;
   bool isSold = false;
@@ -50,7 +51,8 @@ class _EditHaragDialogState extends State<EditHaragDialog> {
     releaseDateController.text = widget.car.releaseDate ?? "";
     transmissionTypeController.text =
         widget.car.transmissionType?.toString() ?? "";
-    fuelTypeController.text = widget.car.fuelType?.toString() ?? "";
+
+    selectedFuelTypeId = widget.car.fuelType;
 
     isNew = widget.car.isNew ?? false;
     isSold = widget.car.isSold ?? false;
@@ -67,8 +69,6 @@ class _EditHaragDialogState extends State<EditHaragDialog> {
 
     releaseDateController.dispose();
     transmissionTypeController.dispose();
-    fuelTypeController.dispose();
-
     super.dispose();
   }
 
@@ -268,20 +268,34 @@ class _EditHaragDialogState extends State<EditHaragDialog> {
                     },
                   ),
                   _title(AppLanguageKeys.fuelType),
-                  TextFormFieldWidget(
-                    textFormController: fuelTypeController,
-                    isDigit: true,
-                    fillColor: AppColors.transparent,
-                    borderColor: AppColors.darkColor.withOpacity(0.2),
-                    hintTextSize: 12,
-                    hintTextColor: AppColors.orangeColor,
-                    textSize: 15,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return '';
-                      }
-                      return null;
-                    },
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: AppColors.darkColor.withOpacity(0.2),
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<int>(
+                        value: selectedFuelTypeId,
+                        isExpanded: true,
+                        items: FuelTypes.all.map((fuel) {
+                          return DropdownMenuItem<int>(
+                            value: fuel.id,
+                            child: TextInAppWidget(
+                              text: fuel.name,
+                              textSize: 15,
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            selectedFuelTypeId = value;
+                          });
+                        },
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -346,7 +360,7 @@ class _EditHaragDialogState extends State<EditHaragDialog> {
             isSold: isSold,
             releaseDate: releaseDateController.text,
             transmissionType: int.tryParse(transmissionTypeController.text),
-            fuelType: int.tryParse(fuelTypeController.text),
+            fuelType: selectedFuelTypeId,
           ),
         );
   }

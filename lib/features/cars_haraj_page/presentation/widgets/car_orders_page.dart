@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:sun_web_system/features/cars_haraj_page/data/model/filter_orders_model/filter_orders_model.dart';
 import 'package:sun_web_system/features/cars_haraj_page/presentation/bloc/get_all_harage_cubit/get_all_harage_cubit.dart';
+import 'package:sun_web_system/features/cars_haraj_page/presentation/bloc/get_user_harages_cubit/get_user_harages_cubit.dart';
 import 'package:sun_web_system/features/cars_haraj_page/presentation/widgets/filters_tabs_car_widget.dart';
 import 'package:sun_web_system/features/internal_services/presentation/cubit/tabs_cubit/tabs_cubit.dart';
 import '../../../../../core/cubit/new_orders_cubit/new_orders_cubit.dart';
@@ -53,7 +54,7 @@ class CarOrdersPage extends StatelessWidget {
                 providers: [
                   BlocProvider(create: (_) => TabsCubit()),
                   BlocProvider(
-                    create: (_) => GetAllHarageCubit()..getAllHarage(page: 1),
+                    create: (_) => GetUserHaragesCubit()..getUserHarages(pageNumber: 1),
                   ),
                 ],
                 child: FiltersTabsCarWidget(

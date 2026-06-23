@@ -7,19 +7,29 @@ import '../../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../../core/language/language_constant.dart';
 
 
-Future<void> createHarageFunction({required UpdateHarageRequest updateHarageRequest}) async {
+Future<void> createHarageFunction({
+  required UpdateHarageRequest updateHarageRequest,
+}) async {
   try {
-    String jsonString = json.encode(updateHarageRequest.toJson());
+    String jsonString = jsonEncode(updateHarageRequest.toJson());
 
-    await Network.postDataWithBody(
+    print("REQUEST:");
+    print(jsonString);
+
+    final response = await Network.postDataWithBody(
       jsonString,
-        ApiLink.createHarage
-    ).then((value) {
-      AppSnackBar.showSuccess(AppLanguageKeys.createHarageSuccessfully);
-    });
+      ApiLink.createHarage,
+    );
 
+    print("RESPONSE:");
+    print(response.data);
+
+    AppSnackBar.showSuccess(
+      AppLanguageKeys.createHarageSuccessfully,
+    );
   } catch (e) {
-    throw e;
+    print(e);
+    rethrow;
   }
 }
 
