@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:sun_web_system/features/accounts_management/data/request/get_provider_balance_details_request/get_provider_balance_details_request.dart';
-import 'package:sun_web_system/features/accounts_management/data/model/get_provider_balance_details_model/provider_balance_details_model.dart';
+import '../../../../../../../features/accounts_management/data/request/get_provider_balance_details_request/get_provider_balance_details_request.dart';
+import '../../../../../../../features/accounts_management/data/model/get_provider_balance_details_model/provider_balance_details_model.dart';
 import '../../../../../core/api/dio_function/api_constants.dart';
 import '../../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../../core/api/dio_function/dio_controller.dart';

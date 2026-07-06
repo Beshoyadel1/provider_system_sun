@@ -1,17 +1,16 @@
 import 'package:flutter/cupertino.dart';
-import 'package:sun_web_system/core/language/language_constant.dart';
-import 'package:sun_web_system/core/pages_widgets/general_widgets/custom_container.dart';
-import 'package:sun_web_system/core/theming/colors.dart';
-import 'package:sun_web_system/core/theming/fonts.dart';
-import 'package:sun_web_system/core/theming/text_styles.dart';
-import 'package:sun_web_system/features/accounts_management/presentation/bloc/provider_balances_cubit/provider_balances_cubit.dart';
-import 'package:sun_web_system/features/accounts_management/presentation/bloc/provider_balances_cubit/provider_balances_state.dart';
-import 'package:sun_web_system/features/accounts_management/presentation/custom_widget/title_with_sub_title.dart';
+import '../../../../../../../core/language/language_constant.dart';
+import '../../../../../../../core/pages_widgets/general_widgets/custom_container.dart';
+import '../../../../../../../core/theming/colors.dart';
+import '../../../../../../../core/theming/fonts.dart';
+import '../../../../../../../core/theming/text_styles.dart';
+import '../../../../../../../features/accounts_management/presentation/bloc/provider_balances_cubit/provider_balances_cubit.dart';
+import '../../../../../../../features/accounts_management/presentation/bloc/provider_balances_cubit/provider_balances_state.dart';
+import '../../../../../../../features/accounts_management/presentation/custom_widget/title_with_sub_title.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
-import 'package:sun_web_system/features/internal_services/presentation/cubit/order_funcations/order_functions.dart';
-import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/custom_widget/text_empty_view_data.dart';
-import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/custom_widget/text_with_container_status.dart';
+import '../../../../../../../features/internal_services/presentation/cubit/order_funcations/order_functions.dart';
+import '../../../../../../../features/internal_services/presentation/pages/internal_orders/custom_widget/text_empty_view_data.dart';
+import '../../../../../../../features/internal_services/presentation/pages/internal_orders/custom_widget/text_with_container_status.dart';
 
 class NumberOfTransactionList extends StatelessWidget {
   const NumberOfTransactionList({super.key});

@@ -1,18 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/features/cars_haraj_page/data/model/get_all_harage_model/harage_data.dart';
-import 'package:sun_web_system/core/language/language_constant.dart';
-import 'package:sun_web_system/core/theming/colors.dart';
-import 'package:sun_web_system/core/theming/fonts.dart';
-import 'package:sun_web_system/core/theming/text_styles.dart';
-import 'package:sun_web_system/features/cars_haraj_page/presentation/bloc/delete_harage_cubit/delete_harage_cubit.dart';
-import 'package:sun_web_system/features/cars_haraj_page/presentation/bloc/update_harage_cubit/update_harage_cubit.dart';
-import 'package:sun_web_system/features/cars_haraj_page/presentation/ui/details_harag_page/widgets/available_cars_details.dart';
-import 'package:sun_web_system/features/cars_haraj_page/presentation/ui/details_harag_page/widgets/car_specifications.dart';
-import 'package:sun_web_system/features/cars_haraj_page/presentation/ui/details_harag_page/widgets/delete_dialog.dart';
-import 'package:sun_web_system/features/cars_haraj_page/presentation/ui/details_harag_page/widgets/edit_harag_dialog.dart';
-import 'package:sun_web_system/features/service_settings/presentation/custom_widget/button_edit_delete_setting_widget.dart';
+import '../../../../../../../features/cars_haraj_page/data/model/get_all_harage_model/harage_data.dart';
+import '../../../../../../../core/language/language_constant.dart';
+import '../../../../../../../core/theming/colors.dart';
+import '../../../../../../../core/theming/fonts.dart';
+import '../../../../../../../core/theming/text_styles.dart';
+import '../../../../../../../features/cars_haraj_page/presentation/bloc/delete_harage_cubit/delete_harage_cubit.dart';
+import '../../../../../../../features/cars_haraj_page/presentation/bloc/update_harage_cubit/update_harage_cubit.dart';
+import '../../../../../../../features/cars_haraj_page/presentation/ui/details_harag_page/widgets/available_cars_details.dart';
+import '../../../../../../../features/cars_haraj_page/presentation/ui/details_harag_page/widgets/car_specifications.dart';
+import '../../../../../../../features/cars_haraj_page/presentation/ui/details_harag_page/widgets/delete_dialog.dart';
+import '../../../../../../../features/cars_haraj_page/presentation/ui/details_harag_page/widgets/edit_harag_dialog.dart';
+import '../../../../../../../features/service_settings/presentation/custom_widget/button_edit_delete_setting_widget.dart';
 
 class DetailsHaragPage extends StatelessWidget {
   final HarageData car;

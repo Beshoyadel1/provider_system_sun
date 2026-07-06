@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/core/language/language_constant.dart';
-import 'package:sun_web_system/features/cars_haraj_page/data/model/filter_orders_model/filter_orders_model.dart';
-import 'package:sun_web_system/features/cars_haraj_page/presentation/bloc/get_all_harage_cubit/get_all_harage_cubit.dart';
-import 'package:sun_web_system/features/cars_haraj_page/presentation/bloc/get_user_harages_cubit/get_user_harages_cubit.dart';
-import 'package:sun_web_system/features/cars_haraj_page/presentation/widgets/filters_tabs_car_widget.dart';
-import 'package:sun_web_system/features/internal_services/presentation/cubit/tabs_cubit/tabs_cubit.dart';
-import '../../../../../core/cubit/new_orders_cubit/new_orders_cubit.dart';
-import '../../../../../core/theming/colors.dart';
-import '../../../../../core/pages_widgets/general_widgets/custom_container.dart';
-import '../../../../../core/theming/text_styles.dart';
+import '../../../../../../../../../core/language/language_constant.dart';
+import '../../../../../../../../../features/cars_haraj_page/data/model/filter_orders_model/filter_orders_model.dart';
+import '../../../../../../../../../features/cars_haraj_page/presentation/bloc/get_user_harages_cubit/get_user_harages_cubit.dart';
+import 'filters_tabs_car_widget.dart';
+import '../../../../../../../../../features/internal_services/presentation/cubit/tabs_cubit/tabs_cubit.dart';
+import '../../../../../../../core/cubit/new_orders_cubit/new_orders_cubit.dart';
+import '../../../../../../../core/theming/colors.dart';
+import '../../../../../../../core/pages_widgets/general_widgets/custom_container.dart';
+import '../../../../../../../core/theming/text_styles.dart';
 
 class CarOrdersPage extends StatelessWidget {
   const CarOrdersPage({super.key, required this.cubit});

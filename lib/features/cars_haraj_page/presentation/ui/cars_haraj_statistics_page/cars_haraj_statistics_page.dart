@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/core/theming/colors.dart';
-import 'package:sun_web_system/features/cars_haraj_page/presentation/bloc/provider_harage_monthly_sales_cubit/provider_harage_monthly_sales_cubit.dart';
-import 'package:sun_web_system/features/cars_haraj_page/presentation/bloc/update_harage_cubit/update_harage_cubit.dart';
-import 'package:sun_web_system/features/cars_haraj_page/presentation/widgets/create_harag_dialog.dart';
-import 'package:sun_web_system/features/dashboard_page/presentation/widgets/services_statistics.dart';
-import 'package:sun_web_system/features/internal_services/presentation/pages/internal_services_statistics/Internal_services_page/widgets/profits_services.dart';
-import '../widgets/list_of_cars.dart';
-import '../widgets/monthly_bar_chart.dart';
+import '../../../../../../../../core/theming/colors.dart';
+import '../../../../../../../../features/cars_haraj_page/presentation/bloc/provider_harage_monthly_sales_cubit/provider_harage_monthly_sales_cubit.dart';
+import '../../../../../../../../features/cars_haraj_page/presentation/bloc/update_harage_cubit/update_harage_cubit.dart';
+import 'screens/create_harag_dialog.dart';
+import '../../../../../../../../features/dashboard_page/presentation/widgets/services_statistics.dart';
+import '../../../../../../../../features/internal_services/presentation/pages/internal_services_statistics/Internal_services_page/widgets/profits_services.dart';
+import 'screens/list_of_cars.dart';
+import 'screens/monthly_bar_chart.dart';
 
 class CarsHarajStatisticsPage extends StatelessWidget {
   const CarsHarajStatisticsPage({super.key});

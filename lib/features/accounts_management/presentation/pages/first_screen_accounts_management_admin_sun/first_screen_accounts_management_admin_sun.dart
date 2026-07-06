@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sun_web_system/features/accounts_management/presentation/pages/first_screen_accounts_management_admin_sun/screens/container_first_screen_accounts_management_admin_sun.dart';
-import '../../../../../core/utilies/map_of_all_app.dart';
+import '../../../../../features/accounts_management/presentation/pages/first_screen_accounts_management_admin_sun/screens/container_first_screen_accounts_management_admin_sun.dart';
 import '../../../../../core/theming/colors.dart';
 
 

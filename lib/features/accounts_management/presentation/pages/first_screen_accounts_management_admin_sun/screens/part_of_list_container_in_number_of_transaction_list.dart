@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:sun_web_system/core/pages_widgets/general_widgets/custom_container.dart';
-import 'package:sun_web_system/features/accounts_management/presentation/custom_widget/design_container_image_with_two_text_widget.dart';
+import '../../../../../../core/pages_widgets/general_widgets/custom_container.dart';
+import '../../../../../../features/accounts_management/presentation/custom_widget/design_container_image_with_two_text_widget.dart';
 import '../../../../../../core/theming/assets.dart';
 
 class PartOfListContainerInFirstScreenAccountsManagementAdminSun extends StatelessWidget {

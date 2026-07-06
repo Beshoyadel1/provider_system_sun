@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/core/language/language_constant.dart';
-import 'package:sun_web_system/core/theming/assets.dart';
-import 'package:sun_web_system/core/theming/colors.dart';
-import 'package:sun_web_system/core/theming/fonts.dart';
-import 'package:sun_web_system/core/theming/text_styles.dart';
-import 'package:sun_web_system/features/accounts_management/presentation/bloc/wallet_balance_cubit/wallet_balance_cubit.dart';
-import 'package:sun_web_system/features/accounts_management/presentation/bloc/wallet_balance_cubit/wallet_balance_state.dart';
+import '../../../../../../core/language/language_constant.dart';
+import '../../../../../../core/theming/assets.dart';
+import '../../../../../../core/theming/colors.dart';
+import '../../../../../../core/theming/fonts.dart';
+import '../../../../../../core/theming/text_styles.dart';
+import '../../../../../../features/accounts_management/presentation/bloc/wallet_balance_cubit/wallet_balance_cubit.dart';
+import '../../../../../../features/accounts_management/presentation/bloc/wallet_balance_cubit/wallet_balance_state.dart';
 
-import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/custom_widget/row_text_icon_orange.dart';
+import '../../../../../../features/internal_services/presentation/pages/internal_orders/custom_widget/row_text_icon_orange.dart';
 
 class AccountBalance extends StatelessWidget {
   const AccountBalance({super.key});

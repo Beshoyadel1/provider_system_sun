@@ -1,11 +1,11 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/custom_widget/text_with_container_status_car.dart';
-import '../../../../../core/language/language_constant.dart';
-import '../../../../../core/theming/assets.dart';
-import '../../../../../core/theming/colors.dart';
-import '../../../../../core/pages_widgets/general_widgets/custom_container.dart';
-import '../../../../../core/theming/text_styles.dart';
+import '../../../../../../../../../features/internal_services/presentation/pages/internal_orders/custom_widget/text_with_container_status_car.dart';
+import '../../../../../../../core/language/language_constant.dart';
+import '../../../../../../../core/theming/assets.dart';
+import '../../../../../../../core/theming/colors.dart';
+import '../../../../../../../core/pages_widgets/general_widgets/custom_container.dart';
+import '../../../../../../../core/theming/text_styles.dart';
 import 'car_model.dart';
 
 class AvailableCars extends StatelessWidget {

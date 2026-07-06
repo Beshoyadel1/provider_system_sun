@@ -1,10 +1,9 @@
-
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import '../../../../../core/theming/assets.dart';
-import '../../../../../core/theming/colors.dart';
-import '../../../../../core/theming/text_styles.dart';
+import '../../../../../../../core/theming/assets.dart';
+import '../../../../../../../core/theming/colors.dart';
+import '../../../../../../../core/theming/text_styles.dart';
 
 class CarModel extends StatelessWidget {
   final String? releaseDate, addresstext;

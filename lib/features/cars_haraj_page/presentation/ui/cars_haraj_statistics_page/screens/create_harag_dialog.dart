@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
-import 'package:sun_web_system/core/language/language_constant.dart';
-import 'package:sun_web_system/core/pages_widgets/text_form_field_widget.dart';
-import 'package:sun_web_system/core/theming/colors.dart';
-import 'package:sun_web_system/core/theming/text_styles.dart';
-import 'package:sun_web_system/features/cars_haraj_page/data/request/update_harage_request/update_harage_request.dart';
-import 'package:sun_web_system/features/cars_haraj_page/presentation/bloc/update_harage_cubit/update_harage_cubit.dart';
-import 'package:sun_web_system/features/cars_haraj_page/presentation/bloc/update_harage_cubit/update_harage_state.dart';
+import '../../../../../../../../../core/api/dio_function/api_constants.dart';
+import '../../../../../../../../../core/language/language_constant.dart';
+import '../../../../../../../../../core/pages_widgets/text_form_field_widget.dart';
+import '../../../../../../../../../core/theming/colors.dart';
+import '../../../../../../../../../core/theming/text_styles.dart';
+import '../../../../../../../../../features/cars_haraj_page/data/request/update_harage_request/update_harage_request.dart';
+import '../../../../../../../../../features/cars_haraj_page/presentation/bloc/update_harage_cubit/update_harage_cubit.dart';
+import '../../../../../../../../../features/cars_haraj_page/presentation/bloc/update_harage_cubit/update_harage_state.dart';
 
 class CreateHaragDialog extends StatefulWidget {
   const CreateHaragDialog({super.key});

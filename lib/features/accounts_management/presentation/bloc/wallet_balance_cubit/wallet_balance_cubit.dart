@@ -1,9 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:sun_web_system/features/accounts_management/data/request/get_wallet_balance_request/get_wallet_balance_request.dart';
-import 'package:sun_web_system/features/accounts_management/presentation/bloc/wallet_balance_cubit/wallet_balance_state.dart';
-import 'package:sun_web_system/features/auth_page/data/datasource/login_datasource/login_repository.dart';
-
+import '../../../../../../../features/accounts_management/data/request/get_wallet_balance_request/get_wallet_balance_request.dart';
+import '../../../../../../../features/accounts_management/presentation/bloc/wallet_balance_cubit/wallet_balance_state.dart';
+import '../../../../../../../features/auth_page/data/datasource/login_datasource/login_repository.dart';
 import '../../../../../../core/api/dio_function/api_constants.dart';
 import '../../../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../../../core/api/dio_function/failures.dart';

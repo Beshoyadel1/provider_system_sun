@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:sun_web_system/features/cars_haraj_page/presentation/bloc/provider_harage_monthly_sales_cubit/provider_harage_monthly_sales_cubit.dart';
-import 'package:sun_web_system/features/cars_haraj_page/presentation/bloc/provider_harage_monthly_sales_cubit/provider_harage_monthly_sales_state.dart';
-import '../../../../../core/theming/colors.dart';
-import '../../data/model/get_provider_harage_sales_chart_model/harag_data_points_model.dart';
+import '../../../../../../../../../features/cars_haraj_page/presentation/bloc/provider_harage_monthly_sales_cubit/provider_harage_monthly_sales_cubit.dart';
+import '../../../../../../../../../features/cars_haraj_page/presentation/bloc/provider_harage_monthly_sales_cubit/provider_harage_monthly_sales_state.dart';
+import '../../../../../../../core/theming/colors.dart';
+import '../../../../data/model/get_provider_harage_sales_chart_model/harag_data_points_model.dart';
 
 class AspectRatioWidget extends StatelessWidget {
   const AspectRatioWidget({super.key});

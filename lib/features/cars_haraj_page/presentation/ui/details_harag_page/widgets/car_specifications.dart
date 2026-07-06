@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:sun_web_system/core/language/language_constant.dart';
-import 'package:sun_web_system/core/pages_widgets/general_widgets/custom_container.dart';
-import 'package:sun_web_system/core/theming/colors.dart';
-import 'package:sun_web_system/features/accounts_management/presentation/custom_widget/title_with_sub_title.dart';
+import '../../../../../../../core/language/language_constant.dart';
+import '../../../../../../../core/pages_widgets/general_widgets/custom_container.dart';
+import '../../../../../../../core/theming/colors.dart';
+import '../../../../../../../features/accounts_management/presentation/custom_widget/title_with_sub_title.dart';
 
 class CarSpecifications extends StatelessWidget {
   final String? carDetails;

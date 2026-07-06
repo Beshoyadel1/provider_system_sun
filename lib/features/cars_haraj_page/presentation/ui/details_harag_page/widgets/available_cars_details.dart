@@ -1,8 +1,8 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:sun_web_system/features/accounts_management/presentation/custom_widget/title_with_sub_title.dart';
-import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/custom_widget/text_with_container_status_car.dart';
-import '../../../../../../features/cars_haraj_page/presentation/widgets/car_model.dart';
+import '../../../../../../../features/accounts_management/presentation/custom_widget/title_with_sub_title.dart';
+import '../../../../../../../features/internal_services/presentation/pages/internal_orders/custom_widget/text_with_container_status_car.dart';
+import '../../cars_haraj_statistics_page/screens/car_model.dart';
 import '../../../../../../core/language/language_constant.dart';
 import '../../../../../../core/theming/assets.dart';
 import '../../../../../../core/theming/colors.dart';

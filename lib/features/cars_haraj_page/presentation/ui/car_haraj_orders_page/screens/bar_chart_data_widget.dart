@@ -1,9 +1,9 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:sun_web_system/features/cars_haraj_page/data/model/get_provider_harage_monthly_sales_model/harag_monthly_sale_model.dart';
-import 'package:sun_web_system/features/cars_haraj_page/presentation/bloc/provider_harage_monthly_sales_cubit/provider_harage_monthly_sales_cubit.dart';
-import 'package:sun_web_system/features/cars_haraj_page/presentation/bloc/provider_harage_monthly_sales_cubit/provider_harage_monthly_sales_state.dart';
-import '../../../../../core/theming/colors.dart';
+import '../../../../../../../../../features/cars_haraj_page/data/model/get_provider_harage_monthly_sales_model/harag_monthly_sale_model.dart';
+import '../../../../../../../../../features/cars_haraj_page/presentation/bloc/provider_harage_monthly_sales_cubit/provider_harage_monthly_sales_cubit.dart';
+import '../../../../../../../../../features/cars_haraj_page/presentation/bloc/provider_harage_monthly_sales_cubit/provider_harage_monthly_sales_state.dart';
+import '../../../../../../../core/theming/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

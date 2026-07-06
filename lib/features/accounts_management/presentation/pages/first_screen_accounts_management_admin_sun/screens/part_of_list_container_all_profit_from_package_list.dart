@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/core/language/language_constant.dart';
-import 'package:sun_web_system/core/pages_widgets/general_widgets/custom_container.dart';
-import 'package:sun_web_system/core/theming/colors.dart';
-import 'package:sun_web_system/core/theming/fonts.dart';
-import 'package:sun_web_system/core/theming/text_styles.dart';
-import 'package:sun_web_system/features/accounts_management/presentation/custom_widget/design_container_image_with_two_text_widget.dart';
-import 'package:sun_web_system/features/accounts_management/presentation/bloc/provider_balances_cubit/provider_balances_cubit.dart';
-import 'package:sun_web_system/features/accounts_management/presentation/bloc/provider_balances_cubit/provider_balances_state.dart';
+import '../../../../../../core/language/language_constant.dart';
+import '../../../../../../core/pages_widgets/general_widgets/custom_container.dart';
+import '../../../../../../core/theming/colors.dart';
+import '../../../../../../core/theming/fonts.dart';
+import '../../../../../../core/theming/text_styles.dart';
+import '../../../../../../features/accounts_management/presentation/custom_widget/design_container_image_with_two_text_widget.dart';
+import '../../../../../../features/accounts_management/presentation/bloc/provider_balances_cubit/provider_balances_cubit.dart';
+import '../../../../../../features/accounts_management/presentation/bloc/provider_balances_cubit/provider_balances_state.dart';
 import '../../../../../../core/theming/assets.dart';
 
 class PartOfListContainerInFirstScreenAccountsManagementAdminSun extends StatelessWidget {

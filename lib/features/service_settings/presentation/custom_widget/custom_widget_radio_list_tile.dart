@@ -25,23 +25,27 @@ class CustomWidgetRadioListTile extends StatelessWidget {
         .brandSelection[brandId];
 
     return Expanded(
-      child: RadioListTile<int>(
-        activeColor: AppColors.orangeColor,
-        title: TextInAppWidget(
-          text: text,
-          textSize: 13,
-          fontWeightIndex: FontSelectionData.mediumFontFamily,
-          textColor: AppColors.darkColor,
+      child: Material(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        child: RadioListTile<int>(
+          activeColor: AppColors.orangeColor,
+          title: TextInAppWidget(
+            text: text,
+            textSize: 13,
+            fontWeightIndex: FontSelectionData.mediumFontFamily,
+            textColor: AppColors.darkColor,
+          ),
+          value: value,
+          groupValue: selected,
+          contentPadding: EdgeInsets.zero,
+          onChanged: (val) {
+            context.read<CreateProvServiceCubit>().setBrandSelection(
+              brandId: brandId,
+              option: val!,
+            );
+          },
         ),
-        value: value,
-        groupValue: selected, // ✅ هنا الحل
-        contentPadding: EdgeInsets.zero,
-        onChanged: (val) {
-          context.read<CreateProvServiceCubit>().setBrandSelection(
-            brandId: brandId,
-            option: val!,
-          );
-        },
       ),
     );
   }

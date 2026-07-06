@@ -11,6 +11,7 @@ import 'package:sun_web_system/features/auth_page/data/model/create_user_model/c
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/provider_details_request.dart';
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_cubit.dart';
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_state.dart';
+import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/custom_widget/row_number_coin_widget.dart';
 
 
 class BankAccountContent extends StatefulWidget {

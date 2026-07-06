@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/features/cars_haraj_page/data/model/filter_orders_model/filter_orders_model.dart';
-import 'package:sun_web_system/features/cars_haraj_page/presentation/widgets/filter_design_car_list.dart';
-import 'package:sun_web_system/features/internal_services/presentation/cubit/tabs_cubit/tabs_cubit.dart';
-import '../../../../../core/theming/colors.dart';
-import '../../../../../core/theming/text_styles.dart';
+import '../../../../../../../../../features/cars_haraj_page/data/model/filter_orders_model/filter_orders_model.dart';
+import 'filter_design_car_list.dart';
+import '../../../../../../../../../features/internal_services/presentation/cubit/tabs_cubit/tabs_cubit.dart';
+import '../../../../../../../core/theming/colors.dart';
+import '../../../../../../../core/theming/text_styles.dart';
 
 class FiltersTabsCarWidget extends StatefulWidget {
   const FiltersTabsCarWidget({

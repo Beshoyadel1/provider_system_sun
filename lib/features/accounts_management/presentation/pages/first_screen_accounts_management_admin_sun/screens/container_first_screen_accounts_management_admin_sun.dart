@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sun_web_system/features/accounts_management/presentation/pages/first_screen_accounts_management_admin_sun/screens/list_data_first_screen_accounts_management_admin_sun.dart';
+import '../../../../../../features/accounts_management/presentation/pages/first_screen_accounts_management_admin_sun/screens/list_data_first_screen_accounts_management_admin_sun.dart';
 import '../../../../../../core/theming/colors.dart';
 
 class ContainerFirstScreenAccountsManagementAdminSun extends StatelessWidget {

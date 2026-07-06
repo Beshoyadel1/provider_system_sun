@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/core/language/language_constant.dart';
-import 'package:sun_web_system/core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
-import 'package:sun_web_system/core/theming/colors.dart';
-import 'package:sun_web_system/core/theming/text_styles.dart';
-import 'package:sun_web_system/features/cars_haraj_page/data/model/car_filter/car_filter.dart';
-import 'package:sun_web_system/features/cars_haraj_page/presentation/bloc/get_all_harage_cubit/get_all_harage_state.dart';
-import 'package:sun_web_system/features/cars_haraj_page/presentation/bloc/get_user_harages_cubit/get_user_harages_cubit.dart';
-import 'package:sun_web_system/features/cars_haraj_page/presentation/bloc/get_user_harages_cubit/get_user_harages_state.dart';
-import 'package:sun_web_system/features/cars_haraj_page/presentation/ui/details_harag_page/details_harag_page.dart';
-import 'package:sun_web_system/features/cars_haraj_page/presentation/widgets/available_cars.dart';
-import 'package:sun_web_system/features/internal_services/presentation/cubit/tabs_cubit/tabs_cubit.dart';
-import 'package:sun_web_system/features/spare_parts/presentation/custom_widget/app_pagination.dart';
+import '../../../../../../../../../core/language/language_constant.dart';
+import '../../../../../../../../../core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
+import '../../../../../../../../../core/theming/colors.dart';
+import '../../../../../../../../../core/theming/text_styles.dart';
+import '../../../../../../../../../features/cars_haraj_page/data/model/car_filter/car_filter.dart';
+import '../../../../../../../../../features/cars_haraj_page/presentation/bloc/get_all_harage_cubit/get_all_harage_state.dart';
+import '../../../../../../../../../features/cars_haraj_page/presentation/bloc/get_user_harages_cubit/get_user_harages_cubit.dart';
+import '../../../../../../../../../features/cars_haraj_page/presentation/bloc/get_user_harages_cubit/get_user_harages_state.dart';
+import '../../../../../../../../../features/cars_haraj_page/presentation/ui/details_harag_page/details_harag_page.dart';
+import '../../cars_haraj_statistics_page/screens/available_cars.dart';
+import '../../../../../../../../../features/internal_services/presentation/cubit/tabs_cubit/tabs_cubit.dart';
+import '../../../../../../../../../features/spare_parts/presentation/custom_widget/app_pagination.dart';
 
 class FilterDesignCarList extends StatelessWidget {
   const FilterDesignCarList({super.key});
