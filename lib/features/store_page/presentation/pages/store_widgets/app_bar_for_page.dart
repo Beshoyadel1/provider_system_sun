@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../main.dart';
+import '../../../../../features/notifications/presentation/pages/notification_popup/notification_popup.dart';
 import '../../../../../core/cubit/app_cubit/app_cubit.dart';
 import '../../../../../core/cubit/app_cubit/app_states.dart';
 import '../../../../../core/pages_widgets/button_widget.dart';
@@ -12,7 +12,12 @@ import '../../../../../core/theming/text_styles.dart';
 import '../../../../../core/utilies/map_of_all_app.dart';
 
 class AppBarForPage extends StatefulWidget {
-  const AppBarForPage({super.key});
+  final GlobalKey<ScaffoldState> scaffoldKey;
+
+  const AppBarForPage({
+    super.key,
+    required this.scaffoldKey,
+  });
 
   @override
   State<AppBarForPage> createState() => _AppBarForPageState();
@@ -56,7 +61,7 @@ class _AppBarForPageState extends State<AppBarForPage> {
         _previousIsMobile == true &&
         isMobile == false) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (scaffoldKeyDrawer.currentState?.isDrawerOpen ?? false) {
+        if (widget.scaffoldKey.currentState?.isDrawerOpen ?? false) {
           Navigator.of(context).pop();
         }
       });
@@ -95,7 +100,7 @@ class _AppBarForPageState extends State<AppBarForPage> {
                 borderRadius: 7,
                 onTap: () {
                   if (isMobile) {
-                    scaffoldKeyDrawer.currentState?.openDrawer();
+                    widget.scaffoldKey.currentState?.openDrawer();
                   } else {
                     _appCubit.isMenuOpen = !_appCubit.isMenuOpen;
                     _appCubit.dropDown();
@@ -116,13 +121,7 @@ class _AppBarForPageState extends State<AppBarForPage> {
                   ),
                 ),
               ),
-
-              const Icon(
-                Icons.notifications,
-                size: 40,
-                color: AppColors.blackColor,
-              ),
-
+              const NotificationPopup(),
               const SizedBox(width: 10),
 
               const ChangeLanguageButton(),

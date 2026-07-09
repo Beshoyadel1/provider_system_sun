@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_cubit.dart';
 import 'package:sun_web_system/features/auth_page/presentation/pages/auth_gate.dart';
+import 'package:sun_web_system/features/notifications/presentation/bloc/notification_cubit/notification_cubit.dart';
 import '../../../core/cubit/app_cubit/app_cubit.dart';
 import '../../../core/language/language_cubit/language_cubit.dart';
 import '../../../core/language/language_cubit/language_states.dart';
@@ -19,6 +20,9 @@ void main() {
   runApp(
     MultiBlocProvider(
       providers: [
+        BlocProvider(
+          create: (_) => NotificationCubit()..getUserNotification(),
+        ),
         BlocProvider<LanguageCubit>(
           create: (_) =>
           getIt<LanguageCubit>()..getLanguageFromSharedPreference(),

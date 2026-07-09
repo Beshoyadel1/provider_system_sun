@@ -13,6 +13,7 @@ import 'package:sun_web_system/features/auth_page/data/request/login_request/log
 import 'package:sun_web_system/features/auth_page/domain/validation/facility_validator_result.dart';
 import 'package:sun_web_system/features/store_page/presentation/bloc/branch_cubit/branch_cubit.dart';
 import 'package:sun_web_system/features/store_page/presentation/bloc/work_time_cubit/work_time_cubit.dart';
+import '../../../../../core/signalr/signalr_service.dart';
 import '../../../data/datasource/check_if_user_exist_or_not_datasource/check_if_user_exist_or_not_repository.dart';
 import '../../../../../../core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
 import '../../../../../../features/auth_page/presentation/pages/change_password/change_password_page.dart';
@@ -48,16 +49,23 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> init() async {
-    print("INIT CALLED");
-
     emit(AuthLoading());
 
     final user = await AuthLocalStorage.getUser();
 
     if (user == null) {
-      print("INIT => AuthUnauthenticated");
       emit(AuthUnauthenticated());
       return;
+    }
+
+    if (!SignalRService.instance.isConnected) {
+      try {
+        await SignalRService.instance.connect(
+          hubUrl: ApiLink.notificationHub,
+        );
+      } catch (e) {
+        print("SignalR Init Error => $e");
+      }
     }
 
     await _checkFacilityCompletion(user);
@@ -171,8 +179,16 @@ class AuthCubit extends Cubit<AuthState> {
     print("LOGIN MESSAGE => ${result.message}");
 
     if (result.success && result.user != null) {
-
       await AuthLocalStorage.saveUser(result.user!);
+
+      // الاتصال بالـ SignalR
+      try {
+        await SignalRService.instance.connect(
+          hubUrl: ApiLink.notificationHub,
+        );
+      } catch (e) {
+        print("SignalR Login Error => $e");
+      }
 
       emit(
         AuthLoginSuccess(
@@ -181,9 +197,7 @@ class AuthCubit extends Cubit<AuthState> {
       );
 
       await _checkFacilityCompletion(result.user!);
-
     } else {
-
       emit(
         AuthLoginError(
           result.message,
