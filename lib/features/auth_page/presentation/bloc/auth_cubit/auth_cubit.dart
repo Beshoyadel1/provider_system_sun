@@ -11,9 +11,9 @@ import 'package:sun_web_system/features/auth_page/data/request/check_if_user_exi
 import 'package:sun_web_system/features/auth_page/data/request/check_if_user_exist_request/check_if_user_exist_request.dart';
 import 'package:sun_web_system/features/auth_page/data/request/login_request/login_request.dart';
 import 'package:sun_web_system/features/auth_page/domain/validation/facility_validator_result.dart';
+import 'package:sun_web_system/features/notifications/data/datasource/signalr_datasource/signalr_service/signalr_service.dart';
 import 'package:sun_web_system/features/store_page/presentation/bloc/branch_cubit/branch_cubit.dart';
 import 'package:sun_web_system/features/store_page/presentation/bloc/work_time_cubit/work_time_cubit.dart';
-import '../../../../../core/signalr/signalr_service.dart';
 import '../../../data/datasource/check_if_user_exist_or_not_datasource/check_if_user_exist_or_not_repository.dart';
 import '../../../../../../core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
 import '../../../../../../features/auth_page/presentation/pages/change_password/change_password_page.dart';
@@ -59,13 +59,9 @@ class AuthCubit extends Cubit<AuthState> {
     }
 
     if (!SignalRService.instance.isConnected) {
-      try {
-        await SignalRService.instance.connect(
-          hubUrl: ApiLink.notificationHub,
-        );
-      } catch (e) {
-        print("SignalR Init Error => $e");
-      }
+      await SignalRService.instance.connect(
+        hubUrl: ApiLink.notificationHub,
+      );
     }
 
     await _checkFacilityCompletion(user);
@@ -181,22 +177,17 @@ class AuthCubit extends Cubit<AuthState> {
     if (result.success && result.user != null) {
       await AuthLocalStorage.saveUser(result.user!);
 
-      // الاتصال بالـ SignalR
-      try {
+      if (!SignalRService.instance.isConnected) {
         await SignalRService.instance.connect(
           hubUrl: ApiLink.notificationHub,
         );
-      } catch (e) {
-        print("SignalR Login Error => $e");
       }
-
+      await _checkFacilityCompletion(result.user!);
       emit(
         AuthLoginSuccess(
           message: result.message,
         ),
       );
-
-      await _checkFacilityCompletion(result.user!);
     } else {
       emit(
         AuthLoginError(

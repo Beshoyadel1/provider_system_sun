@@ -31,6 +31,7 @@ class AppLocalizations {
       //END//
 
       //others//
+      AppLanguageKeys.viewMore: 'عرض المزيد',
       AppLanguageKeys.petrol: 'بنزين',
       AppLanguageKeys.diesel: 'ديزل',
       AppLanguageKeys.electricity: 'كهرباء',
@@ -1334,6 +1335,7 @@ class AppLocalizations {
       AppLanguageKeys.cancelledByUser: 'Cancelled by User',
       //END//
       //others//
+      AppLanguageKeys.viewMore: 'View More',
       AppLanguageKeys.petrol: 'Petrol',
       AppLanguageKeys.diesel: 'Diesel',
       AppLanguageKeys.electricity: 'Electricity',
