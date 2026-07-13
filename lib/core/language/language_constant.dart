@@ -20,6 +20,7 @@ class AppLanguageKeys {
   //end//
 
   //others//
+  static const String youHaveOrderUpdate = 'youHaveOrderUpdate';
   static const String viewMore = 'viewMore';
   static const String petrol = 'petrol';
   static const String diesel = 'diesel';
