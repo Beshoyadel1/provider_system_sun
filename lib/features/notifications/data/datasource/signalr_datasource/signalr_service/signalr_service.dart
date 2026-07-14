@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import '../../../../../../features/notifications/data/datasource/signalr_datasource/signalr_connection/signalr_connection.dart';
 import '../../../../../../features/notifications/data/datasource/signalr_datasource/signalr_event_register/signalr_event_register.dart';

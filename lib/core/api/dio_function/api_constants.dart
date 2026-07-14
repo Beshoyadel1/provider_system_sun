@@ -374,6 +374,7 @@ class SignalRTypes {
   static const String openCloseChat = "OpenCloseChat";
   static const String transferCarOwnership = "TransferCarOwnership";
 }
+
 class FuelTypeModel {
   final int id;
   final String name;
