@@ -38,6 +38,8 @@ class ApiConfig {
 }
 
 class ApiLink {
+  static const String getUserInfo =
+      "${ApiConfig.baseUrlApi}/${ApiConfig.user}/getUserInfo";
   static const String notificationHub =
       "${ApiConfig.baseUrlApi}/sunStatusHub";
   static const String makeNotificationViewed =

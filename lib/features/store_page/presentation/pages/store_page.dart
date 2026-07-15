@@ -104,7 +104,7 @@ class _StorePageState extends State<StorePage> {
               )
             ],
           ),
-          bottomNavigationBar: const SignalRStatusBar(),
+         // bottomNavigationBar: const SignalRStatusBar(),
         ),
       ),
     );
