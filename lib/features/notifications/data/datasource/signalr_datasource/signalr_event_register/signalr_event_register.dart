@@ -23,16 +23,34 @@ class SignalREventRegister {
     required this.onTransferCarOwnership,
     required this.onOpenCloseChat,
   });
-
+  void unregister(HubConnection connection) {
+    connection.off(SignalRTypes.receiveNotification);
+    connection.off(SignalRTypes.receiveMessage);
+    connection.off(SignalRTypes.newOrder);
+    connection.off(SignalRTypes.updateOrderStatus);
+    connection.off(SignalRTypes.newServiceRequest);
+    connection.off(SignalRTypes.newServiceOffer);
+    connection.off(SignalRTypes.transferCarOwnership);
+    connection.off(SignalRTypes.openCloseChat);
+  }
   void register(HubConnection connection) {
+    unregister(connection);
+    debugPrint("✅ Registering SignalR Events");
 
     connection.on(
       SignalRTypes.receiveNotification,
           (args) {
-        _logEvent(SignalRTypes.receiveNotification, args);
+        debugPrint("🔥 ReceiveNotification Event Fired");
         onReceiveNotification(args);
       },
     );
+    // connection.on(
+    //   SignalRTypes.receiveMessage,
+    //       (args) {
+    //     _logEvent(SignalRTypes.receiveMessage, args);
+    //     onReceiveMessage(args);
+    //   },
+    // );
 
     connection.on(
       SignalRTypes.receiveMessage,
@@ -41,15 +59,8 @@ class SignalREventRegister {
 
     connection.on(
       SignalRTypes.newOrder,
-          (args) {
-        _logEvent(SignalRTypes.newOrder, args);
-        onNewOrder(args);
-      },
+      onNewOrder
     );
-    // connection.on(
-    //   SignalRTypes.newOrder,
-    //   onNewOrder
-    // );
 
     connection.on(
       SignalRTypes.updateOrderStatus,

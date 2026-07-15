@@ -370,7 +370,7 @@ class AuthCubit extends Cubit<AuthState> {
     await AuthLocalStorage.clearUser();
 
     print("LOGOUT => AuthUnauthenticated");
-
+    SignalRService.instance.disconnect();
     emit(AuthUnauthenticated());
   }
 
