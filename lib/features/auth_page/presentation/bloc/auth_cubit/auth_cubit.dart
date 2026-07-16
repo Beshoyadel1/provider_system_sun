@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
-import 'package:sun_web_system/core/theming/secure_storage.dart';
+import 'package:sun_web_system/core/theming/auth_local_storage.dart';
 import 'package:sun_web_system/features/auth_page/data/datasource/update_user_datasource/update_user_repository.dart';
 import 'package:sun_web_system/features/auth_page/data/get_user_info_datasource/get_user_info_datasource.dart';
 import 'package:sun_web_system/features/auth_page/data/request/change_password_request/change_password_request.dart';
@@ -55,7 +55,7 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthLoading());
 
     final localUser = await AuthLocalStorage.getUser();
-    final password = await SecureStorage.getPassword();
+    final password = await AuthLocalStorage.getPassword();
 
     if (localUser == null || password == null) {
       emit(AuthUnauthenticated());
@@ -72,7 +72,7 @@ class AuthCubit extends Cubit<AuthState> {
 
     if (!result.success || result.user == null) {
       await AuthLocalStorage.clearUser();
-      await SecureStorage.clearPassword();
+      await AuthLocalStorage.clearPassword();
       await SignalRService.instance.disconnect();
 
       emit(AuthUnauthenticated());
@@ -385,7 +385,7 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthLoading());
     await AuthLocalStorage.clearUser();
     await SignalRService.instance.disconnect();
-    await SecureStorage.clearPassword();
+    await AuthLocalStorage.clearPassword();
     emit(AuthUnauthenticated());
     if (context.mounted) {
       Navigator.pop(context);

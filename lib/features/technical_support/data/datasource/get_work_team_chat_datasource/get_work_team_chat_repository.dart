@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:sun_web_system/features/technical_support/data/model/get_work_team_chat_repository/work_team_user_model.dart';
+import '../../../../../features/technical_support/data/model/get_work_team_chat_repository/work_team_user_model.dart';
 import '../../request/get_work_team_chat_request/get_work_team_chat_request.dart';
 import '../../../../../core/api/dio_function/api_constants.dart';
 import '../../../../../core/pages_widgets/general_widgets/snakbar.dart';

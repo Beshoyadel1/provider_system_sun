@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/core/language/language_constant.dart';
-import 'package:sun_web_system/core/theming/text_styles.dart';
-import 'package:sun_web_system/features/technical_support/presentation/bloc/work_team_cubit/work_team_cubit.dart';
-import 'package:sun_web_system/features/technical_support/presentation/bloc/work_team_cubit/work_team_state.dart';
+import '../../../../../../../core/language/language_constant.dart';
+import '../../../../../../../core/theming/text_styles.dart';
+import '../../../../../../../features/technical_support/presentation/bloc/work_team_cubit/work_team_cubit.dart';
+import '../../../../../../../features/technical_support/presentation/bloc/work_team_cubit/work_team_state.dart';
 import '../../../../../../../core/theming/colors.dart';
 import '../../../../../../../core/theming/fonts.dart';
 
