@@ -47,7 +47,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void reassemble() {
     super.reassemble();
-
     AudioService.instance.stopNotificationSound();
   }
 
