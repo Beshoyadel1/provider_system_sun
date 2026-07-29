@@ -67,44 +67,58 @@ class _StorePageState extends State<StorePage> {
       child: PopScope(
         canPop: false,
         onPopInvokedWithResult: (bool didPop, Object? result) async {
-          if (didPop) {
-            return;
-          }
-          final bool shouldPop = await showBackDialog(context: context) ?? false;
-          if (shouldPop) {
+          if (didPop) return;
+
+          final shouldPop =
+              await showBackDialog(context: context) ?? false;
+
+          if (shouldPop && context.mounted) {
             Navigator.of(context).pop();
           }
         },
         child: Scaffold(
-          backgroundColor: AppColors.whiteGreyColor,
           key: _scaffoldKeyDrawer,
-          drawer: const Drawer(width: 256, child: PagesSelectionBar()),
+          backgroundColor: AppColors.whiteGreyColor,
+
+          // Mobile Drawer
+          drawer: isMobile
+              ? const Drawer(
+            width: 256,
+            child: PagesSelectionBar(),
+          )
+              : null,
+
           body: Row(
             children: [
+              // Desktop Sidebar
               if (!isMobile)
                 BlocBuilder<AppCubit, AppStates>(
+                  bloc: _appCubit, // IMPORTANT
                   buildWhen: (previous, current) {
                     return current is HideMenuState;
                   },
-                  builder: (BuildContext context, AppStates state) {
-                    return !_appCubit.isMenuOpen
-                        ? const SizedBox()
-                        : const PagesSelectionBar();
+                  builder: (context, state) {
+                    if (!_appCubit.isMenuOpen) {
+                      return const SizedBox.shrink();
+                    }
+
+                    return const PagesSelectionBar();
                   },
                 ),
+
               Expanded(
                 child: Column(
                   children: [
                     AppBarForPage(
                       scaffoldKey: _scaffoldKeyDrawer,
                     ),
+
                     const SelectedScreenWidget(),
                   ],
                 ),
-              )
+              ),
             ],
           ),
-        //  bottomNavigationBar: const SignalRStatusBar(),
         ),
       ),
     );

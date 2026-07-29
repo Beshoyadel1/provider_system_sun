@@ -57,7 +57,7 @@ class OrdersPageOilChangeServicesStatistics extends StatelessWidget {
                       create: (_) => GetProviderInternalOrderCubit()
                         ..loadInternalOrders(
                           serviceId: CategoryConstants.oilChange,
-                          orderType: mapOrderType(0),
+                          //orderType: mapOrderType(0),
                         ),
                     ),
                   ],

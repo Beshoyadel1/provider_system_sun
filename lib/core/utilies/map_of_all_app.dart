@@ -251,6 +251,7 @@ void getPages(BuildContext context) {
               name: AppLanguageKeys.statistics,
               number: (service.id ?? 0) + 20,
               page: OrderServicesStatistics(
+                key: ValueKey('statistics_${service.id}'),
                 serviceId: service.id!,
               ),
             ),
@@ -258,6 +259,7 @@ void getPages(BuildContext context) {
               name: AppLanguageKeys.ordersSectionKey,
               number: (service.id ?? 0) + 10,
               page: OrderServicesTypePage(
+                key: ValueKey('orders_${service.id}'),
                 serviceId: service.id!,
               ),
             ),
