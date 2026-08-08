@@ -17,15 +17,29 @@ getProviderTotalRateAndEmployeeAndBalanceFunction({
       ApiLink.getProviderTotalRateAndEmployeeAndBalance,
     );
 
-    return GetProviderTotalRateAndEmployeeAndBalanceModel.fromJson(
-        response.data);
+    final responseData = response.data;
 
+    final bool success =
+        responseData['success'] ?? false;
+
+    if (!success) {
+      throw Exception(
+        responseData['message'] ??
+            'Something went wrong',
+      );
+    }
+
+    return GetProviderTotalRateAndEmployeeAndBalanceModel
+        .fromJson(responseData);
   } catch (e) {
-    AppSnackBar.showError(
-      e is DioException
-          ? responseOfStatusCode(e.response?.statusCode)
-          : e.toString(),
-    );
-    return null;
+    if (e is DioException) {
+      throw Exception(
+        responseOfStatusCode(
+          e.response?.statusCode,
+        ),
+      );
+    }
+
+    rethrow;
   }
 }

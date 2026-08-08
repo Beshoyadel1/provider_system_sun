@@ -17,7 +17,8 @@ class ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidge
       titlePart3,
       subTitlePart3,
       timePart5,
-      pricePart6;
+      pricePart6,
+      id;
   final int? status, serviceId;
   final Uint8List? imagePathPart1, imagePathPart3;
   final OrderModel order;
@@ -37,7 +38,8 @@ class ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidge
       this.timePart5,
       this.pricePart6,
       required this.serviceId,
-      required this.order});
+      required this.order,
+      this.id});
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +77,7 @@ class ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidge
               pricePart6: pricePart6!,
               order: order,
               serviceId: serviceId,
+        id: id ?? "",
             )
           : isTabletCustom
               ? CustomTabSecondPartDataContainerInListDataFirstScreenInternalOrders(
@@ -91,7 +94,8 @@ class ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidge
                   timePart5: timePart5!,
                   pricePart6: pricePart6!,
                   order: order,
-                  serviceId: serviceId)
+                  serviceId: serviceId,
+          id: id ?? "")
               : TabSecondPartDataContainerInListDataFirstScreenInternalOrders(
                   imagePathPart1: imagePathPart1,
                   titlePart1: titlePart1!,
@@ -106,7 +110,8 @@ class ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidge
                   timePart5: timePart5!,
                   pricePart6: pricePart6!,
                   order: order,
-                  serviceId: serviceId),
+                  serviceId: serviceId,
+          id: id ?? ""),
     );
   }
 }

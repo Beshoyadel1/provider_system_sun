@@ -7,7 +7,8 @@ import 'package:sun_web_system/features/dashboard_page/data/model/get_provider_o
 import 'package:sun_web_system/features/dashboard_page/data/request/get_provider_orders_sales_request/get_provider_orders_sales_request.dart';
 
 
-Future<GetProviderOrdersSalesModel?> getProviderOrdersSalesFunction({
+Future<GetProviderOrdersSalesModel?>
+getProviderOrdersSalesFunction({
   required GetProviderOrdersSalesRequest request,
 }) async {
   try {
@@ -17,14 +18,30 @@ Future<GetProviderOrdersSalesModel?> getProviderOrdersSalesFunction({
       ApiLink.getProviderOrdersSales,
     );
 
-    return GetProviderOrdersSalesModel.fromJson(response.data);
+    final responseData = response.data;
 
-  } catch (e) {
-    AppSnackBar.showError(
-      e is DioException
-          ? responseOfStatusCode(e.response?.statusCode)
-          : e.toString(),
+    final bool success =
+        responseData['success'] ?? false;
+
+    if (!success) {
+      throw Exception(
+        responseData['message'] ??
+            'Something went wrong',
+      );
+    }
+
+    return GetProviderOrdersSalesModel.fromJson(
+      responseData,
     );
-    return null;
+  } catch (e) {
+    if (e is DioException) {
+      throw Exception(
+        responseOfStatusCode(
+          e.response?.statusCode,
+        ),
+      );
+    }
+
+    rethrow;
   }
 }

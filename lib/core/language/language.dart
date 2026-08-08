@@ -28,9 +28,24 @@ class AppLocalizations {
       AppLanguageKeys.orderCompleted: 'تم التسليم',
       AppLanguageKeys.rejectedByProvider: 'تم الرفض من المزود',
       AppLanguageKeys.cancelledByUser: 'تم الإلغاء من العميل',
+      AppLanguageKeys.unknownType: 'نوع غير معروف',
       //END//
 
       //others//
+      AppLanguageKeys.mada: 'مدى',
+      AppLanguageKeys.visa: 'فيزا',
+      AppLanguageKeys.applePay: 'أبل باي',
+      AppLanguageKeys.cash: 'نقدًا',
+      AppLanguageKeys.unknown: 'غير معروف',
+      AppLanguageKeys.valueAddedTax: 'ضريبة القيمة المضافة',
+      AppLanguageKeys.dubaiPlate: 'لوحة دبي :',
+      AppLanguageKeys.totalVehicle: 'إجمالي المركبة',
+      AppLanguageKeys.dirham: 'درهم',
+      AppLanguageKeys.serviceTypes: 'أنواع الخدمات',
+      AppLanguageKeys.orderDate: 'تاريخ الطلب',
+      AppLanguageKeys.expectedDeliveryDate: 'موعد التسليم المتوقع',
+      AppLanguageKeys.view: 'عرض',
+      AppLanguageKeys.orderDetailsNumber: 'تفاصيل طلب رقم #',
       AppLanguageKeys.notificationConnected: 'الإشعارات متصلة',
       AppLanguageKeys.notificationReconnecting:
       'جارٍ إعادة الاتصال الإشعارات...',
@@ -1341,8 +1356,23 @@ class AppLocalizations {
       AppLanguageKeys.orderCompleted: 'Completed',
       AppLanguageKeys.rejectedByProvider: 'Rejected by Provider',
       AppLanguageKeys.cancelledByUser: 'Cancelled by User',
+      AppLanguageKeys.unknownType: 'Unknown Type',
       //END//
       //others//
+      AppLanguageKeys.mada: 'Mada',
+      AppLanguageKeys.visa: 'Visa',
+      AppLanguageKeys.applePay: 'Apple Pay',
+      AppLanguageKeys.cash: 'Cash',
+      AppLanguageKeys.unknown: 'Unknown',
+      AppLanguageKeys.valueAddedTax: 'Value Added Tax',
+      AppLanguageKeys.dubaiPlate: 'Dubai Plate :',
+      AppLanguageKeys.totalVehicle: 'Total Vehicle',
+      AppLanguageKeys.dirham: 'AED',
+      AppLanguageKeys.serviceTypes: 'Service Types',
+      AppLanguageKeys.orderDate: 'Order Date',
+      AppLanguageKeys.expectedDeliveryDate: 'Expected Delivery Date',
+      AppLanguageKeys.view: 'View',
+      AppLanguageKeys.orderDetailsNumber: 'Order Details #',
       AppLanguageKeys.notificationConnected: 'Notification connected',
       AppLanguageKeys.notificationReconnecting:
       'Reconnecting to notification ...',

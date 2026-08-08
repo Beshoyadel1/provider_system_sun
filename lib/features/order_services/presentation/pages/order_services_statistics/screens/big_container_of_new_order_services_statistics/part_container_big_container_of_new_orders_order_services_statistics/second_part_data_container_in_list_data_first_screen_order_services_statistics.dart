@@ -38,7 +38,8 @@ class _SecondPartDataContainerInListDataFirstScreenOrderServicesStatisticsState 
             create: (_) =>
             GetProviderInternalOrderCubit()
               ..loadInternalOrders(
-                serviceId: widget.serviceId
+                serviceId: widget.serviceId,
+                pageNumber: 1
               ),
           ),
           BlocProvider(
@@ -102,7 +103,8 @@ class _SecondPartDataContainerInListDataFirstScreenOrderServicesStatisticsState 
                       timePart5: OrderFunctions.formatDate(order.orderDate),
                       pricePart6: order.totalPrice?.toString() ?? "0",
                       order: order,
-                      serviceId:MainCategoryConstants.mobileServicesAndTransportationID,
+                      serviceId:null,
+                      id: order.id.toString(),
                     );
                   },
                 );

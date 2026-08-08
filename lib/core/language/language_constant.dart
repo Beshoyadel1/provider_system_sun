@@ -16,10 +16,24 @@ class AppLanguageKeys {
   static const String orderCompleted = 'orderCompleted';
   static const String rejectedByProvider = 'rejectedByProvider';
   static const String cancelledByUser = 'cancelledByUser';
-
+  static const String unknownType = 'unknownType';
   //end//
 
   //others//
+  static const String mada = 'mada';
+  static const String visa = 'visa';
+  static const String applePay = 'applePay';
+  static const String cash = 'cash';
+  static const String unknown = 'unknown';
+  static const String valueAddedTax = 'valueAddedTax';
+  static const String dubaiPlate = 'dubaiPlate';
+  static const String totalVehicle = 'totalVehicle';
+  static const String dirham = 'dirham';
+  static const String serviceTypes = 'serviceTypes';
+  static const String orderDate = 'orderDate';
+  static const String expectedDeliveryDate = 'expectedDeliveryDate';
+  static const String view = 'view';
+  static const String orderDetailsNumber = 'orderDetailsNumber';
   static const String notificationConnected = 'notificationConnected';
   static const String notificationReconnecting = 'notificationReconnecting';
   static const String notificationConnecting = 'notificationConnecting';

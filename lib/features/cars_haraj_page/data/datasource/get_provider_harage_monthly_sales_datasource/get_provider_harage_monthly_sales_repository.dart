@@ -6,8 +6,10 @@ import '../../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../../core/api/dio_function/failures.dart';
 
-Future<GetProviderHarageMonthlySalesResponse?> getProviderHarageMonthlySalesFunction({
-  required GetProviderHarageMonthlySalesRequest getProviderHarageMonthlySalesRequest,
+Future<GetProviderHarageMonthlySalesResponse?>
+getProviderHarageMonthlySalesFunction({
+  required GetProviderHarageMonthlySalesRequest
+  getProviderHarageMonthlySalesRequest,
 }) async {
   try {
     final response = await Network.postDataWithBodyAndParams(
@@ -16,19 +18,30 @@ Future<GetProviderHarageMonthlySalesResponse?> getProviderHarageMonthlySalesFunc
       ApiLink.getProviderHarageMonthlySales,
     );
 
-    final data = GetProviderHarageMonthlySalesResponse.fromJson(response.data);
+    final responseData = response.data;
 
-    // AppSnackBar.showSuccess(
-    //   AppLanguageKeys.getProviderHarageMonthlySalesSuccessfully,
-    // );
+    final bool success =
+        responseData['success'] ?? false;
 
-    return data;
-  } catch (e) {
-    AppSnackBar.showError(
-      e is DioException
-          ? responseOfStatusCode(e.response?.statusCode)
-          : e.toString(),
+    if (!success) {
+      throw Exception(
+        responseData['message'] ??
+            'Something went wrong',
+      );
+    }
+
+    return GetProviderHarageMonthlySalesResponse.fromJson(
+      responseData,
     );
-    return null;
+  } catch (e) {
+    if (e is DioException) {
+      throw Exception(
+        responseOfStatusCode(
+          e.response?.statusCode,
+        ),
+      );
+    }
+
+    rethrow;
   }
 }
