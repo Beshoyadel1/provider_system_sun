@@ -121,13 +121,13 @@ class _LoginWidgetState extends State<LoginWidget> {
 
                     if (!_formKey.currentState!.validate()) return;
 
-                    context.read<AuthCubit>().login(
-                      LoginRequest(
-                        user: email,
-                        password: passwordController.text.trim(),
-                        type: UserType.providerUser,
-                      ),
+                    final loginRequest = LoginRequest(
+                      user: userNameController.text.trim(),
+                      password: passwordController.text.trim(),
+                      type: UserType.providerUser,
                     );
+
+                    context.read<AuthCubit>().login(loginRequest);
                   },
                 );
               },

@@ -30,12 +30,13 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
   final facilityNameEnController = TextEditingController();
   final vatNoController = TextEditingController();
   final crController = TextEditingController();
- // final nationalAddressController = TextEditingController();
+  final usernameController= TextEditingController();
   final phoneController = TextEditingController();
   final emailController = TextEditingController();
   final genderController = TextEditingController();
   final ageController = TextEditingController();
   final dateController = TextEditingController();
+  final nationalityController=TextEditingController();
 
   bool isEditMode = false;
   bool isLoaded = false;
@@ -63,6 +64,8 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
       facilityNameEnController.text = user.providerDetails?.latinname ?? "";
       crController.text = user.providerDetails?.cr ?? "";
       vatNoController.text = user.providerDetails?.vatno ?? "";
+      usernameController.text=user.username??"";
+      nationalityController.text=user.nationality??"";
       // nationalAddressController.text =
       //     user.providerDetails?.nationaladdress ?? "";
       phoneController.text = user.phone ?? "";
@@ -87,41 +90,21 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
         user?.providerDetails;
 
     final request = CreateUserRequest(
-      userid: user?.userid,
-
-      username: user?.username,
-
       phone: safe(phoneController.text),
-
       email: safe(emailController.text),
-
-      type: user?.type,
-
+      username: safe(usernameController.text),
+      nationality: safe(nationalityController.text),
       gender:
       genderController.text.isNotEmpty
           ? int.tryParse(
         genderController.text,
       )
           : user?.gender,
-
       age: ageController.text.isNotEmpty
           ? int.tryParse(
         ageController.text,
       )
           : user?.age,
-
-      nationality: user?.nationality,
-
-      isActive: user?.isActive,
-
-      joinDate: user?.joinDate,
-
-      referralCode: user?.referralCode,
-
-      fcmToken: user?.fcmToken,
-
-      defaultcarid:
-      user?.defaultcarid,
 
       image:
       facilityCubit.images['image'] ??
@@ -129,10 +112,6 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
 
       providerDetails:
       ProviderDetailsRequest(
-        id: oldProvider?.id,
-
-        provid: oldProvider?.provid,
-
         name: safe(
           facilityNameController.text,
         ),
@@ -146,29 +125,6 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
         vatno:
         safe(vatNoController.text),
 
-        // nationaladdress: safe(
-        //   nationalAddressController.text,
-        // ),
-
-        packageid:
-        oldProvider?.packageid,
-
-        iban: oldProvider?.iban,
-
-        description:
-        oldProvider?.description,
-
-        latindesc:
-        oldProvider?.latindesc,
-
-        subscriptionstartdate:
-        oldProvider
-            ?.subscriptionstartdate,
-
-        subscriptionenddate:
-        oldProvider
-            ?.subscriptionenddate,
-
         crimage:
         facilityCubit.images['crimage'] ??
             oldProvider?.crimage,
@@ -178,8 +134,6 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
         'vatnoimage'] ??
             oldProvider?.vatnoimage,
 
-        ibanimage:
-        oldProvider?.ibanimage,
       ),
     );
 
@@ -213,6 +167,20 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
               text: AppLanguageKeys.identity,
               type: UserFieldType.name,
               readOnly: true,
+              width: 250,
+            ),
+            UserTextFieldWidget(
+              controller: usernameController,
+              text: AppLanguageKeys.username,
+              type: UserFieldType.name,
+              readOnly: !isEditMode,
+              width: 250,
+            ),
+            UserTextFieldWidget(
+              controller: nationalityController,
+              text: AppLanguageKeys.nationality,
+              type: UserFieldType.name,
+              readOnly: !isEditMode,
               width: 250,
             ),
             UserTextFieldWidget(
@@ -271,9 +239,10 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
             UserTextFieldWidget(
               controller: dateController,
               text: AppLanguageKeys.joiningDate,
-              readOnly: true,
+              readOnly: !isEditMode,
               width: 250,
             ),
+
             UserTextFieldWidget(
               controller: genderController,
               text: AppLanguageKeys.gender,
@@ -301,7 +270,7 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
               isEditMode: isEditMode,
             ),
             AttachImage(
-              title: AppLanguageKeys.ownerIdKey,
+              title: AppLanguageKeys.profilePicture,
               type: 'image',
               isEditMode: isEditMode,
             ),

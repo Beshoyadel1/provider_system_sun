@@ -53,37 +53,16 @@ class _BankAccountContentState extends State<BankAccountContent> {
     }
   }
 
-
+  T? safe<T>(T? value) {
+    if (value == null) return null;
+    if (value is String && value.trim().isEmpty) return null;
+    return value;
+  }
   Future<void> _onUpdate() async {
-    final user = await AuthLocalStorage.getUser();
-
-    final oldProvider = user?.providerDetails;
-
     final request = CreateUserRequest(
-      userid: user?.userid,
-      type: user?.type,
-      username: user?.username,
-      phone: user?.phone,
-      email: user?.email,
-      age: user?.age,
-      gender: user?.gender,
-      image: user?.image,
       providerDetails: ProviderDetailsRequest(
-        id: oldProvider?.id,
-        provid: oldProvider?.provid,
-
-        name: beneficiaryController.text,
-        iban: ibanController.text,
-
-        latinname: oldProvider?.latinname,
-        description: oldProvider?.description,
-        latindesc: oldProvider?.latindesc,
-        cr: oldProvider?.cr,
-        vatno: oldProvider?.vatno,
-        packageid: oldProvider?.packageid,
-        nationaladdress: oldProvider?.nationaladdress,
-        subscriptionstartdate: oldProvider?.subscriptionstartdate,
-        subscriptionenddate: oldProvider?.subscriptionenddate,
+        name: safe(beneficiaryController.text),
+        iban: safe(ibanController.text)
       ),
     );
 

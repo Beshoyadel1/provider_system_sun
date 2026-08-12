@@ -11,14 +11,20 @@ class ProviderDetailsRequest {
   final String? cr;
   final String? vatno;
   final int? packageid;
+
   final DateTime? subscriptionstartdate;
   final DateTime? subscriptionenddate;
+
   final String? iban;
   final String? nationaladdress;
 
   final Uint8List? crimage;
   final Uint8List? vatnoimage;
   final Uint8List? ibanimage;
+
+  final bool? isApproved;
+
+  final dynamic approvalInfo;
 
   const ProviderDetailsRequest({
     this.id,
@@ -37,6 +43,8 @@ class ProviderDetailsRequest {
     this.crimage,
     this.vatnoimage,
     this.ibanimage,
+    this.isApproved,
+    this.approvalInfo,
   });
 
   factory ProviderDetailsRequest.fromJson(
@@ -44,246 +52,90 @@ class ProviderDetailsRequest {
       ) {
     return ProviderDetailsRequest(
       id: json["id"],
-
       name: json["name"],
-
       latinname: json["latinname"],
-
       description: json["description"],
-
       latindesc: json["latindesc"],
-
       provid: json["provid"],
-
       cr: json["cr"],
-
       vatno: json["vatno"],
-
       packageid: json["packageid"],
-
-      iban: json["iban"],
-
-      nationaladdress: json["nationaladdress"],
 
       subscriptionstartdate:
       json["subscriptionstartdate"] != null
           ? DateTime.tryParse(
-        json["subscriptionstartdate"],
+        json["subscriptionstartdate"].toString(),
       )
           : null,
 
       subscriptionenddate:
       json["subscriptionenddate"] != null
           ? DateTime.tryParse(
-        json["subscriptionenddate"],
+        json["subscriptionenddate"].toString(),
       )
           : null,
 
-      crimage: _decodeImage(
-        json["crimage"],
-      ),
+      iban: json["iban"],
+      nationaladdress: json["nationaladdress"],
 
-      vatnoimage: _decodeImage(
-        json["vatnoimage"],
-      ),
+      crimage: json["crimage"] != null
+          ? base64Decode(json["crimage"])
+          : null,
 
-      ibanimage: _decodeImage(
-        json["ibanimage"],
-      ),
+      vatnoimage: json["vatnoimage"] != null
+          ? base64Decode(json["vatnoimage"])
+          : null,
+
+      ibanimage: json["ibanimage"] != null
+          ? base64Decode(json["ibanimage"])
+          : null,
+
+      isApproved: json["isApproved"],
+
+      approvalInfo: json["approvalInfo"],
     );
-  }
-
-  static Uint8List? _decodeImage(
-      dynamic value,
-      ) {
-    if (value == null) return null;
-
-    if (value is! String) return null;
-
-    if (value.trim().isEmpty) return null;
-
-    try {
-      return base64Decode(value);
-    } catch (_) {
-      return null;
-    }
-  }
-
-  static String? _encodeImage(
-      Uint8List? image,
-      ) {
-    if (image == null || image.isEmpty) {
-      return null;
-    }
-
-    return base64Encode(image);
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {};
+    return {
+      "id": id ?? 0,
+      "name": name ?? "",
+      "latinname": latinname ?? "",
+      "description": description ?? "",
+      "latindesc": latindesc ?? "",
+      "provid": provid ?? 0,
+      "cr": cr ?? "",
+      "vatno": vatno ?? "",
+      "packageid": packageid ?? 0,
 
-    void addIfNotNull(
-        String key,
-        dynamic value,
-        ) {
-      if (value == null) return;
+      "subscriptionstartdate":
+      subscriptionstartdate?.toIso8601String(),
 
-      if (value is String &&
-          value.trim().isEmpty) {
-        return;
-      }
+      "subscriptionenddate":
+      subscriptionenddate?.toIso8601String(),
 
-      data[key] = value;
-    }
+      "iban": iban ?? "",
+      "nationaladdress": nationaladdress ?? "",
 
-    addIfNotNull("id", id);
+      "crimage": crimage != null
+          ? base64Encode(crimage!)
+          : null,
 
-    addIfNotNull("name", name);
+      "vatnoimage": vatnoimage != null
+          ? base64Encode(vatnoimage!)
+          : null,
 
-    addIfNotNull(
-      "latinname",
-      latinname,
-    );
+      "ibanimage": ibanimage != null
+          ? base64Encode(ibanimage!)
+          : null,
 
-    addIfNotNull(
-      "description",
-      description,
-    );
+      "isApproved": isApproved ?? false,
 
-    addIfNotNull(
-      "latindesc",
-      latindesc,
-    );
-
-    addIfNotNull(
-      "provid",
-      provid,
-    );
-
-    addIfNotNull("cr", cr);
-
-    addIfNotNull(
-      "vatno",
-      vatno,
-    );
-
-    addIfNotNull(
-      "packageid",
-      packageid,
-    );
-
-    addIfNotNull("iban", iban);
-
-    addIfNotNull(
-      "nationaladdress",
-      nationaladdress,
-    );
-
-    addIfNotNull(
-      "subscriptionstartdate",
-      subscriptionstartdate
-          ?.toIso8601String(),
-    );
-
-    addIfNotNull(
-      "subscriptionenddate",
-      subscriptionenddate
-          ?.toIso8601String(),
-    );
-
-    final crImageEncoded =
-    _encodeImage(crimage);
-
-    final vatImageEncoded =
-    _encodeImage(vatnoimage);
-
-    final ibanImageEncoded =
-    _encodeImage(ibanimage);
-
-    addIfNotNull(
-      "crimage",
-      crImageEncoded,
-    );
-
-    addIfNotNull(
-      "vatnoimage",
-      vatImageEncoded,
-    );
-
-    addIfNotNull(
-      "ibanimage",
-      ibanImageEncoded,
-    );
-
-    return data;
-  }
-
-  ProviderDetailsRequest copyWith({
-    int? id,
-    String? name,
-    String? latinname,
-    String? description,
-    String? latindesc,
-    int? provid,
-    String? cr,
-    String? vatno,
-    int? packageid,
-    DateTime? subscriptionstartdate,
-    DateTime? subscriptionenddate,
-    String? iban,
-    String? nationaladdress,
-    Uint8List? crimage,
-    Uint8List? vatnoimage,
-    Uint8List? ibanimage,
-  }) {
-    return ProviderDetailsRequest(
-      id: id ?? this.id,
-
-      name: name ?? this.name,
-
-      latinname:
-      latinname ?? this.latinname,
-
-      description:
-      description ??
-          this.description,
-
-      latindesc:
-      latindesc ?? this.latindesc,
-
-      provid: provid ?? this.provid,
-
-      cr: cr ?? this.cr,
-
-      vatno: vatno ?? this.vatno,
-
-      packageid:
-      packageid ?? this.packageid,
-
-      subscriptionstartdate:
-      subscriptionstartdate ??
-          this.subscriptionstartdate,
-
-      subscriptionenddate:
-      subscriptionenddate ??
-          this.subscriptionenddate,
-
-      iban: iban ?? this.iban,
-
-      nationaladdress:
-      nationaladdress ??
-          this.nationaladdress,
-
-      crimage:
-      crimage ?? this.crimage,
-
-      vatnoimage:
-      vatnoimage ??
-          this.vatnoimage,
-
-      ibanimage:
-      ibanimage ??
-          this.ibanimage,
-    );
+      "approvalInfo": approvalInfo,
+    };
   }
 }
+
+// ======================================================
+// Approval Info
+// ======================================================

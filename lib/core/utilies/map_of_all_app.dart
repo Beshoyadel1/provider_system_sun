@@ -238,6 +238,12 @@ void getPages(BuildContext context) {
       number: PagesOfAllApp.dashboardPageNumber,
       page: DashboardPage(),
     ),
+    const PageNodeModel(
+      name: AppLanguageKeys.myAccount,
+      image: AppImageKeys.users,
+      number: PagesOfAllApp.permissionsGroupPageNumber,
+      page: FacilityAccount(),
+    ),
 
     ...services.map(
           (service) {
@@ -379,17 +385,7 @@ void getPages(BuildContext context) {
             page: FirstScreenServiceSettings(),
           ),
         ]),
-    const PageNodeModel(
-        name: AppLanguageKeys.facilityManagementKey,
-        image: AppImageKeys.store,
-        number: PagesOfAllApp.securityPageNumber,
-        children: [
-          PageNodeModel(
-            name: AppLanguageKeys.facilityAccountKey,
-            number: PagesOfAllApp.permissionsGroupPageNumber,
-            page: FacilityAccount(),
-          ),
-        ]),
+
     const PageNodeModel(
         name: AppLanguageKeys.accountManagementKey,
         image: AppImageKeys.wallet,
@@ -401,36 +397,36 @@ void getPages(BuildContext context) {
             page: FirstScreenAccountsManagementAdminSun(),
           ),
         ]),
-    const PageNodeModel(
-        name: AppLanguageKeys.petroleum,
-        image: AppImageKeys.users,
-        number: PagesOfAllApp.petroleumPageNumber,
-        children: [
-          PageNodeModel(
-            name: AppLanguageKeys.statistics,
-            image: AppImageKeys.home,
-            number: PagesOfAllApp.statisticsPetroleumPageNumber,
-            page: PetroleumFillingRequests(),
-          ),
-          PageNodeModel(
-            name: AppLanguageKeys.allOrders,
-            image: AppImageKeys.sell,
-            number: PagesOfAllApp.ordersPetroleumPageNumber,
-            page: PetroleumServiceAllOrders(),
-          ),
-          // PageNodeModel(
-          //   name: AppLanguageKeys.oilProducts,
-          //   image: AppImageKeys.wallet,
-          //   number: PagesOfAllApp.oilProductsPetroleumPageNumber,
-          //   page: OilProducts(),
-          // ),
-          // PageNodeModel(
-          //   name: AppLanguageKeys.facilityManagementKey,
-          //   image: AppImageKeys.FacilityManagement,
-          //   number: PagesOfAllApp.facilityManagementPetroleumPageNumber,
-          //   page: FacilityManagement(),
-          // ),
-        ]),
+    // const PageNodeModel(
+    //     name: AppLanguageKeys.petroleum,
+    //     image: AppImageKeys.users,
+    //     number: PagesOfAllApp.petroleumPageNumber,
+    //     children: [
+    //       PageNodeModel(
+    //         name: AppLanguageKeys.statistics,
+    //         image: AppImageKeys.home,
+    //         number: PagesOfAllApp.statisticsPetroleumPageNumber,
+    //         page: PetroleumFillingRequests(),
+    //       ),
+    //       PageNodeModel(
+    //         name: AppLanguageKeys.allOrders,
+    //         image: AppImageKeys.sell,
+    //         number: PagesOfAllApp.ordersPetroleumPageNumber,
+    //         page: PetroleumServiceAllOrders(),
+    //       ),
+    //       // PageNodeModel(
+    //       //   name: AppLanguageKeys.oilProducts,
+    //       //   image: AppImageKeys.wallet,
+    //       //   number: PagesOfAllApp.oilProductsPetroleumPageNumber,
+    //       //   page: OilProducts(),
+    //       // ),
+    //       // PageNodeModel(
+    //       //   name: AppLanguageKeys.facilityManagementKey,
+    //       //   image: AppImageKeys.FacilityManagement,
+    //       //   number: PagesOfAllApp.facilityManagementPetroleumPageNumber,
+    //       //   page: FacilityManagement(),
+    //       // ),
+    //     ]),
     const PageNodeModel(
         name: AppLanguageKeys.technicalSupport,
         image: AppImageKeys.users,

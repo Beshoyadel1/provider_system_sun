@@ -146,6 +146,12 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
       gender: int.tryParse(genderController.text),
       type: current.type,
       image: selectedImage ?? current.image,
+      referralCode :current.referralCode,
+      isActive: current.isActive,
+      fcmToken: current.fcmToken,
+      joinDate:current.joinDate,
+      defaultcarid: current.defaultcarid,
+      nationality: current.nationality,
       employeeDetails: EmployeeWrapperRequest(
         employeeDetails: EmployeeModel(
           id: current.employeeDetails?.employeeDetails?.id,
@@ -155,11 +161,9 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
           joblatinname: jobLatinNameController.text.trim(),
         ),
         serviceIds: serviceIds,
+        permissions: current.employeeDetails?.permissions
       ),
     );
-    // debugPrint(
-    //   "UPDATE REQUEST => ${jsonEncode(request.toJson())}",
-    // );
 
     context.read<ProviderEmployeesCubit>().updateEmployee(
           request,
