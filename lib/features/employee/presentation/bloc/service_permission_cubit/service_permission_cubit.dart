@@ -20,7 +20,7 @@ class ServicePermissionCubit extends Cubit<List<int>> {
   }
 
   void setSelected(List<int> ids) {
-    emit(ids);
+    emit(List<int>.from(ids));
   }
 
   void clear() {

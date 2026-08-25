@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
 import 'package:sun_web_system/core/theming/auth_local_storage.dart';
+import 'package:sun_web_system/core/theming/fonts.dart';
 import 'package:sun_web_system/features/auth_page/data/datasource/login_datasource/login_repository.dart';
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/create_user_emp_request.dart';
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_cubit.dart';
@@ -9,7 +10,9 @@ import 'package:sun_web_system/features/employee/data/model/employee_model/emplo
 import 'package:sun_web_system/features/employee/presentation/bloc/provider_employees_cubit/provider_employees_cubit.dart';
 import 'package:sun_web_system/features/employee/presentation/bloc/provider_employees_cubit/provider_employees_state.dart';
 import 'package:sun_web_system/features/employee/presentation/bloc/service_permission_cubit/service_permission_cubit.dart';
+import 'package:sun_web_system/features/employee/presentation/custom_widget/status_field_widget.dart';
 import 'package:sun_web_system/features/employee/presentation/pages/add_edit_employee_data/facility_account_emp/sub/permissions_and_services_provided_to_the_user_text.dart';
+import 'package:sun_web_system/features/employee/presentation/pages/add_edit_employee_data/facility_account_emp/sub/select_employee_permissions.dart';
 import 'package:sun_web_system/features/employee/presentation/pages/add_edit_employee_data/facility_account_emp/sub/select_permissions_and_services_provided_to_the_user_with_image.dart';
 import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/general_widgets_in_store/attach_file.dart';
 import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/general_widgets_in_store/attach_image_emp.dart';
@@ -37,7 +40,21 @@ class FacilityDataContentEmp extends StatefulWidget {
 }
 
 class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
+  // =========================================================
+  // MODE
+  // =========================================================
+
   bool get isCreateMode => widget.employee == null;
+
+  bool get isViewMode => widget.employee != null && !isEditMode;
+
+  bool isEditMode = false;
+
+  // =========================================================
+  // DATA
+  // =========================================================
+
+  bool isActive = false;
 
   final jobNameController = TextEditingController();
 
@@ -52,22 +69,42 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
   final ageController = TextEditingController();
 
   final usernameController = TextEditingController();
+
   final passwordController = TextEditingController();
+
   final confirmPasswordController = TextEditingController();
 
-  bool isEditMode = false;
   final _formKey = GlobalKey<FormState>();
+
+  // =========================================================
+  // INIT
+  // =========================================================
 
   @override
   void initState() {
     super.initState();
 
     if (widget.employee != null) {
+      context.read<ProviderEmployeesCubit>().setSelectedEmployee(
+            widget.employee!,
+          );
+
       _loadUser();
 
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        context.read<ServicePermissionCubit>().setSelected(
-              widget.employee?.employeeDetails?.serviceIds ?? [],
+        if (!mounted) return;
+
+        final serviceIds =
+            widget.employee?.employeeDetails?.serviceIds ?? const <int>[];
+
+        final permissions = widget.employee?.employeeDetails?.permissions;
+
+        // SERVICES
+        context.read<ServicePermissionCubit>().setSelected(serviceIds);
+
+        // PERMISSIONS
+        context.read<ProviderEmployeesCubit>().setPermissions(
+              permissions,
             );
 
         final employeeImage = widget.employee?.image;
@@ -78,8 +115,22 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
       });
     } else {
       isEditMode = true;
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+
+        // CREATE SERVICES
+        context.read<ServicePermissionCubit>().setSelected([]);
+
+        // CREATE PERMISSIONS
+        context.read<ProviderEmployeesCubit>().clearPermissions();
+      });
     }
   }
+
+  // =========================================================
+  // LOAD USER
+  // =========================================================
 
   void _loadUser() {
     final employee = widget.employee;
@@ -98,10 +149,16 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
 
     ageController.text = '${employee.age ?? 0}';
 
+    isActive = employee.isActive ?? false;
+
     jobNameController.text = empDetails?.jobname ?? '';
 
     jobLatinNameController.text = empDetails?.joblatinname ?? '';
   }
+
+  // =========================================================
+  // DISPOSE
+  // =========================================================
 
   @override
   void dispose() {
@@ -117,6 +174,10 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
     super.dispose();
   }
 
+  // =========================================================
+  // SAFE
+  // =========================================================
+
   T? safe<T>(T? value) {
     if (value == null) return null;
 
@@ -127,31 +188,46 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
     return value;
   }
 
+  // =========================================================
+  // UPDATE
+  // =========================================================
+
   void _onUpdate() {
     final current = widget.employee;
 
     if (current == null) return;
 
     final facilityCubit = context.read<FacilityTabCubit>();
-    final serviceIds = context.read<ServicePermissionCubit>().state;
+    final serviceCubit = context.read<ServicePermissionCubit>();
+    final employeeCubit = context.read<ProviderEmployeesCubit>();
 
     final selectedImage = facilityCubit.images['image'];
+
+    final List<int> serviceIds = List<int>.from(
+      serviceCubit.state,
+    );
+
+    final permissions =
+        employeeCubit.selectedPermissions ?? employeeCubit.emptyPermissions;
 
     final request = CreateUserEmpRequest(
       userid: current.userid,
       username: usernameController.text.trim(),
-      phone: safe(phoneController.text),
-      email: safe(emailController.text),
-      age: int.tryParse(ageController.text),
-      gender: int.tryParse(genderController.text),
-      type: current.type,
-      image: selectedImage ?? current.image,
-      referralCode :current.referralCode,
-      isActive: current.isActive,
-      fcmToken: current.fcmToken,
-      joinDate:current.joinDate,
-      defaultcarid: current.defaultcarid,
-      nationality: current.nationality,
+      phone: safe(
+        phoneController.text,
+      ),
+      email: safe(
+        emailController.text,
+      ),
+      age: int.tryParse(
+        ageController.text.trim(),
+      ),
+      gender: int.tryParse(
+        genderController.text.trim(),
+      ),
+      type: 5,
+      image: selectedImage,
+      isActive: isActive,
       employeeDetails: EmployeeWrapperRequest(
         employeeDetails: EmployeeModel(
           id: current.employeeDetails?.employeeDetails?.id,
@@ -161,7 +237,7 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
           joblatinname: jobLatinNameController.text.trim(),
         ),
         serviceIds: serviceIds,
-        permissions: current.employeeDetails?.permissions
+        permissions: permissions,
       ),
     );
 
@@ -170,26 +246,40 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
         );
   }
 
+  // =========================================================
+  // CREATE
+  // =========================================================
+
   Future<void> _onCreate() async {
     final user = await AuthLocalStorage.getUser();
+
     final serviceIds = context.read<ServicePermissionCubit>().state;
+
+    final employeeCubit = context.read<ProviderEmployeesCubit>();
+
+    final permissions =
+        employeeCubit.selectedPermissions ?? employeeCubit.emptyPermissions;
 
     final emailRegex = RegExp(
       r'^[\w\-.]+@([\w-]+\.)+[\w-]{2,4}$',
     );
 
-    if (!emailRegex.hasMatch(emailController.text.trim())) {
+    if (!emailRegex.hasMatch(
+      emailController.text.trim(),
+    )) {
       AppSnackBar.showError(
         AppLanguageKeys.pleaseEnterValidEmail,
       );
       return;
     }
+
     if (!_formKey.currentState!.validate()) {
       AppSnackBar.showError(
         AppLanguageKeys.enterYourData,
       );
       return;
     }
+
     if (passwordController.text != confirmPasswordController.text) {
       AppSnackBar.showError(
         AppLanguageKeys.passwordsDoNotMatch,
@@ -198,41 +288,57 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
     }
 
     final facilityCubit = context.read<FacilityTabCubit>();
+
     final image = facilityCubit.images['image'];
 
     if (image == null || image.toString().isEmpty) {
-      AppSnackBar.showError(AppLanguageKeys.pleaseSelectImage);
+      AppSnackBar.showError(
+        AppLanguageKeys.pleaseSelectImage,
+      );
       return;
     }
+
     final request = CreateUserRequest(
       username: usernameController.text.trim(),
       phone: phoneController.text.trim(),
       email: emailController.text.trim(),
       password: passwordController.text.trim(),
-      image: facilityCubit.images['image'],
+      image: image,
       type: UserType.employeeUser,
       employeeDetails: EmployeeWrapperRequest(
         employeeDetails: EmployeeModel(
           provid: user?.userid ?? 0,
-          jobname: jobNameController.text.trim() ?? '',
-          joblatinname: jobLatinNameController.text.trim() ?? '',
+          jobname: jobNameController.text.trim(),
+          joblatinname: jobLatinNameController.text.trim(),
         ),
-        serviceIds: serviceIds,
+        serviceIds: List<int>.from(serviceIds),
+        permissions: permissions,
       ),
     );
+
+    debugPrint('========== CREATE EMPLOYEE ==========');
+
     debugPrint(
       jsonEncode(
         request.toJson(),
       ),
     );
 
-    context.read<AuthCubit>().signup(request);
+    context.read<AuthCubit>().signup(
+          request,
+        );
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     return MultiBlocListener(
       listeners: [
+        // =====================================================
+        // UPDATE
+        // =====================================================
+
         BlocListener<ProviderEmployeesCubit, ProviderEmployeesState>(
           listener: (context, state) {
             if (state is EmployeeUpdateSuccess) {
@@ -244,8 +350,12 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
                 AppLanguageKeys.success,
               );
 
-              Navigator.pop(context, true);
+              Navigator.pop(
+                context,
+                true,
+              );
             }
+
             if (state is EmployeeUpdateError) {
               AppSnackBar.showError(
                 state.message,
@@ -253,14 +363,22 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
             }
           },
         ),
+
+        // =====================================================
+        // CREATE
+        // =====================================================
+
         BlocListener<AuthCubit, AuthState>(
           listener: (context, state) {
             if (state is AuthSignupSuccess) {
-              debugPrint('CREATE SUCCESS');
               AppSnackBar.showSuccess(
                 AppLanguageKeys.success,
               );
-              Navigator.pop(context, true);
+
+              Navigator.pop(
+                context,
+                true,
+              );
             }
 
             if (state is AuthSignupError) {
@@ -277,158 +395,325 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
               state is EmployeeUpdateLoading ||
               context.watch<AuthCubit>().state is AuthSignupLoading;
 
-          return _buildContent(isLoading);
+          return _buildContent(
+            isLoading,
+          );
         },
       ),
     );
   }
 
-  Widget _buildContent(bool isLoading) {
+  Widget _buildContent(
+    bool isLoading,
+  ) {
     return Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsetsGeometry.all(10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 20,
-            children: [
-              Wrap(
-                spacing: 10,
-                runSpacing: 10,
-                children: [
+      key: _formKey,
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: 20,
+          children: [
+            // =================================================
+            // USER DATA
+            // =================================================
+
+            Wrap(
+              spacing: 10,
+              runSpacing: 10,
+              children: [
+                UserTextFieldWidget(
+                  controller: usernameController,
+                  text: AppLanguageKeys.userName,
+                  type: UserFieldType.name,
+                  readOnly: isViewMode,
+                  width: 250,
+                  height: 40,
+                ),
+
+                UserTextFieldWidget(
+                  controller: jobNameController,
+                  text: AppLanguageKeys.jobName,
+                  type: UserFieldType.name,
+                  readOnly: isViewMode,
+                  width: 250,
+                  height: 40,
+                ),
+
+                UserTextFieldWidget(
+                  controller: jobLatinNameController,
+                  text: AppLanguageKeys.jobNameEnglish,
+                  type: UserFieldType.name,
+                  readOnly: isViewMode,
+                  width: 250,
+                  height: 40,
+                ),
+
+                UserTextFieldWidget(
+                  controller: phoneController,
+                  text: AppLanguageKeys.phoneNumber,
+                  type: UserFieldType.phone,
+                  readOnly: isViewMode,
+                  width: 250,
+                  height: 40,
+                ),
+
+                UserTextFieldWidget(
+                  controller: emailController,
+                  text: AppLanguageKeys.email,
+                  type: UserFieldType.email,
+                  readOnly: isViewMode,
+                  width: 250,
+                  height: 40,
+                ),
+
+                UserTextFieldWidget(
+                  controller: genderController,
+                  text: AppLanguageKeys.gender,
+                  type: UserFieldType.gender,
+                  readOnly: isViewMode,
+                  width: 250,
+                  height: 40,
+                ),
+                // Password only CREATE
+
+                if (isCreateMode)
                   UserTextFieldWidget(
-                    controller: usernameController,
-                    text: AppLanguageKeys.userName,
-                    type: UserFieldType.name,
-                    readOnly: !isCreateMode && !isEditMode,
+                    controller: passwordController,
+                    text: AppLanguageKeys.password,
+                    type: UserFieldType.password,
                     width: 250,
+                    height: 40,
                   ),
+
+                if (isCreateMode)
                   UserTextFieldWidget(
-                    controller: jobNameController,
-                    text: AppLanguageKeys.jobName,
-                    type: UserFieldType.name,
-                    readOnly: !isCreateMode && !isEditMode,
+                    controller: confirmPasswordController,
+                    text: AppLanguageKeys.confirmPasswordKey,
+                    type: UserFieldType.password,
                     width: 250,
+                    height: 40,
                   ),
-                  UserTextFieldWidget(
-                    controller: jobLatinNameController,
-                    text: AppLanguageKeys.jobNameEnglish,
-                    type: UserFieldType.name,
-                    readOnly: !isCreateMode && !isEditMode,
-                    width: 250,
+                if (!isCreateMode)
+                  StatusFieldWidget(
+                    isActive: isActive,
+                    isEditMode: isEditMode,
+                    onChanged: isEditMode
+                        ? (value) {
+                      setState(() {
+                        isActive = value;
+                      });
+                    }
+                        : null,
                   ),
-                  UserTextFieldWidget(
-                    controller: phoneController,
-                    text: AppLanguageKeys.phoneNumber,
-                    type: UserFieldType.phone,
-                    readOnly: !isCreateMode && !isEditMode,
-                    width: 250,
+              ],
+            ),
+            AttachImageEmp(
+              title: AppLanguageKeys.profilePicture,
+              type: 'image',
+              isEditMode: !isViewMode,
+              initialImage: widget.employee?.image,
+            ),
+
+            // =================================================
+            // SERVICES TITLE
+            // =================================================
+
+            const PermissionsAndServicesProvidedToTheUserText(),
+
+            SelectPermissionsAndServicesProvidedToTheUserWithImage(
+              isEditMode: !isViewMode,
+            ),
+
+            const PermissionsAndServicesProvidedToTheUserText(
+              text: AppLanguageKeys.employeeAvailablePermissions,
+            ),
+
+            SelectEmployeePermissions(
+              isEditMode: !isViewMode,
+            ),
+
+            Row(
+              children: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.orangeColor,
                   ),
-                  UserTextFieldWidget(
-                    controller: emailController,
-                    text: AppLanguageKeys.email,
-                    type: UserFieldType.email,
-                    readOnly: !isCreateMode && !isEditMode,
-                    width: 250,
-                  ),
-                  if (isCreateMode)
-                    UserTextFieldWidget(
-                      controller: passwordController,
-                      text: AppLanguageKeys.password,
-                      type: UserFieldType.password,
-                      width: 250,
-                    ),
-                  if (isCreateMode)
-                    UserTextFieldWidget(
-                      controller: confirmPasswordController,
-                      text: AppLanguageKeys.confirmPasswordKey,
-                      type: UserFieldType.password,
-                      width: 250,
-                    ),
-                  UserTextFieldWidget(
-                    controller: genderController,
-                    text: AppLanguageKeys.gender,
-                    type: UserFieldType.gender,
-                    readOnly: !isCreateMode && !isEditMode,
-                    width: 250,
-                  ),
-                  AttachImageEmp(
-                    title: AppLanguageKeys.ownerIdKey,
-                    type: 'image',
-                    isEditMode: isCreateMode || isEditMode,
-                    initialImage: widget.employee?.image,
-                  ),
-                ],
-              ),
-              const PermissionsAndServicesProvidedToTheUserText(),
-              SelectPermissionsAndServicesProvidedToTheUserWithImage(
-                isEditMode: isCreateMode || isEditMode,
-                selectedServiceIds:
-                widget.employee?.employeeDetails?.serviceIds ?? [],
-              ),
-              Row(
-                children: [
+                  onPressed: isLoading
+                      ? null
+                      : () {
+                          // -----------------------------
+                          // VIEW -> EDIT
+                          // -----------------------------
+
+                          if (isViewMode) {
+                            setState(() {
+                              isEditMode = true;
+                            });
+
+                            return;
+                          }
+
+                          // -----------------------------
+                          // CREATE
+                          // -----------------------------
+
+                          if (isCreateMode) {
+                            _onCreate();
+                            return;
+                          }
+
+                          // -----------------------------
+                          // EDIT -> UPDATE
+                          // -----------------------------
+
+                          _onUpdate();
+                        },
+                  child: isLoading
+                      ? const SizedBox(
+                          width: 18,
+                          height: 18,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                          ),
+                        )
+                      : TextInAppWidget(
+                          text: isCreateMode
+                              ? AppLanguageKeys.createEmployee
+                              : isEditMode
+                                  ? AppLanguageKeys.save
+                                  : AppLanguageKeys.edit,
+                          textColor: AppColors.whiteColor,
+                          textSize: 13,
+                        ),
+                ),
+
+                const SizedBox(
+                  width: 10,
+                ),
+
+                // =================================================
+                // CANCEL
+                // =================================================
+
+                if (isEditMode && !isCreateMode)
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.orangeColor,
                     ),
-                    onPressed: isLoading
-                        ? null
-                        : () {
-                            if (!isEditMode && !isCreateMode) {
-                              setState(() {
-                                isEditMode = true;
-                              });
-                              return;
-                            }
+                    onPressed: () {
+                      setState(() {
+                        isEditMode = false;
+                      });
 
-                            if (isCreateMode) {
-                              _onCreate();
-                            } else {
-                              _onUpdate();
-                            }
-                          },
-                    child: isLoading
-                        ? const SizedBox(
-                            width: 18,
-                            height: 18,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                            ),
-                          )
-                        : TextInAppWidget(
-                            text: isCreateMode
-                                ? AppLanguageKeys.createEmployee
-                                : isEditMode
-                                    ? AppLanguageKeys.save
-                                    : AppLanguageKeys.edit,
-                            textColor: AppColors.whiteColor,
-                            textSize: 13,
-                          ),
-                  ),
-                  const SizedBox(width: 10),
-                  if (isEditMode && !isCreateMode)
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.orangeColor,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          isEditMode = false;
-                        });
+                      // رجع البيانات القديمة
+                      _loadUser();
 
-                        _loadUser();
-                      },
-                      child: const TextInAppWidget(
-                        text: AppLanguageKeys.cancel,
-                        textSize: 13,
-                        textColor: AppColors.whiteColor,
-                      ),
+                      // رجع الـ services القديمة
+                      final oldServices =
+                          widget.employee?.employeeDetails?.serviceIds ??
+                              const <int>[];
+
+                      context.read<ServicePermissionCubit>().setSelected(
+                            oldServices,
+                          );
+                      final oldPermissions =
+                          widget.employee?.employeeDetails?.permissions;
+
+                      context.read<ProviderEmployeesCubit>().setPermissions(
+                            oldPermissions,
+                          );
+                    },
+                    child: const TextInAppWidget(
+                      text: AppLanguageKeys.cancel,
+                      textSize: 13,
+                      textColor: AppColors.whiteColor,
                     ),
-                ],
+                  ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStatus() {
+    return Column(
+      spacing: 8,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const TextInAppWidget(
+          text: AppLanguageKeys.status,
+          textSize: 15,
+          textColor: AppColors.blackColor,
+          fontWeightIndex: FontSelectionData.regularFontFamily,
+        ),
+        Container(
+          height: 42,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 12,
+          ),
+          decoration: BoxDecoration(
+            color: AppColors.whiteColor,
+            borderRadius: BorderRadius.circular(12),
+
+            // Grey border
+            border: Border.all(
+              color: AppColors.darkGreyColor.withOpacity(0.35),
+              width: 1,
+            ),
+
+            // Soft shadow
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.04),
+                blurRadius: 5,
+                offset: const Offset(0, 2),
               ),
             ],
           ),
-        ));
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Status indicator
+              Container(
+                width: 9,
+                height: 9,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: isActive ? Colors.green : Colors.red,
+                ),
+              ),
+
+              const SizedBox(width: 8),
+
+              TextInAppWidget(
+                text: isActive
+                    ? AppLanguageKeys.active
+                    : AppLanguageKeys.inactive,
+                textSize: 14,
+                fontWeightIndex: FontSelectionData.mediumFontFamily,
+                textColor: isActive ? Colors.green : Colors.red,
+              ),
+
+              // Edit mode
+              if (isEditMode) ...[
+                const SizedBox(width: 8),
+                Switch(
+                  value: isActive,
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  onChanged: (value) {
+                    setState(() {
+                      isActive = value;
+                    });
+                  },
+                ),
+              ],
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }

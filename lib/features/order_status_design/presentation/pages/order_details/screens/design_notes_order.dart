@@ -30,7 +30,7 @@ class DesignNotesOrder extends StatelessWidget {
             textFormController:TextEditingController(
               text:note
             ),
-            maxLines: 5,
+            maxLines: 9,
             fillColor: WidgetStateColor.transparent,
             borderColor: AppColors.greyColor.withOpacity(0.5),
             readOnly: true,

@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/theming/assets.dart';
@@ -7,8 +6,6 @@ import 'package:sun_web_system/core/theming/colors.dart';
 import 'package:sun_web_system/core/theming/fonts.dart';
 import 'package:sun_web_system/core/theming/text_styles.dart';
 import 'package:sun_web_system/features/employee/presentation/bloc/service_permission_cubit/service_permission_cubit.dart';
-import 'package:sun_web_system/features/employee/presentation/bloc/check_box_with_text_cubit/check_box_with_text_cubit.dart';
-
 
 class CheckBoxWithText extends StatelessWidget {
   final int serviceId;

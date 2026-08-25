@@ -53,6 +53,7 @@ class AuthCubit extends Cubit<AuthState> {
     isConfirmPasswordVisible = !isConfirmPasswordVisible;
     emit(AuthPasswordVisibilityChanged());
   }
+
   Future<void> init() async {
     emit(AuthLoading());
 
@@ -432,116 +433,7 @@ class AuthCubit extends Cubit<AuthState> {
       )
           : oldProvider;
 
-      // =========================================================
-      // EMPLOYEE MERGE
-      // =========================================================
 
-      final oldEmployeeWrapper =
-          oldUser.employeeDetails;
-
-      final newEmployeeWrapper =
-          request.employeeDetails;
-
-      EmployeeWrapperRequest? mergedEmployee;
-
-      if (newEmployeeWrapper != null) {
-        // -------------------------------------------------------
-        // Employee Details
-        // -------------------------------------------------------
-
-        final oldEmployee =
-            oldEmployeeWrapper?.employeeDetails;
-
-        final newEmployee =
-            newEmployeeWrapper.employeeDetails;
-
-        final EmployeeModel? mergedEmployeeDetails =
-        newEmployee != null
-            ? EmployeeModel(
-          id:
-          newEmployee.id ??
-              oldEmployee?.id,
-
-          provid:
-          newEmployee.provid ??
-              oldEmployee?.provid,
-
-          jobname:
-          newEmployee.jobname ??
-              oldEmployee?.jobname,
-
-          joblatinname:
-          newEmployee.joblatinname ??
-              oldEmployee?.joblatinname,
-
-          branchid:
-          newEmployee.branchid ??
-              oldEmployee?.branchid,
-        )
-            : oldEmployee;
-
-        // -------------------------------------------------------
-        // Permissions
-        // -------------------------------------------------------
-
-        final oldPermissions =
-            oldEmployeeWrapper?.permissions;
-
-        final newPermissions =
-            newEmployeeWrapper.permissions;
-
-        final EmployeePermissionsModel? mergedPermissions =
-        newPermissions != null
-            ? EmployeePermissionsModel(
-          employeeid:
-          newPermissions.employeeid ??
-              oldPermissions?.employeeid,
-
-          acceptallorders:
-          newPermissions.acceptallorders ??
-              oldPermissions?.acceptallorders,
-
-          changeorderstatus:
-          newPermissions.changeorderstatus ??
-              oldPermissions?.changeorderstatus,
-
-          displayharage:
-          newPermissions.displayharage ??
-              oldPermissions?.displayharage,
-        )
-            : oldPermissions;
-
-        // -------------------------------------------------------
-        // Services
-        // -------------------------------------------------------
-
-        final List<int> mergedServiceIds =
-        newEmployeeWrapper.serviceIds.isNotEmpty
-            ? List<int>.from(
-          newEmployeeWrapper.serviceIds,
-        )
-            : List<int>.from(
-          oldEmployeeWrapper?.serviceIds ?? [],
-        );
-
-        mergedEmployee = EmployeeWrapperRequest(
-          employeeDetails:
-          mergedEmployeeDetails,
-
-          serviceIds:
-          mergedServiceIds,
-
-          permissions:
-          mergedPermissions,
-        );
-      } else {
-        mergedEmployee =
-            oldEmployeeWrapper;
-      }
-
-      // =========================================================
-      // MERGED USER REQUEST
-      // =========================================================
 
       final mergedRequest = CreateUserRequest(
         userid:
@@ -606,7 +498,7 @@ class AuthCubit extends Cubit<AuthState> {
         mergedProvider,
 
         employeeDetails:
-        mergedEmployee,
+        request.employeeDetails??oldUser.employeeDetails,
 
         adminDetails:
         request.adminDetails ??
@@ -621,64 +513,17 @@ class AuthCubit extends Cubit<AuthState> {
             oldUser.driverDetails,
       );
 
-      // =========================================================
-      // DEBUG REQUEST
-      // =========================================================
 
-      print(
-        "========== UPDATE USER REQUEST ==========",
-      );
-
-      print(
-        jsonEncode(
-          mergedRequest.toJson(),
-        ),
-      );
-
-      // =========================================================
-      // API UPDATE
-      // =========================================================
-
-      final result =
-      await updateUserFunction(
-        createUserRequest:
-        mergedRequest,
+      final result = await updateUserFunction(
+        createUserRequest: mergedRequest,
       );
 
       if (isClosed) return;
 
-      print(
-        "========== UPDATE RESULT ==========",
-      );
-
-      print(
-        "SUCCESS => ${result.success}",
-      );
-
-      print(
-        "MESSAGE => ${result.message}",
-      );
-
-      // =========================================================
-      // SUCCESS
-      // =========================================================
-
       if (result.success) {
-        // Save the complete merged user locally.
         await AuthLocalStorage.saveUser(
           mergedRequest,
         );
-
-        print(
-          "========== SAVED USER ==========",
-        );
-
-        print(
-          jsonEncode(
-            mergedRequest.toJson(),
-          ),
-        );
-
         emit(
           AuthUpdateSuccess(
             result.message,
@@ -688,24 +533,12 @@ class AuthCubit extends Cubit<AuthState> {
         return;
       }
 
-      // =========================================================
-      // API ERROR
-      // =========================================================
-
       emit(
         AuthUpdateError(
           result.message,
         ),
       );
-    } catch (e, stackTrace) {
-      print(
-        "🔥 UPDATE USER ERROR => $e",
-      );
-
-      print(
-        "🔥 STACKTRACE => $stackTrace",
-      );
-
+    } catch (e) {
       if (isClosed) return;
 
       emit(

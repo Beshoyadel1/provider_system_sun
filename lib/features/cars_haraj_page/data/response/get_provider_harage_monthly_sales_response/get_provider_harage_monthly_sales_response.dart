@@ -1,4 +1,4 @@
-import 'package:sun_web_system/features/cars_haraj_page/data/model/get_provider_harage_monthly_sales_model/harag_monthly_sale_model.dart';
+import '../../../../../../../../../features/cars_haraj_page/data/model/get_provider_harage_monthly_sales_model/harag_monthly_sale_model.dart';
 
 class GetProviderHarageMonthlySalesResponse {
   final List<HaragMonthlySaleModel> monthlySales;

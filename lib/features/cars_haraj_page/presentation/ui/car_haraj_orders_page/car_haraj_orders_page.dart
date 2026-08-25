@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../../core/cubit/new_orders_cubit/new_orders_cubit.dart';
-import '../../../../../../core/cubit/new_orders_cubit/new_orders_state.dart';
-import 'screens/car_orders_page.dart';
+import '../../../../../../../../../core/theming/colors.dart';
+import '../../../../../../../../../features/cars_haraj_page/presentation/bloc/harag_cubit/harag_cubit.dart';
+import '../../../../../../../../../features/cars_haraj_page/presentation/ui/car_haraj_orders_page/screens/list_view_car_harag.dart';
 
 class CarHarajOrdersPage extends StatelessWidget {
   const CarHarajOrdersPage({super.key});
@@ -10,15 +10,29 @@ class CarHarajOrdersPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (_) => NewOrdersCubit(),
-        child: BlocBuilder<NewOrdersCubit, NewOrdersState>(
-            builder: (context, state) {
-          final cubit = context.read<NewOrdersCubit>();
-          if (state is NewOrdersInitial) {
-            return CarOrdersPage(cubit: cubit);
-          } else {
-            return const SizedBox();
-          }
-        }));
+      create: (_) => HaragCubit()
+        ..getUserHarages(
+          currentPage: 1,
+        ),
+      child: Builder(
+        builder: (context) {
+          return Scaffold(
+            backgroundColor: AppColors.scaffoldColor,
+            body: SafeArea(
+              child: RefreshIndicator(
+                color: AppColors.orangeColor,
+                onRefresh: () async {
+                  await context.read<HaragCubit>().getUserHarages(currentPage: 1);
+                },
+                child: const Padding(
+                  padding: EdgeInsets.all(20),
+                  child: ListViewCarHarag(),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
   }
 }

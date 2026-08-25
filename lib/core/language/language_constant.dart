@@ -20,6 +20,85 @@ class AppLanguageKeys {
   //end//
 
   //others//
+  static const String selectItem = 'selectItem';
+  static const String select = 'select';
+  static const String saleStatus = 'saleStatus';
+  static const String condition = 'condition';
+  static const String totalConsumption = 'totalConsumption';
+  static const String expectedSpend = 'expectedSpend';
+  static const String consumptionPercentage = 'consumptionPercentage';
+  static const String previousOrdersAndMaintenance =
+      'previousOrdersAndMaintenance';
+  static const String carInvoiceDetails = 'carInvoiceDetails';
+  static const String noInvoices = 'noInvoices';
+  static const String invoiceItem = 'invoiceItem';
+  static const String carServicesStatistics = 'carServicesStatistics';
+  static const String totalInvoices = 'totalInvoices';
+  static const String fuelConsumptionRate = 'fuelConsumptionRate';
+  static const String fuel = 'fuel';
+  static const String consumptionSaving = 'consumptionSaving';
+  static const String sellDate = 'sellDate';
+  static const String kilometers = 'kilometers';
+  static const String selectDurationType = 'selectDurationType';
+  static const String day = 'day';
+  static const String month = 'month';
+  static const String year = 'year';
+  static const String warranty = 'warranty';
+  static const String durationType = 'durationType';
+  static const String durationValue = 'durationValue';
+  static const String employeeAvailablePermissions = 'employeeAvailablePermissions';
+  static const String employeePermissions = 'employeePermissions';
+  static const String acceptAllOrders = 'acceptAllOrders';
+  static const String changeOrderStatus = 'changeOrderStatus';
+  static const String maintenance = 'maintenance';
+  static const String noServicesAssigned = 'noServicesAssigned';
+  static const String orders = 'orders';
+  static const String providers = 'providers';
+  static const String finances = 'finances';
+  static const String approvals = 'approvals';
+  static const String ranks = 'ranks';
+  static const String support = 'support';
+  static const String banners = 'banners';
+  static const String coupons = 'coupons';
+  static const String harage = 'harage';
+  static const String insurance = 'insurance';
+  static const String noPermissionsAssigned = 'noPermissionsAssigned';
+  static const String adminDetails = 'adminDetails';
+  static const String admins = 'admins';
+  static const String admin = 'admin';
+  static const String uniqueUsersCount = 'uniqueUsersCount';
+  static const String couponInformation = 'couponInformation';
+  static const String date = 'date';
+  static const String status = 'status';
+  static const String selectDate = 'selectDate';
+  static const String endDateCannotBeBeforeStartDate =
+      'endDateCannotBeBeforeStartDate';
+  static const String pleaseEnterAtLeastOneProvider =
+      'pleaseEnterAtLeastOneProvider';
+  static const String invalidProviderId = 'invalidProviderId';
+  static const String pleaseSelectDiscountType = 'pleaseSelectDiscountType';
+  static const String startDate = 'startDate';
+  static const String endDate = 'endDate';
+  static const String fixedAmount = 'fixedAmount';
+  static const String percentage = 'percentage';
+  static const String providerNo = 'providerNo';
+  static const String createCoupon = 'createCoupon';
+  static const String couponCode = 'couponCode';
+  static const String discountType = 'discountType';
+  static const String discountValue = 'discountValue';
+  static const String isActive = 'isActive';
+  static const String maxDiscountValue = 'maxDiscountValue';
+  static const String minValueToApply = 'minValueToApply';
+  static const String couponStartDate = 'couponStartDate';
+  static const String couponEndDate = 'couponEndDate';
+  static const String usersUseCount = 'usersUseCount';
+  static const String oneUserUseCount = 'oneUserUseCount';
+
+  static const String packageNotFound = 'packageNotFound';
+  static const String packageLatinName = 'packageLatinName';
+  static const String monthPrice = 'monthPrice';
+  static const String packageDisc = 'packageDisc';
+  static const String packageLatinDisc = 'packageLatinDisc';
   static const String accreditation = 'accreditation';
   static const String approved = 'approved';
   static const String notApproved = 'notApproved';

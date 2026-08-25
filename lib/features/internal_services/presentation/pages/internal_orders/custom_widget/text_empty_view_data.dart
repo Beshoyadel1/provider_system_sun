@@ -4,14 +4,15 @@ import 'package:sun_web_system/core/theming/colors.dart';
 import 'package:sun_web_system/core/theming/text_styles.dart';
 
 class TextEmptyViewData extends StatelessWidget {
+  final String? text;
   final double? textSize;
-  const TextEmptyViewData({super.key,this.textSize});
+  const TextEmptyViewData({super.key,this.textSize,this.text});
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child:  TextInAppWidget(
-        text: AppLanguageKeys.empty,
+        text: text??AppLanguageKeys.empty,
         textSize:textSize?? 15,
         textColor: AppColors.greyColor,
       ),

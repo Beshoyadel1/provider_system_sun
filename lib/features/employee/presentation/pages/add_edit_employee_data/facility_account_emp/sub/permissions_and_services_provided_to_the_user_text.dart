@@ -5,12 +5,13 @@ import 'package:sun_web_system/core/theming/fonts.dart';
 import 'package:sun_web_system/core/theming/text_styles.dart';
 
 class PermissionsAndServicesProvidedToTheUserText extends StatelessWidget {
-  const PermissionsAndServicesProvidedToTheUserText({super.key});
+  final String? text;
+  const PermissionsAndServicesProvidedToTheUserText({super.key,this.text});
 
   @override
   Widget build(BuildContext context) {
-    return const TextInAppWidget(
-      text: AppLanguageKeys.permissionsFromServices,
+    return TextInAppWidget(
+      text: text??AppLanguageKeys.permissionsFromServices,
       textSize: 16,
       fontWeightIndex: FontSelectionData.mediumFontFamily,
       textColor: AppColors.blackColor,

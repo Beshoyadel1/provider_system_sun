@@ -4,6 +4,12 @@ import 'package:sun_web_system/features/service_settings/data/model/get_services
 import 'package:sun_web_system/features/service_settings/presentation/bloc/cubit/service_settings_cubit/service_settings_state.dart';
 import 'package:sun_web_system/features/service_settings/presentation/bloc/service_settings_helper/service_settings_helper.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/features/service_settings/data/datasource/get_services_datasource/get_services_repository.dart';
+import 'package:sun_web_system/features/service_settings/data/model/get_services_model/service_setting_model.dart';
+import 'package:sun_web_system/features/service_settings/presentation/bloc/cubit/service_settings_cubit/service_settings_state.dart';
+import 'package:sun_web_system/features/service_settings/presentation/bloc/service_settings_helper/service_settings_helper.dart';
+
 class ServiceSettingsCubit extends Cubit<ServiceSettingsState> {
   ServiceSettingsCubit() : super(ServiceSettingsInitial());
 
@@ -54,7 +60,7 @@ class ServiceSettingsCubit extends Cubit<ServiceSettingsState> {
       emit(ServiceSettingsError(e.toString()));
     }
   }
-  
+
   Future<void> getChildServices() async {
     emit(ServiceSettingsLoading());
 
@@ -72,5 +78,28 @@ class ServiceSettingsCubit extends Cubit<ServiceSettingsState> {
     } catch (e) {
       emit(ServiceSettingsError(e.toString()));
     }
+  }
+  List<int> getSubServiceIds(int mainServiceId) {
+    return allServices
+        .where(
+          (service) =>
+      (service.parentId ?? 0) == mainServiceId,
+    )
+        .map(
+          (service) => service.id ?? 0,
+    )
+        .where(
+          (id) => id != 0,
+    )
+        .toList();
+  }
+
+  List<int> getMainAndSubServiceIds(int mainServiceId) {
+    final subServiceIds = getSubServiceIds(mainServiceId);
+
+    return [
+      mainServiceId,
+      ...subServiceIds,
+    ];
   }
 }

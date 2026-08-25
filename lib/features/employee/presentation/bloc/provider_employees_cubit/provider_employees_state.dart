@@ -1,4 +1,5 @@
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/create_user_request.dart';
+import 'package:sun_web_system/features/auth_page/data/model/create_user_model/employee_wrapper_request.dart';
 import 'package:sun_web_system/features/employee/data/model/employee_model/employee_model.dart';
 
 abstract class ProviderEmployeesState {}
@@ -28,3 +29,20 @@ class EmployeeUpdateError extends ProviderEmployeesState {
   EmployeeUpdateError(this.message);
 }
 
+class EmployeeSelectedState
+    extends ProviderEmployeesState {
+  final CreateUserRequest employee;
+
+  EmployeeSelectedState({
+    required this.employee,
+  });
+}
+
+class EmployeePermissionsChanged
+    extends ProviderEmployeesState {
+  final EmployeePermissionsModel permissions;
+
+  EmployeePermissionsChanged({
+    required this.permissions,
+  });
+}

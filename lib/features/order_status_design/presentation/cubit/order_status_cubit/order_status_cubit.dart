@@ -7,20 +7,28 @@ class OrderStatusCubit extends Cubit<OrderStatusState> {
   OrderStatusCubit() : super(OrderStatusInitial());
 
   Future<void> updateOrderStatus({
-    required UpdateOrderStatusRequest updateOrderStatusRequest,
+    required int orderId,
+    required int status,
   }) async {
-
     emit(OrderStatusLoading());
 
-    final bool isSuccess = await updateOrderStatusFunction(
-      updateOrderStatusRequest: updateOrderStatusRequest,
+    final request = UpdateOrderStatusRequest(
+      orderId: orderId,
+      status: status,
     );
 
+    final bool isSuccess = await updateOrderStatusFunction(
+      updateOrderStatusRequest: request,
+    );
 
     if (isSuccess) {
       emit(OrderStatusSuccess());
     } else {
-      emit(OrderStatusError("Failed to update order status"));
+      emit(
+        OrderStatusError(
+          "Failed to update order status",
+        ),
+      );
     }
   }
 }

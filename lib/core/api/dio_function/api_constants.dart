@@ -38,6 +38,14 @@ class ApiConfig {
 }
 
 class ApiLink {
+  static const String getCarDetails =
+      "${ApiConfig.baseUrlApi}/${ApiConfig.car}/GetCarDetails";
+
+  static const String getAllHarages =
+      "${ApiConfig.baseUrlApi}/${ApiConfig.harage}/GetAllHarages";
+  static const String getHarageDetails =
+      "${ApiConfig.baseUrlApi}/${ApiConfig.harage}/GetHarageDetails";
+
   static const String getUserInfo =
       "${ApiConfig.baseUrlApi}/${ApiConfig.user}/getUserInfo";
   static const String notificationHub =
@@ -500,6 +508,7 @@ class UserType {
   static const int adminUser = 6;
 }
 
+
 Color legendColor(int index) {
   const colors = [
     AppColors.brownColor,
@@ -522,6 +531,7 @@ class OfferStatus {
   static const int accepted = 2;
   static const int canceled = 3;
 }
+
 class OrderStatusToString {
   static String toArabic(int status) {
     return switch (status) {
@@ -553,6 +563,7 @@ class OrderStatusToString {
     };
   }
 }
+
 class PaymentMethodType {
   static const int unknown = -1;
   static const int cash = 0;
@@ -562,12 +573,14 @@ class PaymentMethodType {
   static const int applePay = 4;
   static const int points = 5;
 }
+
 class PointsTransactionType {
   static const int receive = 1;
   static const int useInOrder = 2;
   static const int send = 3;
   static const int exchange = 4;
 }
+
 class TransactionType {
   static const int refund = 0;
   static const int acceptWalletBalance = 1;
@@ -577,7 +590,39 @@ class TransactionType {
   static const int subscription = 7;
   static const int transferWalletBalance = 8;
 }
+
 class WalletTransactionType {
   static const bool deposit = true;
   static const bool withdrawal = false;
+}
+
+class DiscountType{
+  static const int fixedAmount = 1;
+  static const int percentage = 2;
+}
+
+class DurationType {
+  static const int month = 1;
+  static const int year = 2;
+
+  static const List<DurationTypeItem> all = [
+    DurationTypeItem(
+      id: month,
+      name: AppLanguageKeys.month,
+    ),
+    DurationTypeItem(
+      id: year,
+      name: AppLanguageKeys.year,
+    ),
+  ];
+}
+
+class DurationTypeItem {
+  final int id;
+  final String name;
+
+  const DurationTypeItem({
+    required this.id,
+    required this.name,
+  });
 }

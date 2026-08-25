@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../../../../../features/cars_haraj_page/presentation/bloc/harag_cubit/harag_cubit.dart';
 import '../../../../../../../../../core/cubit/app_cubit/app_cubit.dart';
 import '../../../../../../../../../core/utilies/map_of_all_app.dart';
-import '../../../../../../../../../features/cars_haraj_page/presentation/bloc/get_user_harages_cubit/get_user_harages_cubit.dart';
 import 'available_list_cars.dart';
 import '../../../../../../../../../features/internal_services/presentation/pages/internal_orders/first_screen_internal_orders/screens/big_container_of_new_orders/Container_view_all_in_first_row_in_data_container_in_list_data_first_screen_internal_orders.dart';
 import '../../../../../../../core/language/language_constant.dart';
@@ -18,13 +18,13 @@ class ListOfCars extends StatefulWidget {
 
 class _ListOfCarsState extends State<ListOfCars> {
 
-  late final GetUserHaragesCubit cubit;
+  late final HaragCubit cubit;
 
   @override
   void initState() {
     super.initState();
-    cubit = GetUserHaragesCubit()
-      ..getUserHarages(pageNumber: 1);
+    cubit = HaragCubit()
+      ..getUserHarages(currentPage: 1);
   }
 
   @override

@@ -12,14 +12,14 @@ class EmployeeWrapperRequest {
     this.permissions,
   });
 
-  factory EmployeeWrapperRequest.fromJson(
-      dynamic json,
-      ) {
+  factory EmployeeWrapperRequest.fromJson(dynamic json) {
     if (json == null || json is! Map) {
       return const EmployeeWrapperRequest();
     }
 
-    // ================= EMPLOYEE =================
+    // =========================================================
+    // EMPLOYEE DETAILS
+    // =========================================================
 
     EmployeeModel? employee;
 
@@ -27,13 +27,13 @@ class EmployeeWrapperRequest {
 
     if (employeeJson is Map) {
       employee = EmployeeModel.fromJson(
-        Map<String, dynamic>.from(
-          employeeJson,
-        ),
+        Map<String, dynamic>.from(employeeJson),
       );
     }
 
-    // ================= SERVICES =================
+    // =========================================================
+    // SERVICE IDS
+    // =========================================================
 
     final List<int> services = [];
 
@@ -43,9 +43,7 @@ class EmployeeWrapperRequest {
       for (final item in servicesJson) {
         final value = item is int
             ? item
-            : int.tryParse(
-          item.toString(),
-        );
+            : int.tryParse(item.toString());
 
         if (value != null) {
           services.add(value);
@@ -53,19 +51,18 @@ class EmployeeWrapperRequest {
       }
     }
 
-    // ================= PERMISSIONS =================
+    // =========================================================
+    // PERMISSIONS
+    // =========================================================
 
     EmployeePermissionsModel? permissions;
 
     final permissionsJson = json["permissions"];
 
     if (permissionsJson is Map) {
-      permissions =
-          EmployeePermissionsModel.fromJson(
-            Map<String, dynamic>.from(
-              permissionsJson,
-            ),
-          );
+      permissions = EmployeePermissionsModel.fromJson(
+        Map<String, dynamic>.from(permissionsJson),
+      );
     }
 
     return EmployeeWrapperRequest(
@@ -78,15 +75,28 @@ class EmployeeWrapperRequest {
   Map<String, dynamic> toJson() {
     return {
       if (employeeDetails != null)
-        "employeeDetails":
-        employeeDetails!.toJson(),
+        "employeeDetails": employeeDetails!.toJson(),
 
       "serviceIds": serviceIds,
 
       if (permissions != null)
-        "permissions":
-        permissions!.toJson(),
+        "permissions": permissions!.toJson(),
     };
+  }
+
+  EmployeeWrapperRequest copyWith({
+    EmployeeModel? employeeDetails,
+    List<int>? serviceIds,
+    EmployeePermissionsModel? permissions,
+  }) {
+    return EmployeeWrapperRequest(
+      employeeDetails:
+      employeeDetails ?? this.employeeDetails,
+      serviceIds:
+      serviceIds ?? this.serviceIds,
+      permissions:
+      permissions ?? this.permissions,
+    );
   }
 
   @override
@@ -103,15 +113,27 @@ EmployeeWrapperRequest(
 
 class EmployeePermissionsModel {
   final int? employeeid;
+
   final bool? acceptallorders;
   final bool? changeorderstatus;
-  final bool? displayharage;
+
+  final bool? harage;
+  final bool? maintenanceandinternalservices;
+  final bool? mobileservices;
+  final bool? spareparts;
+  final bool? servicepackage;
+  final bool? petrol;
 
   const EmployeePermissionsModel({
     this.employeeid,
     this.acceptallorders,
     this.changeorderstatus,
-    this.displayharage,
+    this.harage,
+    this.maintenanceandinternalservices,
+    this.mobileservices,
+    this.spareparts,
+    this.servicepackage,
+    this.petrol,
   });
 
   // =========================================================
@@ -168,22 +190,40 @@ class EmployeePermissionsModel {
       Map<String, dynamic> json,
       ) {
     return EmployeePermissionsModel(
-      employeeid:
-      _toInt(json["employeeid"]),
+      employeeid: _toInt(
+        json["employeeid"],
+      ),
 
-      acceptallorders:
-      _toBool(
+      acceptallorders: _toBool(
         json["acceptallorders"],
       ),
 
-      changeorderstatus:
-      _toBool(
+      changeorderstatus: _toBool(
         json["changeorderstatus"],
       ),
 
-      displayharage:
-      _toBool(
-        json["displayharage"],
+      harage: _toBool(
+        json["harage"],
+      ),
+
+      maintenanceandinternalservices: _toBool(
+        json["maintenanceandinternalservices"],
+      ),
+
+      mobileservices: _toBool(
+        json["mobileservices"],
+      ),
+
+      spareparts: _toBool(
+        json["spareparts"],
+      ),
+
+      servicepackage: _toBool(
+        json["servicepackage"],
+      ),
+
+      petrol: _toBool(
+        json["petrol"],
       ),
     );
   }
@@ -198,16 +238,29 @@ class EmployeePermissionsModel {
         "employeeid": employeeid,
 
       if (acceptallorders != null)
-        "acceptallorders":
-        acceptallorders,
+        "acceptallorders": acceptallorders,
 
       if (changeorderstatus != null)
-        "changeorderstatus":
-        changeorderstatus,
+        "changeorderstatus": changeorderstatus,
 
-      if (displayharage != null)
-        "displayharage":
-        displayharage,
+      if (harage != null)
+        "harage": harage,
+
+      if (maintenanceandinternalservices != null)
+        "maintenanceandinternalservices":
+        maintenanceandinternalservices,
+
+      if (mobileservices != null)
+        "mobileservices": mobileservices,
+
+      if (spareparts != null)
+        "spareparts": spareparts,
+
+      if (servicepackage != null)
+        "servicepackage": servicepackage,
+
+      if (petrol != null)
+        "petrol": petrol,
     };
   }
 
@@ -219,7 +272,12 @@ class EmployeePermissionsModel {
     int? employeeid,
     bool? acceptallorders,
     bool? changeorderstatus,
-    bool? displayharage,
+    bool? harage,
+    bool? maintenanceandinternalservices,
+    bool? mobileservices,
+    bool? spareparts,
+    bool? servicepackage,
+    bool? petrol,
   }) {
     return EmployeePermissionsModel(
       employeeid:
@@ -233,15 +291,29 @@ class EmployeePermissionsModel {
       changeorderstatus ??
           this.changeorderstatus,
 
-      displayharage:
-      displayharage ??
-          this.displayharage,
+      harage:
+      harage ?? this.harage,
+
+      maintenanceandinternalservices:
+      maintenanceandinternalservices ??
+          this.maintenanceandinternalservices,
+
+      mobileservices:
+      mobileservices ??
+          this.mobileservices,
+
+      spareparts:
+      spareparts ??
+          this.spareparts,
+
+      servicepackage:
+      servicepackage ??
+          this.servicepackage,
+
+      petrol:
+      petrol ?? this.petrol,
     );
   }
-
-  // =========================================================
-  // TO STRING
-  // =========================================================
 
   @override
   String toString() {
@@ -250,7 +322,12 @@ EmployeePermissionsModel(
   employeeid: $employeeid,
   acceptallorders: $acceptallorders,
   changeorderstatus: $changeorderstatus,
-  displayharage: $displayharage
+  harage: $harage,
+  maintenanceandinternalservices: $maintenanceandinternalservices,
+  mobileservices: $mobileservices,
+  spareparts: $spareparts,
+  servicepackage: $servicepackage,
+  petrol: $petrol
 )
 ''';
   }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../../../../../features/cars_haraj_page/presentation/bloc/harag_cubit/harag_cubit.dart';
 import '../../../../../../../../core/theming/colors.dart';
 import '../../../../../../../../features/cars_haraj_page/presentation/bloc/provider_harage_monthly_sales_cubit/provider_harage_monthly_sales_cubit.dart';
-import '../../../../../../../../features/cars_haraj_page/presentation/bloc/update_harage_cubit/update_harage_cubit.dart';
 import 'screens/create_harag_dialog.dart';
 import '../../../../../../../../features/dashboard_page/presentation/widgets/services_statistics.dart';
 import '../../../../../../../../features/internal_services/presentation/pages/internal_services_statistics/Internal_services_page/widgets/profits_services.dart';
@@ -25,7 +25,7 @@ class CarsHarajStatisticsPage extends StatelessWidget {
           create: (_) => ProviderHarageStatisticsCubit()..loadStatistics(),
         ),
         BlocProvider(
-          create: (_) => UpdateHarageCubit(),
+          create: (_) => HaragCubit()..getUserHarages(currentPage: 1),
         ),
       ],
       child: Builder(
@@ -82,13 +82,13 @@ class CarsHarajStatisticsPage extends StatelessWidget {
                 final result = await showDialog(
                   context: context,
                   builder: (_) => BlocProvider.value(
-                    value: context.read<UpdateHarageCubit>(),
+                    value: context.read<HaragCubit>(),
                     child: const CreateHaragDialog(),
                   ),
                 );
 
                 if (result == true) {
-                  context.read<ProviderHarageStatisticsCubit>().loadStatistics();
+                 await context.read<HaragCubit>().getUserHarages(currentPage: 1);
                 }
               },
               child: const Icon(Icons.add, color: Colors.white),

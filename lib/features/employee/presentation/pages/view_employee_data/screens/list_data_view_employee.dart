@@ -1,29 +1,41 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:sun_web_system/core/language/language_constant.dart';
-import 'package:sun_web_system/core/pages_widgets/general_widgets/custom_container.dart';
 import 'package:sun_web_system/core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
-import 'package:sun_web_system/core/theming/colors.dart';
-import 'package:sun_web_system/features/accounts_management/presentation/custom_widget/title_with_sub_title.dart';
+
 import 'package:sun_web_system/features/employee/presentation/bloc/provider_employees_cubit/provider_employees_cubit.dart';
 import 'package:sun_web_system/features/employee/presentation/bloc/provider_employees_cubit/provider_employees_state.dart';
+
 import 'package:sun_web_system/features/employee/presentation/pages/add_edit_employee_data/facility_account_emp/facility_account_emp.dart';
+
 import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/custom_widget/text_empty_view_data.dart';
+
+import 'package:sun_web_system/features/employee/presentation/custom_widget/custom_view_all_employee_list_widget.dart';
 
 class ListDataViewEmployee extends StatelessWidget {
   const ListDataViewEmployee({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProviderEmployeesCubit, ProviderEmployeesState>(
+    return BlocBuilder<
+        ProviderEmployeesCubit,
+        ProviderEmployeesState>(
       builder: (context, state) {
+
+        // =========================================================
+        // LOADING
+        // =========================================================
+
         if (state is ProviderEmployeesLoading) {
           return const Center(
             child: CircularProgressIndicator(),
           );
         }
+
+        // =========================================================
+        // ERROR
+        // =========================================================
 
         if (state is ProviderEmployeesError) {
           return Center(
@@ -31,7 +43,12 @@ class ListDataViewEmployee extends StatelessWidget {
           );
         }
 
+        // =========================================================
+        // SUCCESS
+        // =========================================================
+
         if (state is ProviderEmployeesSuccess) {
+
           if (state.employees.isEmpty) {
             return const TextEmptyViewData();
           }
@@ -39,14 +56,37 @@ class ListDataViewEmployee extends StatelessWidget {
           return ListView.separated(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: state.employees.length,
-            separatorBuilder: (context, index) => const SizedBox(height: 10),
-            itemBuilder: (context, index) {
-              final employee = state.employees[index];
 
-              return CustomContainer(
-                isSelected: false,
-                onTap: () async {
+            itemCount: state.employees.length,
+
+            separatorBuilder: (_, __) =>
+            const SizedBox(height: 10),
+
+            itemBuilder: (context, index) {
+
+              final employee =
+              state.employees[index];
+
+              return CustomViewAllEmployeeListWidget(
+                id: employee.userid?.toString() ?? '-',
+
+                nameEmployee:
+                employee.username ?? '-',
+
+                phone:
+                employee.phone ?? '-',
+
+                email:
+                employee.email ?? '-',
+
+                isActive:
+                employee.isActive,
+
+                nameButton:
+                AppLanguageKeys.details,
+
+                onTapDetails: () async {
+
                   final result = await Navigator.push(
                     context,
                     NavigateToPageWidget(
@@ -56,65 +96,14 @@ class ListDataViewEmployee extends StatelessWidget {
                     ),
                   );
 
-                  if (result == true && context.mounted) {
-                    debugPrint('REFRESH EMPLOYEES');
-                    context.read<ProviderEmployeesCubit>().getEmployees();
+                  if (result == true &&
+                      context.mounted) {
+
+                    await context
+                        .read<ProviderEmployeesCubit>()
+                        .getEmployees();
                   }
                 },
-                borderRadius: BorderRadius.circular(12),
-                containerWidth: double.infinity,
-                typeWidget: LayoutBuilder(
-                  builder: (context, constraints) {
-                    final double itemWidth;
-
-                    if (constraints.maxWidth >= 700) {
-                      itemWidth = (constraints.maxWidth - 90) / 4;
-                    } else if (constraints.maxWidth >= 300) {
-                      itemWidth = (constraints.maxWidth - 20) / 2;
-                    } else {
-                      itemWidth = constraints.maxWidth;
-                    }
-
-                    Widget buildItem({
-                      required String title,
-                      required String value,
-                    }) {
-                      return SizedBox(
-                        width: itemWidth,
-                        child: TitleWithSubTitle(
-                          title: title,
-                          subTitle: value,
-                          titleColor: AppColors.greyColor,
-                          textSizeTitle: 15,
-                          textSizeSubTitle: 14,
-                        ),
-                      );
-                    }
-
-                    return Wrap(
-                      spacing: 20,
-                      runSpacing: 15,
-                      children: [
-                        buildItem(
-                          title: AppLanguageKeys.identity,
-                          value: employee.userid.toString(),
-                        ),
-                        buildItem(
-                          title: AppLanguageKeys.name,
-                          value: employee.username??"",
-                        ),
-                        buildItem(
-                          title: AppLanguageKeys.phoneNumber,
-                          value: employee.phone??"",
-                        ),
-                        buildItem(
-                          title: AppLanguageKeys.email,
-                          value: employee.email??"",
-                        ),
-                      ],
-                    );
-                  },
-                ),
               );
             },
           );

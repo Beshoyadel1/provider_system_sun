@@ -2,13 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
-import 'package:sun_web_system/core/language/language_cubit/language_cubit.dart';
-
-import 'dart:convert';
-import 'dart:typed_data';
-
-import 'package:flutter/cupertino.dart';
-import 'package:sun_web_system/core/language/language_cubit/language_cubit.dart';
+import '../../../../../../../../../core/language/language_cubit/language_cubit.dart';
 
 class CarBrandDataModel {
   final int? id;
@@ -23,18 +17,31 @@ class CarBrandDataModel {
     this.image,
   });
 
-  factory CarBrandDataModel.fromJson(Map<String, dynamic> json) {
+  factory CarBrandDataModel.fromJson(
+      Map<String, dynamic> json,
+      ) {
     return CarBrandDataModel(
-      id: json['brandid'] ?? 0,
-      name: json['brandname']?.toString() ?? "",
-      latinName: json['brandlatinname']?.toString() ?? "",
-      image: json['image'] != null ? base64Decode(json["image"]) : null,
+      id: int.tryParse(
+        json['brandid']?.toString() ?? '',
+      ),
+      name: json['brandname']?.toString() ?? '',
+      latinName:
+      json['brandlatinname']?.toString() ?? '',
+      image: json['image'] != null
+          ? base64Decode(
+        json['image'].toString(),
+      )
+          : null,
     );
   }
 
   String getName(BuildContext context) {
-    final isArabic = LanguageCubit.get(context).isAllAppLanguageArabic;
+    final isArabic =
+        LanguageCubit.get(context)
+            .isAllAppLanguageArabic;
 
-    return isArabic ? (name ?? "") : (latinName ?? "");
+    return isArabic
+        ? (name ?? '')
+        : (latinName ?? '');
   }
 }

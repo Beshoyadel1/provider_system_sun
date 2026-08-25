@@ -66,8 +66,6 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
       vatNoController.text = user.providerDetails?.vatno ?? "";
       usernameController.text=user.username??"";
       nationalityController.text=user.nationality??"";
-      // nationalAddressController.text =
-      //     user.providerDetails?.nationaladdress ?? "";
       phoneController.text = user.phone ?? "";
       emailController.text = user.email ?? "";
       ageController.text = user.age?.toString() ?? "";
@@ -83,8 +81,7 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
   void _onUpdate() async {
     final user = await AuthLocalStorage.getUser();
 
-    final facilityCubit =
-    context.read<FacilityTabCubit>();
+    final facilityCubit = context.read<FacilityTabCubit>();
 
     final oldProvider =
         user?.providerDetails;
@@ -135,14 +132,6 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
             oldProvider?.vatnoimage,
 
       ),
-    );
-
-    debugPrint(
-      "========== REQUEST ==========",
-    );
-
-    debugPrint(
-      jsonEncode(request.toJson()),
     );
 
     context
@@ -219,14 +208,14 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
               controller: phoneController,
               text: AppLanguageKeys.phoneNumber,
               type: UserFieldType.phone,
-              readOnly: !isEditMode,
+              readOnly:true,
               width: 250,
             ),
             UserTextFieldWidget(
               controller: emailController,
               text: AppLanguageKeys.email,
               type: UserFieldType.email,
-              readOnly: !isEditMode,
+              readOnly: true,
               width: 250,
             ),
             UserTextFieldWidget(
@@ -239,7 +228,7 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
             UserTextFieldWidget(
               controller: dateController,
               text: AppLanguageKeys.joiningDate,
-              readOnly: !isEditMode,
+              readOnly: true,
               width: 250,
             ),
 
