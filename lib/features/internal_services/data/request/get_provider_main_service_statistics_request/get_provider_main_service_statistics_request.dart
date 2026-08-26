@@ -1,4 +1,4 @@
-import 'package:sun_web_system/features/internal_services/data/model/get_provider_main_service_statistics_model/sales_chart_model.dart';
+import '../../../../../../../features/internal_services/data/model/get_provider_main_service_statistics_model/sales_chart_model.dart';
 import '../../model/get_provider_main_service_statistics_model/sub_service_summaries_model.dart';
 
 class GetProviderMainServiceStatisticsRequest {

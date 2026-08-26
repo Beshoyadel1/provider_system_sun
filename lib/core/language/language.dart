@@ -29,9 +29,16 @@ class AppLocalizations {
       AppLanguageKeys.rejectedByProvider: 'تم الرفض من المزود',
       AppLanguageKeys.cancelledByUser: 'تم الإلغاء من العميل',
       AppLanguageKeys.unknownType: 'نوع غير معروف',
+      AppLanguageKeys.acceptOrder: 'قبول الطلب',
       //END//
 
       //others//
+      AppLanguageKeys.approvalInfoId: 'رقم معلومات الاعتماد',
+      AppLanguageKeys.approvalStartDate: 'تاريخ بداية الاعتماد',
+      AppLanguageKeys.approvalEndDate: 'تاريخ انتهاء الاعتماد',
+      AppLanguageKeys.subscription: 'اشتراك',
+      AppLanguageKeys.subscriptionSuccess: 'تم الاشتراك بنجاح',
+      AppLanguageKeys.confirmAction: 'تأكيد الإجراء',
       AppLanguageKeys.selectItem: 'اختر العنصر',
       AppLanguageKeys.select: 'اختيار',
       AppLanguageKeys.saleStatus: 'حالة البيع',
@@ -1440,8 +1447,15 @@ class AppLocalizations {
       AppLanguageKeys.rejectedByProvider: 'Rejected by Provider',
       AppLanguageKeys.cancelledByUser: 'Cancelled by User',
       AppLanguageKeys.unknownType: 'Unknown Type',
+      AppLanguageKeys.acceptOrder: 'Accept Order',
       //END//
       //others//
+      AppLanguageKeys.approvalInfoId: 'Approval Info ID',
+      AppLanguageKeys.approvalStartDate: 'Approval Start Date',
+      AppLanguageKeys.approvalEndDate: 'Approval End Date',
+      AppLanguageKeys.subscription: 'Subscription',
+      AppLanguageKeys.subscriptionSuccess: 'Subscribed successfully',
+      AppLanguageKeys.confirmAction: 'Confirm Action',
       AppLanguageKeys.selectItem: 'Select Item',
       AppLanguageKeys.select: 'Select',
       AppLanguageKeys.saleStatus: 'Sale Status',

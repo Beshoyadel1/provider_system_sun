@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sun_web_system/features/cars_haraj_page/data/model/chart_data_model/chart_data_model.dart';
+import '../../../../../../../../../features/cars_haraj_page/data/model/chart_data_model/chart_data_model.dart';
 import '../../../../../../../core/theming/colors.dart';
 import '../../../../../../../core/theming/fonts.dart';
 import '../../../../../../../core/pages_widgets/general_widgets/custom_container.dart';

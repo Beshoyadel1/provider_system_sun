@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:sun_web_system/features/internal_services/data/response/get_provider_main_service_statistics_response/statistics_response.dart';
+import '../../../../../../../features/internal_services/data/response/get_provider_main_service_statistics_response/statistics_response.dart';
 import '../../model/get_provider_main_service_statistics_model/data_points_model.dart';
 import '../../../../../core/api/dio_function/failures.dart';
 import '../../../../../core/pages_widgets/general_widgets/snakbar.dart';

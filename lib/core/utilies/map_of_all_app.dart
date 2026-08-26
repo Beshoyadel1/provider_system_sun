@@ -20,6 +20,7 @@ import 'package:sun_web_system/features/spare_parts/presentation/pages/spare_par
 import 'package:sun_web_system/features/spare_parts/presentation/pages/spare_parts_statistics/spare_parts_page/ui/spare_parts_statistics_page.dart';
 import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/facility_account/facility_account.dart';
 import 'package:sun_web_system/features/technical_support/presentation/pages/technical_support_emp/technical_support_admin_sun.dart';
+import 'package:sun_web_system/features/warranty/presentation/pages/view_all_warranty/view_all_warranty.dart';
 import '../../../features/accounts_management/presentation/pages/first_screen_accounts_management_admin_sun/first_screen_accounts_management_admin_sun.dart';
 import '../../../core/general_models/pages_model.dart';
 import '../../features/dashboard_page/presentation/dashboard_page.dart';
@@ -221,6 +222,8 @@ class PagesOfAllApp {
   static const int oilChangeServiceOrdersPageNumber = 532;
   static const int oilChangeServiceStaticsPageNumber = 533;
   static const int viewEmployeesPageNumber = 534;
+  static const int viewAllWarrantyNumber = 535;
+
 }
 
 List<PageNodeModel> appPages = [];
@@ -281,7 +284,6 @@ void getPages(BuildContext context) {
     ),
 
 
-
     // const PageNodeModel(
     //     name: AppLanguageKeys.oilChange,
     //     image: AppImageKeys.oils,
@@ -294,6 +296,12 @@ void getPages(BuildContext context) {
     //       ),
     //     ]),
 
+    const PageNodeModel(
+      name: AppLanguageKeys.warranty,
+      number: PagesOfAllApp.viewAllWarrantyNumber,
+      image: AppImageKeys.warranty,
+      page: ViewAllWarranty(),
+    ),
     const PageNodeModel(
         name: AppLanguageKeys.carMarketKey,
         image: AppImageKeys.sell,

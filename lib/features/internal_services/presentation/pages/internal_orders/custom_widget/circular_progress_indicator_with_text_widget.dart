@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sun_web_system/core/theming/colors.dart';
-import 'package:sun_web_system/core/theming/fonts.dart';
-import 'package:sun_web_system/core/theming/text_styles.dart';
+import '../../../../../../../core/theming/colors.dart';
+import '../../../../../../../core/theming/fonts.dart';
+import '../../../../../../../core/theming/text_styles.dart';
 
 
 class CircularProgressIndicatorWithTextWidget extends StatelessWidget {

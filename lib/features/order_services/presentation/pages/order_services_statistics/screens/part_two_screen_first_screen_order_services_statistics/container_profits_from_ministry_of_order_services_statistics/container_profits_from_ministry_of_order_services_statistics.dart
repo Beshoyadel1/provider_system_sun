@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:sun_web_system/core/theming/colors.dart';
-import 'package:sun_web_system/features/order_services/presentation/pages/order_services_statistics/screens/part_two_screen_first_screen_order_services_statistics/container_profits_from_ministry_of_order_services_statistics/data_in_container_profits_from_ministry_oforder_services_statistics.dart';
+import '../../../../../../../../../core/theming/colors.dart';
+import '../../../../../../../../../features/order_services/presentation/pages/order_services_statistics/screens/part_two_screen_first_screen_order_services_statistics/container_profits_from_ministry_of_order_services_statistics/data_in_container_profits_from_ministry_oforder_services_statistics.dart';
 
 class ContainerProfitsFromMinistryOfOrderServicesStatistics extends StatelessWidget {
   const ContainerProfitsFromMinistryOfOrderServicesStatistics({super.key});

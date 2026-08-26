@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/features/order_status_design/data/datasource/update_order_status_datasource/update_order_status_repository.dart';
-import 'package:sun_web_system/features/order_status_design/data/request/update_order_status_request.dart';
-import 'package:sun_web_system/features/order_status_design/presentation/cubit/order_status_cubit/order_status_state.dart';
+import '../../../../../../../../../features/order_status_design/data/datasource/update_order_status_datasource/update_order_status_repository.dart';
+import '../../../../../../../../../features/order_status_design/data/request/update_order_status_request.dart';
+import '../../../../../../../../../features/order_status_design/presentation/cubit/order_status_cubit/order_status_state.dart';
 
 class OrderStatusCubit extends Cubit<OrderStatusState> {
   OrderStatusCubit() : super(OrderStatusInitial());

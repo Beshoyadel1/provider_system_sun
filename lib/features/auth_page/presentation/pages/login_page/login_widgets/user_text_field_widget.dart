@@ -25,11 +25,14 @@ class UserTextFieldWidget extends StatelessWidget {
     this.type = UserFieldType.normal,
     this.readOnly = false,
     this.width,
-    this.height = 40, // ✅
+    this.height = 40,
     this.maxLines,
     this.borderColor,
     this.fillColor,
     this.focusedBorderColor,
+
+    // ⭐ New
+    this.digitOnly = false,
   });
 
   final TextEditingController controller;
@@ -45,21 +48,75 @@ class UserTextFieldWidget extends StatelessWidget {
   final Color? fillColor;
   final Color? focusedBorderColor;
 
+  final bool digitOnly;
+
   @override
   Widget build(BuildContext context) {
-    final bool isMobile = MediaQuery.of(context).size.width < 600;
+    final bool isMobile =
+        MediaQuery.of(context).size.width < 600;
 
     final fieldHeight = height ?? 40;
 
     Widget child;
 
-    if (type == UserFieldType.phone) {
-      if (readOnly) {
+    switch (type) {
+      case UserFieldType.phone:
+        if (readOnly) {
+          child = TextFormFieldWidget(
+            textFormController: controller,
+            text: text ?? "",
+            isColumn: true,
+            readOnly: true,
+            textSize: 16,
+            borderColor:
+            borderColor ?? AppColors.darkGreyColor,
+            fillColor:
+            fillColor ?? AppColors.whiteColor,
+            textFormHeight: fieldHeight,
+            maxLines: 1,
+            isDigit: true,
+          );
+        } else {
+          child = PhoneTextField(
+            controller: controller,
+            aboveText: text,
+            height: fieldHeight,
+            borderColor:
+            borderColor ?? AppColors.darkGreyColor,
+            fillColor:
+            fillColor ?? AppColors.whiteColor,
+            focusedBorderColor:
+            focusedBorderColor ??
+                borderColor ??
+                AppColors.darkGreyColor,
+          );
+        }
+        break;
+
+    // =========================================================
+    // GENDER
+    // =========================================================
+      case UserFieldType.gender:
+        child = GenderField(
+          controller: controller,
+          text: text,
+          readOnly: readOnly,
+          borderColor:
+          borderColor ?? AppColors.darkGreyColor,
+          fillColor:
+          fillColor ?? AppColors.whiteColor,
+        );
+        break;
+
+    // =========================================================
+    // PASSWORD
+    // =========================================================
+      case UserFieldType.password:
         child = TextFormFieldWidget(
           textFormController: controller,
           text: text ?? "",
           isColumn: true,
-          readOnly: true,
+          readOnly: readOnly,
           textSize: 16,
           borderColor:
           borderColor ?? AppColors.darkGreyColor,
@@ -67,39 +124,98 @@ class UserTextFieldWidget extends StatelessWidget {
           fillColor ?? AppColors.whiteColor,
           textFormHeight: fieldHeight,
           maxLines: 1,
+          isDigit: false,
+          obscureText: true,
         );
-      } else {
-        child = PhoneTextField(
-          controller: controller,
-          aboveText: text,
-          height: fieldHeight,
+        break;
+
+    // =========================================================
+    // NUMBER
+    // =========================================================
+      case UserFieldType.number:
+        child = TextFormFieldWidget(
+          textFormController: controller,
+          text: text ?? "",
+          isColumn: true,
+          readOnly: readOnly,
+          textSize: 16,
           borderColor:
           borderColor ?? AppColors.darkGreyColor,
           fillColor:
           fillColor ?? AppColors.whiteColor,
-          focusedBorderColor:
-          focusedBorderColor ??
-              borderColor ??
-              AppColors.darkGreyColor,
+          textFormHeight: fieldHeight,
+          maxLines: 1,
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+          ],
+          isDigit: true,
         );
-      }
-    }
+        break;
 
-    // باقي الأنواع...
-    else {
-      child = TextFormFieldWidget(
-        textFormController: controller,
-        text: text ?? "",
-        isColumn: true,
-        readOnly: readOnly,
-        textSize: 16,
-        borderColor:
-        borderColor ?? AppColors.darkGreyColor,
-        fillColor:
-        fillColor ?? AppColors.whiteColor,
-        textFormHeight: fieldHeight,
-        maxLines: maxLines ?? 1,
-      );
+    // =========================================================
+    // EMAIL
+    // =========================================================
+      case UserFieldType.email:
+        child = TextFormFieldWidget(
+          textFormController: controller,
+          text: text ?? "",
+          isColumn: true,
+          readOnly: readOnly,
+          textSize: 16,
+          borderColor:
+          borderColor ?? AppColors.darkGreyColor,
+          fillColor:
+          fillColor ?? AppColors.whiteColor,
+          textFormHeight: fieldHeight,
+          maxLines: 1,
+          isDigit: false,
+        );
+        break;
+
+    // =========================================================
+    // NAME
+    // =========================================================
+      case UserFieldType.name:
+        child = TextFormFieldWidget(
+          textFormController: controller,
+          text: text ?? "",
+          isColumn: true,
+          readOnly: readOnly,
+          textSize: 16,
+          borderColor:
+          borderColor ?? AppColors.darkGreyColor,
+          fillColor:
+          fillColor ?? AppColors.whiteColor,
+          textFormHeight: fieldHeight,
+          maxLines: 1,
+          isDigit: false,
+        );
+        break;
+
+    // =========================================================
+    // NORMAL
+    // =========================================================
+      case UserFieldType.normal:
+        child = TextFormFieldWidget(
+          textFormController: controller,
+          text: text ?? "",
+          isColumn: true,
+          readOnly: readOnly,
+          textSize: 16,
+          borderColor:
+          borderColor ?? AppColors.darkGreyColor,
+          fillColor:
+          fillColor ?? AppColors.whiteColor,
+          textFormHeight: fieldHeight,
+          maxLines: maxLines ?? 1,
+          inputFormatters: digitOnly
+              ? [
+            FilteringTextInputFormatter.digitsOnly,
+          ]
+              : null,
+          isDigit: digitOnly,
+        );
+        break;
     }
 
     return SizedBox(
@@ -319,7 +435,6 @@ class PhoneTextField extends StatelessWidget {
 
             flagsButtonPadding: const EdgeInsets.only(left: 6, right: 4),
             dropdownIconPosition: IconPosition.trailing,
-
             dropdownIcon: const Icon(Icons.arrow_drop_down, size: 18),
 
             onChanged: isReadOnly

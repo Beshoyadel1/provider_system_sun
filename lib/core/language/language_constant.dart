@@ -17,9 +17,16 @@ class AppLanguageKeys {
   static const String rejectedByProvider = 'rejectedByProvider';
   static const String cancelledByUser = 'cancelledByUser';
   static const String unknownType = 'unknownType';
+  static const String acceptOrder = 'acceptOrder';
   //end//
 
   //others//
+  static const String approvalInfoId = 'approvalInfoId';
+  static const String approvalStartDate = 'approvalStartDate';
+  static const String approvalEndDate = 'approvalEndDate';
+  static const String subscription = 'subscription';
+  static const String subscriptionSuccess = 'subscriptionSuccess';
+  static const String confirmAction = 'confirmAction';
   static const String selectItem = 'selectItem';
   static const String select = 'select';
   static const String saleStatus = 'saleStatus';

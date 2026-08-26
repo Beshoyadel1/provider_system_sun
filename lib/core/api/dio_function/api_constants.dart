@@ -34,10 +34,24 @@ class ApiConfig {
   static const String workTIme = "WorkTIme";
   static const String branch = "Branch";
   static const String notification = "Notification";
-
+  static const String approval = "Approval";
 }
 
 class ApiLink {
+//approveProvider
+  static const String approveProvider =
+      "${ApiConfig.baseUrlApi}/${ApiConfig.approval}/ApproveProvider";
+
+  static const String updateApprovalInfo =
+      "${ApiConfig.baseUrlApi}/${ApiConfig.approval}/UpdateApprovalInfo";
+  static const String createApprovalInfo =
+      "${ApiConfig.baseUrlApi}/${ApiConfig.approval}/CreateApprovalInfo";
+  //warranty
+  static const String getApprovalInfo =
+      "${ApiConfig.baseUrlApi}/${ApiConfig.approval}/GetApprovalInfo";
+  static const String getApprovalInfoById =
+      "${ApiConfig.baseUrlApi}/${ApiConfig.approval}/GetApprovalInfoById";
+
   static const String getCarDetails =
       "${ApiConfig.baseUrlApi}/${ApiConfig.car}/GetCarDetails";
 

@@ -1,4 +1,6 @@
 class AppImageKeys {
+  static const String warranty = 'assets/images/warranty.png';
+
   //wallet use
   static const String mada = 'assets/images/mada.png';
   static const String applePay = 'assets/images/applePay.png';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sun_web_system/core/language/language.dart';
-import 'package:sun_web_system/core/language/language_constant.dart';
-import 'package:sun_web_system/features/internal_services/data/model/get_provider_orders_model/service_model.dart';
+import '../../../../../../../core/language/language.dart';
+import '../../../../../../../core/language/language_constant.dart';
+import '../../../../../../../features/internal_services/data/model/get_provider_orders_model/service_model.dart';
 
 class OrderFunctions {
   static bool isEnglish(BuildContext context) {

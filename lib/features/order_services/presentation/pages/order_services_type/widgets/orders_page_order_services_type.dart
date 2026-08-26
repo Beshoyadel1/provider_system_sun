@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/features/internal_services/presentation/cubit/get_provider_internal_order/get_provider_internal_order_state.dart';
-import 'package:sun_web_system/features/internal_services/presentation/cubit/tabs_cubit/tabs_cubit.dart';
-import 'package:sun_web_system/features/mobile_services/presentation/pages/mobile_services_statistics/mobile_services_page/widgets/filters_tabs_widget_mobile_services_statistics.dart';
-import 'package:sun_web_system/features/order_services/presentation/pages/order_services_type/widgets/filters_tabs_widget_order_services_type.dart';
-import '../../../../../../../core/api/dio_function/api_constants.dart';
+import '../../../../../../../../../features/internal_services/presentation/cubit/get_provider_internal_order/get_provider_internal_order_state.dart';
+import '../../../../../../../../../features/internal_services/presentation/cubit/tabs_cubit/tabs_cubit.dart';
+import '../../../../../../../../../features/order_services/presentation/pages/order_services_type/widgets/filters_tabs_widget_order_services_type.dart';
 import '../../../../../../../core/cubit/new_orders_cubit/new_orders_cubit.dart';
 import '../../../../../../../core/language/language_constant.dart';
 import '../../../../../../../core/pages_widgets/general_widgets/custom_container.dart';
 import '../../../../../../../core/theming/colors.dart';
 import '../../../../../../../core/theming/text_styles.dart';
-import 'package:sun_web_system/features/cars_haraj_page/data/model/filter_orders_model/filter_orders_model.dart';
-import 'package:sun_web_system/features/cars_haraj_page/data/model/internal_orders_filter/internal_orders_filter.dart';
+import '../../../../../../../../../features/cars_haraj_page/data/model/filter_orders_model/filter_orders_model.dart';
 
 class OrdersPageMobileServicesStatistics extends StatelessWidget {
   final int serviceId;

@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:sun_web_system/features/accounts_management/presentation/custom_widget/title_with_sub_title.dart';
+import '../../../../../../../../../features/accounts_management/presentation/custom_widget/title_with_sub_title.dart';
 import '../../../../../../core/language/language_constant.dart';
 import '../../../../../../core/theming/colors.dart';
 import '../../../../../../features/internal_services/presentation/pages/internal_orders/custom_widget/container_status.dart';

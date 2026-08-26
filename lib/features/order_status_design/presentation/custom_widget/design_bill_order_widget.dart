@@ -38,37 +38,37 @@ class DesignBillOrderWidget extends StatelessWidget {
             fontWeightIndex: FontSelectionData.regularFontFamily,
             textColor: AppColors.blackColor,
           ),
-          //  Row(
-          //   spacing: 10,
-          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   children: [
-          //     const TextInAppWidget(
-          //       text: AppLanguageKeys.servicePrice,
-          //       textSize: 15,
-          //       fontWeightIndex: FontSelectionData.regularFontFamily,
-          //       textColor: AppColors.greyColor,
-          //     ),
-          //     Row(
-          //       spacing: 10,
-          //       mainAxisSize: MainAxisSize.min,
-          //       children: [
-          //         TextInAppWidget(
-          //           text: price??"1450",
-          //           textSize: 16,
-          //           fontWeightIndex: FontSelectionData.regularFontFamily,
-          //           textColor: AppColors.blackColor,
-          //         ),
-          //         const TextInAppWidget(
-          //           text: AppLanguageKeys.dirham,
-          //           textSize: 16,
-          //           fontWeightIndex: FontSelectionData.regularFontFamily,
-          //           textColor: AppColors.blackColor,
-          //         ),
-          //       ],
-          //     ),
-          //   ],
-          // ),
-           Row(
+          Row(
+            spacing: 10,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const TextInAppWidget(
+                text: AppLanguageKeys.servicePrice,
+                textSize: 15,
+                fontWeightIndex: FontSelectionData.regularFontFamily,
+                textColor: AppColors.greyColor,
+              ),
+              Row(
+                spacing: 10,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextInAppWidget(
+                    text: price??"1450",
+                    textSize: 16,
+                    fontWeightIndex: FontSelectionData.regularFontFamily,
+                    textColor: AppColors.blackColor,
+                  ),
+                  const TextInAppWidget(
+                    text: AppLanguageKeys.dirham,
+                    textSize: 16,
+                    fontWeightIndex: FontSelectionData.regularFontFamily,
+                    textColor: AppColors.blackColor,
+                  ),
+                ],
+              ),
+            ],
+          ),
+          Row(
             spacing: 10,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -89,7 +89,7 @@ class DesignBillOrderWidget extends StatelessWidget {
           Divider(
             color: AppColors.greyColor.withOpacity(0.5),
           ),
-           Row(
+          Row(
             spacing: 10,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -122,7 +122,7 @@ class DesignBillOrderWidget extends StatelessWidget {
           Divider(
             color: AppColors.greyColor.withOpacity(0.5),
           ),
-           UserWalletButton(
+          UserWalletButton(
             paymentMethod:paymentMethod??  -1,
           ),
           const ButtonWithTextIcon(

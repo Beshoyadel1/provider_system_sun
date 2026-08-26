@@ -1,11 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/core/api/dio_function/failures.dart';
-import 'package:sun_web_system/core/theming/auth_local_storage.dart';
-import 'package:sun_web_system/features/internal_services/data/datasource/get_provider_orders_datasource/get_provider_orders_repository.dart';
-import 'package:sun_web_system/features/auth_page/data/datasource/login_datasource/login_repository.dart';
-import 'package:sun_web_system/features/internal_services/data/request/get_provider_orders_request/get_provider_orders_request.dart';
-import 'package:sun_web_system/features/internal_services/presentation/cubit/get_provider_internal_order/get_provider_internal_order_cubit.dart';
+import '../../../../../../../core/api/dio_function/failures.dart';
+import '../../../../../../../core/theming/auth_local_storage.dart';
+import '../../../../../../../features/internal_services/data/datasource/get_provider_orders_datasource/get_provider_orders_repository.dart';
+import '../../../../../../../features/internal_services/data/request/get_provider_orders_request/get_provider_orders_request.dart';
+import '../../../../../../../features/internal_services/presentation/cubit/get_provider_internal_order/get_provider_internal_order_cubit.dart';
 
 class GetProviderInternalOrderCubit
     extends Cubit<GetProviderInternalOrderState> {

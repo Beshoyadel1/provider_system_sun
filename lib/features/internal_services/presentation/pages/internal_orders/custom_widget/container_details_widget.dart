@@ -55,6 +55,7 @@ class ContainerDetailsWidget extends StatelessWidget {
     if (result == true && context.mounted) {
       context.read<GetProviderInternalOrderCubit>().loadInternalOrders(
         serviceId:serviceId,
+        pageNumber: 1
       );
     }
   }

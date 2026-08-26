@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sun_web_system/features/internal_services/presentation/pages/internal_services_statistics/Internal_services_page/widgets/create_new_order.dart';
-import 'package:sun_web_system/features/internal_services/presentation/pages/internal_services_statistics/Internal_services_page/widgets/processing_request.dart';
-import 'package:sun_web_system/features/internal_services/presentation/pages/internal_services_statistics/Internal_services_page/widgets/waiting_payment.dart';
+import '../../../../../../../features/internal_services/presentation/pages/internal_services_statistics/Internal_services_page/widgets/create_new_order.dart';
+import '../../../../../../../features/internal_services/presentation/pages/internal_services_statistics/Internal_services_page/widgets/processing_request.dart';
+import '../../../../../../../features/internal_services/presentation/pages/internal_services_statistics/Internal_services_page/widgets/waiting_payment.dart';
 import '../../../../../../../core/language/language_constant.dart';
 
 class NewOrderStepsModel {

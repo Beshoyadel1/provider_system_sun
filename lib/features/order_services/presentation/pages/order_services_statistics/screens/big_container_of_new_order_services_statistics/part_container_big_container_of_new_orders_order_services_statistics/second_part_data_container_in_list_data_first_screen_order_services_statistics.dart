@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
-import 'package:sun_web_system/core/language/language_constant.dart';
-import 'package:sun_web_system/core/theming/assets.dart';
-import 'package:sun_web_system/core/theming/colors.dart';
-import 'package:sun_web_system/core/theming/text_styles.dart';
-import 'package:sun_web_system/features/internal_services/presentation/cubit/get_provider_internal_order/get_provider_internal_order_cubit.dart';
-import 'package:sun_web_system/features/internal_services/presentation/cubit/get_provider_internal_order/get_provider_internal_order_state.dart';
-import 'package:sun_web_system/features/internal_services/presentation/cubit/order_funcations/order_functions.dart';
-import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/custom_widget/Container_of_second_part_data_container_in_list_data_first_screen_internal_orders_widget.dart';
-import 'package:sun_web_system/features/order_status_design/presentation/cubit/order_status_cubit/order_status_cubit.dart';
-import 'package:sun_web_system/features/order_status_design/presentation/cubit/order_status_cubit/order_status_state.dart';
+import '../../../../../../../../../core/api/dio_function/api_constants.dart';
+import '../../../../../../../../../core/language/language_constant.dart';
+import '../../../../../../../../../core/theming/assets.dart';
+import '../../../../../../../../../core/theming/colors.dart';
+import '../../../../../../../../../core/theming/text_styles.dart';
+import '../../../../../../../../../features/internal_services/presentation/cubit/get_provider_internal_order/get_provider_internal_order_cubit.dart';
+import '../../../../../../../../../features/internal_services/presentation/cubit/get_provider_internal_order/get_provider_internal_order_state.dart';
+import '../../../../../../../../../features/internal_services/presentation/cubit/order_funcations/order_functions.dart';
+import '../../../../../../../../../features/internal_services/presentation/pages/internal_orders/custom_widget/Container_of_second_part_data_container_in_list_data_first_screen_internal_orders_widget.dart';
+import '../../../../../../../../../features/order_status_design/presentation/cubit/order_status_cubit/order_status_cubit.dart';
+import '../../../../../../../../../features/order_status_design/presentation/cubit/order_status_cubit/order_status_state.dart';
 
 class SecondPartDataContainerInListDataFirstScreenOrderServicesStatistics
     extends StatefulWidget {

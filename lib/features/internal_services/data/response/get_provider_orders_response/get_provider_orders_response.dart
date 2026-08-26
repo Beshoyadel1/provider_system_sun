@@ -1,4 +1,4 @@
-import 'package:sun_web_system/features/internal_services/data/model/get_provider_orders_model/order_model.dart';
+import '../../../../../../../features/internal_services/data/model/get_provider_orders_model/order_model.dart';
 
 class GetProviderOrdersResponse {
   final List<OrderModel> data;

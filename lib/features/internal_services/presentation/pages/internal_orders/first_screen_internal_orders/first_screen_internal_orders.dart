@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
-import 'package:sun_web_system/features/internal_services/presentation/cubit/loading_dashboard/loading_dashboard_cubit.dart';
-import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/first_screen_internal_orders/screens/list_data_first_screen_internal_orders.dart';
-import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/first_screen_internal_orders/screens/part_two_screen_first_screen_internal_orders/container_interior_services_statistics/container_interior_services_statistics.dart';
-import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/first_screen_internal_orders/screens/part_two_screen_first_screen_internal_orders/container_profits_from_ministry_of_interior_services/container_profits_from_ministry_of_interior_services.dart';
-import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/first_screen_internal_orders/screens/part_two_screen_first_screen_internal_orders/container_rate_service/container_rate_service.dart';
+import '../../../../../../../../../core/api/dio_function/api_constants.dart';
+import '../../../../../../../../../features/internal_services/presentation/cubit/loading_dashboard/loading_dashboard_cubit.dart';
+import '../../../../../../../../../features/internal_services/presentation/pages/internal_orders/first_screen_internal_orders/screens/list_data_first_screen_internal_orders.dart';
+import '../../../../../../../../../features/internal_services/presentation/pages/internal_orders/first_screen_internal_orders/screens/part_two_screen_first_screen_internal_orders/container_interior_services_statistics/container_interior_services_statistics.dart';
+import '../../../../../../../../../features/internal_services/presentation/pages/internal_orders/first_screen_internal_orders/screens/part_two_screen_first_screen_internal_orders/container_profits_from_ministry_of_interior_services/container_profits_from_ministry_of_interior_services.dart';
+import '../../../../../../../../../features/internal_services/presentation/pages/internal_orders/first_screen_internal_orders/screens/part_two_screen_first_screen_internal_orders/container_rate_service/container_rate_service.dart';
 import '../../../../../../core/utilies/map_of_all_app.dart';
 import '../../../../../../core/theming/colors.dart';
 

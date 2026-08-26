@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/core/language/language.dart';
-import 'package:sun_web_system/core/language/language_constant.dart';
-import 'package:sun_web_system/core/theming/assets.dart';
-import 'package:sun_web_system/core/utilies/map_of_all_app.dart';
-import 'package:sun_web_system/features/internal_services/presentation/cubit/loading_dashboard/loading_dashboard_cubit.dart';
-import 'package:sun_web_system/features/internal_services/presentation/cubit/loading_dashboard/loading_dashboard_state.dart';
-import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/custom_widget/container_with_image_container_and_two_text_widget.dart';
+import '../../../../../../../../../core/language/language.dart';
+import '../../../../../../../../../core/language/language_constant.dart';
+import '../../../../../../../../../features/internal_services/presentation/cubit/loading_dashboard/loading_dashboard_cubit.dart';
+import '../../../../../../../../../features/internal_services/presentation/cubit/loading_dashboard/loading_dashboard_state.dart';
+import '../../../../../../../../../features/internal_services/presentation/pages/internal_orders/custom_widget/container_with_image_container_and_two_text_widget.dart';
 
 class FirstRowWithTwoContainerImageAndTwoTextOrderServicesStatistics extends StatelessWidget {
   const FirstRowWithTwoContainerImageAndTwoTextOrderServicesStatistics({super.key});

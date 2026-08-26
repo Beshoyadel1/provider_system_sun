@@ -1,14 +1,14 @@
 import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
-import 'package:sun_web_system/core/language/language_constant.dart';
-import 'package:sun_web_system/core/theming/colors.dart';
-import 'package:sun_web_system/features/accounts_management/presentation/custom_widget/title_with_sub_title.dart';
-import 'package:sun_web_system/features/internal_services/data/model/get_provider_orders_model/order_model.dart';
-import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/custom_widget/Column_date_order_with_time_widget.dart';
-import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/custom_widget/column_price_order_widget.dart';
-import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/custom_widget/container_details_widget.dart';
-import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/custom_widget/row_image_with_title_widget.dart';
-import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/custom_widget/text_with_container_status.dart';
+import '../../../../../../../../../core/language/language_constant.dart';
+import '../../../../../../../../../core/theming/colors.dart';
+import '../../../../../../../../../features/accounts_management/presentation/custom_widget/title_with_sub_title.dart';
+import '../../../../../../../../../features/internal_services/data/model/get_provider_orders_model/order_model.dart';
+import '../../../../../../../../../features/internal_services/presentation/pages/internal_orders/custom_widget/Column_date_order_with_time_widget.dart';
+import '../../../../../../../../../features/internal_services/presentation/pages/internal_orders/custom_widget/column_price_order_widget.dart';
+import '../../../../../../../../../features/internal_services/presentation/pages/internal_orders/custom_widget/container_details_widget.dart';
+import '../../../../../../../../../features/internal_services/presentation/pages/internal_orders/custom_widget/row_image_with_title_widget.dart';
+import '../../../../../../../../../features/internal_services/presentation/pages/internal_orders/custom_widget/text_with_container_status.dart';
 
 class CustomTabSecondPartDataContainerInListDataFirstScreenInternalOrders
     extends StatelessWidget {

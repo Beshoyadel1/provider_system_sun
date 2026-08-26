@@ -7,16 +7,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
 import 'package:sun_web_system/core/theming/auth_local_storage.dart';
 import 'package:sun_web_system/features/auth_page/data/datasource/update_user_datasource/update_user_repository.dart';
-import 'package:sun_web_system/features/auth_page/data/get_user_info_datasource/get_user_info_datasource.dart';
-import 'package:sun_web_system/features/auth_page/data/model/create_user_model/employee_wrapper_request.dart';
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/provider_details_request.dart';
 import 'package:sun_web_system/features/auth_page/data/request/change_password_request/change_password_request.dart';
 import 'package:sun_web_system/features/auth_page/data/request/check_if_user_exist_or_not_request/check_if_user_exist_or_not_request.dart';
 import 'package:sun_web_system/features/auth_page/data/request/check_if_user_exist_request/check_if_user_exist_request.dart';
-import 'package:sun_web_system/features/auth_page/data/request/get_user_inf_request/get_user_info_datasource.dart';
 import 'package:sun_web_system/features/auth_page/data/request/login_request/login_request.dart';
 import 'package:sun_web_system/features/auth_page/domain/validation/facility_validator_result.dart';
-import 'package:sun_web_system/features/employee/data/model/employee_model/employee_model.dart';
 import 'package:sun_web_system/features/notifications/data/datasource/signalr_datasource/signalr_service/signalr_service.dart';
 import 'package:sun_web_system/features/store_page/presentation/bloc/branch_cubit/branch_cubit.dart';
 import 'package:sun_web_system/features/store_page/presentation/bloc/work_time_cubit/work_time_cubit.dart';
@@ -101,7 +97,6 @@ class AuthCubit extends Cubit<AuthState> {
     // Check facility completion
     await _checkFacilityCompletion(apiUser);
   }
-
   Future<void> _forceLogout() async {
     await AuthLocalStorage.clearUser();
     await AuthLocalStorage.clearPassword();
@@ -147,7 +142,6 @@ class AuthCubit extends Cubit<AuthState> {
 
     await _checkFacilityCompletion(apiUser);
   }
-
   Future<void> logout(BuildContext context) async {
     emit(AuthLoading());
     _forceLogout();

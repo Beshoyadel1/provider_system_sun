@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
-import 'package:sun_web_system/core/api/dio_function/dio_controller.dart';
-import 'package:sun_web_system/core/api/dio_function/failures.dart';
-import 'package:sun_web_system/features/auth_page/data/model/create_user_model/create_user_request.dart';
-import 'package:sun_web_system/features/auth_page/data/request/get_user_inf_request/get_user_info_datasource.dart';
+import '../../../../../../../core/api/dio_function/api_constants.dart';
+import '../../../../../../../core/api/dio_function/dio_controller.dart';
+import '../../../../../../../core/api/dio_function/failures.dart';
+import '../../../../../../../features/auth_page/data/model/create_user_model/create_user_request.dart';
+import '../../../../../../../features/auth_page/data/request/get_user_inf_request/get_user_info_datasource.dart';
 Future<CreateUserRequest> getUserInfoFunction({
   required GetUserInfoRequest request,
 }) async {

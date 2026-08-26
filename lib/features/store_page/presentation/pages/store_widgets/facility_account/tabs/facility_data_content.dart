@@ -37,9 +37,13 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
   final ageController = TextEditingController();
   final dateController = TextEditingController();
   final nationalityController=TextEditingController();
+  final approvalIdController = TextEditingController();
+  final approvalStartDateController = TextEditingController();
+  final approvalEndDateController = TextEditingController();
 
   bool isEditMode = false;
   bool isLoaded = false;
+  bool isApproved = false;
 
   @override
   void didChangeDependencies() {
@@ -57,7 +61,7 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
 
   Future<void> _loadUser() async {
     final user = await AuthLocalStorage.getUser();
-
+    isApproved = user?.providerDetails?.isApproved == true;
     if (user != null) {
       idController.text=user.userid.toString();
       facilityNameController.text = user.providerDetails?.name ?? "";
@@ -72,6 +76,27 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
       genderController.text = user.gender?.toString() ?? "";
       dateController.text =
           OrderFunctions.formatDateFromDateTime(user.joinDate);
+      final approval = user.providerDetails?.approvalInfo;
+
+      if (user.providerDetails?.isApproved == true &&
+          approval != null) {
+        approvalIdController.text =
+            approval.approvalinfoid?.toString() ?? '';
+
+        approvalStartDateController.text =
+        approval.approvalstartdate != null
+            ? OrderFunctions.formatDateFromDateTime(
+          approval.approvalstartdate!,
+        )
+            : '';
+
+        approvalEndDateController.text =
+        approval.approvalenddate != null
+            ? OrderFunctions.formatDateFromDateTime(
+          approval.approvalenddate!,
+        )
+            : '';
+      }
 
       setState(() {});
     }
@@ -239,6 +264,34 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
               readOnly: !isEditMode,
               width: 250,
             ),
+            if (isApproved)
+              Wrap(
+                spacing: 10,
+                runSpacing: 10,
+                children: [
+                  UserTextFieldWidget(
+                    controller: approvalIdController,
+                    text: AppLanguageKeys.approvalInfoId,
+                    type: UserFieldType.number,
+                    readOnly: true,
+                    width: 250,
+                  ),
+
+                  UserTextFieldWidget(
+                    controller: approvalStartDateController,
+                    text: AppLanguageKeys.approvalStartDate,
+                    readOnly:true,
+                    width: 250,
+                  ),
+
+                  UserTextFieldWidget(
+                    controller: approvalEndDateController,
+                    text: AppLanguageKeys.approvalEndDate,
+                    readOnly: true,
+                    width: 250,
+                  ),
+                ],
+              ),
           ],
         ),
 
