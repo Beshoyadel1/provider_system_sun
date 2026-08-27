@@ -316,3 +316,12 @@ class SendMessageError extends HaragState {
     required this.message,
   });
 }
+class ChangeHarageStatusLoading extends HaragState {}
+
+class ChangeHarageStatusSuccess extends HaragState {}
+
+class ChangeHarageStatusError extends HaragState {
+  final String message;
+
+  const ChangeHarageStatusError(this.message);
+}

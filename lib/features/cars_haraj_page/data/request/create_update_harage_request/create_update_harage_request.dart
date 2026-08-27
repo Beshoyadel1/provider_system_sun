@@ -3,26 +3,20 @@ import 'dart:typed_data';
 
 class CreateUpdateHarageRequest {
   final int? id;
-
   final int? userId;
   final int? userType;
-
   final int? carId;
   final int? carBrandId;
   final int? carModelId;
-
   final bool? isNew;
   final int? releaseDate;
   final int? transmissionType;
   final int? fuelType;
   final int? kilometers;
-
   final String? description;
   final String? addressText;
-
   final num? price;
   final num? cost;
-
   final int? branchId;
 
   final List<Uint8List> images;

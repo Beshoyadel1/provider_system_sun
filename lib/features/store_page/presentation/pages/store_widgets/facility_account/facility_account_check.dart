@@ -5,6 +5,7 @@ import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/a
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_state.dart';
 import 'package:sun_web_system/features/store_page/data/model/facility_model/facility_model.dart';
 import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/car_model_widget/widgets/tabs_widget.dart';
+import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/facility_account/tabs/facility_data_content.dart';
 import '../../../../../../../features/store_page/presentation/bloc/facility_cubit/facility_tab_cubit/facility_tab_cubit.dart';
 import '../../../../../../../features/store_page/presentation/bloc/facility_cubit/facility_tab_cubit/facility_tab_state.dart';
 import '../../../../../../core/theming/colors.dart';
@@ -47,16 +48,8 @@ class FacilityAccountCheck extends StatelessWidget {
                         CustomContainer(
                           containerWidth: double.infinity,
                           isSelected: false,
-                          border: const Border(
-                            top: BorderSide(color: AppColors.lightGreyColor),
-                            left: BorderSide(color: AppColors.lightGreyColor),
-                            right: BorderSide(color: AppColors.lightGreyColor),
-                          ),
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            topRight: Radius.circular(10),
-                          ),
                           typeWidget: Column(
+                            spacing: 10,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const TextInAppWidget(
@@ -65,25 +58,15 @@ class FacilityAccountCheck extends StatelessWidget {
                                 fontWeightIndex:
                                 FontSelectionData.mediumFontFamily,
                               ),
-                              const SizedBox(height: 10),
-                              const TabsWidget(),
-                              const SizedBox(height: 30),
-
-                              facilityTabs[
-                              context
-                                  .read<FacilityTabCubit>()
-                                  .selectedIndex]
-                                  .content,
-
-                              const SizedBox(height: 40),
-
+                              const FacilityDataContent(),
                               Row(
                                 children: [
                                   Expanded(
                                     child: CustomContainer(
                                       isSelected: false,
                                       onTap: () {
-                                          context.read<AuthCubit>().reCheckFacility();
+                                        print("🔘 CHECK BUTTON CLICKED");
+                                        context.read<AuthCubit>().reCheckFacility();
                                       },
                                       containerColor:
                                       AppColors.orangeColor,
@@ -104,6 +87,8 @@ class FacilityAccountCheck extends StatelessWidget {
                                     child: CustomContainer(
                                       isSelected: false,
                                       onTap: () {
+                                        print("🚪 LOGOUT CLICKED");
+
                                         context
                                             .read<AuthCubit>()
                                             .logout(context);

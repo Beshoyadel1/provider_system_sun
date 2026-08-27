@@ -49,10 +49,7 @@ class ServiceSettingsCubit extends Cubit<ServiceSettingsState> {
         allServices = await getServicesFunction();
       }
 
-      final mainServices = allServices.where((e) {
-        return (e.parentId ?? 0) == 0 &&
-            (e.id ?? 0) != 4;
-      }).toList();
+      final mainServices = allServices.toList();
 
       allMainServices=mainServices;
       emit(ServiceSettingsSuccess(mainServices));

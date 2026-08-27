@@ -257,19 +257,22 @@ void getPages(BuildContext context) {
 
     ...services.map(
           (service) {
+            final serviceId = service.id ?? 0;
         return PageNodeModel(
           name: service.getName(context),
           imageUint8List: service.image,
           number: service.id ?? 0,
           children: [
-            PageNodeModel(
-              name: AppLanguageKeys.statistics,
-              number: (service.id ?? 0) + 20,
-              page: OrderServicesStatistics(
-                key: ValueKey('statistics_${service.id}'),
-                serviceId: service.id!,
+
+            if (serviceId != 4)
+              PageNodeModel(
+                name: AppLanguageKeys.statistics,
+                number: serviceId + 20,
+                page: OrderServicesStatistics(
+                  key: ValueKey('statistics_$serviceId'),
+                  serviceId: serviceId,
+                ),
               ),
-            ),
             PageNodeModel(
               name: AppLanguageKeys.ordersSectionKey,
               number: (service.id ?? 0) + 10,

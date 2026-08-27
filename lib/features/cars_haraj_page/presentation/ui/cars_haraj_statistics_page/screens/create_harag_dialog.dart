@@ -32,7 +32,6 @@ class CreateHaragDialog extends StatefulWidget {
 
 class _CreateHaragDialogState extends State<CreateHaragDialog> {
   final _formKey = GlobalKey<FormState>();
-
   final descriptionController = TextEditingController();
   final priceController = TextEditingController();
   final costController = TextEditingController();
@@ -40,9 +39,10 @@ class _CreateHaragDialogState extends State<CreateHaragDialog> {
   final addressController = TextEditingController();
   final releaseDateController = TextEditingController();
   final transmissionTypeController = TextEditingController();
+  final noteStatusController = TextEditingController();
 
   int? selectedFuelTypeId;
-
+  int? selectedStatus;
   bool isNew = false;
 
   bool addCar = true;
@@ -91,6 +91,7 @@ class _CreateHaragDialogState extends State<CreateHaragDialog> {
     // EDIT
     // =========================
 
+    selectedStatus = car.currentStatus?.status;
     descriptionController.text = car.description ?? '';
 
     priceController.text = car.price?.toString() ?? '';
@@ -100,6 +101,8 @@ class _CreateHaragDialogState extends State<CreateHaragDialog> {
     kilometersController.text = car.kilometers?.toString() ?? '';
 
     addressController.text = car.addressText ?? '';
+
+    noteStatusController.text=car.currentStatus?.notes.toString()?? "";
 
     releaseDateController.text = car.releaseDate ?? '';
 
@@ -112,6 +115,7 @@ class _CreateHaragDialogState extends State<CreateHaragDialog> {
     selectedBrandId = car.carbrandid;
 
     selectedModelId = car.carmodelid;
+
 
     // Edit:
     // show car selection only if both exist.
@@ -131,7 +135,7 @@ class _CreateHaragDialogState extends State<CreateHaragDialog> {
     addressController.dispose();
     releaseDateController.dispose();
     transmissionTypeController.dispose();
-
+    noteStatusController.dispose();
     super.dispose();
   }
 
@@ -467,6 +471,61 @@ class _CreateHaragDialogState extends State<CreateHaragDialog> {
                   // ==================================================
                   // IMAGES
                   // ==================================================
+
+                  if(widget.car!=null)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 5,
+                      children: [
+                        _field(
+                          AppLanguageKeys.notes,
+                          noteStatusController,
+                        ),
+                        _title(
+                          AppLanguageKeys.currentStatus,
+                        ),
+
+                        _dropdown<int>(
+                          value: selectedStatus,
+                          hint: AppLanguageKeys.status,
+                          items: const [
+                            DropdownMenuItem<int>(
+                              value: HarageStatus.created,
+                              child: TextInAppWidget(
+                                text: AppLanguageKeys.created,
+                                textSize: 15,
+                              ),
+                            ),
+                            DropdownMenuItem<int>(
+                              value: HarageStatus.pending,
+                              child: TextInAppWidget(
+                                text: AppLanguageKeys.pending,
+                                textSize: 15,
+                              ),
+                            ),
+                            DropdownMenuItem<int>(
+                              value: HarageStatus.sold,
+                              child: TextInAppWidget(
+                                text: AppLanguageKeys.sold,
+                                textSize: 15,
+                              ),
+                            ),
+                            DropdownMenuItem<int>(
+                              value: HarageStatus.deleted,
+                              child: TextInAppWidget(
+                                text: AppLanguageKeys.deleted,
+                                textSize: 15,
+                              ),
+                            ),
+                          ],
+                          onChanged: (value) {
+                            setState(() {
+                              selectedStatus = value;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
 
                   _imagesSection(),
                 ],
@@ -940,15 +999,13 @@ class _CreateHaragDialogState extends State<CreateHaragDialog> {
       images: images,
     );
 
-    // =========================
-    // SEND
-    // =========================
-
     final cubit = context.read<HaragCubit>();
 
     if (widget.isEdit) {
       cubit.updateHarage(
         request: request,
+        harageStatus: selectedStatus,
+        statusNotes: noteStatusController.text.trim(),
       );
     } else {
       cubit.createHarage(

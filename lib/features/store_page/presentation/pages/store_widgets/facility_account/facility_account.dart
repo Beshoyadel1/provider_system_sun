@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/store_page/presentation/bloc/facility_cubit/facility_tab_cubit/facility_tab_cubit.dart';
 import 'package:sun_web_system/features/store_page/presentation/bloc/facility_cubit/facility_tab_cubit/facility_tab_state.dart';
 import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/car_model_widget/widgets/tabs_widget.dart';
+import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/facility_account/tabs/facility_data_content.dart';
 import '../../../../../../../features/store_page/data/model/facility_model/facility_model.dart';
 import '../../../../../../core/theming/colors.dart';
 import '../../../../../../core/theming/fonts.dart';
@@ -28,35 +29,22 @@ class FacilityAccount extends StatelessWidget {
                   CustomContainer(
                     containerWidth: double.infinity,
                     isSelected: false,
-                    border: const Border(
-                      top: BorderSide(color: AppColors.lightGreyColor),
-                      left: BorderSide(color: AppColors.lightGreyColor),
-                      right: BorderSide(color: AppColors.lightGreyColor),
-                    ),
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10),
-                    ),
-                    typeWidget: Column(
+                    typeWidget: const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const TextInAppWidget(
-                          text: AppLanguageKeys.continueFacilityDataKey,
-                          textSize: 22,
-                          fontWeightIndex: FontSelectionData.mediumFontFamily,
-                        ),
-                        const SizedBox(height: 10),
-                        const TabsWidget(),
-                        const SizedBox(height: 30),
-                        facilityTabs[
-                        context.read<FacilityTabCubit>().selectedIndex]
-                            .content,
-                        const SizedBox(height: 100),
+                        //  TextInAppWidget(
+                        //   text: AppLanguageKeys.continueFacilityDataKey,
+                        //   textSize: 22,
+                        //   fontWeightIndex: FontSelectionData.mediumFontFamily,
+                        // ),
+                        //  SizedBox(height: 10),
+                        FacilityDataContent()
                       ],
                     ),
                     onTap: () {},
                   ),
                   const SizedBox(height: 20),
+
                 ],
               ),
             ),

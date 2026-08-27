@@ -1,4 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../../../../../features/cars_haraj_page/data/datasource/change_harage_status_datasource/change_harage_status_datasource.dart';
+import '../../../../../../../../../features/cars_haraj_page/data/request/change_harage_status_request/change_harage_status_request.dart';
 import '../../../../../../../../../core/theming/auth_local_storage.dart';
 import '../../../../../../../../../features/cars_haraj_page/data/datasource/create_harage_datasource/create_harage_repository.dart';
 import '../../../../../../../../../features/cars_haraj_page/data/datasource/delete_harage_datasource/delete_harage_repository.dart';
@@ -102,7 +104,6 @@ class HaragCubit extends Cubit<HaragState> {
   // ============================================================
 // GET CAR DETAILS
 // ============================================================
-
   Future<void> getCarDetails({
     required int carId,
   }) async {
@@ -378,19 +379,64 @@ class HaragCubit extends Cubit<HaragState> {
 // ============================================================
 // UPDATE HARAGE
 // ============================================================
+  Future<void> changeHarageStatus({
+    required ChangeHarageStatusRequest request,
+  }) async {
+    emit(ChangeHarageStatusLoading());
 
+    try {
+      await changeHarageStatusFunction(
+        request: request,
+      );
+
+      emit(ChangeHarageStatusSuccess());
+    } catch (e) {
+      emit(
+        ChangeHarageStatusError(
+          e.toString().replaceFirst(
+            'Exception: ',
+            '',
+          ),
+        ),
+      );
+    }
+  }
   Future<void> updateHarage({
     required CreateUpdateHarageRequest request,
+    int? harageStatus,
+    String? statusNotes,
   }) async {
     emit(const UpdateHarageLoading());
 
     try {
+      // =========================
+      // UPDATE HARAGE
+      // =========================
+
       await updateHarageFunction(
         createUpdateHarageRequest: request,
       );
 
+      // =========================
+      // CHANGE STATUS
+      // =========================
+
+      if (harageStatus != null && request.id != null) {
+        await changeHarageStatusFunction(
+          request: ChangeHarageStatusRequest(
+            harageId: request.id!,
+            status: harageStatus,
+            notes: statusNotes,
+          ),
+        );
+      }
+
+      // =========================
+      // SUCCESS
+      // =========================
+
       emit(
-       const UpdateHarageSuccess(),
+        const UpdateHarageSuccess(),
       );
     } catch (e) {
       emit(
