@@ -12,8 +12,8 @@ import '../../../../../../../../../features/order_services/presentation/pages/or
 import '../../../../../../../../../features/order_services/presentation/pages/order_services_statistics/screens/part_two_screen_first_screen_order_services_statistics/container_rate_service_order_services_statistics/container_rate_order_services_statistics.dart';
 
 class ListDataOrderServicesStatistics extends StatelessWidget {
-  final int serviceId;
-  const ListDataOrderServicesStatistics({super.key,required this.serviceId});
+  final int serviceId,branchId;
+  const ListDataOrderServicesStatistics({super.key,required this.serviceId,required this.branchId});
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +34,7 @@ class ListDataOrderServicesStatistics extends StatelessWidget {
                 AppCubit.get(context).navigateToPage(serviceId+10);
               },
               serviceId:serviceId,
+                branchId:branchId
             ),
             if ((isMobile&&!isMobileCustom))
               const Column(

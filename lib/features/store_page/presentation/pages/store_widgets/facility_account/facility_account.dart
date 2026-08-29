@@ -29,16 +29,16 @@ class FacilityAccount extends StatelessWidget {
                   CustomContainer(
                     containerWidth: double.infinity,
                     isSelected: false,
-                    typeWidget: const Column(
+                    typeWidget: Column(
+                      spacing: 10,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        //  TextInAppWidget(
-                        //   text: AppLanguageKeys.continueFacilityDataKey,
-                        //   textSize: 22,
-                        //   fontWeightIndex: FontSelectionData.mediumFontFamily,
-                        // ),
-                        //  SizedBox(height: 10),
-                        FacilityDataContent()
+                        const TabsWidget(),
+                        facilityTabs[
+                        context.read<FacilityTabCubit>().selectedIndex]
+                            .content,
+                        // const SizedBox(height: 100),
+                        // const FacilityDataContent()
                       ],
                     ),
                     onTap: () {},

@@ -21,6 +21,7 @@ class AppLanguageKeys {
   //end//
 
   //others//
+  static const String allBranches = 'allBranches';
   static const String created = 'created';
   static const String pending = 'pending';
   static const String deleted = 'deleted';

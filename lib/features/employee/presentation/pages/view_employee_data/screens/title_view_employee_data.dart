@@ -11,7 +11,8 @@ import 'package:sun_web_system/features/employee/presentation/pages/add_edit_emp
 import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/first_screen_internal_orders/screens/big_container_of_new_orders/Container_view_all_in_first_row_in_data_container_in_list_data_first_screen_internal_orders.dart';
 
 class TitleViewEmployeeData extends StatelessWidget {
-  const TitleViewEmployeeData({super.key});
+  final int branchId;
+  const TitleViewEmployeeData({super.key,required this.branchId});
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +49,7 @@ class TitleViewEmployeeData extends StatelessWidget {
             );
             if (result == true && context.mounted) {
               debugPrint('REFRESH EMPLOYEES');
-              context.read<ProviderEmployeesCubit>().getEmployees();
+              context.read<ProviderEmployeesCubit>().getBranchEmployees(branchId: branchId);
             }
           },
         )

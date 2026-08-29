@@ -9,13 +9,14 @@ import '../../../../../../../core/theming/colors.dart';
 import '../../../../../../../core/theming/text_styles.dart';
 
 class FiltersTabsWidgetOrderServicesType extends StatefulWidget {
-  final int serviceId;
+  final int serviceId,branchId;
   final List<filterOrdersModel> filterOptions;
 
   const FiltersTabsWidgetOrderServicesType({
     super.key,
     required this.filterOptions,
-    required this.serviceId
+    required this.serviceId,
+    required this.branchId,
   });
 
 
@@ -41,6 +42,7 @@ class _FiltersTabsWidgetOrderServicesTypeState extends State<FiltersTabsWidgetOr
         context.read<TabsCubit>().changeTab(tabIndex);
         context.read<GetProviderInternalOrderCubit>().loadInternalOrders(
           serviceId: widget.serviceId,
+            branchId:widget.branchId,
           orderType: mapOrderType(tabIndex),
           pageNumber: 1,
         );
@@ -95,7 +97,7 @@ class _FiltersTabsWidgetOrderServicesTypeState extends State<FiltersTabsWidgetOr
                 controller: _tabController,
                 children: List.generate(
                   widget.filterOptions.length,
-                      (index) =>  FilterDesignOrderServicesType(serviceId: widget.serviceId,),
+                      (index) =>  FilterDesignOrderServicesType(serviceId: widget.serviceId,branchId:widget.branchId),
                 ),
               ),
             ),

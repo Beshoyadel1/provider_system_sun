@@ -15,9 +15,11 @@ import '../../../../../../../../../features/order_status_design/presentation/cub
 class SecondPartDataContainerInListDataFirstScreenOrderServicesStatistics
     extends StatefulWidget {
   final int serviceId;
+  final int branchId;
   const SecondPartDataContainerInListDataFirstScreenOrderServicesStatistics({
     super.key,
-    required this.serviceId
+    required this.serviceId,
+    required this.branchId
   });
 
   @override
@@ -39,6 +41,7 @@ class _SecondPartDataContainerInListDataFirstScreenOrderServicesStatisticsState 
             GetProviderInternalOrderCubit()
               ..loadInternalOrders(
                 serviceId: widget.serviceId,
+                branchId:widget.branchId,
                 pageNumber: 1
               ),
           ),

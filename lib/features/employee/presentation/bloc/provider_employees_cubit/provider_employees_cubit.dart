@@ -5,8 +5,9 @@ import 'package:sun_web_system/features/auth_page/data/datasource/update_user_da
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/create_user_emp_request.dart';
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/create_user_request.dart';
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/employee_wrapper_request.dart';
-
+import 'package:sun_web_system/features/employee/data/datasource/get_branch_employees_datasource/get_branch_employees_datasource.dart';
 import 'package:sun_web_system/features/employee/data/datasource/get_provider_employees_datasource/get_provider_employees_repository.dart';
+import 'package:sun_web_system/features/employee/data/request/get_branch_employees_request/get_branch_employees_request.dart';
 import 'package:sun_web_system/features/employee/data/request/get_provider_employees_request/get_provider_employees_repository.dart';
 
 import 'provider_employees_state.dart';
@@ -32,10 +33,57 @@ class ProviderEmployeesCubit extends Cubit<ProviderEmployeesState> {
   // =========================================================
 
   EmployeePermissionsModel? selectedPermissions;
-  // =========================================================
-// EMPTY PERMISSIONS
-// =========================================================
+  Future<void> getBranchEmployees({
+    required int branchId,
+  }) async {
+    if (isClosed) return;
 
+    emit(
+      BranchEmployeesLoading(),
+    );
+
+    try {
+      final user =
+      await AuthLocalStorage.getUser();
+
+      if (user == null || user.userid == null) {
+        emit(
+          BranchEmployeesError(
+            'User not found',
+          ),
+        );
+        return;
+      }
+
+      final List<CreateUserRequest> result =
+      await getBranchEmployeesFunction(
+        getBranchEmployeesRequest:
+        GetBranchEmployeesRequest(
+          branchId: branchId,
+          providerId: user.userid!,
+        ),
+      );
+
+      if (isClosed) return;
+
+      emit(
+        BranchEmployeesSuccess(
+          result,
+        ),
+      );
+    } catch (e) {
+      if (isClosed) return;
+
+      emit(
+        BranchEmployeesError(
+          e.toString().replaceFirst(
+            'Exception: ',
+            '',
+          ),
+        ),
+      );
+    }
+  }
   EmployeePermissionsModel get emptyPermissions {
     return const EmployeePermissionsModel(
       acceptallorders: false,
@@ -62,36 +110,6 @@ class ProviderEmployeesCubit extends Cubit<ProviderEmployeesState> {
         employee.employeeDetails?.permissions ??
             emptyPermissions;
 
-    debugPrint(
-      '========================================',
-    );
-
-    debugPrint(
-      'SELECTED EMPLOYEE',
-    );
-
-    debugPrint(
-      'ID: ${employee.userid}',
-    );
-
-    debugPrint(
-      'Name: ${employee.username}',
-    );
-
-    debugPrint(
-      'Services: '
-          '${employee.employeeDetails?.serviceIds}',
-    );
-
-    debugPrint(
-      'Permissions: '
-          '$selectedPermissions',
-    );
-
-    debugPrint(
-      '========================================',
-    );
-
     emit(
       EmployeeSelectedState(
         employee: employee,
@@ -114,21 +132,6 @@ class ProviderEmployeesCubit extends Cubit<ProviderEmployeesState> {
     selectedPermissions =
         permissions ?? emptyPermissions;
 
-    debugPrint(
-      '========================================',
-    );
-
-    debugPrint(
-      'PERMISSIONS SET',
-    );
-
-    debugPrint(
-      '$selectedPermissions',
-    );
-
-    debugPrint(
-      '========================================',
-    );
 
     emit(
       EmployeePermissionsChanged(
@@ -191,21 +194,6 @@ class ProviderEmployeesCubit extends Cubit<ProviderEmployeesState> {
           petrol,
         );
 
-    debugPrint(
-      '========================================',
-    );
-
-    debugPrint(
-      'SINGLE PERMISSION UPDATED',
-    );
-
-    debugPrint(
-      '$selectedPermissions',
-    );
-
-    debugPrint(
-      '========================================',
-    );
 
     emit(
       EmployeePermissionsChanged(
@@ -515,90 +503,6 @@ class ProviderEmployeesCubit extends Cubit<ProviderEmployeesState> {
         ),
       );
 
-      // =====================================================
-      // DEBUG
-      // =====================================================
-
-      debugPrint(
-        '========================================',
-      );
-
-      debugPrint(
-        'UPDATE EMPLOYEE',
-      );
-
-      debugPrint(
-        'ID: ${updateRequest.userid}',
-      );
-
-      debugPrint(
-        'TYPE: ${updateRequest.type}',
-      );
-
-      debugPrint(
-        'USERNAME: ${updateRequest.username}',
-      );
-
-      debugPrint(
-        'PHONE: ${updateRequest.phone}',
-      );
-
-      debugPrint(
-        'EMAIL: ${updateRequest.email}',
-      );
-
-      debugPrint(
-        'SERVICES: '
-            '${updateRequest.employeeDetails?.serviceIds}',
-      );
-
-      debugPrint(
-        'PERMISSIONS:',
-      );
-
-      debugPrint(
-        'ACCEPT ALL ORDERS: '
-            '${updateRequest.employeeDetails?.permissions?.acceptallorders}',
-      );
-
-      debugPrint(
-        'CHANGE ORDER STATUS: '
-            '${updateRequest.employeeDetails?.permissions?.changeorderstatus}',
-      );
-
-      debugPrint(
-        'HARAGE: '
-            '${updateRequest.employeeDetails?.permissions?.harage}',
-      );
-
-      debugPrint(
-        'MAINTENANCE INTERNAL: '
-            '${updateRequest.employeeDetails?.permissions?.maintenanceandinternalservices}',
-      );
-
-      debugPrint(
-        'MOBILE SERVICES: '
-            '${updateRequest.employeeDetails?.permissions?.mobileservices}',
-      );
-
-      debugPrint(
-        'SPARE PARTS: '
-            '${updateRequest.employeeDetails?.permissions?.spareparts}',
-      );
-
-      debugPrint(
-        'SERVICE PACKAGE: '
-            '${updateRequest.employeeDetails?.permissions?.servicepackage}',
-      );
-
-      debugPrint(
-        'PETROL: '
-            '${updateRequest.employeeDetails?.permissions?.petrol}',
-      );
-
-      debugPrint(
-        '========================================',
-      );
 
       // =====================================================
       // API

@@ -11,8 +11,8 @@ import '../../../../../../../../../features/order_services/presentation/pages/or
 
 
 class OrderServicesStatistics extends StatelessWidget {
-  final int serviceId;
-  const OrderServicesStatistics({super.key,required this.serviceId});
+  final int serviceId,branchId;
+  const OrderServicesStatistics({super.key,required this.serviceId,required this.branchId});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class OrderServicesStatistics extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(20),
                   child: SingleChildScrollView(
-                    child: ListDataOrderServicesStatistics(serviceId: serviceId),
+                    child: ListDataOrderServicesStatistics(serviceId: serviceId,branchId: branchId,),
                   ),
                 ),
               ),

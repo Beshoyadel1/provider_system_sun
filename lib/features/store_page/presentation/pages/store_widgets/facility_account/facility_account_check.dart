@@ -58,7 +58,10 @@ class FacilityAccountCheck extends StatelessWidget {
                                 fontWeightIndex:
                                 FontSelectionData.mediumFontFamily,
                               ),
-                              const FacilityDataContent(),
+                              const TabsWidget(),
+                              facilityTabs[
+                              context.read<FacilityTabCubit>().selectedIndex]
+                                  .content,
                               Row(
                                 children: [
                                   Expanded(

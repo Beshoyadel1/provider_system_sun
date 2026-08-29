@@ -5,10 +5,10 @@ import '../../../../../../../../../features/order_services/presentation/pages/or
 
 class ContainerNewOrderInListDataFirstScreenOrderServicesStatistics extends StatelessWidget {
   final void Function()? onTap;
-  final int serviceId;
+  final int serviceId,branchId;
 
   const ContainerNewOrderInListDataFirstScreenOrderServicesStatistics(
-      {super.key, this.onTap,required this.serviceId});
+      {super.key, this.onTap,required this.serviceId,required this.branchId,});
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +29,7 @@ class ContainerNewOrderInListDataFirstScreenOrderServicesStatistics extends Stat
       child: DataContainerInListDataFirstScreenOrderServicesStatistics(
         onTap: onTap,
         serviceId: serviceId,
+        branchId: branchId,
       ),
     );
   }

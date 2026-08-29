@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/notifications/presentation/pages/signalR_status_bar/signalR_status_bar.dart';
 import 'package:sun_web_system/features/service_settings/presentation/bloc/cubit/service_settings_cubit/service_settings_cubit.dart';
 import 'package:sun_web_system/features/service_settings/presentation/bloc/cubit/service_settings_cubit/service_settings_state.dart';
+import 'package:sun_web_system/features/store_page/presentation/bloc/branch_cubit/branch_cubit.dart';
+import 'package:sun_web_system/features/store_page/presentation/bloc/branch_cubit/branch_state.dart';
 import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/app_bar_for_page.dart';
 import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/dialog_for_back.dart';
 import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/pages_selection_bar.dart';
@@ -23,50 +25,84 @@ class StorePage extends StatefulWidget {
 }
 
 class _StorePageState extends State<StorePage> {
-  final GlobalKey<ScaffoldState> _scaffoldKeyDrawer = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKeyDrawer =
+  GlobalKey<ScaffoldState>();
+
+  final BranchCubit _branchCubit = getIt<BranchCubit>();
+  final AppCubit _appCubit = getIt<AppCubit>();
 
   @override
   void initState() {
     super.initState();
-    getPages(context);
+
+    getPages(
+      context,
+      _branchCubit.selectedBranchId,
+    );
+
+    _branchCubit.getProviderBranches();
+
     getIt<ServiceSettingsCubit>().getMainServices();
 
-    final facilityAccountPage = appPages.firstWhere(
+    final dashboardPage = appPages.firstWhere(
           (e) => e.number == PagesOfAllApp.dashboardPageNumber,
     );
 
-    final facilityAccountWithID = PageNodeWithIDModel(
-      id: facilityAccountPage.number,
-      name: facilityAccountPage.name,
-      number: facilityAccountPage.number,
-      page: facilityAccountPage.page,
+    final dashboardPageWithID = PageNodeWithIDModel(
+      id: dashboardPage.number,
+      name: dashboardPage.name,
+      number: dashboardPage.number,
+      page: dashboardPage.page,
     );
 
     _appCubit.selectedPageFromOpenedPagesIndex =
-        facilityAccountWithID.id;
+        dashboardPageWithID.id;
+
     _appCubit.selectedPageIndex =
-        facilityAccountWithID.id;
+        dashboardPageWithID.id;
   }
 
-  final AppCubit _appCubit = getIt<AppCubit>();
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    bool isMobile = size.width <= ValuesOfAllApp.mobileWidth;
-    return BlocListener<ServiceSettingsCubit, ServiceSettingsState>(
-      bloc: getIt<ServiceSettingsCubit>(),
-      listener: (context, state) {
-        if (state is ServiceSettingsSuccess) {
-          getPages(context);
-          print("AFTER SUCCESS => ${appPages.length}");
-          print("SERVICES => ${getIt<ServiceSettingsCubit>().allMainServices.length}");
-          setState(() {});
-        }
-      },
+    final size = MediaQuery.of(context).size;
+    final isMobile =
+        size.width <= ValuesOfAllApp.mobileWidth;
+
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<ServiceSettingsCubit, ServiceSettingsState>(
+          bloc: getIt<ServiceSettingsCubit>(),
+          listener: (context, state) {
+            if (state is ServiceSettingsSuccess) {
+              getPages(
+                context,
+                _branchCubit.selectedBranchId,
+              );
+            }
+          },
+        ),
+
+        BlocListener<BranchCubit, BranchState>(
+          bloc: _branchCubit,
+          listener: (context, state) {
+            if (state is BranchSelected) {
+              getPages(
+                context,
+                state.branchId,
+              );
+
+              _appCubit.changeSelectedPageIndex();
+            }
+          },
+        ),
+      ],
       child: PopScope(
         canPop: false,
-        onPopInvokedWithResult: (bool didPop, Object? result) async {
+        onPopInvokedWithResult: (
+            bool didPop,
+            Object? result,
+            ) async {
           if (didPop) return;
 
           final shouldPop =
@@ -80,7 +116,6 @@ class _StorePageState extends State<StorePage> {
           key: _scaffoldKeyDrawer,
           backgroundColor: AppColors.whiteGreyColor,
 
-          // Mobile Drawer
           drawer: isMobile
               ? const Drawer(
             width: 256,
@@ -90,10 +125,9 @@ class _StorePageState extends State<StorePage> {
 
           body: Row(
             children: [
-              // Desktop Sidebar
               if (!isMobile)
                 BlocBuilder<AppCubit, AppStates>(
-                  bloc: _appCubit, // IMPORTANT
+                  bloc: _appCubit,
                   buildWhen: (previous, current) {
                     return current is HideMenuState;
                   },
@@ -113,7 +147,17 @@ class _StorePageState extends State<StorePage> {
                       scaffoldKey: _scaffoldKeyDrawer,
                     ),
 
-                    const SelectedScreenWidget(),
+                    BlocBuilder<BranchCubit, BranchState>(
+                      bloc: _branchCubit,
+                      builder: (context, state) {
+                        return KeyedSubtree(
+                          key: ValueKey(
+                            'selected_screen_${_branchCubit.selectedBranchId}',
+                          ),
+                          child: const SelectedScreenWidget(),
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -122,6 +166,5 @@ class _StorePageState extends State<StorePage> {
         ),
       ),
     );
-
   }
 }

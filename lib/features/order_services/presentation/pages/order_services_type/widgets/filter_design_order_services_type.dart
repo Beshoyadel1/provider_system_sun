@@ -13,10 +13,11 @@ import '../../../../../../../core/theming/assets.dart';
 import '../../../../../../../core/language/language_constant.dart';
 
 class FilterDesignOrderServicesType extends StatelessWidget {
-  final int serviceId;
+  final int serviceId,branchId;
   const FilterDesignOrderServicesType({
     super.key,
-    required this.serviceId
+    required this.serviceId,
+    required this.branchId
   });
 
   @override
@@ -86,6 +87,7 @@ class FilterDesignOrderServicesType extends StatelessWidget {
                       .read<GetProviderInternalOrderCubit>()
                       .loadInternalOrders(
                         serviceId:serviceId,
+                        branchId: branchId,
                         pageNumber: page,
                         orderType: mapOrderType(selectedTab),
                       );

@@ -43,3 +43,10 @@ class BranchOperationSuccess extends BranchState {
   final String message;
   BranchOperationSuccess(this.message);
 }
+class BranchSelected extends BranchState {
+  final int branchId;
+
+  BranchSelected({
+    required this.branchId,
+  });
+}

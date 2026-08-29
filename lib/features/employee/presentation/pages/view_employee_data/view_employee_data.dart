@@ -7,7 +7,8 @@ import 'package:sun_web_system/features/employee/presentation/pages/view_employe
 import 'package:sun_web_system/features/employee/presentation/pages/view_employee_data/screens/title_view_employee_data.dart';
 
 class ViewEmployeeData extends StatelessWidget {
-  const ViewEmployeeData({super.key});
+  final int branchId;
+  const ViewEmployeeData({super.key,required this.branchId});
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +19,17 @@ class ViewEmployeeData extends StatelessWidget {
             padding: const EdgeInsets.all(20),
             child: SingleChildScrollView(
               child: BlocProvider(
-                create: (_) => ProviderEmployeesCubit()..getEmployees(),
-                child: const Column(
+                create: (_) => ProviderEmployeesCubit()..getBranchEmployees(branchId: branchId),
+                child: Column(
                     spacing: 10,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TitleViewEmployeeData(),
-                      ListDataViewEmployee(),
+                      TitleViewEmployeeData(
+                        branchId: branchId,
+                      ),
+                      ListDataViewEmployee(
+                          branchId:branchId
+                      ),
                     ]),
               ),
             )),

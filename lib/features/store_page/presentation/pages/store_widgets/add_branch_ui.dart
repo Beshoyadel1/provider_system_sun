@@ -113,6 +113,15 @@ class _AddBranchUIState extends State<AddBranchUI> {
             spacing: 20,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              IconButton(
+                onPressed: () {
+                  context.read<BranchCubit>().back();
+                },
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: AppColors.orangeColor,
+                ),
+              ),
               TextInAppWidget(
                 text: editingId != null
                     ? AppLanguageKeys.editKey

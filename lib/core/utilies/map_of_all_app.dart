@@ -18,7 +18,9 @@ import 'package:sun_web_system/features/rates/presentation/pages/first_screen_ra
 import 'package:sun_web_system/features/service_settings/presentation/bloc/cubit/service_settings_cubit/service_settings_cubit.dart';
 import 'package:sun_web_system/features/spare_parts/presentation/pages/spare_parts_orders/first_screen_spare_parts_orders/first_screen_spare_parts_orders.dart';
 import 'package:sun_web_system/features/spare_parts/presentation/pages/spare_parts_statistics/spare_parts_page/ui/spare_parts_statistics_page.dart';
+import 'package:sun_web_system/features/store_page/presentation/bloc/branch_cubit/branch_cubit.dart';
 import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/facility_account/facility_account.dart';
+import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/general_widgets_in_store/provider_branches_dropdown.dart';
 import 'package:sun_web_system/features/technical_support/presentation/pages/technical_support_emp/technical_support_admin_sun.dart';
 import 'package:sun_web_system/features/warranty/presentation/pages/view_all_warranty/view_all_warranty.dart';
 import '../../../features/accounts_management/presentation/pages/first_screen_accounts_management_admin_sun/first_screen_accounts_management_admin_sun.dart';
@@ -53,6 +55,7 @@ class ValuesOfAllApp {
 }
 
 class PagesOfAllApp {
+  static const int branchPageNumber = -100;
   static const String dashboardPage = 'Dashboard_Page';
   static const int dashboardPageNumber = 100;
 
@@ -230,11 +233,18 @@ List<PageNodeModel> appPages = [];
 
 final services = getIt<ServiceSettingsCubit>().allMainServices;
 
-void getPages(BuildContext context) {
+void getPages(BuildContext context,  int branchId) {
   final services = getIt<ServiceSettingsCubit>().allMainServices;
 
   appPages.clear();
   appPages = [
+    const PageNodeModel(
+      name: AppLanguageKeys.branches,
+      number: PagesOfAllApp.branchPageNumber,
+      page: ProviderBranchesDropdown(),
+    ),
+
+
     const PageNodeModel(
       name: AppLanguageKeys.dashBoardPageKey,
       image: AppImageKeys.home,
@@ -248,11 +258,16 @@ void getPages(BuildContext context) {
       page: FacilityAccount(),
     ),
 
-    const PageNodeModel(
+    PageNodeModel(
       name: AppLanguageKeys.viewEmployees,
       image: AppImageKeys.users,
       number: PagesOfAllApp.viewEmployeesPageNumber,
-      page: ViewEmployeeData(),
+      page: ViewEmployeeData(
+        branchId: branchId,
+        key: ValueKey(
+          'branchId $branchId',
+        ),
+      ),
     ),
 
     ...services.map(
@@ -269,16 +284,23 @@ void getPages(BuildContext context) {
                 name: AppLanguageKeys.statistics,
                 number: serviceId + 20,
                 page: OrderServicesStatistics(
-                  key: ValueKey('statistics_$serviceId'),
+                  key: ValueKey(
+                    'statistics_${serviceId}_$branchId',
+                  ),
                   serviceId: serviceId,
+                  branchId: branchId,
                 ),
               ),
+
             PageNodeModel(
               name: AppLanguageKeys.ordersSectionKey,
-              number: (service.id ?? 0) + 10,
+              number: serviceId + 10,
               page: OrderServicesTypePage(
-                key: ValueKey('orders_${service.id}'),
+                key: ValueKey(
+                  'orders_${service.id}_$branchId',
+                ),
                 serviceId: service.id!,
+                branchId: branchId,
               ),
             ),
           ],

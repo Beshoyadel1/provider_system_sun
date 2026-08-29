@@ -33,6 +33,7 @@ class AppLocalizations {
       //END//
 
       //others//
+      AppLanguageKeys.allBranches: 'جميع الفروع',
       AppLanguageKeys.created: 'مُنشأ',
       AppLanguageKeys.pending: 'معلق',
       AppLanguageKeys.deleted: 'محذوف',
@@ -1456,6 +1457,7 @@ class AppLocalizations {
       AppLanguageKeys.acceptOrder: 'Accept Order',
       //END//
       //others//
+      AppLanguageKeys.allBranches: 'All Branches',
       AppLanguageKeys.created: 'Created',
       AppLanguageKeys.pending: 'Pending',
       AppLanguageKeys.deleted: 'Deleted',

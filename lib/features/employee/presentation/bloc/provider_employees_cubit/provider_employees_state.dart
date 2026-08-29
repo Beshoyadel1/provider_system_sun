@@ -1,3 +1,4 @@
+import 'package:sun_web_system/features/auth_page/data/model/create_user_model/create_user_emp_request.dart';
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/create_user_request.dart';
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/employee_wrapper_request.dart';
 import 'package:sun_web_system/features/employee/data/model/employee_model/employee_model.dart';
@@ -45,4 +46,29 @@ class EmployeePermissionsChanged
   EmployeePermissionsChanged({
     required this.permissions,
   });
+}
+// =========================================================
+// STATES
+// =========================================================
+
+class BranchEmployeesLoading
+    extends ProviderEmployeesState {}
+
+class BranchEmployeesSuccess
+    extends ProviderEmployeesState {
+  final List<CreateUserRequest>
+  employees;
+
+  BranchEmployeesSuccess(
+      this.employees,
+      );
+}
+
+class BranchEmployeesError
+    extends ProviderEmployeesState {
+  final String message;
+
+  BranchEmployeesError(
+      this.message,
+      );
 }

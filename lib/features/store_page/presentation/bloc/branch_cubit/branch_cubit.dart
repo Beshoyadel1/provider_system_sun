@@ -26,6 +26,8 @@ class BranchCubit extends Cubit<BranchState> {
     myUserId = user!.userid!;
   }
 
+  int selectedBranchId = 0;
+
   Future<void> getProviderBranches() async {
 
     emit(BranchLoading());
@@ -78,6 +80,19 @@ class BranchCubit extends Cubit<BranchState> {
         ),
       );
     }
+  }
+  void changeBranch(int branchId) {
+    if (selectedBranchId == branchId) {
+      return;
+    }
+
+    selectedBranchId = branchId;
+
+    emit(
+      BranchSelected(
+        branchId: branchId,
+      ),
+    );
   }
 
   void goToAdd() {

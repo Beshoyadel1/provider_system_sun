@@ -11,8 +11,8 @@ import '../../../../../../../core/theming/text_styles.dart';
 import '../../../../../../../../../features/cars_haraj_page/data/model/filter_orders_model/filter_orders_model.dart';
 
 class OrdersPageMobileServicesStatistics extends StatelessWidget {
-  final int serviceId;
-  const OrdersPageMobileServicesStatistics({super.key, required this.cubit,required this.serviceId});
+  final int serviceId,branchId;
+  const OrdersPageMobileServicesStatistics({super.key, required this.cubit,required this.serviceId,required this.branchId});
 
   final NewOrdersCubit cubit;
 
@@ -56,6 +56,7 @@ class OrdersPageMobileServicesStatistics extends StatelessWidget {
                       create: (_) => GetProviderInternalOrderCubit()
                         ..loadInternalOrders(
                           serviceId: serviceId,
+                            branchId:branchId,
                           //orderType: mapOrderType(0),
                         ),
                     ),
@@ -63,6 +64,7 @@ class OrdersPageMobileServicesStatistics extends StatelessWidget {
               child: FiltersTabsWidgetOrderServicesType(
                 filterOptions: filterOrders,
                 serviceId:serviceId,
+                  branchId:branchId
               ),
             )),
             // Center(child: NumberIndicator())

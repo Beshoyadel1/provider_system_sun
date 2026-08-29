@@ -16,6 +16,7 @@ class GetProviderInternalOrderCubit
     int? orderType,
     int? serviceId,
     int? pageNumber,
+    int? branchId,
   }) async {
 
     if (!isClosed) {
@@ -40,6 +41,7 @@ class GetProviderInternalOrderCubit
           pageNumber: pageNumber ?? 1,
           orderType: orderType,
           serviceId: serviceId,
+          branchId: branchId ??0,
         ),
       );
       print(user.userid);

@@ -5,8 +5,8 @@ import '../../../../../../../../../core/cubit/new_orders_cubit/new_orders_state.
 import '../widgets/orders_page_order_services_type.dart';
 
 class OrderServicesTypePage extends StatelessWidget {
-  final int serviceId;
-  const OrderServicesTypePage({super.key,required this.serviceId});
+  final int serviceId,branchId;
+  const OrderServicesTypePage({super.key,required this.serviceId,required this.branchId});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class OrderServicesTypePage extends StatelessWidget {
           //   return const OrderDetailsPage();
           // }
 
-          return OrdersPageMobileServicesStatistics(cubit: cubit,serviceId:serviceId,);
+          return OrdersPageMobileServicesStatistics(cubit: cubit,serviceId:serviceId,branchId:branchId);
         },
       ),
     );
