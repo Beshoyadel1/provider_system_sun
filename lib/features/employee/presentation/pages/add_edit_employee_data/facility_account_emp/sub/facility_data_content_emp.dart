@@ -67,8 +67,8 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
 
     if (widget.employee != null) {
       context.read<ProviderEmployeesCubit>().setSelectedEmployee(
-        widget.employee!,
-      );
+            widget.employee!,
+          );
 
       _loadUser();
 
@@ -76,26 +76,18 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
         if (!mounted) return;
 
         final serviceIds =
-            widget.employee?.employeeDetails?.serviceIds ??
-                const <int>[];
+            widget.employee?.employeeDetails?.serviceIds ?? const <int>[];
 
-        final permissions =
-            widget.employee?.employeeDetails?.permissions;
+        final permissions = widget.employee?.employeeDetails?.permissions;
 
-        context
-            .read<ServicePermissionCubit>()
-            .setSelected(serviceIds);
+        context.read<ServicePermissionCubit>().setSelected(serviceIds);
 
-        context
-            .read<ProviderEmployeesCubit>()
-            .setPermissions(permissions);
+        context.read<ProviderEmployeesCubit>().setPermissions(permissions);
 
         final employeeImage = widget.employee?.image;
 
         if (employeeImage != null) {
-          context
-              .read<FacilityTabCubit>()
-              .images['image'] = employeeImage;
+          context.read<FacilityTabCubit>().images['image'] = employeeImage;
         }
       });
     } else {
@@ -105,13 +97,9 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;
 
-        context
-            .read<ServicePermissionCubit>()
-            .setSelected([]);
+        context.read<ServicePermissionCubit>().setSelected([]);
 
-        context
-            .read<ProviderEmployeesCubit>()
-            .clearPermissions();
+        context.read<ProviderEmployeesCubit>().clearPermissions();
       });
     }
   }
@@ -121,35 +109,25 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
 
     if (employee == null) return;
 
-    final empDetails =
-        employee.employeeDetails?.employeeDetails;
+    final empDetails = employee.employeeDetails?.employeeDetails;
 
-    usernameController.text =
-        employee.username ?? '';
+    usernameController.text = employee.username ?? '';
 
-    phoneController.text =
-        employee.phone ?? '';
+    phoneController.text = employee.phone ?? '';
 
-    emailController.text =
-        employee.email ?? '';
+    emailController.text = employee.email ?? '';
 
-    genderController.text =
-    '${employee.gender ?? 0}';
+    genderController.text = '${employee.gender ?? 0}';
 
-    ageController.text =
-    '${employee.age ?? 0}';
+    ageController.text = '${employee.age ?? 0}';
 
-    isActive =
-        employee.isActive ?? false;
+    isActive = employee.isActive ?? false;
 
-    jobNameController.text =
-        empDetails?.jobname ?? '';
+    jobNameController.text = empDetails?.jobname ?? '';
 
-    jobLatinNameController.text =
-        empDetails?.joblatinname ?? '';
+    jobLatinNameController.text = empDetails?.joblatinname ?? '';
 
-    selectedBranchId =
-        empDetails?.branchid ?? 0;
+    selectedBranchId = empDetails?.branchid ?? 0;
   }
 
   @override
@@ -169,8 +147,7 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
   T? safe<T>(T? value) {
     if (value == null) return null;
 
-    if (value is String &&
-        value.trim().isEmpty) {
+    if (value is String && value.trim().isEmpty) {
       return null;
     }
 
@@ -182,24 +159,18 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
 
     if (current == null) return;
 
-    final facilityCubit =
-    context.read<FacilityTabCubit>();
+    final facilityCubit = context.read<FacilityTabCubit>();
 
-    final serviceCubit =
-    context.read<ServicePermissionCubit>();
+    final serviceCubit = context.read<ServicePermissionCubit>();
 
-    final employeeCubit =
-    context.read<ProviderEmployeesCubit>();
+    final employeeCubit = context.read<ProviderEmployeesCubit>();
 
-    final selectedImage =
-    facilityCubit.images['image'];
+    final selectedImage = facilityCubit.images['image'];
 
-    final List<int> serviceIds =
-    List<int>.from(serviceCubit.state);
+    final List<int> serviceIds = List<int>.from(serviceCubit.state);
 
     final permissions =
-        employeeCubit.selectedPermissions ??
-            employeeCubit.emptyPermissions;
+        employeeCubit.selectedPermissions ?? employeeCubit.emptyPermissions;
 
     final request = CreateUserEmpRequest(
       userid: current.userid,
@@ -221,45 +192,29 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
       isActive: isActive,
       employeeDetails: EmployeeWrapperRequest(
         employeeDetails: EmployeeModel(
-          id: current
-              .employeeDetails
-              ?.employeeDetails
-              ?.id,
-          provid: current
-              .employeeDetails
-              ?.employeeDetails
-              ?.provid,
+          id: current.employeeDetails?.employeeDetails?.id,
+          provid: current.employeeDetails?.employeeDetails?.provid,
           branchid: selectedBranchId,
-          jobname:
-          jobNameController.text.trim(),
-          joblatinname:
-          jobLatinNameController.text.trim(),
+          jobname: jobNameController.text.trim(),
+          joblatinname: jobLatinNameController.text.trim(),
         ),
         serviceIds: serviceIds,
         permissions: permissions,
       ),
     );
 
-    context
-        .read<ProviderEmployeesCubit>()
-        .updateEmployee(request);
+    context.read<ProviderEmployeesCubit>().updateEmployee(request);
   }
 
   Future<void> _onCreate() async {
-    final user =
-    await AuthLocalStorage.getUser();
+    final user = await AuthLocalStorage.getUser();
 
-    final serviceIds =
-        context
-            .read<ServicePermissionCubit>()
-            .state;
+    final serviceIds = context.read<ServicePermissionCubit>().state;
 
-    final employeeCubit =
-    context.read<ProviderEmployeesCubit>();
+    final employeeCubit = context.read<ProviderEmployeesCubit>();
 
     final permissions =
-        employeeCubit.selectedPermissions ??
-            employeeCubit.emptyPermissions;
+        employeeCubit.selectedPermissions ?? employeeCubit.emptyPermissions;
 
     final emailRegex = RegExp(
       r'^[\w\-.]+@([\w-]+\.)+[\w-]{2,4}$',
@@ -281,73 +236,52 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
       return;
     }
 
-    if (passwordController.text !=
-        confirmPasswordController.text) {
+    if (passwordController.text != confirmPasswordController.text) {
       AppSnackBar.showError(
         AppLanguageKeys.passwordsDoNotMatch,
       );
       return;
     }
 
-    final facilityCubit =
-    context.read<FacilityTabCubit>();
+    final facilityCubit = context.read<FacilityTabCubit>();
 
-    final image =
-    facilityCubit.images['image'];
+    final image = facilityCubit.images['image'];
 
-    if (image == null ||
-        image.toString().isEmpty) {
+    if (image == null || image.toString().isEmpty) {
       AppSnackBar.showError(
         AppLanguageKeys.pleaseSelectImage,
       );
       return;
     }
-
     final request = CreateUserRequest(
-      username:
-      usernameController.text.trim(),
-      phone:
-      phoneController.text.trim(),
-      email:
-      emailController.text.trim(),
-      password:
-      passwordController.text.trim(),
+      username: usernameController.text.trim(),
+      phone: phoneController.text.trim(),
+      email: emailController.text.trim(),
+      password: passwordController.text.trim(),
       image: image,
       type: UserType.employeeUser,
-      employeeDetails:
-      EmployeeWrapperRequest(
+      employeeDetails: EmployeeWrapperRequest(
         employeeDetails: EmployeeModel(
-          provid:
-          user?.userid ?? 0,
-          branchid:
-          selectedBranchId,
-          jobname:
-          jobNameController.text.trim(),
-          joblatinname:
-          jobLatinNameController.text.trim(),
+          provid: user?.userid ?? 0,
+          branchid: selectedBranchId,
+          jobname: jobNameController.text.trim(),
+          joblatinname: jobLatinNameController.text.trim(),
         ),
-        serviceIds:
-        List<int>.from(serviceIds),
-        permissions:
-        permissions,
+        serviceIds: List<int>.from(serviceIds),
+        permissions: permissions,
       ),
     );
 
-    context
-        .read<AuthCubit>()
-        .signup(request);
+    context.read<AuthCubit>().signupEmp(request);
   }
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
-        BlocListener<
-            ProviderEmployeesCubit,
-            ProviderEmployeesState>(
+        BlocListener<ProviderEmployeesCubit, ProviderEmployeesState>(
           listener: (context, state) {
-            if (state
-            is EmployeeUpdateSuccess) {
+            if (state is EmployeeUpdateSuccess) {
               setState(() {
                 isEditMode = false;
               });
@@ -362,8 +296,7 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
               );
             }
 
-            if (state
-            is EmployeeUpdateError) {
+            if (state is EmployeeUpdateError) {
               AppSnackBar.showError(
                 state.message,
               );
@@ -372,20 +305,20 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
         ),
         BlocListener<AuthCubit, AuthState>(
           listener: (context, state) {
-            if (state
-            is AuthSignupSuccess) {
+            if (state is AuthSignupEmpCompleted) {
               AppSnackBar.showSuccess(
-                AppLanguageKeys.success,
+                state.message,
               );
 
               Navigator.pop(
                 context,
                 true,
               );
+
+              return;
             }
 
-            if (state
-            is AuthSignupError) {
+            if (state is AuthSignupError) {
               AppSnackBar.showError(
                 state.message,
               );
@@ -393,19 +326,11 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
           },
         ),
       ],
-      child: BlocBuilder<
-          ProviderEmployeesCubit,
-          ProviderEmployeesState>(
+      child: BlocBuilder<ProviderEmployeesCubit, ProviderEmployeesState>(
         builder: (context, state) {
-          final isLoading =
-              state
-              is ProviderEmployeesLoading ||
-                  state
-                  is EmployeeUpdateLoading ||
-                  context
-                      .watch<AuthCubit>()
-                      .state
-                  is AuthSignupLoading;
+          final isLoading = state is ProviderEmployeesLoading ||
+              state is EmployeeUpdateLoading ||
+              context.watch<AuthCubit>().state is AuthSignupLoading;
 
           return _buildContent(
             isLoading,
@@ -416,16 +341,14 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
   }
 
   Widget _buildContent(
-      bool isLoading,
-      ) {
+    bool isLoading,
+  ) {
     return Form(
       key: _formKey,
       child: Padding(
-        padding:
-        const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Column(
-          crossAxisAlignment:
-          CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           spacing: 20,
           children: [
             Wrap(
@@ -433,113 +356,72 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
               runSpacing: 10,
               children: [
                 UserTextFieldWidget(
-                  controller:
-                  usernameController,
-                  text:
-                  AppLanguageKeys.userName,
-                  type:
-                  UserFieldType.name,
-                  readOnly:
-                  isViewMode,
+                  controller: usernameController,
+                  text: AppLanguageKeys.userName,
+                  type: UserFieldType.name,
+                  readOnly: isViewMode,
                   width: 250,
                   height: 40,
                 ),
-
                 UserTextFieldWidget(
-                  controller:
-                  jobNameController,
-                  text:
-                  AppLanguageKeys.jobName,
-                  type:
-                  UserFieldType.name,
-                  readOnly:
-                  isViewMode,
+                  controller: jobNameController,
+                  text: AppLanguageKeys.jobName,
+                  type: UserFieldType.name,
+                  readOnly: isViewMode,
                   width: 250,
                   height: 40,
                 ),
-
                 UserTextFieldWidget(
-                  controller:
-                  jobLatinNameController,
-                  text:
-                  AppLanguageKeys.jobNameEnglish,
-                  type:
-                  UserFieldType.name,
-                  readOnly:
-                  isViewMode,
+                  controller: jobLatinNameController,
+                  text: AppLanguageKeys.jobNameEnglish,
+                  type: UserFieldType.name,
+                  readOnly: isViewMode,
                   width: 250,
                   height: 40,
                 ),
-
                 UserTextFieldWidget(
-                  controller:
-                  phoneController,
-                  text:
-                  AppLanguageKeys.phoneNumber,
-                  type:
-                  UserFieldType.phone,
-                  readOnly:
-                  isViewMode,
+                  controller: phoneController,
+                  text: AppLanguageKeys.phoneNumber,
+                  type: UserFieldType.phone,
+                  readOnly: isViewMode,
                   width: 250,
                   height: 40,
                 ),
-
                 UserTextFieldWidget(
-                  controller:
-                  emailController,
-                  text:
-                  AppLanguageKeys.email,
-                  type:
-                  UserFieldType.email,
-                  readOnly:
-                  isViewMode,
+                  controller: emailController,
+                  text: AppLanguageKeys.email,
+                  type: UserFieldType.email,
+                  readOnly: isViewMode,
                   width: 250,
                   height: 40,
                 ),
-
                 UserTextFieldWidget(
-                  controller:
-                  genderController,
-                  text:
-                  AppLanguageKeys.gender,
-                  type:
-                  UserFieldType.gender,
-                  readOnly:
-                  isViewMode,
+                  controller: genderController,
+                  text: AppLanguageKeys.gender,
+                  type: UserFieldType.gender,
+                  readOnly: isViewMode,
                   width: 250,
                   height: 40,
                 ),
-
                 if (isCreateMode)
                   UserTextFieldWidget(
-                    controller:
-                    passwordController,
-                    text:
-                    AppLanguageKeys.password,
-                    type:
-                    UserFieldType.password,
+                    controller: passwordController,
+                    text: AppLanguageKeys.password,
+                    type: UserFieldType.password,
                     width: 250,
                     height: 40,
                   ),
-
                 if (isCreateMode)
                   UserTextFieldWidget(
-                    controller:
-                    confirmPasswordController,
-                    text:
-                    AppLanguageKeys
-                        .confirmPasswordKey,
-                    type:
-                    UserFieldType.password,
+                    controller: confirmPasswordController,
+                    text: AppLanguageKeys.confirmPasswordKey,
+                    type: UserFieldType.password,
                     width: 250,
                     height: 40,
                   ),
-
                 EmployeeBranchDropdown(
-                  selectedBranchId:
-                  selectedBranchId,
-                  readOnly:
-                  isViewMode,
+                  selectedBranchId: selectedBranchId,
+                  readOnly: isViewMode,
                   width: 250,
                   height: 40,
                   onChanged: (value) {
@@ -548,166 +430,115 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
                     }
 
                     setState(() {
-                      selectedBranchId =
-                          value;
+                      selectedBranchId = value;
                     });
                   },
                 ),
-
                 if (!isCreateMode)
                   StatusFieldWidget(
-                    isActive:
-                    isActive,
-                    isEditMode:
-                    isEditMode,
-                    onChanged:
-                    isEditMode
+                    isActive: isActive,
+                    isEditMode: isEditMode,
+                    onChanged: isEditMode
                         ? (value) {
-                      setState(() {
-                        isActive =
-                            value;
-                      });
-                    }
+                            setState(() {
+                              isActive = value;
+                            });
+                          }
                         : null,
                   ),
               ],
             ),
-
             AttachImageEmp(
-              title:
-              AppLanguageKeys
-                  .profilePicture,
+              title: AppLanguageKeys.profilePicture,
               type: 'image',
-              isEditMode:
-              !isViewMode,
-              initialImage:
-              widget.employee?.image,
+              isEditMode: !isViewMode,
+              initialImage: widget.employee?.image,
             ),
-
             const PermissionsAndServicesProvidedToTheUserText(),
-
             SelectPermissionsAndServicesProvidedToTheUserWithImage(
-              isEditMode:
-              !isViewMode,
+              isEditMode: !isViewMode,
             ),
-
             const PermissionsAndServicesProvidedToTheUserText(
-              text: AppLanguageKeys
-                  .employeeAvailablePermissions,
+              text: AppLanguageKeys.employeeAvailablePermissions,
             ),
-
             SelectEmployeePermissions(
-              isEditMode:
-              !isViewMode,
+              isEditMode: !isViewMode,
             ),
-
             Row(
               children: [
                 ElevatedButton(
-                  style:
-                  ElevatedButton.styleFrom(
-                    backgroundColor:
-                    AppColors.orangeColor,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.orangeColor,
                   ),
-                  onPressed:
-                  isLoading
+                  onPressed: isLoading
                       ? null
                       : () {
-                    if (isViewMode) {
-                      setState(() {
-                        isEditMode =
-                        true;
-                      });
-                      return;
-                    }
+                          if (isViewMode) {
+                            setState(() {
+                              isEditMode = true;
+                            });
+                            return;
+                          }
 
-                    if (isCreateMode) {
-                      _onCreate();
-                      return;
-                    }
+                          if (isCreateMode) {
+                            _onCreate();
+                            return;
+                          }
 
-                    _onUpdate();
-                  },
+                          _onUpdate();
+                        },
                   child: isLoading
                       ? const SizedBox(
-                    width: 18,
-                    height: 18,
-                    child:
-                    CircularProgressIndicator(
-                      strokeWidth: 2,
-                    ),
-                  )
+                          width: 18,
+                          height: 18,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                          ),
+                        )
                       : TextInAppWidget(
-                    text: isCreateMode
-                        ? AppLanguageKeys
-                        .createEmployee
-                        : isEditMode
-                        ? AppLanguageKeys
-                        .save
-                        : AppLanguageKeys
-                        .edit,
-                    textColor:
-                    AppColors
-                        .whiteColor,
-                    textSize: 13,
-                  ),
+                          text: isCreateMode
+                              ? AppLanguageKeys.createEmployee
+                              : isEditMode
+                                  ? AppLanguageKeys.save
+                                  : AppLanguageKeys.edit,
+                          textColor: AppColors.whiteColor,
+                          textSize: 13,
+                        ),
                 ),
-
                 const SizedBox(
                   width: 10,
                 ),
-
-                if (isEditMode &&
-                    !isCreateMode)
+                if (isEditMode && !isCreateMode)
                   ElevatedButton(
-                    style:
-                    ElevatedButton.styleFrom(
-                      backgroundColor:
-                      AppColors
-                          .orangeColor,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.orangeColor,
                     ),
                     onPressed: () {
                       setState(() {
-                        isEditMode =
-                        false;
+                        isEditMode = false;
                       });
 
                       _loadUser();
 
                       final oldServices =
-                          widget.employee
-                              ?.employeeDetails
-                              ?.serviceIds ??
+                          widget.employee?.employeeDetails?.serviceIds ??
                               const <int>[];
 
-                      context
-                          .read<
-                          ServicePermissionCubit>()
-                          .setSelected(
-                        oldServices,
-                      );
+                      context.read<ServicePermissionCubit>().setSelected(
+                            oldServices,
+                          );
 
                       final oldPermissions =
-                          widget.employee
-                              ?.employeeDetails
-                              ?.permissions;
+                          widget.employee?.employeeDetails?.permissions;
 
-                      context
-                          .read<
-                          ProviderEmployeesCubit>()
-                          .setPermissions(
-                        oldPermissions,
-                      );
+                      context.read<ProviderEmployeesCubit>().setPermissions(
+                            oldPermissions,
+                          );
                     },
-                    child:
-                    const TextInAppWidget(
-                      text:
-                      AppLanguageKeys
-                          .cancel,
+                    child: const TextInAppWidget(
+                      text: AppLanguageKeys.cancel,
                       textSize: 13,
-                      textColor:
-                      AppColors
-                          .whiteColor,
+                      textColor: AppColors.whiteColor,
                     ),
                   ),
               ],

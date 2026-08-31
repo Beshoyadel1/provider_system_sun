@@ -1201,76 +1201,218 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+// ================= Validators ================
+
+  bool isValidEmail(String email) {
+    final emailRegex = RegExp(
+      r'^[\w\-.]+@([\w-]+\.)+[\w-]{2,4}$',
+    );
+
+    return emailRegex.hasMatch(email);
+  }
+
+// =========================================================
+// SIGNUP EMPLOYEE
+// Check Email + Phone -> Create User
+// NO OTP
+// =========================================================
+
   Future<void> signupEmp(CreateUserRequest request) async {
     if (isClosed) return;
 
     emit(AuthSignupLoading());
 
-    final result = await createUserFunction(
-      createUserRequest: request,
-    );
+    try {
+      // =====================================================
+      // 1. GET DATA
+      // =====================================================
 
-    if (isClosed) return;
+      final email = request.email?.trim() ?? '';
+      final phone = request.phone?.trim() ?? '';
 
-    if (result.success) {
-      emit(
-        AuthSignupSuccess(
-          result.message,
+      if (email.isEmpty || phone.isEmpty) {
+        emit(
+          AuthSignupError(
+            AppLanguageKeys.enterYourData,
+          ),
+        );
+        return;
+      }
+
+      // =====================================================
+      // 2. VALIDATE EMAIL
+      // =====================================================
+
+      if (!isValidEmail(email)) {
+        emit(
+          AuthSignupError(
+            AppLanguageKeys.pleaseEnterValidEmail,
+          ),
+        );
+        return;
+      }
+
+      // =====================================================
+      // 3. CHECK EMAIL
+      // =====================================================
+
+      print('=================================');
+      print('CHECK EMPLOYEE EMAIL');
+      print('EMAIL => $email');
+      print('=================================');
+
+      final emailResult =
+      await checkIfUserExistOrNotFunction(
+        request: CheckIfUserExistOrNotRequest(
+          user: email,
+          type: UserType.employeeUser,
         ),
       );
-    } else {
+
+      if (isClosed) return;
+
+      print('EMAIL CHECK RESULT => $emailResult');
+
+      // =====================================================
+      // 4. EMAIL CHECK FAILED
+      // =====================================================
+
+      if (emailResult == null || emailResult.isEmpty) {
+        emit(
+          AuthSignupError(
+            AppLanguageKeys.somethingWentWrong,
+          ),
+        );
+        return;
+      }
+
+      final emailUser = emailResult.first;
+
+      print(
+        'EMAIL EXISTS => ${emailUser.value}',
+      );
+
+      // =====================================================
+      // 5. EMAIL ALREADY EXISTS
+      // =====================================================
+
+      if (emailUser.value == true) {
+        emit(
+          AuthSignupError(
+            AppLanguageKeys.emailExist,
+          ),
+        );
+        return;
+      }
+
+      // =====================================================
+      // 6. CHECK PHONE
+      // =====================================================
+
+      print('=================================');
+      print('CHECK EMPLOYEE PHONE');
+      print('PHONE => $phone');
+      print('=================================');
+
+      final phoneResult =
+      await checkIfUserExistOrNotFunction(
+        request: CheckIfUserExistOrNotRequest(
+          user: phone,
+          type: UserType.employeeUser,
+        ),
+      );
+
+      if (isClosed) return;
+
+      print('PHONE CHECK RESULT => $phoneResult');
+
+      // =====================================================
+      // 7. PHONE CHECK FAILED
+      // =====================================================
+
+      if (phoneResult == null || phoneResult.isEmpty) {
+        emit(
+          AuthSignupError(
+            AppLanguageKeys.somethingWentWrong,
+          ),
+        );
+        return;
+      }
+
+      final phoneUser = phoneResult.first;
+
+      print(
+        'PHONE EXISTS => ${phoneUser.value}',
+      );
+
+      // =====================================================
+      // 8. PHONE ALREADY EXISTS
+      // =====================================================
+
+      if (phoneUser.value == true) {
+        emit(
+          AuthSignupError(
+            AppLanguageKeys.phoneExist,
+          ),
+        );
+        return;
+      }
+
+      // =====================================================
+      // 9. EMAIL + PHONE AVAILABLE
+      // =====================================================
+
+      print('=================================');
+      print('EMAIL AVAILABLE');
+      print('PHONE AVAILABLE');
+      print('CREATING EMPLOYEE');
+      print('=================================');
+
+      // =====================================================
+      // 10. CREATE EMPLOYEE
+      // =====================================================
+
+      final result = await createUserFunction(
+        createUserRequest: request,
+      );
+
+      if (isClosed) return;
+
+      // =====================================================
+      // 11. CREATE SUCCESS
+      // =====================================================
+
+      if (result.success) {
+        emit(
+          AuthSignupEmpCompleted(
+            result.message,
+          ),
+        );
+        return;
+      }
+
+      // =====================================================
+      // 12. CREATE ERROR
+      // =====================================================
+
       emit(
         AuthSignupError(
           result.message,
         ),
       );
+    } catch (e) {
+      if (isClosed) return;
+
+      print('=================================');
+      print('EMPLOYEE SIGNUP ERROR');
+      print('$e');
+      print('=================================');
+
+      emit(
+        AuthSignupError(
+          e.toString(),
+        ),
+      );
     }
-  }
-  // ================= Validators =================
-
-  String? nameValidator(String? value) {
-    if (value == null || value.trim().isEmpty) {
-      return AppLanguageKeys.authCompanyNameRequired;
-    }
-    return null;
-  }
-
-  String? emailValidator(String? value) {
-    if (value == null || value.trim().isEmpty) {
-      return AppLanguageKeys.authEmailRequired;
-    } else if (!isValidEmail(value)) {
-      return AppLanguageKeys.authEnterCorrectEmail;
-    }
-    return null;
-  }
-
-  String? passwordValidator(String? value) {
-    if (value == null || value.trim().isEmpty) {
-      return AppLanguageKeys.authPasswordRequired;
-    } else if (value.length < 6) {
-      return AppLanguageKeys.authWeakPassword;
-    }
-    return null;
-  }
-
-  String? phoneValidator(String? value) {
-    if (value == null || value.trim().isEmpty) {
-      return AppLanguageKeys.authPhoneNumberRequired;
-    }
-
-    final cleanNumber = value.replaceAll(RegExp(r'[^0-9]'), '');
-
-    if (cleanNumber.length < 8 || cleanNumber.length > 15) {
-      return AppLanguageKeys.authEnterCorrectPhoneNumber;
-    }
-
-    return null;
-  }
-
-  bool isValidEmail(String email) {
-    final emailRegex = RegExp(
-      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$",
-    );
-    return emailRegex.hasMatch(email.trim());
   }
 }
