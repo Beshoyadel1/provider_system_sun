@@ -21,6 +21,16 @@ class AppLanguageKeys {
   //end//
 
   //others//
+  static const String phoneNumberNotFoundForThisAccount =
+      'phoneNumberNotFoundForThisAccount';
+
+  static const String verificationCodeSent =
+      'verificationCodeSent';
+
+  static const String phoneNumberNotFound =
+      'phoneNumberNotFound';
+  static const String failedToSendVerificationCode =
+      'failedToSendVerificationCode';
   static const String allBranches = 'allBranches';
   static const String created = 'created';
   static const String pending = 'pending';
@@ -148,8 +158,15 @@ class AppLanguageKeys {
   static const String branchNationalAddress = 'branchNationalAddress';
   static const String pleaseSelectImage = 'pleaseSelectImage';
   static const String editEmployee = 'editEmployee';
+  static const String pleaseEnterValidEmailAddress =
+      'pleaseEnterValidEmailAddress';
+  static const String pleaseEnterYourEmail =
+      'pleaseEnterYourEmail';
+  static const String yourEmailIsEmpty =
+      'yourEmailIsEmpty';
   static const String pleaseEnterValidEmail =
       'pleaseEnterValidEmail';
+  static const String codeSentTo = 'codeSentTo';
   static const String employees = 'employees';
   static const String allRegisteredEmployeesInFacility = 'allRegisteredEmployeesInFacility';
   static const String viewEmployees = 'viewEmployees';

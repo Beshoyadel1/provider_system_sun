@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
 import 'package:sun_web_system/core/theming/auth_local_storage.dart';
+import 'package:sun_web_system/features/auth_page/data/datasource/send_verification_code_datasource/send_verification_code_datasource.dart';
 import 'package:sun_web_system/features/auth_page/data/datasource/update_user_datasource/update_user_repository.dart';
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/provider_details_request.dart';
 import 'package:sun_web_system/features/auth_page/data/request/change_password_request/change_password_request.dart';
@@ -25,6 +26,7 @@ import '../../../../../../core/language/language_constant.dart';
 import '../../../data/datasource/create_user_datasource/create_user_repository.dart';
 import '../../../data/model/create_user_model/create_user_request.dart';
 import '../../../data/datasource/login_datasource/login_repository.dart';
+import '../../../data/request/send_verification_code_request/send_verification_code_request.dart';
 import 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
@@ -40,6 +42,18 @@ class AuthCubit extends Cubit<AuthState> {
   bool isPasswordVisible = false;
   bool isConfirmPasswordVisible = false;
 
+  CreateUserRequest? _checkUser;
+  void setCheckUser(CreateUserRequest user) {
+    _checkUser = user;
+
+    print("CHECK USER => temporary data updated");
+  }
+
+  void clearCheckUser() {
+    _checkUser = null;
+
+    print("CHECK USER => cleared");
+  }
   void togglePasswordVisibility() {
     isPasswordVisible = !isPasswordVisible;
     emit(AuthPasswordVisibilityChanged());
@@ -145,9 +159,10 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> logout(BuildContext context) async {
     emit(AuthLoading());
     _forceLogout();
-    if (context.mounted) {
-      Navigator.pop(context);
-    }
+    // if (context.mounted) {
+    //   Navigator.pop(context);
+    // }
+    emit(AuthUnauthenticated());
   }
 
   Future<void> _checkFacilityCompletion(CreateUserRequest user) async {
@@ -178,13 +193,19 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
   Future<void> reCheckFacility() async {
-    final user = await AuthLocalStorage.getUser();
+    final user =
+        _checkUser ?? await AuthLocalStorage.getUser();
 
     if (user == null) {
       print("RECHECK => AuthUnauthenticated");
+
       emit(AuthUnauthenticated());
+
       return;
     }
+
+    print("RECHECK => validating current data");
+
     final branchCubit = BranchCubit();
     final workTimeCubit = UpdateWorkTimeCubit();
 
@@ -200,109 +221,474 @@ class AuthCubit extends Cubit<AuthState> {
     );
 
     if (result.isValid) {
+      print("RECHECK => VALID");
+
       emit(AuthAuthenticated());
     } else {
-      emit(AuthIncompleteProfile(result.missingFields));
+      print(
+        "RECHECK => INVALID: ${result.missingFields}",
+      );
+
+      emit(
+        AuthIncompleteProfile(
+          result.missingFields,
+        ),
+      );
     }
   }
 
+  String? verificationEmail;
+  String? verificationPhone;
+
+  String otpCode = "";
+
   Timer? _timer;
   int secondsRemaining = 30;
-  String otpCode = "";
+
+  bool isOtpError = false;
 
   void generateOtp() {
     final random = Random();
+
     otpCode = (1000 + random.nextInt(9000)).toString();
 
-    print("OTP CODE: $otpCode");
+    print("🔐 OTP CODE => $otpCode");
 
     startTimer();
+
+    isOtpError = false;
+
     emit(AuthOtpGenerated());
   }
 
   void startTimer() {
     secondsRemaining = 30;
+
     _timer?.cancel();
 
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (secondsRemaining == 0) {
-        timer.cancel();
-        emit(AuthOtpExpired());
-      } else {
+    emit(AuthOtpTimer());
+
+    _timer = Timer.periodic(
+      const Duration(seconds: 1),
+          (timer) {
+        if (isClosed) {
+          timer.cancel();
+          return;
+        }
+
+        if (secondsRemaining <= 0) {
+          timer.cancel();
+
+          emit(AuthOtpExpired());
+          return;
+        }
+
         secondsRemaining--;
+
         emit(AuthOtpTimer());
-      }
-    });
-  }
-
-  bool isOtpError = false;
-
-  void validateOtp(String code, BuildContext context, String email) {
-    if (code == otpCode) {
-      isOtpError = false;
-      emit(AuthOtpSuccess());
-
-      Navigator.pop(context);
-      Navigator.push(
-        context,
-        NavigateToPageWidget(ChangePasswordPage(email: email)),
-      );
-    } else {
-      isOtpError = true;
-      emit(AuthOtpError(AppLanguageKeys.wrongCode));
-    }
+      },
+    );
   }
 
   void resetOtpError() {
+    if (isClosed) return;
+
     if (isOtpError) {
       isOtpError = false;
-      emit(AuthOtpReset());
+
+      emit(
+        AuthOtpReset(),
+      );
     }
   }
 
-  void resendOtp() {
-    generateOtp();
+  Future<void> validateOtp(String code) async {
+    if (isClosed) return;
+
+    final enteredOtp = code.trim();
+
+    if (secondsRemaining <= 0) {
+      isOtpError = true;
+
+      emit(
+        AuthOtpError(
+          AppLanguageKeys.badRequestError,
+        ),
+      );
+
+      return;
+    }
+
+    if (enteredOtp.length != 4) {
+      isOtpError = true;
+
+      emit(
+        AuthOtpError(
+          AppLanguageKeys.wrongCode,
+        ),
+      );
+
+      return;
+    }
+
+    if (enteredOtp != otpCode) {
+      isOtpError = true;
+
+      emit(
+        AuthOtpError(
+          AppLanguageKeys.wrongCode,
+        ),
+      );
+
+      return;
+    }
+
+    // ==========================================
+    // OTP CORRECT
+    // ==========================================
+
     isOtpError = false;
-    emit(AuthOtpGenerated());
+    _timer?.cancel();
+
+    // SIGNUP
+    if (_pendingSignup != null) {
+      await completeSignupAfterOtp();
+      return;
+    }
+
+    // FORGOT PASSWORD
+    emit(AuthOtpSuccess());
   }
+
+  Future<void> resendOtp() async {
+    if (isClosed) return;
+
+    final phone = verificationPhone;
+
+    if (phone == null || phone.trim().isEmpty) {
+      emit(
+        AuthOtpError(
+          AppLanguageKeys.phoneNumberNotFound,
+        ),
+      );
+      return;
+    }
+
+    isOtpError = false;
+
+    // Generate NEW OTP
+    generateOtp();
+
+    final message =
+        'Your verification code is: $otpCode. '
+        'Please do not share this code with anyone.';
+
+    print("=================================");
+    print("📤 RESEND OTP");
+    print("📱 PHONE => $phone");
+    print("🔐 NEW OTP => $otpCode");
+    print("💬 MESSAGE => $message");
+    print("=================================");
+
+    try {
+      final result =
+      await sendVerificationCodeFunction(
+        request: SendVerificationCodeRequest(
+          user: phone,
+          message: message,
+        ),
+      );
+
+      if (isClosed) return;
+
+      if (result) {
+        print("✅ NEW OTP SENT SUCCESSFULLY");
+
+        emit(
+          AuthOtpResendSuccess(),
+        );
+      } else {
+        print("❌ NEW OTP SEND FAILED");
+
+        emit(
+          AuthOtpError(
+            AppLanguageKeys.somethingWentWrong,
+          ),
+        );
+      }
+    } catch (e) {
+      if (isClosed) return;
+
+      print("❌ RESEND OTP ERROR => $e");
+
+      emit(
+        AuthOtpError(
+          e.toString(),
+        ),
+      );
+    }
+  }
+
+  // void resendOtp() {
+  //   generateOtp();
+  //   isOtpError = false;
+  //   emit(AuthOtpGenerated());
+  // }
 
   void updatePhone(String phone) {
     phoneNumber = phone;
     emit(AuthInitial());
   }
-
-  Future<void> checkIfUserExistOrNot({
+  Future<bool> sendOtp({
     required String email,
     required String phone,
   }) async {
-    emit(AuthLoginLoading());
+    if (isClosed) return false;
 
-    final result = await checkIfUserExistOrNotFunction(
-      request: CheckIfUserExistOrNotRequest(
-        user: email,
-        type: UserType.providerUser,
-      ),
-    );
+    verificationEmail = email.trim();
+    verificationPhone = phone.trim();
 
-    if (result != null && result.isNotEmpty) {
-      final user = result.first;
+    final random = Random();
 
-      if (user.value == true && user.phone == phone) {
-        emit(AuthLoginSuccess());
-      } else {
-        emit(AuthLoginError(AppLanguageKeys.emailOrPhoneInvalid));
+    final newOtp =
+    (1000 + random.nextInt(9000)).toString();
+
+    final message =
+        'Your verification code is: $newOtp. '
+        'Please do not share this code with anyone.';
+
+    try {
+      final sent = await _sendOtpToPhoneVariations(
+        phone: phone.trim(),
+        message: message,
+      );
+
+      if (isClosed) return false;
+
+      if (!sent) {
+        return false;
       }
-    } else {
-      emit(AuthLoginError(AppLanguageKeys.userNotFound));
+
+      otpCode = newOtp;
+      isOtpError = false;
+
+      startTimer();
+
+      return true;
+    } catch (e) {
+      if (isClosed) return false;
+
+      return false;
     }
   }
 
-  void showLogin() => emit(AuthShowLogin());
+  Future<void> checkIfUserExistOrNot({
+    required String email,
+  }) async {
+    if (isClosed) return;
 
-  void showSignup() => emit(AuthShowSignup());
+    emit(
+      CheckIfUserExistOrNotLoading(),
+    );
 
-  void showRestPassword() => emit(AuthShowRestPassword());
+    try {
+      print("=================================");
+      print("CHECK USER EMAIL => $email");
+      print("=================================");
 
+      final result =
+      await checkIfUserExistOrNotFunction(
+        request: CheckIfUserExistOrNotRequest(
+          user: email,
+          type: UserType.providerUser,
+        ),
+      );
+
+      if (isClosed) return;
+
+      print("CHECK USER RESULT => $result");
+
+      if (result == null || result.isEmpty) {
+        emit(
+          CheckIfUserExistOrNotError(
+            AppLanguageKeys.userNotFound,
+          ),
+        );
+        return;
+      }
+
+      final user = result.first;
+
+      print("USER VALUE => ${user.value}");
+      print("USER PHONE => ${user.phone}");
+
+      if (user.value != true) {
+        emit(
+          CheckIfUserExistOrNotNotFound(
+            user,
+          ),
+        );
+        return;
+      }
+
+      final phone = user.phone?.trim();
+
+      if (phone == null || phone.isEmpty) {
+        emit(
+          CheckIfUserExistOrNotError(
+            AppLanguageKeys.phoneNumberNotFoundForThisAccount,
+          ),
+        );
+        return;
+      }
+
+      print("=================================");
+      print("CALLING SEND OTP");
+      print("EMAIL => $email");
+      print("PHONE => $phone");
+      print("=================================");
+
+      final sent = await sendOtp(
+        email: email,
+        phone: phone,
+      );
+
+      if (isClosed) return;
+
+      print("OTP SENT RESULT => $sent");
+
+      if (sent) {
+        emit(
+          CheckIfUserExistOrNotSuccess(
+            user,
+          ),
+        );
+
+        return;
+      }
+
+      emit(
+        CheckIfUserExistOrNotError(
+          AppLanguageKeys.failedToSendVerificationCode,
+        ),
+      );
+    } catch (e) {
+      if (isClosed) return;
+
+      print("CHECK USER ERROR => $e");
+
+      emit(
+        CheckIfUserExistOrNotError(
+          e.toString(),
+        ),
+      );
+    }
+  }
+
+
+  List<String> _getPhoneVariations(String phone) {
+    final original = phone.trim();
+
+    final List<String> phones = [];
+
+    // 1. Original
+    phones.add(original);
+
+    // 2. Remove 966
+    if (original.startsWith('966')) {
+      final without966 = original.substring(3);
+
+      if (without966.isNotEmpty) {
+        phones.add(without966);
+
+        // 3. Remove 966 + add 0
+        phones.add('0$without966');
+      }
+    }
+
+    return phones.toSet().toList();
+  }
+  Future<bool> _sendOtpToPhoneVariations({
+    required String phone,
+    required String message,
+  }) async {
+    final phones = _getPhoneVariations(phone);
+
+    print("📱 PHONE OPTIONS => $phones");
+
+    for (final phoneNumber in phones) {
+      if (isClosed) return false;
+
+      print(
+        "📤 TRY OTP => $phoneNumber",
+      );
+
+      final result =
+      await sendVerificationCodeFunction(
+        request: SendVerificationCodeRequest(
+          user: phoneNumber,
+          message: message,
+        ),
+      );
+
+      if (result) {
+        verificationPhone = phoneNumber;
+        print(
+          "✅ OTP SENT => $phoneNumber",
+        );
+        return true;
+      }
+
+      print(
+        "❌ OTP FAILED => $phoneNumber",
+      );
+    }
+
+    return false;
+  }
+
+  Future<void> changePassword({
+    required String user,
+    required String password,
+  }) async {
+    if (isClosed) return;
+
+    emit(ChangePasswordLoading());
+
+    try {
+      final result = await changePasswordFunction(
+        changePasswordRequest: ChangePasswordRequest(
+          user: user,
+          password: password,
+          type: UserType.providerUser,
+        ),
+      );
+
+      if (isClosed) return;
+
+      if (result.success) {
+        emit(
+          ChangePasswordSuccess(
+            result.message,
+          ),
+        );
+      } else {
+        emit(
+          ChangePasswordError(
+            result.message,
+          ),
+        );
+      }
+    } catch (e) {
+      if (isClosed) return;
+
+      emit(
+        ChangePasswordError(
+          e.toString(),
+        ),
+      );
+    }
+  }
 
 
   static Future<void> saveUserFromRequest(CreateUserRequest request) async {
@@ -326,15 +712,16 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> updateUser(
+  Future<bool> updateUser(
       CreateUserRequest request,
       ) async {
-    if (isClosed) return;
+    if (isClosed) return false;
 
     emit(AuthUpdateLoading());
 
     try {
-      final oldUser = await AuthLocalStorage.getUser();
+      final oldUser =
+      await AuthLocalStorage.getUser();
 
       if (oldUser == null) {
         emit(
@@ -342,20 +729,27 @@ class AuthCubit extends Cubit<AuthState> {
             'User not found',
           ),
         );
-        return;
+
+        return false;
       }
 
       // =========================================================
       // PROVIDER MERGE
       // =========================================================
 
-      final oldProvider = oldUser.providerDetails;
-      final newProvider = request.providerDetails;
+      final oldProvider =
+          oldUser.providerDetails;
+
+      final newProvider =
+          request.providerDetails;
 
       final ProviderDetailsRequest? mergedProvider =
       newProvider != null
           ? ProviderDetailsRequest(
-        id: newProvider.id ?? oldProvider?.id,
+
+        id:
+        newProvider.id ??
+            oldProvider?.id,
 
         name:
         newProvider.name ??
@@ -427,9 +821,14 @@ class AuthCubit extends Cubit<AuthState> {
       )
           : oldProvider;
 
+      // =========================================================
+      // USER MERGE
+      // =========================================================
 
+      final mergedRequest =
+      CreateUserRequest(
 
-      final mergedRequest = CreateUserRequest(
+        // NEVER change unless request has a new value
         userid:
         oldUser.userid,
 
@@ -492,7 +891,8 @@ class AuthCubit extends Cubit<AuthState> {
         mergedProvider,
 
         employeeDetails:
-        request.employeeDetails??oldUser.employeeDetails,
+        request.employeeDetails ??
+            oldUser.employeeDetails,
 
         adminDetails:
         request.adminDetails ??
@@ -507,39 +907,59 @@ class AuthCubit extends Cubit<AuthState> {
             oldUser.driverDetails,
       );
 
+      // =========================================================
+      // API
+      // =========================================================
 
-      final result = await updateUserFunction(
-        createUserRequest: mergedRequest,
+      final result =
+      await updateUserFunction(
+        createUserRequest:
+        mergedRequest,
       );
 
-      if (isClosed) return;
-
+      if (isClosed) {
+        return false;
+      }
       if (result.success) {
+
         await AuthLocalStorage.saveUser(
           mergedRequest,
         );
+
         emit(
           AuthUpdateSuccess(
             result.message,
           ),
         );
 
-        return;
+        return true;
       }
+
+      // =========================================================
+      // ERROR
+      // =========================================================
 
       emit(
         AuthUpdateError(
           result.message,
         ),
       );
+
+      return false;
+
     } catch (e) {
-      if (isClosed) return;
+
+      if (isClosed) {
+        return false;
+      }
 
       emit(
         AuthUpdateError(
           e.toString(),
         ),
       );
+
+      return false;
     }
   }
 
@@ -560,27 +980,12 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> changePassword(
-    ChangePasswordRequest request,
-  ) async {
-    emit(AuthLoginLoading());
+  CreateUserRequest? _pendingSignup;
 
-    final result = await changePasswordFunction(
-      changePasswordRequest: request,
-    );
-    if (result.success) {
-      await AuthLocalStorage.clearUser();
+  CreateUserRequest? get pendingSignup => _pendingSignup;
 
-      emit(
-        AuthChangePasswordSuccess(),
-      );
-    } else {
-      emit(
-        AuthLoginError(
-          result.message,
-        ),
-      );
-    }
+  void clearPendingSignup() {
+    _pendingSignup = null;
   }
 
   Future<void> signup(CreateUserRequest request) async {
@@ -588,26 +993,214 @@ class AuthCubit extends Cubit<AuthState> {
 
     emit(AuthSignupLoading());
 
-    final result = await createUserFunction(
-      createUserRequest: request,
-    );
+    try {
+      // =========================================================
+      // 1. GET & VALIDATE DATA
+      // =========================================================
 
-    if (isClosed) return;
+      final email = request.email?.trim() ?? '';
+      final phone = request.phone?.trim() ?? '';
 
-    if (result.success) {
-      emit(
-        AuthSignupSuccess(
-          result.message,
+      if (email.isEmpty || phone.isEmpty) {
+        emit(
+          AuthSignupError(
+            AppLanguageKeys.enterYourData,
+          ),
+        );
+        return;
+      }
+
+      // =========================================================
+      // 2. CHECK EMAIL FORMAT
+      // =========================================================
+
+      if (!isValidEmail(email)) {
+        emit(
+          AuthSignupError(
+            AppLanguageKeys.pleaseEnterValidEmail,
+          ),
+        );
+        return;
+      }
+
+      // =========================================================
+      // 3. CHECK IF EMAIL ALREADY EXISTS
+      // =========================================================
+
+      print('=================================');
+      print('CHECK SIGNUP EMAIL');
+      print('EMAIL => $email');
+      print('=================================');
+
+      final existingUsers =
+      await checkIfUserExistOrNotFunction(
+        request: CheckIfUserExistOrNotRequest(
+          user: email,
+          type: UserType.providerUser,
         ),
       );
-    } else {
+
+      if (isClosed) return;
+
+      print(
+        'CHECK SIGNUP EMAIL RESULT => $existingUsers',
+      );
+
+      // =========================================================
+      // 4. CHECK API RESULT
+      // =========================================================
+
+      if (existingUsers == null || existingUsers.isEmpty) {
+        emit(
+          AuthSignupError(
+            AppLanguageKeys.somethingWentWrong,
+          ),
+        );
+        return;
+      }
+
+      final user = existingUsers.first;
+
+      print(
+        'EMAIL EXISTS => ${user.value}',
+      );
+
+      // =========================================================
+      // 5. EMAIL ALREADY EXISTS
+      // =========================================================
+
+      if (user.value == true) {
+        emit(
+          AuthSignupError(
+            AppLanguageKeys.emailExist,
+          ),
+        );
+        return;
+      }
+
+      // =========================================================
+      // 6. EMAIL AVAILABLE
+      // Save request BEFORE sending OTP
+      // =========================================================
+
+      _pendingSignup = request;
+
+      // =========================================================
+      // 7. SEND OTP
+      // =========================================================
+
+      print('=================================');
+      print('EMAIL AVAILABLE');
+      print('SENDING SIGNUP OTP');
+      print('EMAIL => $email');
+      print('PHONE => $phone');
+      print('=================================');
+
+      final sent = await sendOtp(
+        email: email,
+        phone: phone,
+      );
+
+      if (isClosed) return;
+
+      // =========================================================
+      // 8. OTP FAILED
+      // =========================================================
+
+      if (!sent) {
+        _pendingSignup = null;
+
+        emit(
+          AuthSignupError(
+            AppLanguageKeys.failedToSendVerificationCode,
+          ),
+        );
+
+        return;
+      }
+
+      // =========================================================
+      // 9. OTP SENT SUCCESSFULLY
+      // =========================================================
+
+      print('=================================');
+      print('OTP SENT FOR SIGNUP');
+      print('EMAIL => $verificationEmail');
+      print('PHONE => $verificationPhone');
+      print('OTP => $otpCode');
+      print('=================================');
+
+      emit(
+        AuthSignupSuccess(
+          AppLanguageKeys.verificationCodeSent,
+        ),
+      );
+    } catch (e) {
+      if (isClosed) return;
+
+      _pendingSignup = null;
+
+      print(
+        'SIGNUP ERROR => $e',
+      );
+
       emit(
         AuthSignupError(
-          result.message,
+          e.toString(),
         ),
       );
     }
   }
+  Future<void> completeSignupAfterOtp() async {
+    if (isClosed) return;
+
+    final request = _pendingSignup;
+
+    if (request == null) {
+      emit(
+        AuthSignupError(
+          AppLanguageKeys.somethingWentWrong,
+        ),
+      );
+      return;
+    }
+
+    emit(AuthSignupLoading());
+
+    try {
+      final result = await createUserFunction(
+        createUserRequest: request,
+      );
+
+      if (isClosed) return;
+
+      if (!result.success) {
+        emit(
+          AuthSignupError(
+            result.message,
+          ),
+        );
+        return;
+      }
+
+      _pendingSignup = null;
+
+      emit(
+        AuthSignupCompleted(
+          result.message,
+        ),
+      );
+    } catch (e) {
+      if (isClosed) return;
+
+      emit(
+        AuthSignupError(
+          e.toString(),
+        ),
+      );
+    }
+  }
+
   Future<void> signupEmp(CreateUserRequest request) async {
     if (isClosed) return;
 

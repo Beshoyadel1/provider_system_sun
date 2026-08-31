@@ -14,15 +14,25 @@ import '../../../../../../core/pages_widgets/general_widgets/custom_container.da
 import '../../../../../../core/theming/text_styles.dart';
 import '../../../../../../core/language/language_constant.dart';
 
-class FacilityAccountCheck extends StatelessWidget {
-  const FacilityAccountCheck({super.key});
+class FacilityAccountCheck extends StatefulWidget {
+  const FacilityAccountCheck({
+    super.key,
+  });
+
+  @override
+  State<FacilityAccountCheck> createState() => _FacilityAccountCheckState();
+}
+
+class _FacilityAccountCheckState extends State<FacilityAccountCheck> {
+  final GlobalKey<FacilityDataContentState> facilityDataKey =
+      GlobalKey<FacilityDataContentState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.scaffoldColor,
       body: BlocProvider(
-        create: (context) => FacilityTabCubit(),
+        create: (_) => FacilityTabCubit(),
         child: BlocConsumer<AuthCubit, AuthState>(
           listener: (context, state) {
             if (state is AuthIncompleteProfile) {
@@ -32,16 +42,27 @@ class FacilityAccountCheck extends StatelessWidget {
             }
 
             if (state is AuthUpdateError) {
-              AppSnackBar.showError(state.error);
+              AppSnackBar.showError(
+                state.error,
+              );
+            }
+
+            if (state is AuthAuthenticated) {
+              print(
+                "✅ FACILITY IS VALID",
+              );
             }
           },
           builder: (context, authState) {
             return BlocBuilder<FacilityTabCubit, FacilityTabState>(
-              buildWhen: (previous, current) =>
-              current is ChangeIndexState,
+              buildWhen: (previous, current) => current is ChangeIndexState,
               builder: (context, state) {
+                final facilityCubit = context.read<FacilityTabCubit>();
+
+                final index = facilityCubit.selectedIndex;
+
                 return Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16),
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
@@ -56,48 +77,107 @@ class FacilityAccountCheck extends StatelessWidget {
                                 text: AppLanguageKeys.continueFacilityDataKey,
                                 textSize: 22,
                                 fontWeightIndex:
-                                FontSelectionData.mediumFontFamily,
+                                    FontSelectionData.mediumFontFamily,
                               ),
+
                               const TabsWidget(),
-                              facilityTabs[
-                              context.read<FacilityTabCubit>().selectedIndex]
-                                  .content,
+
+                              // =================================================
+                              // FACILITY DATA
+                              // =================================================
+
+                              index == 0
+                                  ? FacilityDataContent(
+                                      key: facilityDataKey,
+                                    )
+                                  : facilityTabs[index].content,
+
+                              // =================================================
+                              // BUTTONS
+                              // =================================================
+
                               Row(
+                                spacing: 10,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Expanded(
+
+                                  Flexible(
                                     child: CustomContainer(
+                                      containerWidth: 500,
                                       isSelected: false,
-                                      onTap: () {
-                                        print("🔘 CHECK BUTTON CLICKED");
-                                        context.read<AuthCubit>().reCheckFacility();
-                                      },
-                                      containerColor:
-                                      AppColors.orangeColor,
+                                      onTap: authState is AuthLoading
+                                          ? null
+                                          : () async {
+                                              print(
+                                                "🔘 CHECK BUTTON CLICKED",
+                                              );
+
+                                              // ======================================
+                                              // 1. GET CURRENT SCREEN DATA
+                                              // ======================================
+
+                                              if (index == 0) {
+                                                final dataState =
+                                                    facilityDataKey
+                                                        .currentState;
+
+                                                if (dataState == null) {
+                                                  AppSnackBar.showError(
+                                                    'Facility data is not ready',
+                                                  );
+
+                                                  return;
+                                                }
+
+                                                await dataState
+                                                    .prepareDataForCheck();
+                                              }
+
+                                              // ======================================
+                                              // 2. CHECK
+                                              // ======================================
+
+                                              await context
+                                                  .read<AuthCubit>()
+                                                  .reCheckFacility();
+                                            },
+                                      containerColor: AppColors.orangeColor,
                                       containerHeight: 45,
-                                      typeWidget: const Center(
-                                        child: TextInAppWidget(
-                                          text: AppLanguageKeys.enterSystem,
-                                          textSize: 16,
-                                          textColor: Colors.white,
-                                        ),
+                                      typeWidget: Center(
+                                        child: authState is AuthLoading
+                                            ? const SizedBox(
+                                                width: 20,
+                                                height: 20,
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  strokeWidth: 2,
+                                                  color: Colors.white,
+                                                ),
+                                              )
+                                            : const TextInAppWidget(
+                                                text:
+                                                    AppLanguageKeys.enterSystem,
+                                                textSize: 16,
+                                                textColor: Colors.white,
+                                              ),
                                       ),
                                     ),
                                   ),
 
-                                  const SizedBox(width: 10),
-
-                                  Expanded(
+                                  Flexible(
                                     child: CustomContainer(
+                                      containerWidth: 500,
                                       isSelected: false,
                                       onTap: () {
-                                        print("🚪 LOGOUT CLICKED");
-
                                         context
                                             .read<AuthCubit>()
-                                            .logout(context);
+                                            .clearCheckUser();
+
+                                        context.read<AuthCubit>().logout(
+                                              context,
+                                            );
                                       },
-                                      containerColor:
-                                      AppColors.redColor,
+                                      containerColor: AppColors.redColor,
                                       containerHeight: 45,
                                       typeWidget: const Center(
                                         child: TextInAppWidget(
@@ -111,13 +191,16 @@ class FacilityAccountCheck extends StatelessWidget {
                                 ],
                               ),
 
-                              const SizedBox(height: 40),
+                              const SizedBox(
+                                height: 40,
+                              ),
                             ],
                           ),
                           onTap: () {},
                         ),
-
-                        const SizedBox(height: 20),
+                        const SizedBox(
+                          height: 20,
+                        ),
                       ],
                     ),
                   ),

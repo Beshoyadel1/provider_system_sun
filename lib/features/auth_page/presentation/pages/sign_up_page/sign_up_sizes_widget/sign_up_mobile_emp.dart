@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
+import 'package:sun_web_system/core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/create_user_request.dart';
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/provider_details_request.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
@@ -10,12 +11,12 @@ import 'package:sun_web_system/core/theming/assets.dart';
 import 'package:sun_web_system/core/theming/colors.dart';
 import 'package:sun_web_system/core/theming/fonts.dart';
 import 'package:sun_web_system/core/theming/text_styles.dart';
-import 'package:sun_web_system/features/auth_page/data/request/login_request/login_request.dart';
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_cubit.dart';
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_state.dart';
 import 'package:sun_web_system/features/auth_page/presentation/pages/login_page/login_widgets/login_button_widget.dart';
 import 'package:sun_web_system/features/auth_page/presentation/pages/login_page/login_widgets/login_language_button_widget.dart';
 import 'package:sun_web_system/features/auth_page/presentation/pages/login_page/login_widgets/user_text_field_widget.dart';
+import 'package:sun_web_system/features/auth_page/presentation/pages/otp_page/otp_page.dart';
 
 
 class SignUpMobileEmp extends StatefulWidget {
@@ -35,6 +36,7 @@ class _SignUpMobileEmpState extends State<SignUpMobileEmp> {
   final TextEditingController confirmPasswordController =
       TextEditingController();
 
+
   @override
   void dispose() {
     usernameController.dispose();
@@ -47,6 +49,7 @@ class _SignUpMobileEmpState extends State<SignUpMobileEmp> {
 
   @override
   Widget build(BuildContext context) {
+
     return Form(
       key: _formKey,
       autovalidateMode: AutovalidateMode.disabled,
@@ -88,8 +91,10 @@ class _SignUpMobileEmpState extends State<SignUpMobileEmp> {
                       type: UserFieldType.phone,
                       controller: phoneController,
                       text: AppLanguageKeys.phoneNumberKey,
+                      onChanged: (value) {
+                       // print('PHONE NUMBER => $value');
+                      },
                     ),
-
                     UserTextFieldWidget(
                       type: UserFieldType.email,
                       controller: emailController,
@@ -108,20 +113,43 @@ class _SignUpMobileEmpState extends State<SignUpMobileEmp> {
                     const SizedBox(height: 10),
 
                     BlocListener<AuthCubit, AuthState>(
-                      listener: (context, state) async {
+                      listenWhen: (previous, current) =>
+                      current is AuthSignupSuccess ||
+                          current is AuthSignupError,
+                      listener: (context, state) {
                         if (state is AuthSignupSuccess) {
+                          final cubit = context.read<AuthCubit>();
 
-                          AppSnackBar.showSuccess(
-                            AppLanguageKeys.success,
+                          final email = cubit.verificationEmail;
+                          final phone = cubit.verificationPhone;
+
+                          if (email == null ||
+                              email.trim().isEmpty ||
+                              phone == null ||
+                              phone.trim().isEmpty) {
+                            AppSnackBar.showError(
+                              AppLanguageKeys.somethingWentWrong,
+                            );
+                            return;
+                          }
+
+                          Navigator.push(
+                            context,
+                            NavigateToPageWidget(
+                              BlocProvider.value(
+                                value: cubit,
+                                child: OtpPage(
+                                  email: email,
+                                  purpose: OtpPurpose.signup,
+                                ),
+                              ),
+                            ),
                           );
 
-                          if (context.mounted) {
-                            Navigator.pop(context);
-                          }
+                          return;
                         }
 
                         if (state is AuthSignupError) {
-
                           AppSnackBar.showError(
                             state.message,
                           );
@@ -129,7 +157,7 @@ class _SignUpMobileEmpState extends State<SignUpMobileEmp> {
                       },
                       child: BlocBuilder<AuthCubit, AuthState>(
                         buildWhen: (previous, current) =>
-                            current is AuthSignupLoading ||
+                        current is AuthSignupLoading ||
                             current is AuthSignupSuccess ||
                             current is AuthSignupError ||
                             previous is AuthSignupLoading,
@@ -142,23 +170,30 @@ class _SignUpMobileEmpState extends State<SignUpMobileEmp> {
                             onPressed: isLoading
                                 ? null
                                 : () {
+                              // ==========================================
+                              // 1. RUN FORM VALIDATION FIRST
+                              // ==========================================
+
+                              if (!_formKey.currentState!.validate()) {
+                                return;
+                              }
+
+                              // ==========================================
+                              // 2. GET VALUES AFTER BASIC VALIDATION
+                              // ==========================================
+
                               final username = usernameController.text.trim();
                               final phone = phoneController.text.trim();
                               final email = emailController.text.trim();
                               final password = passwordController.text.trim();
-                              final confirm = confirmPasswordController.text.trim();
+                              final confirmPassword =
+                              confirmPasswordController.text.trim();
 
-                              if (username.isEmpty ||
-                                  phone.isEmpty ||
-                                  email.isEmpty ||
-                                  password.isEmpty ||
-                                  confirm.isEmpty) {
-                                AppSnackBar.showError(
-                                  AppLanguageKeys.enterYourData,
-                                );
-                                return;
-                              }
+                              // ==========================================
+                              // 3. EXTRA VALIDATION
+                              // ==========================================
 
+                              // Email
                               final emailRegex = RegExp(
                                 r'^[\w\-.]+@([\w-]+\.)+[\w-]{2,4}$',
                               );
@@ -170,16 +205,17 @@ class _SignUpMobileEmpState extends State<SignUpMobileEmp> {
                                 return;
                               }
 
-                              if (password != confirm) {
+                              // Password confirmation
+                              if (password != confirmPassword) {
                                 AppSnackBar.showError(
                                   AppLanguageKeys.passwordsDoNotMatch,
                                 );
                                 return;
                               }
 
-                              if (!_formKey.currentState!.validate()) {
-                                return;
-                              }
+                              // ==========================================
+                              // 4. ONLY NOW CALL API
+                              // ==========================================
 
                               context.read<AuthCubit>().signup(
                                 CreateUserRequest(
@@ -188,7 +224,8 @@ class _SignUpMobileEmpState extends State<SignUpMobileEmp> {
                                   email: email,
                                   password: password,
                                   type: UserType.providerUser,
-                                  providerDetails: const ProviderDetailsRequest(),
+                                  providerDetails:
+                                  const ProviderDetailsRequest(),
                                 ),
                               );
                             },

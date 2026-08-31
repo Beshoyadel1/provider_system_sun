@@ -30,11 +30,12 @@ class UserTextFieldWidget extends StatelessWidget {
     this.borderColor,
     this.fillColor,
     this.focusedBorderColor,
-
+    this.onChanged,
     // ⭐ New
     this.digitOnly = false,
+    this.validator,
   });
-
+  final void Function(String)? onChanged;
   final TextEditingController controller;
   final String? text;
   final UserFieldType type;
@@ -49,6 +50,7 @@ class UserTextFieldWidget extends StatelessWidget {
   final Color? focusedBorderColor;
 
   final bool digitOnly;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +77,8 @@ class UserTextFieldWidget extends StatelessWidget {
             textFormHeight: fieldHeight,
             maxLines: 1,
             isDigit: true,
+            validator:validator ,
+            onChanged: onChanged,
           );
         } else {
           child = PhoneTextField(
@@ -85,11 +89,13 @@ class UserTextFieldWidget extends StatelessWidget {
             borderColor ?? AppColors.darkGreyColor,
             fillColor:
             fillColor ?? AppColors.whiteColor,
+            onChanged: onChanged,
             focusedBorderColor:
             focusedBorderColor ??
                 borderColor ??
                 AppColors.darkGreyColor,
           );
+
         }
         break;
 
@@ -126,6 +132,8 @@ class UserTextFieldWidget extends StatelessWidget {
           maxLines: 1,
           isDigit: false,
           obscureText: true,
+          validator:validator,
+          onChanged: onChanged,
         );
         break;
 
@@ -149,6 +157,8 @@ class UserTextFieldWidget extends StatelessWidget {
             FilteringTextInputFormatter.digitsOnly,
           ],
           isDigit: true,
+          validator: validator,
+          onChanged: onChanged,
         );
         break;
 
@@ -169,6 +179,8 @@ class UserTextFieldWidget extends StatelessWidget {
           textFormHeight: fieldHeight,
           maxLines: 1,
           isDigit: false,
+          validator: validator,
+          onChanged: onChanged,
         );
         break;
 
@@ -189,6 +201,8 @@ class UserTextFieldWidget extends StatelessWidget {
           textFormHeight: fieldHeight,
           maxLines: 1,
           isDigit: false,
+          validator: validator,
+          onChanged: onChanged,
         );
         break;
 
@@ -208,12 +222,14 @@ class UserTextFieldWidget extends StatelessWidget {
           fillColor ?? AppColors.whiteColor,
           textFormHeight: fieldHeight,
           maxLines: maxLines ?? 1,
+          onChanged: onChanged,
           inputFormatters: digitOnly
               ? [
             FilteringTextInputFormatter.digitsOnly,
           ]
               : null,
           isDigit: digitOnly,
+          validator: validator,
         );
         break;
     }
@@ -344,17 +360,17 @@ class PhoneTextField extends StatelessWidget {
     this.aboveText,
     this.isReadOnly = false,
     this.height,
-    // NEW
+    this.onChanged,
     this.borderColor = AppColors.darkGreyColor,
     this.fillColor = AppColors.whiteColor,
     this.focusedBorderColor = AppColors.darkGreyColor,
   });
+  final void Function(String)? onChanged;
 
   final TextEditingController controller;
   final String? aboveText;
   final bool isReadOnly;
   final double? height;
-
   final Color borderColor;
   final Color fillColor;
   final Color focusedBorderColor;
@@ -440,8 +456,14 @@ class PhoneTextField extends StatelessWidget {
             onChanged: isReadOnly
                 ? null
                 : (phone) {
-              controller.text =
-                  phone.completeNumber.replaceFirst("+", "");
+              final value =
+              phone.completeNumber.replaceFirst("+", "");
+
+              controller.text = value;
+
+              print("📱 PHONE NUMBER => $value");
+
+              onChanged?.call(value);
             },
           ),
         ),

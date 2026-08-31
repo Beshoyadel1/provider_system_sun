@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
@@ -7,7 +5,6 @@ import 'package:sun_web_system/core/pages_widgets/general_widgets/snakbar.dart';
 import 'package:sun_web_system/core/theming/auth_local_storage.dart';
 import 'package:sun_web_system/core/theming/colors.dart';
 import 'package:sun_web_system/core/theming/text_styles.dart';
-import 'package:sun_web_system/features/auth_page/data/datasource/login_datasource/login_repository.dart';
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/create_user_request.dart';
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/provider_details_request.dart';
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_cubit.dart';
@@ -18,150 +15,265 @@ import 'package:sun_web_system/features/store_page/presentation/bloc/facility_cu
 import '../../general_widgets_in_store/attach_file.dart';
 
 class FacilityDataContent extends StatefulWidget {
-  const FacilityDataContent({super.key});
+  const FacilityDataContent({
+    super.key,
+  });
 
   @override
-  State<FacilityDataContent> createState() => _FacilityDataContentState();
+  State<FacilityDataContent> createState() => FacilityDataContentState();
 }
 
-class _FacilityDataContentState extends State<FacilityDataContent> {
+class FacilityDataContentState extends State<FacilityDataContent> {
   final idController = TextEditingController();
+
   final facilityNameController = TextEditingController();
+
   final facilityNameEnController = TextEditingController();
+
   final vatNoController = TextEditingController();
+
   final crController = TextEditingController();
-  final usernameController= TextEditingController();
+
+  final usernameController = TextEditingController();
+
   final phoneController = TextEditingController();
+
   final emailController = TextEditingController();
+
   final genderController = TextEditingController();
+
   final ageController = TextEditingController();
+
   final dateController = TextEditingController();
-  final nationalityController=TextEditingController();
+
+  final nationalityController = TextEditingController();
+
   final approvalIdController = TextEditingController();
+
   final approvalStartDateController = TextEditingController();
+
   final approvalEndDateController = TextEditingController();
 
   bool isEditMode = false;
   bool isLoaded = false;
   bool isApproved = false;
 
+  CreateUserRequest? _savedUser;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+
     if (!isLoaded) {
       _loadUser();
+
       isLoaded = true;
     }
   }
+
   T? safe<T>(T? value) {
-    if (value == null) return null;
-    if (value is String && value.trim().isEmpty) return null;
+    if (value == null) {
+      return null;
+    }
+
+    if (value is String && value.trim().isEmpty) {
+      return null;
+    }
+
     return value;
   }
 
   Future<void> _loadUser() async {
     final user = await AuthLocalStorage.getUser();
-    isApproved = user?.providerDetails?.isApproved == true;
-    if (user != null) {
-      idController.text=user.userid.toString();
-      facilityNameController.text = user.providerDetails?.name ?? "";
-      facilityNameEnController.text = user.providerDetails?.latinname ?? "";
-      crController.text = user.providerDetails?.cr ?? "";
-      vatNoController.text = user.providerDetails?.vatno ?? "";
-      usernameController.text=user.username??"";
-      nationalityController.text=user.nationality??"";
-      phoneController.text = user.phone ?? "";
-      emailController.text = user.email ?? "";
-      ageController.text = user.age?.toString() ?? "";
-      genderController.text = user.gender?.toString() ?? "";
-      dateController.text =
-          OrderFunctions.formatDateFromDateTime(user.joinDate);
-      final approval = user.providerDetails?.approvalInfo;
 
-      if (user.providerDetails?.isApproved == true &&
-          approval != null) {
-        approvalIdController.text =
-            approval.approvalinfoid?.toString() ?? '';
+    if (user == null) {
+      return;
+    }
 
-        approvalStartDateController.text =
-        approval.approvalstartdate != null
-            ? OrderFunctions.formatDateFromDateTime(
-          approval.approvalstartdate!,
-        )
-            : '';
+    _savedUser = user;
 
-        approvalEndDateController.text =
-        approval.approvalenddate != null
-            ? OrderFunctions.formatDateFromDateTime(
-          approval.approvalenddate!,
-        )
-            : '';
-      }
+    isApproved = user.providerDetails?.isApproved == true;
 
+    idController.text = user.userid?.toString() ?? '';
+
+    facilityNameController.text = user.providerDetails?.name ?? '';
+
+    facilityNameEnController.text = user.providerDetails?.latinname ?? '';
+
+    crController.text = user.providerDetails?.cr ?? '';
+
+    vatNoController.text = user.providerDetails?.vatno ?? '';
+
+    usernameController.text = user.username ?? '';
+
+    nationalityController.text = user.nationality ?? '';
+
+    phoneController.text = user.phone ?? '';
+
+    emailController.text = user.email ?? '';
+
+    ageController.text = user.age?.toString() ?? '';
+
+    genderController.text = user.gender?.toString() ?? '';
+
+    dateController.text = OrderFunctions.formatDateFromDateTime(
+      user.joinDate,
+    );
+
+    final approval = user.providerDetails?.approvalInfo;
+
+    if (user.providerDetails?.isApproved == true && approval != null) {
+      approvalIdController.text = approval.approvalinfoid?.toString() ?? '';
+
+      approvalStartDateController.text = approval.approvalstartdate != null
+          ? OrderFunctions.formatDateFromDateTime(
+              approval.approvalstartdate!,
+            )
+          : '';
+
+      approvalEndDateController.text = approval.approvalenddate != null
+          ? OrderFunctions.formatDateFromDateTime(
+              approval.approvalenddate!,
+            )
+          : '';
+    }
+
+    if (mounted) {
       setState(() {});
     }
   }
 
-  /// ================= UPDATE =================
-  void _onUpdate() async {
-    final user = await AuthLocalStorage.getUser();
+  // ==========================================================
+  // BUILD CURRENT REQUEST
+  // ==========================================================
+
+  CreateUserRequest _buildCurrentRequest() {
+    final user = _savedUser;
+
+    if (user == null) {
+      throw Exception(
+        'User not found',
+      );
+    }
 
     final facilityCubit = context.read<FacilityTabCubit>();
 
-    final oldProvider =
-        user?.providerDetails;
+    final oldProvider = user.providerDetails;
 
-    final request = CreateUserRequest(
+    return CreateUserRequest(
+      userid: user.userid,
       phone: safe(phoneController.text),
       email: safe(emailController.text),
       username: safe(usernameController.text),
       nationality: safe(nationalityController.text),
-      gender:
-      genderController.text.isNotEmpty
+      gender: genderController.text.isNotEmpty
           ? int.tryParse(
-        genderController.text,
-      )
-          : user?.gender,
+              genderController.text,
+            )
+          : user.gender,
       age: ageController.text.isNotEmpty
           ? int.tryParse(
-        ageController.text,
-      )
-          : user?.age,
-
-      image:
-      facilityCubit.images['image'] ??
-          user?.image,
-
-      providerDetails:
-      ProviderDetailsRequest(
+              ageController.text,
+            )
+          : user.age,
+      image: facilityCubit.images['image'] ?? user.image,
+      providerDetails: ProviderDetailsRequest(
+        id: oldProvider?.id,
         name: safe(
           facilityNameController.text,
         ),
-
         latinname: safe(
           facilityNameEnController.text,
         ),
-
-        cr: safe(crController.text),
-
-        vatno:
-        safe(vatNoController.text),
-
-        crimage:
-        facilityCubit.images['crimage'] ??
-            oldProvider?.crimage,
-
+        cr: safe(
+          crController.text,
+        ),
+        vatno: safe(
+          vatNoController.text,
+        ),
+        crimage: facilityCubit.images['crimage'] ?? oldProvider?.crimage,
         vatnoimage:
-        facilityCubit.images[
-        'vatnoimage'] ??
-            oldProvider?.vatnoimage,
-
+            facilityCubit.images['vatnoimage'] ?? oldProvider?.vatnoimage,
+        isApproved: oldProvider?.isApproved,
+        approvalInfo: oldProvider?.approvalInfo,
       ),
     );
+  }
 
-    context
-        .read<AuthCubit>()
-        .updateUser(request);
+  // ==========================================================
+  // CHECK WITHOUT SAVE
+  // ==========================================================
+
+  Future<bool> prepareDataForCheck() async {
+    try {
+      final request =
+      _buildCurrentRequest();
+
+
+      // ========================================================
+      // UPDATE + SAVE
+      // ========================================================
+
+      final success =
+      await context
+          .read<AuthCubit>()
+          .updateUser(request);
+
+      if (!success) {
+
+        return false;
+      }
+
+      print(
+        "CHECK => update completed successfully",
+      );
+
+      return true;
+
+    } catch (e) {
+
+      return false;
+    }
+  }
+
+  // ==========================================================
+  // SAVE
+  // ==========================================================
+
+  Future<bool> _onUpdate() async {
+    try {
+      final request = _buildCurrentRequest();
+
+      await context
+          .read<AuthCubit>()
+          .updateUser(request);
+
+      return true;
+    } catch (e) {
+      print("UPDATE => error: $e");
+      return false;
+    }
+  }
+
+  @override
+  void dispose() {
+    idController.dispose();
+    facilityNameController.dispose();
+    facilityNameEnController.dispose();
+    vatNoController.dispose();
+    crController.dispose();
+    usernameController.dispose();
+    phoneController.dispose();
+    emailController.dispose();
+    genderController.dispose();
+    ageController.dispose();
+    dateController.dispose();
+    nationalityController.dispose();
+    approvalIdController.dispose();
+    approvalStartDateController.dispose();
+    approvalEndDateController.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -169,9 +281,9 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        /// 🔹 spacing
-        const SizedBox(height: 20),
-
+        const SizedBox(
+          height: 20,
+        ),
         Wrap(
           spacing: 10,
           runSpacing: 10,
@@ -223,17 +335,11 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
               readOnly: !isEditMode,
               width: 250,
             ),
-            // UserTextFieldWidget(
-            //   controller: nationalAddressController,
-            //   text: AppLanguageKeys.shortAddress,
-            //   readOnly: !isEditMode,
-            //   width: 250,
-            // ),
             UserTextFieldWidget(
               controller: phoneController,
               text: AppLanguageKeys.phoneNumber,
               type: UserFieldType.phone,
-              readOnly:true,
+              readOnly: true,
               width: 250,
             ),
             UserTextFieldWidget(
@@ -256,7 +362,6 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
               readOnly: true,
               width: 250,
             ),
-
             UserTextFieldWidget(
               controller: genderController,
               text: AppLanguageKeys.gender,
@@ -276,14 +381,12 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
                     readOnly: true,
                     width: 250,
                   ),
-
                   UserTextFieldWidget(
                     controller: approvalStartDateController,
                     text: AppLanguageKeys.approvalStartDate,
-                    readOnly:true,
+                    readOnly: true,
                     width: 250,
                   ),
-
                   UserTextFieldWidget(
                     controller: approvalEndDateController,
                     text: AppLanguageKeys.approvalEndDate,
@@ -294,9 +397,9 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
               ),
           ],
         ),
-
-        const SizedBox(height: 20),
-
+        const SizedBox(
+          height: 20,
+        ),
         Wrap(
           spacing: 20,
           runSpacing: 20,
@@ -318,23 +421,30 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
             ),
           ],
         ),
-
-        const SizedBox(height: 20),
-
+        const SizedBox(
+          height: 20,
+        ),
         BlocConsumer<AuthCubit, AuthState>(
           listener: (context, state) {
             if (state is AuthUpdateSuccess) {
-              setState(() => isEditMode = false);
+              setState(() {
+                isEditMode = false;
+              });
+
+              context.read<AuthCubit>().clearCheckUser();
 
               _loadUser();
 
-              AppSnackBar.showSuccess(AppLanguageKeys.success);
-
+              AppSnackBar.showSuccess(
+                AppLanguageKeys.success,
+              );
             }
 
             if (state is AuthUpdateError) {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.error)),
+                SnackBar(
+                  content: Text(state.error),
+                ),
               );
             }
           },
@@ -351,7 +461,9 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
                       ? null
                       : () {
                           if (!isEditMode) {
-                            setState(() => isEditMode = true);
+                            setState(() {
+                              isEditMode = true;
+                            });
                           } else {
                             _onUpdate();
                           }
@@ -360,7 +472,9 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
                       ? const SizedBox(
                           width: 18,
                           height: 18,
-                          child: CircularProgressIndicator(strokeWidth: 2),
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                          ),
                         )
                       : TextInAppWidget(
                           text: isEditMode
@@ -370,15 +484,22 @@ class _FacilityDataContentState extends State<FacilityDataContent> {
                           textSize: 13,
                         ),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(
+                  width: 10,
+                ),
                 if (isEditMode)
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.orangeColor,
                     ),
                     onPressed: () {
-                      setState(() => isEditMode = false);
+                      setState(() {
+                        isEditMode = false;
+                      });
+
                       _loadUser();
+
+                      context.read<AuthCubit>().clearCheckUser();
                     },
                     child: const TextInAppWidget(
                       text: AppLanguageKeys.cancel,

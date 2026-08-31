@@ -1,13 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/theming/auth_local_storage.dart';
 import 'package:sun_web_system/features/dashboard_page/data/datasource/get_provider_service_statistics_data_source/get_provider_service_statistics_repository.dart';
-import 'package:sun_web_system/features/auth_page/data/datasource/login_datasource/login_repository.dart';
 import 'package:sun_web_system/features/dashboard_page/data/request/get_provider_service_statistics_request/get_provider_service_statistics_request.dart';
 import 'package:sun_web_system/features/dashboard_page/presentation/cubit/get_provider_service_statistics_cubit/get_provider_service_statistics_state.dart';
 
 class GetProviderServiceStatisticsCubit
     extends Cubit<GetProviderServiceStatisticsState> {
-
   GetProviderServiceStatisticsCubit()
       : super(GetProviderServiceStatisticsInitial());
 
@@ -19,27 +17,66 @@ class GetProviderServiceStatisticsCubit
 
     emit(GetProviderServiceStatisticsLoading());
 
-    final user = await AuthLocalStorage.getUser();
+    try {
+      // =========================================================
+      // GET LOCAL USER
+      // =========================================================
 
-    if (isClosed) return;
+      final user = await AuthLocalStorage.getUser();
 
-    if (user == null) {
-      emit(GetProviderServiceStatisticsError("User not found"));
-      return;
-    }
+      if (isClosed) return;
 
-    final result = await getProviderServiceStatisticsFunction(
-      request: GetProviderServiceStatisticsRequest(
-        providerId: user.userid,
-      ),
-    );
+      if (user == null) {
+        emit(
+          GetProviderServiceStatisticsError(
+            "User not found",
+          ),
+        );
+        return;
+      }
 
-    if (isClosed) return;
+      // =========================================================
+      // API
+      // =========================================================
 
-    if (result != null) {
-      emit(GetProviderServiceStatisticsSuccess(result));
-    } else {
-      emit(GetProviderServiceStatisticsError("Error loading data"));
+      final result = await getProviderServiceStatisticsFunction(
+        request: GetProviderServiceStatisticsRequest(
+          providerId: user.userid ?? 0,
+        ),
+      );
+
+      if (isClosed) return;
+
+      // =========================================================
+      // SUCCESS
+      // =========================================================
+
+      if (result != null) {
+        emit(
+          GetProviderServiceStatisticsSuccess(
+            result,
+          ),
+        );
+        return;
+      }
+
+      // =========================================================
+      // ERROR
+      // =========================================================
+
+      emit(
+        GetProviderServiceStatisticsError(
+          "Error loading data",
+        ),
+      );
+    } catch (e) {
+      if (isClosed) return;
+
+      emit(
+        GetProviderServiceStatisticsError(
+          e.toString(),
+        ),
+      );
     }
   }
 }

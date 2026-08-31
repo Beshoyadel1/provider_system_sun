@@ -4,16 +4,16 @@ class ChangePasswordRequest {
   final int? type;
 
   ChangePasswordRequest({
-     this.user,
-     this.password,
-     this.type,
+    this.user,
+    this.password,
+    this.type,
   });
 
   Map<String, dynamic> toJson() {
     return {
-      "USER": user??"",
-      "PASSWORD": password??"",
-      "TYPE": type??4,
+      "USER": user ?? "",
+      "PASSWORD": password ?? "",
+      "TYPE": type ?? 4,
     };
   }
 }

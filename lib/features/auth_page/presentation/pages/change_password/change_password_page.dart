@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/features/auth_page/data/request/change_password_request/change_password_request.dart';
-import '../../../../../features/auth_page/presentation/bloc/auth_cubit/auth_cubit.dart';
-import '../../../../../features/auth_page/presentation/bloc/auth_cubit/auth_state.dart';
+import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_cubit.dart';
+import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_state.dart';
+import 'package:sun_web_system/features/auth_page/presentation/pages/login_page/login_page.dart';
+
 import '../../../../../features/auth_page/presentation/pages/login_page/login_widgets/login_button_widget.dart';
 import '../../../../../core/language/language_constant.dart';
+import '../../../../../core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
 import '../../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../../core/theming/colors.dart';
 import '../../../../../core/theming/fonts.dart';
@@ -13,156 +15,214 @@ import '../../../../../core/utilies/map_of_all_app.dart';
 import '../../../../../features/auth_page/presentation/pages/login_page/login_widgets/login_image.dart';
 import '../../../../../features/auth_page/presentation/pages/login_page/login_widgets/user_text_field_widget.dart';
 
-
 class ChangePasswordPage extends StatefulWidget {
   final String email;
-  const ChangePasswordPage({super.key,required this.email});
+
+  const ChangePasswordPage({
+    super.key,
+    required this.email,
+  });
+
   @override
   State<ChangePasswordPage> createState() => _ChangePasswordPageState();
 }
 
 class _ChangePasswordPageState extends State<ChangePasswordPage> {
-  late TextEditingController emailController,passwordController,confirmPasswordController ;
-  late GlobalKey<FormState> formKey ;
+  late TextEditingController passwordController;
+  late TextEditingController confirmPasswordController;
+
+  late GlobalKey<FormState> formKey;
 
   @override
   void initState() {
-   // emailController = TextEditingController();
-    passwordController = TextEditingController();
-    confirmPasswordController = TextEditingController();
-    formKey = GlobalKey<FormState>();
     super.initState();
+
+    passwordController = TextEditingController();
+
+    confirmPasswordController = TextEditingController();
+
+    formKey = GlobalKey<FormState>();
   }
+
   @override
   void dispose() {
-   // emailController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
-    formKey.currentState?.dispose();
+
     super.dispose();
   }
+
+  // =========================================================
+  // CHANGE PASSWORD
+  // =========================================================
+
+  void _changePassword() {
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
+
+    final password = passwordController.text.trim();
+
+    final confirmPassword = confirmPasswordController.text.trim();
+
+    // =======================================================
+    // CHECK PASSWORD MATCH
+    // =======================================================
+
+    if (password != confirmPassword) {
+      AppSnackBar.showError(
+        AppLanguageKeys.passwordsDoNotMatch,
+      );
+
+      return;
+    }
+
+    // =======================================================
+    // CALL API
+    // =======================================================
+
+    context.read<AuthCubit>().changePassword(
+          user: widget.email,
+          password: password,
+        );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AuthCubit(),
-      child: Scaffold(
-          body: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 40,
-                      child: AppBar(backgroundColor: AppColors.orangeColor),
+    return Scaffold(
+      body: Row(
+        children: [
+          // ===================================================
+          // FORM
+          // ===================================================
+
+          Expanded(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 40,
+                  child: AppBar(
+                    backgroundColor: AppColors.orangeColor,
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 32,
                     ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 32),
-                        child: Center(
-                          child: SingleChildScrollView(
-                            child: Form(
-                              autovalidateMode: AutovalidateMode.disabled,
-                              key: formKey,
-                              child: Column(
-                                spacing: 10,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                    const  TextInAppWidget(
-                                    text: AppLanguageKeys.password,
-                                    textColor: AppColors.darkColor,
-                                    textSize: 20,
-                                    fontWeightIndex: FontSelectionData.semiBoldFontFamily,
-                                  ),
-                                  UserTextFieldWidget(type: UserFieldType.password, controller: passwordController,),
-                                  const  TextInAppWidget(
-                                    text: AppLanguageKeys.confirmPasswordKey,
-                                    textColor: AppColors.darkColor,
-                                    textSize: 20,
-                                    fontWeightIndex: FontSelectionData.semiBoldFontFamily,
-                                  ),
-                                  UserTextFieldWidget(type: UserFieldType.password, controller: confirmPasswordController,),
-                                  BlocConsumer<AuthCubit, AuthState>(
+                    child: Center(
+                      child: SingleChildScrollView(
+                        child: Form(
+                          key: formKey,
+                          autovalidateMode: AutovalidateMode.disabled,
+                          child: Column(
+                            spacing: 10,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // =================================
+                              // PASSWORD
+                              // =================================
 
-                                    listener: (context, state) {
-                                      if (state is AuthChangePasswordSuccess) {
-                                        Navigator.pop(context);
-                                        AppSnackBar.showSuccess(AppLanguageKeys.success);
-                                      }
-
-                                      if (state is AuthLoginError) {
-                                        AppSnackBar.showError(state.message);
-                                      }
-                                    },
-                                    buildWhen: (previous, current) =>
-                                    current is AuthLoginLoading ||
-                                        current is AuthLoginError ||
-                                        current is AuthUnauthenticated ||
-                                        previous is AuthLoginLoading,
-
-                                    builder: (context, state) {
-
-                                      final bool isLoading =
-                                      state is AuthLoginLoading;
-
-                                      return LoginButtonWidget(
-
-                                        text: AppLanguageKeys.send,
-
-                                        isLoading: isLoading,
-
-                                        onPressed: isLoading
-                                            ? null
-                                            : () {
-
-                                          if (!formKey.currentState!.validate()) {
-                                            return;
-                                          }
-
-                                          final password =
-                                          passwordController.text.trim();
-
-                                          final confirm =
-                                          confirmPasswordController.text.trim();
-
-                                          if (password != confirm) {
-
-                                            AppSnackBar.showError(
-                                              AppLanguageKeys.passwordsDoNotMatch,
-                                            );
-
-                                            return;
-                                          }
-
-                                          final changePasswordRequest =
-                                          ChangePasswordRequest(
-
-                                            user: widget.email,
-
-                                            password: password,
-                                          );
-
-                                          context
-                                              .read<AuthCubit>()
-                                              .changePassword(
-                                            changePasswordRequest,
-                                          );
-                                        },
-                                      );
-                                    },
-                                  )
-                                ],
+                              const TextInAppWidget(
+                                text: AppLanguageKeys.password,
+                                textColor: AppColors.darkColor,
+                                textSize: 20,
+                                fontWeightIndex:
+                                    FontSelectionData.semiBoldFontFamily,
                               ),
-                            ),
+
+                              UserTextFieldWidget(
+                                type: UserFieldType.password,
+                                controller: passwordController,
+                              ),
+
+                              // =================================
+                              // CONFIRM PASSWORD
+                              // =================================
+
+                              const TextInAppWidget(
+                                text: AppLanguageKeys.confirmPasswordKey,
+                                textColor: AppColors.darkColor,
+                                textSize: 20,
+                                fontWeightIndex:
+                                    FontSelectionData.semiBoldFontFamily,
+                              ),
+
+                              UserTextFieldWidget(
+                                type: UserFieldType.password,
+                                controller: confirmPasswordController,
+                              ),
+
+                              // =================================
+                              // BUTTON
+                              // =================================
+
+                              BlocConsumer<AuthCubit, AuthState>(
+                                listenWhen: (
+                                  previous,
+                                  current,
+                                ) =>
+                                    current is ChangePasswordSuccess ||
+                                    current is ChangePasswordError,
+                                listener: (
+                                  context,
+                                  state,
+                                ) {
+                                  // =========================
+                                  // SUCCESS
+                                  // =========================
+
+                                  if (state is ChangePasswordSuccess) {
+                                    AppSnackBar.showSuccess(
+                                      state.message,
+                                    );
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                  }
+
+                                  // =========================
+                                  // ERROR
+                                  // =========================
+
+                                  if (state is ChangePasswordError) {
+                                    AppSnackBar.showError(
+                                      state.message,
+                                    );
+                                  }
+                                },
+                                builder: (
+                                  context,
+                                  state,
+                                ) {
+                                  final isLoading =
+                                      state is ChangePasswordLoading;
+
+                                  return LoginButtonWidget(
+                                    text: AppLanguageKeys.send,
+                                    isLoading: isLoading,
+                                    onPressed:
+                                        isLoading ? null : _changePassword,
+                                  );
+                                },
+                              ),
+                            ],
                           ),
                         ),
                       ),
                     ),
-                  ],
+                  ),
                 ),
-              ),
-              if(MediaQuery.of(context).size.width > ValuesOfAllApp.mobileWidth) const LoginImage(),
-            ],
-          )
+              ],
+            ),
+          ),
+
+          // ===================================================
+          // IMAGE
+          // ===================================================
+
+          if (MediaQuery.of(context).size.width > ValuesOfAllApp.mobileWidth)
+            const LoginImage(),
+        ],
       ),
     );
   }

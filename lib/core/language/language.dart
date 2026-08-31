@@ -33,6 +33,16 @@ class AppLocalizations {
       //END//
 
       //others//
+      AppLanguageKeys.phoneNumberNotFoundForThisAccount:
+      'رقم الهاتف غير موجود لهذا الحساب',
+
+      AppLanguageKeys.verificationCodeSent:
+      'تم إرسال رمز التحقق',
+
+      AppLanguageKeys.phoneNumberNotFound:
+      'رقم الهاتف غير موجود',
+      AppLanguageKeys.failedToSendVerificationCode:
+      'فشل إرسال رمز التحقق',
       AppLanguageKeys.allBranches: 'جميع الفروع',
       AppLanguageKeys.created: 'مُنشأ',
       AppLanguageKeys.pending: 'معلق',
@@ -161,7 +171,16 @@ class AppLocalizations {
       AppLanguageKeys.pleaseSelectImage: 'يرجى اختيار صورة',
       AppLanguageKeys.editEmployee: 'تعديل موظف',
       AppLanguageKeys.employees: 'الموظفين',
+      AppLanguageKeys.codeSentTo: 'تم إرسال الرمز إلى',
       AppLanguageKeys.pleaseEnterValidEmail: 'يرجى إدخال بريد إلكتروني صحيح',
+      AppLanguageKeys.pleaseEnterValidEmailAddress:
+      'يرجى إدخال بريد إلكتروني صحيح',
+
+      AppLanguageKeys.pleaseEnterYourEmail:
+      'يرجى إدخال بريدك الإلكتروني',
+
+      AppLanguageKeys.yourEmailIsEmpty:
+      'البريد الإلكتروني فارغ',
       AppLanguageKeys.allRegisteredEmployeesInFacility:
           'جميع الموظفين المسجلين داخل المؤسسة',
       AppLanguageKeys.viewEmployees: 'عرض الموظفين',
@@ -1457,6 +1476,16 @@ class AppLocalizations {
       AppLanguageKeys.acceptOrder: 'Accept Order',
       //END//
       //others//
+      AppLanguageKeys.phoneNumberNotFoundForThisAccount:
+      'Phone number not found for this account',
+
+      AppLanguageKeys.verificationCodeSent:
+      'Verification code sent',
+
+      AppLanguageKeys.phoneNumberNotFound:
+      'Phone number not found',
+      AppLanguageKeys.failedToSendVerificationCode:
+      'Failed to send verification code',
       AppLanguageKeys.allBranches: 'All Branches',
       AppLanguageKeys.created: 'Created',
       AppLanguageKeys.pending: 'Pending',
@@ -1584,8 +1613,17 @@ class AppLocalizations {
       AppLanguageKeys.branchNationalAddress: 'Branch National Address',
       AppLanguageKeys.pleaseSelectImage: 'Please select an image',
       AppLanguageKeys.editEmployee: 'Edit Employee',
+      AppLanguageKeys.codeSentTo: 'Code sent to',
       AppLanguageKeys.employees: 'Employees',
       AppLanguageKeys.pleaseEnterValidEmail: 'Please enter a valid email',
+      AppLanguageKeys.pleaseEnterValidEmailAddress:
+      'Please enter a valid email address',
+
+      AppLanguageKeys.pleaseEnterYourEmail:
+      'Please enter your email',
+
+      AppLanguageKeys.yourEmailIsEmpty:
+      'Your email is empty',
       AppLanguageKeys.allRegisteredEmployeesInFacility:
           'All registered employees in the facility',
       AppLanguageKeys.viewEmployees: 'View Employees',

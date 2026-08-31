@@ -3,13 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/store_page/presentation/bloc/facility_cubit/facility_tab_cubit/facility_tab_cubit.dart';
 import 'package:sun_web_system/features/store_page/presentation/bloc/facility_cubit/facility_tab_cubit/facility_tab_state.dart';
 import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/car_model_widget/widgets/tabs_widget.dart';
-import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/facility_account/tabs/facility_data_content.dart';
 import '../../../../../../../features/store_page/data/model/facility_model/facility_model.dart';
-import '../../../../../../core/theming/colors.dart';
-import '../../../../../../core/theming/fonts.dart';
 import '../../../../../../core/pages_widgets/general_widgets/custom_container.dart';
-import '../../../../../../core/theming/text_styles.dart';
-import '../../../../../../core/language/language_constant.dart';
 
 class FacilityAccount extends StatelessWidget {
   const FacilityAccount({super.key});

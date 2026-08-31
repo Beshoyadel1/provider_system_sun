@@ -40,17 +40,17 @@ class FacilityValidator {
     /// 🔴 Images
   //  if (!isValid(p?.crimage?.toString())) missing.add(AppLanguageKeys.commercialRecordKey);
    // if (!isValid(p?.vatnoimage?.toString())) missing.add(AppLanguageKeys.taxNumber);
-    if (!isValid(user.image?.toString())) missing.add(AppLanguageKeys.ownerIdKey);
+    //if (!isValid(user.image?.toString())) missing.add(AppLanguageKeys.ownerIdKey);
 
     // 🔴 Branch
-    if (branchCubit.branches.isEmpty) {
-      missing.add(AppLanguageKeys.addAtLeastOneBranch);
-    }
+    // if (branchCubit.branches.isEmpty) {
+    //   missing.add(AppLanguageKeys.addAtLeastOneBranch);
+    // }
 
     /// 🔴 Work Time
-    if (workTimeCubit.workTimes.isEmpty) {
-      missing.add(AppLanguageKeys.addAtLeastOneWorkingHours);
-    }
+    // if (workTimeCubit.workTimes.isEmpty) {
+    //   missing.add(AppLanguageKeys.addAtLeastOneWorkingHours);
+    // }
 
     return FacilityValidatorResult(
       isValid: missing.isEmpty,

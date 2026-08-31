@@ -136,7 +136,6 @@ class _LoginWidgetState extends State<LoginWidget> {
 
           InkWell(
             onTap: () {
-              context.read<AuthCubit>().showRestPassword();
               Navigator.push(
                 context,
                 NavigateToPageWidget(
