@@ -21,10 +21,6 @@ enum OtpPurpose {
   signup,
 }
 
-// =========================================================
-// OTP PAGE
-// =========================================================
-
 class OtpPage extends StatefulWidget {
   final String email;
   final OtpPurpose purpose;
@@ -39,9 +35,6 @@ class OtpPage extends StatefulWidget {
   State<OtpPage> createState() => _OtpPageState();
 }
 
-// =========================================================
-// STATE
-// =========================================================
 
 class _OtpPageState extends State<OtpPage> {
   final List<TextEditingController> controllers = List.generate(

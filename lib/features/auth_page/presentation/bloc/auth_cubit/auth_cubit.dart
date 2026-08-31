@@ -237,6 +237,280 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+
+
+  static Future<void> saveUserFromRequest(CreateUserRequest request) async {
+    await AuthLocalStorage.saveUser(request);
+  }
+
+  Future<void> checkAuth() async {
+    final isLoggedIn = await AuthLocalStorage.isLoggedIn();
+    if (state is AuthUpdateLoading || state is AuthUpdateSuccess) {
+      return;
+    }
+
+    if (state is AuthAuthenticated && isLoggedIn) {
+      return;
+    }
+
+    if (isLoggedIn) {
+      emit(AuthAuthenticated());
+    } else {
+      emit(AuthUnauthenticated());
+    }
+  }
+
+  Future<bool> updateUser(
+      CreateUserRequest request,
+      ) async {
+    if (isClosed) return false;
+
+    emit(AuthUpdateLoading());
+
+    try {
+      final oldUser =
+      await AuthLocalStorage.getUser();
+
+      if (oldUser == null) {
+        emit(
+          AuthUpdateError(
+            'User not found',
+          ),
+        );
+
+        return false;
+      }
+
+      // =========================================================
+      // PROVIDER MERGE
+      // =========================================================
+
+      final oldProvider =
+          oldUser.providerDetails;
+
+      final newProvider =
+          request.providerDetails;
+
+      final ProviderDetailsRequest? mergedProvider =
+      newProvider != null
+          ? ProviderDetailsRequest(
+
+        id:
+        newProvider.id ??
+            oldProvider?.id,
+
+        name:
+        newProvider.name ??
+            oldProvider?.name,
+
+        latinname:
+        newProvider.latinname ??
+            oldProvider?.latinname,
+
+        description:
+        newProvider.description ??
+            oldProvider?.description,
+
+        latindesc:
+        newProvider.latindesc ??
+            oldProvider?.latindesc,
+
+        provid:
+        newProvider.provid ??
+            oldProvider?.provid,
+
+        cr:
+        newProvider.cr ??
+            oldProvider?.cr,
+
+        vatno:
+        newProvider.vatno ??
+            oldProvider?.vatno,
+
+        packageid:
+        newProvider.packageid ??
+            oldProvider?.packageid,
+
+        subscriptionstartdate:
+        newProvider.subscriptionstartdate ??
+            oldProvider?.subscriptionstartdate,
+
+        subscriptionenddate:
+        newProvider.subscriptionenddate ??
+            oldProvider?.subscriptionenddate,
+
+        iban:
+        newProvider.iban ??
+            oldProvider?.iban,
+
+        nationaladdress:
+        newProvider.nationaladdress ??
+            oldProvider?.nationaladdress,
+
+        crimage:
+        newProvider.crimage ??
+            oldProvider?.crimage,
+
+        vatnoimage:
+        newProvider.vatnoimage ??
+            oldProvider?.vatnoimage,
+
+        ibanimage:
+        newProvider.ibanimage ??
+            oldProvider?.ibanimage,
+
+        isApproved:
+        newProvider.isApproved ??
+            oldProvider?.isApproved,
+
+        approvalInfo:
+        newProvider.approvalInfo ??
+            oldProvider?.approvalInfo,
+      )
+          : oldProvider;
+
+      // =========================================================
+      // USER MERGE
+      // =========================================================
+
+      final mergedRequest =
+      CreateUserRequest(
+
+        // NEVER change unless request has a new value
+        userid:
+        oldUser.userid,
+
+        username:
+        request.username ??
+            oldUser.username,
+
+        phone:
+        request.phone ??
+            oldUser.phone,
+
+        email:
+        request.email ??
+            oldUser.email,
+
+        password:
+        request.password ??
+            oldUser.password,
+
+        gender:
+        request.gender ??
+            oldUser.gender,
+
+        age:
+        request.age ??
+            oldUser.age,
+
+        type:
+        oldUser.type,
+
+        nationality:
+        request.nationality ??
+            oldUser.nationality,
+
+        isActive:
+        request.isActive ??
+            oldUser.isActive,
+
+        joinDate:
+        request.joinDate ??
+            oldUser.joinDate,
+
+        referralCode:
+        request.referralCode ??
+            oldUser.referralCode,
+
+        image:
+        request.image ??
+            oldUser.image,
+
+        fcmToken:
+        request.fcmToken ??
+            oldUser.fcmToken,
+
+        defaultcarid:
+        request.defaultcarid ??
+            oldUser.defaultcarid,
+
+        providerDetails:
+        mergedProvider,
+
+        employeeDetails:
+        request.employeeDetails ??
+            oldUser.employeeDetails,
+
+        adminDetails:
+        request.adminDetails ??
+            oldUser.adminDetails,
+
+        companyDetails:
+        request.companyDetails ??
+            oldUser.companyDetails,
+
+        driverDetails:
+        request.driverDetails ??
+            oldUser.driverDetails,
+      );
+
+      // =========================================================
+      // API
+      // =========================================================
+
+      final result =
+      await updateUserFunction(
+        createUserRequest:
+        mergedRequest,
+      );
+
+      if (isClosed) {
+        return false;
+      }
+      if (result.success) {
+
+        await AuthLocalStorage.saveUser(
+          mergedRequest,
+        );
+
+        emit(
+          AuthUpdateSuccess(
+            result.message,
+          ),
+        );
+
+        return true;
+      }
+
+      // =========================================================
+      // ERROR
+      // =========================================================
+
+      emit(
+        AuthUpdateError(
+          result.message,
+        ),
+      );
+
+      return false;
+
+    } catch (e) {
+
+      if (isClosed) {
+        return false;
+      }
+
+      emit(
+        AuthUpdateError(
+          e.toString(),
+        ),
+      );
+
+      return false;
+    }
+  }
+
   String? verificationEmail;
   String? verificationPhone;
 
@@ -687,296 +961,6 @@ class AuthCubit extends Cubit<AuthState> {
           e.toString(),
         ),
       );
-    }
-  }
-
-
-  static Future<void> saveUserFromRequest(CreateUserRequest request) async {
-    await AuthLocalStorage.saveUser(request);
-  }
-
-  Future<void> checkAuth() async {
-    final isLoggedIn = await AuthLocalStorage.isLoggedIn();
-    if (state is AuthUpdateLoading || state is AuthUpdateSuccess) {
-      return;
-    }
-
-    if (state is AuthAuthenticated && isLoggedIn) {
-      return;
-    }
-
-    if (isLoggedIn) {
-      emit(AuthAuthenticated());
-    } else {
-      emit(AuthUnauthenticated());
-    }
-  }
-
-  Future<bool> updateUser(
-      CreateUserRequest request,
-      ) async {
-    if (isClosed) return false;
-
-    emit(AuthUpdateLoading());
-
-    try {
-      final oldUser =
-      await AuthLocalStorage.getUser();
-
-      if (oldUser == null) {
-        emit(
-          AuthUpdateError(
-            'User not found',
-          ),
-        );
-
-        return false;
-      }
-
-      // =========================================================
-      // PROVIDER MERGE
-      // =========================================================
-
-      final oldProvider =
-          oldUser.providerDetails;
-
-      final newProvider =
-          request.providerDetails;
-
-      final ProviderDetailsRequest? mergedProvider =
-      newProvider != null
-          ? ProviderDetailsRequest(
-
-        id:
-        newProvider.id ??
-            oldProvider?.id,
-
-        name:
-        newProvider.name ??
-            oldProvider?.name,
-
-        latinname:
-        newProvider.latinname ??
-            oldProvider?.latinname,
-
-        description:
-        newProvider.description ??
-            oldProvider?.description,
-
-        latindesc:
-        newProvider.latindesc ??
-            oldProvider?.latindesc,
-
-        provid:
-        newProvider.provid ??
-            oldProvider?.provid,
-
-        cr:
-        newProvider.cr ??
-            oldProvider?.cr,
-
-        vatno:
-        newProvider.vatno ??
-            oldProvider?.vatno,
-
-        packageid:
-        newProvider.packageid ??
-            oldProvider?.packageid,
-
-        subscriptionstartdate:
-        newProvider.subscriptionstartdate ??
-            oldProvider?.subscriptionstartdate,
-
-        subscriptionenddate:
-        newProvider.subscriptionenddate ??
-            oldProvider?.subscriptionenddate,
-
-        iban:
-        newProvider.iban ??
-            oldProvider?.iban,
-
-        nationaladdress:
-        newProvider.nationaladdress ??
-            oldProvider?.nationaladdress,
-
-        crimage:
-        newProvider.crimage ??
-            oldProvider?.crimage,
-
-        vatnoimage:
-        newProvider.vatnoimage ??
-            oldProvider?.vatnoimage,
-
-        ibanimage:
-        newProvider.ibanimage ??
-            oldProvider?.ibanimage,
-
-        isApproved:
-        newProvider.isApproved ??
-            oldProvider?.isApproved,
-
-        approvalInfo:
-        newProvider.approvalInfo ??
-            oldProvider?.approvalInfo,
-      )
-          : oldProvider;
-
-      // =========================================================
-      // USER MERGE
-      // =========================================================
-
-      final mergedRequest =
-      CreateUserRequest(
-
-        // NEVER change unless request has a new value
-        userid:
-        oldUser.userid,
-
-        username:
-        request.username ??
-            oldUser.username,
-
-        phone:
-        request.phone ??
-            oldUser.phone,
-
-        email:
-        request.email ??
-            oldUser.email,
-
-        password:
-        request.password ??
-            oldUser.password,
-
-        gender:
-        request.gender ??
-            oldUser.gender,
-
-        age:
-        request.age ??
-            oldUser.age,
-
-        type:
-        oldUser.type,
-
-        nationality:
-        request.nationality ??
-            oldUser.nationality,
-
-        isActive:
-        request.isActive ??
-            oldUser.isActive,
-
-        joinDate:
-        request.joinDate ??
-            oldUser.joinDate,
-
-        referralCode:
-        request.referralCode ??
-            oldUser.referralCode,
-
-        image:
-        request.image ??
-            oldUser.image,
-
-        fcmToken:
-        request.fcmToken ??
-            oldUser.fcmToken,
-
-        defaultcarid:
-        request.defaultcarid ??
-            oldUser.defaultcarid,
-
-        providerDetails:
-        mergedProvider,
-
-        employeeDetails:
-        request.employeeDetails ??
-            oldUser.employeeDetails,
-
-        adminDetails:
-        request.adminDetails ??
-            oldUser.adminDetails,
-
-        companyDetails:
-        request.companyDetails ??
-            oldUser.companyDetails,
-
-        driverDetails:
-        request.driverDetails ??
-            oldUser.driverDetails,
-      );
-
-      // =========================================================
-      // API
-      // =========================================================
-
-      final result =
-      await updateUserFunction(
-        createUserRequest:
-        mergedRequest,
-      );
-
-      if (isClosed) {
-        return false;
-      }
-      if (result.success) {
-
-        await AuthLocalStorage.saveUser(
-          mergedRequest,
-        );
-
-        emit(
-          AuthUpdateSuccess(
-            result.message,
-          ),
-        );
-
-        return true;
-      }
-
-      // =========================================================
-      // ERROR
-      // =========================================================
-
-      emit(
-        AuthUpdateError(
-          result.message,
-        ),
-      );
-
-      return false;
-
-    } catch (e) {
-
-      if (isClosed) {
-        return false;
-      }
-
-      emit(
-        AuthUpdateError(
-          e.toString(),
-        ),
-      );
-
-      return false;
-    }
-  }
-
-
-
-
-  Future<void> checkEmailExist(
-      CheckIfUserExistRequest checkIfUserExistRequest) async {
-    emit(AuthLoginLoading());
-
-    final bool isSuccess = await checkIfUserExistFunction(
-        checkIfUserExistRequest: checkIfUserExistRequest);
-
-    if (isSuccess) {
-      emit(AuthLoginSuccess());
-    } else {
-      emit(AuthInitial());
     }
   }
 
