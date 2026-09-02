@@ -24,11 +24,12 @@ class AppLanguageKeys {
   static const String phoneNumberNotFoundForThisAccount =
       'phoneNumberNotFoundForThisAccount';
 
-  static const String verificationCodeSent =
-      'verificationCodeSent';
+  static const String verificationCodeSent = 'verificationCodeSent';
 
-  static const String phoneNumberNotFound =
-      'phoneNumberNotFound';
+  static const String signupOtpMessage = 'signupOtpMessage';
+  static const String forgotPasswordOtpMessage = 'forgotPasswordOtpMessage';
+
+  static const String phoneNumberNotFound = 'phoneNumberNotFound';
   static const String failedToSendVerificationCode =
       'failedToSendVerificationCode';
   static const String allBranches = 'allBranches';
@@ -70,7 +71,8 @@ class AppLanguageKeys {
   static const String warranty = 'warranty';
   static const String durationType = 'durationType';
   static const String durationValue = 'durationValue';
-  static const String employeeAvailablePermissions = 'employeeAvailablePermissions';
+  static const String employeeAvailablePermissions =
+      'employeeAvailablePermissions';
   static const String employeePermissions = 'employeePermissions';
   static const String acceptAllOrders = 'acceptAllOrders';
   static const String changeOrderStatus = 'changeOrderStatus';
@@ -160,15 +162,13 @@ class AppLanguageKeys {
   static const String editEmployee = 'editEmployee';
   static const String pleaseEnterValidEmailAddress =
       'pleaseEnterValidEmailAddress';
-  static const String pleaseEnterYourEmail =
-      'pleaseEnterYourEmail';
-  static const String yourEmailIsEmpty =
-      'yourEmailIsEmpty';
-  static const String pleaseEnterValidEmail =
-      'pleaseEnterValidEmail';
+  static const String pleaseEnterYourEmail = 'pleaseEnterYourEmail';
+  static const String yourEmailIsEmpty = 'yourEmailIsEmpty';
+  static const String pleaseEnterValidEmail = 'pleaseEnterValidEmail';
   static const String codeSentTo = 'codeSentTo';
   static const String employees = 'employees';
-  static const String allRegisteredEmployeesInFacility = 'allRegisteredEmployeesInFacility';
+  static const String allRegisteredEmployeesInFacility =
+      'allRegisteredEmployeesInFacility';
   static const String viewEmployees = 'viewEmployees';
   static const String createEmployee = 'createEmployee';
   static const String enterSystem = 'enterSystem';
@@ -194,6 +194,7 @@ class AppLanguageKeys {
   static const String addressText = 'addressText';
   static const String addressLatinText = 'addressLatinText';
   static const String allBrands = 'allBrands';
+  static const String brands = 'brands';
   static const String allModels = 'allModels';
   static const String areYouSure = 'areYouSure';
   static const String remainingQuantity = 'remainingQuantity';
@@ -274,6 +275,8 @@ class AppLanguageKeys {
   static const String authPhoneNumberRequired = 'authPhoneNumberRequired';
   static const String authEnterCorrectPhoneNumber =
       'authEnterCorrectPhoneNumber';
+  static const String phoneNumberAtLeastSixDigits =
+      'phoneNumberAtLeastSixDigits';
   static const String createNewPassword = 'createNewPassword';
   static const String gender = 'gender';
   static const String age = 'age';

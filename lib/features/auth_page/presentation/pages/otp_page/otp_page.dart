@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:sun_web_system/core/language/language_constant.dart';
@@ -11,15 +12,6 @@ import 'package:sun_web_system/core/theming/text_styles.dart';
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_cubit.dart';
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_state.dart';
 import 'package:sun_web_system/features/auth_page/presentation/pages/change_password/change_password_page.dart';
-
-// =========================================================
-// OTP PURPOSE
-// =========================================================
-
-enum OtpPurpose {
-  forgotPassword,
-  signup,
-}
 
 class OtpPage extends StatefulWidget {
   final String email;
@@ -34,7 +26,6 @@ class OtpPage extends StatefulWidget {
   @override
   State<OtpPage> createState() => _OtpPageState();
 }
-
 
 class _OtpPageState extends State<OtpPage> {
   final List<TextEditingController> controllers = List.generate(
@@ -170,49 +161,48 @@ class _OtpPageState extends State<OtpPage> {
 
   @override
   Widget build(BuildContext context) {
-    return  BlocListener<AuthCubit, AuthState>(
-        listenWhen: (previous, current) =>
-        current is AuthOtpSuccess ||
-            current is AuthOtpError ||
-            current is AuthSignupCompleted ||
-            current is AuthSignupError,
-        listener: (context, state) {
-          if (state is AuthOtpSuccess) {
-            _handleOtpSuccess();
-            return;
-          }
+    return BlocListener<AuthCubit, AuthState>(
+      listenWhen: (previous, current) =>
+          current is AuthOtpSuccess ||
+          current is AuthOtpError ||
+          current is AuthSignupCompleted ||
+          current is AuthSignupError,
+      listener: (context, state) {
+        if (state is AuthOtpSuccess) {
+          _handleOtpSuccess();
+          return;
+        }
 
-          if (state is AuthSignupCompleted) {
-            if (!mounted) return;
+        if (state is AuthSignupCompleted) {
+          if (!mounted) return;
 
-            AppSnackBar.showSuccess(
-              AppLanguageKeys.success,
-            );
+          AppSnackBar.showSuccess(
+            AppLanguageKeys.success,
+          );
 
-            // OTP Page -> Signup Page
-            Navigator.of(context).pop();
+          // OTP Page -> Signup Page
+          Navigator.of(context).pop();
 
-            // Signup Page -> Login Page
-            Navigator.of(context).pop();
+          // Signup Page -> Login Page
+          Navigator.of(context).pop();
 
-            return;
-          }
+          return;
+        }
 
+        if (state is AuthSignupError) {
+          AppSnackBar.showError(
+            state.message,
+          );
+          return;
+        }
 
-          if (state is AuthSignupError) {
-            AppSnackBar.showError(
-              state.message,
-            );
-            return;
-          }
-
-          if (state is AuthOtpError) {
-            AppSnackBar.showError(
-              state.message,
-            );
-          }
-        },
-        child:  Scaffold(
+        if (state is AuthOtpError) {
+          AppSnackBar.showError(
+            state.message,
+          );
+        }
+      },
+      child: Scaffold(
         appBar: AppBar(),
         backgroundColor: AppColors.scaffoldColor,
         body: Center(
@@ -302,110 +292,118 @@ class _OtpPageState extends State<OtpPage> {
 // OTP INPUTS
 // =================================================
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: List.generate(
-                    4,
-                    (index) {
-                      return SizedBox(
-                        width: 65,
-                        height: 65,
-                        child: BlocBuilder<AuthCubit, AuthState>(
-                          buildWhen: (previous, current) =>
-                              current is AuthOtpError ||
-                              current is AuthOtpReset,
-                          builder: (context, state) {
-                            final cubit = context.read<AuthCubit>();
+                Directionality(
+                  textDirection: TextDirection.ltr,
+                  child: Row(
+                    textDirection: TextDirection.ltr,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: List.generate(
+                      4,
+                      (index) {
+                        return SizedBox(
+                          width: 65,
+                          height: 65,
+                          child: BlocBuilder<AuthCubit, AuthState>(
+                            buildWhen: (previous, current) =>
+                                current is AuthOtpError ||
+                                current is AuthOtpReset,
+                            builder: (context, state) {
+                              final cubit = context.read<AuthCubit>();
 
-                            return TextField(
-                              controller: controllers[index],
-                              focusNode: focusNodes[index],
-                              keyboardType: TextInputType.number,
-                              textInputAction: TextInputAction.next,
-                              textAlign: TextAlign.center,
-                              maxLength: 1,
-                              style: const TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              decoration: InputDecoration(
-                                counterText: "",
-                                filled: true,
-                                fillColor: AppColors.lightWhiteColor,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  borderSide: const BorderSide(
-                                    color: AppColors.greyColor200,
-                                    width: 2,
+                              return TextField(
+                                controller: controllers[index],
+                                focusNode: focusNodes[index],
+                                keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                ],
+                                textInputAction: TextInputAction.next,
+                                textDirection: TextDirection.ltr,
+                                textAlign: TextAlign.center,
+                                maxLength: 1,
+                                style: const TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                decoration: InputDecoration(
+                                  counterText: "",
+                                  filled: true,
+                                  fillColor: AppColors.lightWhiteColor,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide: const BorderSide(
+                                      color: AppColors.greyColor200,
+                                      width: 2,
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide: BorderSide(
+                                      color: cubit.isOtpError
+                                          ? AppColors.redColor
+                                          : AppColors.greyColor200,
+                                      width: 2,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide: BorderSide(
+                                      color: cubit.isOtpError
+                                          ? AppColors.redColor
+                                          : AppColors.orangeColor,
+                                      width: 2,
+                                    ),
                                   ),
                                 ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(
-                                    color: cubit.isOtpError
-                                        ? AppColors.redColor
-                                        : AppColors.greyColor200,
-                                    width: 2,
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(
-                                    color: cubit.isOtpError
-                                        ? AppColors.redColor
-                                        : AppColors.orangeColor,
-                                    width: 2,
-                                  ),
-                                ),
-                              ),
-                              onChanged: (value) {
-                                final cubit = context.read<AuthCubit>();
+                                onChanged: (value) {
+                                  final cubit = context.read<AuthCubit>();
 
 // Remove OTP error
-                                cubit.resetOtpError();
+                                  cubit.resetOtpError();
 
 // =================================================
 // ENTERED VALUE
 // =================================================
 
-                                if (value.isNotEmpty) {
-                                  if (index < 3) {
-                                    focusNodes[index + 1].requestFocus();
-                                  } else {
-                                    focusNodes[index].unfocus();
+                                  if (value.isNotEmpty) {
+                                    if (index < 3) {
+                                      focusNodes[index + 1].requestFocus();
+                                    } else {
+                                      focusNodes[index].unfocus();
 
-                                    Future.delayed(
-                                      const Duration(
-                                        milliseconds: 100,
-                                      ),
-                                      () {
-                                        if (!mounted) return;
+                                      Future.delayed(
+                                        const Duration(
+                                          milliseconds: 100,
+                                        ),
+                                        () {
+                                          if (!mounted) return;
 
-                                        final code = getOtp();
+                                          final code = getOtp();
 
-                                        if (code.length == 4) {
-                                          _verifyOtp();
-                                        }
-                                      },
-                                    );
+                                          if (code.length == 4) {
+                                            _verifyOtp();
+                                          }
+                                        },
+                                      );
+                                    }
+
+                                    return;
                                   }
-
-                                  return;
-                                }
 
 // =================================================
 // DELETE
 // =================================================
 
-                                if (index > 0) {
-                                  focusNodes[index - 1].requestFocus();
-                                }
-                              },
-                            );
-                          },
-                        ),
-                      );
-                    },
+                                  if (index > 0) {
+                                    focusNodes[index - 1].requestFocus();
+                                  }
+                                },
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
 
@@ -446,10 +444,8 @@ class _OtpPageState extends State<OtpPage> {
                   width: double.infinity,
                   child: BlocBuilder<AuthCubit, AuthState>(
                     buildWhen: (previous, current) =>
-                        current is AuthOtpSuccess ||
-                        current is AuthOtpError,
+                        current is AuthOtpSuccess || current is AuthOtpError,
                     builder: (context, state) {
-
                       return ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.orangeColor,
@@ -460,14 +456,13 @@ class _OtpPageState extends State<OtpPage> {
                             borderRadius: BorderRadius.circular(15),
                           ),
                         ),
-                        onPressed:  _verifyOtp,
-                        child:const TextInAppWidget(
-                                text: AppLanguageKeys.verify,
-                                textSize: 14,
-                                fontWeightIndex:
-                                    FontSelectionData.regularFontFamily,
-                                textColor: AppColors.whiteColor,
-                              ),
+                        onPressed: _verifyOtp,
+                        child: const TextInAppWidget(
+                          text: AppLanguageKeys.verify,
+                          textSize: 14,
+                          fontWeightIndex: FontSelectionData.regularFontFamily,
+                          textColor: AppColors.whiteColor,
+                        ),
                       );
                     },
                   ),
@@ -505,7 +500,10 @@ class _OtpPageState extends State<OtpPage> {
                       onPressed: () async {
                         clearOtp();
 
-                        await cubit.resendOtp();
+                        await cubit.resendOtp(
+                          languageCode:
+                              Localizations.localeOf(context).languageCode,
+                        );
                       },
                       child: const TextInAppWidget(
                         text: AppLanguageKeys.resend,

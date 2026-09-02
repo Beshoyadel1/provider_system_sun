@@ -10,14 +10,14 @@ class CarSelectionCubit extends Cubit<void> {
 
   Future<List<CarModelDataModel>> getModels(int brandId) async {
     if (cache.containsKey(brandId)) {
-      return cache[brandId]!;
+      return List<CarModelDataModel>.of(cache[brandId]!);
     }
 
     final data = await getCarBrandModelsFunction(
       request: GetCarBrandModelsRequest(carBrandId: brandId),
     );
 
-    cache[brandId] = data;
-    return data;
+    cache[brandId] = List<CarModelDataModel>.unmodifiable(data);
+    return List<CarModelDataModel>.of(data);
   }
 }

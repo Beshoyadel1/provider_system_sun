@@ -14,6 +14,9 @@ class CarSelectionItemWidget extends StatefulWidget {
   final CarSelectionController controller;
   final VoidCallback? onAdd;
   final VoidCallback? onDelete;
+  final VoidCallback? onSelectionChanged;
+  final Set<int> unavailableBrandIds;
+  final bool isAllBrandsSelectedElsewhere;
   final bool showDelete;
 
   const CarSelectionItemWidget({
@@ -21,6 +24,9 @@ class CarSelectionItemWidget extends StatefulWidget {
     required this.controller,
     this.onAdd,
     this.onDelete,
+    this.onSelectionChanged,
+    this.unavailableBrandIds = const <int>{},
+    this.isAllBrandsSelectedElsewhere = false,
     this.showDelete = true,
   });
 
@@ -37,7 +43,7 @@ class _CarSelectionItemWidgetState extends State<CarSelectionItemWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const TextInAppWidget(
-          text: AppLanguageKeys.carStatus,
+          text: AppLanguageKeys.brands,
           textSize: 11,
           fontWeightIndex: FontSelectionData.regularFontFamily,
           textColor: AppColors.blackColor,
@@ -59,6 +65,14 @@ class _CarSelectionItemWidgetState extends State<CarSelectionItemWidget> {
               }
 
               final brands = state.brands;
+              final availableBrands = brands.where((brand) {
+                if (widget.isAllBrandsSelectedElsewhere) {
+                  return brand.id == widget.controller.brandId;
+                }
+
+                return brand.id == widget.controller.brandId ||
+                    !widget.unavailableBrandIds.contains(brand.id);
+              });
 
               return Column(
                 spacing: 15,
@@ -75,37 +89,43 @@ class _CarSelectionItemWidgetState extends State<CarSelectionItemWidget> {
                       ),
                       SizedBox(
                         height: 35,
-                        child:DropdownButtonFormField<int>(
+                        child: DropdownButtonFormField<int>(
                           isDense: true,
                           isExpanded: true,
                           value: widget.controller.isAllBrandsSelected
                               ? -1
                               : widget.controller.brandId,
                           items: [
-                            const DropdownMenuItem<int>(
-                              value: -1,
-                              child: TextInAppWidget(
-                                text: AppLanguageKeys.allBrands,
-                                textSize: 11,
-                                fontWeightIndex: FontSelectionData.regularFontFamily,
-                                textColor: AppColors.blackColor,
+                            if (widget.controller.isAllBrandsSelected ||
+                                (!widget.isAllBrandsSelectedElsewhere &&
+                                    widget.unavailableBrandIds.isEmpty))
+                              const DropdownMenuItem<int>(
+                                value: -1,
+                                child: TextInAppWidget(
+                                  text: AppLanguageKeys.allBrands,
+                                  textSize: 11,
+                                  fontWeightIndex:
+                                      FontSelectionData.regularFontFamily,
+                                  textColor: AppColors.blackColor,
+                                ),
                               ),
-                            ),
-                            ...brands.map((brand) {
+                            ...availableBrands.map((brand) {
                               return DropdownMenuItem<int>(
                                 value: brand.id,
                                 child: Row(
                                   children: [
                                     brand.image != null
-                                        ? Image.memory(brand.image!, width: 25, height: 25)
-                                        : const Icon(Icons.directions_car, size: 20),
+                                        ? Image.memory(brand.image!,
+                                            width: 25, height: 25)
+                                        : const Icon(Icons.directions_car,
+                                            size: 20),
                                     const SizedBox(width: 8),
                                     Expanded(
                                       child: TextInAppWidget(
                                         text: brand.getName(context),
                                         textSize: 12,
                                         fontWeightIndex:
-                                        FontSelectionData.regularFontFamily,
+                                            FontSelectionData.regularFontFamily,
                                         textColor: AppColors.blackColor,
                                       ),
                                     ),
@@ -124,6 +144,7 @@ class _CarSelectionItemWidgetState extends State<CarSelectionItemWidget> {
                                 widget.controller.selectedModelIds.clear();
                                 widget.controller.models.clear();
                               });
+                              widget.onSelectionChanged?.call();
                               return;
                             }
 
@@ -134,6 +155,7 @@ class _CarSelectionItemWidgetState extends State<CarSelectionItemWidget> {
                               widget.controller.models.clear();
                               widget.controller.isLoading = true;
                             });
+                            widget.onSelectionChanged?.call();
 
                             final models = await carCubit.getModels(value);
 
@@ -148,95 +170,103 @@ class _CarSelectionItemWidgetState extends State<CarSelectionItemWidget> {
                       ),
                     ],
                   ),
-
                   if (widget.controller.brandId == null)
                     const SizedBox()
-
                   else if (widget.controller.isLoading)
                     const Padding(
                       padding: EdgeInsets.all(8.0),
                       child: CircularProgressIndicator(),
                     )
-
                   else if (widget.controller.models.isEmpty)
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          "لا توجد موديلات",
-                          style: TextStyle(color: Colors.grey),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        "لا توجد موديلات",
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    )
+                  else
+                    Column(
+                      spacing: 10,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const TextInAppWidget(
+                          text: AppLanguageKeys.selectCarModel,
+                          textSize: 11,
+                          fontWeightIndex: FontSelectionData.regularFontFamily,
+                          textColor: AppColors.blackColor,
                         ),
-                      )
-
-                    else
-                      Column(
-                        spacing: 10,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const TextInAppWidget(
-                            text: AppLanguageKeys.selectCarModel,
-                            textSize: 11,
-                            fontWeightIndex: FontSelectionData.regularFontFamily,
-                            textColor: AppColors.blackColor,
+                        Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey.shade300),
+                            borderRadius: BorderRadius.circular(12),
                           ),
-
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey.shade300),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Column(
-                              children: [
-                                CheckboxListTile(
+                          child: Column(
+                            children: [
+                              Material(
+                                color: Colors.transparent,
+                                child: CheckboxListTile(
                                   activeColor: AppColors.orangeColor,
-                                  value: widget.controller.selectedModelIds.length ==
+                                  value: widget
+                                          .controller.selectedModelIds.length ==
                                       widget.controller.models.length,
                                   dense: true,
-                                  controlAffinity: ListTileControlAffinity.leading,
+                                  controlAffinity:
+                                      ListTileControlAffinity.leading,
                                   title: const TextInAppWidget(
-                                      text:AppLanguageKeys.allModels,
+                                    text: AppLanguageKeys.allModels,
                                     textSize: 13,
                                   ),
                                   onChanged: (value) {
                                     setState(() {
                                       if (value == true) {
-                                        widget.controller.selectedModelIds = widget.controller.models
-                                            .map((e) => e.id!)
-                                            .toList();
+                                        widget.controller.selectedModelIds =
+                                            widget.controller.models
+                                                .map((e) => e.id!)
+                                                .toList();
                                       } else {
-                                        widget.controller.selectedModelIds.clear();
+                                        widget.controller.selectedModelIds
+                                            .clear();
                                       }
                                     });
                                   },
                                 ),
+                              ),
+                              const Divider(),
+                              ...widget.controller.models.map((model) {
+                                final isSelected = widget
+                                    .controller.selectedModelIds
+                                    .contains(model.id);
 
-                                const Divider(),
-
-                                ...widget.controller.models.map((model) {
-                                  final isSelected = widget.controller.selectedModelIds.contains(model.id);
-
-                                  return CheckboxListTile(
+                                return Material(
+                                  color: Colors.transparent,
+                                  child: CheckboxListTile(
                                     activeColor: AppColors.orangeColor,
                                     value: isSelected,
                                     dense: true,
-                                    controlAffinity: ListTileControlAffinity.leading,
+                                    controlAffinity:
+                                        ListTileControlAffinity.leading,
                                     title: Text(model.name ?? ""),
                                     onChanged: (value) {
                                       setState(() {
                                         if (value == true) {
-                                          widget.controller.selectedModelIds.add(model.id!);
+                                          widget.controller.selectedModelIds
+                                              .add(model.id!);
                                         } else {
-                                          widget.controller.selectedModelIds.remove(model.id);
+                                          widget.controller.selectedModelIds
+                                              .remove(model.id);
                                         }
                                       });
                                     },
-                                  );
-                                }).toList(),
-                              ],
-                            ),
+                                  ),
+                                );
+                              }).toList(),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
+                    ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

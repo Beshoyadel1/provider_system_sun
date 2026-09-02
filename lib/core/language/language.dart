@@ -34,15 +34,17 @@ class AppLocalizations {
 
       //others//
       AppLanguageKeys.phoneNumberNotFoundForThisAccount:
-      'رقم الهاتف غير موجود لهذا الحساب',
+          'رقم الهاتف غير موجود لهذا الحساب',
 
-      AppLanguageKeys.verificationCodeSent:
-      'تم إرسال رمز التحقق',
+      AppLanguageKeys.verificationCodeSent: 'تم إرسال رمز التحقق',
 
-      AppLanguageKeys.phoneNumberNotFound:
-      'رقم الهاتف غير موجود',
-      AppLanguageKeys.failedToSendVerificationCode:
-      'فشل إرسال رمز التحقق',
+      AppLanguageKeys.signupOtpMessage:
+          'مرحبا بكم في صان، الرمز الخاص بكم لتسجيل الدخول هو {otp}',
+      AppLanguageKeys.forgotPasswordOtpMessage:
+          'مرحبا بكم في صان، الرمز الخاص بكم لتغيير كلمة المرور هو {otp}',
+
+      AppLanguageKeys.phoneNumberNotFound: 'رقم الهاتف غير موجود',
+      AppLanguageKeys.failedToSendVerificationCode: 'فشل إرسال رمز التحقق',
       AppLanguageKeys.allBranches: 'جميع الفروع',
       AppLanguageKeys.created: 'مُنشأ',
       AppLanguageKeys.pending: 'معلق',
@@ -107,9 +109,9 @@ class AppLocalizations {
       AppLanguageKeys.status: 'الحالة',
       AppLanguageKeys.selectDate: 'يرجى اختيار التاريخ',
       AppLanguageKeys.endDateCannotBeBeforeStartDate:
-      'لا يمكن أن يكون تاريخ النهاية قبل تاريخ البداية',
+          'لا يمكن أن يكون تاريخ النهاية قبل تاريخ البداية',
       AppLanguageKeys.pleaseEnterAtLeastOneProvider:
-      'يرجى إدخال مزود خدمة واحد على الأقل',
+          'يرجى إدخال مزود خدمة واحد على الأقل',
       AppLanguageKeys.invalidProviderId: 'رقم مزود الخدمة غير صالح',
       AppLanguageKeys.pleaseSelectDiscountType: 'يرجى اختيار نوع الخصم',
       AppLanguageKeys.startDate: 'تاريخ البداية',
@@ -155,11 +157,10 @@ class AppLocalizations {
       AppLanguageKeys.orderDetailsNumber: 'تفاصيل طلب رقم #',
       AppLanguageKeys.notificationConnected: 'الإشعارات متصلة',
       AppLanguageKeys.notificationReconnecting:
-      'جارٍ إعادة الاتصال الإشعارات...',
-      AppLanguageKeys.notificationConnecting:
-      'جارٍ الاتصال الإشعارات...',
+          'جارٍ إعادة الاتصال الإشعارات...',
+      AppLanguageKeys.notificationConnecting: 'جارٍ الاتصال الإشعارات...',
       AppLanguageKeys.notificationDisconnectedTapToReconnect:
-      'الإشعارات غير متصلة (اضغط لإعادة الاتصال)',
+          'الإشعارات غير متصلة (اضغط لإعادة الاتصال)',
       AppLanguageKeys.youHaveOrderUpdate: 'لديك تحديث على الطلب.',
       AppLanguageKeys.viewMore: 'عرض المزيد',
       AppLanguageKeys.petrol: 'بنزين',
@@ -174,13 +175,11 @@ class AppLocalizations {
       AppLanguageKeys.codeSentTo: 'تم إرسال الرمز إلى',
       AppLanguageKeys.pleaseEnterValidEmail: 'يرجى إدخال بريد إلكتروني صحيح',
       AppLanguageKeys.pleaseEnterValidEmailAddress:
-      'يرجى إدخال بريد إلكتروني صحيح',
+          'يرجى إدخال بريد إلكتروني صحيح',
 
-      AppLanguageKeys.pleaseEnterYourEmail:
-      'يرجى إدخال بريدك الإلكتروني',
+      AppLanguageKeys.pleaseEnterYourEmail: 'يرجى إدخال بريدك الإلكتروني',
 
-      AppLanguageKeys.yourEmailIsEmpty:
-      'البريد الإلكتروني فارغ',
+      AppLanguageKeys.yourEmailIsEmpty: 'البريد الإلكتروني فارغ',
       AppLanguageKeys.allRegisteredEmployeesInFacility:
           'جميع الموظفين المسجلين داخل المؤسسة',
       AppLanguageKeys.viewEmployees: 'عرض الموظفين',
@@ -211,6 +210,7 @@ class AppLocalizations {
       AppLanguageKeys.addressText: 'وصف العنوان',
       AppLanguageKeys.addressLatinText: 'وصف العنوان بالإنجليزية',
       AppLanguageKeys.allBrands: 'كل الماركات',
+      AppLanguageKeys.brands: 'العلامات التجارية',
       AppLanguageKeys.allModels: 'كل الموديلات',
       AppLanguageKeys.areYouSure: 'هل أنت متأكد؟',
       AppLanguageKeys.remainingQuantity: 'باقي عدد قطع',
@@ -294,6 +294,8 @@ class AppLocalizations {
       AppLanguageKeys.authWeakPassword: 'كلمة المرور ضعيفة',
       AppLanguageKeys.authPhoneNumberRequired: 'رقم الجوال مطلوب',
       AppLanguageKeys.authEnterCorrectPhoneNumber: 'يرجى إدخال رقم جوال صحيح',
+      AppLanguageKeys.phoneNumberAtLeastSixDigits:
+          'يجب ألا يقل رقم الجوال عن 6 أرقام',
       AppLanguageKeys.createNewPassword: 'إنشاء كلمة مرور جديدة',
       //end//
       //message api response//
@@ -1030,8 +1032,7 @@ class AppLocalizations {
       AppLanguageKeys.accountManagement: 'ادارة الحسابات',
       AppLanguageKeys.permissionsManagement: 'ادارة الصلاحيات',
       AppLanguageKeys.organizationManagement: 'ادارة المنشأة',
-      AppLanguageKeys.permissionsFromServices:
-          'الخدمات المتاحة للموظف',
+      AppLanguageKeys.permissionsFromServices: 'الخدمات المتاحة للموظف',
       AppLanguageKeys.maintenanceServices: 'خدمات الصيانة',
 
       AppLanguageKeys.nissanServiceSettings:
@@ -1132,7 +1133,7 @@ class AppLocalizations {
       AppLanguageKeys.friday: 'الجمعة',
       AppLanguageKeys.enterYourData: 'أدخل بياناتك',
       AppLanguageKeys.nationalAddressMustBe8CharactersAndDigits:
-      'يجب أن يتكون العنوان الوطني من 8 أحرف وأرقام',
+          'يجب أن يتكون العنوان الوطني من 8 أحرف وأرقام',
       AppLanguageKeys.waitingForOffers: 'في انتظار استقبال العروض',
       AppLanguageKeys.serviceCenterOffers: 'العروض المقدمة من مراكز الخدمة',
       AppLanguageKeys.mobileMaintenanceOffer: 'صيانة متنقلة',
@@ -1477,15 +1478,18 @@ class AppLocalizations {
       //END//
       //others//
       AppLanguageKeys.phoneNumberNotFoundForThisAccount:
-      'Phone number not found for this account',
+          'Phone number not found for this account',
 
-      AppLanguageKeys.verificationCodeSent:
-      'Verification code sent',
+      AppLanguageKeys.verificationCodeSent: 'Verification code sent',
 
-      AppLanguageKeys.phoneNumberNotFound:
-      'Phone number not found',
+      AppLanguageKeys.signupOtpMessage:
+          'Welcome to San, your login code is {otp}',
+      AppLanguageKeys.forgotPasswordOtpMessage:
+          'Welcome to San, your password reset code is {otp}',
+
+      AppLanguageKeys.phoneNumberNotFound: 'Phone number not found',
       AppLanguageKeys.failedToSendVerificationCode:
-      'Failed to send verification code',
+          'Failed to send verification code',
       AppLanguageKeys.allBranches: 'All Branches',
       AppLanguageKeys.created: 'Created',
       AppLanguageKeys.pending: 'Pending',
@@ -1506,7 +1510,8 @@ class AppLocalizations {
       AppLanguageKeys.totalConsumption: 'Total Consumption',
       AppLanguageKeys.expectedSpend: 'Expected Spend',
       AppLanguageKeys.consumptionPercentage: 'Consumption Percentage',
-      AppLanguageKeys.previousOrdersAndMaintenance: 'Previous Orders and Maintenance',
+      AppLanguageKeys.previousOrdersAndMaintenance:
+          'Previous Orders and Maintenance',
       AppLanguageKeys.carInvoiceDetails: 'Car Invoice Details',
       AppLanguageKeys.noInvoices: 'No Invoices',
       AppLanguageKeys.invoiceItem: 'Invoice Item',
@@ -1524,7 +1529,8 @@ class AppLocalizations {
       AppLanguageKeys.warranty: 'Warranty',
       AppLanguageKeys.durationType: 'Duration Type',
       AppLanguageKeys.durationValue: 'Duration Value',
-      AppLanguageKeys.employeeAvailablePermissions: 'Available Permissions for Employee',
+      AppLanguageKeys.employeeAvailablePermissions:
+          'Available Permissions for Employee',
       AppLanguageKeys.employeePermissions: 'Employee Permissions',
       AppLanguageKeys.acceptAllOrders: 'Accept All Orders',
       AppLanguageKeys.changeOrderStatus: 'Change Order Status',
@@ -1550,9 +1556,9 @@ class AppLocalizations {
       AppLanguageKeys.status: 'Status',
       AppLanguageKeys.selectDate: 'Select date',
       AppLanguageKeys.endDateCannotBeBeforeStartDate:
-      'End date cannot be before start date',
+          'End date cannot be before start date',
       AppLanguageKeys.pleaseEnterAtLeastOneProvider:
-      'Please enter at least one provider',
+          'Please enter at least one provider',
       AppLanguageKeys.invalidProviderId: 'Invalid provider ID',
       AppLanguageKeys.pleaseSelectDiscountType: 'Please select discount type',
       AppLanguageKeys.startDate: 'Start Date',
@@ -1598,11 +1604,10 @@ class AppLocalizations {
       AppLanguageKeys.orderDetailsNumber: 'Order Details #',
       AppLanguageKeys.notificationConnected: 'Notification connected',
       AppLanguageKeys.notificationReconnecting:
-      'Reconnecting to notification ...',
-      AppLanguageKeys.notificationConnecting:
-      'Connecting to notification ...',
+          'Reconnecting to notification ...',
+      AppLanguageKeys.notificationConnecting: 'Connecting to notification ...',
       AppLanguageKeys.notificationDisconnectedTapToReconnect:
-      'Notification disconnected (Tap to reconnect)',
+          'Notification disconnected (Tap to reconnect)',
       AppLanguageKeys.youHaveOrderUpdate: 'You have an order update.',
       AppLanguageKeys.viewMore: 'View More',
       AppLanguageKeys.petrol: 'Petrol',
@@ -1617,13 +1622,11 @@ class AppLocalizations {
       AppLanguageKeys.employees: 'Employees',
       AppLanguageKeys.pleaseEnterValidEmail: 'Please enter a valid email',
       AppLanguageKeys.pleaseEnterValidEmailAddress:
-      'Please enter a valid email address',
+          'Please enter a valid email address',
 
-      AppLanguageKeys.pleaseEnterYourEmail:
-      'Please enter your email',
+      AppLanguageKeys.pleaseEnterYourEmail: 'Please enter your email',
 
-      AppLanguageKeys.yourEmailIsEmpty:
-      'Your email is empty',
+      AppLanguageKeys.yourEmailIsEmpty: 'Your email is empty',
       AppLanguageKeys.allRegisteredEmployeesInFacility:
           'All registered employees in the facility',
       AppLanguageKeys.viewEmployees: 'View Employees',
@@ -1654,6 +1657,7 @@ class AppLocalizations {
       AppLanguageKeys.addressText: 'Address Description',
       AppLanguageKeys.addressLatinText: 'Address Description (Latin)',
       AppLanguageKeys.allBrands: 'All Brands',
+      AppLanguageKeys.brands: 'Brands',
       AppLanguageKeys.allModels: 'All Models',
       AppLanguageKeys.areYouSure: 'Are you sure?',
       AppLanguageKeys.remainingQuantity: 'Remaining Quantity',
@@ -1738,6 +1742,8 @@ class AppLocalizations {
       AppLanguageKeys.authPhoneNumberRequired: 'Phone number is required',
       AppLanguageKeys.authEnterCorrectPhoneNumber:
           'Please enter a valid phone number',
+      AppLanguageKeys.phoneNumberAtLeastSixDigits:
+          'Phone number must be at least 6 digits',
       AppLanguageKeys.createNewPassword: 'Create New Password',
       //end//
       //message api response//
@@ -2068,8 +2074,7 @@ class AppLocalizations {
       AppLanguageKeys.selectCarModelKey: 'Select your car api_functions',
       AppLanguageKeys.searchCarModelKey:
           'You can search to choose the car api_functions',
-      AppLanguageKeys.continueFacilityDataKey:
-          'Continue filling information',
+      AppLanguageKeys.continueFacilityDataKey: 'Continue filling information',
       AppLanguageKeys.fillFacilityDataKey:
           'Fill in your facility account information',
       AppLanguageKeys.saturdayKey: 'Saturday',
@@ -2471,8 +2476,7 @@ Providers will be notified of any major changes via the platform or email.
       AppLanguageKeys.userPermissionsSettings:
           'User permissions_user Settings in the System',
       AppLanguageKeys.addNewEmployee: 'Add New Employee',
-      AppLanguageKeys.employeeSettings:
-      'Employee settings for system users',
+      AppLanguageKeys.employeeSettings: 'Employee settings for system users',
       AppLanguageKeys.employeeName: 'Employee Name',
       AppLanguageKeys.jobTitle: 'Job Title',
       AppLanguageKeys.accountStatus: 'Account Status',
@@ -2592,7 +2596,7 @@ Providers will be notified of any major changes via the platform or email.
       AppLanguageKeys.friday: 'Friday',
       AppLanguageKeys.enterYourData: 'Enter your data',
       AppLanguageKeys.nationalAddressMustBe8CharactersAndDigits:
-      'National address must be 8 characters and digits',
+          'National address must be 8 characters and digits',
       AppLanguageKeys.waitingForOffers: 'Waiting to receive offers',
       AppLanguageKeys.serviceCenterOffers: 'Offers from Service Centers',
       AppLanguageKeys.mobileMaintenanceOffer: 'Mobile Maintenance',

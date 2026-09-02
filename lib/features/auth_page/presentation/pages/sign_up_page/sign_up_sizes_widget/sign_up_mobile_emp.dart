@@ -18,7 +18,6 @@ import 'package:sun_web_system/features/auth_page/presentation/pages/login_page/
 import 'package:sun_web_system/features/auth_page/presentation/pages/login_page/login_widgets/user_text_field_widget.dart';
 import 'package:sun_web_system/features/auth_page/presentation/pages/otp_page/otp_page.dart';
 
-
 class SignUpMobileEmp extends StatefulWidget {
   const SignUpMobileEmp({super.key});
 
@@ -36,7 +35,6 @@ class _SignUpMobileEmpState extends State<SignUpMobileEmp> {
   final TextEditingController confirmPasswordController =
       TextEditingController();
 
-
   @override
   void dispose() {
     usernameController.dispose();
@@ -49,7 +47,6 @@ class _SignUpMobileEmpState extends State<SignUpMobileEmp> {
 
   @override
   Widget build(BuildContext context) {
-
     return Form(
       key: _formKey,
       autovalidateMode: AutovalidateMode.disabled,
@@ -68,14 +65,12 @@ class _SignUpMobileEmpState extends State<SignUpMobileEmp> {
                   spacing: 10,
                   children: [
                     const LoginLanguageButtonWidget(),
-
                     Image.asset(
                       AppImageKeys.sarLogo,
                       height: 50,
                       width: 170,
                       fit: BoxFit.fill,
                     ),
-
                     const TextInAppWidget(
                       text: AppLanguageKeys.signUpTitleKey,
                       textSize: 25,
@@ -86,13 +81,12 @@ class _SignUpMobileEmpState extends State<SignUpMobileEmp> {
                       controller: usernameController,
                       text: AppLanguageKeys.userName,
                     ),
-
                     UserTextFieldWidget(
                       type: UserFieldType.phone,
                       controller: phoneController,
                       text: AppLanguageKeys.phoneNumberKey,
                       onChanged: (value) {
-                       // print('PHONE NUMBER => $value');
+                        // print('PHONE NUMBER => $value');
                       },
                     ),
                     UserTextFieldWidget(
@@ -111,10 +105,9 @@ class _SignUpMobileEmpState extends State<SignUpMobileEmp> {
                       text: AppLanguageKeys.confirmPasswordKey,
                     ),
                     const SizedBox(height: 10),
-
                     BlocListener<AuthCubit, AuthState>(
                       listenWhen: (previous, current) =>
-                      current is AuthSignupSuccess ||
+                          current is AuthSignupSuccess ||
                           current is AuthSignupError,
                       listener: (context, state) {
                         if (state is AuthSignupSuccess) {
@@ -157,7 +150,7 @@ class _SignUpMobileEmpState extends State<SignUpMobileEmp> {
                       },
                       child: BlocBuilder<AuthCubit, AuthState>(
                         buildWhen: (previous, current) =>
-                        current is AuthSignupLoading ||
+                            current is AuthSignupLoading ||
                             current is AuthSignupSuccess ||
                             current is AuthSignupError ||
                             previous is AuthSignupLoading,
@@ -170,65 +163,70 @@ class _SignUpMobileEmpState extends State<SignUpMobileEmp> {
                             onPressed: isLoading
                                 ? null
                                 : () {
-                              // ==========================================
-                              // 1. RUN FORM VALIDATION FIRST
-                              // ==========================================
+                                    // ==========================================
+                                    // 1. RUN FORM VALIDATION FIRST
+                                    // ==========================================
 
-                              if (!_formKey.currentState!.validate()) {
-                                return;
-                              }
+                                    if (!_formKey.currentState!.validate()) {
+                                      return;
+                                    }
 
-                              // ==========================================
-                              // 2. GET VALUES AFTER BASIC VALIDATION
-                              // ==========================================
+                                    // ==========================================
+                                    // 2. GET VALUES AFTER BASIC VALIDATION
+                                    // ==========================================
 
-                              final username = usernameController.text.trim();
-                              final phone = phoneController.text.trim();
-                              final email = emailController.text.trim();
-                              final password = passwordController.text.trim();
-                              final confirmPassword =
-                              confirmPasswordController.text.trim();
+                                    final username =
+                                        usernameController.text.trim();
+                                    final phone = phoneController.text.trim();
+                                    final email = emailController.text.trim();
+                                    final password =
+                                        passwordController.text.trim();
+                                    final confirmPassword =
+                                        confirmPasswordController.text.trim();
 
-                              // ==========================================
-                              // 3. EXTRA VALIDATION
-                              // ==========================================
+                                    // ==========================================
+                                    // 3. EXTRA VALIDATION
+                                    // ==========================================
 
-                              // Email
-                              final emailRegex = RegExp(
-                                r'^[\w\-.]+@([\w-]+\.)+[\w-]{2,4}$',
-                              );
+                                    // Email
+                                    final emailRegex = RegExp(
+                                      r'^[\w\-.]+@([\w-]+\.)+[\w-]{2,4}$',
+                                    );
 
-                              if (!emailRegex.hasMatch(email)) {
-                                AppSnackBar.showError(
-                                  AppLanguageKeys.pleaseEnterValidEmail,
-                                );
-                                return;
-                              }
+                                    if (!emailRegex.hasMatch(email)) {
+                                      AppSnackBar.showError(
+                                        AppLanguageKeys.pleaseEnterValidEmail,
+                                      );
+                                      return;
+                                    }
 
-                              // Password confirmation
-                              if (password != confirmPassword) {
-                                AppSnackBar.showError(
-                                  AppLanguageKeys.passwordsDoNotMatch,
-                                );
-                                return;
-                              }
+                                    // Password confirmation
+                                    if (password != confirmPassword) {
+                                      AppSnackBar.showError(
+                                        AppLanguageKeys.passwordsDoNotMatch,
+                                      );
+                                      return;
+                                    }
 
-                              // ==========================================
-                              // 4. ONLY NOW CALL API
-                              // ==========================================
+                                    // ==========================================
+                                    // 4. ONLY NOW CALL API
+                                    // ==========================================
 
-                              context.read<AuthCubit>().signup(
-                                CreateUserRequest(
-                                  username: username,
-                                  phone: phone,
-                                  email: email,
-                                  password: password,
-                                  type: UserType.providerUser,
-                                  providerDetails:
-                                  const ProviderDetailsRequest(),
-                                ),
-                              );
-                            },
+                                    context.read<AuthCubit>().signup(
+                                          CreateUserRequest(
+                                            username: username,
+                                            phone: phone,
+                                            email: email,
+                                            password: password,
+                                            type: UserType.providerUser,
+                                            providerDetails:
+                                                const ProviderDetailsRequest(),
+                                          ),
+                                          languageCode:
+                                              Localizations.localeOf(context)
+                                                  .languageCode,
+                                        );
+                                  },
                           );
                         },
                       ),

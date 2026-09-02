@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../../../../../core/language/language.dart';
 import '../../../../../../core/language/language_constant.dart';
 import '../../../../../../core/theming/text_styles.dart';
 import '../../../../../../core/pages_widgets/text_form_field_widget.dart';
@@ -85,6 +86,7 @@ class UserTextFieldWidget extends StatelessWidget {
             controller: controller,
             aboveText: text,
             height: fieldHeight,
+            validator: validator,
             borderColor:
             borderColor ?? AppColors.darkGreyColor,
             fillColor:
@@ -107,6 +109,7 @@ class UserTextFieldWidget extends StatelessWidget {
           controller: controller,
           text: text,
           readOnly: readOnly,
+          validator: validator,
           borderColor:
           borderColor ?? AppColors.darkGreyColor,
           fillColor:
@@ -247,6 +250,7 @@ class GenderField extends StatefulWidget {
   final TextEditingController controller;
   final String? text;
   final bool readOnly;
+  final String? Function(String?)? validator;
 
   final Color borderColor;
   final Color fillColor;
@@ -256,6 +260,7 @@ class GenderField extends StatefulWidget {
     required this.controller,
     this.text,
     required this.readOnly,
+    this.validator,
     this.borderColor = AppColors.darkGreyColor,
     this.fillColor = AppColors.whiteColor,
   });
@@ -313,9 +318,18 @@ class _GenderFieldState extends State<GenderField> {
             ),
           ),
           child: DropdownButtonHideUnderline(
-            child: DropdownButton<String>(
-              value: selectedValue,
+            child: DropdownButtonFormField<String>(
+              initialValue: selectedValue,
               isExpanded: true,
+              decoration: const InputDecoration.collapsed(
+                hintText: '',
+              ),
+              validator: (value) {
+                final result = widget.validator?.call(value);
+                if (result == null) return null;
+
+                return AppLocalizations.of(context).translate(result);
+              },
               hint: const TextInAppWidget(
                 text: AppLanguageKeys.selectGender,
                 textSize: 14,
@@ -361,11 +375,13 @@ class PhoneTextField extends StatelessWidget {
     this.isReadOnly = false,
     this.height,
     this.onChanged,
+    this.validator,
     this.borderColor = AppColors.darkGreyColor,
     this.fillColor = AppColors.whiteColor,
     this.focusedBorderColor = AppColors.darkGreyColor,
   });
   final void Function(String)? onChanged;
+  final String? Function(String?)? validator;
 
   final TextEditingController controller;
   final String? aboveText;
@@ -405,7 +421,26 @@ class PhoneTextField extends StatelessWidget {
             initialValue: initialPhone,
 
             initialCountryCode: 'SA',
-            disableLengthCheck: false,
+            languageCode: Localizations.localeOf(context).languageCode,
+            invalidNumberMessage: AppLocalizations.of(context).translate(
+              AppLanguageKeys.authEnterCorrectPhoneNumber,
+            ),
+            validator: (phone) {
+              final number = phone?.number.trim() ?? '';
+              final result = validator?.call(number);
+              if (result != null) {
+                return AppLocalizations.of(context).translate(result);
+              }
+
+              if (number.isNotEmpty && number.length < 6) {
+                return AppLocalizations.of(context).translate(
+                  AppLanguageKeys.phoneNumberAtLeastSixDigits,
+                );
+              }
+
+              return null;
+            },
+            disableLengthCheck: true,
             readOnly: isReadOnly,
             keyboardType: TextInputType.number,
 
@@ -456,12 +491,12 @@ class PhoneTextField extends StatelessWidget {
             onChanged: isReadOnly
                 ? null
                 : (phone) {
-              final value =
-              phone.completeNumber.replaceFirst("+", "");
+              final localNumber = phone.number.trim();
+              final value = localNumber.isEmpty
+                  ? ''
+                  : phone.completeNumber.replaceFirst("+", "");
 
               controller.text = value;
-
-              print("📱 PHONE NUMBER => $value");
 
               onChanged?.call(value);
             },

@@ -297,10 +297,23 @@ class _OtherDataDataContainerInListDataAddSparePartsInServiceSettingsState
                       ),
 
                       ...List.generate(cars.length, (index) {
+                        final unavailableBrandIds = cars.indexed
+                            .where((entry) => entry.$1 != index)
+                            .map((entry) => entry.$2.brandId)
+                            .whereType<int>()
+                            .toSet();
+                        final isAllBrandsSelectedElsewhere = cars.indexed.any(
+                          (entry) => entry.$1 != index && entry.$2.isAllBrandsSelected,
+                        );
+
                         return _item(
                           itemWidth,
                           CarSelectionItemWidget(
                             controller: cars[index],
+                            unavailableBrandIds: unavailableBrandIds,
+                            isAllBrandsSelectedElsewhere:
+                                isAllBrandsSelectedElsewhere,
+                            onSelectionChanged: () => setState(() {}),
                             showDelete: cars.length > 1,
                             onAdd: () => setState(() => cars.insert(index + 1, CarSelectionController())),
                             onDelete: () => setState(() => cars.removeAt(index)),

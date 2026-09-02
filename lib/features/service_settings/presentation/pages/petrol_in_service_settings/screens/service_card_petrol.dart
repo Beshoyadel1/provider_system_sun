@@ -70,27 +70,14 @@ class _ServiceCardPetrolState extends State<ServiceCardPetrol> {
       ],
       child: Builder(
         builder: (context) {
-          final cubit = context.read<CreateProvServiceCubit>();
-
           return Container(
-            margin: const EdgeInsets.only(bottom: 20),
-            padding: const EdgeInsets.all(12),
+            margin: const EdgeInsets.only(bottom: 8),
             decoration: BoxDecoration(
               color: AppColors.whiteColor,
               borderRadius: BorderRadius.circular(16),
             ),
             child: Column(
-              spacing: 10,
               children: [
-                const Row(
-                  children: [
-                    TextInAppWidget(
-                      text: AppLanguageKeys.oldService,
-                      textSize: 15,
-                      fontWeightIndex: FontSelectionData.boldFontFamily,
-                    ),
-                  ],
-                ),
                 GestureDetector(
                   onTap: () {
                     setState(() {
@@ -124,13 +111,14 @@ class _ServiceCardPetrolState extends State<ServiceCardPetrol> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 10),
                 AnimatedSize(
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeInOut,
                   child: isExpanded
-                      ? Column(
-                    children: [
+                      ? Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Column(
+                      children: [
                       Form(
                         key: _formKey,
                         child: Column(
@@ -239,7 +227,8 @@ class _ServiceCardPetrolState extends State<ServiceCardPetrol> {
                           ),
                         ],
                       ),
-                    ],
+                      ],
+                    ),
                   )
                       : const SizedBox(),
                 ),

@@ -1,7 +1,5 @@
-import 'dart:convert';
 import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
 import 'package:sun_web_system/core/theming/auth_local_storage.dart';
-import 'package:sun_web_system/core/theming/fonts.dart';
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/create_user_emp_request.dart';
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_cubit.dart';
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_state.dart';
@@ -154,6 +152,29 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
     return value;
   }
 
+  String? _requiredFieldValidator(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return AppLanguageKeys.addAllRequiredFieldsKey;
+    }
+
+    return null;
+  }
+
+  String? _emailValidator(String? value) {
+    final requiredError = _requiredFieldValidator(value);
+    if (requiredError != null) return requiredError;
+
+    final emailRegex = RegExp(
+      r'^[\w\-.]+@([\w-]+\.)+[\w-]{2,4}$',
+    );
+
+    if (!emailRegex.hasMatch(value!.trim())) {
+      return AppLanguageKeys.pleaseEnterValidEmail;
+    }
+
+    return null;
+  }
+
   void _onUpdate() {
     final current = widget.employee;
 
@@ -207,36 +228,48 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
   }
 
   Future<void> _onCreate() async {
-    final user = await AuthLocalStorage.getUser();
+    final phone = phoneController.text.trim();
+    final password = passwordController.text.trim();
+    final confirmPassword = confirmPasswordController.text.trim();
 
-    final serviceIds = context.read<ServicePermissionCubit>().state;
+    final requiredValues = [
+      usernameController.text,
+      jobNameController.text,
+      jobLatinNameController.text,
+      phone,
+      emailController.text,
+      genderController.text,
+      password,
+      confirmPassword,
+    ];
 
-    final employeeCubit = context.read<ProviderEmployeesCubit>();
-
-    final permissions =
-        employeeCubit.selectedPermissions ?? employeeCubit.emptyPermissions;
-
-    final emailRegex = RegExp(
-      r'^[\w\-.]+@([\w-]+\.)+[\w-]{2,4}$',
-    );
-
-    if (!emailRegex.hasMatch(
-      emailController.text.trim(),
-    )) {
+    if (requiredValues.any((value) => value.trim().isEmpty)) {
       AppSnackBar.showError(
-        AppLanguageKeys.pleaseEnterValidEmail,
+        AppLanguageKeys.addAllRequiredFieldsKey,
       );
       return;
     }
 
-    if (!_formKey.currentState!.validate()) {
+    final phoneError = AuthCubit.employeePhoneValidationError(phone);
+    if (phoneError != null) {
+      AppSnackBar.showError(phoneError);
+      return;
+    }
+
+    final emailError = _emailValidator(emailController.text);
+    if (emailError != null) {
+      AppSnackBar.showError(emailError);
+      return;
+    }
+
+    if (!(_formKey.currentState?.validate() ?? false)) {
       AppSnackBar.showError(
         AppLanguageKeys.enterYourData,
       );
       return;
     }
 
-    if (passwordController.text != confirmPasswordController.text) {
+    if (password != confirmPassword) {
       AppSnackBar.showError(
         AppLanguageKeys.passwordsDoNotMatch,
       );
@@ -244,7 +277,6 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
     }
 
     final facilityCubit = context.read<FacilityTabCubit>();
-
     final image = facilityCubit.images['image'];
 
     if (image == null || image.toString().isEmpty) {
@@ -253,11 +285,21 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
       );
       return;
     }
+
+    final serviceIds = context.read<ServicePermissionCubit>().state;
+    final employeeCubit = context.read<ProviderEmployeesCubit>();
+    final permissions =
+        employeeCubit.selectedPermissions ?? employeeCubit.emptyPermissions;
+    final authCubit = context.read<AuthCubit>();
+    final user = await AuthLocalStorage.getUser();
+
+    if (!mounted) return;
+
     final request = CreateUserRequest(
       username: usernameController.text.trim(),
-      phone: phoneController.text.trim(),
+      phone: phone,
       email: emailController.text.trim(),
-      password: passwordController.text.trim(),
+      password: password,
       image: image,
       type: UserType.employeeUser,
       employeeDetails: EmployeeWrapperRequest(
@@ -272,7 +314,7 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
       ),
     );
 
-    context.read<AuthCubit>().signupEmp(request);
+    authCubit.signupEmp(request);
   }
 
   @override
@@ -359,6 +401,7 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
                   controller: usernameController,
                   text: AppLanguageKeys.userName,
                   type: UserFieldType.name,
+                  validator: isCreateMode ? _requiredFieldValidator : null,
                   readOnly: isViewMode,
                   width: 250,
                   height: 40,
@@ -367,6 +410,7 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
                   controller: jobNameController,
                   text: AppLanguageKeys.jobName,
                   type: UserFieldType.name,
+                  validator: isCreateMode ? _requiredFieldValidator : null,
                   readOnly: isViewMode,
                   width: 250,
                   height: 40,
@@ -375,6 +419,7 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
                   controller: jobLatinNameController,
                   text: AppLanguageKeys.jobNameEnglish,
                   type: UserFieldType.name,
+                  validator: isCreateMode ? _requiredFieldValidator : null,
                   readOnly: isViewMode,
                   width: 250,
                   height: 40,
@@ -383,6 +428,7 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
                   controller: phoneController,
                   text: AppLanguageKeys.phoneNumber,
                   type: UserFieldType.phone,
+                  validator: isCreateMode ? _requiredFieldValidator : null,
                   readOnly: isViewMode,
                   width: 250,
                   height: 40,
@@ -391,6 +437,7 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
                   controller: emailController,
                   text: AppLanguageKeys.email,
                   type: UserFieldType.email,
+                  validator: isCreateMode ? _emailValidator : null,
                   readOnly: isViewMode,
                   width: 250,
                   height: 40,
@@ -399,6 +446,7 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
                   controller: genderController,
                   text: AppLanguageKeys.gender,
                   type: UserFieldType.gender,
+                  validator: isCreateMode ? _requiredFieldValidator : null,
                   readOnly: isViewMode,
                   width: 250,
                   height: 40,
@@ -408,6 +456,7 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
                     controller: passwordController,
                     text: AppLanguageKeys.password,
                     type: UserFieldType.password,
+                    validator: _requiredFieldValidator,
                     width: 250,
                     height: 40,
                   ),
@@ -416,6 +465,7 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
                     controller: confirmPasswordController,
                     text: AppLanguageKeys.confirmPasswordKey,
                     type: UserFieldType.password,
+                    validator: _requiredFieldValidator,
                     width: 250,
                     height: 40,
                   ),
