@@ -24,13 +24,17 @@ class LanguageCubit extends Cubit<LanguageStates> {
       selectedLanguage = supportedLocales[1];
     }
 
+    languageDropDownValue = languageItemsDropDown.firstWhere(
+      (element) => element.number == language,
+    );
+    emit(ChangeAllAppLanguageState());
+
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setInt('language', language);
-    emit(ChangeAllAppLanguageState());
   }
 
   List<Locale> supportedLocales = [
-    const Locale('ar', 'EG'),
+    const Locale('ar', 'SA'),
     const Locale('en', 'US'),
   ];
 
