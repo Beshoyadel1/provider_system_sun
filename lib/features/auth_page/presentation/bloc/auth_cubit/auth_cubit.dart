@@ -432,11 +432,19 @@ class AuthCubit extends Cubit<AuthState> {
   int secondsRemaining = 30;
 
   bool isOtpError = false;
+  bool _isOtpVerified = false;
+  bool _isResendingOtp = false;
+  bool _isCompletingSignup = false;
+  bool _isStartingSignup = false;
+
+  bool get isOtpVerified => _isOtpVerified;
+  bool get isCompletingSignup => _isCompletingSignup;
 
   void generateOtp() {
     final random = Random();
 
     otpCode = (1000 + random.nextInt(9000)).toString();
+    _isOtpVerified = false;
 
     startTimer();
 
@@ -500,8 +508,9 @@ class AuthCubit extends Cubit<AuthState> {
     return localizations.translate(key).replaceAll('{otp}', otp);
   }
 
-  Future<void> validateOtp(String code) async {
+  void validateOtp(String code) {
     if (isClosed) return;
+    if (_isOtpVerified) return;
 
     final enteredOtp = code.trim();
 
@@ -546,20 +555,14 @@ class AuthCubit extends Cubit<AuthState> {
     // ==========================================
 
     isOtpError = false;
+    _isOtpVerified = true;
     _timer?.cancel();
-
-    // SIGNUP
-    if (_pendingSignup != null) {
-      await completeSignupAfterOtp();
-      return;
-    }
-
-    // FORGOT PASSWORD
     emit(AuthOtpSuccess());
   }
 
   Future<void> resendOtp({required String languageCode}) async {
     if (isClosed) return;
+    if (_isResendingOtp || _isCompletingSignup) return;
 
     final phone = verificationPhone;
 
@@ -572,11 +575,6 @@ class AuthCubit extends Cubit<AuthState> {
       return;
     }
 
-    isOtpError = false;
-
-    // Generate NEW OTP
-    generateOtp();
-
     final purpose = _otpPurpose;
 
     if (purpose == null) {
@@ -588,12 +586,14 @@ class AuthCubit extends Cubit<AuthState> {
       return;
     }
 
+    final newOtp = (1000 + Random().nextInt(9000)).toString();
     final message = buildOtpMessage(
-      otp: otpCode,
+      otp: newOtp,
       purpose: purpose,
       languageCode: languageCode,
     );
 
+    _isResendingOtp = true;
     try {
       final result = await sendVerificationCodeFunction(
         request: SendVerificationCodeRequest(
@@ -605,6 +605,10 @@ class AuthCubit extends Cubit<AuthState> {
       if (isClosed) return;
 
       if (result) {
+        otpCode = newOtp;
+        _isOtpVerified = false;
+        isOtpError = false;
+        startTimer();
         emit(
           AuthOtpResendSuccess(),
         );
@@ -623,6 +627,8 @@ class AuthCubit extends Cubit<AuthState> {
           e.toString(),
         ),
       );
+    } finally {
+      _isResendingOtp = false;
     }
   }
 
@@ -644,6 +650,13 @@ class AuthCubit extends Cubit<AuthState> {
     required String languageCode,
   }) async {
     if (isClosed) return false;
+
+    _timer?.cancel();
+    otpCode = '';
+    _otpPurpose = null;
+    _isOtpVerified = false;
+    isOtpError = false;
+    secondsRemaining = 0;
 
     verificationEmail = email.trim();
     verificationPhone = phone.trim();
@@ -672,6 +685,7 @@ class AuthCubit extends Cubit<AuthState> {
 
       otpCode = newOtp;
       _otpPurpose = purpose;
+      _isOtpVerified = false;
       isOtpError = false;
 
       startTimer();
@@ -869,12 +883,29 @@ class AuthCubit extends Cubit<AuthState> {
     _pendingSignup = null;
   }
 
+  void cancelSignupOtp() {
+    if (_otpPurpose != OtpPurpose.signup) return;
+
+    _timer?.cancel();
+    _pendingSignup = null;
+    otpCode = '';
+    _otpPurpose = null;
+    _isOtpVerified = false;
+    isOtpError = false;
+    secondsRemaining = 0;
+    verificationEmail = null;
+    verificationPhone = null;
+  }
+
   Future<void> signup(
     CreateUserRequest request, {
     required String languageCode,
   }) async {
     if (isClosed) return;
+    if (_isStartingSignup) return;
 
+    _isStartingSignup = true;
+    cancelSignupOtp();
     emit(AuthSignupLoading());
 
     try {
@@ -884,11 +915,30 @@ class AuthCubit extends Cubit<AuthState> {
 
       final email = request.email?.trim() ?? '';
       final phone = request.phone?.trim() ?? '';
+      final username = request.username?.trim() ?? '';
+      final password = request.password?.trim() ?? '';
+      final providerName = request.providerDetails?.name?.trim() ?? '';
+      final providerLatinName =
+          request.providerDetails?.latinname?.trim() ?? '';
 
-      if (email.isEmpty || phone.isEmpty) {
+      if (username.isEmpty ||
+          email.isEmpty ||
+          phone.isEmpty ||
+          password.isEmpty ||
+          providerName.isEmpty ||
+          providerLatinName.isEmpty) {
         emit(
           AuthSignupError(
             AppLanguageKeys.enterYourData,
+          ),
+        );
+        return;
+      }
+
+      if (password.length < 6) {
+        emit(
+          AuthSignupError(
+            AppLanguageKeys.passwordAtLeastKey,
           ),
         );
         return;
@@ -1003,11 +1053,14 @@ class AuthCubit extends Cubit<AuthState> {
           e.toString(),
         ),
       );
+    } finally {
+      _isStartingSignup = false;
     }
   }
 
   Future<void> completeSignupAfterOtp() async {
     if (isClosed) return;
+    if (_isCompletingSignup) return;
 
     final request = _pendingSignup;
 
@@ -1020,6 +1073,7 @@ class AuthCubit extends Cubit<AuthState> {
       return;
     }
 
+    _isCompletingSignup = true;
     emit(AuthSignupLoading());
 
     try {
@@ -1053,6 +1107,8 @@ class AuthCubit extends Cubit<AuthState> {
           e.toString(),
         ),
       );
+    } finally {
+      _isCompletingSignup = false;
     }
   }
 
@@ -1060,7 +1116,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   bool isValidEmail(String email) {
     final emailRegex = RegExp(
-      r'^[\w\-.]+@([\w-]+\.)+[\w-]{2,4}$',
+      r'^[\w\-.]+@([\w-]+\.)+[\w-]{2,}$',
     );
 
     return emailRegex.hasMatch(email);
@@ -1290,5 +1346,11 @@ class AuthCubit extends Cubit<AuthState> {
         ),
       );
     }
+  }
+
+  @override
+  Future<void> close() {
+    _timer?.cancel();
+    return super.close();
   }
 }

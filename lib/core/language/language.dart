@@ -198,6 +198,8 @@ class AppLocalizations {
 
       AppLanguageKeys.facilityName: 'اسم المنشأة',
       AppLanguageKeys.facilityNameEn: 'اسم المنشأة بالإنجليزية',
+      AppLanguageKeys.serviceProviderNameAr: 'اسم مزود الخدمة بالعربية',
+      AppLanguageKeys.serviceProviderNameEn: 'اسم مزود الخدمة بالإنجليزية',
       AppLanguageKeys.jobNameEnglish: 'اسم الوظيفة بالإنجليزية',
       AppLanguageKeys.commercialRegister: 'السجل التجاري',
       AppLanguageKeys.shortAddress: 'العنوان المختصر',
@@ -1643,6 +1645,8 @@ class AppLocalizations {
       AppLanguageKeys.fuelType: 'Fuel Type',
       AppLanguageKeys.facilityName: 'Facility Name',
       AppLanguageKeys.facilityNameEn: 'Facility Name (EN)',
+      AppLanguageKeys.serviceProviderNameAr: 'Service Provider Name (Arabic)',
+      AppLanguageKeys.serviceProviderNameEn: 'Service Provider Name (English)',
       AppLanguageKeys.jobNameEnglish: 'Job Name English',
       AppLanguageKeys.commercialRegister: 'Commercial Register',
       AppLanguageKeys.shortAddress: 'Short Address',

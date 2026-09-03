@@ -182,6 +182,8 @@ class AppLanguageKeys {
   static const String fuelType = 'fuelType';
   static const String facilityName = 'facilityName';
   static const String facilityNameEn = 'facilityNameEn';
+  static const String serviceProviderNameAr = 'serviceProviderNameAr';
+  static const String serviceProviderNameEn = 'serviceProviderNameEn';
   static const String jobNameEnglish = 'jobNameEnglish';
   static const String commercialRegister = 'commercialRegister';
   static const String shortAddress = 'shortAddress';

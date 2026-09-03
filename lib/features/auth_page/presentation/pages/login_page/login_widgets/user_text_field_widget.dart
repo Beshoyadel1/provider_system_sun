@@ -7,7 +7,6 @@ import '../../../../../../core/pages_widgets/text_form_field_widget.dart';
 import '../../../../../../core/theming/colors.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
-
 enum UserFieldType {
   normal,
   email,
@@ -35,6 +34,7 @@ class UserTextFieldWidget extends StatelessWidget {
     // ⭐ New
     this.digitOnly = false,
     this.validator,
+    this.showValidationMessage = false,
   });
   final void Function(String)? onChanged;
   final TextEditingController controller;
@@ -52,11 +52,11 @@ class UserTextFieldWidget extends StatelessWidget {
 
   final bool digitOnly;
   final String? Function(String?)? validator;
+  final bool showValidationMessage;
 
   @override
   Widget build(BuildContext context) {
-    final bool isMobile =
-        MediaQuery.of(context).size.width < 600;
+    final bool isMobile = MediaQuery.of(context).size.width < 600;
 
     final fieldHeight = height ?? 40;
 
@@ -71,14 +71,13 @@ class UserTextFieldWidget extends StatelessWidget {
             isColumn: true,
             readOnly: true,
             textSize: 16,
-            borderColor:
-            borderColor ?? AppColors.darkGreyColor,
-            fillColor:
-            fillColor ?? AppColors.whiteColor,
+            borderColor: borderColor ?? AppColors.darkGreyColor,
+            fillColor: fillColor ?? AppColors.whiteColor,
             textFormHeight: fieldHeight,
             maxLines: 1,
             isDigit: true,
-            validator:validator ,
+            validator: validator,
+            showValidationMessage: showValidationMessage,
             onChanged: onChanged,
           );
         } else {
@@ -87,39 +86,33 @@ class UserTextFieldWidget extends StatelessWidget {
             aboveText: text,
             height: fieldHeight,
             validator: validator,
-            borderColor:
-            borderColor ?? AppColors.darkGreyColor,
-            fillColor:
-            fillColor ?? AppColors.whiteColor,
+            showValidationMessage: showValidationMessage,
+            borderColor: borderColor ?? AppColors.darkGreyColor,
+            fillColor: fillColor ?? AppColors.whiteColor,
             onChanged: onChanged,
             focusedBorderColor:
-            focusedBorderColor ??
-                borderColor ??
-                AppColors.darkGreyColor,
+                focusedBorderColor ?? borderColor ?? AppColors.darkGreyColor,
           );
-
         }
         break;
 
-    // =========================================================
-    // GENDER
-    // =========================================================
+      // =========================================================
+      // GENDER
+      // =========================================================
       case UserFieldType.gender:
         child = GenderField(
           controller: controller,
           text: text,
           readOnly: readOnly,
           validator: validator,
-          borderColor:
-          borderColor ?? AppColors.darkGreyColor,
-          fillColor:
-          fillColor ?? AppColors.whiteColor,
+          borderColor: borderColor ?? AppColors.darkGreyColor,
+          fillColor: fillColor ?? AppColors.whiteColor,
         );
         break;
 
-    // =========================================================
-    // PASSWORD
-    // =========================================================
+      // =========================================================
+      // PASSWORD
+      // =========================================================
       case UserFieldType.password:
         child = TextFormFieldWidget(
           textFormController: controller,
@@ -127,22 +120,21 @@ class UserTextFieldWidget extends StatelessWidget {
           isColumn: true,
           readOnly: readOnly,
           textSize: 16,
-          borderColor:
-          borderColor ?? AppColors.darkGreyColor,
-          fillColor:
-          fillColor ?? AppColors.whiteColor,
+          borderColor: borderColor ?? AppColors.darkGreyColor,
+          fillColor: fillColor ?? AppColors.whiteColor,
           textFormHeight: fieldHeight,
           maxLines: 1,
           isDigit: false,
           obscureText: true,
-          validator:validator,
+          validator: validator,
+          showValidationMessage: showValidationMessage,
           onChanged: onChanged,
         );
         break;
 
-    // =========================================================
-    // NUMBER
-    // =========================================================
+      // =========================================================
+      // NUMBER
+      // =========================================================
       case UserFieldType.number:
         child = TextFormFieldWidget(
           textFormController: controller,
@@ -150,10 +142,8 @@ class UserTextFieldWidget extends StatelessWidget {
           isColumn: true,
           readOnly: readOnly,
           textSize: 16,
-          borderColor:
-          borderColor ?? AppColors.darkGreyColor,
-          fillColor:
-          fillColor ?? AppColors.whiteColor,
+          borderColor: borderColor ?? AppColors.darkGreyColor,
+          fillColor: fillColor ?? AppColors.whiteColor,
           textFormHeight: fieldHeight,
           maxLines: 1,
           inputFormatters: [
@@ -161,13 +151,14 @@ class UserTextFieldWidget extends StatelessWidget {
           ],
           isDigit: true,
           validator: validator,
+          showValidationMessage: showValidationMessage,
           onChanged: onChanged,
         );
         break;
 
-    // =========================================================
-    // EMAIL
-    // =========================================================
+      // =========================================================
+      // EMAIL
+      // =========================================================
       case UserFieldType.email:
         child = TextFormFieldWidget(
           textFormController: controller,
@@ -175,21 +166,20 @@ class UserTextFieldWidget extends StatelessWidget {
           isColumn: true,
           readOnly: readOnly,
           textSize: 16,
-          borderColor:
-          borderColor ?? AppColors.darkGreyColor,
-          fillColor:
-          fillColor ?? AppColors.whiteColor,
+          borderColor: borderColor ?? AppColors.darkGreyColor,
+          fillColor: fillColor ?? AppColors.whiteColor,
           textFormHeight: fieldHeight,
           maxLines: 1,
           isDigit: false,
           validator: validator,
+          showValidationMessage: showValidationMessage,
           onChanged: onChanged,
         );
         break;
 
-    // =========================================================
-    // NAME
-    // =========================================================
+      // =========================================================
+      // NAME
+      // =========================================================
       case UserFieldType.name:
         child = TextFormFieldWidget(
           textFormController: controller,
@@ -197,21 +187,20 @@ class UserTextFieldWidget extends StatelessWidget {
           isColumn: true,
           readOnly: readOnly,
           textSize: 16,
-          borderColor:
-          borderColor ?? AppColors.darkGreyColor,
-          fillColor:
-          fillColor ?? AppColors.whiteColor,
+          borderColor: borderColor ?? AppColors.darkGreyColor,
+          fillColor: fillColor ?? AppColors.whiteColor,
           textFormHeight: fieldHeight,
           maxLines: 1,
           isDigit: false,
           validator: validator,
+          showValidationMessage: showValidationMessage,
           onChanged: onChanged,
         );
         break;
 
-    // =========================================================
-    // NORMAL
-    // =========================================================
+      // =========================================================
+      // NORMAL
+      // =========================================================
       case UserFieldType.normal:
         child = TextFormFieldWidget(
           textFormController: controller,
@@ -219,28 +208,25 @@ class UserTextFieldWidget extends StatelessWidget {
           isColumn: true,
           readOnly: readOnly,
           textSize: 16,
-          borderColor:
-          borderColor ?? AppColors.darkGreyColor,
-          fillColor:
-          fillColor ?? AppColors.whiteColor,
+          borderColor: borderColor ?? AppColors.darkGreyColor,
+          fillColor: fillColor ?? AppColors.whiteColor,
           textFormHeight: fieldHeight,
           maxLines: maxLines ?? 1,
           onChanged: onChanged,
           inputFormatters: digitOnly
               ? [
-            FilteringTextInputFormatter.digitsOnly,
-          ]
+                  FilteringTextInputFormatter.digitsOnly,
+                ]
               : null,
           isDigit: digitOnly,
           validator: validator,
+          showValidationMessage: showValidationMessage,
         );
         break;
     }
 
     return SizedBox(
-      width: isMobile
-          ? double.infinity
-          : (width ?? 500),
+      width: isMobile ? double.infinity : (width ?? 500),
       child: child,
     );
   }
@@ -353,11 +339,11 @@ class _GenderFieldState extends State<GenderField> {
               onChanged: widget.readOnly
                   ? null
                   : (value) {
-                setState(() {
-                  selectedValue = value;
-                  widget.controller.text = value ?? "";
-                });
-              },
+                      setState(() {
+                        selectedValue = value;
+                        widget.controller.text = value ?? "";
+                      });
+                    },
             ),
           ),
         )
@@ -365,7 +351,6 @@ class _GenderFieldState extends State<GenderField> {
     );
   }
 }
-
 
 class PhoneTextField extends StatelessWidget {
   const PhoneTextField({
@@ -379,6 +364,7 @@ class PhoneTextField extends StatelessWidget {
     this.borderColor = AppColors.darkGreyColor,
     this.fillColor = AppColors.whiteColor,
     this.focusedBorderColor = AppColors.darkGreyColor,
+    this.showValidationMessage = false,
   });
   final void Function(String)? onChanged;
   final String? Function(String?)? validator;
@@ -390,6 +376,7 @@ class PhoneTextField extends StatelessWidget {
   final Color borderColor;
   final Color fillColor;
   final Color focusedBorderColor;
+  final bool showValidationMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -400,12 +387,11 @@ class PhoneTextField extends StatelessWidget {
     final String? initialPhone = phoneValue.isEmpty
         ? null
         : phoneValue.startsWith('+')
-        ? phoneValue
-        : '+$phoneValue';
+            ? phoneValue
+            : '+$phoneValue';
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
         if (aboveText != null)
           Padding(
             padding: const EdgeInsets.only(bottom: 6),
@@ -414,12 +400,10 @@ class PhoneTextField extends StatelessWidget {
               textSize: 14,
             ),
           ),
-
         SizedBox(
-          height: (height!+20),
+          height: showValidationMessage ? null : (height! + 20),
           child: IntlPhoneField(
             initialValue: initialPhone,
-
             initialCountryCode: 'SA',
             languageCode: Localizations.localeOf(context).languageCode,
             invalidNumberMessage: AppLocalizations.of(context).translate(
@@ -443,31 +427,25 @@ class PhoneTextField extends StatelessWidget {
             disableLengthCheck: true,
             readOnly: isReadOnly,
             keyboardType: TextInputType.number,
-
             inputFormatters: [
               FilteringTextInputFormatter.digitsOnly,
             ],
-
             style: const TextStyle(fontSize: 14, height: 1.2),
             dropdownTextStyle: const TextStyle(fontSize: 14),
             decoration: InputDecoration(
               filled: true,
               fillColor: fillColor,
-
               isDense: true,
-
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: 10,
                 vertical: 8,
               ),
-
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide(
                   color: borderColor,
                 ),
               ),
-
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide(
@@ -475,7 +453,6 @@ class PhoneTextField extends StatelessWidget {
                   width: 1.5,
                 ),
               ),
-
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide(
@@ -483,23 +460,21 @@ class PhoneTextField extends StatelessWidget {
                 ),
               ),
             ),
-
             flagsButtonPadding: const EdgeInsets.only(left: 6, right: 4),
             dropdownIconPosition: IconPosition.trailing,
             dropdownIcon: const Icon(Icons.arrow_drop_down, size: 18),
-
             onChanged: isReadOnly
                 ? null
                 : (phone) {
-              final localNumber = phone.number.trim();
-              final value = localNumber.isEmpty
-                  ? ''
-                  : phone.completeNumber.replaceFirst("+", "");
+                    final localNumber = phone.number.trim();
+                    final value = localNumber.isEmpty
+                        ? ''
+                        : phone.completeNumber.replaceFirst("+", "");
 
-              controller.text = value;
+                    controller.text = value;
 
-              onChanged?.call(value);
-            },
+                    onChanged?.call(value);
+                  },
           ),
         ),
       ],

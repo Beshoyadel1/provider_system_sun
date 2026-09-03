@@ -10,7 +10,6 @@ class TextFormFieldWidget extends StatefulWidget {
   const TextFormFieldWidget({
     super.key,
     required this.textFormController,
-
     this.textFormWidth,
     this.text,
     this.isValidator,
@@ -57,6 +56,7 @@ class TextFormFieldWidget extends StatefulWidget {
     this.hintTextSize,
     this.prefixIconWidth,
     this.prefixIconHeight,
+    this.showValidationMessage = false,
   });
 
   final TextEditingController textFormController;
@@ -108,10 +108,10 @@ class TextFormFieldWidget extends StatefulWidget {
   final double? hintTextSize;
   final double? prefixIconWidth;
   final double? prefixIconHeight;
+  final bool showValidationMessage;
 
   @override
-  State<TextFormFieldWidget> createState() =>
-      _TextFormFieldWidgetState();
+  State<TextFormFieldWidget> createState() => _TextFormFieldWidgetState();
 }
 
 class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
@@ -136,18 +136,18 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
       ),
       child: widget.isColumn == true
           ? Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (widget.text != null) widgetText(),
-          widgetTextFormField(),
-        ],
-      )
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (widget.text != null) widgetText(),
+                widgetTextFormField(),
+              ],
+            )
           : Row(
-        children: [
-          if (widget.text != null) widgetText(),
-          Expanded(child: widgetTextFormField()),
-        ],
-      ),
+              children: [
+                if (widget.text != null) widgetText(),
+                Expanded(child: widgetTextFormField()),
+              ],
+            ),
     );
   }
 
@@ -163,7 +163,7 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
                   ? size.width * 0.05
                   : size.width * 0.045),
           fontWeight:
-          fontWeightSelection(fontWeightIndex: widget.fontWeightIndex),
+              fontWeightSelection(fontWeightIndex: widget.fontWeightIndex),
           fontFamily: fontSelection(),
           color: widget.textColor ?? AppColors.darkColor,
         ),
@@ -174,7 +174,7 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
   Widget widgetTextFormField() {
     return SizedBox(
       width: widget.textFormWidth,
-      height: widget.textFormHeight,
+      height: widget.showValidationMessage ? null : widget.textFormHeight,
       child: TextFormField(
         onChanged: widget.onChanged,
         controller: widget.textFormController,
@@ -185,16 +185,13 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
         enabled: widget.enabled ?? true,
         maxLength: widget.maxLength,
         textAlign: widget.textAlign ?? TextAlign.start,
-
         inputFormatters: widget.inputFormatters ??
             [
               if (widget.isDigit == true)
                 FilteringTextInputFormatter.allow(RegExp('[0-9]'))
               else if (widget.isDigitDot == true)
-                FilteringTextInputFormatter.allow(
-                    RegExp(r'^[0-9]+\.?\d{0,4}')),
+                FilteringTextInputFormatter.allow(RegExp(r'^[0-9]+\.?\d{0,4}')),
             ],
-
         validator: (value) {
           if (widget.validator != null) {
             final result = widget.validator!(value);
@@ -213,39 +210,38 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
 
           return null;
         },
-
-
         style: TextStyle(
           fontSize: widget.textSize ?? 16,
           fontWeight:
-          fontWeightSelection(fontWeightIndex: widget.fontWeightIndex),
+              fontWeightSelection(fontWeightIndex: widget.fontWeightIndex),
           fontFamily: fontSelection(),
           color: widget.contentTextColor ?? AppColors.darkColor,
         ),
-
         decoration: InputDecoration(
           counterText: widget.maxLength != null ? '' : null,
-          errorStyle: const TextStyle(
-              height: 0.01,
-              fontSize: 1,
-              color: AppColors.redColor
-          ),
-
+          errorStyle: widget.showValidationMessage
+              ? const TextStyle(
+                  height: 1.2,
+                  fontSize: 12,
+                  color: AppColors.redColor,
+                )
+              : const TextStyle(
+                  height: 0.01,
+                  fontSize: 1,
+                  color: AppColors.redColor,
+                ),
           filled: true,
           fillColor: widget.fillColor ?? AppColors.greyColor,
-          contentPadding:
-          widget.contentPadding ?? const EdgeInsets.all(12),
-
+          contentPadding: widget.contentPadding ?? const EdgeInsets.all(12),
           enabledBorder: OutlineInputBorder(
             borderRadius:
-            widget.enabledBorderRadius ?? BorderRadius.circular(12),
-            borderSide: BorderSide(
-                color: widget.borderColor ?? AppColors.greyColor),
+                widget.enabledBorderRadius ?? BorderRadius.circular(12),
+            borderSide:
+                BorderSide(color: widget.borderColor ?? AppColors.greyColor),
           ),
-
           focusedBorder: OutlineInputBorder(
             borderRadius:
-            widget.focusedBorderRadius ?? BorderRadius.circular(12),
+                widget.focusedBorderRadius ?? BorderRadius.circular(12),
             borderSide: BorderSide(
               color: widget.focusBorderColor ??
                   widget.borderColor ??
@@ -253,31 +249,26 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
               width: 1.5,
             ),
           ),
-
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide:
-            const BorderSide(color: AppColors.redColor, width: 1.5),
+            borderSide: const BorderSide(color: AppColors.redColor, width: 1.5),
           ),
-
           focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide:
-            const BorderSide(color: AppColors.redColor, width: 1.5),
+            borderSide: const BorderSide(color: AppColors.redColor, width: 1.5),
           ),
           suffixIcon: widget.suffixIcon != null
               ? IconButton(
-            icon: Icon(
-              widget.suffixIcon,
-              size: widget.suffixIconSize ?? 22,
-              color: widget.contentTextColor ?? AppColors.darkColor,
-            ),
-            onPressed: widget.suffixOnPressed,
-          )
+                  icon: Icon(
+                    widget.suffixIcon,
+                    size: widget.suffixIconSize ?? 22,
+                    color: widget.contentTextColor ?? AppColors.darkColor,
+                  ),
+                  onPressed: widget.suffixOnPressed,
+                )
               : null,
-
-          hintText: AppLocalizations.of(context)
-              .translate(widget.hintText ?? ''),
+          hintText:
+              AppLocalizations.of(context).translate(widget.hintText ?? ''),
           hintStyle: TextStyle(
             fontSize: widget.hintTextSize ?? 14,
             color: widget.hintTextColor ??

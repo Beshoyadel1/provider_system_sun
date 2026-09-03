@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
 import 'package:sun_web_system/core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/create_user_request.dart';
@@ -29,15 +28,56 @@ class _SignUpMobileEmpState extends State<SignUpMobileEmp> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final TextEditingController usernameController = TextEditingController();
+  final TextEditingController facilityNameController = TextEditingController();
+  final TextEditingController facilityLatinNameController =
+      TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
 
+  String? _requiredField(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return AppLanguageKeys.enterYourData;
+    }
+    return null;
+  }
+
+  String? _emailValidator(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return AppLanguageKeys.authEmailRequired;
+    }
+
+    final emailRegex = RegExp(r'^[\w\-.]+@([\w-]+\.)+[\w-]{2,}$');
+    if (!emailRegex.hasMatch(value.trim())) {
+      return AppLanguageKeys.pleaseEnterValidEmail;
+    }
+    return null;
+  }
+
+  String? _passwordValidator(String? value) {
+    final password = value?.trim() ?? '';
+    if (password.isEmpty) return AppLanguageKeys.authPasswordRequired;
+    if (password.length < 6) return AppLanguageKeys.passwordAtLeastKey;
+    return null;
+  }
+
+  String? _confirmPasswordValidator(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return AppLanguageKeys.authPasswordRequired;
+    }
+    if (value.trim() != passwordController.text.trim()) {
+      return AppLanguageKeys.passwordsDoNotMatch;
+    }
+    return null;
+  }
+
   @override
   void dispose() {
     usernameController.dispose();
+    facilityNameController.dispose();
+    facilityLatinNameController.dispose();
     phoneController.dispose();
     emailController.dispose();
     passwordController.dispose();
@@ -80,11 +120,29 @@ class _SignUpMobileEmpState extends State<SignUpMobileEmp> {
                       type: UserFieldType.name,
                       controller: usernameController,
                       text: AppLanguageKeys.userName,
+                      validator: _requiredField,
+                      showValidationMessage: true,
+                    ),
+                    UserTextFieldWidget(
+                      type: UserFieldType.name,
+                      controller: facilityNameController,
+                      text: AppLanguageKeys.serviceProviderNameAr,
+                      validator: _requiredField,
+                      showValidationMessage: true,
+                    ),
+                    UserTextFieldWidget(
+                      type: UserFieldType.name,
+                      controller: facilityLatinNameController,
+                      text: AppLanguageKeys.serviceProviderNameEn,
+                      validator: _requiredField,
+                      showValidationMessage: true,
                     ),
                     UserTextFieldWidget(
                       type: UserFieldType.phone,
                       controller: phoneController,
                       text: AppLanguageKeys.phoneNumberKey,
+                      validator: AuthCubit.employeePhoneValidationError,
+                      showValidationMessage: true,
                       onChanged: (value) {
                         // print('PHONE NUMBER => $value');
                       },
@@ -93,16 +151,22 @@ class _SignUpMobileEmpState extends State<SignUpMobileEmp> {
                       type: UserFieldType.email,
                       controller: emailController,
                       text: AppLanguageKeys.emailKey,
+                      validator: _emailValidator,
+                      showValidationMessage: true,
                     ),
                     UserTextFieldWidget(
                       type: UserFieldType.password,
                       controller: passwordController,
                       text: AppLanguageKeys.password,
+                      validator: _passwordValidator,
+                      showValidationMessage: true,
                     ),
                     UserTextFieldWidget(
                       type: UserFieldType.password,
                       controller: confirmPasswordController,
                       text: AppLanguageKeys.confirmPasswordKey,
+                      validator: _confirmPasswordValidator,
+                      showValidationMessage: true,
                     ),
                     const SizedBox(height: 10),
                     BlocListener<AuthCubit, AuthState>(
@@ -171,46 +235,16 @@ class _SignUpMobileEmpState extends State<SignUpMobileEmp> {
                                       return;
                                     }
 
-                                    // ==========================================
-                                    // 2. GET VALUES AFTER BASIC VALIDATION
-                                    // ==========================================
-
                                     final username =
                                         usernameController.text.trim();
+                                    final facilityName =
+                                        facilityNameController.text.trim();
+                                    final facilityLatinName =
+                                        facilityLatinNameController.text.trim();
                                     final phone = phoneController.text.trim();
                                     final email = emailController.text.trim();
                                     final password =
                                         passwordController.text.trim();
-                                    final confirmPassword =
-                                        confirmPasswordController.text.trim();
-
-                                    // ==========================================
-                                    // 3. EXTRA VALIDATION
-                                    // ==========================================
-
-                                    // Email
-                                    final emailRegex = RegExp(
-                                      r'^[\w\-.]+@([\w-]+\.)+[\w-]{2,4}$',
-                                    );
-
-                                    if (!emailRegex.hasMatch(email)) {
-                                      AppSnackBar.showError(
-                                        AppLanguageKeys.pleaseEnterValidEmail,
-                                      );
-                                      return;
-                                    }
-
-                                    // Password confirmation
-                                    if (password != confirmPassword) {
-                                      AppSnackBar.showError(
-                                        AppLanguageKeys.passwordsDoNotMatch,
-                                      );
-                                      return;
-                                    }
-
-                                    // ==========================================
-                                    // 4. ONLY NOW CALL API
-                                    // ==========================================
 
                                     context.read<AuthCubit>().signup(
                                           CreateUserRequest(
@@ -220,7 +254,10 @@ class _SignUpMobileEmpState extends State<SignUpMobileEmp> {
                                             password: password,
                                             type: UserType.providerUser,
                                             providerDetails:
-                                                const ProviderDetailsRequest(),
+                                                ProviderDetailsRequest(
+                                              name: facilityName,
+                                              latinname: facilityLatinName,
+                                            ),
                                           ),
                                           languageCode:
                                               Localizations.localeOf(context)
