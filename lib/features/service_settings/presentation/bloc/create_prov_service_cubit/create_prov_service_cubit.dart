@@ -6,16 +6,14 @@ import 'package:sun_web_system/features/service_settings/data/model/create_prov_
 import 'package:sun_web_system/features/service_settings/data/model/create_prov_service_model/car_model_create_prov_service_model.dart';
 import 'package:sun_web_system/features/service_settings/data/datasource/create_prov_service_datasource/create_prov_service_repository.dart';
 import 'package:sun_web_system/features/service_settings/data/request/create_prov_service_request/create_prov_service_request.dart';
-import 'package:sun_web_system/features/auth_page/data/datasource/login_datasource/login_repository.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
+import 'package:sun_web_system/features/service_settings/presentation/validation/service_price_validation.dart';
 import 'create_prov_service_state.dart';
-
 
 class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
   CreateProvServiceCubit() : super(CreateProvServiceInitial());
 
-  final CreateProvServiceRepository _repository =
-  CreateProvServiceRepository();
+  final CreateProvServiceRepository _repository = CreateProvServiceRepository();
 
   /// 🔵 unified
   final Map<int, BrandModelCreateProvServiceModel> brandsData = {};
@@ -35,6 +33,7 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
     brandsData.remove(brandId);
     emit(CreateProvServiceInitial());
   }
+
   void setService({required int id}) {
     serviceId = id;
   }
@@ -91,15 +90,13 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
     emit(CreateProvServiceInitial());
   }
 
-
   void setCarData({
     required int brandId,
     required int modelId,
     double? price,
     double? cost,
   }) {
-    cars.removeWhere((e) =>
-    e.carbrandid == brandId && e.carmodelid == modelId);
+    cars.removeWhere((e) => e.carbrandid == brandId && e.carmodelid == modelId);
 
     cars.add(
       CarModelCreateProvServiceModel(
@@ -116,8 +113,7 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
     required int brandId,
     required int modelId,
   }) {
-    cars.removeWhere((e) =>
-    e.carbrandid == brandId && e.carmodelid == modelId);
+    cars.removeWhere((e) => e.carbrandid == brandId && e.carmodelid == modelId);
 
     emit(CreateProvServiceInitial());
   }
@@ -137,30 +133,32 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
         return;
       }
 
+      if (!_hasValidPricing(request)) {
+        emit(CreateProvServiceError(AppLanguageKeys.costMustBeLessThanPrice));
+        return;
+      }
+
       final user = await AuthLocalStorage.getUser();
 
       final updatedRequest = CreateProvServiceRequest(
-        serviceid: serviceId!,
-        provid: user?.userid ?? 5,
-        taxid: request.taxid,
-        name: request.name,
-        latinname: request.latinname,
-        brands: request.brands,
-        cars: request.cars,
-        isunifiedprice: request.isunifiedprice,
-        cost: request.cost,
-        unifiedprice: request.unifiedprice
-      );
+          serviceid: serviceId!,
+          provid: user?.userid ?? 5,
+          taxid: request.taxid,
+          name: request.name,
+          latinname: request.latinname,
+          brands: request.brands,
+          cars: request.cars,
+          isunifiedprice: request.isunifiedprice,
+          cost: request.cost,
+          unifiedprice: request.unifiedprice);
 
       print("📤 SENDING:");
-      print(const JsonEncoder.withIndent(' ')
-          .convert(updatedRequest.toJson()));
+      print(const JsonEncoder.withIndent(' ').convert(updatedRequest.toJson()));
 
       await _repository.createProvService(request: updatedRequest);
       brandsData.clear();
       cars.clear();
       brandSelection.clear();
-
 
       for (var key in formKeys.values) {
         key.currentState?.reset();
@@ -171,6 +169,39 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
       emit(CreateProvServiceError(e.toString()));
     }
   }
+
+  bool _hasValidPricing(CreateProvServiceRequest request) {
+    final usesTopLevelPricing = request.isunifiedprice == true ||
+        request.unifiedprice != null ||
+        request.cost != null;
+
+    if (usesTopLevelPricing &&
+        !isCostLessThanPrice(
+          cost: request.cost,
+          price: request.unifiedprice,
+        )) {
+      return false;
+    }
+
+    for (final brand in request.brands ?? const []) {
+      if (brand.isunifiedprice == true &&
+          !isCostLessThanPrice(
+            cost: brand.cost,
+            price: brand.unifiedprice,
+          )) {
+        return false;
+      }
+    }
+
+    for (final car in request.cars ?? const []) {
+      if (!isCostLessThanPrice(cost: car.cost, price: car.price)) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   void initFromApi(Map<String, dynamic> data) {
     brandsData.clear();
     cars.clear();

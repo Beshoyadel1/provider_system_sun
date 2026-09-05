@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +17,6 @@ import 'package:sun_web_system/features/notifications/data/datasource/signalr_da
 import 'package:sun_web_system/features/store_page/presentation/bloc/branch_cubit/branch_cubit.dart';
 import 'package:sun_web_system/features/store_page/presentation/bloc/work_time_cubit/work_time_cubit.dart';
 import '../../../data/datasource/check_if_user_exist_or_not_datasource/check_if_user_exist_or_not_repository.dart';
-import '../../../../../../core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
-import '../../../../../../features/auth_page/presentation/pages/change_password/change_password_page.dart';
 import '../../../data/datasource/change_password_datasource/change_password_repository.dart';
 import '../../../data/datasource/check_if_user_exist_datasource/check_if_user_exist_repository.dart';
 import '../../../../../../core/language/language.dart';
@@ -514,18 +511,6 @@ class AuthCubit extends Cubit<AuthState> {
 
     final enteredOtp = code.trim();
 
-    if (secondsRemaining <= 0) {
-      isOtpError = true;
-
-      emit(
-        AuthOtpError(
-          AppLanguageKeys.badRequestError,
-        ),
-      );
-
-      return;
-    }
-
     if (enteredOtp.length != 4) {
       isOtpError = true;
 
@@ -958,12 +943,13 @@ class AuthCubit extends Cubit<AuthState> {
       }
 
       // =========================================================
-      // 3. CHECK IF EMAIL ALREADY EXISTS
+      // 3. CHECK IF EMAIL OR PHONE ALREADY EXISTS
       // =========================================================
 
-      final existingUsers = await checkIfUserExistOrNotFunction(
-        request: CheckIfUserExistOrNotRequest(
-          user: email,
+      final availability = await checkIfUserExistFunction(
+        request: CheckIfUserExistRequest(
+          email: email,
+          phone: phone,
           type: UserType.providerUser,
         ),
       );
@@ -974,32 +960,19 @@ class AuthCubit extends Cubit<AuthState> {
       // 4. CHECK API RESULT
       // =========================================================
 
-      if (existingUsers == null || existingUsers.isEmpty) {
+      if (!availability.success) {
         emit(
           AuthSignupError(
-            AppLanguageKeys.somethingWentWrong,
-          ),
-        );
-        return;
-      }
-
-      final user = existingUsers.first;
-
-      // =========================================================
-      // 5. EMAIL ALREADY EXISTS
-      // =========================================================
-
-      if (user.value == true) {
-        emit(
-          AuthSignupError(
-            AppLanguageKeys.emailExist,
+            availability.message.trim().isNotEmpty
+                ? availability.message
+                : AppLanguageKeys.somethingWentWrong,
           ),
         );
         return;
       }
 
       // =========================================================
-      // 6. EMAIL AVAILABLE
+      // 5. EMAIL AND PHONE AVAILABLE
       // Save request BEFORE sending OTP
       // =========================================================
 
@@ -1066,7 +1039,7 @@ class AuthCubit extends Cubit<AuthState> {
 
     if (request == null) {
       emit(
-        AuthSignupError(
+        AuthSignupCompletionError(
           AppLanguageKeys.somethingWentWrong,
         ),
       );
@@ -1084,8 +1057,9 @@ class AuthCubit extends Cubit<AuthState> {
       if (isClosed) return;
 
       if (!result.success) {
+        _isCompletingSignup = false;
         emit(
-          AuthSignupError(
+          AuthSignupCompletionError(
             result.message,
           ),
         );
@@ -1093,6 +1067,7 @@ class AuthCubit extends Cubit<AuthState> {
       }
 
       _pendingSignup = null;
+      _isCompletingSignup = false;
 
       emit(
         AuthSignupCompleted(
@@ -1102,8 +1077,9 @@ class AuthCubit extends Cubit<AuthState> {
     } catch (e) {
       if (isClosed) return;
 
+      _isCompletingSignup = false;
       emit(
-        AuthSignupError(
+        AuthSignupCompletionError(
           e.toString(),
         ),
       );
@@ -1187,121 +1163,32 @@ class AuthCubit extends Cubit<AuthState> {
       }
 
       // =====================================================
-      // 3. CHECK EMAIL
+      // 3. CHECK EMAIL + PHONE
       // =====================================================
 
-      print('=================================');
-      print('CHECK EMPLOYEE EMAIL');
-      print('EMAIL => $email');
-      print('=================================');
-
-      final emailResult = await checkIfUserExistOrNotFunction(
-        request: CheckIfUserExistOrNotRequest(
-          user: email,
+      final availability = await checkIfUserExistFunction(
+        request: CheckIfUserExistRequest(
+          email: email,
+          phone: phone,
           type: UserType.employeeUser,
         ),
       );
 
       if (isClosed) return;
 
-      print('EMAIL CHECK RESULT => $emailResult');
-
-      // =====================================================
-      // 4. EMAIL CHECK FAILED
-      // =====================================================
-
-      if (emailResult == null || emailResult.isEmpty) {
+      if (!availability.success) {
         emit(
           AuthSignupError(
-            AppLanguageKeys.somethingWentWrong,
-          ),
-        );
-        return;
-      }
-
-      final emailUser = emailResult.first;
-
-      print(
-        'EMAIL EXISTS => ${emailUser.value}',
-      );
-
-      // =====================================================
-      // 5. EMAIL ALREADY EXISTS
-      // =====================================================
-
-      if (emailUser.value == true) {
-        emit(
-          AuthSignupError(
-            AppLanguageKeys.emailExist,
+            availability.message.trim().isNotEmpty
+                ? availability.message
+                : AppLanguageKeys.somethingWentWrong,
           ),
         );
         return;
       }
 
       // =====================================================
-      // 6. CHECK PHONE
-      // =====================================================
-
-      print('=================================');
-      print('CHECK EMPLOYEE PHONE');
-      print('PHONE => $phone');
-      print('=================================');
-
-      final phoneResult = await checkIfUserExistOrNotFunction(
-        request: CheckIfUserExistOrNotRequest(
-          user: phone,
-          type: UserType.employeeUser,
-        ),
-      );
-
-      if (isClosed) return;
-
-      print('PHONE CHECK RESULT => $phoneResult');
-
-      // =====================================================
-      // 7. PHONE CHECK FAILED
-      // =====================================================
-
-      if (phoneResult == null || phoneResult.isEmpty) {
-        emit(
-          AuthSignupError(
-            AppLanguageKeys.somethingWentWrong,
-          ),
-        );
-        return;
-      }
-
-      final phoneUser = phoneResult.first;
-
-      print(
-        'PHONE EXISTS => ${phoneUser.value}',
-      );
-
-      // =====================================================
-      // 8. PHONE ALREADY EXISTS
-      // =====================================================
-
-      if (phoneUser.value == true) {
-        emit(
-          AuthSignupError(
-            AppLanguageKeys.phoneExist,
-          ),
-        );
-        return;
-      }
-
-      // =====================================================
-      // 9. EMAIL + PHONE AVAILABLE
-      // =====================================================
-
-      print('=================================');
-      print('EMAIL AVAILABLE');
-      print('PHONE AVAILABLE');
-      print('CREATING EMPLOYEE');
-      print('=================================');
-
-      // =====================================================
-      // 10. CREATE EMPLOYEE
+      // 4. CREATE EMPLOYEE
       // =====================================================
 
       final result = await createUserFunction(
@@ -1311,7 +1198,7 @@ class AuthCubit extends Cubit<AuthState> {
       if (isClosed) return;
 
       // =====================================================
-      // 11. CREATE SUCCESS
+      // 5. CREATE SUCCESS
       // =====================================================
 
       if (result.success) {
@@ -1324,7 +1211,7 @@ class AuthCubit extends Cubit<AuthState> {
       }
 
       // =====================================================
-      // 12. CREATE ERROR
+      // 6. CREATE ERROR
       // =====================================================
 
       emit(

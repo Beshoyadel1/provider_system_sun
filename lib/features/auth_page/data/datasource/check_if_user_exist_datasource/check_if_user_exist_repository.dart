@@ -1,35 +1,54 @@
 import 'package:dio/dio.dart';
 import 'package:sun_web_system/features/auth_page/data/request/check_if_user_exist_request/check_if_user_exist_request.dart';
 import '../../../../../core/api/dio_function/api_constants.dart';
-import '../../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../../core/api/dio_function/failures.dart';
 import '../../../../../core/language/language_constant.dart';
 
-Future<bool> checkIfUserExistFunction({
-  required CheckIfUserExistRequest checkIfUserExistRequest,
+class CheckIfUserExistResult {
+  const CheckIfUserExistResult({
+    required this.success,
+    required this.message,
+  });
+
+  final bool success;
+  final String message;
+}
+
+Future<CheckIfUserExistResult> checkIfUserExistFunction({
+  required CheckIfUserExistRequest request,
 }) async {
   try {
-    final value = await Network.postDataWithBodyAndParams(
+    final response = await Network.postDataWithBodyAndParams(
       {},
-      checkIfUserExistRequest.toJson(), // params
+      request.toJson(),
       ApiLink.checkIfUserExist,
     );
-    final body = value.data.toString().trim();
-    if (body == "EmailExist") {
-      AppSnackBar.showSuccess(AppLanguageKeys.emailExist);
-      return true;
+
+    final data = response.data;
+    if (data is Map) {
+      return CheckIfUserExistResult(
+        success: data['success'] == true,
+        message: data['message']?.toString() ?? '',
+      );
     }
-    else{
-      AppSnackBar.showError(AppLanguageKeys.emailNotExist);
-      return false;
-    }
-  } catch (e) {
-    AppSnackBar.showError(
-      e is DioException
-          ? responseOfStatusCode(e.response?.statusCode)
-          : e.toString(),
+
+    return const CheckIfUserExistResult(
+      success: false,
+      message: AppLanguageKeys.somethingWentWrong,
     );
-    return false;
+  } catch (e) {
+    final responseData = e is DioException ? e.response?.data : null;
+    final backendMessage =
+        responseData is Map ? responseData['message']?.toString() : null;
+
+    return CheckIfUserExistResult(
+      success: false,
+      message: backendMessage?.trim().isNotEmpty == true
+          ? backendMessage!
+          : e is DioException
+              ? responseOfStatusCode(e.response?.statusCode)
+              : e.toString(),
+    );
   }
 }

@@ -1134,6 +1134,8 @@ class AppLocalizations {
       AppLanguageKeys.thursday: 'الخميس',
       AppLanguageKeys.friday: 'الجمعة',
       AppLanguageKeys.enterYourData: 'أدخل بياناتك',
+      AppLanguageKeys.costMustBeLessThanPrice:
+          'يجب أن تكون التكلفة أقل من السعر',
       AppLanguageKeys.nationalAddressMustBe8CharactersAndDigits:
           'يجب أن يتكون العنوان الوطني من 8 أحرف وأرقام',
       AppLanguageKeys.waitingForOffers: 'في انتظار استقبال العروض',
@@ -2599,6 +2601,7 @@ Providers will be notified of any major changes via the platform or email.
       AppLanguageKeys.thursday: 'Thursday',
       AppLanguageKeys.friday: 'Friday',
       AppLanguageKeys.enterYourData: 'Enter your data',
+      AppLanguageKeys.costMustBeLessThanPrice: 'Cost must be less than price',
       AppLanguageKeys.nationalAddressMustBe8CharactersAndDigits:
           'National address must be 8 characters and digits',
       AppLanguageKeys.waitingForOffers: 'Waiting to receive offers',

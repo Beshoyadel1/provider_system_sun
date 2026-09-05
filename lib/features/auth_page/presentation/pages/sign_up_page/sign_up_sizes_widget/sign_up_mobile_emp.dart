@@ -160,6 +160,7 @@ class _SignUpMobileEmpState extends State<SignUpMobileEmp> {
                       text: AppLanguageKeys.password,
                       validator: _passwordValidator,
                       showValidationMessage: true,
+                      showPasswordVisibilityToggle: true,
                     ),
                     UserTextFieldWidget(
                       type: UserFieldType.password,
@@ -167,6 +168,7 @@ class _SignUpMobileEmpState extends State<SignUpMobileEmp> {
                       text: AppLanguageKeys.confirmPasswordKey,
                       validator: _confirmPasswordValidator,
                       showValidationMessage: true,
+                      showPasswordVisibilityToggle: true,
                     ),
                     const SizedBox(height: 10),
                     BlocListener<AuthCubit, AuthState>(

@@ -1,24 +1,47 @@
 import 'package:dio/dio.dart';
 import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
 import '../../constants.dart';
-import 'api_constants.dart';
 
 class Network {
-  static Dio dio = Dio(
-    BaseOptions(
-      baseUrl: ApiConfig.baseUrlApi,
-      receiveDataWhenStatusError: true,
-      connectTimeout: const Duration(seconds: 20),
-      receiveTimeout: const Duration(seconds: 20),
+  static String _languageCode = 'ar';
 
-      followRedirects: true,
-      maxRedirects: 5,
+  static String get languageCode => _languageCode;
 
-      validateStatus: (status) {
-        return status != null && status < 500;
-      },
-    ),
-  );
+  static void setLanguageCode(String languageCode) {
+    _languageCode = languageCode.toLowerCase() == 'en' ? 'en' : 'ar';
+  }
+
+  static Dio _createDio() {
+    final dio = Dio(
+      BaseOptions(
+        baseUrl: ApiConfig.baseUrlApi,
+        receiveDataWhenStatusError: true,
+        connectTimeout: const Duration(seconds: 20),
+        receiveTimeout: const Duration(seconds: 20),
+        followRedirects: true,
+        maxRedirects: 5,
+        validateStatus: (status) {
+          return status != null && status < 500;
+        },
+      ),
+    );
+
+    dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) {
+          options.queryParameters = {
+            ...options.queryParameters,
+            'lang': _languageCode,
+          };
+          handler.next(options);
+        },
+      ),
+    );
+
+    return dio;
+  }
+
+  static final Dio dio = _createDio();
 
   static Future<Response> getData(String url) async {
     return await dio.get(url, options: Options(headers: myHeaders));
@@ -32,7 +55,8 @@ class Network {
     );
   }
 
-  static Future<Response> putDataWithBodyAndParams(var jsonData, var jsonQuery, String url) async {
+  static Future<Response> putDataWithBodyAndParams(
+      var jsonData, var jsonQuery, String url) async {
     return await dio.put(
       url,
       data: jsonData,
@@ -40,6 +64,7 @@ class Network {
       options: Options(headers: myHeaders),
     );
   }
+
   static Future<Response> deleteData(var jsonQuery, String url) async {
     return await dio.delete(
       url,
@@ -47,6 +72,7 @@ class Network {
       queryParameters: jsonQuery,
     );
   }
+
   static Future<Response> deleteDataWithBody(var jsonData, String url) async {
     return await dio.delete(
       url,
@@ -55,7 +81,8 @@ class Network {
     );
   }
 
-  static Future<Response> deleteDataWithBodyAndParams(var jsonData, var jsonQuery, String url) async {
+  static Future<Response> deleteDataWithBodyAndParams(
+      var jsonData, var jsonQuery, String url) async {
     return await dio.delete(
       url,
       data: jsonData,
@@ -63,6 +90,7 @@ class Network {
       options: Options(headers: myHeaders),
     );
   }
+
   static Future<Response> getDataWithBodyAndParams(
       var jsonData, var jsonQuery, String url) async {
     return await dio.get(
@@ -80,6 +108,7 @@ class Network {
       options: Options(headers: myHeaders),
     );
   }
+
   static Future<Response> postDataWithBody(var jsonData, String url) async {
     return await dio.post(
       url,
@@ -88,7 +117,8 @@ class Network {
     );
   }
 
-  static Future<Response> postDataWithBodyAndParams(var jsonData, var jsonQuery, String url) async {
+  static Future<Response> postDataWithBodyAndParams(
+      var jsonData, var jsonQuery, String url) async {
     return await dio.post(
       url,
       data: jsonData,

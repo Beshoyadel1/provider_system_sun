@@ -83,6 +83,12 @@ class AuthSignupError extends AuthState {
   AuthSignupError(this.message);
 }
 
+class AuthSignupCompletionError extends AuthState {
+  final String message;
+
+  AuthSignupCompletionError(this.message);
+}
+
 class AuthSignupEmpCompleted extends AuthState {
   final String message;
 

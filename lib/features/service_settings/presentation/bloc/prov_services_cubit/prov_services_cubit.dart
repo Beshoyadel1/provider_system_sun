@@ -1,7 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dio/dio.dart';
 import 'package:sun_web_system/core/theming/auth_local_storage.dart';
-import 'package:sun_web_system/features/auth_page/data/datasource/login_datasource/login_repository.dart';
 import 'package:sun_web_system/features/service_settings/presentation/bloc/prov_services_cubit/prov_services_state.dart';
 import '../../../data/datasource/get_prov_services_datasource/get_prov_services_repository.dart';
 import '../../../data/request/get_prov_services_request/get_prov_services_request.dart';
@@ -10,54 +8,84 @@ import '../../../data/datasource/update_prov_service_datasource/update_prov_serv
 import '../../../data/request/update_prov_service_request/update_prov_service_request.dart';
 import '../../../data/datasource/delete_prov_service_datasource/delete_prov_service_repository.dart';
 import '../../../data/request/delete_prov_service_request/delete_prov_service_request.dart';
-import '../../../../../../core/api/dio_function/failures.dart';
+
+typedef ProviderIdLoader = Future<int> Function();
+typedef ProvServicesLoader = Future<List<GetProvServicesResponse>> Function({
+  required GetProvServicesRequest getProvServicesRequest,
+});
 
 class ProvServicesCubit extends Cubit<ProvServicesState> {
-  ProvServicesCubit() : super(ProvServicesInitial());
+  ProvServicesCubit({
+    ProviderIdLoader? providerIdLoader,
+    ProvServicesLoader? provServicesLoader,
+  })  : _providerIdLoader = providerIdLoader,
+        _provServicesLoader = provServicesLoader ?? getProvServicesFunction,
+        super(ProvServicesInitial());
+
+  final ProviderIdLoader? _providerIdLoader;
+  final ProvServicesLoader _provServicesLoader;
 
   List<GetProvServicesResponse> response = [];
 
   Future<int> _getProviderId() async {
+    if (_providerIdLoader != null) {
+      return _providerIdLoader();
+    }
+
     final user = await AuthLocalStorage.getUser();
     return user?.userid ?? 0;
+  }
+
+  void _emitIfOpen(ProvServicesState state) {
+    if (!isClosed) {
+      emit(state);
+    }
   }
 
   Future<void> getProvServices({
     required int serviceId,
   }) async {
-    emit(ProvServicesLoading());
+    if (isClosed) return;
+
+    _emitIfOpen(ProvServicesLoading());
 
     try {
       final providerId = await _getProviderId();
 
-      final result = await getProvServicesFunction(
+      final result = await _provServicesLoader(
         getProvServicesRequest: GetProvServicesRequest(
           providerId: providerId,
           serviceId: serviceId,
         ),
       );
 
+      if (isClosed) return;
+
       response = result;
 
-      emit(ProvServicesSuccess(result));
+      _emitIfOpen(ProvServicesSuccess(result));
     } catch (e, stack) {
       print("❌ ERROR: $e");
       print("📍 STACK: $stack");
 
-      emit(ProvServicesError(e.toString()));
+      _emitIfOpen(ProvServicesError(e.toString()));
     }
   }
 
   Future<void> deleteProvService({
     required int provServiceId,
   }) async {
+    if (isClosed) return;
+
     try {
       await deleteProvServiceFunction(
         deleteProvServiceRequest:
-        DeleteProvServiceRequest(provServiceId: provServiceId),
+            DeleteProvServiceRequest(provServiceId: provServiceId),
       );
 
-      emit(ProvServiceDeleteSuccess());
+      if (isClosed) return;
+
+      _emitIfOpen(ProvServiceDeleteSuccess());
 
       if (response.isNotEmpty) {
         await getProvServices(
@@ -65,20 +93,25 @@ class ProvServicesCubit extends Cubit<ProvServicesState> {
         );
       }
     } catch (e) {
-      emit(ProvServicesError(e.toString()));
+      _emitIfOpen(ProvServicesError(e.toString()));
     }
   }
+
   Future<void> updateProvService({
     required UpdateProvServiceRequest request,
   }) async {
-    emit(ProvServicesLoading());
+    if (isClosed) return;
+
+    _emitIfOpen(ProvServicesLoading());
 
     try {
       await updateProvServiceFunction(
         updateProvServiceRequest: request,
       );
 
-      emit(ProvServiceUpdateSuccess());
+      if (isClosed) return;
+
+      _emitIfOpen(ProvServiceUpdateSuccess());
 
       if (response.isNotEmpty) {
         await getProvServices(
@@ -86,7 +119,7 @@ class ProvServicesCubit extends Cubit<ProvServicesState> {
         );
       }
     } catch (e) {
-      emit(ProvServicesError(e.toString()));
+      _emitIfOpen(ProvServicesError(e.toString()));
     }
   }
 }

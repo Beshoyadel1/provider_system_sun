@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:sun_web_system/core/theming/colors.dart';
 import '../../../../../../features/service_settings/presentation/bloc/create_prov_service_cubit/create_prov_service_cubit.dart';
+import '../../../../../../features/service_settings/presentation/validation/service_price_validation.dart';
 import '../../../../../../core/pages_widgets/text_form_field_widget.dart';
 
 class DataViewOfUnifiedPriceForAll extends StatefulWidget {
@@ -21,7 +22,6 @@ class DataViewOfUnifiedPriceForAll extends StatefulWidget {
 
 class _DataViewOfUnifiedPriceForAllState
     extends State<DataViewOfUnifiedPriceForAll> {
-
   late TextEditingController priceController;
   late TextEditingController costController;
 
@@ -73,20 +73,17 @@ class _DataViewOfUnifiedPriceForAllState
               hintTextColor: AppColors.orangeColor,
               textSize: 15,
               isDigit: true,
-
+              showValidationMessage: true,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return AppLanguageKeys.enterYourData;
                 }
                 return null;
               },
-
               onChanged: (_) => _updateCubit(),
             ),
           ),
-
           const SizedBox(width: 10),
-
           Expanded(
             child: TextFormFieldWidget(
               textFormController: costController,
@@ -97,14 +94,13 @@ class _DataViewOfUnifiedPriceForAllState
               hintTextColor: AppColors.orangeColor,
               textSize: 15,
               isDigit: true,
-
+              showValidationMessage: true,
               validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return AppLanguageKeys.enterYourData;
-                }
-                return null;
+                return validateCostLessThanPrice(
+                  costText: value,
+                  priceText: priceController.text,
+                );
               },
-
               onChanged: (_) => _updateCubit(),
             ),
           ),

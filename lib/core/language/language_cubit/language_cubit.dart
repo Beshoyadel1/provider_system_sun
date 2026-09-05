@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../api/dio_function/dio_controller.dart';
 import '../language_model.dart';
 import 'language_states.dart';
 
@@ -23,6 +24,8 @@ class LanguageCubit extends Cubit<LanguageStates> {
       isAllAppLanguageArabic = false;
       selectedLanguage = supportedLocales[1];
     }
+
+    Network.setLanguageCode(selectedLanguage!.languageCode);
 
     languageDropDownValue = languageItemsDropDown.firstWhere(
       (element) => element.number == language,

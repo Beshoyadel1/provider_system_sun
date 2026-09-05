@@ -1229,6 +1229,7 @@ class AppLanguageKeys {
   static const String thirdInstallmentDetails = 'thirdInstallmentDetails';
   static const String paidBy = 'paidBy';
   static const String enterYourData = 'enterYourData';
+  static const String costMustBeLessThanPrice = 'costMustBeLessThanPrice';
   static const String nationalAddressMustBe8CharactersAndDigits =
       'nationalAddressMustBe8CharactersAndDigits';
   static const String waitingForOffers = 'waitingForOffers';

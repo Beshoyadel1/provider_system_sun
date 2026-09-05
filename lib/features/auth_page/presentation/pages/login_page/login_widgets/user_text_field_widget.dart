@@ -35,6 +35,7 @@ class UserTextFieldWidget extends StatelessWidget {
     this.digitOnly = false,
     this.validator,
     this.showValidationMessage = false,
+    this.showPasswordVisibilityToggle = false,
   });
   final void Function(String)? onChanged;
   final TextEditingController controller;
@@ -53,6 +54,7 @@ class UserTextFieldWidget extends StatelessWidget {
   final bool digitOnly;
   final String? Function(String?)? validator;
   final bool showValidationMessage;
+  final bool showPasswordVisibilityToggle;
 
   @override
   Widget build(BuildContext context) {
@@ -114,20 +116,16 @@ class UserTextFieldWidget extends StatelessWidget {
       // PASSWORD
       // =========================================================
       case UserFieldType.password:
-        child = TextFormFieldWidget(
-          textFormController: controller,
-          text: text ?? "",
-          isColumn: true,
+        child = _PasswordTextField(
+          controller: controller,
+          text: text ?? '',
           readOnly: readOnly,
-          textSize: 16,
           borderColor: borderColor ?? AppColors.darkGreyColor,
           fillColor: fillColor ?? AppColors.whiteColor,
-          textFormHeight: fieldHeight,
-          maxLines: 1,
-          isDigit: false,
-          obscureText: true,
+          height: fieldHeight,
           validator: validator,
           showValidationMessage: showValidationMessage,
+          showVisibilityToggle: showPasswordVisibilityToggle,
           onChanged: onChanged,
         );
         break;
@@ -228,6 +226,67 @@ class UserTextFieldWidget extends StatelessWidget {
     return SizedBox(
       width: isMobile ? double.infinity : (width ?? 500),
       child: child,
+    );
+  }
+}
+
+class _PasswordTextField extends StatefulWidget {
+  const _PasswordTextField({
+    required this.controller,
+    required this.text,
+    required this.readOnly,
+    required this.borderColor,
+    required this.fillColor,
+    required this.height,
+    required this.showValidationMessage,
+    required this.showVisibilityToggle,
+    this.validator,
+    this.onChanged,
+  });
+
+  final TextEditingController controller;
+  final String text;
+  final bool readOnly;
+  final Color borderColor;
+  final Color fillColor;
+  final double height;
+  final bool showValidationMessage;
+  final bool showVisibilityToggle;
+  final String? Function(String?)? validator;
+  final void Function(String)? onChanged;
+
+  @override
+  State<_PasswordTextField> createState() => _PasswordTextFieldState();
+}
+
+class _PasswordTextFieldState extends State<_PasswordTextField> {
+  bool _obscureText = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormFieldWidget(
+      textFormController: widget.controller,
+      text: widget.text,
+      isColumn: true,
+      readOnly: widget.readOnly,
+      textSize: 16,
+      borderColor: widget.borderColor,
+      fillColor: widget.fillColor,
+      textFormHeight: widget.height,
+      maxLines: 1,
+      isDigit: false,
+      obscureText: _obscureText,
+      suffixIcon: widget.showVisibilityToggle
+          ? (_obscureText
+              ? Icons.visibility_outlined
+              : Icons.visibility_off_outlined)
+          : null,
+      suffixOnPressed: widget.showVisibilityToggle
+          ? () => setState(() => _obscureText = !_obscureText)
+          : null,
+      validator: widget.validator,
+      showValidationMessage: widget.showValidationMessage,
+      onChanged: widget.onChanged,
     );
   }
 }
@@ -400,81 +459,104 @@ class PhoneTextField extends StatelessWidget {
               textSize: 14,
             ),
           ),
-        SizedBox(
-          height: showValidationMessage ? null : (height! + 20),
-          child: IntlPhoneField(
-            initialValue: initialPhone,
-            initialCountryCode: 'SA',
-            languageCode: Localizations.localeOf(context).languageCode,
-            invalidNumberMessage: AppLocalizations.of(context).translate(
-              AppLanguageKeys.authEnterCorrectPhoneNumber,
+        FormField<String>(
+          initialValue: controller.text,
+          validator: (value) {
+            final number = value?.trim() ?? '';
+            final result = validator?.call(number);
+            if (result != null) {
+              return AppLocalizations.of(context).translate(result);
+            }
+
+            if (number.isNotEmpty && number.length < 6) {
+              return AppLocalizations.of(context).translate(
+                AppLanguageKeys.phoneNumberAtLeastSixDigits,
+              );
+            }
+
+            return null;
+          },
+          builder: (field) => SizedBox(
+            height: showValidationMessage ? null : (height! + 20),
+            child: IntlPhoneField(
+              initialValue: initialPhone,
+              initialCountryCode: 'SA',
+              languageCode: Localizations.localeOf(context).languageCode,
+              disableLengthCheck: false,
+              autovalidateMode: AutovalidateMode.disabled,
+              readOnly: isReadOnly,
+              keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+              ],
+              style: const TextStyle(fontSize: 14, height: 1.2),
+              dropdownTextStyle: const TextStyle(fontSize: 14),
+              decoration: InputDecoration(
+                errorText: field.errorText,
+                errorStyle: showValidationMessage
+                    ? const TextStyle(
+                        height: 1.2,
+                        fontSize: 12,
+                        color: AppColors.redColor,
+                      )
+                    : const TextStyle(
+                        height: 0.01,
+                        fontSize: 1,
+                        color: AppColors.redColor,
+                      ),
+                filled: true,
+                fillColor: fillColor,
+                isDense: true,
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 8,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: borderColor),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(
+                    color: focusedBorderColor,
+                    width: 1.5,
+                  ),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(
+                    color: AppColors.redColor,
+                    width: 1.5,
+                  ),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(
+                    color: AppColors.redColor,
+                    width: 1.5,
+                  ),
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: borderColor),
+                ),
+              ),
+              flagsButtonPadding: const EdgeInsets.only(left: 6, right: 4),
+              dropdownIconPosition: IconPosition.trailing,
+              dropdownIcon: const Icon(Icons.arrow_drop_down, size: 18),
+              onChanged: isReadOnly
+                  ? null
+                  : (phone) {
+                      final localNumber = phone.number.trim();
+                      final value = localNumber.isEmpty
+                          ? ''
+                          : phone.completeNumber.replaceFirst('+', '');
+
+                      controller.text = value;
+                      field.didChange(value);
+                      onChanged?.call(value);
+                    },
             ),
-            validator: (phone) {
-              final number = phone?.number.trim() ?? '';
-              final result = validator?.call(number);
-              if (result != null) {
-                return AppLocalizations.of(context).translate(result);
-              }
-
-              if (number.isNotEmpty && number.length < 6) {
-                return AppLocalizations.of(context).translate(
-                  AppLanguageKeys.phoneNumberAtLeastSixDigits,
-                );
-              }
-
-              return null;
-            },
-            disableLengthCheck: true,
-            readOnly: isReadOnly,
-            keyboardType: TextInputType.number,
-            inputFormatters: [
-              FilteringTextInputFormatter.digitsOnly,
-            ],
-            style: const TextStyle(fontSize: 14, height: 1.2),
-            dropdownTextStyle: const TextStyle(fontSize: 14),
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: fillColor,
-              isDense: true,
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 8,
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(
-                  color: borderColor,
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(
-                  color: focusedBorderColor,
-                  width: 1.5,
-                ),
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(
-                  color: borderColor,
-                ),
-              ),
-            ),
-            flagsButtonPadding: const EdgeInsets.only(left: 6, right: 4),
-            dropdownIconPosition: IconPosition.trailing,
-            dropdownIcon: const Icon(Icons.arrow_drop_down, size: 18),
-            onChanged: isReadOnly
-                ? null
-                : (phone) {
-                    final localNumber = phone.number.trim();
-                    final value = localNumber.isEmpty
-                        ? ''
-                        : phone.completeNumber.replaceFirst("+", "");
-
-                    controller.text = value;
-
-                    onChanged?.call(value);
-                  },
           ),
         ),
       ],

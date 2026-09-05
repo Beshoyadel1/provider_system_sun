@@ -2,8 +2,8 @@ import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/features/service_settings/data/model/create_prov_service_model/brand_model_create_prov_service_model.dart';
 import 'package:sun_web_system/features/service_settings/presentation/bloc/create_prov_service_cubit/create_prov_service_cubit.dart';
+import 'package:sun_web_system/features/service_settings/presentation/validation/service_price_validation.dart';
 import '../../../../../core/pages_widgets/text_form_field_widget.dart';
 import '../../../../../core/language/language_constant.dart';
 import '../../../../../core/theming/colors.dart';
@@ -70,23 +70,21 @@ class CarImageTextInSettingWidget extends StatelessWidget {
           ],
         ),
         const SizedBox(width: 8),
-
         Expanded(
           child: Row(
             spacing: 10,
             children: [
-
               Expanded(
                 child: TextFormFieldWidget(
                   hintText: AppLanguageKeys.price,
                   textFormController: priceController,
                   fillColor: AppColors.transparent,
-                  borderColor:
-                  AppColors.darkColor.withOpacity(0.2),
+                  borderColor: AppColors.darkColor.withOpacity(0.2),
                   hintTextSize: 12,
                   hintTextColor: AppColors.orangeColor,
                   textSize: 15,
                   isDigit: true,
+                  showValidationMessage: true,
                   onChanged: (_) => _updateCubit(context),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -103,18 +101,18 @@ class CarImageTextInSettingWidget extends StatelessWidget {
                   hintText: AppLanguageKeys.cost,
                   textFormController: costController,
                   fillColor: AppColors.transparent,
-                  borderColor:
-                  AppColors.darkColor.withOpacity(0.2),
+                  borderColor: AppColors.darkColor.withOpacity(0.2),
                   hintTextSize: 12,
                   hintTextColor: AppColors.orangeColor,
                   textSize: 15,
                   isDigit: true,
+                  showValidationMessage: true,
                   onChanged: (_) => _updateCubit(context),
                   validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return AppLanguageKeys.enterYourData;
-                    }
-                    return null;
+                    return validateCostLessThanPrice(
+                      costText: value,
+                      priceText: priceController.text,
+                    );
                   },
                 ),
               ),
@@ -138,7 +136,6 @@ class CarImageTextInSettingWidget extends StatelessWidget {
       );
     }
 
-    return const Icon(Icons.directions_car,
-        size: 28, color: Colors.grey);
+    return const Icon(Icons.directions_car, size: 28, color: Colors.grey);
   }
 }

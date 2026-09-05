@@ -2,14 +2,16 @@ import 'package:flutter/cupertino.dart';
 import '../../../../../../../core/language/language_constant.dart';
 import '../../../../../../../core/pages_widgets/text_form_field_widget.dart';
 import '../../../../../../../core/theming/colors.dart';
+import '../../../../../../../features/service_settings/presentation/validation/service_price_validation.dart';
 
 class EnterPriceCostPetrolService extends StatelessWidget {
-  final TextEditingController priceController,costController;
-  const EnterPriceCostPetrolService({super.key,required this.priceController,required this.costController});
+  final TextEditingController priceController, costController;
+  const EnterPriceCostPetrolService(
+      {super.key, required this.priceController, required this.costController});
 
   @override
   Widget build(BuildContext context) {
-    return  Row(
+    return Row(
       children: [
         Expanded(
           child: TextFormFieldWidget(
@@ -20,6 +22,7 @@ class EnterPriceCostPetrolService extends StatelessWidget {
             hintTextSize: 12,
             hintTextColor: AppColors.orangeColor,
             isDigit: true,
+            showValidationMessage: true,
             textSize: 15,
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -39,12 +42,13 @@ class EnterPriceCostPetrolService extends StatelessWidget {
             hintTextColor: AppColors.orangeColor,
             textSize: 15,
             isDigit: true,
+            showValidationMessage: true,
             hintText: AppLanguageKeys.cost,
             validator: (value) {
-              if (value == null || value.isEmpty) {
-                return AppLanguageKeys.enterYourData;
-              }
-              return null;
+              return validateCostLessThanPrice(
+                costText: value,
+                priceText: priceController.text,
+              );
             },
           ),
         ),

@@ -170,7 +170,7 @@ class _OtpPageState extends State<OtpPage> {
       buildWhen: (previous, current) =>
           current is AuthSignupLoading ||
           current is AuthSignupCompleted ||
-          current is AuthSignupError,
+          current is AuthSignupCompletionError,
       builder: (context, state) {
         final authCubit = context.read<AuthCubit>();
 
@@ -186,7 +186,7 @@ class _OtpPageState extends State<OtpPage> {
                 current is AuthOtpSuccess ||
                 current is AuthOtpError ||
                 current is AuthSignupCompleted ||
-                current is AuthSignupError,
+                current is AuthSignupCompletionError,
             listener: (context, state) {
               if (state is AuthOtpSuccess) {
                 _handleOtpSuccess();
@@ -209,7 +209,11 @@ class _OtpPageState extends State<OtpPage> {
                 return;
               }
 
-              if (state is AuthSignupError) {
+              if (state is AuthSignupCompletionError) {
+                if (widget.purpose == OtpPurpose.signup && mounted) {
+                  Navigator.of(context).pop();
+                }
+
                 AppSnackBar.showError(
                   state.message,
                 );
@@ -472,7 +476,8 @@ class _OtpPageState extends State<OtpPage> {
                               current is AuthOtpSuccess ||
                               current is AuthOtpError ||
                               current is AuthSignupLoading ||
-                              current is AuthSignupCompleted,
+                              current is AuthSignupCompleted ||
+                              current is AuthSignupCompletionError,
                           builder: (context, state) {
                             final isLoading = state is AuthSignupLoading;
                             return ElevatedButton(
