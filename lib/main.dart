@@ -24,8 +24,7 @@ void main() {
           create: (_) => NotificationCubit()..getUserNotification(),
         ),
         BlocProvider<LanguageCubit>(
-          create: (_) =>
-          getIt<LanguageCubit>()..getLanguageFromSharedPreference(),
+          create: (_) => getIt<LanguageCubit>()..getLanguageFromSharedPreference(),
         ),
         BlocProvider<AuthCubit>(
           create: (_) => AuthCubit()..init(),

@@ -12,6 +12,7 @@ import 'package:sun_web_system/features/service_settings/presentation/bloc/selec
 import 'package:sun_web_system/features/service_settings/presentation/bloc/select_car_model_setting_cubit/select_car_model_setting_state.dart';
 import 'package:sun_web_system/features/service_settings/presentation/pages/added_maintenance_and_internal_services_in_service_settings/screens/animated_cross_fade_in_expansion_container_setting_widget.dart';
 import 'package:sun_web_system/features/service_settings/presentation/pages/added_maintenance_and_internal_services_in_service_settings/screens/enter_name_laten_name_service.dart';
+import 'package:sun_web_system/features/service_settings/presentation/pages/added_maintenance_and_internal_services_in_service_settings/screens/general_service_pricing_widget.dart';
 import 'package:sun_web_system/features/service_settings/presentation/pages/added_maintenance_and_internal_services_in_service_settings/screens/select_tax_page.dart';
 import '../../../../data/response/get_prov_services_response/get_prov_services_response.dart';
 import '../../../../data/request/update_prov_service_request/update_prov_service_request.dart';
@@ -33,6 +34,9 @@ class _ServiceCardState extends State<ServiceCard> {
 
   late TextEditingController nameController;
   late TextEditingController latinController;
+  late TextEditingController generalPriceController;
+  late TextEditingController generalCostController;
+  late bool isGeneralUnifiedPrice;
   bool isExpanded = false;
 
   @override
@@ -44,6 +48,26 @@ class _ServiceCardState extends State<ServiceCard> {
 
     latinController =
         TextEditingController(text: widget.service.provService.latinname);
+    isGeneralUnifiedPrice = widget.service.provService.isunifiedprice;
+    generalPriceController = TextEditingController(
+      text: isGeneralUnifiedPrice
+          ? widget.service.provService.unifiedprice.toString()
+          : '',
+    );
+    generalCostController = TextEditingController(
+      text: isGeneralUnifiedPrice
+          ? widget.service.provService.cost.toString()
+          : '',
+    );
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    latinController.dispose();
+    generalPriceController.dispose();
+    generalCostController.dispose();
+    super.dispose();
   }
 
   @override
@@ -127,38 +151,56 @@ class _ServiceCardState extends State<ServiceCard> {
                                     ),
                                     const SizedBox(height: 10),
                                     const SelectTaxPage(),
+                                    GeneralServicePricingWidget(
+                                      isUnifiedPrice: isGeneralUnifiedPrice,
+                                      priceController: generalPriceController,
+                                      costController: generalCostController,
+                                      onPricingTypeChanged: (isUnified) {
+                                        setState(() {
+                                          isGeneralUnifiedPrice = isUnified;
+                                        });
+
+                                        if (isUnified) {
+                                          cubit.clearDetailedPricing();
+                                        } else {
+                                          generalPriceController.clear();
+                                          generalCostController.clear();
+                                        }
+                                      },
+                                    ),
                                   ],
                                 ),
                               ),
                               const SizedBox(height: 10),
-                              BlocBuilder<SelectCarModelSettingCubit,
-                                  SelectCarModelSettingState>(
-                                builder: (context, state) {
-                                  if (state.isLoadingBrands) {
-                                    return const CircularProgressIndicator();
-                                  }
+                              if (!isGeneralUnifiedPrice)
+                                BlocBuilder<SelectCarModelSettingCubit,
+                                    SelectCarModelSettingState>(
+                                  builder: (context, state) {
+                                    if (state.isLoadingBrands) {
+                                      return const CircularProgressIndicator();
+                                    }
 
-                                  return Column(
-                                    children: List.generate(state.brands.length,
-                                        (index) {
-                                      final brand = state.brands[index];
+                                    return Column(
+                                      children: List.generate(
+                                          state.brands.length, (index) {
+                                        final brand = state.brands[index];
 
-                                      return BlocProvider(
-                                        key: ValueKey(brand.id),
-                                        create: (_) =>
-                                            DetailsContainerSettingCubit(),
-                                        child:
-                                            AnimatedCrossFadeInExpansionContainerSettingWidget(
-                                          index: index,
-                                          image: brand.image,
-                                          text: brand.getName(context),
-                                          brandId: brand.id ?? 0,
-                                        ),
-                                      );
-                                    }),
-                                  );
-                                },
-                              ),
+                                        return BlocProvider(
+                                          key: ValueKey(brand.id),
+                                          create: (_) =>
+                                              DetailsContainerSettingCubit(),
+                                          child:
+                                              AnimatedCrossFadeInExpansionContainerSettingWidget(
+                                            index: index,
+                                            image: brand.image,
+                                            text: brand.getName(context),
+                                            brandId: brand.id ?? 0,
+                                          ),
+                                        );
+                                      }),
+                                    );
+                                  },
+                                ),
                               const SizedBox(height: 15),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -187,8 +229,21 @@ class _ServiceCardState extends State<ServiceCard> {
                                           taxId: taxCubit.selectedTax!.taxId,
                                           name: nameController.text,
                                           latinName: latinController.text,
-                                          brands: cubit.buildBrands(),
-                                          cars: cubit.cars,
+                                          uniformprice: isGeneralUnifiedPrice
+                                              ? double.tryParse(
+                                                  generalPriceController.text)
+                                              : 0,
+                                          cost: isGeneralUnifiedPrice
+                                              ? double.tryParse(
+                                                  generalCostController.text)
+                                              : 0,
+                                          isuniformprice: isGeneralUnifiedPrice,
+                                          brands: isGeneralUnifiedPrice
+                                              ? []
+                                              : cubit.buildBrands(),
+                                          cars: isGeneralUnifiedPrice
+                                              ? []
+                                              : cubit.cars,
                                         );
 
                                         context

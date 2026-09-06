@@ -26,6 +26,7 @@ class ProvServicesCubit extends Cubit<ProvServicesState> {
   final ProvServicesLoader _provServicesLoader;
 
   List<GetProvServicesResponse> response = [];
+  final Map<int, GetProvServicesResponse> _locallyCreatedServices = {};
 
   Future<int> _getProviderId() async {
     if (_providerIdLoader != null) {
@@ -40,6 +41,26 @@ class ProvServicesCubit extends Cubit<ProvServicesState> {
     if (!isClosed) {
       emit(state);
     }
+  }
+
+  void addCreatedService(GetProvServicesResponse service) {
+    if (isClosed) return;
+
+    _locallyCreatedServices[service.provService.id] = service;
+
+    final updatedServices = List<GetProvServicesResponse>.from(response);
+    final existingIndex = updatedServices.indexWhere(
+      (item) => item.provService.id == service.provService.id,
+    );
+
+    if (existingIndex == -1) {
+      updatedServices.add(service);
+    } else {
+      updatedServices[existingIndex] = service;
+    }
+
+    response = updatedServices;
+    _emitIfOpen(ProvServicesSuccess(List.unmodifiable(updatedServices)));
   }
 
   Future<void> getProvServices({
@@ -61,9 +82,15 @@ class ProvServicesCubit extends Cubit<ProvServicesState> {
 
       if (isClosed) return;
 
-      response = result;
+      final serverIds = result.map((item) => item.provService.id).toSet();
+      _locallyCreatedServices.removeWhere((id, _) => serverIds.contains(id));
 
-      _emitIfOpen(ProvServicesSuccess(result));
+      response = [
+        ...result,
+        ..._locallyCreatedServices.values,
+      ];
+
+      _emitIfOpen(ProvServicesSuccess(List.unmodifiable(response)));
     } catch (e, stack) {
       print("❌ ERROR: $e");
       print("📍 STACK: $stack");
@@ -85,6 +112,7 @@ class ProvServicesCubit extends Cubit<ProvServicesState> {
 
       if (isClosed) return;
 
+      _locallyCreatedServices.remove(provServiceId);
       _emitIfOpen(ProvServiceDeleteSuccess());
 
       if (response.isNotEmpty) {

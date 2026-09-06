@@ -53,6 +53,8 @@ class ExpansionContainerSettingPetrolWidget extends StatefulWidget {
 class _ExpansionContainerSettingPetrolWidgetState
     extends State<ExpansionContainerSettingPetrolWidget> {
   final _formKey = GlobalKey<FormState>();
+  late final ProvServicesCubit _provServicesCubit;
+  bool _hasLoadedProvServices = false;
 
   late TextEditingController nameController,
       latinNameController,
@@ -62,6 +64,8 @@ class _ExpansionContainerSettingPetrolWidgetState
   @override
   void initState() {
     super.initState();
+
+    _provServicesCubit = ProvServicesCubit();
 
     nameController = TextEditingController(
       text: widget.initialName ?? '',
@@ -85,9 +89,20 @@ class _ExpansionContainerSettingPetrolWidgetState
   }
 
   @override
+  void dispose() {
+    nameController.dispose();
+    latinNameController.dispose();
+    priceController.dispose();
+    costController.dispose();
+    _provServicesCubit.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider.value(value: _provServicesCubit),
         BlocProvider(
           create: (_) => SelectCarModelSettingCubit()..fetchBrands(),
         ),
@@ -131,7 +146,16 @@ class _ExpansionContainerSettingPetrolWidgetState
                 ),
                 ContainerOpenCloseTabSetting(
                   isDoneTask: widget.isDoneTask,
-                  onTap: widget.onTap,
+                  onTap: () {
+                    widget.onTap?.call();
+
+                    if (!_hasLoadedProvServices) {
+                      _hasLoadedProvServices = true;
+                      _provServicesCubit.getProvServices(
+                        serviceId: widget.serviceId,
+                      );
+                    }
+                  },
                 )
               ],
             ),
@@ -156,7 +180,7 @@ class _ExpansionContainerSettingPetrolWidgetState
                     return Column(
                       spacing: 10,
                       children: [
-                        ProvServicePetrolListView(serviceId: widget.serviceId),
+                        const ProvServicePetrolListView(),
                         const Row(
                           children: [
                             TextInAppWidget(
@@ -184,10 +208,12 @@ class _ExpansionContainerSettingPetrolWidgetState
                         BlocListener<CreateProvServiceCubit,
                             CreateProvServiceState>(
                           listener: (context, state) {
-                            if (state is CreateProvServiceSuccess) {
+                            if (state is CreateProvServiceSuccess &&
+                                state.createdService.provService.serviceid ==
+                                    widget.serviceId) {
                               context
                                   .read<ProvServicesCubit>()
-                                  .getProvServices(serviceId: widget.serviceId);
+                                  .addCreatedService(state.createdService);
 
                               nameController.clear();
                               latinNameController.clear();

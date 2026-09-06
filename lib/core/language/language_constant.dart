@@ -970,6 +970,8 @@ class AppLanguageKeys {
   static const String allCategories = 'allCategories';
   static const String unifiedPriceForAll = 'unifiedPriceForAll';
   static const String pricePerCategory = 'pricePerCategory';
+  static const String generalUnifiedPrice = 'generalUnifiedPrice';
+  static const String priceByBrandAndModel = 'priceByBrandAndModel';
   static const String sar = 'sar';
   static const String add = 'add';
   static const String carWash = 'carWash';

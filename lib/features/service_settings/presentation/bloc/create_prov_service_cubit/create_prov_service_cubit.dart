@@ -6,6 +6,8 @@ import 'package:sun_web_system/features/service_settings/data/model/create_prov_
 import 'package:sun_web_system/features/service_settings/data/model/create_prov_service_model/car_model_create_prov_service_model.dart';
 import 'package:sun_web_system/features/service_settings/data/datasource/create_prov_service_datasource/create_prov_service_repository.dart';
 import 'package:sun_web_system/features/service_settings/data/request/create_prov_service_request/create_prov_service_request.dart';
+import 'package:sun_web_system/features/service_settings/data/response/create_prov_service_response/create_prov_service_response.dart';
+import 'package:sun_web_system/features/service_settings/data/response/get_prov_services_response/get_prov_services_response.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:sun_web_system/features/service_settings/presentation/validation/service_price_validation.dart';
 import 'create_prov_service_state.dart';
@@ -28,6 +30,12 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
   final Map<int, GlobalKey<FormState>> formKeys = {};
 
   int? serviceId;
+
+  void _emitIfOpen(CreateProvServiceState state) {
+    if (!isClosed) {
+      emit(state);
+    }
+  }
 
   void removeBrandData(int brandId) {
     brandsData.remove(brandId);
@@ -122,19 +130,35 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
     return brandsData.values.toList();
   }
 
+  void clearDetailedPricing() {
+    brandsData.clear();
+    cars.clear();
+    brandSelection.clear();
+
+    for (final key in formKeys.values) {
+      key.currentState?.reset();
+    }
+  }
+
   Future<void> createProvService({
     required CreateProvServiceRequest request,
   }) async {
-    emit(CreateProvServiceLoading());
+    if (isClosed) return;
+
+    _emitIfOpen(CreateProvServiceLoading());
 
     try {
       if (serviceId == null) {
-        emit(CreateProvServiceError(AppLanguageKeys.selectPricingTypeFirst));
+        _emitIfOpen(
+          CreateProvServiceError(AppLanguageKeys.selectPricingTypeFirst),
+        );
         return;
       }
 
       if (!_hasValidPricing(request)) {
-        emit(CreateProvServiceError(AppLanguageKeys.costMustBeLessThanPrice));
+        _emitIfOpen(
+          CreateProvServiceError(AppLanguageKeys.costMustBeLessThanPrice),
+        );
         return;
       }
 
@@ -155,7 +179,16 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
       print("📤 SENDING:");
       print(const JsonEncoder.withIndent(' ').convert(updatedRequest.toJson()));
 
-      await _repository.createProvService(request: updatedRequest);
+      final createdResponse =
+          await _repository.createProvService(request: updatedRequest);
+
+      if (isClosed) return;
+
+      final createdService = _buildCreatedService(
+        response: createdResponse,
+        request: updatedRequest,
+      );
+
       brandsData.clear();
       cars.clear();
       brandSelection.clear();
@@ -164,18 +197,66 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
         key.currentState?.reset();
       }
 
-      emit(CreateProvServiceSuccess());
+      _emitIfOpen(CreateProvServiceSuccess(createdService));
     } catch (e) {
-      emit(CreateProvServiceError(e.toString()));
+      _emitIfOpen(CreateProvServiceError(e.toString()));
     }
   }
 
-  bool _hasValidPricing(CreateProvServiceRequest request) {
-    final usesTopLevelPricing = request.isunifiedprice == true ||
-        request.unifiedprice != null ||
-        request.cost != null;
+  GetProvServicesResponse _buildCreatedService({
+    required CreateProvServiceResponse response,
+    required CreateProvServiceRequest request,
+  }) {
+    final brands = (request.brands ?? const []).map((brand) {
+      final brandId = brand.id ?? 0;
 
-    if (usesTopLevelPricing &&
+      final models = (request.cars ?? const [])
+          .where((car) => car.carbrandid == brandId)
+          .map(
+            (car) => ModelItem(
+              id: car.id ?? 0,
+              provserviceid: response.id,
+              carbrandid: car.carbrandid ?? 0,
+              carmodelid: car.carmodelid ?? 0,
+              price: car.price ?? 0,
+              cost: car.cost ?? 0,
+            ),
+          )
+          .toList();
+
+      return BrandItem(
+        provServiceBrand: ProvServiceBrand(
+          // The create endpoint does not return child row IDs. Zero keeps the
+          // locally-created child distinguishable until the next screen load.
+          id: 0,
+          provserviceid: response.id,
+          brandid: brandId,
+          unifiedprice: brand.unifiedprice,
+          isunifiedprice: brand.isunifiedprice ?? false,
+          cost: brand.cost,
+        ),
+        models: models,
+      );
+    }).toList();
+
+    return GetProvServicesResponse(
+      provService: ProvService(
+        id: response.id,
+        serviceid: response.serviceId,
+        provid: response.providerId,
+        taxid: response.taxId,
+        name: response.name,
+        latinname: response.latinName,
+        unifiedprice: response.unifiedPrice,
+        cost: response.cost,
+        isunifiedprice: response.isUnifiedPrice,
+      ),
+      brands: brands,
+    );
+  }
+
+  bool _hasValidPricing(CreateProvServiceRequest request) {
+    if (request.isunifiedprice == true &&
         !isCostLessThanPrice(
           cost: request.cost,
           price: request.unifiedprice,

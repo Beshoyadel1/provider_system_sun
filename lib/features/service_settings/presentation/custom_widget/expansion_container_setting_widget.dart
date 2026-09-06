@@ -13,6 +13,7 @@ import 'package:sun_web_system/features/service_settings/presentation/bloc/selec
 import 'package:sun_web_system/features/service_settings/presentation/pages/added_maintenance_and_internal_services_in_service_settings/screens/animated_cross_fade_in_expansion_container_setting_widget.dart';
 import 'package:sun_web_system/features/service_settings/presentation/pages/added_maintenance_and_internal_services_in_service_settings/screens/container_open_close_tab_setting.dart';
 import 'package:sun_web_system/features/service_settings/presentation/pages/added_maintenance_and_internal_services_in_service_settings/screens/enter_name_laten_name_service.dart';
+import 'package:sun_web_system/features/service_settings/presentation/pages/added_maintenance_and_internal_services_in_service_settings/screens/general_service_pricing_widget.dart';
 import 'package:sun_web_system/features/service_settings/presentation/pages/added_maintenance_and_internal_services_in_service_settings/screens/prov_service_brands_list_view.dart';
 import 'package:sun_web_system/features/service_settings/presentation/pages/added_maintenance_and_internal_services_in_service_settings/screens/select_tax_page.dart';
 import '../../data/request/create_prov_service_request/create_prov_service_request.dart';
@@ -52,15 +53,21 @@ class ExpansionContainerSettingWidget extends StatefulWidget {
 
 class _ExpansionContainerSettingWidgetState
     extends State<ExpansionContainerSettingWidget> {
-
   final _formKey = GlobalKey<FormState>();
+  late final ProvServicesCubit _provServicesCubit;
+  bool _hasLoadedProvServices = false;
 
   late TextEditingController nameController;
   late TextEditingController latinNameController;
+  late TextEditingController generalPriceController;
+  late TextEditingController generalCostController;
+  bool? isGeneralUnifiedPrice;
 
   @override
   void initState() {
     super.initState();
+
+    _provServicesCubit = ProvServicesCubit();
 
     nameController = TextEditingController(
       text: widget.initialName ?? '',
@@ -69,6 +76,8 @@ class _ExpansionContainerSettingWidgetState
     latinNameController = TextEditingController(
       text: widget.initialLatinName ?? '',
     );
+    generalPriceController = TextEditingController();
+    generalCostController = TextEditingController();
 
     /// 🔥 set tax from API
     if (widget.initialTaxId != null) {
@@ -79,12 +88,22 @@ class _ExpansionContainerSettingWidgetState
   }
 
   @override
+  void dispose() {
+    nameController.dispose();
+    latinNameController.dispose();
+    generalPriceController.dispose();
+    generalCostController.dispose();
+    _provServicesCubit.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider.value(value: _provServicesCubit),
         BlocProvider(
-          create: (_) =>
-          SelectCarModelSettingCubit()..fetchBrands(),
+          create: (_) => SelectCarModelSettingCubit()..fetchBrands(),
         ),
         BlocProvider(
           create: (_) => DetailsContainerSettingCubit(),
@@ -102,7 +121,6 @@ class _ExpansionContainerSettingWidgetState
         ),
         child: Column(
           children: [
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -111,7 +129,7 @@ class _ExpansionContainerSettingWidgetState
                     children: [
                       Flexible(
                         child: (widget.imageMemory == null ||
-                            widget.imageMemory!.isEmpty)
+                                widget.imageMemory!.isEmpty)
                             ? Image.asset(widget.imagePath ?? '')
                             : Image.memory(widget.imageMemory!, width: 50),
                       ),
@@ -119,8 +137,7 @@ class _ExpansionContainerSettingWidgetState
                       TextInAppWidget(
                         text: widget.text ?? '',
                         textSize: 13,
-                        fontWeightIndex:
-                        FontSelectionData.mediumFontFamily,
+                        fontWeightIndex: FontSelectionData.mediumFontFamily,
                         textColor: AppColors.darkColor,
                       ),
                     ],
@@ -128,15 +145,21 @@ class _ExpansionContainerSettingWidgetState
                 ),
                 ContainerOpenCloseTabSetting(
                   isDoneTask: widget.isDoneTask,
-                  onTap: widget.onTap,
+                  onTap: () {
+                    widget.onTap?.call();
+
+                    if (!_hasLoadedProvServices) {
+                      _hasLoadedProvServices = true;
+                      _provServicesCubit.getProvServices(
+                        serviceId: widget.serviceId,
+                      );
+                    }
+                  },
                 )
               ],
             ),
-
             const SizedBox(height: 10),
-
-            BlocBuilder<SelectCarModelSettingCubit,
-                SelectCarModelSettingState>(
+            BlocBuilder<SelectCarModelSettingCubit, SelectCarModelSettingState>(
               builder: (context, brandState) {
                 final brands = brandState.brands;
 
@@ -148,17 +171,15 @@ class _ExpansionContainerSettingWidgetState
                   return const Text("No Brands");
                 }
 
-                return BlocBuilder<
-                    DetailsContainerSettingCubit,
+                return BlocBuilder<DetailsContainerSettingCubit,
                     DetailsContainerSettingState>(
                   builder: (context, state) {
-                    if (!state.isExpanded)
-                      return const SizedBox();
+                    if (!state.isExpanded) return const SizedBox();
 
                     return Column(
                       spacing: 10,
                       children: [
-                        ProvServiceBrandsListView(serviceId: widget.serviceId),
+                        const ProvServiceBrandsListView(),
                         const Row(
                           children: [
                             TextInAppWidget(
@@ -173,41 +194,68 @@ class _ExpansionContainerSettingWidgetState
                           child: Column(
                             spacing: 10,
                             children: [
-                              EnterNameLatenNameService(nameController: nameController, latinNameController: latinNameController),
-                              const SelectTaxPage()
+                              EnterNameLatenNameService(
+                                  nameController: nameController,
+                                  latinNameController: latinNameController),
+                              const SelectTaxPage(),
+                              GeneralServicePricingWidget(
+                                isUnifiedPrice: isGeneralUnifiedPrice,
+                                priceController: generalPriceController,
+                                costController: generalCostController,
+                                onPricingTypeChanged: (isUnified) {
+                                  setState(() {
+                                    isGeneralUnifiedPrice = isUnified;
+                                  });
+
+                                  if (isUnified) {
+                                    context
+                                        .read<CreateProvServiceCubit>()
+                                        .clearDetailedPricing();
+                                  } else {
+                                    generalPriceController.clear();
+                                    generalCostController.clear();
+                                  }
+                                },
+                              ),
                             ],
                           ),
                         ),
+                        if (isGeneralUnifiedPrice == false)
+                          Column(
+                            spacing: 10,
+                            children: List.generate(brands.length, (index) {
+                              final brand = brands[index];
 
-                        Column(
-                          spacing: 10,
-                          children: List.generate(brands.length, (index) {
-                            final brand = brands[index];
-
-                            return BlocProvider(
-                              key: ValueKey(brand.id),
-                              create: (_) =>
-                                  DetailsContainerSettingCubit(),
-                              child:
-                              AnimatedCrossFadeInExpansionContainerSettingWidget(
-                                index: index,
-                                image: brand.image,
-                                text: brand.getName(context),
-                                brandId: brand.id ?? 0,
-                              ),
-                            );
-                          }),
-                        ),
-
-                        BlocListener<CreateProvServiceCubit, CreateProvServiceState>(
+                              return BlocProvider(
+                                key: ValueKey(brand.id),
+                                create: (_) => DetailsContainerSettingCubit(),
+                                child:
+                                    AnimatedCrossFadeInExpansionContainerSettingWidget(
+                                  index: index,
+                                  image: brand.image,
+                                  text: brand.getName(context),
+                                  brandId: brand.id ?? 0,
+                                ),
+                              );
+                            }),
+                          ),
+                        BlocListener<CreateProvServiceCubit,
+                            CreateProvServiceState>(
                           listener: (context, state) {
-                            if (state is CreateProvServiceSuccess) {
-
-                              context.read<ProvServicesCubit>()
-                                  .getProvServices(serviceId: widget.serviceId);
+                            if (state is CreateProvServiceSuccess &&
+                                state.createdService.provService.serviceid ==
+                                    widget.serviceId) {
+                              context
+                                  .read<ProvServicesCubit>()
+                                  .addCreatedService(state.createdService);
 
                               nameController.clear();
                               latinNameController.clear();
+                              generalPriceController.clear();
+                              generalCostController.clear();
+                              setState(() {
+                                isGeneralUnifiedPrice = null;
+                              });
 
                               context.read<GetTaxCubit>().clearTax();
 
@@ -223,32 +271,49 @@ class _ExpansionContainerSettingWidgetState
                               ContainerViewAllInFirstRowInDataContainerInListDataFirstScreenInternalOrders(
                                 text: AppLanguageKeys.add,
                                 onTap: () {
-                                  final cubit = context.read<CreateProvServiceCubit>();
+                                  final cubit =
+                                      context.read<CreateProvServiceCubit>();
 
-                                  if (!(_formKey.currentState?.validate() ?? false)) {
-                                    AppSnackBar.showError(AppLanguageKeys.enterYourData);
+                                  if (isGeneralUnifiedPrice == null) {
+                                    AppSnackBar.showError(
+                                        AppLanguageKeys.selectPricingTypeFirst);
                                     return;
                                   }
 
-                                  if (cubit.brandSelection.isEmpty) {
-                                    AppSnackBar.showError(AppLanguageKeys.selectPricingTypeFirst);
+                                  if (!(_formKey.currentState?.validate() ??
+                                      false)) {
+                                    AppSnackBar.showError(
+                                        AppLanguageKeys.enterYourData);
+                                    return;
+                                  }
+
+                                  if (isGeneralUnifiedPrice == false &&
+                                      cubit.brandSelection.isEmpty) {
+                                    AppSnackBar.showError(
+                                        AppLanguageKeys.selectPricingTypeFirst);
                                     return;
                                   }
 
                                   bool isValid = true;
 
-                                  for (var entry in cubit.brandSelection.entries) {
-                                    final formKey = cubit.formKeys[entry.key];
+                                  if (isGeneralUnifiedPrice == false) {
+                                    for (var entry
+                                        in cubit.brandSelection.entries) {
+                                      final formKey = cubit.formKeys[entry.key];
 
-                                    if (formKey != null) {
-                                      if (!(formKey.currentState?.validate() ?? false)) {
-                                        isValid = false;
+                                      if (formKey != null) {
+                                        if (!(formKey.currentState
+                                                ?.validate() ??
+                                            false)) {
+                                          isValid = false;
+                                        }
                                       }
                                     }
                                   }
 
                                   if (!isValid) {
-                                    AppSnackBar.showError(AppLanguageKeys.enterYourData);
+                                    AppSnackBar.showError(
+                                        AppLanguageKeys.enterYourData);
                                     return;
                                   }
 
@@ -259,8 +324,22 @@ class _ExpansionContainerSettingWidgetState
                                       taxid: taxCubit.selectedTax!.taxId,
                                       name: nameController.text,
                                       latinname: latinNameController.text,
-                                      brands: cubit.buildBrands(),
-                                      cars: cubit.cars,
+                                      unifiedprice:
+                                          isGeneralUnifiedPrice == true
+                                              ? double.tryParse(
+                                                  generalPriceController.text)
+                                              : 0,
+                                      cost: isGeneralUnifiedPrice == true
+                                          ? double.tryParse(
+                                              generalCostController.text)
+                                          : 0,
+                                      isunifiedprice: isGeneralUnifiedPrice,
+                                      brands: isGeneralUnifiedPrice == true
+                                          ? []
+                                          : cubit.buildBrands(),
+                                      cars: isGeneralUnifiedPrice == true
+                                          ? []
+                                          : cubit.cars,
                                     ),
                                   );
                                 },
