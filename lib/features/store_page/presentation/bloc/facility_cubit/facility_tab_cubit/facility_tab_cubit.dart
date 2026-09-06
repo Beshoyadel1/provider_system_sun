@@ -11,7 +11,13 @@ import 'package:sun_web_system/features/store_page/data/model/facility_model/fac
 import 'facility_tab_state.dart';
 
 class FacilityTabCubit extends Cubit<FacilityTabState> {
-  FacilityTabCubit() : super(FacilityDataState());
+  static const int facilityDataTabIndex = 0;
+  static const int branchesTabIndex = 1;
+  static const int workingHoursTabIndex = 2;
+
+  FacilityTabCubit({int initialIndex = 0})
+      : selectedIndex = initialIndex,
+        super(FacilityDataState());
 
   static FacilityTabCubit get(BuildContext context) => BlocProvider.of(context);
 
@@ -67,7 +73,7 @@ class FacilityTabCubit extends Cubit<FacilityTabState> {
   late Timer timer;
   int remainingTime = 0;
 
-  int selectedIndex = 0;
+  int selectedIndex;
 
   void selectTab(int index) {
     selectedIndex = index;

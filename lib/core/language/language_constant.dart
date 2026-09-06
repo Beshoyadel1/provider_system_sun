@@ -175,6 +175,15 @@ class AppLanguageKeys {
   static const String check = 'check';
   static const String addAtLeastOneBranch = 'addAtLeastOneBranch';
   static const String addAtLeastOneWorkingHours = 'addAtLeastOneWorkingHours';
+  static const String bookingSetupRequired = 'bookingSetupRequired';
+  static const String missingBranchForBooking = 'missingBranchForBooking';
+  static const String missingWorkingHoursForBooking =
+      'missingWorkingHoursForBooking';
+  static const String missingBranchAndWorkingHoursForBooking =
+      'missingBranchAndWorkingHoursForBooking';
+  static const String goToBranches = 'goToBranches';
+  static const String goToWorkingHours = 'goToWorkingHours';
+  static const String goToMyAccount = 'goToMyAccount';
   static const String noBranchesYet = 'noBranchesYet';
   static const String isSold = 'isSold';
   static const String releaseDate = 'releaseDate';

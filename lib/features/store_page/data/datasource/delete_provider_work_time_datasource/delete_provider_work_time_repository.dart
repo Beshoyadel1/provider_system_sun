@@ -1,26 +1,40 @@
 import 'package:dio/dio.dart';
+import 'package:sun_web_system/features/store_page/data/model/upload_provider_work_times_model/work_time_model.dart';
 import 'package:sun_web_system/features/store_page/data/request/delete_provider_work_time_request/delete_provider_work_time_request.dart';
 import '../../../../../core/api/dio_function/api_constants.dart';
-import '../../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../../core/api/dio_function/failures.dart';
-import '../../../../../core/language/language_constant.dart';
 
-Future<void> deleteProviderWorkTimeFunction({
+Future<List<WorkTimeModel>> deleteProviderWorkTimeFunction({
   required DeleteProviderWorkTimeRequest deleteProviderWorkTimeRequest,
 }) async {
   try {
-    await Network.postDataWithBodyAndParams(
+    final response = await Network.postDataWithBodyAndParams(
       {},
       deleteProviderWorkTimeRequest.toJson(),
-        ApiLink.deleteProviderWorkTime
+      ApiLink.deleteProviderWorkTime,
     );
-    AppSnackBar.showSuccess(AppLanguageKeys.deleteProviderWorkTimeSuccess);
+
+    final responseData = response.data;
+    if (responseData is! Map) {
+      throw Exception('Invalid server response');
+    }
+
+    final data = Map<String, dynamic>.from(responseData);
+    if (data['success'] != true) {
+      throw Exception(data['message'] ?? 'Something went wrong');
+    }
+
+    return WorkTimeModel.fromJsonList(data['data']);
   } catch (e) {
-    AppSnackBar.showError(
-      e is DioException
-          ? responseOfStatusCode(e.response?.statusCode)
-          : e.toString(),
-    );
+    if (e is DioException) {
+      final data = e.response?.data;
+      if (data is Map) {
+        throw Exception(
+            data['message'] ?? responseOfStatusCode(e.response?.statusCode));
+      }
+      throw Exception(responseOfStatusCode(e.response?.statusCode));
+    }
+    rethrow;
   }
 }

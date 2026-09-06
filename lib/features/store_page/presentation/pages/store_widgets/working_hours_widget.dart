@@ -6,7 +6,6 @@ import '../../../../../core/pages_widgets/text_form_field_widget.dart';
 import '../../../../../core/theming/colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 class WorkingHoursWidget extends StatelessWidget {
   const WorkingHoursWidget({super.key});
 
@@ -19,11 +18,8 @@ class WorkingHoursWidget extends StatelessWidget {
     );
 
     if (time != null) {
-      final formatted =
-          "${time.hour.toString().padLeft(2, '0')}:"
+      final formatted = "${time.hour.toString().padLeft(2, '0')}:"
           "${time.minute.toString().padLeft(2, '0')}:00";
-
-      print("SELECTED TIME => $formatted");
 
       if (isFrom) {
         cubit.setFromTime(formatted);
@@ -43,7 +39,6 @@ class WorkingHoursWidget extends StatelessWidget {
           spacing: 20,
           runSpacing: 10,
           children: [
-
             /// FROM
             SizedBox(
               width: 163,
@@ -52,8 +47,8 @@ class WorkingHoursWidget extends StatelessWidget {
                 child: AbsorbPointer(
                   child: TextFormFieldWidget(
                     textSize: 13,
-                    textFormController: TextEditingController(
-                        text: cubit.fromTime ?? ""),
+                    textFormController:
+                        TextEditingController(text: cubit.fromTime ?? ""),
                     isColumn: false,
                     text: AppLanguageKeys.fromKey,
                     hintText: '00 : 00',
@@ -63,7 +58,7 @@ class WorkingHoursWidget extends StatelessWidget {
                     fillColor: AppColors.whiteColor,
                     textFormHeight: 35,
                     contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   ),
                 ),
               ),
@@ -77,8 +72,8 @@ class WorkingHoursWidget extends StatelessWidget {
                 child: AbsorbPointer(
                   child: TextFormFieldWidget(
                     textSize: 13,
-                    textFormController: TextEditingController(
-                        text: cubit.toTime ?? ""),
+                    textFormController:
+                        TextEditingController(text: cubit.toTime ?? ""),
                     isColumn: false,
                     text: AppLanguageKeys.toKey,
                     hintText: '00 : 00',
@@ -88,7 +83,7 @@ class WorkingHoursWidget extends StatelessWidget {
                     fillColor: AppColors.whiteColor,
                     textFormHeight: 35,
                     contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   ),
                 ),
               ),

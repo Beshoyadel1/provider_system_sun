@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/features/notifications/presentation/pages/signalR_status_bar/signalR_status_bar.dart';
 import 'package:sun_web_system/features/service_settings/presentation/bloc/cubit/service_settings_cubit/service_settings_cubit.dart';
 import 'package:sun_web_system/features/service_settings/presentation/bloc/cubit/service_settings_cubit/service_settings_state.dart';
 import 'package:sun_web_system/features/store_page/presentation/bloc/branch_cubit/branch_cubit.dart';
 import 'package:sun_web_system/features/store_page/presentation/bloc/branch_cubit/branch_state.dart';
+import 'package:sun_web_system/features/store_page/presentation/bloc/facility_cubit/facility_tab_cubit/facility_tab_cubit.dart';
+import 'package:sun_web_system/features/store_page/presentation/bloc/work_time_cubit/work_time_cubit.dart';
+import 'package:sun_web_system/features/store_page/presentation/bloc/work_time_cubit/work_time_state.dart';
+import 'package:sun_web_system/features/store_page/domain/provider_profile_completion_status.dart';
 import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/app_bar_for_page.dart';
 import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/dialog_for_back.dart';
+import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/provider_profile_completion_dialog.dart';
 import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/pages_selection_bar.dart';
 import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/selected_screen_widget.dart';
 import '../../../../../../core/setup_git_it.dart';
@@ -14,7 +18,6 @@ import '../../../../../../core/cubit/app_cubit/app_cubit.dart';
 import '../../../../../../core/cubit/app_cubit/app_states.dart';
 import '../../../../../../core/utilies/map_of_all_app.dart';
 import '../../../../../../core/theming/colors.dart';
-import '../../../../../../main.dart';
 import '../../../../../../../core/general_models/pages_model.dart';
 
 class StorePage extends StatefulWidget {
@@ -26,10 +29,11 @@ class StorePage extends StatefulWidget {
 
 class _StorePageState extends State<StorePage> {
   final GlobalKey<ScaffoldState> _scaffoldKeyDrawer =
-  GlobalKey<ScaffoldState>();
+      GlobalKey<ScaffoldState>();
 
   final BranchCubit _branchCubit = getIt<BranchCubit>();
   final AppCubit _appCubit = getIt<AppCubit>();
+  final UpdateWorkTimeCubit _workTimeCubit = UpdateWorkTimeCubit();
 
   @override
   void initState() {
@@ -40,12 +44,10 @@ class _StorePageState extends State<StorePage> {
       _branchCubit.selectedBranchId,
     );
 
-    _branchCubit.getProviderBranches();
-
     getIt<ServiceSettingsCubit>().getMainServices();
 
     final dashboardPage = appPages.firstWhere(
-          (e) => e.number == PagesOfAllApp.dashboardPageNumber,
+      (e) => e.number == PagesOfAllApp.dashboardPageNumber,
     );
 
     final dashboardPageWithID = PageNodeWithIDModel(
@@ -55,19 +57,63 @@ class _StorePageState extends State<StorePage> {
       page: dashboardPage.page,
     );
 
-    _appCubit.selectedPageFromOpenedPagesIndex =
-        dashboardPageWithID.id;
+    _appCubit.selectedPageFromOpenedPagesIndex = dashboardPageWithID.id;
 
-    _appCubit.selectedPageIndex =
-        dashboardPageWithID.id;
+    _appCubit.selectedPageIndex = dashboardPageWithID.id;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkBookingSetup();
+    });
   }
 
+  Future<void> _checkBookingSetup() async {
+    await Future.wait([
+      _branchCubit.getProviderBranches(),
+      _workTimeCubit.getWorkTimes(),
+    ]);
+
+    if (!mounted ||
+        _branchCubit.state is! BranchSuccess ||
+        _workTimeCubit.state is! WorkTimeLoaded) {
+      return;
+    }
+
+    final profileStatus = ProviderProfileCompletionStatus.fromData(
+      branches: _branchCubit.branches,
+      workTimes: _workTimeCubit.workTimes,
+    );
+
+    if (profileStatus.isComplete) return;
+
+    final shouldNavigate = await showProviderProfileCompletionDialog(
+      context: context,
+      status: profileStatus,
+    );
+
+    if (!mounted || !shouldNavigate) return;
+
+    final tabIndex = switch (profileStatus.destination) {
+      ProviderProfileCompletionDestination.myAccount =>
+        FacilityTabCubit.facilityDataTabIndex,
+      ProviderProfileCompletionDestination.branches =>
+        FacilityTabCubit.branchesTabIndex,
+      ProviderProfileCompletionDestination.workingHours =>
+        FacilityTabCubit.workingHoursTabIndex,
+    };
+
+    _appCubit.navigateToFacilityAccount(tabIndex: tabIndex);
+  }
+
+  @override
+  void dispose() {
+    _workTimeCubit.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final isMobile =
-        size.width <= ValuesOfAllApp.mobileWidth;
+    final isMobile = size.width <= ValuesOfAllApp.mobileWidth;
 
     return MultiBlocListener(
       listeners: [
@@ -82,7 +128,6 @@ class _StorePageState extends State<StorePage> {
             }
           },
         ),
-
         BlocListener<BranchCubit, BranchState>(
           bloc: _branchCubit,
           listener: (context, state) {
@@ -100,13 +145,12 @@ class _StorePageState extends State<StorePage> {
       child: PopScope(
         canPop: false,
         onPopInvokedWithResult: (
-            bool didPop,
-            Object? result,
-            ) async {
+          bool didPop,
+          Object? result,
+        ) async {
           if (didPop) return;
 
-          final shouldPop =
-              await showBackDialog(context: context) ?? false;
+          final shouldPop = await showBackDialog(context: context) ?? false;
 
           if (shouldPop && context.mounted) {
             Navigator.of(context).pop();
@@ -115,14 +159,12 @@ class _StorePageState extends State<StorePage> {
         child: Scaffold(
           key: _scaffoldKeyDrawer,
           backgroundColor: AppColors.whiteGreyColor,
-
           drawer: isMobile
               ? const Drawer(
-            width: 256,
-            child: PagesSelectionBar(),
-          )
+                  width: 256,
+                  child: PagesSelectionBar(),
+                )
               : null,
-
           body: Row(
             children: [
               if (!isMobile)
@@ -139,14 +181,12 @@ class _StorePageState extends State<StorePage> {
                     return const PagesSelectionBar();
                   },
                 ),
-
               Expanded(
                 child: Column(
                   children: [
                     AppBarForPage(
                       scaffoldKey: _scaffoldKeyDrawer,
                     ),
-
                     BlocBuilder<BranchCubit, BranchState>(
                       bloc: _branchCubit,
                       builder: (context, state) {

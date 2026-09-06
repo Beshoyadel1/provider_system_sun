@@ -27,13 +27,16 @@ class ProviderBranchesDropdown extends StatelessWidget {
               text: AppLanguageKeys.allBranches,
               textSize: 14,
               textColor: AppColors.orangeColor,
-              fontWeightIndex:
-              FontSelectionData.regularFontFamily,
+              fontWeightIndex: FontSelectionData.regularFontFamily,
             ),
           ),
         ];
 
         for (final branch in cubit.branches) {
+          if (branch.isActive != true) {
+            continue;
+          }
+
           final branchId = branch.branchId;
 
           if (branchId == null || branchId == 0) {
@@ -41,7 +44,7 @@ class ProviderBranchesDropdown extends StatelessWidget {
           }
 
           if (items.any(
-                (item) => item.value == branchId,
+            (item) => item.value == branchId,
           )) {
             continue;
           }
@@ -53,19 +56,17 @@ class ProviderBranchesDropdown extends StatelessWidget {
                 text: branch.getBranchName(context),
                 textSize: 14,
                 textColor: AppColors.orangeColor,
-                fontWeightIndex:
-                FontSelectionData.regularFontFamily,
+                fontWeightIndex: FontSelectionData.regularFontFamily,
               ),
             ),
           );
         }
 
         final bool valueExists = items.any(
-              (item) => item.value == cubit.selectedBranchId,
+          (item) => item.value == cubit.selectedBranchId,
         );
 
-        final int selectedValue =
-        valueExists ? cubit.selectedBranchId : 0;
+        final int selectedValue = valueExists ? cubit.selectedBranchId : 0;
 
         return Container(
           width: double.infinity,
@@ -87,24 +88,19 @@ class ProviderBranchesDropdown extends StatelessWidget {
                 Icons.keyboard_arrow_down_rounded,
                 color: AppColors.whiteColor,
               ),
-
               padding: const EdgeInsets.symmetric(
                 horizontal: 8,
               ),
-
               dropdownColor: AppColors.whiteColor,
-
               borderRadius: BorderRadius.circular(10),
-
               onChanged: (value) {
                 if (value == null) return;
 
                 cubit.changeBranch(value);
               },
-
               selectedItemBuilder: (context) {
                 return items.map(
-                      (item) {
+                  (item) {
                     final int itemValue = item.value ?? 0;
 
                     String text;
@@ -113,23 +109,19 @@ class ProviderBranchesDropdown extends StatelessWidget {
                       text = AppLanguageKeys.allBranches;
                     } else {
                       final branch = cubit.branches.firstWhere(
-                            (branch) =>
-                        branch.branchId == itemValue,
+                        (branch) => branch.branchId == itemValue,
                       );
 
                       text = branch.getBranchName(context);
                     }
 
                     return Align(
-                      alignment:
-                      AlignmentDirectional.centerStart,
+                      alignment: AlignmentDirectional.centerStart,
                       child: TextInAppWidget(
                         text: text,
                         textSize: 14,
                         textColor: AppColors.whiteColor,
-                        fontWeightIndex:
-                        FontSelectionData
-                            .regularFontFamily,
+                        fontWeightIndex: FontSelectionData.regularFontFamily,
                       ),
                     );
                   },

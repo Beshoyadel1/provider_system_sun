@@ -189,6 +189,16 @@ class AppLocalizations {
       AppLanguageKeys.addAtLeastOneBranch: 'أضف فرع واحد على الأقل',
       AppLanguageKeys.addAtLeastOneWorkingHours:
           'أضف مواعيد عمل واحدة على الأقل',
+      AppLanguageKeys.bookingSetupRequired: 'أكمل بيانات الحجز',
+      AppLanguageKeys.missingBranchForBooking:
+          'يجب إضافة فرع نشط واحد على الأقل لاستقبال الحجوزات.',
+      AppLanguageKeys.missingWorkingHoursForBooking:
+          'يجب إضافة مواعيد العمل لاستقبال الحجوزات.',
+      AppLanguageKeys.missingBranchAndWorkingHoursForBooking:
+          'يجب إضافة فرع نشط ومواعيد العمل لاستقبال الحجوزات.',
+      AppLanguageKeys.goToBranches: 'الانتقال إلى الفروع',
+      AppLanguageKeys.goToWorkingHours: 'الانتقال إلى مواعيد العمل',
+      AppLanguageKeys.goToMyAccount: 'الانتقال إلى حسابي',
 
       AppLanguageKeys.noBranchesYet: 'لا توجد فروع حتى الآن',
       AppLanguageKeys.isSold: 'تم البيع',
@@ -1642,6 +1652,16 @@ class AppLocalizations {
       AppLanguageKeys.addAtLeastOneBranch: 'Add at least one branch',
       AppLanguageKeys.addAtLeastOneWorkingHours:
           'Add at least one working hour',
+      AppLanguageKeys.bookingSetupRequired: 'Complete booking setup',
+      AppLanguageKeys.missingBranchForBooking:
+          'Add at least one active branch to receive bookings.',
+      AppLanguageKeys.missingWorkingHoursForBooking:
+          'Add working hours to receive bookings.',
+      AppLanguageKeys.missingBranchAndWorkingHoursForBooking:
+          'Add an active branch and working hours to receive bookings.',
+      AppLanguageKeys.goToBranches: 'Go to branches',
+      AppLanguageKeys.goToWorkingHours: 'Go to working hours',
+      AppLanguageKeys.goToMyAccount: 'Go to My Account',
       AppLanguageKeys.noBranchesYet: 'No branches yet',
       AppLanguageKeys.isSold: 'Is Sold',
       AppLanguageKeys.releaseDate: 'Release Date',

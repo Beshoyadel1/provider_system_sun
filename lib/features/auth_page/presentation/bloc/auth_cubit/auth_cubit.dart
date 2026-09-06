@@ -14,8 +14,6 @@ import 'package:sun_web_system/features/auth_page/data/request/check_if_user_exi
 import 'package:sun_web_system/features/auth_page/data/request/login_request/login_request.dart';
 import 'package:sun_web_system/features/auth_page/domain/validation/facility_validator_result.dart';
 import 'package:sun_web_system/features/notifications/data/datasource/signalr_datasource/signalr_service/signalr_service.dart';
-import 'package:sun_web_system/features/store_page/presentation/bloc/branch_cubit/branch_cubit.dart';
-import 'package:sun_web_system/features/store_page/presentation/bloc/work_time_cubit/work_time_cubit.dart';
 import '../../../data/datasource/check_if_user_exist_or_not_datasource/check_if_user_exist_or_not_repository.dart';
 import '../../../data/datasource/change_password_datasource/change_password_repository.dart';
 import '../../../data/datasource/check_if_user_exist_datasource/check_if_user_exist_repository.dart';
@@ -173,21 +171,8 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> _checkFacilityCompletion(CreateUserRequest user) async {
-    final branchCubit = BranchCubit();
-    final workTimeCubit = UpdateWorkTimeCubit();
-
-    await Future.wait([
-      branchCubit.getProviderBranches(),
-      workTimeCubit.getWorkTimes(),
-    ]);
-
-    print("BRANCHES => ${branchCubit.branches.length}");
-    print("WORK TIMES => ${workTimeCubit.workTimes.length}");
-
     final result = FacilityValidator.validate(
       user: user,
-      branchCubit: branchCubit,
-      workTimeCubit: workTimeCubit,
     );
 
     print("IS VALID => ${result.isValid}");
@@ -213,18 +198,8 @@ class AuthCubit extends Cubit<AuthState> {
 
     print("RECHECK => validating current data");
 
-    final branchCubit = BranchCubit();
-    final workTimeCubit = UpdateWorkTimeCubit();
-
-    await Future.wait([
-      branchCubit.getProviderBranches(),
-      workTimeCubit.getWorkTimes(),
-    ]);
-
     final result = FacilityValidator.validate(
       user: user,
-      branchCubit: branchCubit,
-      workTimeCubit: workTimeCubit,
     );
 
     if (result.isValid) {

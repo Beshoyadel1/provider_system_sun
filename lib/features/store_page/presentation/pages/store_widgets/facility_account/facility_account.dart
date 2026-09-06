@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/store_page/presentation/bloc/facility_cubit/facility_tab_cubit/facility_tab_cubit.dart';
 import 'package:sun_web_system/features/store_page/presentation/bloc/facility_cubit/facility_tab_cubit/facility_tab_state.dart';
 import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/car_model_widget/widgets/tabs_widget.dart';
+import '../../../../../../../core/cubit/app_cubit/app_cubit.dart';
+import '../../../../../../../core/setup_git_it.dart';
 import '../../../../../../../features/store_page/data/model/facility_model/facility_model.dart';
 import '../../../../../../core/pages_widgets/general_widgets/custom_container.dart';
 
@@ -12,7 +14,9 @@ class FacilityAccount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => FacilityTabCubit(),
+      create: (context) => FacilityTabCubit(
+        initialIndex: getIt<AppCubit>().takeFacilityAccountTabIndex(),
+      ),
       child: BlocBuilder<FacilityTabCubit, FacilityTabState>(
         buildWhen: (previous, current) => current is ChangeIndexState,
         builder: (context, state) {
@@ -30,7 +34,7 @@ class FacilityAccount extends StatelessWidget {
                       children: [
                         const TabsWidget(),
                         facilityTabs[
-                        context.read<FacilityTabCubit>().selectedIndex]
+                                context.read<FacilityTabCubit>().selectedIndex]
                             .content,
                         // const SizedBox(height: 100),
                         // const FacilityDataContent()
@@ -39,7 +43,6 @@ class FacilityAccount extends StatelessWidget {
                     onTap: () {},
                   ),
                   const SizedBox(height: 20),
-
                 ],
               ),
             ),

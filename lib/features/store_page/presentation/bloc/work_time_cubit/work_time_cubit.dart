@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/theming/auth_local_storage.dart';
-import 'package:sun_web_system/features/auth_page/data/datasource/login_datasource/login_repository.dart';
 import 'package:sun_web_system/features/store_page/data/datasource/delete_provider_work_time_datasource/delete_provider_work_time_repository.dart';
 import 'package:sun_web_system/features/store_page/data/request/delete_provider_work_time_request/delete_provider_work_time_request.dart';
 import 'package:sun_web_system/features/store_page/data/datasource/get_provider_work_time_datasource/get_provider_work_time_repository.dart';
@@ -9,7 +8,6 @@ import 'package:sun_web_system/features/store_page/data/datasource/upload_provid
 import 'package:sun_web_system/features/store_page/data/request/upload_provider_work_times_request/upload_provider_work_times_request.dart';
 import 'package:sun_web_system/features/store_page/data/model/upload_provider_work_times_model/work_time_model.dart';
 import 'package:sun_web_system/features/store_page/presentation/bloc/work_time_cubit/work_time_state.dart';
-
 
 class UpdateWorkTimeCubit extends Cubit<WorkTimeState> {
   UpdateWorkTimeCubit() : super(WorkTimeInitial());
@@ -57,7 +55,6 @@ class UpdateWorkTimeCubit extends Cubit<WorkTimeState> {
     return WorkTimeModel(
       worktimeid: worktimeId,
       provid: providerId!,
-
       sat: selectedDays.contains(0),
       sun: selectedDays.contains(1),
       mon: selectedDays.contains(2),
@@ -65,7 +62,6 @@ class UpdateWorkTimeCubit extends Cubit<WorkTimeState> {
       wed: selectedDays.contains(4),
       thr: selectedDays.contains(5),
       fri: selectedDays.contains(6),
-
       fromTime: fromTime ?? "",
       toTime: toTime ?? "",
     );
@@ -94,10 +90,10 @@ class UpdateWorkTimeCubit extends Cubit<WorkTimeState> {
         ],
       );
 
-      await uploadProviderWorkTimesFunction(
+      workTimes = await uploadProviderWorkTimesFunction(
         uploadProviderWorkTimesRequest: request,
       );
-      await getWorkTimes();
+      _clearForm();
       emit(WorkTimeSuccess());
     } catch (e) {
       emit(WorkTimeError(e.toString()));
@@ -126,17 +122,15 @@ class UpdateWorkTimeCubit extends Cubit<WorkTimeState> {
         ],
       );
 
-      await uploadProviderWorkTimesFunction(
+      workTimes = await uploadProviderWorkTimesFunction(
         uploadProviderWorkTimesRequest: request,
       );
-      await getWorkTimes();
-      clearSelection();
+      _clearForm();
       emit(WorkTimeSuccess());
     } catch (e) {
       emit(WorkTimeError(e.toString()));
     }
   }
-
 
   Future<void> deleteWorkTime(int workTimeId) async {
     await _initUser();
@@ -149,20 +143,21 @@ class UpdateWorkTimeCubit extends Cubit<WorkTimeState> {
         workTimeId: workTimeId,
       );
 
-      await deleteProviderWorkTimeFunction(
+      workTimes = await deleteProviderWorkTimeFunction(
         deleteProviderWorkTimeRequest: request,
       );
-      await getWorkTimes();
       emit(WorkTimeDeleteSuccess());
     } catch (e) {
       emit(WorkTimeError(e.toString()));
     }
   }
+
   List<WorkTimeModel> workTimes = [];
   Future<void> getWorkTimes() async {
     await _initUser();
 
     try {
+      if (isClosed) return;
       emit(WorkTimeLoading());
 
       final result = await getProviderWorkTimeFunction(
@@ -173,11 +168,14 @@ class UpdateWorkTimeCubit extends Cubit<WorkTimeState> {
 
       workTimes = result;
 
+      if (isClosed) return;
       emit(WorkTimeLoaded(result));
     } catch (e) {
+      if (isClosed) return;
       emit(WorkTimeError(e.toString()));
     }
   }
+
   /// ================= RESET =================
   void reset() {
     selectedDays.clear();
@@ -185,6 +183,7 @@ class UpdateWorkTimeCubit extends Cubit<WorkTimeState> {
     toTime = null;
     emit(WorkTimeInitial());
   }
+
   int? selectedWorkTimeId;
   bool isEditMode = false;
 
@@ -211,13 +210,16 @@ class UpdateWorkTimeCubit extends Cubit<WorkTimeState> {
 
   /// clear form (back to create)
   void clearSelection() {
+    _clearForm();
+    emit(WorkTimeInitial());
+  }
+
+  void _clearForm() {
     selectedWorkTimeId = null;
     isEditMode = false;
 
     selectedDays.clear();
     fromTime = null;
     toTime = null;
-
-    emit(WorkTimeInitial());
   }
 }

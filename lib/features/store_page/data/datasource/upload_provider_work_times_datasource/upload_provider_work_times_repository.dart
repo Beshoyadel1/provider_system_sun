@@ -1,28 +1,42 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:sun_web_system/features/store_page/data/model/upload_provider_work_times_model/work_time_model.dart';
 import 'package:sun_web_system/features/store_page/data/request/upload_provider_work_times_request/upload_provider_work_times_request.dart';
 import '../../../../../core/api/dio_function/api_constants.dart';
-import '../../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../../core/api/dio_function/failures.dart';
-import '../../../../../core/language/language_constant.dart';
 
-Future<void> uploadProviderWorkTimesFunction({required UploadProviderWorkTimesRequest uploadProviderWorkTimesRequest}) async {
+Future<List<WorkTimeModel>> uploadProviderWorkTimesFunction({
+  required UploadProviderWorkTimesRequest uploadProviderWorkTimesRequest,
+}) async {
   try {
-    String jsonString = json.encode(uploadProviderWorkTimesRequest.toJson());
+    final jsonString = json.encode(uploadProviderWorkTimesRequest.toJson());
 
-    await Network.postDataWithBody(
+    final response = await Network.postDataWithBody(
       jsonString,
       ApiLink.uploadProviderWorkTimes,
-    ).then((value) {
-      
-    });
-
-  } catch (e) {
-    AppSnackBar.showError(
-      e is DioException
-          ? responseOfStatusCode(e.response?.statusCode)
-          : e.toString(),
     );
+
+    final responseData = response.data;
+    if (responseData is! Map) {
+      throw Exception('Invalid server response');
+    }
+
+    final data = Map<String, dynamic>.from(responseData);
+    if (data['success'] != true) {
+      throw Exception(data['message'] ?? 'Something went wrong');
+    }
+
+    return WorkTimeModel.fromJsonList(data['data']);
+  } catch (e) {
+    if (e is DioException) {
+      final data = e.response?.data;
+      if (data is Map) {
+        throw Exception(
+            data['message'] ?? responseOfStatusCode(e.response?.statusCode));
+      }
+      throw Exception(responseOfStatusCode(e.response?.statusCode));
+    }
+    rethrow;
   }
 }

@@ -53,6 +53,7 @@ class AppCubit extends Cubit<AppStates> {
 
   int selectedPageIndex = 1;
   int selectedPageFromOpenedPagesIndex = -1;
+  int? _pendingFacilityAccountTabIndex;
 
   void changeSelectedPageIndex() {
     emit(ChangeSelectedPageIndexState());
@@ -113,6 +114,18 @@ class AppCubit extends Cubit<AppStates> {
     selectedPageFromOpenedPagesIndex = -1;
     changeSelectedPageIndex();
   }
+
+  void navigateToFacilityAccount({required int tabIndex}) {
+    _pendingFacilityAccountTabIndex = tabIndex;
+    navigateToPage(PagesOfAllApp.permissionsGroupPageNumber);
+  }
+
+  int takeFacilityAccountTabIndex() {
+    final tabIndex = _pendingFacilityAccountTabIndex ?? 0;
+    _pendingFacilityAccountTabIndex = null;
+    return tabIndex;
+  }
+
   void changeOpenedPages() {
     emit(ChangeOpenedPagesState());
   }

@@ -1,5 +1,3 @@
-import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/theming/auth_local_storage.dart';
 import 'package:sun_web_system/features/store_page/data/datasource/add_branch_datasource/add_branch_repository.dart';
@@ -7,7 +5,6 @@ import 'package:sun_web_system/features/store_page/data/request/add_branch_reque
 import 'package:sun_web_system/features/store_page/data/datasource/get_provider_branches_datasource/get_provider_branches_repository.dart';
 import 'package:sun_web_system/features/store_page/data/request/get_provider_branches_request/get_provider_branches_request.dart';
 import 'package:sun_web_system/features/store_page/data/datasource/update_branch_datasource/update_branch_repository.dart';
-import 'package:sun_web_system/features/auth_page/data/datasource/login_datasource/login_repository.dart';
 import 'package:sun_web_system/features/store_page/data/model/get_provider_branches_model/provider_branch_model.dart';
 import 'branch_state.dart';
 
@@ -19,52 +16,42 @@ class BranchCubit extends Cubit<BranchState> {
   int? myUserId;
 
   Future<void> _initUser() async {
-    if (myUserId != null) return;
-
     final user = await AuthLocalStorage.getUser();
-
-    myUserId = user!.userid!;
+    final userId = user?.userid;
+    if (userId == null) {
+      throw Exception('User not found');
+    }
+    myUserId = userId;
   }
 
   int selectedBranchId = 0;
 
   Future<void> getProviderBranches() async {
-
     emit(BranchLoading());
 
     try {
-
       await _initUser();
 
-      branches =
-      await getProviderBranchesFunction(
-
-        getProviderBranchesRequest:
-        GetProviderBranchesRequest(
+      branches = await getProviderBranchesFunction(
+        getProviderBranchesRequest: GetProviderBranchesRequest(
           providerId: myUserId!,
         ),
       );
 
       emit(
-
         BranchSuccess(
           branches: branches,
         ),
       );
-
     } catch (e) {
-
-      final error =
-      e.toString().replaceAll(
-        "Exception: ",
-        "",
-      );
+      final error = e.toString().replaceAll(
+            "Exception: ",
+            "",
+          );
 
       /// 👇 لو مفيش فروع
       if (error.contains("غير موجود")) {
-
         emit(
-
           BranchSuccess(
             branches: [],
           ),
@@ -74,13 +61,13 @@ class BranchCubit extends Cubit<BranchState> {
       }
 
       emit(
-
         BranchError(
           error,
         ),
       );
     }
   }
+
   void changeBranch(int branchId) {
     if (selectedBranchId == branchId) {
       return;
@@ -132,8 +119,8 @@ class BranchCubit extends Cubit<BranchState> {
   }
 
   Future<void> addBranch(
-      AddBranchRequest request,
-      ) async {
+    AddBranchRequest request,
+  ) async {
     try {
       await _initUser();
 
@@ -164,8 +151,8 @@ class BranchCubit extends Cubit<BranchState> {
   }
 
   Future<void> updateBranch(
-      AddBranchRequest request,
-      ) async {
+    AddBranchRequest request,
+  ) async {
     try {
       await _initUser();
 
@@ -196,8 +183,8 @@ class BranchCubit extends Cubit<BranchState> {
   }
 
   Future<void> deleteBranch(
-      int branchId,
-      ) async {
+    int branchId,
+  ) async {
     try {
       await _initUser();
 
