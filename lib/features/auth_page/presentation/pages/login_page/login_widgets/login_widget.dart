@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sun_web_system/features/auth_page/data/request/login_request/login_request.dart';
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_cubit.dart';
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_state.dart';
-import 'package:sun_web_system/features/auth_page/presentation/pages/auth_gate.dart';
 import 'package:sun_web_system/features/auth_page/presentation/pages/check_email_exist/check_email_exist_page.dart';
 import '../../../../../../core/api/dio_function/api_constants.dart';
 import '../../../../../../core/theming/colors.dart';
@@ -13,7 +12,6 @@ import '../../../../../../core/theming/fonts.dart';
 import '../../../../../../core/theming/text_styles.dart';
 import 'login_button_widget.dart';
 import 'user_text_field_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginWidget extends StatefulWidget {
@@ -57,26 +55,23 @@ class _LoginWidgetState extends State<LoginWidget> {
             textSize: 20,
             fontWeightIndex: FontSelectionData.boldFontFamily,
           ),
-
           UserTextFieldWidget(
             controller: userNameController,
             type: UserFieldType.email,
             text: AppLanguageKeys.email,
           ),
-
           UserTextFieldWidget(
             controller: passwordController,
             type: UserFieldType.password,
             text: AppLanguageKeys.password,
+            showPasswordVisibilityToggle: true,
           ),
-
           BlocListener<AuthCubit, AuthState>(
             listener: (context, state) {
               if (state is AuthLoginSuccess) {
                 AppSnackBar.showSuccess(
                   AppLanguageKeys.success,
                 );
-
               }
 
               if (state is AuthLoginError) {
@@ -87,7 +82,7 @@ class _LoginWidgetState extends State<LoginWidget> {
             },
             child: BlocBuilder<AuthCubit, AuthState>(
               buildWhen: (previous, current) =>
-              current is AuthLoginLoading ||
+                  current is AuthLoginLoading ||
                   current is AuthLoginSuccess ||
                   current is AuthLoginError,
               builder: (context, state) {
@@ -99,41 +94,40 @@ class _LoginWidgetState extends State<LoginWidget> {
                   onPressed: isLoading
                       ? null
                       : () {
-                    final email = userNameController.text.trim();
-                    final password = passwordController.text.trim();
-                    if (email.isEmpty||password.isEmpty) {
-                      AppSnackBar.showError(
-                        AppLanguageKeys.enterYourData,
-                      );
-                      return;
-                    }
+                          final email = userNameController.text.trim();
+                          final password = passwordController.text.trim();
+                          if (email.isEmpty || password.isEmpty) {
+                            AppSnackBar.showError(
+                              AppLanguageKeys.enterYourData,
+                            );
+                            return;
+                          }
 
-                    final emailRegex = RegExp(
-                      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-                    );
+                          final emailRegex = RegExp(
+                            r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                          );
 
-                    if (!emailRegex.hasMatch(email)) {
-                      AppSnackBar.showError(
-                        AppLanguageKeys.pleaseEnterValidEmail,
-                      );
-                      return;
-                    }
+                          if (!emailRegex.hasMatch(email)) {
+                            AppSnackBar.showError(
+                              AppLanguageKeys.pleaseEnterValidEmail,
+                            );
+                            return;
+                          }
 
-                    if (!_formKey.currentState!.validate()) return;
+                          if (!_formKey.currentState!.validate()) return;
 
-                    final loginRequest = LoginRequest(
-                      user: userNameController.text.trim(),
-                      password: passwordController.text.trim(),
-                      type: UserType.providerUser,
-                    );
+                          final loginRequest = LoginRequest(
+                            user: userNameController.text.trim(),
+                            password: passwordController.text.trim(),
+                            type: UserType.providerUser,
+                          );
 
-                    context.read<AuthCubit>().login(loginRequest);
-                  },
+                          context.read<AuthCubit>().login(loginRequest);
+                        },
                 );
               },
             ),
           ),
-
           InkWell(
             onTap: () {
               Navigator.push(

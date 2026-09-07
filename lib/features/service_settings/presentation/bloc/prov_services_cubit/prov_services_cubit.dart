@@ -13,17 +13,23 @@ typedef ProviderIdLoader = Future<int> Function();
 typedef ProvServicesLoader = Future<List<GetProvServicesResponse>> Function({
   required GetProvServicesRequest getProvServicesRequest,
 });
+typedef ProvServiceUpdater = Future<void> Function({
+  required UpdateProvServiceRequest updateProvServiceRequest,
+});
 
 class ProvServicesCubit extends Cubit<ProvServicesState> {
   ProvServicesCubit({
     ProviderIdLoader? providerIdLoader,
     ProvServicesLoader? provServicesLoader,
+    ProvServiceUpdater? provServiceUpdater,
   })  : _providerIdLoader = providerIdLoader,
         _provServicesLoader = provServicesLoader ?? getProvServicesFunction,
+        _provServiceUpdater = provServiceUpdater ?? updateProvServiceFunction,
         super(ProvServicesInitial());
 
   final ProviderIdLoader? _providerIdLoader;
   final ProvServicesLoader _provServicesLoader;
+  final ProvServiceUpdater _provServiceUpdater;
 
   List<GetProvServicesResponse> response = [];
   final Map<int, GetProvServicesResponse> _locallyCreatedServices = {};
@@ -133,21 +139,120 @@ class ProvServicesCubit extends Cubit<ProvServicesState> {
     _emitIfOpen(ProvServicesLoading());
 
     try {
-      await updateProvServiceFunction(
+      await _provServiceUpdater(
         updateProvServiceRequest: request,
       );
 
       if (isClosed) return;
 
-      _emitIfOpen(ProvServiceUpdateSuccess());
+      final updatedServices = List<GetProvServicesResponse>.from(response);
+      final updatedIndex = updatedServices.indexWhere(
+        (item) => item.provService.id == request.id,
+      );
 
-      if (response.isNotEmpty) {
-        await getProvServices(
-          serviceId: response.first.provService.serviceid,
+      if (updatedIndex != -1) {
+        final updatedService = _applyUpdateRequest(
+          current: updatedServices[updatedIndex],
+          request: request,
         );
+
+        updatedServices[updatedIndex] = updatedService;
+
+        if (_locallyCreatedServices
+            .containsKey(updatedService.provService.id)) {
+          _locallyCreatedServices[updatedService.provService.id] =
+              updatedService;
+        }
       }
+
+      response = updatedServices;
+      _emitIfOpen(
+        ProvServiceUpdateSuccess(List.unmodifiable(updatedServices)),
+      );
     } catch (e) {
       _emitIfOpen(ProvServicesError(e.toString()));
     }
+  }
+
+  GetProvServicesResponse _applyUpdateRequest({
+    required GetProvServicesResponse current,
+    required UpdateProvServiceRequest request,
+  }) {
+    final provServiceId = request.id ?? current.provService.id;
+
+    final updatedBrands = (request.brands ?? const []).map((brand) {
+      int? requestedCarBrandId;
+      for (final car in brand.cars) {
+        if (car.carbrandid != null) {
+          requestedCarBrandId = car.carbrandid;
+          break;
+        }
+      }
+
+      BrandItem? existingBrand;
+      for (final candidate in current.brands) {
+        final isSameRow = candidate.provServiceBrand.id == brand.id;
+        final isSameBrand = candidate.provServiceBrand.brandid == brand.id ||
+            candidate.provServiceBrand.brandid == requestedCarBrandId;
+
+        if (isSameRow || isSameBrand) {
+          existingBrand = candidate;
+          break;
+        }
+      }
+
+      final brandId = existingBrand?.provServiceBrand.brandid ??
+          requestedCarBrandId ??
+          brand.id ??
+          0;
+
+      final models = brand.cars.map((car) {
+        ModelItem? existingModel;
+        for (final candidate in existingBrand?.models ?? const <ModelItem>[]) {
+          if (candidate.carbrandid == (car.carbrandid ?? brandId) &&
+              candidate.carmodelid == car.carmodelid) {
+            existingModel = candidate;
+            break;
+          }
+        }
+
+        return ModelItem(
+          id: existingModel?.id ?? 0,
+          provserviceid: provServiceId,
+          carbrandid: car.carbrandid ?? brandId,
+          carmodelid: car.carmodelid ?? 0,
+          price: car.price ?? 0,
+          cost: car.cost ?? 0,
+        );
+      }).toList();
+
+      return BrandItem(
+        provServiceBrand: ProvServiceBrand(
+          id: existingBrand?.provServiceBrand.id ?? 0,
+          provserviceid: provServiceId,
+          brandid: brandId,
+          unifiedprice: brand.unifiedprice,
+          isunifiedprice: brand.isunifiedprice ?? false,
+          cost: brand.cost,
+        ),
+        models: models,
+      );
+    }).toList();
+
+    return GetProvServicesResponse(
+      provService: ProvService(
+        id: provServiceId,
+        serviceid: request.serviceId ?? current.provService.serviceid,
+        provid: request.provId ?? current.provService.provid,
+        taxid: request.taxId ?? current.provService.taxid,
+        name: request.name ?? current.provService.name,
+        latinname: request.latinName ?? current.provService.latinname,
+        unifiedprice: request.uniformprice ?? current.provService.unifiedprice,
+        cost: request.cost ?? current.provService.cost,
+        isunifiedprice:
+            request.isuniformprice ?? current.provService.isunifiedprice,
+      ),
+      brands: updatedBrands,
+    );
   }
 }

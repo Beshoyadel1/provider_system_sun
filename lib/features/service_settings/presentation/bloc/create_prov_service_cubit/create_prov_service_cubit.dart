@@ -127,7 +127,17 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
   }
 
   List<BrandModelCreateProvServiceModel> buildBrands() {
-    return brandsData.values.toList();
+    return brandsData.entries.map((entry) {
+      final brand = entry.value;
+
+      return BrandModelCreateProvServiceModel(
+        id: brand.id,
+        unifiedprice: brand.unifiedprice,
+        isunifiedprice: brand.isunifiedprice,
+        cost: brand.cost,
+        cars: cars.where((car) => car.carbrandid == entry.key).toList(),
+      );
+    }).toList();
   }
 
   void clearDetailedPricing() {
@@ -165,13 +175,13 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
       final user = await AuthLocalStorage.getUser();
 
       final updatedRequest = CreateProvServiceRequest(
+          id: request.id,
           serviceid: serviceId!,
           provid: user?.userid ?? 5,
           taxid: request.taxid,
           name: request.name,
           latinname: request.latinname,
           brands: request.brands,
-          cars: request.cars,
           isunifiedprice: request.isunifiedprice,
           cost: request.cost,
           unifiedprice: request.unifiedprice);
@@ -210,8 +220,7 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
     final brands = (request.brands ?? const []).map((brand) {
       final brandId = brand.id ?? 0;
 
-      final models = (request.cars ?? const [])
-          .where((car) => car.carbrandid == brandId)
+      final models = brand.cars
           .map(
             (car) => ModelItem(
               id: car.id ?? 0,
@@ -272,11 +281,11 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
           )) {
         return false;
       }
-    }
 
-    for (final car in request.cars ?? const []) {
-      if (!isCostLessThanPrice(cost: car.cost, price: car.price)) {
-        return false;
+      for (final car in brand.cars) {
+        if (!isCostLessThanPrice(cost: car.cost, price: car.price)) {
+          return false;
+        }
       }
     }
 

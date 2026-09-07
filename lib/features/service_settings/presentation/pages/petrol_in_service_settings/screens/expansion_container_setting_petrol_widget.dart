@@ -255,7 +255,6 @@ class _ExpansionContainerSettingPetrolWidgetState
                                         cost: double.tryParse(
                                             costController.text),
                                         brands: [],
-                                        cars: [],
                                         isunifiedprice: true),
                                   );
                                 },

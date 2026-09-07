@@ -206,21 +206,15 @@ class FacilityDataContentState extends State<FacilityDataContent> {
 
   Future<bool> prepareDataForCheck() async {
     try {
-      final request =
-      _buildCurrentRequest();
-
+      final request = _buildCurrentRequest();
 
       // ========================================================
       // UPDATE + SAVE
       // ========================================================
 
-      final success =
-      await context
-          .read<AuthCubit>()
-          .updateUser(request);
+      final success = await context.read<AuthCubit>().updateUser(request);
 
       if (!success) {
-
         return false;
       }
 
@@ -229,9 +223,7 @@ class FacilityDataContentState extends State<FacilityDataContent> {
       );
 
       return true;
-
     } catch (e) {
-
       return false;
     }
   }
@@ -244,9 +236,7 @@ class FacilityDataContentState extends State<FacilityDataContent> {
     try {
       final request = _buildCurrentRequest();
 
-      await context
-          .read<AuthCubit>()
-          .updateUser(request);
+      await context.read<AuthCubit>().updateUser(request);
 
       return true;
     } catch (e) {

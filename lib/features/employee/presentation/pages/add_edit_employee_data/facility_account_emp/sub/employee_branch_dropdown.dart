@@ -23,163 +23,158 @@ class EmployeeBranchDropdown extends StatelessWidget {
   final int? selectedBranchId;
   final bool readOnly;
   final ValueChanged<int?>? onChanged;
-
   final double? width;
   final double height;
-
   final Color? borderColor;
   final Color? fillColor;
 
   @override
   Widget build(BuildContext context) {
-    final bool isMobile =
-        MediaQuery.of(context).size.width < 600;
+    final isMobile = MediaQuery.of(context).size.width < 600;
 
     return BlocBuilder<BranchCubit, BranchState>(
       bloc: getIt<BranchCubit>(),
       builder: (context, state) {
         final cubit = getIt<BranchCubit>();
-
         final branches = cubit.branches
             .where(
               (branch) =>
-          branch.branchId != null &&
-              branch.branchId != 0,
-        )
+                  branch.isActive == true &&
+                  branch.branchId != null &&
+                  branch.branchId != 0,
+            )
             .toList();
 
-        final bool selectedExists = branches.any(
-              (branch) =>
-          branch.branchId == selectedBranchId,
-        );
-
-        final String? selectedBranchName =
-        selectedExists
-            ? branches
-            .firstWhere(
-              (branch) =>
-          branch.branchId ==
-              selectedBranchId,
-        )
-            .getBranchName(context)
-            : null;
+        final selectedExists = selectedBranchId == 0 ||
+            branches.any((branch) => branch.branchId == selectedBranchId);
+        final selectedValue = selectedExists ? selectedBranchId : null;
+        final matchingBranches = branches
+            .where((branch) => branch.branchId == selectedBranchId)
+            .toList();
+        final selectedBranchName = selectedBranchId == 0
+            ? AppLanguageKeys.allBranches
+            : matchingBranches.isEmpty
+                ? null
+                : matchingBranches.first.getBranchName(context);
 
         return SizedBox(
-          width: isMobile
-              ? double.infinity
-              : (width ?? 500),
+          width: isMobile ? double.infinity : (width ?? 500),
           child: Column(
-            crossAxisAlignment:
-            CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Padding(
                 padding: EdgeInsets.only(bottom: 6),
                 child: TextInAppWidget(
-                  text: AppLanguageKeys.allBranches,
+                  text: AppLanguageKeys.branchesKey,
                   textSize: 14,
                 ),
               ),
               Container(
                 height: height,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 decoration: BoxDecoration(
-                  color:
-                  fillColor ??
-                      AppColors.whiteColor,
-                  borderRadius:
-                  BorderRadius.circular(10),
+                  color: fillColor ?? AppColors.whiteColor,
+                  borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color:
-                    borderColor ??
-                        AppColors.darkGreyColor,
+                    color: borderColor ?? AppColors.lightGreyColor,
                   ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.darkColor.withValues(alpha: 0.04),
+                      blurRadius: 6,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
                 ),
-                child: readOnly
-                    ? Align(
-                  alignment:
-                  AlignmentDirectional
-                      .centerStart,
-                  child: TextInAppWidget(
-                    text:
-                    selectedBranchName ??
-                        AppLanguageKeys.allBranches,
-                    textSize: 14,
-                    textColor:
-                    AppColors.blackColor,
-                    fontWeightIndex:
-                    FontSelectionData
-                        .regularFontFamily,
-                  ),
-                )
-                    : DropdownButtonHideUnderline(
-                  child: DropdownButton<int>(
-                    value: selectedExists
-                        ? selectedBranchId
-                        : null,
-                    isExpanded: true,
-                    hint:
-                    const TextInAppWidget(
-                      text:
-                      AppLanguageKeys
-                          .allBranches,
-                      textSize: 14,
-                      textColor:
-                      AppColors
-                          .darkGreyColor,
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.location_on_outlined,
+                      size: 19,
+                      color: AppColors.orangeColor,
                     ),
-                    icon: const Icon(
-                      Icons
-                          .keyboard_arrow_down_rounded,
-                      size: 20,
-                      color:
-                      AppColors
-                          .darkGreyColor,
-                    ),
-                    items: [
-                      const DropdownMenuItem<int>(
-                        value: 0,
-                        child:
-                        TextInAppWidget(
-                          text:
-                          AppLanguageKeys
-                              .allBranches,
-                          textSize: 14,
-                          textColor:
-                          AppColors
-                              .blackColor,
-                        ),
-                      ),
-                      ...branches.map(
-                            (branch) {
-                          return DropdownMenuItem<int>(
-                            value:
-                            branch.branchId,
-                            child:
-                            TextInAppWidget(
-                              text: branch
-                                  .getBranchName(
-                                context,
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: state is BranchLoading && branches.isEmpty
+                          ? const Align(
+                              alignment: AlignmentDirectional.centerEnd,
+                              child: SizedBox(
+                                width: 18,
+                                height: 18,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: AppColors.orangeColor,
+                                ),
                               ),
-                              textSize: 14,
-                              textColor:
-                              AppColors
-                                  .blackColor,
-                              fontWeightIndex:
-                              FontSelectionData
-                                  .regularFontFamily,
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                    onChanged: readOnly
-                        ? null
-                        : onChanged,
-                  ),
+                            )
+                          : readOnly
+                              ? Align(
+                                  alignment: AlignmentDirectional.centerStart,
+                                  child: TextInAppWidget(
+                                    text: selectedBranchName ??
+                                        AppLanguageKeys.allBranches,
+                                    textSize: 14,
+                                    textColor: AppColors.blackColor,
+                                    fontWeightIndex:
+                                        FontSelectionData.regularFontFamily,
+                                  ),
+                                )
+                              : DropdownButtonHideUnderline(
+                                  child: DropdownButton<int>(
+                                    value: selectedValue,
+                                    isExpanded: true,
+                                    hint: const TextInAppWidget(
+                                      text: AppLanguageKeys.allBranches,
+                                      textSize: 14,
+                                      textColor: AppColors.darkGreyColor,
+                                    ),
+                                    icon: const Icon(
+                                      Icons.keyboard_arrow_down_rounded,
+                                      size: 20,
+                                      color: AppColors.orangeColor,
+                                    ),
+                                    items: [
+                                      const DropdownMenuItem<int>(
+                                        value: 0,
+                                        child: TextInAppWidget(
+                                          text: AppLanguageKeys.allBranches,
+                                          textSize: 14,
+                                          textColor: AppColors.blackColor,
+                                        ),
+                                      ),
+                                      ...branches.map(
+                                        (branch) => DropdownMenuItem<int>(
+                                          value: branch.branchId,
+                                          child: TextInAppWidget(
+                                            text: branch.getBranchName(context),
+                                            textSize: 14,
+                                            textColor: AppColors.blackColor,
+                                            fontWeightIndex: FontSelectionData
+                                                .regularFontFamily,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                    onChanged: state is BranchLoading
+                                        ? null
+                                        : onChanged,
+                                  ),
+                                ),
+                    ),
+                  ],
                 ),
               ),
+              if (state is BranchError && branches.isEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 5),
+                  child: Text(
+                    state.message,
+                    style: const TextStyle(
+                      color: AppColors.redColor,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
             ],
           ),
         );

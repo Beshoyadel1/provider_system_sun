@@ -29,7 +29,10 @@ class ServiceCardPetrol extends StatefulWidget {
 class _ServiceCardPetrolState extends State<ServiceCardPetrol> {
   final _formKey = GlobalKey<FormState>();
 
-  late TextEditingController nameController, latinController,priceController,costController;
+  late TextEditingController nameController,
+      latinController,
+      priceController,
+      costController;
   bool isExpanded = false;
 
   @override
@@ -38,8 +41,8 @@ class _ServiceCardPetrolState extends State<ServiceCardPetrol> {
 
     nameController =
         TextEditingController(text: widget.service.provService.name);
-    priceController =
-        TextEditingController(text: widget.service.provService.unifiedprice.toString());
+    priceController = TextEditingController(
+        text: widget.service.provService.unifiedprice.toString());
     costController =
         TextEditingController(text: widget.service.provService.cost.toString());
     latinController =
@@ -53,19 +56,14 @@ class _ServiceCardPetrolState extends State<ServiceCardPetrol> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) =>
-          CreateProvServiceCubit()
+          create: (_) => CreateProvServiceCubit()
             ..initFromApi(_mapToCreateFormat(widget.service)),
         ),
         BlocProvider(
-          create: (_) =>
-          SelectCarModelSettingCubit()
-            ..fetchBrands(),
+          create: (_) => SelectCarModelSettingCubit()..fetchBrands(),
         ),
         BlocProvider(
-          create: (_) =>
-          GetTaxCubit()
-            ..getTaxAndSelect(service.taxid),
+          create: (_) => GetTaxCubit()..getTaxAndSelect(service.taxid),
         ),
       ],
       child: Builder(
@@ -97,7 +95,7 @@ class _ServiceCardPetrolState extends State<ServiceCardPetrol> {
                         Expanded(
                           child: TextInAppWidget(
                             text:
-                            "${latinController.text} - ${nameController.text}",
+                                "${latinController.text} - ${nameController.text}",
                             textSize: 15,
                             fontWeightIndex: FontSelectionData.boldFontFamily,
                           ),
@@ -116,120 +114,122 @@ class _ServiceCardPetrolState extends State<ServiceCardPetrol> {
                   curve: Curves.easeInOut,
                   child: isExpanded
                       ? Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Column(
-                      children: [
-                      Form(
-                        key: _formKey,
-                        child: Column(
-                          spacing: 10,
-                          children: [
-                            EnterNameLatenNameService(
-                              nameController: nameController,
-                              latinNameController: latinController,
-                            ),
-                            EnterPriceCostPetrolService(
-                                priceController: priceController,
-                                costController: costController
-                            ),
-                            const SelectTaxPage(),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 15),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Flexible(
-                            child:
-                            ContainerViewAllInFirstRowInDataContainerInListDataFirstScreenInternalOrders(
-                              text: AppLanguageKeys.save,
-                              onTap: () {
-                                final taxCubit =
-                                context.read<GetTaxCubit>();
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Column(
+                            children: [
+                              Form(
+                                key: _formKey,
+                                child: Column(
+                                  spacing: 10,
+                                  children: [
+                                    EnterNameLatenNameService(
+                                      nameController: nameController,
+                                      latinNameController: latinController,
+                                    ),
+                                    EnterPriceCostPetrolService(
+                                        priceController: priceController,
+                                        costController: costController),
+                                    const SelectTaxPage(),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 15),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Flexible(
+                                    child:
+                                        ContainerViewAllInFirstRowInDataContainerInListDataFirstScreenInternalOrders(
+                                      text: AppLanguageKeys.save,
+                                      onTap: () {
+                                        final taxCubit =
+                                            context.read<GetTaxCubit>();
 
-                                if (!(_formKey.currentState?.validate() ??
-                                    false)) {
-                                  AppSnackBar.showError(
-                                      AppLanguageKeys.enterYourData);
-                                  return;
-                                }
+                                        if (!(_formKey.currentState
+                                                ?.validate() ??
+                                            false)) {
+                                          AppSnackBar.showError(
+                                              AppLanguageKeys.enterYourData);
+                                          return;
+                                        }
 
-                                final request = UpdateProvServiceRequest(
-                                  id: service.id,
-                                  serviceId: service.serviceid,
-                                  provId: service.provid,
-                                  taxId: taxCubit.selectedTax!.taxId,
-                                  name: nameController.text,
-                                  latinName: latinController.text,
-                                  cost: double.tryParse(costController.text),
-                                  uniformprice:double.tryParse(priceController.text),
-                                  isuniformprice: true,
-                                  brands:[],
-                                  cars: [],
-                                );
+                                        final request =
+                                            UpdateProvServiceRequest(
+                                          id: service.id,
+                                          serviceId: service.serviceid,
+                                          provId: service.provid,
+                                          taxId: taxCubit.selectedTax!.taxId,
+                                          name: nameController.text,
+                                          latinName: latinController.text,
+                                          cost: double.tryParse(
+                                              costController.text),
+                                          uniformprice: double.tryParse(
+                                              priceController.text),
+                                          isuniformprice: true,
+                                          brands: [],
+                                        );
 
-                                context
-                                    .read<ProvServicesCubit>()
-                                    .updateProvService(request: request);
-                              },
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Flexible(
-                            child:
-                            ContainerViewAllInFirstRowInDataContainerInListDataFirstScreenInternalOrders(
-                              text: AppLanguageKeys.delete,
-                              backGroundColor: AppColors.redColor,
-                              onTap: () async {
-                                final confirm = await showDialog<bool>(
-                                  context: context,
-                                  builder: (_) =>
-                                      AlertDialog(
-                                        title: const TextInAppWidget(
-                                          text: AppLanguageKeys.delete,
-                                          textSize: 20,
-                                        ),
-                                        content: const TextInAppWidget(
-                                          text: AppLanguageKeys.areYouSure,
-                                          textSize: 20,
-                                        ),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () =>
-                                                Navigator.pop(context, false),
-                                            child: const TextInAppWidget(
-                                              text: AppLanguageKeys.cancel,
-                                              textSize: 20,
-                                            ),
-                                          ),
-                                          TextButton(
-                                            onPressed: () =>
-                                                Navigator.pop(context, true),
-                                            child: const TextInAppWidget(
+                                        context
+                                            .read<ProvServicesCubit>()
+                                            .updateProvService(
+                                                request: request);
+                                      },
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Flexible(
+                                    child:
+                                        ContainerViewAllInFirstRowInDataContainerInListDataFirstScreenInternalOrders(
+                                      text: AppLanguageKeys.delete,
+                                      backGroundColor: AppColors.redColor,
+                                      onTap: () async {
+                                        final confirm = await showDialog<bool>(
+                                          context: context,
+                                          builder: (_) => AlertDialog(
+                                            title: const TextInAppWidget(
                                               text: AppLanguageKeys.delete,
                                               textSize: 20,
                                             ),
+                                            content: const TextInAppWidget(
+                                              text: AppLanguageKeys.areYouSure,
+                                              textSize: 20,
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    context, false),
+                                                child: const TextInAppWidget(
+                                                  text: AppLanguageKeys.cancel,
+                                                  textSize: 20,
+                                                ),
+                                              ),
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    context, true),
+                                                child: const TextInAppWidget(
+                                                  text: AppLanguageKeys.delete,
+                                                  textSize: 20,
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
-                                );
+                                        );
 
-                                if (confirm == true) {
-                                  context
-                                      .read<ProvServicesCubit>()
-                                      .deleteProvService(
-                                    provServiceId: service.id,
-                                  );
-                                }
-                              },
-                            ),
+                                        if (confirm == true) {
+                                          context
+                                              .read<ProvServicesCubit>()
+                                              .deleteProvService(
+                                                provServiceId: service.id,
+                                              );
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                      ],
-                    ),
-                  )
+                        )
                       : const SizedBox(),
                 ),
               ],

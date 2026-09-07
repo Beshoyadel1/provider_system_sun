@@ -241,9 +241,6 @@ class _ServiceCardState extends State<ServiceCard> {
                                           brands: isGeneralUnifiedPrice
                                               ? []
                                               : cubit.buildBrands(),
-                                          cars: isGeneralUnifiedPrice
-                                              ? []
-                                              : cubit.cars,
                                         );
 
                                         context

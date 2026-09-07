@@ -337,9 +337,6 @@ class _ExpansionContainerSettingWidgetState
                                       brands: isGeneralUnifiedPrice == true
                                           ? []
                                           : cubit.buildBrands(),
-                                      cars: isGeneralUnifiedPrice == true
-                                          ? []
-                                          : cubit.cars,
                                     ),
                                   );
                                 },

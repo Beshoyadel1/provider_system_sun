@@ -109,6 +109,7 @@ class UserTextFieldWidget extends StatelessWidget {
           validator: validator,
           borderColor: borderColor ?? AppColors.darkGreyColor,
           fillColor: fillColor ?? AppColors.whiteColor,
+          height: fieldHeight,
         );
         break;
 
@@ -299,6 +300,7 @@ class GenderField extends StatefulWidget {
 
   final Color borderColor;
   final Color fillColor;
+  final double height;
 
   const GenderField({
     super.key,
@@ -308,6 +310,7 @@ class GenderField extends StatefulWidget {
     this.validator,
     this.borderColor = AppColors.darkGreyColor,
     this.fillColor = AppColors.whiteColor,
+    this.height = 40,
   });
 
   @override
@@ -353,7 +356,8 @@ class _GenderFieldState extends State<GenderField> {
             ),
           ),
         Container(
-          height: 35,
+          height: widget.height,
+          alignment: Alignment.center,
           padding: const EdgeInsets.symmetric(horizontal: 8),
           decoration: BoxDecoration(
             color: widget.fillColor,

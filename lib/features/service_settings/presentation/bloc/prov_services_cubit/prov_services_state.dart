@@ -12,7 +12,9 @@ class ProvServicesSuccess extends ProvServicesState {
   ProvServicesSuccess(this.data);
 }
 
-class ProvServiceUpdateSuccess extends ProvServicesState {}
+class ProvServiceUpdateSuccess extends ProvServicesSuccess {
+  ProvServiceUpdateSuccess(super.data);
+}
 
 class ProvServiceDeleteSuccess extends ProvServicesState {}
 

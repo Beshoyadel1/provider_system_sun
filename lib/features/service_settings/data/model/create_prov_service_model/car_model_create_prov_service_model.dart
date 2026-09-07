@@ -6,16 +6,15 @@ class CarModelCreateProvServiceModel {
   final double? cost;
 
   CarModelCreateProvServiceModel({
-     this.id,
-     this.carbrandid,
-     this.carmodelid,
-     this.price,
-     this.cost,
+    this.id,
+    this.carbrandid,
+    this.carmodelid,
+    this.price,
+    this.cost,
   });
 
   Map<String, dynamic> toJson() {
     return {
-      "id": id,
       "carbrandid": carbrandid,
       "carmodelid": carmodelid,
       "price": price,

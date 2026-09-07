@@ -1,5 +1,6 @@
 import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
 import 'package:sun_web_system/core/theming/auth_local_storage.dart';
+import 'package:sun_web_system/core/setup_git_it.dart';
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/create_user_emp_request.dart';
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_cubit.dart';
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_state.dart';
@@ -13,6 +14,7 @@ import 'package:sun_web_system/features/employee/presentation/pages/add_edit_emp
 import 'package:sun_web_system/features/employee/presentation/pages/add_edit_employee_data/facility_account_emp/sub/select_employee_permissions.dart';
 import 'package:sun_web_system/features/employee/presentation/pages/add_edit_employee_data/facility_account_emp/sub/select_permissions_and_services_provided_to_the_user_with_image.dart';
 import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/general_widgets_in_store/attach_image_emp.dart';
+import 'package:sun_web_system/features/store_page/presentation/bloc/branch_cubit/branch_cubit.dart';
 import '../../../../../../auth_page/data/model/create_user_model/create_user_request.dart';
 import '../../../../../../auth_page/data/model/create_user_model/employee_wrapper_request.dart';
 import '../../../../../../auth_page/presentation/pages/login_page/login_widgets/user_text_field_widget.dart';
@@ -62,6 +64,7 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
   @override
   void initState() {
     super.initState();
+    getIt<BranchCubit>().getProviderBranches();
 
     if (widget.employee != null) {
       context.read<ProviderEmployeesCubit>().setSelectedEmployee(

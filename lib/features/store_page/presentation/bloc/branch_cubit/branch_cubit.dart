@@ -12,6 +12,7 @@ class BranchCubit extends Cubit<BranchState> {
   BranchCubit() : super(BranchInitial());
 
   List<ProviderBranchModel> branches = [];
+  final Set<int> _pendingDeletedBranchIds = <int>{};
 
   int? myUserId;
 
@@ -21,26 +22,47 @@ class BranchCubit extends Cubit<BranchState> {
     if (userId == null) {
       throw Exception('User not found');
     }
+
+    if (myUserId != null && myUserId != userId) {
+      branches = [];
+      _pendingDeletedBranchIds.clear();
+      selectedBranchId = 0;
+    }
     myUserId = userId;
   }
 
   int selectedBranchId = 0;
 
-  Future<void> getProviderBranches() async {
-    emit(BranchLoading());
-
+  Future<void> getProviderBranches({bool fromSubmit = false}) async {
     try {
       await _initUser();
+      emit(BranchLoading());
 
-      branches = await getProviderBranchesFunction(
+      final fetchedBranches = await getProviderBranchesFunction(
         getProviderBranchesRequest: GetProviderBranchesRequest(
           providerId: myUserId!,
         ),
       );
 
+      // A read immediately after a successful soft delete can briefly return
+      // stale active data. Keep deleted branches hidden until the API confirms
+      // that they are no longer active (or no longer returned).
+      _pendingDeletedBranchIds.removeWhere(
+        (deletedBranchId) => !fetchedBranches.any(
+          (branch) =>
+              branch.branchId == deletedBranchId && branch.isActive == true,
+        ),
+      );
+      branches = fetchedBranches
+          .where(
+            (branch) => !_pendingDeletedBranchIds.contains(branch.branchId),
+          )
+          .toList();
+
       emit(
         BranchSuccess(
           branches: branches,
+          fromSubmit: fromSubmit,
         ),
       );
     } catch (e) {
@@ -140,7 +162,7 @@ class BranchCubit extends Cubit<BranchState> {
         );
       }
 
-      await getProviderBranches();
+      await getProviderBranches(fromSubmit: true);
     } catch (e) {
       emit(
         BranchError(
@@ -172,7 +194,7 @@ class BranchCubit extends Cubit<BranchState> {
         );
       }
 
-      await getProviderBranches();
+      await getProviderBranches(fromSubmit: true);
     } catch (e) {
       emit(
         BranchError(
@@ -207,7 +229,23 @@ class BranchCubit extends Cubit<BranchState> {
         );
       }
 
-      await getProviderBranches();
+      _pendingDeletedBranchIds.add(branchId);
+      branches = branches
+          .where(
+            (branch) => branch.branchId != branchId,
+          )
+          .toList();
+
+      if (selectedBranchId == branchId) {
+        selectedBranchId = 0;
+      }
+
+      emit(
+        BranchSuccess(
+          branches: branches,
+          fromSubmit: true,
+        ),
+      );
     } catch (e) {
       emit(
         BranchError(
