@@ -1,24 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/features/communication_and_policies_pages/presentation/cubit/tab_new_cubit/tab_insurance_new_offers_cubit.dart';
 import 'communication_and_policies_pages_screen.dart';
 
-class ListDataFirstScreenCommunicationAndPoliciesPages extends StatefulWidget {
+class ListDataFirstScreenCommunicationAndPoliciesPages extends StatelessWidget {
   const ListDataFirstScreenCommunicationAndPoliciesPages({super.key});
-
   @override
-  State<ListDataFirstScreenCommunicationAndPoliciesPages> createState() =>
-      _ScreenListDataFirstScreenCommunicationAndPoliciesPagesState();
-}
-
-class _ScreenListDataFirstScreenCommunicationAndPoliciesPagesState
-    extends State<ListDataFirstScreenCommunicationAndPoliciesPages> {
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => TabInsuranceNewOffersCubit(),
-      child: const CommunicationAndPoliciesPagesScreen(),
-    );
-  }
+  Widget build(BuildContext context) =>
+      const CommunicationAndPoliciesPagesScreen();
 }

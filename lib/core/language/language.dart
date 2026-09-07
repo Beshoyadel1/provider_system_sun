@@ -774,7 +774,7 @@ class AppLocalizations {
       AppLanguageKeys.notificationsKey: 'الأشعارات',
       AppLanguageKeys.adsKey: 'الاعلانات',
       AppLanguageKeys.reviewsKey: 'التقييمات',
-      AppLanguageKeys.socialPagesAndPoliciesKey: 'صفحات التواصل والسياسات',
+      AppLanguageKeys.socialPagesAndPoliciesKey: 'عن صان',
       AppLanguageKeys.logoutKey: 'تسجيل الخروج',
       AppLanguageKeys.priceKey: '450.00ريال',
 
@@ -985,9 +985,12 @@ class AppLocalizations {
       AppLanguageKeys.aboutSunIntro:
           "صان هو منصّة رقمية متخصصة في ربط أصحاب السيارات بمراكز الصيانة والخدمات المعتمدة. نهدف إلى تسهيل وصول العملاء إلى خدماتك وزيادة فرص مركزك في النمو، من خلال إدارة الطلبات بشكل منظم واحترافي عبر منصّة موثوقة وسهلة الاستخدام.\n\nمع صان، تحصل مراكز السيارات على:\n- قاعدة عملاء أوسع.\n- إدارة سهلة للطلبات والخدمات.\n- متابعة دقيقة للتقييمات والأداء.\n- فرص أكبر لزيادة الإيرادات وتوسيع النشاط.",
 
-      AppLanguageKeys.contactAndPoliciesPages: 'صفحات التواصل والسياسات',
+      AppLanguageKeys.contactAndPoliciesPages: 'عن صان',
       AppLanguageKeys.contactUs: 'تواصل معنا',
-      AppLanguageKeys.aboutSun: 'عن صان ',
+      AppLanguageKeys.aboutSun: 'عن صان',
+      AppLanguageKeys.aboutLoadError: 'تعذر تحميل المحتوى. حاول مرة أخرى.',
+      AppLanguageKeys.aboutRetry: 'إعادة المحاولة',
+      AppLanguageKeys.aboutEmpty: 'لا يوجد محتوى متاح حاليًا.',
       AppLanguageKeys.privacyPolicy: 'سياسة الخصوصية',
       AppLanguageKeys.termsAndConditions: 'الشروط والاحكام',
       AppLanguageKeys.sendUsMessage: 'قم بارسال رسالتك',
@@ -2249,7 +2252,7 @@ class AppLocalizations {
       AppLanguageKeys.notificationsKey: 'Notifications',
       AppLanguageKeys.adsKey: 'Advertisements',
       AppLanguageKeys.reviewsKey: 'Reviews',
-      AppLanguageKeys.socialPagesAndPoliciesKey: 'Social Pages & Policies',
+      AppLanguageKeys.socialPagesAndPoliciesKey: 'About San',
       AppLanguageKeys.logoutKey: 'Logout',
       AppLanguageKeys.priceKey: '450.00 SAR',
       //End//
@@ -2459,9 +2462,12 @@ Providers will be notified of any major changes via the platform or email.
           "Privacy Policy for Car Service Providers\n\n1. Information Collection\nWe collect essential data related to service provider centers such as:\n- Center information (trade name – location – type of services).\n- Contact details (phone – email).\n- Account information (username – password).\n\n2. Use of Information\nThe collected information is used only for:\n- Creating and activating accounts.\n- Managing orders and services.\n- Facilitating communication between the center and the customer.\n- Improving service quality and user experience.\n\n3. Information Sharing\nWe do not share provider data with any third party outside the platform unless legally required.\nSome information, such as the center name and offered services, is visible to customers to help them choose services.\n\n4. Data Protection\nWe are committed to protecting provider data from unauthorized access through secure systems and encryption of sensitive information.\n\n5. Provider Rights\n- Access and update their registered data.\n- Request account deletion from the platform.\n- Submit feedback or complaints regarding data management.\n\n6. Policy Updates\nWe may update the privacy policy from time to time, and providers will be notified of any significant changes.",
       AppLanguageKeys.aboutSunIntro:
           "San is a digital platform that connects car owners with certified maintenance and service centers. We aim to make it easier for customers to reach your services and help your center grow by managing requests efficiently and professionally through a trusted, user-friendly platform.\n\nWith San, car centers get:\n- A wider customer base.\n- Easy management of orders and services.\n- Accurate tracking of reviews and performance.\n- Greater opportunities to increase revenue and expand operations.",
-      AppLanguageKeys.contactAndPoliciesPages: 'Contact & Policy Pages',
+      AppLanguageKeys.contactAndPoliciesPages: 'About San',
       AppLanguageKeys.contactUs: 'Contact Us',
       AppLanguageKeys.aboutSun: 'About San',
+      AppLanguageKeys.aboutLoadError: 'Unable to load content. Please try again.',
+      AppLanguageKeys.aboutRetry: 'Retry',
+      AppLanguageKeys.aboutEmpty: 'No content is available yet.',
       AppLanguageKeys.privacyPolicy: 'Privacy Policy',
       AppLanguageKeys.termsAndConditions: 'Terms and Conditions',
       AppLanguageKeys.sendUsMessage: 'Send Us Your Message',

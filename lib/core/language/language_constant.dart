@@ -906,6 +906,9 @@ class AppLanguageKeys {
   static const String contactAndPoliciesPages = 'contactAndPoliciesPages';
   static const String contactUs = 'establishment_data';
   static const String aboutSun = 'about_sun_emp';
+  static const String aboutLoadError = 'aboutLoadError';
+  static const String aboutRetry = 'aboutRetry';
+  static const String aboutEmpty = 'aboutEmpty';
   static const String privacyPolicy = 'privacy_policy_emp';
   static const String termsAndConditions = 'termsAndConditions';
   static const String sendUsMessage = 'sendUsMessage';
