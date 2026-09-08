@@ -3,6 +3,7 @@ import 'package:sun_web_system/core/language/language.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:sun_web_system/core/theming/colors.dart';
 import 'package:sun_web_system/features/communication_and_policies_pages/data/about_repository.dart';
+import 'package:sun_web_system/features/communication_and_policies_pages/presentation/custom_widget/tab_communication_and_policies_widget.dart';
 
 class CommunicationAndPoliciesPagesScreen extends StatefulWidget {
   const CommunicationAndPoliciesPagesScreen({super.key, this.loadPages});
@@ -15,6 +16,7 @@ class CommunicationAndPoliciesPagesScreen extends StatefulWidget {
 class _CommunicationAndPoliciesPagesScreenState
     extends State<CommunicationAndPoliciesPagesScreen> {
   late Future<List<AboutPage>> _pages;
+  int _selectedIndex = 0;
   @override
   void initState() {
     super.initState();
@@ -55,38 +57,62 @@ class _CommunicationAndPoliciesPagesScreenState
                 child:
                     Text(translations.translate(AppLanguageKeys.aboutEmpty)));
           }
-          return ListView.separated(
-            padding: const EdgeInsets.all(8),
-            itemCount: pages.length,
-            separatorBuilder: (_, __) => const Padding(
-                padding: EdgeInsets.symmetric(vertical: 20),
-                child: Divider(height: 1)),
-            itemBuilder: (context, index) {
-              final title = pages[index].title(arabic);
-              final content = pages[index].content(arabic);
-              return Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    if (title.isNotEmpty)
-                      Semantics(
+          final selectedIndex = _selectedIndex.clamp(0, pages.length - 1);
+          final selectedPage = pages[selectedIndex];
+          final title = selectedPage.title(arabic);
+          final content = selectedPage.content(arabic);
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: List.generate(pages.length, (index) {
+                    return TabCommunicationAndPoliciesWidget(
+                      key: ValueKey('about-chip-$index'),
+                      isSelected: selectedIndex == index,
+                      text: pages[index].title(arabic),
+                      onTap: () => setState(() => _selectedIndex = index),
+                    );
+                  }),
+                ),
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.fromLTRB(8, 28, 8, 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      if (title.isNotEmpty)
+                        Semantics(
                           header: true,
-                          child: SelectableText(title,
-                              textAlign: TextAlign.start,
-                              style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.blackColor))),
-                    if (title.isNotEmpty && content.isNotEmpty)
-                      const SizedBox(height: 16),
-                    if (content.isNotEmpty)
-                      SelectableText(content,
+                          child: SelectableText(
+                            title,
+                            textAlign: TextAlign.start,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.blackColor,
+                            ),
+                          ),
+                        ),
+                      if (title.isNotEmpty && content.isNotEmpty)
+                        const SizedBox(height: 16),
+                      if (content.isNotEmpty)
+                        SelectableText(
+                          content,
                           textAlign: TextAlign.start,
                           style: const TextStyle(
-                              fontSize: 14,
-                              height: 1.8,
-                              color: AppColors.blackColor)),
-                  ]);
-            },
+                            fontSize: 14,
+                            height: 1.8,
+                            color: AppColors.blackColor,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           );
         },
       ),

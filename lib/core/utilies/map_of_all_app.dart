@@ -374,7 +374,7 @@ void getPages(BuildContext context,  int branchId) {
     //     number: PagesOfAllApp.starPageNumber,
     //     page: FirstScreenRates()),
     const PageNodeModel(
-      name: AppLanguageKeys.aboutSun,
+      name: AppLanguageKeys.socialPagesAndPoliciesKey,
       image: AppImageKeys.pages,
       number: PagesOfAllApp.pagesPageNumber,
       page: FirstScreenCommunicationAndPoliciesPages(),
