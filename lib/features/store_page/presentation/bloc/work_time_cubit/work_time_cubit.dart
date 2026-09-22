@@ -4,8 +4,8 @@ import 'package:sun_web_system/features/store_page/data/datasource/delete_provid
 import 'package:sun_web_system/features/store_page/data/request/delete_provider_work_time_request/delete_provider_work_time_request.dart';
 import 'package:sun_web_system/features/store_page/data/datasource/get_provider_work_time_datasource/get_provider_work_time_repository.dart';
 import 'package:sun_web_system/features/store_page/data/request/get_provider_work_time_request/get_provider_work_time_request.dart';
-import 'package:sun_web_system/features/store_page/data/datasource/upload_provider_work_times_datasource/upload_provider_work_times_repository.dart';
-import 'package:sun_web_system/features/store_page/data/request/upload_provider_work_times_request/upload_provider_work_times_request.dart';
+import 'package:sun_web_system/features/store_page/data/datasource/save_provider_work_time_datasource/provider_work_time_repository.dart';
+import 'package:sun_web_system/features/store_page/data/request/save_provider_work_time_request/provider_work_time_request.dart';
 import 'package:sun_web_system/features/store_page/data/model/upload_provider_work_times_model/work_time_model.dart';
 import 'package:sun_web_system/features/store_page/presentation/bloc/work_time_cubit/work_time_state.dart';
 
@@ -51,7 +51,7 @@ class UpdateWorkTimeCubit extends Cubit<WorkTimeState> {
   }
 
   /// ================= BUILD MODEL =================
-  WorkTimeModel _buildModel(int worktimeId) {
+  WorkTimeModel _buildModel({int? worktimeId}) {
     return WorkTimeModel(
       worktimeid: worktimeId,
       provid: providerId!,
@@ -84,15 +84,12 @@ class UpdateWorkTimeCubit extends Cubit<WorkTimeState> {
     try {
       emit(WorkTimeLoading());
 
-      final request = UploadProviderWorkTimesRequest(
-        workTimes: [
-          _buildModel(0),
-        ],
+      final request = ProviderWorkTimeRequest(
+        workTime: _buildModel(),
       );
 
-      workTimes = await uploadProviderWorkTimesFunction(
-        uploadProviderWorkTimesRequest: request,
-      );
+      await createProviderWorkTimeFunction(request: request);
+      await _refreshWorkTimes();
       _clearForm();
       emit(WorkTimeSuccess());
     } catch (e) {
@@ -116,15 +113,12 @@ class UpdateWorkTimeCubit extends Cubit<WorkTimeState> {
     try {
       emit(WorkTimeLoading());
 
-      final request = UploadProviderWorkTimesRequest(
-        workTimes: [
-          _buildModel(worktimeId),
-        ],
+      final request = ProviderWorkTimeRequest(
+        workTime: _buildModel(worktimeId: worktimeId),
       );
 
-      workTimes = await uploadProviderWorkTimesFunction(
-        uploadProviderWorkTimesRequest: request,
-      );
+      await updateProviderWorkTimeFunction(request: request);
+      await _refreshWorkTimes();
       _clearForm();
       emit(WorkTimeSuccess());
     } catch (e) {
@@ -139,13 +133,16 @@ class UpdateWorkTimeCubit extends Cubit<WorkTimeState> {
       emit(WorkTimeLoading());
 
       final request = DeleteProviderWorkTimeRequest(
-        providerId: providerId!,
         workTimeId: workTimeId,
       );
 
-      workTimes = await deleteProviderWorkTimeFunction(
+      await deleteProviderWorkTimeFunction(
         deleteProviderWorkTimeRequest: request,
       );
+      await _refreshWorkTimes();
+      if (selectedWorkTimeId == workTimeId) {
+        _clearForm();
+      }
       emit(WorkTimeDeleteSuccess());
     } catch (e) {
       emit(WorkTimeError(e.toString()));
@@ -160,20 +157,22 @@ class UpdateWorkTimeCubit extends Cubit<WorkTimeState> {
       if (isClosed) return;
       emit(WorkTimeLoading());
 
-      final result = await getProviderWorkTimeFunction(
-        getProviderWorkTimeRequest: GetProviderWorkTimeRequest(
-          providerId: providerId!,
-        ),
-      );
-
-      workTimes = result;
+      await _refreshWorkTimes();
 
       if (isClosed) return;
-      emit(WorkTimeLoaded(result));
+      emit(WorkTimeLoaded(workTimes));
     } catch (e) {
       if (isClosed) return;
       emit(WorkTimeError(e.toString()));
     }
+  }
+
+  Future<void> _refreshWorkTimes() async {
+    workTimes = await getProviderWorkTimeFunction(
+      getProviderWorkTimeRequest: GetProviderWorkTimeRequest(
+        providerId: providerId!,
+      ),
+    );
   }
 
   /// ================= RESET =================

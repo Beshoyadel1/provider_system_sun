@@ -1,11 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:sun_web_system/features/store_page/data/model/upload_provider_work_times_model/work_time_model.dart';
 import 'package:sun_web_system/features/store_page/data/request/delete_provider_work_time_request/delete_provider_work_time_request.dart';
 import '../../../../../core/api/dio_function/api_constants.dart';
 import '../../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../../core/api/dio_function/failures.dart';
 
-Future<List<WorkTimeModel>> deleteProviderWorkTimeFunction({
+Future<void> deleteProviderWorkTimeFunction({
   required DeleteProviderWorkTimeRequest deleteProviderWorkTimeRequest,
 }) async {
   try {
@@ -24,8 +23,6 @@ Future<List<WorkTimeModel>> deleteProviderWorkTimeFunction({
     if (data['success'] != true) {
       throw Exception(data['message'] ?? 'Something went wrong');
     }
-
-    return WorkTimeModel.fromJsonList(data['data']);
   } catch (e) {
     if (e is DioException) {
       final data = e.response?.data;

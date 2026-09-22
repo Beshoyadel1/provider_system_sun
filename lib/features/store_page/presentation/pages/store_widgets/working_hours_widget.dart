@@ -7,14 +7,20 @@ import '../../../../../core/theming/colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WorkingHoursWidget extends StatelessWidget {
-  const WorkingHoursWidget({super.key});
+  const WorkingHoursWidget({
+    super.key,
+    this.enabled = true,
+  });
+
+  final bool enabled;
 
   Future<void> pickTime(BuildContext context, bool isFrom) async {
     final cubit = UpdateWorkTimeCubit.get(context);
+    final currentValue = isFrom ? cubit.fromTime : cubit.toTime;
 
     final time = await showTimePicker(
       context: context,
-      initialTime: TimeOfDay.now(),
+      initialTime: _parseTime(currentValue) ?? TimeOfDay.now(),
     );
 
     if (time != null) {
@@ -27,6 +33,18 @@ class WorkingHoursWidget extends StatelessWidget {
         cubit.setToTime(formatted);
       }
     }
+  }
+
+  TimeOfDay? _parseTime(String? value) {
+    final parts = value?.split(':');
+    if (parts == null || parts.length < 2) return null;
+
+    final hour = int.tryParse(parts[0]);
+    final minute = int.tryParse(parts[1]);
+    if (hour == null || minute == null) return null;
+    if (hour < 0 || hour > 23 || minute < 0 || minute > 59) return null;
+
+    return TimeOfDay(hour: hour, minute: minute);
   }
 
   @override
@@ -43,7 +61,7 @@ class WorkingHoursWidget extends StatelessWidget {
             SizedBox(
               width: 163,
               child: GestureDetector(
-                onTap: () => pickTime(context, true),
+                onTap: enabled ? () => pickTime(context, true) : null,
                 child: AbsorbPointer(
                   child: TextFormFieldWidget(
                     textSize: 13,
@@ -68,7 +86,7 @@ class WorkingHoursWidget extends StatelessWidget {
             SizedBox(
               width: 163,
               child: GestureDetector(
-                onTap: () => pickTime(context, false),
+                onTap: enabled ? () => pickTime(context, false) : null,
                 child: AbsorbPointer(
                   child: TextFormFieldWidget(
                     textSize: 13,

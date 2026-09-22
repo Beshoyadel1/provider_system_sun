@@ -274,6 +274,8 @@ class ApiLink {
       "${ApiConfig.baseUrlApi}/${ApiConfig.provService}/CreateProvService";
   static const String createServicePackage =
       "${ApiConfig.baseUrlApi}/${ApiConfig.providerServicePackage}/CreateServicePackage";
+  static const String createProviderWorkTime =
+      "${ApiConfig.baseUrlApi}/${ApiConfig.workTIme}/CreateProviderWorkTime";
   static const String deleteExpectedPetrolSpend =
       "${ApiConfig.baseUrlApi}/${ApiConfig.expectedPetrolSpend}/DeleteExpectedPetrolSpend";
   static const String deleteProvService =
@@ -305,8 +307,8 @@ class ApiLink {
       "${ApiConfig.baseUrlApi}/${ApiConfig.provService}/UpdateProvService";
   static const String updateServicePackage =
       "${ApiConfig.baseUrlApi}/${ApiConfig.providerServicePackage}/UpdateServicePackage";
-  static const String uploadProviderWorkTimes =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.workTIme}/UploadProviderWorkTimes";
+  static const String updateProviderWorkTime =
+      "${ApiConfig.baseUrlApi}/${ApiConfig.workTIme}/UpdateProviderWorkTime";
 
   //Rate
   static const String createRate =

@@ -50,6 +50,7 @@ class _WorkingHoursContentState extends State<WorkingHoursContent> {
           setState(() => _isAdding = false);
           AppSnackBar.showSuccess(AppLanguageKeys.success);
         } else if (state is WorkTimeDeleteSuccess) {
+          setState(() => _isAdding = false);
           AppSnackBar.showSuccess(
             AppLanguageKeys.deleteProviderWorkTimeSuccess,
           );
@@ -127,7 +128,11 @@ class _WorkingHoursContentState extends State<WorkingHoursContent> {
                   return _WorkTimeListTile(
                     workTime: cubit.workTimes[index],
                     daysOfWeek: _daysOfWeek,
-                    isDeletingDisabled: isLoading,
+                    isDisabled: isLoading,
+                    onEdit: (workTime) {
+                      cubit.selectWorkTime(workTime);
+                      setState(() => _isAdding = true);
+                    },
                     onDelete: cubit.deleteWorkTime,
                   );
                 },
@@ -152,8 +157,10 @@ class _WorkingHoursContentState extends State<WorkingHoursContent> {
         spacing: 14,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const TextInAppWidget(
-            text: AppLanguageKeys.addWorkingHours,
+          TextInAppWidget(
+            text: cubit.isEditMode
+                ? AppLanguageKeys.editWorkingHours
+                : AppLanguageKeys.addWorkingHours,
             textSize: 16,
             fontWeightIndex: FontSelectionData.mediumFontFamily,
             textColor: AppColors.darkColor,
@@ -194,16 +201,27 @@ class _WorkingHoursContentState extends State<WorkingHoursContent> {
             textSize: 14,
             textColor: AppColors.darkGreyColor,
           ),
-          const WorkingHoursWidget(),
+          WorkingHoursWidget(enabled: !isLoading),
           Row(
             children: [
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.orangeColor,
                 ),
-                onPressed: isLoading ? null : cubit.createWorkTime,
-                child: const TextInAppWidget(
-                  text: AppLanguageKeys.create,
+                onPressed: isLoading
+                    ? null
+                    : () {
+                        final workTimeId = cubit.selectedWorkTimeId;
+                        if (cubit.isEditMode && workTimeId != null) {
+                          cubit.updateWorkTime(workTimeId);
+                        } else {
+                          cubit.createWorkTime();
+                        }
+                      },
+                child: TextInAppWidget(
+                  text: cubit.isEditMode
+                      ? AppLanguageKeys.save
+                      : AppLanguageKeys.create,
                   textSize: 13,
                   textColor: AppColors.whiteColor,
                 ),
@@ -233,13 +251,15 @@ class _WorkTimeListTile extends StatelessWidget {
   const _WorkTimeListTile({
     required this.workTime,
     required this.daysOfWeek,
-    required this.isDeletingDisabled,
+    required this.isDisabled,
+    required this.onEdit,
     required this.onDelete,
   });
 
   final WorkTimeModel workTime;
   final List<String> daysOfWeek;
-  final bool isDeletingDisabled;
+  final bool isDisabled;
+  final ValueChanged<WorkTimeModel> onEdit;
   final ValueChanged<int> onDelete;
 
   @override
@@ -300,15 +320,30 @@ class _WorkTimeListTile extends StatelessWidget {
                 .toList(),
           ),
         ),
-        trailing: IconButton(
-          tooltip: AppLocalizations.of(
-            context,
-          ).translate(AppLanguageKeys.delete),
-          onPressed: isDeletingDisabled || workTimeId == null
-              ? null
-              : () => onDelete(workTimeId),
-          icon: const Icon(Icons.delete_outline_rounded),
-          color: AppColors.redColor,
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              tooltip: AppLocalizations.of(
+                context,
+              ).translate(AppLanguageKeys.edit),
+              onPressed: isDisabled || workTimeId == null
+                  ? null
+                  : () => onEdit(workTime),
+              icon: const Icon(Icons.edit_outlined),
+              color: AppColors.orangeColor,
+            ),
+            IconButton(
+              tooltip: AppLocalizations.of(
+                context,
+              ).translate(AppLanguageKeys.delete),
+              onPressed: isDisabled || workTimeId == null
+                  ? null
+                  : () => onDelete(workTimeId),
+              icon: const Icon(Icons.delete_outline_rounded),
+              color: AppColors.redColor,
+            ),
+          ],
         ),
       ),
     );
