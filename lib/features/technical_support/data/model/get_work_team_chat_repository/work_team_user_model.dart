@@ -22,14 +22,50 @@ class WorkTeamUserModel {
   });
 
   factory WorkTeamUserModel.fromJson(Map<String, dynamic> json) {
+    final map = <String, dynamic>{};
+    json.forEach((k, v) => map[k.toString().toLowerCase()] = v);
+
+    int parseInt(dynamic value) {
+      if (value == null) return 0;
+      if (value is num) return value.toInt();
+      return int.tryParse(value.toString()) ?? 0;
+    }
+
+    Uint8List? parseImage(dynamic value) {
+      if (value == null) return null;
+      if (value is Uint8List) return value;
+      if (value is List) {
+        try {
+          return Uint8List.fromList(value.cast<int>());
+        } catch (_) {
+          return null;
+        }
+      }
+      final str = value.toString().trim();
+      if (str.isEmpty) return null;
+      try {
+        return base64Decode(str);
+      } catch (_) {
+        return null;
+      }
+    }
+
+    final userId = parseInt(map['userid'] ?? map['id']);
+    final userType = parseInt(map['usertype'] ?? map['type']);
+    final name = (map['name'] ?? map['username'] ?? "").toString();
+    final latinName = (map['latinname'] ?? map['name'] ?? "").toString();
+    final jobName = (map['jobname'] ?? "").toString();
+    final latinJobName = (map['latinjobname'] ?? map['jobname'] ?? "").toString();
+    final image = parseImage(map['image']);
+
     return WorkTeamUserModel(
-      userId: json['userid'] ?? 0,
-      userType: json['usertype'] ?? 0,
-      name: json['name'] ?? "",
-      latinName: json['latinname'] ?? "",
-      jobName: json['jobname'] ?? "",
-      latinJobName: json['latinjobname'] ?? "",
-      image: json['image']!= null ? base64Decode(json["image"]) : null,
+      userId: userId,
+      userType: userType,
+      name: name,
+      latinName: latinName,
+      jobName: jobName,
+      latinJobName: latinJobName,
+      image: image,
     );
   }
 

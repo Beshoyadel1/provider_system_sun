@@ -20,16 +20,25 @@ class NewOrderNotificationsModel {
   factory NewOrderNotificationsModel.fromJson(
       Map<String, dynamic> json,
       ) {
-    final bodyData = Map<String, dynamic>.from(json["data"]);
+    Map<String, dynamic> bodyData = {};
+    if (json["data"] is Map) {
+      bodyData = Map<String, dynamic>.from(json["data"]);
+    } else if (json["data"] is String) {
+      try {
+        bodyData = Map<String, dynamic>.from(jsonDecode(json["data"]));
+      } catch (_) {}
+    }
+
+    final Map<String, dynamic> innerData = (bodyData["data"] is Map)
+        ? Map<String, dynamic>.from(bodyData["data"])
+        : (bodyData.isNotEmpty ? bodyData : json);
 
     return NewOrderNotificationsModel(
-      userId: json["userId"] ?? 0,
-      userType: json["userType"] ?? 0,
-      title: bodyData["title"] ?? "",
-      body: bodyData["body"] ?? "",
-      data: NewOrderData?.fromJson(
-        Map<String, dynamic>.from(bodyData["data"]),
-      ),
+      userId: _parseInt(json["userId"] ?? json["USERID"] ?? innerData["userId"]),
+      userType: _parseInt(json["userType"] ?? json["USERTYPE"] ?? innerData["userType"]),
+      title: (bodyData["title"] ?? json["title"] ?? "").toString(),
+      body: (bodyData["body"] ?? json["body"] ?? "").toString(),
+      data: NewOrderData.fromJson(innerData),
     );
   }
 }
@@ -48,14 +57,20 @@ class NewOrderData {
   factory NewOrderData.fromJson(
       Map<String, dynamic> json,
       ) {
+    dynamic orderInfoRaw = json["orderInfo"] ?? json["orderinfo"] ?? json["ORDERINFO"];
+    Map<String, dynamic>? orderInfoMap;
+    if (orderInfoRaw is Map) {
+      orderInfoMap = Map<String, dynamic>.from(orderInfoRaw);
+    } else if (orderInfoRaw is String && orderInfoRaw.isNotEmpty) {
+      try {
+        orderInfoMap = Map<String, dynamic>.from(jsonDecode(orderInfoRaw));
+      } catch (_) {}
+    }
+
     return NewOrderData(
       type: json["type"]?.toString() ?? "",
-      orderId: _parseInt(json["orderId"]),
-      orderInfo: OrderInfo.fromJson(
-        Map<String, dynamic>.from(
-          jsonDecode(json["orderInfo"].toString()),
-        ),
-      ),
+      orderId: _parseInt(json["orderId"] ?? json["orderid"] ?? json["ORDERID"] ?? orderInfoMap?["ID"]),
+      orderInfo: orderInfoMap != null ? OrderInfo.fromJson(orderInfoMap) : null,
     );
   }
 }
@@ -83,15 +98,15 @@ class OrderInfo {
       Map<String, dynamic> json,
       ) {
     return OrderInfo(
-      id: _parseInt(json["ID"]),
-      userId: _parseInt(json["USERID"]),
-      userType: _parseInt(json["USERTYPE"]),
-      orderStatus: _parseInt(json["ORDERSTATUS"]),
-      userName: json["USERNAME"]?.toString() ?? "",
+      id: _parseInt(json["ID"] ?? json["id"]),
+      userId: _parseInt(json["USERID"] ?? json["userId"] ?? json["userid"]),
+      userType: _parseInt(json["USERTYPE"] ?? json["userType"] ?? json["usertype"]),
+      orderStatus: _parseInt(json["ORDERSTATUS"] ?? json["orderStatus"] ?? json["orderstatus"]),
+      userName: (json["USERNAME"] ?? json["userName"] ?? json["username"])?.toString() ?? "",
       orderDate: DateTime.tryParse(
-        json["ORDERDATE"]?.toString() ?? "",
+        (json["ORDERDATE"] ?? json["orderDate"] ?? json["orderdate"])?.toString() ?? "",
       ),
-      totalPrice: double.tryParse(json["TOTALPRICE"]?.toString() ?? "0") ?? 0,
+      totalPrice: double.tryParse((json["TOTALPRICE"] ?? json["totalPrice"] ?? json["totalprice"])?.toString() ?? "0") ?? 0,
     );
   }
 
@@ -102,18 +117,7 @@ class OrderInfo {
       return false;
     }
 
-
-    if (userType != currentUser.type) {
-      debugPrint("❌ UserType Not Match");
-      return false;
-    }
-
-    if (userId != currentUser.userid&&userId != 0&&userId != null) {
-      debugPrint("❌ UserId Not Match");
-      return false;
-    }
-
-    debugPrint("✅ Order Accepted");
+    debugPrint("✅ Order Accepted for provider ${currentUser.userid}");
     return true;
   }
 }

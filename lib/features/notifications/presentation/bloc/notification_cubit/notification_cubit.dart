@@ -56,34 +56,19 @@ class NotificationCubit extends Cubit<NotificationState> {
         ),
       );
 
-      final globalResponse = await getUserNotificationFunction(
-        request: GetUserNewNotificationRequest(
-          userId: 0,
-          userType: user.type ?? 0,
-          pageNumber: _pageNumber,
-          pageSize: _pageSize,
-        ),
-      );
-
-      notifications = [
-        ...userResponse.data,
-        ...globalResponse.data,
-      ];
+      notifications = List<NotificationModel>.from(userResponse.data);
 
       notifications = {
-        for (final item in notifications) item.id!: item,
+        for (final item in notifications)
+          if (item.id != null) item.id!: item,
       }.values.toList();
 
       notifications.sort(
-            (a, b) => b.date!.compareTo(a.date!),
+        (a, b) => (b.date ?? DateTime.now()).compareTo(a.date ?? DateTime.now()),
       );
 
-      totalCount = userResponse.totalCount + globalResponse.totalCount;
-
-      pageCount = userResponse.pageCount > globalResponse.pageCount
-          ? userResponse.pageCount
-          : globalResponse.pageCount;
-
+      totalCount = userResponse.totalCount;
+      pageCount = userResponse.pageCount;
       hasMore = _pageNumber < pageCount;
 
       safeEmit(NotificationSuccess(notifications));
@@ -169,24 +154,15 @@ class NotificationCubit extends Cubit<NotificationState> {
         ),
       );
 
-      final globalResponse = await getUserNotificationFunction(
-        request: GetUserNewNotificationRequest(
-          userId: 0,
-          userType: user.type ?? 0,
-          pageNumber: _pageNumber,
-          pageSize: _pageSize,
-        ),
-      );
-
       notifications.addAll(userResponse.data);
-      notifications.addAll(globalResponse.data);
 
       notifications = {
-        for (final item in notifications) item.id!: item,
+        for (final item in notifications)
+          if (item.id != null) item.id!: item,
       }.values.toList();
 
       notifications.sort(
-            (a, b) => b.date!.compareTo(a.date!),
+        (a, b) => (b.date ?? DateTime.now()).compareTo(a.date ?? DateTime.now()),
       );
 
       hasMore = _pageNumber < pageCount;

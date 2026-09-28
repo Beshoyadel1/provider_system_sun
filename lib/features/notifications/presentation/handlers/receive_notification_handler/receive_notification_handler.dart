@@ -1,11 +1,9 @@
 import 'package:flutter/foundation.dart';
-import '../../../../../../core/cubit/app_cubit/app_cubit.dart';
-import '../../../../../../core/utilies/map_of_all_app.dart';
-import '../../../../../../main.dart';
 import '../../../../../../features/notifications/data/datasource/parsers/receive_notification_parser/receive_notification_parser.dart';
 import '../../../../../../features/notifications/domain/repository/notification_repository/notification_repository.dart';
 import '../../../../../../features/notifications/presentation/services/dialog_service/dialog_service.dart';
 import '../../../../../../features/notifications/presentation/services/navigation_service/navigation_service.dart';
+import '../../../../../../main.dart';
 
 class ReceiveNotificationHandler {
   ReceiveNotificationHandler({
@@ -36,7 +34,9 @@ class ReceiveNotificationHandler {
 
       final userType = _parser.getUserType(arguments);
 
-      if (userType != currentUser.type) {
+      if (userType != null &&
+          userType != 0 &&
+          userType != currentUser.type) {
         return;
       }
 
@@ -54,15 +54,27 @@ class ReceiveNotificationHandler {
         return;
       }
 
+      final currentCtx = navigatorKey.currentContext;
+      final title = (currentCtx != null && currentCtx.mounted)
+          ? model.getTitle(currentCtx)
+          : (model.title ?? model.latinTitle ?? "إشعار جديد");
+      final subtitle = (currentCtx != null && currentCtx.mounted)
+          ? model.getDescription(currentCtx)
+          : (model.description ?? model.latinDesc ?? "");
+      final combined = "$title $subtitle".toLowerCase();
+      final isChat = combined.contains("chat") ||
+          combined.contains("رسالة") ||
+          combined.contains("محادثة");
+
       await _dialogService.show(
-        title: model.getTitle(
-          _dialogService.context,
-        ),
-        subtitle: model.getDescription(
-          _dialogService.context,
-        ),
+        title: title.isNotEmpty ? title : "إشعار جديد",
+        subtitle: subtitle,
         onView: () async {
-          _navigationService.openDashboardOrders();
+          if (isChat) {
+            _navigationService.openChat();
+          } else {
+            _navigationService.openDashboardOrders();
+          }
         },
       );
     } catch (e, s) {

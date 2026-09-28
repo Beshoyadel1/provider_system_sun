@@ -73,11 +73,13 @@ class _SearchWithListDataChatAdminSunState
                         userName: msg.userName,
                         message: msg.lastMessage?.message ?? "",
                         time: OrderFunctions.formatTime(msg.lastMessage?.date),
-                        onTap: (){
-                          context.read<ChatDetailsCubit>().loadChat(
-                            toUserId: msg.userId ?? 0,
-                            toUserType: msg.userType ?? 0,
-                          );
+                        onTap: () {
+                          if (msg.userId != null && msg.userId! > 0) {
+                            context.read<ChatDetailsCubit>().loadChat(
+                              toUserId: msg.userId!,
+                              toUserType: msg.userType ?? 0,
+                            );
+                          }
                         },
                       );
                     },

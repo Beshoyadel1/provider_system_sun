@@ -11,6 +11,22 @@ class AuthLocalStorage {
 
   static const String userKey = "user_data";
   static const String passwordKey = "password";
+  static const String fcmTokenKey = "fcm_token";
+
+  static Future<void> saveFcmToken(String token) async {
+    await _storage.write(
+      key: fcmTokenKey,
+      value: token,
+    );
+  }
+
+  static Future<String?> getFcmToken() async {
+    return await _storage.read(key: fcmTokenKey);
+  }
+
+  static Future<void> deleteFcmToken() async {
+    await _storage.delete(key: fcmTokenKey);
+  }
 
   static Future<void> saveUser(CreateUserRequest user) async {
     await _storage.write(
@@ -78,11 +94,14 @@ class AuthLocalStorage {
       return false;
     }
 
+    final fcmToken = await getFcmToken();
+
     final result = await loginFunction(
       loginRequest: LoginRequest(
         user: localUser.email!,
         password: password,
         type: UserType.providerUser,
+        fcmToken: fcmToken != null && fcmToken.isNotEmpty && !fcmToken.startsWith('fcm_web_') ? fcmToken : null,
       ),
     );
 

@@ -1,7 +1,4 @@
 import 'package:flutter/foundation.dart';
-import '../../../../../../core/cubit/app_cubit/app_cubit.dart';
-import '../../../../../../core/utilies/map_of_all_app.dart';
-import '../../../../../../main.dart';
 import '../../../../../../core/language/language_constant.dart';
 import '../../../../../../features/internal_services/presentation/cubit/order_funcations/order_functions.dart';
 import '../../../../../../features/notifications/data/datasource/parsers/update_order_status_parser/update_order_status_parser.dart';
@@ -32,21 +29,28 @@ class UpdateOrderStatusHandler {
       if (!await model.canView()) {
         return;
       }
-      // final context = navigatorKey.currentContext;
-      //
-      // if (context != null) {
-      //   final appCubit = AppCubit.get(context);
-      //
-      //   if (appCubit.selectedPageIndex ==
-      //       PagesOfAllApp.dashboardPageNumber) {
-      //     return;
-      //   }
-      // }
+
+      final rawOrderId = model.data?.data?.orderId ?? model.data?.data?.orderInfo?.id;
+      final orderId = int.tryParse(rawOrderId?.toString() ?? '') ?? 0;
+      final title = orderId > 0
+          ? "تحديث حالة الطلب #$orderId"
+          : (model.data?.title?.isNotEmpty == true
+              ? model.data!.title!
+              : AppLanguageKeys.youHaveOrderUpdate);
+
+      final dateStr = OrderFunctions.formatDate(
+        model.data?.data?.orderInfo?.orderDate?.toString(),
+      );
+
+      final subtitle = model.data?.body?.isNotEmpty == true
+          ? model.data!.body!
+          : (dateStr.isNotEmpty
+              ? "${AppLanguageKeys.youHaveOrderUpdate} • $dateStr"
+              : AppLanguageKeys.youHaveOrderUpdate);
+
       await _dialogService.show(
-        title: OrderFunctions.formatDate(
-          model.data?.data?.orderInfo?.orderDate?.toString() ?? "",
-        ),
-        subtitle: AppLanguageKeys.youHaveOrderUpdate,
+        title: title,
+        subtitle: subtitle,
         onView: () async {
           _navigationService.openDashboardOrders();
         },

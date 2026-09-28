@@ -60,6 +60,9 @@ class ChatDetailsCubit
     selectedToUserType =
         toUserType;
 
+    ChatEvents.instance.activeChatUserId = toUserId;
+    ChatEvents.instance.activeChatUserType = toUserType;
+
     emit(
       ChatDetailsLoading(),
     );
@@ -744,7 +747,15 @@ class ChatDetailsCubit
 
     } catch (_) {
 
-      return null;
+      try {
+        return DateFormat(
+          'yyyy-MM-dd HH:mm:ss',
+        ).parse(
+          date,
+        );
+      } catch (_) {
+        return null;
+      }
     }
   }
 
@@ -767,7 +778,10 @@ class ChatDetailsCubit
 
   @override
   Future<void> close() {
-
+    if (ChatEvents.instance.activeChatUserId == selectedToUserId) {
+      ChatEvents.instance.activeChatUserId = null;
+      ChatEvents.instance.activeChatUserType = null;
+    }
     _subscription.cancel();
 
     return super.close();

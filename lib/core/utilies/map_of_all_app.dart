@@ -21,7 +21,7 @@ import 'package:sun_web_system/features/spare_parts/presentation/pages/spare_par
 import 'package:sun_web_system/features/store_page/presentation/bloc/branch_cubit/branch_cubit.dart';
 import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/facility_account/facility_account.dart';
 import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/general_widgets_in_store/provider_branches_dropdown.dart';
-import 'package:sun_web_system/features/technical_support/presentation/pages/technical_support_emp/technical_support_admin_sun.dart';
+import 'package:sun_web_system/features/technical_support/presentation/pages/provider_chat_page.dart';
 import 'package:sun_web_system/features/warranty/presentation/pages/view_all_warranty/view_all_warranty.dart';
 import '../../../features/accounts_management/presentation/pages/first_screen_accounts_management_admin_sun/first_screen_accounts_management_admin_sun.dart';
 import '../../../core/general_models/pages_model.dart';
@@ -366,7 +366,7 @@ void getPages(BuildContext context,  int branchId) {
         name: AppLanguageKeys.technicalSupport,
         image: AppImageKeys.users,
         number: PagesOfAllApp.technicalSupportPageNumber,
-        page: TechnicalSupportAdminSun()
+        page: ProviderChatPage()
     ),
     // const PageNodeModel(
     //     name: AppLanguageKeys.reviewsKey,

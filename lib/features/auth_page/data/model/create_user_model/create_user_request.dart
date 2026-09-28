@@ -204,6 +204,8 @@ class CreateUserRequest {
     if (fcmToken != null &&
         fcmToken!.isNotEmpty) {
       data["fcmtoken"] = fcmToken;
+      data["fcmToken"] = fcmToken;
+      data["FCMTOKEN"] = fcmToken;
     }
 
     if (defaultcarid != null) {

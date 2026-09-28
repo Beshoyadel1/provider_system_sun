@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
+import 'package:sun_web_system/core/services/fcm_service.dart';
 import 'package:sun_web_system/core/theming/auth_local_storage.dart';
 import 'package:sun_web_system/features/auth_page/data/datasource/send_verification_code_datasource/send_verification_code_datasource.dart';
 import 'package:sun_web_system/features/auth_page/data/datasource/update_user_datasource/update_user_repository.dart';
@@ -13,7 +15,6 @@ import 'package:sun_web_system/features/auth_page/data/request/check_if_user_exi
 import 'package:sun_web_system/features/auth_page/data/request/check_if_user_exist_request/check_if_user_exist_request.dart';
 import 'package:sun_web_system/features/auth_page/data/request/login_request/login_request.dart';
 import 'package:sun_web_system/features/auth_page/domain/validation/facility_validator_result.dart';
-import 'package:sun_web_system/features/notifications/data/datasource/signalr_datasource/signalr_service/signalr_service.dart';
 import '../../../data/datasource/check_if_user_exist_or_not_datasource/check_if_user_exist_or_not_repository.dart';
 import '../../../data/datasource/change_password_datasource/change_password_repository.dart';
 import '../../../data/datasource/check_if_user_exist_datasource/check_if_user_exist_repository.dart';
@@ -69,6 +70,9 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> init() async {
     emit(AuthLoading());
 
+    // Pre-fetch FCM token in the background so it is ready before user logs in
+    unawaited(FcmService.instance.getToken(vapidKey: FcmConfig.webVapidKey));
+
     final localUser = await AuthLocalStorage.getUser();
     final password = await AuthLocalStorage.getPassword();
 
@@ -77,11 +81,14 @@ class AuthCubit extends Cubit<AuthState> {
       return;
     }
 
+    final fcmToken = await FcmService.instance.getToken(vapidKey: FcmConfig.webVapidKey);
+
     final result = await loginFunction(
       loginRequest: LoginRequest(
         user: localUser.email!,
         password: password,
         type: UserType.providerUser,
+        fcmToken: fcmToken.isNotEmpty ? fcmToken : null,
       ),
     );
 
@@ -93,21 +100,17 @@ class AuthCubit extends Cubit<AuthState> {
 
     final apiUser = result.user!;
 
-    // Local user must be exactly the same as API user
-    // if (!localUser.isSameData(apiUser)) {
-    //   print("INIT => Local user != API user");
-    //
-    //   await _forceLogout();
-    //   return;
-    // }
-
     print("INIT => Local user == API user");
 
-    // Connect SignalR
-    if (!SignalRService.instance.isConnected) {
-      await SignalRService.instance.connect(
-        hubUrl: ApiLink.notificationHub,
+    // Initialize FCM and sync token with backend
+    try {
+      await FcmService.instance.init();
+      await FcmService.instance.syncCurrentToken(
+        userId: apiUser.userid,
+        userType: apiUser.type,
       );
+    } catch (e) {
+      debugPrint("FCM Init Note: $e");
     }
 
     // Check facility completion
@@ -118,7 +121,9 @@ class AuthCubit extends Cubit<AuthState> {
     await AuthLocalStorage.clearUser();
     await AuthLocalStorage.clearPassword();
 
-    await SignalRService.instance.disconnect();
+    try {
+      await FcmService.instance.disconnect();
+    } catch (_) {}
 
     emit(AuthUnauthenticated());
   }
@@ -126,8 +131,27 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> login(LoginRequest request) async {
     emit(AuthLoginLoading());
 
+    // Retrieve or confirm current FCM token before login API call
+    final fcmToken = await FcmService.instance.getToken(vapidKey: FcmConfig.webVapidKey);
+    final String? tokenToSend = fcmToken.isNotEmpty
+        ? fcmToken
+        : ((request.fcmToken != null && request.fcmToken!.isNotEmpty)
+            ? request.fcmToken
+            : null);
+
+    final effectiveRequest = LoginRequest(
+      user: request.user,
+      password: request.password,
+      type: request.type,
+      fcmToken: tokenToSend,
+    );
+
+    if (kDebugMode) {
+      print("AuthCubit: Login called with FCM Token => $tokenToSend");
+    }
+
     final result = await loginFunction(
-      loginRequest: request,
+      loginRequest: effectiveRequest,
     );
 
     if (!result.success || result.user == null) {
@@ -144,12 +168,17 @@ class AuthCubit extends Cubit<AuthState> {
     // First login → save API user
     await AuthLocalStorage.saveUser(apiUser);
     // Save password for auto-login after restart
-    await AuthLocalStorage.savePassword(request.password);
+    await AuthLocalStorage.savePassword(effectiveRequest.password);
 
-    if (!SignalRService.instance.isConnected) {
-      await SignalRService.instance.connect(
-        hubUrl: ApiLink.notificationHub,
+    // Initialize FCM and sync token with backend
+    try {
+      await FcmService.instance.init();
+      await FcmService.instance.syncCurrentToken(
+        userId: apiUser.userid,
+        userType: apiUser.type,
       );
+    } catch (e) {
+      debugPrint("FCM Init Note: $e");
     }
 
     emit(

@@ -1,7 +1,4 @@
 import 'package:flutter/foundation.dart';
-import '../../../../../../core/cubit/app_cubit/app_cubit.dart';
-import '../../../../../../core/utilies/map_of_all_app.dart';
-import '../../../../../../main.dart';
 import '../../../../../../core/language/language_constant.dart';
 import '../../../../../../features/internal_services/presentation/cubit/order_funcations/order_functions.dart';
 import '../../../../../../features/notifications/data/datasource/parsers/new_order_parser/new_order_parser.dart';
@@ -29,25 +26,31 @@ class NewOrderHandler {
         return;
       }
 
-      if (!await model.data!.orderInfo!.canView()) {
+      if (model.data?.orderInfo != null && !await model.data!.orderInfo!.canView()) {
         return;
       }
-      // final context = navigatorKey.currentContext;
-      //
-      // if (context != null) {
-      //   final appCubit = AppCubit.get(context);
-      //
-      //   if (appCubit.selectedPageIndex ==
-      //       PagesOfAllApp.dashboardPageNumber) {
-      //     return;
-      //   }
-      // }
+
+      final rawOrderId = model.data?.orderId ?? model.data?.orderInfo?.id;
+      final orderId = int.tryParse(rawOrderId?.toString() ?? '') ?? 0;
+      final title = orderId > 0
+          ? "طلب جديد #$orderId"
+          : (model.title?.isNotEmpty == true
+              ? model.title!
+              : AppLanguageKeys.newOrders);
+
+      final dateStr = OrderFunctions.formatDate(
+        model.data?.orderInfo?.orderDate?.toString(),
+      );
+
+      final subtitle = model.body?.isNotEmpty == true
+          ? model.body!
+          : (dateStr.isNotEmpty
+              ? "${AppLanguageKeys.newOrders} • $dateStr"
+              : AppLanguageKeys.newOrders);
+
       await _dialogService.show(
-        title:
-        OrderFunctions.formatDate(
-          model.data?.orderInfo?.orderDate?.toString() ?? "",
-        ),
-        subtitle: AppLanguageKeys.newOrders,
+        title: title,
+        subtitle: subtitle,
         onView: () async {
           _navigationService.openDashboardOrders();
         },

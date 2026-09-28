@@ -5,17 +5,17 @@ import '../../../../../../features/notifications/presentation/services/notificat
 import '../../../../../../main.dart';
 
 class NotificationDialogService {
-  BuildContext get context => navigatorKey.currentContext!;
+  BuildContext? get context => navigatorKey.currentContext;
 
   NotificationDialogService({
     NotificationAudioService? audioService,
     NotificationNavigationService? navigationService,
   })  : _audio = audioService ?? const NotificationAudioService(),
-        _navigation =
+        navigation =
             navigationService ?? const NotificationNavigationService();
 
   final NotificationAudioService _audio;
-  final NotificationNavigationService _navigation;
+  final NotificationNavigationService navigation;
 
   bool _isShowing = false;
 
@@ -26,19 +26,16 @@ class NotificationDialogService {
     required String subtitle,
     required Future<void> Function() onView,
   }) async {
-    final context = navigatorKey.currentContext;
+    final navContext = navigatorKey.currentContext;
 
-    if (context == null) {
+    if (navContext == null || !navContext.mounted) {
       return;
     }
 
     await _audio.play();
 
     if (_isShowing) {
-      Navigator.of(
-        context,
-        rootNavigator: true,
-      ).pop();
+      navigatorKey.currentState?.pop();
 
       _isShowing = false;
 
@@ -47,10 +44,15 @@ class NotificationDialogService {
       );
     }
 
+    final activeContext = navigatorKey.currentContext;
+    if (activeContext == null || !activeContext.mounted) {
+      return;
+    }
+
     _isShowing = true;
 
     await NotificationDialogHelper.show(
-      context: context,
+      context: activeContext,
       title: title,
       subTitle: subtitle,
       onClose: () async {
@@ -58,17 +60,14 @@ class NotificationDialogService {
 
         _isShowing = false;
 
-        Navigator.pop(context);
+        navigatorKey.currentState?.pop();
       },
       onView: () async {
         await _audio.stop();
 
         _isShowing = false;
 
-        Navigator.of(
-          context,
-          rootNavigator: true,
-        ).pop();
+        navigatorKey.currentState?.pop();
 
         // استدعاء الـ Action القادم من الـ Handler
         await onView();

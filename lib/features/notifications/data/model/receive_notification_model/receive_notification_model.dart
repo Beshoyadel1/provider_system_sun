@@ -29,18 +29,54 @@ class ReceiveNotificationModel {
   });
 
   factory ReceiveNotificationModel.fromJson(Map<String, dynamic> json) {
+    final map = <String, dynamic>{};
+    json.forEach((key, value) {
+      map[key.toString().toLowerCase()] = value;
+    });
+
+    int parseInt(dynamic value, {int defaultValue = 0}) {
+      if (value == null) return defaultValue;
+      if (value is num) return value.toInt();
+      return int.tryParse(value.toString()) ?? defaultValue;
+    }
+
+    bool parseBool(dynamic value, {bool defaultValue = false}) {
+      if (value == null) return defaultValue;
+      if (value is bool) return value;
+      final str = value.toString().toLowerCase().trim();
+      return str == 'true' || str == '1';
+    }
+
+    DateTime parseDate(dynamic value) {
+      if (value == null) return DateTime.now();
+      if (value is DateTime) return value;
+      return DateTime.tryParse(value.toString()) ?? DateTime.now();
+    }
+
+    final id = parseInt(map["id"] ?? map["notificationid"]);
+    final title = (map["title"] ?? map["latintitle"] ?? map["ar_title"] ?? "").toString();
+    final latinTitle = (map["latintitle"] ?? map["title"] ?? map["en_title"] ?? "").toString();
+    final description = (map["description"] ?? map["body"] ?? map["message"] ?? map["latindesc"] ?? "").toString();
+    final latinDesc = (map["latindesc"] ?? map["body"] ?? map["message"] ?? map["description"] ?? "").toString();
+    final toUserId = parseInt(map["touserid"] ?? map["userid"]);
+    final toUserType = parseInt(map["tousertype"] ?? map["usertype"]);
+    final fromUserId = parseInt(map["fromuserid"]);
+    final fromUserType = parseInt(map["fromusertype"]);
+    final isViewed = parseBool(map["isviewed"]);
+    final date = parseDate(map["date"] ?? map["timestamp"] ?? map["createdat"]);
+
     return ReceiveNotificationModel(
-      id: json["ID"] ?? 0,
-      title: json["TITLE"] ?? "",
-      latinTitle: json["LATINTITLE"] ?? "",
-      description: json["DESCRIPTION"] ?? "",
-      latinDesc: json["LATINDESC"] ?? "",
-      toUserId: json["TOUSERID"] ?? 0,
-      toUserType: json["TOUSERTYPE"] ?? 0,
-      fromUserId: json["FROMUSERID"] ?? 0,
-      fromUserType: json["FROMUSERTYPE"] ?? 0,
-      isViewed: json["ISVIEWED"] ?? false,
-      date: DateTime.tryParse(json["DATE"] ?? "") ?? DateTime.now(),
+      id: id,
+      title: title,
+      latinTitle: latinTitle,
+      description: description,
+      latinDesc: latinDesc,
+      toUserId: toUserId,
+      toUserType: toUserType,
+      fromUserId: fromUserId,
+      fromUserType: fromUserType,
+      isViewed: isViewed,
+      date: date,
     );
   }
 

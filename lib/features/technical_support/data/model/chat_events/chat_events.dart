@@ -7,6 +7,9 @@ class ChatEvents {
   static final ChatEvents instance =
   ChatEvents._();
 
+  int? activeChatUserId;
+  int? activeChatUserType;
+
   final StreamController<ReceiveMessageData>
   _controller =
   StreamController<ReceiveMessageData>.broadcast();
@@ -21,6 +24,8 @@ class ChatEvents {
   }
 
   Future<void> dispose() async {
+    activeChatUserId = null;
+    activeChatUserType = null;
     await _controller.close();
   }
 }

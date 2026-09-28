@@ -78,6 +78,12 @@ class ApiLink {
 
   static const String getUserNewNotification =
       "${ApiConfig.baseUrlApi}/${ApiConfig.notification}/GetUserNewNotification";
+  static const String subscribeToTopic =
+      "${ApiConfig.baseUrlApi}/${ApiConfig.notification}/SubscribeToTopic";
+  static const String unsubscribeFromTopic =
+      "${ApiConfig.baseUrlApi}/${ApiConfig.notification}/UnsubscribeFromTopic";
+  static const String updateFcmToken =
+      "${ApiConfig.baseUrlApi}/${ApiConfig.user}/UpdateFcmToken";
   //User
   static const String loginUser =
       "${ApiConfig.baseUrlApi}/${ApiConfig.user}/LogInUser";
@@ -118,8 +124,8 @@ class ApiLink {
       "${ApiConfig.baseUrlApi}/${ApiConfig.chat}/GetChatMessages";
   static const String getUserChats =
       "${ApiConfig.baseUrlApi}/${ApiConfig.chat}/GetUserChats";
-  static const String getUserProviderMessages =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.chat}/GetUserProviderMessages";
+  static const String getOrderChat =
+      "${ApiConfig.baseUrlApi}/${ApiConfig.chat}/GetOrderChat";
   static const String getWorkTeamChat =
       "${ApiConfig.baseUrlApi}/${ApiConfig.chat}/GetWorkTeamChat";
   static const String makeChatViewed =
@@ -369,6 +375,14 @@ class ApiLink {
       "${ApiConfig.baseUrlApi}/${ApiConfig.coupon}/GetStaticsForCoupon";
   static const String uploadCoupon =
       "${ApiConfig.baseUrlApi}/${ApiConfig.coupon}/UploadCoupon";
+}
+
+class FcmConfig {
+  static const String webVapidKey = String.fromEnvironment(
+    'FCM_WEB_VAPID_KEY',
+    defaultValue:
+        'BG3cqTKmSY0BSiXdMxTcitn7rNvFWiQMrevN0TM1_N6h6DBduRg9XGsrIwDVrUDn-E89Itt0GDBBfRyf3YL_dSU',
+  );
 }
 
 class NotificationTopic {

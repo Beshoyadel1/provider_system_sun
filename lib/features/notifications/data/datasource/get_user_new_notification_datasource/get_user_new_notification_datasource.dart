@@ -15,8 +15,22 @@ Future<NotificationModel> getUserNewNotificationFunction({
       ApiLink.getUserNewNotification,
     );
 
+    final raw = response.data;
+    if (raw is List) {
+      if (raw.isEmpty) {
+        return NotificationModel();
+      }
+      return NotificationModel.fromJson(Map<String, dynamic>.from(raw.last));
+    }
+    if (raw is Map && raw['data'] is List) {
+      final list = raw['data'] as List;
+      if (list.isEmpty) {
+        return NotificationModel();
+      }
+      return NotificationModel.fromJson(Map<String, dynamic>.from(list.last));
+    }
     return NotificationModel.fromJson(
-      response.data,
+      Map<String, dynamic>.from(response.data ?? {}),
     );
   } catch (e) {
     throw Exception(

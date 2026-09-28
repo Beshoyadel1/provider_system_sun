@@ -46,20 +46,38 @@ class ReceiveMessageNotificationModel {
   factory ReceiveMessageNotificationModel.fromJson(
       Map<String, dynamic> json,
       ) {
+    Map<String, dynamic> bodyData = {};
+    if (json["data"] is Map) {
+      bodyData = Map<String, dynamic>.from(json["data"]);
+    } else if (json["data"] is String) {
+      try {
+        bodyData = Map<String, dynamic>.from(jsonDecode(json["data"]));
+      } catch (_) {}
+    }
+
+    final Map<String, dynamic> innerData = (bodyData["data"] is Map)
+        ? Map<String, dynamic>.from(bodyData["data"])
+        : (bodyData.isNotEmpty ? bodyData : json);
+
+    final toUserId = _parseInt(
+      json['toUserId'] ?? json['TOUSERID'] ?? innerData['toUserId'] ?? innerData['toUser'] ?? innerData['touser'],
+    );
+    final toUserType = _parseInt(
+      json['toUserType'] ?? json['TOUSERTYPE'] ?? innerData['toUserType'] ?? innerData['tousertype'],
+    );
+
     return ReceiveMessageNotificationModel(
-      userId: _parseInt(
-        json['userId'],
+      userId: toUserId ?? _parseInt(
+        json['userId'] ?? json['USERID'] ?? innerData['userId'],
       ),
-      userType: _parseInt(
-        json['userType'],
+      userType: toUserType ?? _parseInt(
+        json['userType'] ?? json['USERTYPE'] ?? innerData['userType'],
       ),
-      data: json['data'] is Map
-          ? ReceiveMessageNotificationData.fromJson(
-        Map<String, dynamic>.from(
-          json['data'] as Map,
-        ),
-      )
-          : null,
+      data: ReceiveMessageNotificationData(
+        title: (bodyData['title'] ?? json['title'] ?? "").toString(),
+        body: (bodyData['body'] ?? json['body'] ?? "").toString(),
+        data: ReceiveMessageData.fromJson(innerData),
+      ),
     );
   }
 
@@ -72,16 +90,15 @@ class ReceiveMessageNotificationModel {
     await AuthLocalStorage.getUser();
 
     if (currentUser == null) {
-
       return false;
     }
-
 
     // ========================================================
     // USER TYPE
     // ========================================================
 
     if (userType != null &&
+        userType != 0 &&
         userType != currentUser.type) {
       debugPrint(
         '❌ UserType Not Match',
@@ -90,14 +107,11 @@ class ReceiveMessageNotificationModel {
       return false;
     }
 
-
     if (userId != null &&
         userId != 0 &&
         userId != currentUser.userid) {
-
       return false;
     }
-
 
     return true;
   }

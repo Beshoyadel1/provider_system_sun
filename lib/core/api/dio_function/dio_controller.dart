@@ -126,4 +126,13 @@ class Network {
       options: Options(headers: myHeaders),
     );
   }
+
+  static Future<Response> postDataWithQuery(
+      Map<String, dynamic> jsonQuery, String url) async {
+    return await dio.post(
+      url,
+      queryParameters: jsonQuery,
+      options: Options(headers: myHeaders),
+    );
+  }
 }

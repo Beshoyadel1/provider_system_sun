@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../../features/internal_services/presentation/pages/internal_orders/custom_widget/text_empty_view_data.dart';
 import '../../../../../../../features/technical_support/presentation/bloc/work_team_cubit/work_team_cubit.dart';
 import '../../../../../../../features/technical_support/presentation/bloc/work_team_cubit/work_team_state.dart';
+import '../../../../../../../features/technical_support/presentation/bloc/chat_details_cubit/chat_details_cubit.dart';
 import '../../../../../../../features/technical_support/presentation/custom_widget/row_member_team_work_widget.dart';
 
 class ListTeamWorkViewAdminSun extends StatelessWidget {
@@ -43,13 +44,21 @@ class ListTeamWorkViewAdminSun extends StatelessWidget {
                 final user = users[index];
 
                 return RowMemberTeamWorkWidget(
-                  imageBytes:user.image,
+                  imageBytes: user.image,
                   subTitle: user.getJobName(context).isNotEmpty
                       ? user.getJobName(context)
                       : "User@gmail.com",
                   title: user.getName(context).isNotEmpty
                       ? user.getName(context)
                       : "User",
+                  onTap: () {
+                    if (user.userId > 0) {
+                      context.read<ChatDetailsCubit>().loadChat(
+                        toUserId: user.userId,
+                        toUserType: user.userType,
+                      );
+                    }
+                  },
                 );
               },
             ),

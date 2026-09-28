@@ -16,10 +16,10 @@ Future<LoginResult> loginFunction({
 
   try {
 
-    final response = await Network.postDataWithBody(
-      json.encode(
-        loginRequest.toJson(),
-      ),
+    final payload = loginRequest.toJson();
+    final response = await Network.postDataWithBodyAndParams(
+      json.encode(payload),
+      payload,
       ApiLink.loginUser,
     );
 

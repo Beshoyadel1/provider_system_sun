@@ -2,11 +2,6 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'message_item_model.dart';
 
-import 'dart:convert';
-import 'dart:typed_data';
-
-import 'message_item_model.dart';
-
 class ChatDetailsModel {
   final int? toUser;
   final int? toUserType;
@@ -22,45 +17,44 @@ class ChatDetailsModel {
     this.messages,
   });
 
-  factory ChatDetailsModel.fromJson(
-      Map<String, dynamic> json,
-      ) {
+  factory ChatDetailsModel.fromJson(Map<String, dynamic> json) {
+    final map = <String, dynamic>{};
+    json.forEach((k, v) => map[k.toString().toLowerCase()] = v);
+
     Uint8List? parsedImage;
-
-    final imageString = json['image']?.toString();
-
-    if (imageString != null &&
-        imageString.isNotEmpty) {
+    final imageRaw = map['image'];
+    if (imageRaw is Uint8List) {
+      parsedImage = imageRaw;
+    } else if (imageRaw is List) {
       try {
-        parsedImage = base64Decode(imageString);
-      } catch (_) {
-        parsedImage = null;
-      }
+        parsedImage = Uint8List.fromList(imageRaw.cast<int>());
+      } catch (_) {}
+    } else if (imageRaw != null && imageRaw.toString().trim().isNotEmpty) {
+      try {
+        parsedImage = base64Decode(imageRaw.toString().trim());
+      } catch (_) {}
     }
 
-    final rawMessages = json['messages'];
+    final rawMessages = map['messages'];
 
     return ChatDetailsModel(
-      toUser: _toInt(json['touser']),
-      toUserType: _toInt(json['tousertype']),
-      userName: json['userName']?.toString() ?? '',
+      toUser: _toInt(map['touser'] ?? map['userid']),
+      toUserType: _toInt(map['tousertype'] ?? map['usertype']),
+      userName: (map['username'] ?? map['name'] ?? '').toString(),
       image: parsedImage,
       messages: rawMessages is List
           ? rawMessages
-          .whereType<Map<String, dynamic>>()
-          .map(
-        MessageItemModel.fromJson,
-      )
-          .toList()
+              .whereType<Map>()
+              .map((e) => MessageItemModel.fromJson(Map<String, dynamic>.from(e)))
+              .toList()
           : <MessageItemModel>[],
     );
   }
 
   static int? _toInt(dynamic value) {
+    if (value == null) return null;
     if (value is int) return value;
-
-    return int.tryParse(
-      value?.toString() ?? '',
-    );
+    if (value is num) return value.toInt();
+    return int.tryParse(value.toString());
   }
 }
