@@ -10,4 +10,8 @@ class NotificationAudioService {
   Future<void> stop() async {
     await AudioService.instance.stopNotificationSound();
   }
+
+  Future<void> playOnce() async {
+    await AudioService.instance.playNotificationOnce();
+  }
 }

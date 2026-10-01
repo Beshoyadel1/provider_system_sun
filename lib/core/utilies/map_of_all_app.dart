@@ -23,6 +23,7 @@ import 'package:sun_web_system/features/store_page/presentation/pages/store_widg
 import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/general_widgets_in_store/provider_branches_dropdown.dart';
 import 'package:sun_web_system/features/technical_support/presentation/pages/technical_support_emp/technical_support_admin_sun.dart';
 import 'package:sun_web_system/features/warranty/presentation/pages/view_all_warranty/view_all_warranty.dart';
+import 'package:sun_web_system/features/service_requests/presentation/pages/service_requests_page.dart';
 import '../../../features/accounts_management/presentation/pages/first_screen_accounts_management_admin_sun/first_screen_accounts_management_admin_sun.dart';
 import '../../../core/general_models/pages_model.dart';
 import '../../features/dashboard_page/presentation/dashboard_page.dart';
@@ -226,14 +227,14 @@ class PagesOfAllApp {
   static const int oilChangeServiceStaticsPageNumber = 533;
   static const int viewEmployeesPageNumber = 534;
   static const int viewAllWarrantyNumber = 535;
-
+  static const int serviceRequestsPageNumber = 536;
 }
 
 List<PageNodeModel> appPages = [];
 
 final services = getIt<ServiceSettingsCubit>().allMainServices;
 
-void getPages(BuildContext context,  int branchId) {
+void getPages(BuildContext context, int branchId) {
   final services = getIt<ServiceSettingsCubit>().allMainServices;
 
   appPages.clear();
@@ -243,7 +244,6 @@ void getPages(BuildContext context,  int branchId) {
       number: PagesOfAllApp.branchPageNumber,
       page: ProviderBranchesDropdown(),
     ),
-
 
     const PageNodeModel(
       name: AppLanguageKeys.dashBoardPageKey,
@@ -271,14 +271,18 @@ void getPages(BuildContext context,  int branchId) {
     ),
 
     ...services.map(
-          (service) {
-            final serviceId = service.id ?? 0;
+      (service) {
+        final serviceId = service.id ?? 0;
+        final arabicName = (service.name ?? '').trim();
+        final latinName = (service.latinName ?? '').trim().toLowerCase();
+        final isMobileAndTransport = (arabicName.contains('المتنقلة') &&
+                arabicName.contains('النقل')) ||
+            (latinName.contains('mobile') && latinName.contains('transport'));
         return PageNodeModel(
           name: service.getName(context),
           imageUint8List: service.image,
           number: service.id ?? 0,
           children: [
-
             if (serviceId != 4)
               PageNodeModel(
                 name: AppLanguageKeys.statistics,
@@ -291,7 +295,6 @@ void getPages(BuildContext context,  int branchId) {
                   branchId: branchId,
                 ),
               ),
-
             PageNodeModel(
               name: AppLanguageKeys.ordersSectionKey,
               number: serviceId + 10,
@@ -303,11 +306,16 @@ void getPages(BuildContext context,  int branchId) {
                 branchId: branchId,
               ),
             ),
+            if (isMobileAndTransport)
+              const PageNodeModel(
+                name: AppLanguageKeys.serviceRequests,
+                number: PagesOfAllApp.serviceRequestsPageNumber,
+                page: ServiceRequestsPage(),
+              ),
           ],
         );
       },
     ),
-
 
     // const PageNodeModel(
     //     name: AppLanguageKeys.oilChange,
@@ -357,17 +365,16 @@ void getPages(BuildContext context,  int branchId) {
         ]),
 
     const PageNodeModel(
-        name: AppLanguageKeys.accountManagementKey,
-        image: AppImageKeys.wallet,
-        number: PagesOfAllApp.walletPageNumber,
+      name: AppLanguageKeys.accountManagementKey,
+      image: AppImageKeys.wallet,
+      number: PagesOfAllApp.walletPageNumber,
       page: FirstScreenAccountsManagementAdminSun(),
     ),
     const PageNodeModel(
         name: AppLanguageKeys.technicalSupport,
         image: AppImageKeys.users,
         number: PagesOfAllApp.technicalSupportPageNumber,
-        page: TechnicalSupportAdminSun()
-    ),
+        page: TechnicalSupportAdminSun()),
     // const PageNodeModel(
     //     name: AppLanguageKeys.reviewsKey,
     //     image: AppImageKeys.star,

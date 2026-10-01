@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sun_web_system/core/utilies/map_of_all_app.dart';
 import 'package:sun_web_system/features/logout_dashboard/presentation/first_screen_logout_dashboard/logout_dashboard.dart';
@@ -10,7 +11,9 @@ import 'general_widgets_in_store/function_add_to_opened_pages.dart';
 import '../../../../../core/theming/colors.dart';
 import '../../../../../core/theming/fonts.dart';
 import '../../../../../core/theming/text_styles.dart';
-
+import '../../../../../core/setup_git_it.dart';
+import '../../../../service_requests/presentation/cubit/service_requests_cubit.dart';
+import '../../../../service_requests/presentation/cubit/service_requests_state.dart';
 
 class ColumnOfPagesWidget extends StatelessWidget {
   const ColumnOfPagesWidget({
@@ -85,8 +88,7 @@ class ColumnOfPagesWidget extends StatelessWidget {
         // Normal Page
         // ============================
 
-        final keyForUpdate =
-            '${appCubit.selectedPageIndex}'
+        final keyForUpdate = '${appCubit.selectedPageIndex}'
             '${appCubit.selectedPageFromOpenedPagesIndex}';
 
         final prefs = await SharedPreferences.getInstance();
@@ -112,6 +114,10 @@ class ColumnOfPagesWidget extends StatelessWidget {
 
         appCubit.changeSelectedPageIndex();
 
+        if (pageNode.number == PagesOfAllApp.serviceRequestsPageNumber) {
+          getIt<ServiceRequestsCubit>().markSeen();
+        }
+
         appCubit.data.clear();
 
         if (isMobile && context.mounted) {
@@ -133,8 +139,8 @@ class ColumnOfPagesWidget extends StatelessWidget {
           color: pageNode.number == appCubit.selectedPageIndex
               ? AppColors.whiteColor
               : pageNode.image == null
-              ? AppColors.veryLightOrangeColor.withAlpha(100)
-              : AppColors.orangeColor,
+                  ? AppColors.veryLightOrangeColor.withAlpha(100)
+                  : AppColors.orangeColor,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -142,49 +148,71 @@ class ColumnOfPagesWidget extends StatelessWidget {
           children: [
             Center(
               child: Padding(
-                padding:
-                const EdgeInsets.symmetric(horizontal: 8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   spacing: 5,
                   children: [
-                    if (pageNode.image != null &&
-                        pageNode.image!.isNotEmpty)
+                    if (pageNode.image != null && pageNode.image!.isNotEmpty)
                       Image.asset(
                         pageNode.image!,
-                        color: pageNode.number ==
-                            appCubit.selectedPageIndex
+                        color: pageNode.number == appCubit.selectedPageIndex
                             ? AppColors.orangeColor
                             : AppColors.whiteColor,
                         height: 18,
                         width: 18,
                       ),
-
                     if (pageNode.imageUint8List != null &&
                         pageNode.imageUint8List!.isNotEmpty)
                       Image.memory(
                         pageNode.imageUint8List!,
-                        color: pageNode.number ==
-                            appCubit.selectedPageIndex
+                        color: pageNode.number == appCubit.selectedPageIndex
                             ? AppColors.orangeColor
                             : AppColors.whiteColor,
                         height: 18,
                         width: 18,
                       ),
-
                     Expanded(
                       child: TextInAppWidget(
                         text: pageNode.name,
                         textSize: 14,
-                        textColor: pageNode.number ==
-                            appCubit.selectedPageIndex
+                        textColor: pageNode.number == appCubit.selectedPageIndex
                             ? AppColors.orangeColor
                             : AppColors.whiteColor,
-                        fontWeightIndex:
-                        FontSelectionData.regularFontFamily,
+                        fontWeightIndex: FontSelectionData.regularFontFamily,
                       ),
                     ),
+                    if (pageNode.number ==
+                        PagesOfAllApp.serviceRequestsPageNumber)
+                      BlocBuilder<ServiceRequestsCubit, ServiceRequestsState>(
+                        bloc: getIt<ServiceRequestsCubit>(),
+                        builder: (context, state) {
+                          final count =
+                              getIt<ServiceRequestsCubit>().unreadCount;
+                          if (count == 0) return const SizedBox.shrink();
+                          return Container(
+                            constraints: const BoxConstraints(minWidth: 20),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 6,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors.darkColor,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Text(
+                              count > 99 ? '99+' : '$count',
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                color: AppColors.whiteColor,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
                   ],
                 ),
               ),

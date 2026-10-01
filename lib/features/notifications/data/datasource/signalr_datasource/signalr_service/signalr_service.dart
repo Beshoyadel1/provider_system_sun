@@ -49,50 +49,44 @@ class SignalRService {
   }
 
   Future<void> _handleReceiveNotification(
-      List<Object?>? args,
-      ) {
-    return NotificationModule.instance
-        .receiveNotificationHandler
-        .handle(args);
+    List<Object?>? args,
+  ) {
+    return NotificationModule.instance.receiveNotificationHandler.handle(args);
   }
 
   Future<void> _handleReceiveMessage(
-      List<Object?>? args,
-      ) {
-    return NotificationModule.instance
-        .receiveMessageHandler
-        .handle(args);
+    List<Object?>? args,
+  ) {
+    return NotificationModule.instance.receiveMessageHandler.handle(args);
   }
 
   Future<void> _handleNewOrder(
-      List<Object?>? args,
-      ) {
-    return NotificationModule.instance
-        .newOrderHandler
-        .handle(args);
+    List<Object?>? args,
+  ) {
+    return NotificationModule.instance.newOrderHandler.handle(args);
   }
 
   Future<void> _handleUpdateOrderStatus(
-      List<Object?>? args,
-      ) {
-    return NotificationModule.instance
-        .updateOrderStatusHandler
-        .handle(args);
+    List<Object?>? args,
+  ) {
+    return NotificationModule.instance.updateOrderStatusHandler.handle(args);
   }
 
-  void _handleNewServiceRequest(
-      List<Object?>? args,
-      ) {}
+  Future<void> _handleNewServiceRequest(
+    List<Object?>? args,
+  ) {
+    return NotificationModule.instance.newServiceRequestHandler.handle(args);
+  }
 
   void _handleNewServiceOffer(
-      List<Object?>? args,
-      ) {}
+    List<Object?>? args,
+  ) {}
 
   void _handleTransferCarOwnership(
-      List<Object?>? args,
-      ) {}
+    List<Object?>? args,
+  ) {}
 
   void _handleOpenCloseChat(
-      List<Object?>? args,
-      ) {}
+    List<Object?>? args,
+  ) {}
 }

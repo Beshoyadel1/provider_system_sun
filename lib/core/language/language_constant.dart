@@ -975,6 +975,7 @@ class AppLanguageKeys {
   static const String internalServices = 'internalServices';
   static const String addServices = 'addServices';
   static const String mobileAndTransportServices = 'mobileAndTransportServices';
+  static const String serviceRequests = 'serviceRequests';
   static const String carSpareParts = 'carSpareParts';
   static const String sharedPackages = 'sharedPackages';
   static const String serviceSettings = 'serviceSettings';

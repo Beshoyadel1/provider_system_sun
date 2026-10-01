@@ -9,60 +9,60 @@ import '../../../../../../features/notifications/presentation/handlers/new_order
 import '../../../../../../features/notifications/presentation/handlers/receive_notification_handler/receive_notification_handler.dart';
 import '../../../../../../features/notifications/presentation/services/dialog_service/dialog_service.dart';
 import '../../../../../../features/notifications/presentation/services/navigation_service/navigation_service.dart';
+import '../../../../../../features/notifications/data/datasource/parsers/new_service_request_parser/new_service_request_parser.dart';
+import '../../../../../../features/notifications/presentation/handlers/new_service_request_handler/new_service_request_handler.dart';
 
 class NotificationModule {
   NotificationModule._();
   late final navigationService = const NotificationNavigationService();
 
-
   static final NotificationModule instance = NotificationModule._();
 
   /// Repository
   late final NotificationRepositoryImpl repository =
-  NotificationRepositoryImpl();
+      NotificationRepositoryImpl();
 
   /// Shared Services
   late final NotificationDialogService dialogService =
-  NotificationDialogService();
+      NotificationDialogService();
 
   /// Parsers
   late final ReceiveNotificationParser receiveNotificationParser =
-  ReceiveNotificationParser();
-
+      ReceiveNotificationParser();
 
   late final ReceiveNotificationHandler receiveNotificationHandler =
-  ReceiveNotificationHandler(
-      parser: receiveNotificationParser,
-      repository: repository,
-      dialogService: dialogService,
-      navigationService: navigationService
-  );
+      ReceiveNotificationHandler(
+          parser: receiveNotificationParser,
+          repository: repository,
+          dialogService: dialogService,
+          navigationService: navigationService);
 
   late final newOrderParser = NewOrderParser();
 
   late final newOrderHandler = NewOrderHandler(
       parser: newOrderParser,
       dialogService: dialogService,
-      navigationService:navigationService
-  );
+      navigationService: navigationService);
 
-  late final updateOrderStatusParser =
-  UpdateOrderStatusParser();
+  late final updateOrderStatusParser = UpdateOrderStatusParser();
 
-  late final updateOrderStatusHandler =
-  UpdateOrderStatusHandler(
+  late final updateOrderStatusHandler = UpdateOrderStatusHandler(
     parser: updateOrderStatusParser,
     dialogService: dialogService,
     navigationService: navigationService,
   );
 
-  late final receiveMessageParser =
-  ReceiveMessageParser();
+  late final receiveMessageParser = ReceiveMessageParser();
 
-  late final receiveMessageHandler =
-  ReceiveMessageHandler(
+  late final receiveMessageHandler = ReceiveMessageHandler(
     parser: receiveMessageParser,
     dialogService: dialogService,
     navigationService: navigationService,
+  );
+
+  late final newServiceRequestParser = const NewServiceRequestParser();
+
+  late final newServiceRequestHandler = NewServiceRequestHandler(
+    parser: newServiceRequestParser,
   );
 }
