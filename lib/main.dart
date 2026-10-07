@@ -39,7 +39,7 @@ void main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => NotificationCubit()..getUserNotification(),
+          create: (_) => getIt<NotificationCubit>(),
         ),
         BlocProvider<LanguageCubit>(
           create: (_) => getIt<LanguageCubit>()..getLanguageFromSharedPreference(),

@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/service_settings/presentation/pages/car_spare_parts_in_service_settings/screens/expansion_container_spare_parts_setting_widget.dart';
@@ -7,6 +6,10 @@ import 'package:sun_web_system/features/service_settings/presentation/bloc/creat
 import 'package:sun_web_system/features/service_settings/presentation/bloc/get_all_product_categories_cubit/get_all_product_categories_cubit.dart';
 import 'package:sun_web_system/features/service_settings/presentation/bloc/get_all_product_categories_cubit/get_all_product_categories_state.dart';
 import '../../../../../../features/service_settings/presentation/pages/added_maintenance_and_internal_services_in_service_settings/screens/icon_car_orange_text_of_added_maintenance_and_internal_services.dart';
+import 'package:sun_web_system/core/language/language_cubit/language_cubit.dart';
+import 'package:sun_web_system/features/store_page/presentation/bloc/branch_cubit/branch_cubit.dart';
+import 'package:sun_web_system/features/store_page/presentation/bloc/branch_cubit/branch_state.dart';
+import 'product_branch_filter.dart';
 
 class DataContainerInListDataCarSparePartsInServiceSettings
     extends StatelessWidget {
@@ -28,9 +31,11 @@ class DataContainerInListDataCarSparePartsInServiceSettings
             text: textServiceScreen,
             imageMemory: imageMemory,
           ),
-          BlocBuilder<GetAllProductCategoriesCubit, GetAllProductCategoriesState>(
+          const ProductBranchFilter(),
+          BlocBuilder<GetAllProductCategoriesCubit,
+              GetAllProductCategoriesState>(
             buildWhen: (previous, current) =>
-            current is GetAllProductCategoriesLoading ||
+                current is GetAllProductCategoriesLoading ||
                 current is GetAllProductCategoriesSuccess ||
                 current is GetAllProductCategoriesError,
             builder: (context, state) {
@@ -39,27 +44,46 @@ class DataContainerInListDataCarSparePartsInServiceSettings
               }
 
               if (state is GetAllProductCategoriesSuccess) {
-                return Column(
-                  children: List.generate(state.categories.length, (index) {
-                    final categories = state.categories[index];
+                return BlocBuilder<BranchCubit, BranchState>(
+                    builder: (context, branchState) {
+                  final branchId = context.read<BranchCubit>().selectedBranchId;
+                  return Column(
+                    children: List.generate(state.categories.length, (index) {
+                      final categories = state.categories[index];
 
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 15),
-                      child: ExpansionContainerSparePartsSettingWidget(
-                        imageMemory: categories.image,
-                        text: categories.getName(context),
-                        serviceId: categories.id!,
-                        categoryId: categories.id!,
-                        isDoneTask: true,
-                        onTap: () {
-                          context.read<CreateProvServiceCubit>().setService(
-                            id: categories.id!,
-                          );
-                        },
-                      ),
-                    );
-                  }),
-                );
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 15),
+                        child: ExpansionContainerSparePartsSettingWidget(
+                          key: ValueKey('products-${categories.id}-$branchId'),
+                          branchId: branchId == 0 ? null : branchId,
+                          imageMemory: categories.image,
+                          text: categories.getName(context),
+                          serviceId: categories.id!,
+                          categoryId: categories.id!,
+                          isDoneTask: true,
+                          onTap: () {
+                            context.read<CreateProvServiceCubit>().setService(
+                                  id: categories.id!,
+                                );
+                          },
+                        ),
+                      );
+                    }),
+                  );
+                });
+              }
+
+              if (state is GetAllProductCategoriesError) {
+                final ar = LanguageCubit.get(context).isAllAppLanguageArabic;
+                return Column(children: [
+                  Text(state.error),
+                  TextButton(
+                    onPressed: context
+                        .read<GetAllProductCategoriesCubit>()
+                        .getAllProductCategories,
+                    child: Text(ar ? 'إعادة المحاولة' : 'Retry'),
+                  ),
+                ]);
               }
 
               return const SizedBox();

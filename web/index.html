@@ -34,6 +34,31 @@
 </head>
 <body>
   <script>
+    const notificationClicks = [];
+    let notificationClickHandler = null;
+    function deliverNotificationClick(payload) {
+      const encoded = JSON.stringify(payload);
+      if (notificationClickHandler) notificationClickHandler(encoded);
+      else notificationClicks.push(encoded);
+    }
+    navigator.serviceWorker?.addEventListener('message', function (event) {
+      if (event.data?.type === 'SUN_NOTIFICATION_CLICK') {
+        deliverNotificationClick(event.data.payload);
+      }
+    });
+    const launchUrl = new URL(window.location.href);
+    const launchNotification = launchUrl.searchParams.get('notificationClick');
+    if (launchNotification) {
+      try { deliverNotificationClick(JSON.parse(launchNotification)); } catch (_) {}
+      launchUrl.searchParams.delete('notificationClick');
+      history.replaceState(history.state, '', launchUrl);
+    }
+    window.registerNotificationClickHandler = function (handler) {
+      notificationClickHandler = handler;
+      if (handler) {
+        while (notificationClicks.length) handler(notificationClicks.shift());
+      }
+    };
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function () {
         navigator.serviceWorker.register('/firebase-messaging-sw.js', { scope: '/' }).catch(function (error) {

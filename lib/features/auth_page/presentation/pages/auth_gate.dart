@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/core/services/fcm_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_cubit.dart';
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_state.dart';
@@ -38,6 +39,9 @@ class _AuthGateState extends State<AuthGate> {
 
 
         if (state is AuthAuthenticated) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) FcmService.instance.markUiReady();
+          });
           return const StorePage();
         }
 

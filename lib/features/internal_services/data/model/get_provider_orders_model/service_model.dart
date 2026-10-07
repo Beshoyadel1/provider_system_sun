@@ -1,5 +1,5 @@
-import 'dart:convert';
 import 'dart:typed_data';
+import 'package:sun_web_system/core/utilies/api_image.dart';
 
 class ServiceModel {
   final int? id;
@@ -23,7 +23,7 @@ class ServiceModel {
       parentId: json['parentid'] ?? 0,
       name: json['name'] ?? '',
       latinName: json['latinname'] ?? '',
-      image: json["image"] != null ? base64Decode(json["image"]) : null,
+      image: decodeApiImage(json['image']),
     );
   }
 }

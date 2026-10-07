@@ -101,6 +101,7 @@ class GetAllMessagesModel {
   }
 
   int unreadCount(int currentUserId, int currentUserType) {
+    if (unViewedMessagesCount > 0) return unViewedMessagesCount;
     if (messages != null && messages!.isNotEmpty) {
       return messages!
           .where((m) =>

@@ -104,10 +104,10 @@ class AuthCubit extends Cubit<AuthState> {
 
     // Initialize FCM and sync token with backend
     try {
-      await FcmService.instance.init();
-      await FcmService.instance.syncCurrentToken(
-        userId: apiUser.userid,
-        userType: apiUser.type,
+      await FcmService.instance.init(
+        userId: apiUser.userid ?? 0,
+        userType: apiUser.type ?? UserType.providerUser,
+        registeredToken: fcmToken,
       );
     } catch (e) {
       debugPrint("FCM Init Note: $e");
@@ -133,11 +133,7 @@ class AuthCubit extends Cubit<AuthState> {
 
     // Retrieve or confirm current FCM token before login API call
     final fcmToken = await FcmService.instance.getToken(vapidKey: FcmConfig.webVapidKey);
-    final String? tokenToSend = fcmToken.isNotEmpty
-        ? fcmToken
-        : ((request.fcmToken != null && request.fcmToken!.isNotEmpty)
-            ? request.fcmToken
-            : null);
+    final String? tokenToSend = fcmToken.isNotEmpty ? fcmToken : null;
 
     final effectiveRequest = LoginRequest(
       user: request.user,
@@ -172,10 +168,10 @@ class AuthCubit extends Cubit<AuthState> {
 
     // Initialize FCM and sync token with backend
     try {
-      await FcmService.instance.init();
-      await FcmService.instance.syncCurrentToken(
-        userId: apiUser.userid,
-        userType: apiUser.type,
+      await FcmService.instance.init(
+        userId: apiUser.userid ?? 0,
+        userType: apiUser.type ?? UserType.providerUser,
+        registeredToken: tokenToSend,
       );
     } catch (e) {
       debugPrint("FCM Init Note: $e");

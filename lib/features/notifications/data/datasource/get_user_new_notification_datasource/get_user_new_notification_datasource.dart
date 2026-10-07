@@ -5,7 +5,7 @@ import '../../../../../core/api/dio_function/api_constants.dart';
 import '../../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../../core/api/dio_function/failures.dart';
 
-Future<NotificationModel> getUserNewNotificationFunction({
+Future<List<NotificationModel>> getUserNewNotificationFunction({
   required GetUserNewNotificationRequest request,
 }) async {
   try {
@@ -16,22 +16,15 @@ Future<NotificationModel> getUserNewNotificationFunction({
     );
 
     final raw = response.data;
-    if (raw is List) {
-      if (raw.isEmpty) {
-        return NotificationModel();
-      }
-      return NotificationModel.fromJson(Map<String, dynamic>.from(raw.last));
+    if ((response.statusCode ?? 500) >= 400 ||
+        (raw is Map && (raw['success'] == false || raw['status'] == false))) {
+      throw Exception('Failed to load unread notifications');
     }
-    if (raw is Map && raw['data'] is List) {
-      final list = raw['data'] as List;
-      if (list.isEmpty) {
-        return NotificationModel();
-      }
-      return NotificationModel.fromJson(Map<String, dynamic>.from(list.last));
-    }
-    return NotificationModel.fromJson(
-      Map<String, dynamic>.from(response.data ?? {}),
-    );
+    final list = raw is List ? raw : (raw is Map ? raw['data'] : null);
+    return (list is List ? list : const [])
+        .whereType<Map>()
+        .map((item) => NotificationModel.fromJson(Map<String, dynamic>.from(item)))
+        .toList();
   } catch (e) {
     throw Exception(
       e is DioException

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:sun_web_system/core/utilies/api_image.dart';
 
 OrderDetailsModel orderModelFromJson(String str) => OrderDetailsModel.fromJson(json.decode(str));
 
@@ -44,17 +45,37 @@ class OrderDetailsModel {
   int? id;
   int? provid;
   double? lat;
-  int? totalprice;
+  num? totalprice;
   List<dynamic>? rates;
   int? usertype;
   List<Service>? services;
   List<Car>? cars;
   List<StatusHistory>? statusHistory;
-  int? taxamount;
+  num? taxamount;
   User? user;
   int? paymentmethod;
   ProviderInfo? providerInfo;
   int? status;
+
+  OrderDetailsModel applyNotificationPatch(Map<String, dynamic> patch) {
+    int? number(String key, int? fallback) => int.tryParse('${patch[key]}') ?? fallback;
+    double? decimal(String key, double? fallback) => double.tryParse('${patch[key]}') ?? fallback;
+    return OrderDetailsModel(
+      id: id, status: number('status', status),
+      date: DateTime.tryParse('${patch['date']}') ?? date,
+      branchid: number('branchid', branchid),
+      notes: patch['notes']?.toString() ?? notes,
+      appointment: DateTime.tryParse('${patch['appointment']}') ?? appointment,
+      nationaladdress: patch['nationaladdress']?.toString() ?? nationaladdress,
+      userid: number('userid', userid), usertype: number('usertype', usertype),
+      provid: number('provid', provid), lat: decimal('lat', lat), long: decimal('long', long),
+      totalprice: num.tryParse('${patch['totalprice']}') ?? totalprice,
+      taxamount: num.tryParse('${patch['taxamount']}') ?? taxamount,
+      offer: offer, employeeInfos: employeeInfos, rates: rates, services: services,
+      cars: cars, statusHistory: statusHistory, user: user,
+      paymentmethod: paymentmethod, providerInfo: providerInfo,
+    );
+  }
 
   factory OrderDetailsModel.fromJson(Map<dynamic, dynamic> json) => OrderDetailsModel(
     date: json["date"] == null
@@ -173,7 +194,7 @@ class Car {
   });
 
   Uint8List? image;
-  int? totalprice;
+  num? totalprice;
   List<dynamic>? products;
   List<ProvService>? provServices;
   List<dynamic>? servicePackages;
@@ -194,12 +215,7 @@ class Car {
 
   factory Car.fromJson(Map<dynamic, dynamic> json) =>
       Car(
-        image: json["image"] != null &&
-            json["image"]
-                .toString()
-                .isNotEmpty
-            ? base64Decode(json["image"])
-            : null,
+        image: decodeApiImage(json["image"]),
 
         totalprice: json["totalprice"],
 
@@ -224,12 +240,7 @@ class Car {
         plateno: json["plateno"],
         insuranceno: json["insuranceno"],
 
-        licenceimage: json["licenceimage"] != null &&
-            json["licenceimage"]
-                .toString()
-                .isNotEmpty
-            ? base64Decode(json["licenceimage"])
-            : null,
+        licenceimage: decodeApiImage(json["licenceimage"]),
 
         name: json["name"],
 
@@ -281,10 +292,7 @@ class Brand {
     carbrandid: json["carbrandid"],
     brandname: json["brandname"],
     brandlatinname: json["brandlatinname"],
-    image: json["image"] != null &&
-        json["image"].toString().isNotEmpty
-        ? base64Decode(json["image"])
-        : null,
+    image: decodeApiImage(json["image"]),
   );
 
   Map<dynamic, dynamic> toJson() => {
@@ -309,10 +317,7 @@ class Model {
   factory Model.fromJson(Map<dynamic, dynamic> json) => Model(
     carmodelid: json["carmodelid"],
     modelname: json["modelname"],
-    image: json["image"] != null &&
-        json["image"].toString().isNotEmpty
-        ? base64Decode(json["image"])
-        : null,
+    image: decodeApiImage(json["image"]),
   );
 
   Map<dynamic, dynamic> toJson() => {
@@ -334,19 +339,21 @@ class ProvService {
     this.id,
     this.latinname,
     this.carid,
+    this.ispetrol,
   });
 
-  int? quantity;
-  int? cost;
+  num? quantity;
+  num? cost;
   int? orderid;
-  int? taxpercentage;
-  int? price;
-  int? totalprice;
+  num? taxpercentage;
+  num? price;
+  num? totalprice;
   String? name;
   int? provserviceid;
   int? id;
   String? latinname;
   int? carid;
+  bool? ispetrol;
 
   factory ProvService.fromJson(Map<dynamic, dynamic> json) => ProvService(
     quantity: json["quantity"],
@@ -360,6 +367,7 @@ class ProvService {
     id: json["id"],
     latinname: json["latinname"],
     carid: json["carid"],
+    ispetrol: json["ispetrol"],
   );
 
   Map<dynamic, dynamic> toJson() => {
@@ -374,6 +382,7 @@ class ProvService {
     "id": id,
     "latinname": latinname,
     "carid": carid,
+    "ispetrol": ispetrol,
   };
 }
 
@@ -393,10 +402,7 @@ class Service {
   int? parentid;
 
   factory Service.fromJson(Map<dynamic, dynamic> json) => Service(
-    image: json["image"] != null &&
-        json["image"].toString().isNotEmpty
-        ? base64Decode(json["image"])
-        : null,
+    image: decodeApiImage(json["image"]),
     name: json["name"],
     id: json["id"],
     latinname: json["latinname"],
@@ -472,10 +478,7 @@ class ProviderInfo {
   String? branchname;
 
   factory ProviderInfo.fromJson(Map<dynamic, dynamic> json) => ProviderInfo(
-    image: json["image"] != null &&
-        json["image"].toString().isNotEmpty
-        ? base64Decode(json["image"])
-        : null,
+    image: decodeApiImage(json["image"]),
     branchid: json["branchid"],
     description: json["description"],
     servicesnames: (json["servicesnames"] as List? ?? [])
@@ -541,6 +544,7 @@ class StatusHistory {
     this.orderid,
     this.changedbyid,
     this.id,
+    this.changedbyname,
   });
 
   DateTime? date;
@@ -550,6 +554,7 @@ class StatusHistory {
   int? orderid;
   int? changedbyid;
   int? id;
+  String? changedbyname;
 
   factory StatusHistory.fromJson(Map<dynamic, dynamic> json) =>
       StatusHistory(
@@ -562,6 +567,7 @@ class StatusHistory {
         orderid: json["orderid"],
         changedbyid: json["changedbyid"],
         id: json["id"],
+        changedbyname: json["changedbyname"],
       );
 
   Map<dynamic, dynamic> toJson() => {
@@ -572,6 +578,7 @@ class StatusHistory {
     "orderid": orderid,
     "changedbyid": changedbyid,
     "id": id,
+    "changedbyname": changedbyname,
   };
 }
 
@@ -595,10 +602,7 @@ class User {
   String? username;
 
   factory User.fromJson(Map<dynamic, dynamic> json) => User(
-    image: json["image"] != null &&
-        json["image"].toString().isNotEmpty
-        ? base64Decode(json["image"])
-        : null,
+    image: decodeApiImage(json["image"]),
     phone: json["phone"],
     usertype: json["usertype"],
     userid: json["userid"],

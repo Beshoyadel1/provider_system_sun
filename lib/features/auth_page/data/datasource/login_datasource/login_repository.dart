@@ -17,9 +17,8 @@ Future<LoginResult> loginFunction({
   try {
 
     final payload = loginRequest.toJson();
-    final response = await Network.postDataWithBodyAndParams(
+    final response = await Network.postDataWithBody(
       json.encode(payload),
-      payload,
       ApiLink.loginUser,
     );
 

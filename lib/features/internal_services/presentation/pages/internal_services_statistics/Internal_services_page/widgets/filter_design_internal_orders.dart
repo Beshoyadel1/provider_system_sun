@@ -25,6 +25,10 @@ class FilterDesignInternalOrders extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
 
+        if (state is GetProviderInternalOrderError) {
+          return Center(child: Text(state.message));
+        }
+
         if (state is GetProviderInternalOrderSuccess) {
 
           final orders = state.orders;
@@ -46,9 +50,7 @@ class FilterDesignInternalOrders extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final order = orders[index];
 
-                    final service = order.services?.isNotEmpty == true
-                        ? order.services!.first
-                        : null;
+                    final service = order.displayService;
 
                     final serviceTitle = OrderFunctions.getServiceTitle(
                       context: context,

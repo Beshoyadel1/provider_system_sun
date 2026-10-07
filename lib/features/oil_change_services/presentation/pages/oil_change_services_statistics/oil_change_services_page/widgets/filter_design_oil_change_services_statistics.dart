@@ -7,7 +7,6 @@ import 'package:sun_web_system/features/internal_services/presentation/cubit/get
 import 'package:sun_web_system/features/internal_services/presentation/cubit/order_funcations/order_functions.dart';
 import 'package:sun_web_system/features/internal_services/presentation/cubit/tabs_cubit/tabs_cubit.dart';
 import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/custom_widget/Container_of_second_part_data_container_in_list_data_first_screen_internal_orders_widget.dart';
-import 'package:sun_web_system/features/cars_haraj_page/data/model/filter_orders_model/filter_orders_model.dart';
 import 'package:sun_web_system/features/cars_haraj_page/data/model/internal_orders_filter/internal_orders_filter.dart';
 import 'package:sun_web_system/features/spare_parts/presentation/custom_widget/app_pagination.dart';
 import '../../../../../../../../core/api/dio_function/api_constants.dart';
@@ -27,6 +26,10 @@ class FilterDesignOilChangeServicesStatistics
       builder: (context, state) {
         if (state is GetProviderInternalOrderLoading) {
           return const Center(child: CircularProgressIndicator());
+        }
+
+        if (state is GetProviderInternalOrderError) {
+          return Center(child: Text(state.message));
         }
 
         if (state is GetProviderInternalOrderSuccess) {
@@ -49,9 +52,7 @@ class FilterDesignOilChangeServicesStatistics
                   itemBuilder: (context, index) {
                     final order = orders[index];
 
-                    final service = order.services?.isNotEmpty == true
-                        ? order.services!.first
-                        : null;
+                    final service = order.displayService;
 
                     final serviceTitle = OrderFunctions.getServiceTitle(
                       context: context,

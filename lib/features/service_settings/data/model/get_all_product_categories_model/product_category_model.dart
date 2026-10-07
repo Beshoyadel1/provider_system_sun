@@ -17,35 +17,29 @@ class ProductCategoryModel {
     this.image,
   });
 
-  factory ProductCategoryModel.fromJson(
-      Map<String, dynamic> json) {
-
-    final data =
-        json['data'] as Map<String, dynamic>? ?? json;
+  factory ProductCategoryModel.fromJson(Map<String, dynamic> json) {
+    final data = json['data'] as Map<String, dynamic>? ?? json;
 
     return ProductCategoryModel(
       id: data['id'] ?? 0,
-
-      name:
-      data['name']?.toString() ?? "",
-
-      latinName:
-      data['latinname']?.toString() ?? "",
-
-      image: data['image'] != null
-          ? base64Decode(data["image"])
-          : null,
+      name: data['name']?.toString() ?? "",
+      latinName: (data['latinName'] ?? data['latinname'])?.toString() ?? "",
+      image: _decodeImage(data['image']),
     );
   }
 
+  static Uint8List? _decodeImage(dynamic value) {
+    if (value is! String || value.isEmpty) return null;
+    try {
+      return base64Decode(value);
+    } on FormatException {
+      return null;
+    }
+  }
+
   String getName(BuildContext context) {
+    final isArabic = LanguageCubit.get(context).isAllAppLanguageArabic;
 
-    final isArabic =
-        LanguageCubit.get(context)
-            .isAllAppLanguageArabic;
-
-    return isArabic
-        ? (name ?? "")
-        : (latinName ?? "");
+    return isArabic ? (name ?? "") : (latinName ?? "");
   }
 }

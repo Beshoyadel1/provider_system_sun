@@ -14,6 +14,34 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
 
   int _cachedUserId = 0;
   int _cachedUserType = UserType.providerUser;
+  bool _messagesLoaded = false, _teamLoaded = false;
+  final List<ChatMessageModel> _arrivalsDuringLoad = [];
+  final Map<String, bool> _closedChats = {};
+  final Map<String, Timer> _readTimers = {};
+  final Set<String> _loadedThreads = {};
+  int _session = 0;
+
+  void configureUser(int id, int type) {
+    if (_cachedUserId == id && _cachedUserType == type) return;
+    reset();
+    _cachedUserId = id;
+    _cachedUserType = type;
+  }
+
+  bool get selectedChatIsClosed {
+    final chat = state.selectedChat;
+    if (chat == null) return false;
+    return _closedChats['${chat.touser}:${chat.tousertype}'] ??
+        chat.lastMessage?.isClosed ?? false;
+  }
+
+  void applyChatStatus(Map<String, dynamic> data) {
+    final from = int.tryParse('${data['fromuser']}');
+    final type = int.tryParse('${data['fromusertype']}');
+    if (from == null || type == null || isClosed) return;
+    _closedChats['$from:$type'] = '${data['isclosed']}'.toLowerCase() == 'true' || data['isclosed'] == '1';
+    emit(state.copyWith(chatClosed: selectedChatIsClosed));
+  }
 
   ProviderChatCubit({
     this.chatRepository = const ProviderChatRepository(),
@@ -37,20 +65,28 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
   }
 
   Future<void> init() async {
+    final session = _session;
     final user = await AuthLocalStorage.getUser();
+    if (isClosed || session != _session) return;
     if (user != null && user.userid != null) {
       _cachedUserId = user.userid!;
       _cachedUserType = user.type ?? UserType.providerUser;
     }
 
     await Future.wait([
-      getAllMessages(),
-      getWorkTeam(),
+      if (!_messagesLoaded) getAllMessages(),
+      if (!_teamLoaded) getWorkTeam(),
     ]);
   }
 
+  Future<void> ensureMessagesLoaded() async {
+    if (!_messagesLoaded) await getAllMessages();
+  }
+
   Future<void> getAllMessages() async {
-    if (isClosed) return;
+    if (isClosed || state.isLoadingMessages) return;
+    final session = _session;
+    _arrivalsDuringLoad.clear();
     emit(state.copyWith(isLoadingMessages: true, clearErrorMessage: true));
 
     try {
@@ -67,7 +103,8 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
         userType: currentUserType,
       );
 
-      if (isClosed) return;
+      if (isClosed || session != _session) return;
+      _messagesLoaded = true;
 
       final filtered = _applySearch(messages, state.searchQuery);
       GetAllMessagesModel? updatedSelectedChat;
@@ -87,13 +124,18 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
         selectedChat: updatedSelectedChat,
       ));
 
+      for (final message in List.of(_arrivalsDuringLoad)) {
+        onIncomingMessage(message);
+      }
+      _arrivalsDuringLoad.clear();
+
       if (updatedSelectedChat != null &&
           (updatedSelectedChat.messages == null ||
               updatedSelectedChat.messages!.length <= 1)) {
         getOlderMessages(initialLoad: true);
       }
     } catch (e) {
-      if (isClosed) return;
+      if (isClosed || session != _session) return;
       emit(state.copyWith(
         isLoadingMessages: false,
         errorMessage: e.toString().replaceFirst('Exception: ', ''),
@@ -102,7 +144,8 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
   }
 
   Future<void> getWorkTeam() async {
-    if (isClosed) return;
+    if (isClosed || state.isLoadingWorkTeam) return;
+    final session = _session;
     emit(state.copyWith(isLoadingWorkTeam: true, clearErrorMessage: true));
 
     try {
@@ -119,7 +162,8 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
         userType: currentUserType,
       );
 
-      if (isClosed) return;
+      if (isClosed || session != _session) return;
+      _teamLoaded = true;
 
       final updatedTeam = List<WorkTeamMemberModel>.from(team);
       final hasAdmin = updatedTeam.any((m) => m.usertype == UserType.adminUser);
@@ -142,7 +186,7 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
         workTeam: updatedTeam,
       ));
     } catch (e) {
-      if (isClosed) return;
+      if (isClosed || session != _session) return;
       emit(state.copyWith(
         isLoadingWorkTeam: false,
         errorMessage: e.toString().replaceFirst('Exception: ', ''),
@@ -193,12 +237,16 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
 
     emit(state.copyWith(
       selectedChat: readChat,
+      chatClosed: _closedChats['${chat.touser}:${chat.tousertype}'] ?? chat.lastMessage?.isClosed ?? false,
       allMessages: allList,
       filteredMessages: _applySearch(allList, state.searchQuery),
     ));
 
     if (chat.touser != null && chat.tousertype != null) {
-      markChatViewed(chat.touser!, chat.tousertype!);
+      if (chat.unViewedMessagesCount > 0 ||
+          (chat.messages?.any((m) => !m.viewed && !m.isOutgoing(currentUserId, currentUserType)) ?? false)) {
+        markChatViewed(chat.touser!, chat.tousertype!);
+      }
       if (chat.messages == null || chat.messages!.length <= 1) {
         getOlderMessages(initialLoad: true);
       }
@@ -231,8 +279,9 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
   }
 
   Future<void> sendMessage(String text, {int? orderId}) async {
+    final session = _session;
     final trimmed = text.trim();
-    if (trimmed.isEmpty || state.selectedChat == null || isClosed) return;
+    if (trimmed.isEmpty || state.selectedChat == null || isClosed || selectedChatIsClosed) return;
 
     final targetChat = state.selectedChat!;
     final toUser = targetChat.touser ?? 0;
@@ -294,10 +343,10 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
 
     try {
       await chatRepository.sendChatMessage(message: sendModel);
-      if (isClosed) return;
+      if (isClosed || session != _session) return;
       emit(state.copyWith(isSendingMessage: false));
     } catch (e) {
-      if (isClosed) return;
+      if (isClosed || session != _session) return;
       emit(state.copyWith(
         isSendingMessage: false,
         errorMessage: e.toString().replaceFirst('Exception: ', ''),
@@ -306,7 +355,9 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
   }
 
   Future<void> getOlderMessages({bool initialLoad = false}) async {
+    final session = _session;
     final chat = state.selectedChat;
+    if (initialLoad && chat != null && _loadedThreads.contains('${chat.touser}:${chat.tousertype}')) return;
     if (chat == null ||
         (chat.noOldMessages && !initialLoad) ||
         state.isLoadingOlder ||
@@ -341,7 +392,7 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
         );
       }
 
-      if (isClosed) return;
+      if (isClosed || session != _session) return;
 
       final currentChat = (state.selectedChat?.touser == chat.touser &&
               state.selectedChat?.tousertype == chat.tousertype)
@@ -349,6 +400,7 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
           : chat;
       final currentMsgs =
           List<ChatMessageModel>.from(currentChat.messages ?? []);
+      if (initialLoad) _loadedThreads.add('${chat.touser}:${chat.tousertype}');
       bool noMore = false;
       if (fetched.isEmpty || fetched.length < 10) {
         noMore = true;
@@ -440,7 +492,7 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
         filteredMessages: _applySearch(allList, state.searchQuery),
       ));
     } catch (e) {
-      if (isClosed) return;
+      if (isClosed || session != _session) return;
       emit(state.copyWith(
         isLoadingOlder: false,
         errorMessage: e.toString().replaceFirst('Exception: ', ''),
@@ -449,15 +501,16 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
   }
 
   Future<void> markChatViewed(int toUser, int toUserType) async {
+    final session = _session;
     try {
-      await chatRepository.makeChatViewed(
+      final success = await chatRepository.makeChatViewed(
         fromUser: currentUserId,
         fromUserType: currentUserType,
         toUser: toUser,
         toUserType: toUserType,
       );
 
-      if (isClosed) return;
+      if (!success || isClosed || session != _session) return;
 
       final allList = state.allMessages.map((chat) {
         if (chat.touser == toUser && chat.tousertype == toUserType) {
@@ -512,8 +565,17 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
 
   void onIncomingMessage(ChatMessageModel message) {
     if (isClosed) return;
+    final duplicate = state.allMessages.any((chat) =>
+      (message.id > 0 && chat.lastMessage?.id == message.id) ||
+      (chat.messages?.any((m) => message.id > 0 ? m.id == message.id :
+        m.fromUser == message.fromUser && m.fromUserType == message.fromUserType &&
+        m.message == message.message && m.date == message.date) ?? false));
+    if (duplicate) return;
+    if (state.isLoadingMessages) _arrivalsDuringLoad.add(message);
 
-    final isForSelectedChat = state.selectedChat != null &&
+    final isForSelectedChat = ChatEvents.instance.activeChatUserId == message.fromUser &&
+        ChatEvents.instance.activeChatUserType == message.fromUserType &&
+        state.selectedChat != null &&
         (state.selectedChat!.touser == message.fromUser &&
             state.selectedChat!.tousertype == message.fromUserType);
 
@@ -565,7 +627,7 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
         tousertype: message.fromUserType,
         userName: message.fromUserName ?? '',
         messages: [message],
-        noOldMessages: true,
+        noOldMessages: false,
         unViewedMessagesCount: (isForSelectedChat || isFromMe) ? 0 : 1,
         directLastMessage: message,
       );
@@ -576,7 +638,12 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
     GetAllMessagesModel? updatedSelectedChat = state.selectedChat;
     if (isForSelectedChat) {
       updatedSelectedChat = targetChat;
-      markChatViewed(message.fromUser, message.fromUserType);
+      final key = '${message.fromUser}:${message.fromUserType}';
+      _readTimers[key]?.cancel();
+      _readTimers[key] = Timer(const Duration(milliseconds: 500), () {
+        _readTimers.remove(key);
+        markChatViewed(message.fromUser, message.fromUserType);
+      });
     }
 
     emit(state.copyWith(
@@ -591,6 +658,8 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
     final fromType = int.tryParse(event.fromUserType ?? '') ?? 0;
     final toId = int.tryParse(event.toUser ?? '') ?? 0;
     final toType = int.tryParse(event.toUserType ?? '') ?? 0;
+    if (_cachedUserId > 0 &&
+        (toId != _cachedUserId || toType != _cachedUserType)) { return; }
 
     final model = ChatMessageModel(
       id: int.tryParse(event.id ?? '') ?? 0,
@@ -611,6 +680,16 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
   }
 
   void reset() {
+    _session++;
+    _cachedUserId = 0;
+    _messagesLoaded = _teamLoaded = false;
+    _arrivalsDuringLoad.clear();
+    _closedChats.clear();
+    _loadedThreads.clear();
+    for (final timer in _readTimers.values) { timer.cancel(); }
+    _readTimers.clear();
+    ChatEvents.instance.activeChatUserId = null;
+    ChatEvents.instance.activeChatUserType = null;
     if (!isClosed) {
       emit(const ProviderChatState());
     }
@@ -618,6 +697,7 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
 
   @override
   Future<void> close() {
+    for (final timer in _readTimers.values) { timer.cancel(); }
     _chatEventsSub?.cancel();
     return super.close();
   }

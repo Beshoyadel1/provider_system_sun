@@ -1,6 +1,7 @@
 import 'package:sun_web_system/features/service_settings/data/model/create_service_package_model/create_service_package_request.dart';
 
 class UpdateServicePackageRequest {
+  final List<int>? branchIds;
   final int? id;
   final int? provId;
   final String? name;
@@ -13,6 +14,7 @@ class UpdateServicePackageRequest {
   final List<SupportedCarRequest>? supportedCars;
 
   UpdateServicePackageRequest({
+    this.branchIds,
     this.id,
     this.provId,
     this.name,
@@ -28,6 +30,7 @@ class UpdateServicePackageRequest {
   Map<String, dynamic> toJson() {
     return {
       "id": id,
+      if (branchIds != null) "branchIds": branchIds,
       "provid": provId,
       "name": name,
       "latinname": latinName,
@@ -35,9 +38,9 @@ class UpdateServicePackageRequest {
       "taxid": taxId,
       "price": price,
       "cost": cost,
-      "serviceIds": serviceIds,
-      "supportedCars":
-      supportedCars?.map((e) => e.toJson()).toList(),
+      if (serviceIds != null) "serviceIds": serviceIds,
+      if (supportedCars != null)
+        "supportedCars": supportedCars!.map((e) => e.toJson()).toList(),
     };
   }
 }

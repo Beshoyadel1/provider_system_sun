@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 
-import 'package:sun_web_system/features/auth_page/data/model/create_user_model/create_user_emp_request.dart';
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/create_user_request.dart';
 import 'package:sun_web_system/features/employee/data/request/get_branch_employees_request/get_branch_employees_request.dart';
 
@@ -15,8 +14,7 @@ getBranchEmployeesFunction({
 }) async {
   try {
     final response =
-    await Network.getDataWithBodyAndParams(
-      {},
+    await Network.getDataWithParams(
       getBranchEmployeesRequest.toJson(),
       ApiLink.getBranchEmployees,
     );

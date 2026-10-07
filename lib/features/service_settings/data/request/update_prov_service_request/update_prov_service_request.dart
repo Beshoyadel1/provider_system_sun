@@ -1,6 +1,7 @@
 import 'package:sun_web_system/features/service_settings/data/model/create_prov_service_model/brand_model_create_prov_service_model.dart';
 
 class UpdateProvServiceRequest {
+  final List<int>? branchIds;
   final int? id;
   final int? serviceId;
   final int? provId;
@@ -13,6 +14,7 @@ class UpdateProvServiceRequest {
   final List<BrandModelCreateProvServiceModel>? brands;
 
   UpdateProvServiceRequest({
+    this.branchIds,
     this.id,
     this.serviceId,
     this.provId,
@@ -28,6 +30,7 @@ class UpdateProvServiceRequest {
   Map<String, dynamic> toJson() => {
         "id": id,
         "serviceid": serviceId,
+        if (branchIds != null) "branchIds": branchIds,
         "provid": provId,
         "taxid": taxId,
         "name": name,

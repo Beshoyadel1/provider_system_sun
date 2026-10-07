@@ -3,8 +3,8 @@ import '../../../../../../core/api/dio_function/api_constants.dart';
 class OrdersTabs {
   static const int all = 0;
   static const int newOrders = 1;
-  static const int completed = 2;
-  static const int inProgress = 3;
+  static const int inProgress = 2;
+  static const int completed = 3;
 }
 class InternalOrdersFilter {
 

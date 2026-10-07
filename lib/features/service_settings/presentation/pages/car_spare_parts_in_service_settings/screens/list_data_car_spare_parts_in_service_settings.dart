@@ -6,11 +6,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/service_settings/presentation/bloc/get_all_product_categories_cubit/get_all_product_categories_cubit.dart';
 import 'package:sun_web_system/features/service_settings/presentation/pages/car_spare_parts_in_service_settings/screens/data_container_in_list_data_car_spare_parts_in_service_settings.dart';
 import '../../../../../../core/theming/colors.dart';
+import 'package:sun_web_system/features/store_page/presentation/bloc/branch_cubit/branch_cubit.dart';
 
 class ListDataCarSparePartsInServiceSettings extends StatelessWidget {
   final String textServiceScreen;
   final Uint8List imageMemory;
-  const ListDataCarSparePartsInServiceSettings({super.key,required this.textServiceScreen,required this.imageMemory});
+  const ListDataCarSparePartsInServiceSettings(
+      {super.key, required this.textServiceScreen, required this.imageMemory});
 
   @override
   Widget build(BuildContext context) {
@@ -19,17 +21,22 @@ class ListDataCarSparePartsInServiceSettings extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
         borderRadius: const BorderRadius.all(Radius.circular(20)),
-        border: Border.all(color: AppColors.greyColor.withOpacity(0.3)),
+        border: Border.all(color: AppColors.greyColor.withValues(alpha: 0.3)),
         boxShadow: [
           BoxShadow(
-            color: AppColors.darkColor.withOpacity(0.1),
+            color: AppColors.darkColor.withValues(alpha: 0.1),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),
         ],
       ),
-      child: BlocProvider(
-          create: (_) => GetAllProductCategoriesCubit()..getAllProductCategories(),
+      child: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+                create: (_) =>
+                    GetAllProductCategoriesCubit()..getAllProductCategories()),
+            BlocProvider(create: (_) => BranchCubit()..getProviderBranches()),
+          ],
           child: DataContainerInListDataCarSparePartsInServiceSettings(
             textServiceScreen: textServiceScreen,
             imageMemory: imageMemory,

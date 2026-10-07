@@ -77,7 +77,7 @@ class ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidge
               pricePart6: pricePart6!,
               order: order,
               serviceId: serviceId,
-        id: id ?? "",
+        id: id ?? order.id?.toString() ?? "",
             )
           : isTabletCustom
               ? CustomTabSecondPartDataContainerInListDataFirstScreenInternalOrders(
@@ -95,7 +95,7 @@ class ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidge
                   pricePart6: pricePart6!,
                   order: order,
                   serviceId: serviceId,
-          id: id ?? "")
+          id: id ?? order.id?.toString() ?? "")
               : TabSecondPartDataContainerInListDataFirstScreenInternalOrders(
                   imagePathPart1: imagePathPart1,
                   titlePart1: titlePart1!,
@@ -111,7 +111,7 @@ class ContainerOfSecondPartDataContainerInListDataFirstScreenInternalOrdersWidge
                   pricePart6: pricePart6!,
                   order: order,
                   serviceId: serviceId,
-          id: id ?? ""),
+          id: id ?? order.id?.toString() ?? ""),
     );
   }
 }

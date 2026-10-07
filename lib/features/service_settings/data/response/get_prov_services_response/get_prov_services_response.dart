@@ -1,5 +1,6 @@
-class GetProvServicesResponse {
+import '../../model/service_branch.dart';
 
+class GetProvServicesResponse {
   final ProvService provService;
   final List<BrandItem> brands;
 
@@ -8,29 +9,21 @@ class GetProvServicesResponse {
     required this.brands,
   });
 
-  factory GetProvServicesResponse.fromJson(
-      Map<String, dynamic> json) {
-
+  factory GetProvServicesResponse.fromJson(Map<String, dynamic> json) {
     return GetProvServicesResponse(
-
-      provService:
-      json['provService'] != null
-          ? ProvService.fromJson(
-          json['provService']
-          as Map<String, dynamic>)
+      provService: json['provService'] != null
+          ? ProvService.fromJson(json['provService'] as Map<String, dynamic>)
           : ProvService.fromJson({}),
-
-      brands:
-      (json['brands'] as List<dynamic>?)
-          ?.map((e) => BrandItem.fromJson(
-          e as Map<String, dynamic>))
-          .toList() ??
+      brands: (json['brands'] as List<dynamic>?)
+              ?.map((e) => BrandItem.fromJson(e as Map<String, dynamic>))
+              .toList() ??
           [],
     );
   }
 }
 
 class ProvService {
+  final List<int> branchIds;
 
   final int id;
   final int serviceid;
@@ -46,6 +39,7 @@ class ProvService {
   final bool isunifiedprice;
 
   ProvService({
+    this.branchIds = const [],
     required this.id,
     required this.serviceid,
     required this.provid,
@@ -57,47 +51,23 @@ class ProvService {
     required this.isunifiedprice,
   });
 
-  factory ProvService.fromJson(
-      Map<String, dynamic> json) {
-
+  factory ProvService.fromJson(Map<String, dynamic> json) {
     return ProvService(
-
-      id:
-      json['id'] ?? 0,
-
-      serviceid:
-      json['serviceid'] ?? 0,
-
-      provid:
-      json['provid'] ?? 0,
-
-      taxid:
-      json['taxid'] ?? 0,
-
-      name:
-      json['name']?.toString() ?? "",
-
-      latinname:
-      json['latinname']?.toString() ?? "",
-
-      unifiedprice:
-      (json['unifiedprice'] as num?)
-          ?.toDouble() ??
-          0.0,
-
-      cost:
-      (json['cost'] as num?)
-          ?.toDouble() ??
-          0.0,
-
-      isunifiedprice:
-      json['isunifiedprice'] ?? false,
+      branchIds: parseServiceBranchIds(json['branchIds']),
+      id: json['id'] ?? 0,
+      serviceid: json['serviceid'] ?? 0,
+      provid: json['provid'] ?? 0,
+      taxid: json['taxid'] ?? 0,
+      name: json['name']?.toString() ?? "",
+      latinname: json['latinname']?.toString() ?? "",
+      unifiedprice: (json['unifiedprice'] as num?)?.toDouble() ?? 0.0,
+      cost: (json['cost'] as num?)?.toDouble() ?? 0.0,
+      isunifiedprice: json['isunifiedprice'] ?? false,
     );
   }
 }
 
 class BrandItem {
-
   final ProvServiceBrand provServiceBrand;
   final List<ModelItem> models;
 
@@ -106,23 +76,15 @@ class BrandItem {
     required this.models,
   });
 
-  factory BrandItem.fromJson(
-      Map<String, dynamic> json) {
-
+  factory BrandItem.fromJson(Map<String, dynamic> json) {
     return BrandItem(
-
-      provServiceBrand:
-      json['provServiceBrand'] != null
+      provServiceBrand: json['provServiceBrand'] != null
           ? ProvServiceBrand.fromJson(
-          json['provServiceBrand']
-          as Map<String, dynamic>)
+              json['provServiceBrand'] as Map<String, dynamic>)
           : ProvServiceBrand.fromJson({}),
-
-      models:
-      (json['models'] as List<dynamic>?)
-          ?.map((e) => ModelItem.fromJson(
-          e as Map<String, dynamic>))
-          .toList() ??
+      models: (json['models'] as List<dynamic>?)
+              ?.map((e) => ModelItem.fromJson(e as Map<String, dynamic>))
+              .toList() ??
           [],
     );
   }
@@ -145,36 +107,19 @@ class ProvServiceBrand {
     required this.cost,
   });
 
-  factory ProvServiceBrand.fromJson(
-      Map<String, dynamic> json) {
-
+  factory ProvServiceBrand.fromJson(Map<String, dynamic> json) {
     return ProvServiceBrand(
-
-      id:
-      json['id'] ?? 0,
-
-      provserviceid:
-      json['provserviceid'] ?? 0,
-
-      brandid:
-      json['brandid'] ?? 0,
-
-      unifiedprice:
-      (json['unifiedprice'] as num?)
-          ?.toDouble(),
-
-      isunifiedprice:
-      json['isunifiedprice'] ?? false,
-
-      cost:
-      (json['cost'] as num?)
-          ?.toDouble(),
+      id: json['id'] ?? 0,
+      provserviceid: json['provserviceid'] ?? 0,
+      brandid: json['brandid'] ?? 0,
+      unifiedprice: (json['unifiedprice'] as num?)?.toDouble(),
+      isunifiedprice: json['isunifiedprice'] ?? false,
+      cost: (json['cost'] as num?)?.toDouble(),
     );
   }
 }
 
 class ModelItem {
-
   final int id;
   final int provserviceid;
   final int carbrandid;
@@ -192,32 +137,14 @@ class ModelItem {
     required this.cost,
   });
 
-  factory ModelItem.fromJson(
-      Map<String, dynamic> json) {
-
+  factory ModelItem.fromJson(Map<String, dynamic> json) {
     return ModelItem(
-
-      id:
-      json['id'] ?? 0,
-
-      provserviceid:
-      json['provserviceid'] ?? 0,
-
-      carbrandid:
-      json['carbrandid'] ?? 0,
-
-      carmodelid:
-      json['carmodelid'] ?? 0,
-
-      price:
-      (json['price'] as num?)
-          ?.toDouble() ??
-          0.0,
-
-      cost:
-      (json['cost'] as num?)
-          ?.toDouble() ??
-          0.0,
+      id: json['id'] ?? 0,
+      provserviceid: json['provserviceid'] ?? 0,
+      carbrandid: json['carbrandid'] ?? 0,
+      carmodelid: json['carmodelid'] ?? 0,
+      price: (json['price'] as num?)?.toDouble() ?? 0.0,
+      cost: (json['cost'] as num?)?.toDouble() ?? 0.0,
     );
   }
 }

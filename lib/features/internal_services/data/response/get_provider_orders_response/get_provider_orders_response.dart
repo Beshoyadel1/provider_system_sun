@@ -13,28 +13,23 @@ class GetProviderOrdersResponse {
     required this.currentPage,
   });
 
-  factory GetProviderOrdersResponse.fromJson(
-      Map<String, dynamic> json) {
-
-    final responseData =
-        json['data'] as Map<String, dynamic>? ?? {};
+  factory GetProviderOrdersResponse.fromJson(Map<String, dynamic> json) {
+    if (json['success'] != true) {
+      throw Exception(json['message'] ?? 'Failed to load orders');
+    }
+    final responseData = json['data'];
+    if (responseData is! Map || responseData['data'] is! List) {
+      throw const FormatException('Invalid provider orders response');
+    }
 
     return GetProviderOrdersResponse(
       data: (responseData['data'] as List<dynamic>?)
-          ?.map((e) =>
-          OrderModel.fromJson(
-              e as Map<String, dynamic>))
-          .toList() ??
+              ?.map((e) => OrderModel.fromJson(e as Map<String, dynamic>))
+              .toList() ??
           [],
-
-      pageCount:
-      responseData['pageCount'] ?? 0,
-
-      totalCount:
-      responseData['totalCount'] ?? 0,
-
-      currentPage:
-      responseData['currentPage'] ?? 0,
+      pageCount: responseData['pageCount'] ?? 0,
+      totalCount: responseData['totalCount'] ?? 0,
+      currentPage: responseData['currentPage'] ?? 0,
     );
   }
 }

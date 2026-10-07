@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/core/pages_widgets/general_widgets/memory_image_with_fallback.dart';
 import '../../../../../../../../core/pages_widgets/general_widgets/custom_container.dart';
 import '../../../../../../../../core/theming/fonts.dart';
 import '../../../../../../../../core/theming/text_styles.dart';
@@ -37,16 +38,19 @@ class ContainerContactWithCustomerOrderDetailsWidget extends StatelessWidget {
               Row(
                 spacing: 10,
                 children: [
-                  imageUser != null
-                      ? CircleAvatar(
+                  CircleAvatar(
                     radius: 25,
                     backgroundColor: Colors.transparent,
-                    backgroundImage: MemoryImage(imageUser!),
-                  )
-                      : const CircleAvatar(
-                    radius: 25,
-                    backgroundColor: Colors.transparent,
-                    backgroundImage: const AssetImage(AppImageKeys.person22),
+                    child: ClipOval(
+                      child: MemoryImageWithFallback(
+                        bytes: imageUser,
+                        width: 50,
+                        height: 50,
+                        fit: BoxFit.cover,
+                        fallback: Image.asset(AppImageKeys.person22,
+                            width: 50, height: 50, fit: BoxFit.cover),
+                      ),
+                    ),
                   ),
                   TextInAppWidget(
                     text: nameCustomer ?? "user",

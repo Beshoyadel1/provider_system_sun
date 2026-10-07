@@ -13,32 +13,29 @@ class DesignCarDataOrders extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isArabic =
-        Localizations.localeOf(context).languageCode == 'ar';
+    final bool isArabic = Localizations.localeOf(context).languageCode == 'ar';
 
-    final car = orderDetailsModel.cars?.isNotEmpty == true
-        ? orderDetailsModel.cars!.first
-        : null;
-
-    if (car == null) {
+    final cars = orderDetailsModel.cars ?? <Car>[];
+    if (cars.isEmpty) {
       return const SizedBox.shrink();
     }
 
-    final List<ProvService> provServices =
-        car.provServices ?? [];
-
-    return DesignCarDataOrdersWidget(
-      plateNo: car.plateno,
-
-      brandName: isArabic
-          ? car.brand?.brandname
-          : car.brand?.brandlatinname,
-
-      totalPriceCar: car.totalprice?.toString(),
-
-      provServices: provServices,
-
-      isArabic: isArabic,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (final car in cars)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: DesignCarDataOrdersWidget(
+              plateNo: car.plateno,
+              brandName:
+                  isArabic ? car.brand?.brandname : car.brand?.brandlatinname,
+              totalPriceCar: car.totalprice?.toString(),
+              provServices: car.provServices ?? [],
+              isArabic: isArabic,
+            ),
+          ),
+      ],
     );
   }
 }

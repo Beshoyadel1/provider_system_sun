@@ -9,8 +9,7 @@ Future<GetAllHarageResponse> getAllHarageFunction({
   required GetAllHarageRequest getAllHarageRequest,
 }) async {
   try {
-    final response = await Network.getDataWithBodyAndParams(
-      {},
+    final response = await Network.getDataWithParams(
       getAllHarageRequest.toJson(),
       ApiLink.getAllHarage,
     );

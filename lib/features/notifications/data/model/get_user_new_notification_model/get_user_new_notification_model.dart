@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
+import '../notification_payload.dart';
 
 class GetUserNotificationResponse {
   final List<NotificationModel> data;
@@ -53,6 +54,7 @@ class GetUserNotificationResponse {
 }
 
 class NotificationModel {
+  final String? localKey;
   final int? id;
   final String? title;
   final String? latinTitle;
@@ -66,6 +68,7 @@ class NotificationModel {
   final DateTime? date;
 
   NotificationModel({
+    this.localKey,
     this.id,
     this.title,
     this.latinTitle,
@@ -78,6 +81,29 @@ class NotificationModel {
     this.isViewed,
     this.date,
   });
+
+  String get key => id != null ? 'notification:$id' : localKey!;
+
+  factory NotificationModel.fromPush(NotificationPayload payload) {
+    final nested = payload.notification;
+    return NotificationModel.fromJson({
+      'title': payload.title,
+      'description': payload.body,
+      'isviewed': false,
+      'date': payload.sentAt.toIso8601String(),
+      ...nested,
+      if (payload.notificationId != null) 'id': payload.notificationId,
+    }).copyWith(localKey: payload.key);
+  }
+
+  NotificationModel copyWith({bool? isViewed, String? localKey}) =>
+      NotificationModel(
+        id: id, localKey: localKey ?? this.localKey,
+        title: title, latinTitle: latinTitle, description: description,
+        latinDesc: latinDesc, toUserId: toUserId, toUserType: toUserType,
+        fromUserId: fromUserId, fromUserType: fromUserType,
+        isViewed: isViewed ?? this.isViewed, date: date,
+      );
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) {
     final map = <String, dynamic>{};

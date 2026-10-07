@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:sun_web_system/core/utilies/api_image.dart';
 
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/employee_wrapper_request.dart';
 
@@ -95,11 +96,7 @@ class CreateUserRequest {
       )
           : null,
 
-      image: json["image"] != null
-          ? base64Decode(
-        json["image"],
-      )
-          : null,
+      image: decodeApiImage(json['image']),
 
       adminDetails:
       json["adminDetails"] != null

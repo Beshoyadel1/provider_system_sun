@@ -1,6 +1,7 @@
 import 'package:sun_web_system/features/service_settings/data/model/create_prov_service_model/brand_model_create_prov_service_model.dart';
 
 class CreateProvServiceRequest {
+  final List<int>? branchIds;
   final int id;
   final int? serviceid;
   final int? provid;
@@ -13,6 +14,7 @@ class CreateProvServiceRequest {
   final List<BrandModelCreateProvServiceModel>? brands;
 
   CreateProvServiceRequest({
+    this.branchIds,
     this.id = 0,
     this.serviceid,
     this.provid,
@@ -29,6 +31,7 @@ class CreateProvServiceRequest {
     return {
       "id": id,
       "serviceid": serviceid,
+      if (branchIds != null) "branchIds": branchIds,
       "provid": provid,
       "taxid": taxid,
       "name": name,

@@ -1,13 +1,12 @@
 abstract class GetProductsByCategoryState {}
 
-class GetProductsByCategoryInitial
-    extends GetProductsByCategoryState {}
+class GetProductsByCategoryInitial extends GetProductsByCategoryState {}
 
-class GetProductsByCategoryLoading
-    extends GetProductsByCategoryState {}
+class GetProductsByCategoryLoading extends GetProductsByCategoryState {}
 
-class GetProductsByCategorySuccess
-    extends GetProductsByCategoryState {}
+class GetProductsByCategorySuccess extends GetProductsByCategoryState {}
 
-class GetProductsByCategoryError
-    extends GetProductsByCategoryState {}
+class GetProductsByCategoryError extends GetProductsByCategoryState {
+  final String message;
+  GetProductsByCategoryError(this.message);
+}

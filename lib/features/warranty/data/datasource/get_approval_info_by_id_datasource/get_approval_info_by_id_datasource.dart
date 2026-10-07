@@ -10,8 +10,7 @@ Future<WarrantyModel> getApprovalInfoByIdFunction({
 }) async {
   try {
     final response =
-    await Network.getDataWithBodyAndParams(
-      {},
+    await Network.getDataWithParams(
       request.toJson(),
       ApiLink.getApprovalInfoById,
     );

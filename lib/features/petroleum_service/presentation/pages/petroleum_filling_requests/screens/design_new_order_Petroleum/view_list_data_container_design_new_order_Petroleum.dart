@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:sun_web_system/core/theming/assets.dart';
-import 'package:sun_web_system/core/theming/text_styles.dart';
 import 'package:sun_web_system/features/internal_services/presentation/cubit/get_provider_internal_order/get_provider_internal_order_cubit.dart';
 import 'package:sun_web_system/features/internal_services/presentation/cubit/get_provider_internal_order/get_provider_internal_order_state.dart';
 import 'package:sun_web_system/features/internal_services/presentation/cubit/order_funcations/order_functions.dart';
@@ -70,9 +69,7 @@ class ViewListDataContainerDesignNewOrderPetroleum extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final order = orders[index];
 
-                    final service = order.services?.isNotEmpty == true
-                        ? order.services!.first
-                        : null;
+                    final service = order.displayService;
 
                     final serviceTitle = OrderFunctions.getServiceTitle(
                       context: context,

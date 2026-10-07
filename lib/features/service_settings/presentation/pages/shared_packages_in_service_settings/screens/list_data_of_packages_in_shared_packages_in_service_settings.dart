@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/features/store_page/presentation/bloc/branch_cubit/branch_cubit.dart';
+import 'package:sun_web_system/features/service_settings/presentation/custom_widget/provider_service_branches.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/pages_widgets/general_widgets/snakbar.dart';
 import 'package:sun_web_system/core/theming/colors.dart';
@@ -48,10 +51,10 @@ class ListDataOfPackagesInSharedPackagesInServiceSettings
                   final itemsList = e.items
                       .expand(
                         (item) => item
-                        .getLocalizedName(context)
-                        .split(',')
-                        .map((e) => e.trim()),
-                  )
+                            .getLocalizedName(context)
+                            .split(',')
+                            .map((e) => e.trim()),
+                      )
                       .where((e) => e.isNotEmpty)
                       .toList();
 
@@ -59,6 +62,10 @@ class ListDataOfPackagesInSharedPackagesInServiceSettings
                   return Padding(
                     padding: const EdgeInsets.only(right: 10),
                     child: ContainerSharedPackageDesignWidget(
+                      branches: ProviderServiceBranchesSummary(
+                        branchIds: e.effectiveBranchIds,
+                        availableBranches: e.availableBranches,
+                      ),
                       textPackage: package.getLocalizedName(context),
                       price: package.price.toString(),
                       items: itemsList,
@@ -66,22 +73,23 @@ class ListDataOfPackagesInSharedPackagesInServiceSettings
                         final result = await showDialog(
                           context: context,
                           builder: (_) => MultiBlocProvider(
-                            providers: [
-                              BlocProvider.value(
-                                value: context.read<ProviderPackagesCubit>(),
-                              ),
-                              BlocProvider(
-                                create: (_) => GetTaxCubit()
-                                  ..getTaxAndSelect(package.taxId),
-                              ),
-                            ],
-                            child: CreatePackageDialog(
-                              package: e,
-                            )
-                          ),
+                              providers: [
+                                BlocProvider.value(
+                                    value: context.read<BranchCubit>()),
+                                BlocProvider.value(
+                                  value: context.read<ProviderPackagesCubit>(),
+                                ),
+                                BlocProvider(
+                                  create: (_) => GetTaxCubit()
+                                    ..getTaxAndSelect(package.taxId),
+                                ),
+                              ],
+                              child: CreatePackageDialog(
+                                package: e,
+                              )),
                         );
 
-                        if (result == true) {
+                        if (result == true && context.mounted) {
                           context.read<ProviderPackagesCubit>().getPackages();
                         }
                       },
@@ -124,7 +132,7 @@ class ListDataOfPackagesInSharedPackagesInServiceSettings
                           ),
                         );
 
-                        if (confirm == true) {
+                        if (confirm == true && context.mounted) {
                           context.read<ProviderPackagesCubit>().deletePackage(
                                 id: package.id,
                               );

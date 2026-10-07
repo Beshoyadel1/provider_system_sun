@@ -44,7 +44,7 @@ class ListOrderDetails extends StatelessWidget {
           if (state is OrderStatusSuccess) {
             context
                 .read<GetOrderDetailsCubit>()
-                .getOrderDetails();
+                .getOrderDetails(force: true);
           }
 
           if (state is OrderStatusError) {

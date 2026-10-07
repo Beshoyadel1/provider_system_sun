@@ -1,6 +1,8 @@
 import '../../request/update_order_status_request.dart';
 import '../../../../../core/api/dio_function/api_constants.dart';
 import '../../../../../core/api/dio_function/dio_controller.dart';
+import '../../../../../core/api/dio_function/failures.dart';
+import 'package:dio/dio.dart';
 
 Future<bool> updateOrderStatusFunction({
   required UpdateOrderStatusRequest updateOrderStatusRequest,
@@ -12,12 +14,19 @@ Future<bool> updateOrderStatusFunction({
       ApiLink.updateOrderStatus,
     );
 
-    if (response.statusCode == 200) {
-      return response.data["success"] == true;
+    final data = response.data;
+    if ((response.statusCode ?? 500) >= 400 ||
+        data is! Map ||
+        data['success'] != true) {
+      throw Exception(data is Map
+          ? data['message'] ?? 'Failed to update order status'
+          : responseOfStatusCode(response.statusCode));
     }
-
-    return false;
-  } catch (e) {
-    return false;
+    return true;
+  } on DioException catch (e) {
+    final data = e.response?.data;
+    throw Exception(data is Map
+        ? data['message'] ?? responseOfStatusCode(e.response?.statusCode)
+        : responseOfStatusCode(e.response?.statusCode));
   }
 }

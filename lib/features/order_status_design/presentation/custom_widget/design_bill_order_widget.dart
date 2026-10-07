@@ -79,7 +79,7 @@ class DesignBillOrderWidget extends StatelessWidget {
                 textColor: AppColors.greyColor,
               ),
               TextInAppWidget(
-                text:"$tax%"?? "",
+                text: tax ?? '',
                 textSize: 16,
                 fontWeightIndex: FontSelectionData.regularFontFamily,
                 textColor: AppColors.blackColor,

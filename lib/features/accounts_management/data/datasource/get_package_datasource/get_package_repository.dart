@@ -10,8 +10,7 @@ Future<List<PackageModelGetPackageRepository>> getPackageFunction({
   required GetPackageRequest request,
 }) async {
   try {
-    final response = await Network.getDataWithBodyAndParams(
-      {},
+    final response = await Network.getDataWithParams(
       request.toJson(),
       ApiLink.getPackage,
     );

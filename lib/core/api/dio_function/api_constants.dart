@@ -38,84 +38,58 @@ class ApiConfig {
 }
 
 class ApiLink {
-  static const String sendVerificationCode =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.user}/SendVerificationCode";
-  static const String getHarageChat =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.harage}/GetHarageChat";
-  static const String changeHarageStatus =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.harage}/ChangeHarageStatus";
+  static const String getServiceRequestsForProvider = '${ApiConfig.baseUrlApi}/ServiceRequest/GetServiceRequestsForProvider';
+  static const String getServiceRequestDetails = '${ApiConfig.baseUrlApi}/ServiceRequest/GetServiceRequestDetails';
+  static const String createServiceOffer = '${ApiConfig.baseUrlApi}/ServiceRequest/CreateServiceOffer';
+  static const String updateServiceOffer = '${ApiConfig.baseUrlApi}/ServiceRequest/UpdateServiceOffer';
+  static const String deleteServiceOffer = '${ApiConfig.baseUrlApi}/ServiceRequest/DeleteServiceOffer';
+  static const String refuseServiceRequest = '${ApiConfig.baseUrlApi}/ServiceRequest/RefuseServiceRequest';
+  static const String sendVerificationCode = "${ApiConfig.baseUrlApi}/${ApiConfig.user}/SendVerificationCode";
+  static const String getHarageChat = "${ApiConfig.baseUrlApi}/${ApiConfig.harage}/GetHarageChat";
+  static const String changeHarageStatus = "${ApiConfig.baseUrlApi}/${ApiConfig.harage}/ChangeHarageStatus";
 //approveProvider
-  static const String approveProvider =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.approval}/ApproveProvider";
-
-  static const String updateApprovalInfo =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.approval}/UpdateApprovalInfo";
-  static const String createApprovalInfo =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.approval}/CreateApprovalInfo";
+  static const String approveProvider = "${ApiConfig.baseUrlApi}/${ApiConfig.approval}/ApproveProvider";
+  static const String updateApprovalInfo = "${ApiConfig.baseUrlApi}/${ApiConfig.approval}/UpdateApprovalInfo";
+  static const String createApprovalInfo = "${ApiConfig.baseUrlApi}/${ApiConfig.approval}/CreateApprovalInfo";
   //warranty
-  static const String getApprovalInfo =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.approval}/GetApprovalInfo";
-  static const String getApprovalInfoById =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.approval}/GetApprovalInfoById";
+  static const String getApprovalInfo = "${ApiConfig.baseUrlApi}/${ApiConfig.approval}/GetApprovalInfo";
+  static const String getApprovalInfoById = "${ApiConfig.baseUrlApi}/${ApiConfig.approval}/GetApprovalInfoById";
 
-  static const String getCarDetails =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.car}/GetCarDetails";
+  static const String getCarDetails = "${ApiConfig.baseUrlApi}/${ApiConfig.car}/GetCarDetails";
 
-  static const String getAllHarages =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.harage}/GetAllHarages";
-  static const String getHarageDetails =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.harage}/GetHarageDetails";
+  static const String getAllHarages = "${ApiConfig.baseUrlApi}/${ApiConfig.harage}/GetAllHarages";
+  static const String getHarageDetails = "${ApiConfig.baseUrlApi}/${ApiConfig.harage}/GetHarageDetails";
 
-  static const String getUserInfo =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.user}/getUserInfo";
-  static const String notificationHub =
-      "${ApiConfig.baseUrlApi}/sunStatusHub";
-  static const String makeNotificationViewed =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.notification}/MakeNotificationViewed";
+  static const String getUserInfo = "${ApiConfig.baseUrlApi}/${ApiConfig.user}/getUserInfo";
+  static const String notificationHub = "${ApiConfig.baseUrlApi}/sunStatusHub";
+  static const String makeNotificationViewed = "${ApiConfig.baseUrlApi}/${ApiConfig.notification}/MakeNotificationViewed";
 
-  static const String getUserNotification =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.notification}/GetUserNotification";
+  static const String getUserNotification = "${ApiConfig.baseUrlApi}/${ApiConfig.notification}/GetUserNotification";
 
-  static const String getUserNewNotification =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.notification}/GetUserNewNotification";
-  static const String subscribeToTopic =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.notification}/SubscribeToTopic";
-  static const String unsubscribeFromTopic =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.notification}/UnsubscribeFromTopic";
-  static const String updateFcmToken =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.user}/UpdateFcmToken";
+  static const String getUserNewNotification = "${ApiConfig.baseUrlApi}/${ApiConfig.notification}/GetUserNewNotification";
+  static const String subscribeToTopic = "${ApiConfig.baseUrlApi}/${ApiConfig.notification}/SubscribeToTopic";
+  static const String unsubscribeFromTopic = "${ApiConfig.baseUrlApi}/${ApiConfig.notification}/UnsubscribeFromTopic";
+  static const String updateFcmToken = "${ApiConfig.baseUrlApi}/${ApiConfig.user}/UpdateFcmToken";
   //User
-  static const String loginUser =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.user}/LogInUser";
-  static const String createUser =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.user}/CreateUser";
-  static const String changePassword =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.user}/ChangePassword";
-  static const String checkIfUserExist =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.user}/CheckIfUserExist";
-  static const String checkIfUserExistOrNot =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.user}/CheckIfUserExistOrNot";
-  static const String deleteUser =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.user}/DeleteUser";
-  static const String getAppUserInfo =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.user}/GetAppUserInfo";
-  static const String restoreUser =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.user}/RestoreUser";
-  static const String updateUser =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.user}/UpdateUser";
+  static const String loginUser = "${ApiConfig.baseUrlApi}/${ApiConfig.user}/LogInUser";
+  static const String createUser = "${ApiConfig.baseUrlApi}/${ApiConfig.user}/CreateUser";
+  static const String changePassword = "${ApiConfig.baseUrlApi}/${ApiConfig.user}/ChangePassword";
+  static const String checkIfUserExist = "${ApiConfig.baseUrlApi}/${ApiConfig.user}/CheckIfUserExist";
+  static const String checkIfUserExistOrNot = "${ApiConfig.baseUrlApi}/${ApiConfig.user}/CheckIfUserExistOrNot";
+  static const String deleteUser = "${ApiConfig.baseUrlApi}/${ApiConfig.user}/DeleteUser";
+  static const String getAppUserInfo = "${ApiConfig.baseUrlApi}/${ApiConfig.user}/GetAppUserInfo";
+  static const String restoreUser = "${ApiConfig.baseUrlApi}/${ApiConfig.user}/RestoreUser";
+  static const String updateUser = "${ApiConfig.baseUrlApi}/${ApiConfig.user}/UpdateUser";
 
   //Employee
-  static const String getProviderEmployees =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.employeeService}/GetProviderEmployees";
-  static const String getEmployeeServices =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.branch}/GetEmployeeServices";
-  static const String getBranchEmployees =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.branch}/getBranchEmployees";
+  static const String getProviderEmployees = "${ApiConfig.baseUrlApi}/${ApiConfig.employeeService}/GetProviderEmployees";
+  static const String getProviderEmployeesByServices =
+      "${ApiConfig.baseUrlApi}/${ApiConfig.employeeService}/GetProviderEmployeesByServices";
+  static const String getEmployeeServices = "${ApiConfig.baseUrlApi}/${ApiConfig.branch}/GetEmployeeServices";
+  static const String getBranchEmployees = "${ApiConfig.baseUrlApi}/${ApiConfig.branch}/getBranchEmployees";
   //Banner
-  static const String getBanners =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.banner}/GetBanners";
-  static const String uploadBanners =
-      "${ApiConfig.baseUrlApi}/${ApiConfig.banner}/UploadBanners";
+  static const String getBanners = "${ApiConfig.baseUrlApi}/${ApiConfig.banner}/GetBanners";
+  static const String uploadBanners = "${ApiConfig.baseUrlApi}/${ApiConfig.banner}/UploadBanners";
 
   //Chat
   static const String getOtherMessages =
@@ -254,6 +228,8 @@ class ApiLink {
   static const String getPackage =
       "${ApiConfig.baseUrlApi}/${ApiConfig.packages}/GetPackage";
 //Product
+  static const String getProviderProducts =
+      "${ApiConfig.baseUrlApi}/${ApiConfig.product}/GetProviderProducts";
   static const String createProduct =
       "${ApiConfig.baseUrlApi}/${ApiConfig.product}/CreateProduct";
   static const String deleteProduct =

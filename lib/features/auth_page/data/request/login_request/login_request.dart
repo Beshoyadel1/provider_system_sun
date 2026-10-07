@@ -12,16 +12,11 @@ class LoginRequest {
   });
 
   Map<String, dynamic> toJson() {
-    final cleanToken = fcmToken?.trim();
     return {
       "USER": user,
       "PASSWORD": password,
       "TYPE": type,
-      "type": type,
-      if (cleanToken != null && cleanToken.isNotEmpty) ...{
-        "FCMTOKEN": cleanToken,
-        "fcmToken": cleanToken,
-      },
+      "FCMTOKEN": fcmToken?.trim() ?? '',
     };
   }
 }

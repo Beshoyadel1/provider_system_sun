@@ -13,6 +13,7 @@ class ProviderChatState extends Equatable {
   final bool isSendingMessage;
   final bool isLoadingOlder;
   final String? errorMessage;
+  final bool chatClosed;
 
   const ProviderChatState({
     this.allMessages = const [],
@@ -26,6 +27,7 @@ class ProviderChatState extends Equatable {
     this.isSendingMessage = false,
     this.isLoadingOlder = false,
     this.errorMessage,
+    this.chatClosed = false,
   });
 
   ProviderChatState copyWith({
@@ -42,6 +44,7 @@ class ProviderChatState extends Equatable {
     bool? isLoadingOlder,
     String? errorMessage,
     bool clearErrorMessage = false,
+    bool? chatClosed,
   }) {
     return ProviderChatState(
       allMessages: allMessages ?? this.allMessages,
@@ -55,17 +58,13 @@ class ProviderChatState extends Equatable {
       isSendingMessage: isSendingMessage ?? this.isSendingMessage,
       isLoadingOlder: isLoadingOlder ?? this.isLoadingOlder,
       errorMessage: clearErrorMessage ? null : (errorMessage ?? this.errorMessage),
+      chatClosed: chatClosed ?? this.chatClosed,
     );
   }
 
   int calculateTotalUnread(int currentUserId, int currentUserType) {
     int count = 0;
     for (final chat in allMessages) {
-      if (selectedChat != null &&
-          selectedChat!.touser == chat.touser &&
-          selectedChat!.tousertype == chat.tousertype) {
-        continue;
-      }
       count += chat.unreadCount(currentUserId, currentUserType);
     }
     return count;
@@ -86,5 +85,6 @@ class ProviderChatState extends Equatable {
         isSendingMessage,
         isLoadingOlder,
         errorMessage,
+        chatClosed,
       ];
 }

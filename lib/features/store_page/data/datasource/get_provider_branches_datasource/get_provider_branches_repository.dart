@@ -15,8 +15,7 @@ getProviderBranchesFunction({
   try {
 
     final response =
-    await Network.getDataWithBodyAndParams(
-      {},
+    await Network.getDataWithParams(
       getProviderBranchesRequest.toJson(),
       ApiLink.getProviderBranches,
     );

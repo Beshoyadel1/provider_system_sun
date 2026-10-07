@@ -5,6 +5,8 @@ import 'package:sun_web_system/core/theming/fonts.dart';
 import 'package:sun_web_system/core/theming/text_styles.dart';
 import 'package:sun_web_system/features/service_settings/presentation/pages/car_spare_parts_in_service_settings/sub/add_spare_parts_in_service_settings/screens/size_controllers.dart';
 import 'package:sun_web_system/features/service_settings/presentation/custom_widget/text_with_text_form_field_as_column2_widget.dart';
+import 'product_money_field.dart';
+import 'product_stocks_editor.dart';
 
 class SizeItemWidget extends StatelessWidget {
   final SizeControllers controllers;
@@ -46,37 +48,40 @@ class SizeItemWidget extends StatelessWidget {
           ),
           child: Column(
             children: [
-              Wrap(
-                spacing: 10,
-                runSpacing: 15,
-                children: [
-                  _item(itemWidth,
-                      TextWithTextFormFieldAsColumn2Widget(
-                        text: AppLanguageKeys.name,
-                        textFormController: controllers.nameController,
-                      )),
-                  _item(itemWidth,
-                      TextWithTextFormFieldAsColumn2Widget(
-                        text: AppLanguageKeys.latinName,
-                        textFormController: controllers.latinNameController,
-                      )),
-                  _item(itemWidth,
-                      TextWithTextFormFieldAsColumn2Widget(
-                        text: AppLanguageKeys.price,
-                        isDigit: true,
-                        textFormController: controllers.priceController,
-                      )),
-                  _item(itemWidth,
-                      TextWithTextFormFieldAsColumn2Widget(
-                        text: AppLanguageKeys.cost,
-                        isDigit: true,
-                        textFormController: controllers.costController,
-                      )),
-                ],
-              ),
-
+              LayoutBuilder(builder: (context, constraints) {
+                final fieldWidth = constraints.maxWidth > 500
+                    ? (constraints.maxWidth - 10) / 2
+                    : constraints.maxWidth;
+                return Wrap(
+                  spacing: 10,
+                  runSpacing: 15,
+                  children: [
+                    _item(
+                        fieldWidth,
+                        TextWithTextFormFieldAsColumn2Widget(
+                          text: AppLanguageKeys.name,
+                          textFormController: controllers.nameController,
+                        )),
+                    _item(
+                        fieldWidth,
+                        TextWithTextFormFieldAsColumn2Widget(
+                          text: AppLanguageKeys.latinName,
+                          textFormController: controllers.latinNameController,
+                        )),
+                    _item(
+                        fieldWidth,
+                        ProductMoneyField(
+                            controller: controllers.priceController)),
+                    _item(
+                        fieldWidth,
+                        ProductMoneyField(
+                            controller: controllers.costController,
+                            cost: true)),
+                  ],
+                );
+              }),
               const SizedBox(height: 10),
-
+              ProductStocksEditor(stocks: controllers.stocks),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

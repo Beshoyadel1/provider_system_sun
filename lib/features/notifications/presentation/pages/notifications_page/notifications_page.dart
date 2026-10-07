@@ -7,7 +7,6 @@ import '../../../../../../core/theming/text_styles.dart';
 import '../../bloc/notification_cubit/notification_cubit.dart';
 import '../../bloc/notification_cubit/notification_state.dart';
 import 'package:sun_web_system/features/notifications/data/model/get_user_new_notification_model/get_user_new_notification_model.dart';
-import 'package:sun_web_system/features/notifications/presentation/module/notification_module/notification_module.dart';
 
 class NotificationsPage extends StatefulWidget {
   const NotificationsPage({super.key});
@@ -23,8 +22,9 @@ class _NotificationsPageState extends State<NotificationsPage> {
   void initState() {
     super.initState();
     final cubit = context.read<NotificationCubit>();
-    cubit.getUserNotification();
-    cubit.makeNotificationViewed();
+    cubit.ensureLoaded().then((_) {
+      if (mounted) cubit.makeNotificationViewed();
+    });
 
     _scrollController.addListener(_onScroll);
   }
@@ -208,13 +208,6 @@ class _NotificationsPageState extends State<NotificationsPage> {
                         final item = cubit.notifications[index];
                         return _NotificationCard(
                           item: item,
-                          onTap: () {
-                            if (item.isChatRelated) {
-                              NotificationModule.instance.navigationService.openChat();
-                            } else {
-                              NotificationModule.instance.navigationService.openDashboardOrders();
-                            }
-                          },
                         );
                       },
                     );
@@ -231,9 +224,8 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
 class _NotificationCard extends StatelessWidget {
   final NotificationModel item;
-  final VoidCallback? onTap;
 
-  const _NotificationCard({required this.item, this.onTap});
+  const _NotificationCard({required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -243,7 +235,6 @@ class _NotificationCard extends StatelessWidget {
     final isUnread = item.isViewed == false;
 
     return InkWell(
-      onTap: onTap,
       borderRadius: BorderRadius.circular(14),
       child: Container(
         decoration: BoxDecoration(

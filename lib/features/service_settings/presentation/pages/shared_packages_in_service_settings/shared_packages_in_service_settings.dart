@@ -1,5 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/features/store_page/presentation/bloc/branch_cubit/branch_cubit.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/service_settings/presentation/bloc/get_tax_cubit/get_tax_cubit.dart';
 import 'package:sun_web_system/features/service_settings/presentation/bloc/provider_packages_cubit/provider_packages_cubit.dart';
@@ -9,14 +10,16 @@ import '../../../../../features/service_settings/presentation/pages/shared_packa
 import '../../../../../features/service_settings/presentation/pages/car_spare_parts_in_service_settings/screens/floating_action_button_screen.dart';
 import '../../../../../core/theming/colors.dart';
 
-
 class SharedPackagesInServiceSettings extends StatelessWidget {
   const SharedPackagesInServiceSettings({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => ProviderPackagesCubit()..getPackages(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => ProviderPackagesCubit()..getPackages()),
+        BlocProvider(create: (_) => BranchCubit()..getProviderBranches()),
+      ],
       child: Scaffold(
         backgroundColor: AppColors.scaffoldColor,
         appBar: AppBar(),
@@ -34,9 +37,8 @@ class SharedPackagesInServiceSettings extends StatelessWidget {
             ),
           ),
         ),
-
-
-        floatingActionButton: BlocBuilder<ProviderPackagesCubit, ProviderPackagesState>(
+        floatingActionButton:
+            BlocBuilder<ProviderPackagesCubit, ProviderPackagesState>(
           builder: (context, state) {
             final isLoading = state is ProviderPackagesLoading;
 
@@ -44,28 +46,29 @@ class SharedPackagesInServiceSettings extends StatelessWidget {
               onPressed: isLoading
                   ? null
                   : () async {
-                final result = await showDialog(
-                  context: context,
-                  builder: (_) => MultiBlocProvider(
-                    providers: [
-                      BlocProvider.value(
-                        value: context.read<ProviderPackagesCubit>(),
-                      ),
+                      final result = await showDialog(
+                        context: context,
+                        builder: (_) => MultiBlocProvider(
+                          providers: [
+                            BlocProvider.value(
+                                value: context.read<BranchCubit>()),
+                            BlocProvider.value(
+                              value: context.read<ProviderPackagesCubit>(),
+                            ),
+                            BlocProvider(
+                              create: (_) => GetTaxCubit()..getTax(),
+                            ),
+                          ],
+                          child: const CreatePackageDialog(
+                            package: null,
+                          ),
+                        ),
+                      );
 
-                      BlocProvider(
-                        create: (_) => GetTaxCubit()..getTax(),
-                      ),
-                    ],
-                    child: const CreatePackageDialog(
-                      package: null,
-                    ),
-                  ),
-                );
-
-                if (result == true) {
-                  context.read<ProviderPackagesCubit>().getPackages();
-                }
-              },
+                      if (result == true && context.mounted) {
+                        context.read<ProviderPackagesCubit>().getPackages();
+                      }
+                    },
             );
           },
         ),

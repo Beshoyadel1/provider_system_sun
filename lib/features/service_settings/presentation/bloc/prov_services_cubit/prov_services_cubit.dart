@@ -32,6 +32,24 @@ class ProvServicesCubit extends Cubit<ProvServicesState> {
   final ProvServiceUpdater _provServiceUpdater;
 
   List<GetProvServicesResponse> response = [];
+  int? selectedBranchId;
+  int? _currentServiceId;
+  int? _currentProviderId;
+  int _requestVersion = 0;
+
+  bool _matchesFilter(GetProvServicesResponse item) =>
+      (_currentServiceId == null ||
+          item.provService.serviceid == _currentServiceId) &&
+      (_currentProviderId == null ||
+          item.provService.provid == _currentProviderId) &&
+      (selectedBranchId == null ||
+          item.provService.branchIds.contains(selectedBranchId));
+
+  Future<void> selectBranch({required int serviceId, int? branchId}) async {
+    selectedBranchId = branchId != null && branchId > 0 ? branchId : null;
+    await getProvServices(serviceId: serviceId);
+  }
+
   final Map<int, GetProvServicesResponse> _locallyCreatedServices = {};
 
   Future<int> _getProviderId() async {
@@ -40,7 +58,9 @@ class ProvServicesCubit extends Cubit<ProvServicesState> {
     }
 
     final user = await AuthLocalStorage.getUser();
-    return user?.userid ?? 0;
+    final id = user?.userid;
+    if (id == null || id <= 0) throw StateError('Provider not found');
+    return id;
   }
 
   void _emitIfOpen(ProvServicesState state) {
@@ -53,6 +73,7 @@ class ProvServicesCubit extends Cubit<ProvServicesState> {
     if (isClosed) return;
 
     _locallyCreatedServices[service.provService.id] = service;
+    if (!_matchesFilter(service)) return;
 
     final updatedServices = List<GetProvServicesResponse>.from(response);
     final existingIndex = updatedServices.indexWhere(
@@ -74,26 +95,36 @@ class ProvServicesCubit extends Cubit<ProvServicesState> {
   }) async {
     if (isClosed) return;
 
+    final requestVersion = ++_requestVersion;
+    _currentServiceId = serviceId;
     _emitIfOpen(ProvServicesLoading());
 
     try {
       final providerId = await _getProviderId();
 
+      if (isClosed || requestVersion != _requestVersion) return;
+      if (_currentProviderId != null && _currentProviderId != providerId) {
+        _locallyCreatedServices.clear();
+        response = [];
+        selectedBranchId = null;
+      }
+      _currentProviderId = providerId;
       final result = await _provServicesLoader(
         getProvServicesRequest: GetProvServicesRequest(
           providerId: providerId,
           serviceId: serviceId,
+          branchId: selectedBranchId,
         ),
       );
 
-      if (isClosed) return;
+      if (isClosed || requestVersion != _requestVersion) return;
 
       final serverIds = result.map((item) => item.provService.id).toSet();
       _locallyCreatedServices.removeWhere((id, _) => serverIds.contains(id));
 
       response = [
         ...result,
-        ..._locallyCreatedServices.values,
+        ..._locallyCreatedServices.values.where(_matchesFilter),
       ];
 
       _emitIfOpen(ProvServicesSuccess(List.unmodifiable(response)));
@@ -101,7 +132,9 @@ class ProvServicesCubit extends Cubit<ProvServicesState> {
       print("❌ ERROR: $e");
       print("📍 STACK: $stack");
 
-      _emitIfOpen(ProvServicesError(e.toString()));
+      if (requestVersion == _requestVersion) {
+        _emitIfOpen(ProvServicesError(e.toString()));
+      }
     }
   }
 
@@ -121,9 +154,9 @@ class ProvServicesCubit extends Cubit<ProvServicesState> {
       _locallyCreatedServices.remove(provServiceId);
       _emitIfOpen(ProvServiceDeleteSuccess());
 
-      if (response.isNotEmpty) {
+      if (_currentServiceId != null) {
         await getProvServices(
-          serviceId: response.first.provService.serviceid,
+          serviceId: _currentServiceId!,
         );
       }
     } catch (e) {
@@ -165,9 +198,9 @@ class ProvServicesCubit extends Cubit<ProvServicesState> {
         }
       }
 
-      response = updatedServices;
+      response = updatedServices.where(_matchesFilter).toList();
       _emitIfOpen(
-        ProvServiceUpdateSuccess(List.unmodifiable(updatedServices)),
+        ProvServiceUpdateSuccess(List.unmodifiable(response)),
       );
     } catch (e) {
       _emitIfOpen(ProvServicesError(e.toString()));
@@ -242,6 +275,7 @@ class ProvServicesCubit extends Cubit<ProvServicesState> {
     return GetProvServicesResponse(
       provService: ProvService(
         id: provServiceId,
+        branchIds: request.branchIds ?? current.provService.branchIds,
         serviceid: request.serviceId ?? current.provService.serviceid,
         provid: request.provId ?? current.provService.provid,
         taxid: request.taxId ?? current.provService.taxid,

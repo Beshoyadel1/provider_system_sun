@@ -1,11 +1,11 @@
-import 'dart:convert';
+import 'package:sun_web_system/core/language/language_cubit/language_cubit.dart';
+import 'package:sun_web_system/features/store_page/presentation/bloc/branch_cubit/branch_cubit.dart';
+import 'product_money_field.dart';
+import 'product_stock_controller.dart';
+import 'product_stocks_editor.dart';
 import 'dart:typed_data';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/core/theming/colors.dart';
-import 'package:sun_web_system/core/theming/fonts.dart';
-import 'package:sun_web_system/core/theming/text_styles.dart';
 import 'package:sun_web_system/features/advertisements/presentation/pages/first_screen_advertisements/screens/last_button_in_list_data_first_screen_advertisements.dart';
 import 'package:sun_web_system/features/employee/presentation/custom_widget/text_with_container_as_column_widget.dart';
 import '../../../../../../data/model/get_car_brand_models/car_model_data_model.dart';
@@ -43,14 +43,13 @@ class OtherDataDataContainerInListDataAddSparePartsInServiceSettings
 
   @override
   State<OtherDataDataContainerInListDataAddSparePartsInServiceSettings>
-  createState() =>
-      _OtherDataDataContainerInListDataAddSparePartsInServiceSettingsState();
+      createState() =>
+          _OtherDataDataContainerInListDataAddSparePartsInServiceSettingsState();
 }
 
 class _OtherDataDataContainerInListDataAddSparePartsInServiceSettingsState
     extends State<
         OtherDataDataContainerInListDataAddSparePartsInServiceSettings> {
-
   bool isNewValue = false;
   bool get isUpdate => widget.product != null;
 
@@ -64,7 +63,9 @@ class _OtherDataDataContainerInListDataAddSparePartsInServiceSettingsState
   final priceController = TextEditingController();
   final costController = TextEditingController();
   final instructionsController = TextEditingController();
-  final inStockController = TextEditingController();
+  bool hasSizes = false;
+  bool _preparing = false;
+  final List<ProductStockController> generalStocks = [];
 
   List<CarSelectionController> cars = [CarSelectionController()];
   List<SizeControllers> sizes = [];
@@ -86,6 +87,7 @@ class _OtherDataDataContainerInListDataAddSparePartsInServiceSettingsState
         quality: 70,
       );
 
+      if (!mounted) return;
       setState(() {
         imageBytes = compressed;
         imageName = file.name;
@@ -107,13 +109,17 @@ class _OtherDataDataContainerInListDataAddSparePartsInServiceSettingsState
       instructionsController.text = p.instructions ?? "";
       priceController.text = p.price?.toString() ?? "";
       costController.text = p.cost?.toString() ?? "";
-      inStockController.text = p.inStock?.toString() ?? "";
+      hasSizes = p.sizes.isNotEmpty;
+      generalStocks
+          .addAll(p.generalBranchStocks.map(ProductStockController.fromStock));
 
       isNewValue = p.isNew ?? false;
       imageBytes = p.image;
 
       sizes = p.sizes.map((s) {
         return SizeControllers(
+          id: s.id,
+          stocks: s.branchStocks.map(ProductStockController.fromStock).toList(),
           nameController: TextEditingController(text: s.name),
           latinNameController: TextEditingController(text: s.latinName),
           priceController: TextEditingController(text: s.price?.toString()),
@@ -121,13 +127,11 @@ class _OtherDataDataContainerInListDataAddSparePartsInServiceSettingsState
         );
       }).toList();
 
-      if (sizes.isEmpty) sizes = [SizeControllers()];
-
       cars = p.brands.map((b) {
         return CarSelectionController()
           ..brandId = b.brandId
           ..selectedModelIds =
-          b.models.map((m) => m.modelId!).toList()
+              b.models.map((m) => m.modelId).whereType<int>().toList()
           ..models = b.models.map((m) {
             return CarModelDataModel(
               id: m.modelId,
@@ -142,445 +146,516 @@ class _OtherDataDataContainerInListDataAddSparePartsInServiceSettingsState
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final ar = LanguageCubit.get(context).isAllAppLanguageArabic;
+    return LayoutBuilder(builder: (context, constraints) {
+      final width = constraints.maxWidth;
 
-    int itemsPerRow = width > 1000
-        ? 4
-        : width > 600
-        ? 2
-        : 1;
+      int itemsPerRow = width > 1000
+          ? 4
+          : width > 600
+              ? 2
+              : 1;
 
-    final itemWidth =
-        (width - ((itemsPerRow - 1) * 10)) / itemsPerRow;
+      final itemWidth = (width - ((itemsPerRow - 1) * 10)) / itemsPerRow;
 
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) => GetTaxCubit()..getTax()),
-        BlocProvider(create: (_) => GetAllProductCategoriesCubit()..getAllProductCategories()),
-        BlocProvider(create: (_) => SelectCarModelSettingCubit()..fetchBrands()),
-        BlocProvider(create: (_) => CarSelectionCubit()),
-        BlocProvider(
-          create: (_) => CreateProductCubit(
-            productId: widget.product?.id,
-          ),
-        ),
-      ],
-
-      child: MultiBlocListener(
-        listeners: [
-
-          BlocListener<GetTaxCubit, GetTaxState>(
-            listener: (context, state) {
-              if (state is GetTaxSuccess &&
-                  isUpdate &&
-                  !_taxInitialized) {
-
-                final p = widget.product!;
-                final cubit = context.read<GetTaxCubit>();
-
-                final tax = cubit.taxes.firstWhere(
-                      (t) => t.taxId == p.taxId,
-                  orElse: () => cubit.taxes.first,
-                );
-
-                cubit.selectTax(tax);
-
-                _taxInitialized = true;
-              }
-            },
-          ),
-
-          BlocListener<GetAllProductCategoriesCubit,
-              GetAllProductCategoriesState>(
-            listener: (context, state) {
-              if (state is GetAllProductCategoriesSuccess &&
-                  isUpdate &&
-                  !_categoryInitialized) {
-
-                final p = widget.product!;
-                final cubit =
-                context.read<GetAllProductCategoriesCubit>();
-
-                final category = cubit.categories.firstWhere(
-                      (c) => c.id == p.productCategoryId,
-                  orElse: () => cubit.categories.first,
-                );
-
-                cubit.selectCategory(category);
-
-                _categoryInitialized = true;
-              }
-            },
+      return MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (_) => BranchCubit()..getProviderBranches()),
+          BlocProvider(create: (_) => GetTaxCubit()..getTax()),
+          BlocProvider(
+              create: (_) =>
+                  GetAllProductCategoriesCubit()..getAllProductCategories()),
+          BlocProvider(
+              create: (_) => SelectCarModelSettingCubit()..fetchBrands()),
+          BlocProvider(create: (_) => CarSelectionCubit()),
+          BlocProvider(
+            create: (_) => CreateProductCubit(
+              productId: widget.product?.id,
+            ),
           ),
         ],
+        child: MultiBlocListener(
+          listeners: [
+            BlocListener<GetTaxCubit, GetTaxState>(
+              listener: (context, state) {
+                if (state is GetTaxSuccess && isUpdate && !_taxInitialized) {
+                  final p = widget.product!;
+                  final cubit = context.read<GetTaxCubit>();
 
-        child: SingleChildScrollView(
-          child: Builder(builder: (context) {
-            return Form(
-              key: formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                  final tax =
+                      cubit.taxes.where((t) => t.taxId == p.taxId).firstOrNull;
+                  if (tax != null) cubit.selectTax(tax);
 
-                  Wrap(
-                    spacing: 10,
-                    runSpacing: 20,
-                    children: [
+                  _taxInitialized = true;
+                }
+              },
+            ),
+            BlocListener<GetAllProductCategoriesCubit,
+                GetAllProductCategoriesState>(
+              listener: (context, state) {
+                if (state is GetAllProductCategoriesSuccess &&
+                    isUpdate &&
+                    !_categoryInitialized) {
+                  final p = widget.product!;
+                  final cubit = context.read<GetAllProductCategoriesCubit>();
 
-                      _item(itemWidth, TextWithTextFormFieldAsColumn2Widget(
-                        text: AppLanguageKeys.name,
-                        textFormController: nameController,
-                      )),
+                  final category = cubit.categories
+                      .where((c) => c.id == p.productCategoryId)
+                      .firstOrNull;
+                  if (category != null) cubit.selectCategory(category);
 
-                      _item(itemWidth, TextWithTextFormFieldAsColumn2Widget(
-                        text: AppLanguageKeys.latinName,
-                        textFormController: latinNameController,
-                      )),
-
-                      _item(itemWidth, const SelectTaxProduct()),
-
-                      _item(itemWidth, TextWithTextFormFieldAsColumn2Widget(
-                        text: AppLanguageKeys.description,
-                        textFormController: descController,
-                        maxLines: 5,
-                      )),
-
-                      _item(itemWidth, TextWithTextFormFieldAsColumn2Widget(
-                        text: AppLanguageKeys.latinDesc,
-                        textFormController: latinDescController,
-                        maxLines: 5,
-                      )),
-
-                      _item(itemWidth, TextWithTextFormFieldAsColumn2Widget(
-                        text: AppLanguageKeys.instructions,
-                        textFormController: instructionsController,
-                        maxLines: 5,
-                      )),
-
-                      _item(itemWidth, const SelectProductCategory()),
-
-                      _item(itemWidth, TextWithTextFormFieldAsColumn2Widget(
-                        text: AppLanguageKeys.price,
-                        isDigit: true,
-                        textFormController: priceController,
-                      )),
-
-                      _item(itemWidth, TextWithTextFormFieldAsColumn2Widget(
-                        text: AppLanguageKeys.cost,
-                        isDigit: true,
-                        textFormController: costController,
-                      )),
-
-                      _item(itemWidth, TextWithTextFormFieldAsColumn2Widget(
-                        text: AppLanguageKeys.inStock,
-                        isDigit: true,
-                        textFormController: inStockController,
-                      )),
-
-                      _item(
-                        itemWidth,
-                        TextWithContainerAsColumnWidget(
-                          title: AppLanguageKeys.sparePartImage,
-                          textContainer: AppLanguageKeys.attachImages,
-                          fileName: imageName,
-                          imageBytes: imageBytes,
-                          onTap: pickImage,
-                        ),
-                      ),
-
-                      _item(
-                        itemWidth,
-                        IsNewSwitch(
-                          initialValue: isNewValue,
-                          onChanged: (v) => isNewValue = v,
-                        ),
-                      ),
-
-                      ...List.generate(cars.length, (index) {
-                        final unavailableBrandIds = cars.indexed
-                            .where((entry) => entry.$1 != index)
-                            .map((entry) => entry.$2.brandId)
-                            .whereType<int>()
-                            .toSet();
-                        final isAllBrandsSelectedElsewhere = cars.indexed.any(
-                          (entry) => entry.$1 != index && entry.$2.isAllBrandsSelected,
-                        );
-
-                        return _item(
-                          itemWidth,
-                          CarSelectionItemWidget(
-                            controller: cars[index],
-                            unavailableBrandIds: unavailableBrandIds,
-                            isAllBrandsSelectedElsewhere:
-                                isAllBrandsSelectedElsewhere,
-                            onSelectionChanged: () => setState(() {}),
-                            showDelete: cars.length > 1,
-                            onAdd: () => setState(() => cars.insert(index + 1, CarSelectionController())),
-                            onDelete: () => setState(() => cars.removeAt(index)),
-                          ),
-                        );
-                      }),
-
-
-                      if (sizes.isEmpty)
-                        _item(
-                          itemWidth,
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const TextInAppWidget(
-                                text: AppLanguageKeys.sizes,
-                                textSize: 13,
-                                fontWeightIndex: FontSelectionData.regularFontFamily,
-                                textColor: AppColors.blackColor,
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(bottom: 15),
-                                padding: const EdgeInsets.all(15),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border: Border.all(color: Colors.grey.shade300),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      sizes.add(SizeControllers());
-                                    });
-                                  },
-                                  child: const Icon(Icons.add, color: Colors.green, size: 30),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-
-                      ...List.generate(sizes.length, (index) {
-                        return _item(
-                          itemWidth,
-                          SizeItemWidget(
-                            title: AppLanguageKeys.sizes,
-                            controllers: sizes[index],
-                            itemWidth: itemWidth,
-                            showDelete: true,
-                            onDelete: () {
-                              setState(() {
-                                sizes.removeAt(index);
-                              });
-                            },
-                            onAdd: () {
-                              setState(() {
-                                sizes.insert(index + 1, SizeControllers());
-                              });
-                            },
-                          ),
-                        );
-                      }),
-                    ],
-                  ),
-
-              BlocListener<CreateProductCubit, CreateProductState>(
-                listener: (context, state) {
-                  if (state is CreateProductSuccess) {
-                    AppSnackBar.showSuccess(AppLanguageKeys.success);
-
-                    if (isUpdate) {
-                      Navigator.pop(context, true);
-                      Navigator.pop(context, true);
-                    } else {
-                      Navigator.pop(context, true);
-                    }
-                  }
-
-                  if (state is CreateProductError) {
-                    AppSnackBar.showError(state.error);
-                  }
-                },
-                    child: BlocBuilder<CreateProductCubit, CreateProductState>(
-                      builder: (context, state) {
-
-                        final isLoading = state is CreateProductLoading;
-
-                        return Stack(
-                          alignment: Alignment.center,
+                  _categoryInitialized = true;
+                }
+              },
+            ),
+          ],
+          child: SingleChildScrollView(
+            child: Builder(builder: (context) {
+              return AbsorbPointer(
+                  absorbing: _preparing,
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Wrap(
+                          spacing: 10,
+                          runSpacing: 20,
                           children: [
-
-                            LastButtonInListDataFirstScreenAdvertisements(
-                              text: isLoading
-                                  ? " "
-                                  : isUpdate
-                                  ? AppLanguageKeys.edit
-                                  : AppLanguageKeys.save,
-
-                                onTap: isLoading ? null : () async {
-
-                                  if (!formKey.currentState!.validate()) {
-                                    AppSnackBar.showError(AppLanguageKeys.enterYourData);
-                                    return;
-                                  }
-
-                                  final taxCubit = context.read<GetTaxCubit>();
-                                  final categoryCubit = context.read<GetAllProductCategoriesCubit>();
-
-                                  if (taxCubit.selectedTax == null) {
-                                    AppSnackBar.showError(AppLanguageKeys.enterYourData);
-                                    return;
-                                  }
-
-                                  if (categoryCubit.selectedCategory == null) {
-                                    AppSnackBar.showError(AppLanguageKeys.enterYourData);
-                                    return;
-                                  }
-                                  if (imageBytes == null) {
-                                    AppSnackBar.showError(AppLanguageKeys.uploadImage);
-                                    return;
-                                  }
-
-                                  bool hasValidCar = cars.any((c) {
-                                    if (c.isAllBrandsSelected) return true;
-
-                                    if (c.brandId == null) return false;
-
-                                    bool isAllModelsSelected =
-                                        c.models.isNotEmpty &&
-                                            c.selectedModelIds.length == c.models.length;
-
-                                    if (isAllModelsSelected) return true;
-
-                                    return c.selectedModelIds.isNotEmpty;
-                                  });
-
-                                  if (!hasValidCar) {
-                                    AppSnackBar.showError(AppLanguageKeys.selectCarModelByServices);
-                                    return;
-                                  }
-
-                                  List<ProductBrand> brands = [];
-                                  List<ProductCarModel> carModels = [];
-
-                                  final allBrandsSelected =
-                                  cars.any((c) => c.isAllBrandsSelected);
-
-                                  if (allBrandsSelected) {
-                                    final carCubit = context.read<CarSelectionCubit>();
-                                    final allBrands =
-                                        context.read<SelectCarModelSettingCubit>().state.brands;
-
-                                    for (var brand in allBrands) {
-                                      brands.add(ProductBrand(brandid: brand.id));
-
-                                      final models = await carCubit.getModels(brand.id!);
-
-                                      for (var model in models) {
-                                        carModels.add(
-                                          ProductCarModel(
-                                            carBrandId: brand.id!,
-                                            carModelId: model.id!,
-                                            productCarBrandId:
-                                            categoryCubit.selectedCategory!.id,
-                                          ),
-                                        );
-                                      }
-                                    }
-                                  }
-
-                                  else {
-                                    brands = cars
-                                        .where((c) => c.brandId != null)
-                                        .map((c) => ProductBrand(brandid: c.brandId!))
-                                        .toList();
-
-                                    carModels = cars.expand((c) {
-                                      return c.selectedModelIds.map((modelId) {
-                                        return ProductCarModel(
-                                          carBrandId: c.brandId!,
-                                          carModelId: modelId,
-                                          productCarBrandId:
-                                          categoryCubit.selectedCategory!.id,
-                                        );
-                                      });
-                                    }).toList();
-                                  }
-                                  final sizesList = sizes
-                                      .where((s) =>
-                                  s.nameController.text.trim().isNotEmpty ||
-                                      s.latinNameController.text.trim().isNotEmpty ||
-                                      s.priceController.text.trim().isNotEmpty ||
-                                      s.costController.text.trim().isNotEmpty)
-                                      .map((s) {
-                                    return ProductSize(
-                                      name: s.nameController.text.trim(),
-                                      latinName: s.latinNameController.text.trim(),
-                                      price: int.tryParse(s.priceController.text),
-                                      cost: int.tryParse(s.costController.text),
-                                    );
-                                  }).toList();
-
-                                  final request = CreateProductRequest(
-                                    name: nameController.text.trim(),
-                                    latinName: latinNameController.text.trim(),
-                                    description: descController.text.trim(),
-                                    latinDesc: latinDescController.text.trim(),
-                                    instructions: instructionsController.text.trim(),
-
-                                    price: int.tryParse(priceController.text),
-                                    cost: int.tryParse(costController.text),
-                                    inStock: int.tryParse(inStockController.text),
-
-                                    isNew: isNewValue,
-                                    image: imageBytes,
-
-                                    taxId: taxCubit.selectedTax!.taxId,
-                                    productCategoryId: categoryCubit.selectedCategory!.id,
-
-                                    brands: brands,
-                                    carModels: carModels,
-                                    sizes: sizesList,
-                                  );
-
-                                  final json = request.toJson();
-                                  debugPrint("===== CREATE JSON =====");
-                                  debugPrint(const JsonEncoder.withIndent('  ').convert(json));
-
-                                  if (json.values.any((e) => e == null)) {
-                                    debugPrint("⚠️ WARNING: يوجد null في request");
-                                  }
-
-                                  final cubit = context.read<CreateProductCubit>();
-
-                                  if (isUpdate) {
-                                    cubit.updateProduct(request: request);
-                                  } else {
-                                    cubit.createProduct(request: request);
-                                  }
-                                }
-                            ),
-
-                            if (isLoading)
-                              const Positioned.fill(
-                                child: Center(
-                                  child: SizedBox(
-                                    height: 18,
-                                    width: 18,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
+                            _item(
+                                itemWidth,
+                                TextWithTextFormFieldAsColumn2Widget(
+                                  text: AppLanguageKeys.name,
+                                  textFormController: nameController,
+                                )),
+                            _item(
+                                itemWidth,
+                                TextWithTextFormFieldAsColumn2Widget(
+                                  text: AppLanguageKeys.latinName,
+                                  textFormController: latinNameController,
+                                )),
+                            _item(itemWidth, const SelectTaxProduct()),
+                            _item(
+                                itemWidth,
+                                TextWithTextFormFieldAsColumn2Widget(
+                                  text: AppLanguageKeys.description,
+                                  textFormController: descController,
+                                  maxLines: 5,
+                                )),
+                            _item(
+                                itemWidth,
+                                TextWithTextFormFieldAsColumn2Widget(
+                                  text: AppLanguageKeys.latinDesc,
+                                  textFormController: latinDescController,
+                                  maxLines: 5,
+                                )),
+                            _item(
+                                itemWidth,
+                                TextWithTextFormFieldAsColumn2Widget(
+                                  text: AppLanguageKeys.instructions,
+                                  textFormController: instructionsController,
+                                  maxLines: 5,
+                                )),
+                            _item(itemWidth, const SelectProductCategory()),
+                            _item(itemWidth,
+                                ProductMoneyField(controller: priceController)),
+                            _item(
+                                itemWidth,
+                                ProductMoneyField(
+                                    controller: costController, cost: true)),
+                            _item(
+                              itemWidth,
+                              TextWithContainerAsColumnWidget(
+                                title: AppLanguageKeys.sparePartImage,
+                                textContainer: AppLanguageKeys.attachImages,
+                                fileName: imageName,
+                                imageBytes: imageBytes,
+                                onTap: pickImage,
                               ),
+                            ),
+                            _item(
+                              itemWidth,
+                              IsNewSwitch(
+                                initialValue: isNewValue,
+                                onChanged: (v) => isNewValue = v,
+                              ),
+                            ),
+                            ...List.generate(cars.length, (index) {
+                              final unavailableBrandIds = cars.indexed
+                                  .where((entry) => entry.$1 != index)
+                                  .map((entry) => entry.$2.brandId)
+                                  .whereType<int>()
+                                  .toSet();
+                              final isAllBrandsSelectedElsewhere =
+                                  cars.indexed.any(
+                                (entry) =>
+                                    entry.$1 != index &&
+                                    entry.$2.isAllBrandsSelected,
+                              );
+
+                              return _item(
+                                itemWidth,
+                                CarSelectionItemWidget(
+                                  controller: cars[index],
+                                  unavailableBrandIds: unavailableBrandIds,
+                                  isAllBrandsSelectedElsewhere:
+                                      isAllBrandsSelectedElsewhere,
+                                  onSelectionChanged: () => setState(() {}),
+                                  showDelete: cars.length > 1,
+                                  onAdd: () => setState(() => cars.insert(
+                                      index + 1, CarSelectionController())),
+                                  onDelete: () =>
+                                      setState(() => cars.removeAt(index)),
+                                ),
+                              );
+                            }),
                           ],
-                        );
-                      },
+                        ),
+                        const SizedBox(height: 20),
+                        Material(
+                            type: MaterialType.transparency,
+                            child: SwitchListTile(
+                              contentPadding: EdgeInsets.zero,
+                              title: Text(ar
+                                  ? 'المنتج له مقاسات'
+                                  : 'Product has sizes'),
+                              subtitle: Text(ar
+                                  ? 'بدون مقاسات: مخزون عام للفروع. بمقاسات: مخزون مستقل لكل مقاس في الفروع.'
+                                  : 'Without sizes: general branch stock. With sizes: separate branch stock per size.'),
+                              value: hasSizes,
+                              onChanged: (value) => setState(() {
+                                hasSizes = value;
+                                if (value && sizes.isEmpty) {
+                                  sizes.add(SizeControllers());
+                                }
+                              }),
+                            )),
+                        if (!hasSizes)
+                          ProductStocksEditor(stocks: generalStocks),
+                        if (hasSizes) ...[
+                          if (sizes.isEmpty)
+                            FormField<void>(
+                                validator: (_) => ar
+                                    ? 'أضف مقاسًا واحدًا على الأقل'
+                                    : 'Add at least one size',
+                                builder: (field) => Column(children: [
+                                      OutlinedButton.icon(
+                                          icon: const Icon(Icons.add),
+                                          label: Text(
+                                              ar ? 'إضافة مقاس' : 'Add size'),
+                                          onPressed: () => setState(() =>
+                                              sizes.add(SizeControllers()))),
+                                      if (field.hasError)
+                                        Text(field.errorText!),
+                                    ])),
+                          for (final size in sizes)
+                            SizeItemWidget(
+                              key: ObjectKey(size),
+                              title: AppLanguageKeys.sizes,
+                              controllers: size,
+                              itemWidth: width,
+                              onDelete: () {
+                                setState(() => sizes.remove(size));
+                                size.dispose();
+                              },
+                              onAdd: () =>
+                                  setState(() => sizes.add(SizeControllers())),
+                            ),
+                        ],
+                        const SizedBox(height: 20),
+                        BlocListener<CreateProductCubit, CreateProductState>(
+                          listener: (context, state) {
+                            if (state is CreateProductSuccess) {
+                              AppSnackBar.showSuccess(AppLanguageKeys.success);
+
+                              Navigator.pop(context, true);
+                            }
+
+                            if (state is CreateProductError) {
+                              AppSnackBar.showError(state.error);
+                            }
+                          },
+                          child: BlocBuilder<CreateProductCubit,
+                              CreateProductState>(
+                            builder: (context, state) {
+                              final isLoading =
+                                  state is CreateProductLoading || _preparing;
+
+                              return Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  LastButtonInListDataFirstScreenAdvertisements(
+                                      text: isLoading
+                                          ? " "
+                                          : isUpdate
+                                              ? AppLanguageKeys.edit
+                                              : AppLanguageKeys.save,
+                                      onTap: isLoading
+                                          ? null
+                                          : () async {
+                                              if (!formKey.currentState!
+                                                  .validate()) {
+                                                AppSnackBar.showError(
+                                                    AppLanguageKeys
+                                                        .enterYourData);
+                                                return;
+                                              }
+
+                                              final taxCubit =
+                                                  context.read<GetTaxCubit>();
+                                              final categoryCubit = context.read<
+                                                  GetAllProductCategoriesCubit>();
+
+                                              if (taxCubit.selectedTax ==
+                                                  null) {
+                                                AppSnackBar.showError(
+                                                    AppLanguageKeys
+                                                        .enterYourData);
+                                                return;
+                                              }
+
+                                              if (categoryCubit
+                                                      .selectedCategory ==
+                                                  null) {
+                                                AppSnackBar.showError(
+                                                    AppLanguageKeys
+                                                        .enterYourData);
+                                                return;
+                                              }
+
+                                              bool hasValidCar = cars.any((c) {
+                                                if (c.isAllBrandsSelected) {
+                                                  return true;
+                                                }
+
+                                                if (c.brandId == null) {
+                                                  return false;
+                                                }
+
+                                                bool isAllModelsSelected = c
+                                                        .models.isNotEmpty &&
+                                                    c.selectedModelIds.length ==
+                                                        c.models.length;
+
+                                                if (isAllModelsSelected) {
+                                                  return true;
+                                                }
+
+                                                return c.selectedModelIds
+                                                    .isNotEmpty;
+                                              });
+
+                                              if (!hasValidCar) {
+                                                AppSnackBar.showError(
+                                                    AppLanguageKeys
+                                                        .selectCarModelByServices);
+                                                return;
+                                              }
+
+                                              setState(() => _preparing = true);
+                                              try {
+                                                List<ProductBrand> brands = [];
+                                                List<ProductCarModel>
+                                                    carModels = [];
+
+                                                final allBrandsSelected =
+                                                    cars.any((c) =>
+                                                        c.isAllBrandsSelected);
+
+                                                if (allBrandsSelected) {
+                                                  final carCubit = context.read<
+                                                      CarSelectionCubit>();
+                                                  final allBrands = context
+                                                      .read<
+                                                          SelectCarModelSettingCubit>()
+                                                      .state
+                                                      .brands;
+                                                  if (allBrands.isEmpty) {
+                                                    throw StateError(ar
+                                                        ? 'تعذر تحميل ماركات السيارات'
+                                                        : 'Unable to load car brands');
+                                                  }
+
+                                                  for (var brand in allBrands) {
+                                                    brands.add(ProductBrand(
+                                                        brandid: brand.id));
+
+                                                    final models =
+                                                        await carCubit
+                                                            .getModels(
+                                                                brand.id!);
+
+                                                    for (var model in models) {
+                                                      carModels.add(
+                                                        ProductCarModel(
+                                                          carBrandId: brand.id!,
+                                                          carModelId: model.id!,
+                                                          productCarBrandId: 0,
+                                                        ),
+                                                      );
+                                                    }
+                                                  }
+                                                } else {
+                                                  brands = cars
+                                                      .where((c) =>
+                                                          c.brandId != null)
+                                                      .map((c) => ProductBrand(
+                                                          brandid: c.brandId!))
+                                                      .toList();
+
+                                                  carModels = cars.expand((c) {
+                                                    return c.selectedModelIds
+                                                        .map((modelId) {
+                                                      return ProductCarModel(
+                                                        carBrandId: c.brandId!,
+                                                        carModelId: modelId,
+                                                        productCarBrandId: 0,
+                                                      );
+                                                    });
+                                                  }).toList();
+                                                }
+                                                if (!context.mounted) return;
+                                                final sizesList = hasSizes
+                                                    ? sizes
+                                                        .map((s) => ProductSize(
+                                                              id: s.id,
+                                                              name: s
+                                                                  .nameController
+                                                                  .text
+                                                                  .trim(),
+                                                              latinName: s
+                                                                  .latinNameController
+                                                                  .text
+                                                                  .trim(),
+                                                              price: num.parse(s
+                                                                  .priceController
+                                                                  .text
+                                                                  .trim()),
+                                                              cost: num.parse(s
+                                                                  .costController
+                                                                  .text
+                                                                  .trim()),
+                                                              branchStocks: s
+                                                                  .stocks
+                                                                  .map((stock) =>
+                                                                      stock
+                                                                          .toRequest())
+                                                                  .toList(),
+                                                            ))
+                                                        .toList()
+                                                    : <ProductSize>[];
+
+                                                final request =
+                                                    CreateProductRequest(
+                                                  name: nameController.text
+                                                      .trim(),
+                                                  latinName: latinNameController
+                                                      .text
+                                                      .trim(),
+                                                  description: descController
+                                                      .text
+                                                      .trim(),
+                                                  latinDesc: latinDescController
+                                                      .text
+                                                      .trim(),
+                                                  instructions:
+                                                      instructionsController
+                                                          .text
+                                                          .trim(),
+                                                  price: num.parse(
+                                                      priceController.text
+                                                          .trim()),
+                                                  cost: num.parse(costController
+                                                      .text
+                                                      .trim()),
+                                                  branchStocks: hasSizes
+                                                      ? []
+                                                      : generalStocks
+                                                          .map((stock) =>
+                                                              stock.toRequest())
+                                                          .toList(),
+                                                  isNew: isNewValue,
+                                                  image: imageBytes,
+                                                  taxId: taxCubit
+                                                      .selectedTax!.taxId,
+                                                  productCategoryId:
+                                                      categoryCubit
+                                                          .selectedCategory!.id,
+                                                  brands: brands,
+                                                  carModels: carModels,
+                                                  sizes: sizesList,
+                                                );
+
+                                                final cubit = context
+                                                    .read<CreateProductCubit>();
+
+                                                if (isUpdate) {
+                                                  await cubit.updateProduct(
+                                                      request: request);
+                                                } else {
+                                                  await cubit.createProduct(
+                                                      request: request);
+                                                }
+                                              } catch (error) {
+                                                if (mounted) {
+                                                  AppSnackBar.showError(
+                                                      error.toString());
+                                                }
+                                              } finally {
+                                                if (mounted) {
+                                                  setState(
+                                                      () => _preparing = false);
+                                                }
+                                              }
+                                            }),
+                                  if (isLoading)
+                                    const Positioned.fill(
+                                      child: Center(
+                                        child: SizedBox(
+                                          height: 18,
+                                          width: 18,
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              );
+                            },
+                          ),
+                        )
+                      ],
                     ),
-                  )
-                ],
-              ),
-            );
-          }),
+                  ));
+            }),
+          ),
         ),
-      ),
-    );
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    for (final controller in [
+      nameController,
+      latinNameController,
+      descController,
+      latinDescController,
+      priceController,
+      costController,
+      instructionsController
+    ]) {
+      controller.dispose();
+    }
+    for (final stock in generalStocks) {
+      stock.dispose();
+    }
+    for (final size in sizes) {
+      size.dispose();
+    }
+    super.dispose();
   }
 }
 

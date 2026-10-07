@@ -1,4 +1,7 @@
 import 'dart:typed_data';
+import 'package:sun_web_system/features/store_page/presentation/bloc/branch_cubit/branch_cubit.dart';
+import 'package:sun_web_system/features/service_settings/presentation/custom_widget/provider_service_branches.dart';
+import 'package:sun_web_system/features/service_settings/presentation/bloc/prov_services_cubit/prov_services_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/service_settings/data/request/create_prov_service_request/create_prov_service_request.dart';
@@ -53,6 +56,7 @@ class ExpansionContainerSettingPetrolWidget extends StatefulWidget {
 class _ExpansionContainerSettingPetrolWidgetState
     extends State<ExpansionContainerSettingPetrolWidget> {
   final _formKey = GlobalKey<FormState>();
+  List<int> selectedBranchIds = [];
   late final ProvServicesCubit _provServicesCubit;
   bool _hasLoadedProvServices = false;
 
@@ -83,6 +87,7 @@ class _ExpansionContainerSettingPetrolWidgetState
 
     if (widget.initialTaxId != null) {
       Future.microtask(() {
+        if (!mounted) return;
         context.read<GetTaxCubit>().selectTaxById(widget.initialTaxId!);
       });
     }
@@ -103,6 +108,7 @@ class _ExpansionContainerSettingPetrolWidgetState
     return MultiBlocProvider(
       providers: [
         BlocProvider.value(value: _provServicesCubit),
+        BlocProvider(create: (_) => BranchCubit()..getProviderBranches()),
         BlocProvider(
           create: (_) => SelectCarModelSettingCubit()..fetchBrands(),
         ),
@@ -180,6 +186,17 @@ class _ExpansionContainerSettingPetrolWidgetState
                     return Column(
                       spacing: 10,
                       children: [
+                        BlocBuilder<ProvServicesCubit, ProvServicesState>(
+                          builder: (context, state) =>
+                              ProviderServiceBranchFilter(
+                            branchId: _provServicesCubit.selectedBranchId,
+                            enabled: state is! ProvServicesLoading,
+                            onChanged: (id) => _provServicesCubit.selectBranch(
+                              serviceId: widget.serviceId,
+                              branchId: id,
+                            ),
+                          ),
+                        ),
                         const ProvServicePetrolListView(),
                         const Row(
                           children: [
@@ -201,6 +218,11 @@ class _ExpansionContainerSettingPetrolWidgetState
                               EnterPriceCostPetrolService(
                                   priceController: priceController,
                                   costController: costController),
+                              ProviderServiceBranchesField(
+                                branchIds: selectedBranchIds,
+                                onChanged: (ids) =>
+                                    setState(() => selectedBranchIds = ids),
+                              ),
                               const SelectTaxPage()
                             ],
                           ),
@@ -215,6 +237,7 @@ class _ExpansionContainerSettingPetrolWidgetState
                                   .read<ProvServicesCubit>()
                                   .addCreatedService(state.createdService);
 
+                              setState(() => selectedBranchIds = []);
                               nameController.clear();
                               latinNameController.clear();
                               costController.clear();
@@ -245,8 +268,14 @@ class _ExpansionContainerSettingPetrolWidgetState
 
                                   final taxCubit = context.read<GetTaxCubit>();
 
+                                  if (taxCubit.selectedTax == null) {
+                                    AppSnackBar.showError(
+                                        AppLanguageKeys.enterYourData);
+                                    return;
+                                  }
                                   cubit.createProvService(
                                     request: CreateProvServiceRequest(
+                                        branchIds: selectedBranchIds,
                                         taxid: taxCubit.selectedTax!.taxId,
                                         name: nameController.text,
                                         latinname: latinNameController.text,

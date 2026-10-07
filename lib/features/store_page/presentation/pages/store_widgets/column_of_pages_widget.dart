@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/features/service_requests/presentation/cubit/service_requests_cubit.dart';
+import 'package:sun_web_system/features/service_requests/presentation/cubit/service_requests_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/core/setup_git_it.dart';
+import 'package:sun_web_system/features/technical_support/presentation/bloc/provider_chat_cubit/provider_chat_cubit.dart';
+import 'package:sun_web_system/features/technical_support/presentation/bloc/provider_chat_cubit/provider_chat_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sun_web_system/core/utilies/map_of_all_app.dart';
 import 'package:sun_web_system/features/logout_dashboard/presentation/first_screen_logout_dashboard/logout_dashboard.dart';
@@ -90,6 +96,7 @@ class ColumnOfPagesWidget extends StatelessWidget {
             '${appCubit.selectedPageFromOpenedPagesIndex}';
 
         final prefs = await SharedPreferences.getInstance();
+        if (!context.mounted) return;
 
         final getData = prefs.getStringList(keyForUpdate);
 
@@ -107,6 +114,9 @@ class ColumnOfPagesWidget extends StatelessWidget {
           }
         }
 
+        if (pageNode.number == PagesOfAllApp.serviceRequestsPageNumber) {
+          getIt<ServiceRequestsCubit>().closeDetails();
+        }
         appCubit.selectedPageIndex = pageNode.number;
         appCubit.selectedPageFromOpenedPagesIndex = -1;
 
@@ -185,6 +195,36 @@ class ColumnOfPagesWidget extends StatelessWidget {
                         FontSelectionData.regularFontFamily,
                       ),
                     ),
+                    if (pageNode.number == PagesOfAllApp.technicalSupportPageNumber)
+                      BlocBuilder<ProviderChatCubit, ProviderChatState>(
+                        bloc: getIt<ProviderChatCubit>(),
+                        builder: (context, state) {
+                          final count = getIt<ProviderChatCubit>().totalUnreadCount;
+                          if (count == 0) return const SizedBox.shrink();
+                          return Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(color: AppColors.redColor,
+                              borderRadius: BorderRadius.circular(12)),
+                            child: Text(count > 99 ? '99+' : '$count',
+                              style: const TextStyle(color: Colors.white, fontSize: 11)),
+                          );
+                        },
+                      ),
+                    if (pageNode.number == PagesOfAllApp.serviceRequestsPageNumber)
+                      BlocBuilder<ServiceRequestsCubit, ServiceRequestsState>(
+                        bloc: getIt<ServiceRequestsCubit>(),
+                        builder: (context, state) {
+                          final count = getIt<ServiceRequestsCubit>().unreadCount;
+                          if (count == 0) return const SizedBox.shrink();
+                          return Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(color: AppColors.redColor,
+                              borderRadius: BorderRadius.circular(12)),
+                            child: Text(count > 99 ? '99+' : '$count',
+                              style: const TextStyle(color: AppColors.whiteColor, fontSize: 11)),
+                          );
+                        },
+                      ),
                   ],
                 ),
               ),

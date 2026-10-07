@@ -83,9 +83,7 @@ class _SecondPartDataContainerInListDataFirstScreenOrderServicesStatisticsState 
                   itemBuilder: (context, index) {
                     final order = orders[index];
 
-                    final service = order.services?.isNotEmpty == true
-                        ? order.services!.first
-                        : null;
+                    final service = order.displayService;
 
                     final serviceTitle = OrderFunctions.getServiceTitle(
                       context: context,

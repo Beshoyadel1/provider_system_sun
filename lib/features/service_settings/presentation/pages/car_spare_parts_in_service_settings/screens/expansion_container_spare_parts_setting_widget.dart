@@ -7,8 +7,6 @@ import 'package:sun_web_system/features/service_settings/presentation/bloc/get_p
 import 'package:sun_web_system/features/service_settings/presentation/pages/added_maintenance_and_internal_services_in_service_settings/screens/container_open_close_tab_setting.dart';
 import 'package:sun_web_system/features/service_settings/presentation/pages/car_spare_parts_in_service_settings/screens/design_create_spare_parts_design.dart';
 
-import '../../../../../../../features/service_settings/presentation/bloc/select_car_model_setting_cubit/select_car_model_setting_cubit.dart';
-import '../../../../../../../features/service_settings/presentation/bloc/select_car_model_setting_cubit/select_car_model_setting_state.dart';
 import '../../../../../../../core/theming/colors.dart';
 import '../../../../../../../core/theming/fonts.dart';
 import '../../../../../../../core/theming/text_styles.dart';
@@ -23,6 +21,7 @@ class ExpansionContainerSparePartsSettingWidget extends StatefulWidget {
   final int? initialTaxId;
   final int serviceId;
   final int categoryId;
+  final int? branchId;
 
   const ExpansionContainerSparePartsSettingWidget({
     super.key,
@@ -36,6 +35,7 @@ class ExpansionContainerSparePartsSettingWidget extends StatefulWidget {
     this.initialTaxId,
     required this.serviceId,
     required this.categoryId,
+    this.branchId,
   });
 
   @override
@@ -45,8 +45,6 @@ class ExpansionContainerSparePartsSettingWidget extends StatefulWidget {
 
 class _ExpansionContainerSparePartsSettingWidgetState
     extends State<ExpansionContainerSparePartsSettingWidget> {
-
-
   Widget _buildImage() {
     // memory image
     if (widget.imageMemory != null && widget.imageMemory!.isNotEmpty) {
@@ -72,7 +70,7 @@ class _ExpansionContainerSparePartsSettingWidgetState
       width: 50,
       height: 50,
       decoration: BoxDecoration(
-        color: Colors.grey.withOpacity(0.1),
+        color: Colors.grey.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(10),
       ),
       child: const Icon(
@@ -96,7 +94,7 @@ class _ExpansionContainerSparePartsSettingWidgetState
         decoration: BoxDecoration(
           color: AppColors.whiteColor,
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.grey.withOpacity(0.3)),
+          border: Border.all(color: Colors.grey.withValues(alpha: 0.3)),
         ),
         child: Column(
           children: [
@@ -126,16 +124,21 @@ class _ExpansionContainerSparePartsSettingWidgetState
               ],
             ),
             const SizedBox(height: 10),
-            BlocBuilder<DetailsContainerSettingCubit, DetailsContainerSettingState>(
+            BlocBuilder<DetailsContainerSettingCubit,
+                DetailsContainerSettingState>(
               builder: (context, state) {
                 if (!state.isExpanded) return const SizedBox();
 
-                return  BlocProvider(
+                return BlocProvider(
                     create: (_) => GetProductsByCategoryCubit()
                       ..getProductsByCategory(
                         categoryId: widget.categoryId,
+                        branchId: widget.branchId,
                       ),
-                child: const DesignCreateSparePartsDesign());
+                    child: DesignCreateSparePartsDesign(
+                      categoryId: widget.categoryId,
+                      branchId: widget.branchId,
+                    ));
               },
             ),
           ],

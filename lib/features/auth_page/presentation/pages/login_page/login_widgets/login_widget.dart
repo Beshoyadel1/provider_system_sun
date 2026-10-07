@@ -119,12 +119,10 @@ class _LoginWidgetState extends State<LoginWidget> {
 
                           if (!_formKey.currentState!.validate()) return;
 
-                          final fcmToken = await FcmService.instance.getToken(vapidKey: FcmConfig.webVapidKey);
                           final loginRequest = LoginRequest(
                             user: userNameController.text.trim(),
                             password: passwordController.text.trim(),
                             type: UserType.providerUser,
-                            fcmToken: fcmToken.isNotEmpty ? fcmToken : null,
                           );
 
                           if (context.mounted) {

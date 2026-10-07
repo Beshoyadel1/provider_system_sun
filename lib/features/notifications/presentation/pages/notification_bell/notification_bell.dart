@@ -7,7 +7,6 @@ import '../../../../../../core/theming/text_styles.dart';
 import '../../bloc/notification_cubit/notification_cubit.dart';
 import '../../bloc/notification_cubit/notification_state.dart';
 import 'package:sun_web_system/features/notifications/data/model/get_user_new_notification_model/get_user_new_notification_model.dart';
-import 'package:sun_web_system/features/notifications/presentation/module/notification_module/notification_module.dart';
 import '../notifications_page/notifications_page.dart';
 
 /// Notification icon with badge and dropdown overlay.
@@ -27,7 +26,7 @@ class _NotificationBellState extends State<NotificationBell> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
-        context.read<NotificationCubit>().getUserNotification();
+        context.read<NotificationCubit>().ensureLoaded();
       }
     });
   }
@@ -54,7 +53,7 @@ class _NotificationBellState extends State<NotificationBell> {
     } else {
       _overlayEntry = _createOverlayEntry();
       Overlay.of(context).insert(_overlayEntry!);
-      context.read<NotificationCubit>().getUserNotification();
+      context.read<NotificationCubit>().ensureLoaded();
     }
   }
 
@@ -290,14 +289,6 @@ class _NotificationDropdownContent extends StatelessWidget {
                     final item = displayList[index];
                     return _DropdownItem(
                       item: item,
-                      onTap: () {
-                        onClose();
-                        if (item.isChatRelated) {
-                          NotificationModule.instance.navigationService.openChat();
-                        } else {
-                          NotificationModule.instance.navigationService.openDashboardOrders();
-                        }
-                      },
                     );
                   },
                 );
@@ -339,9 +330,8 @@ class _NotificationDropdownContent extends StatelessWidget {
 
 class _DropdownItem extends StatelessWidget {
   final NotificationModel item;
-  final VoidCallback? onTap;
 
-  const _DropdownItem({required this.item, this.onTap});
+  const _DropdownItem({required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -360,7 +350,6 @@ class _DropdownItem extends StatelessWidget {
     final isUnread = item.isViewed == false;
 
     return InkWell(
-      onTap: onTap,
       child: Container(
         color: isUnread
             ? AppColors.mainColor.withValues(alpha: 0.04)

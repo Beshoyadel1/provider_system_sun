@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
 import '../../constants.dart';
 
@@ -37,6 +39,21 @@ class Network {
         },
       ),
     );
+
+    if (kDebugMode) {
+      // Log after adding lang so the URL shows the query actually sent.
+      dio.interceptors.add(
+        PrettyDioLogger(
+          requestBody: true,
+          responseBody: true,
+          error: true,
+          compact: false,
+          maxWidth: 120,
+          logPrint: (message) => debugPrint(message.toString()),
+          filter: (options, _) => options.uri.path.startsWith('/Order/'),
+        ),
+      );
+    }
 
     return dio;
   }
@@ -91,21 +108,11 @@ class Network {
     );
   }
 
-  static Future<Response> getDataWithBodyAndParams(
-      var jsonData, var jsonQuery, String url) async {
+  static Future<Response> getDataWithParams(var jsonQuery, String url) async {
     return await dio.get(
       url,
-      data: jsonData,
       options: Options(headers: myHeaders),
       queryParameters: jsonQuery,
-    );
-  }
-
-  static Future<Response> getDataWithBody(var jsonData, String url) async {
-    return await dio.get(
-      url,
-      data: jsonData,
-      options: Options(headers: myHeaders),
     );
   }
 

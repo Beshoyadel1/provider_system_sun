@@ -2,13 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:sun_web_system/features/service_settings/data/model/get_provider_service_packages_model/provider_service_packages_model.dart';
 import '../../request/get_provider_service_packages_request/get_provider_service_packages_request.dart';
 import '../../../../../core/api/dio_function/api_constants.dart';
-import '../../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../../core/api/dio_function/failures.dart';
-import '../../../../../core/language/language_constant.dart';
 
-Future<List<ProviderServicePackagesModel>>
-getProviderServicePackagesFunction({
+Future<List<ProviderServicePackagesModel>> getProviderServicePackagesFunction({
   required GetProviderServicePackagesRequest request,
 }) async {
   try {
@@ -18,19 +15,21 @@ getProviderServicePackagesFunction({
       ApiLink.getProviderServicePackages,
     );
 
-    if (response.data["success"] != true) {
-      return [];
+    final body = response.data;
+    if (body is! Map || body['success'] != true) {
+      throw FormatException(body is Map
+          ? body['message']?.toString() ?? 'Unable to load packages'
+          : 'Invalid packages response');
     }
 
-    final List<dynamic> data =
-        response.data["data"] ?? [];
+    final List<dynamic> data = response.data["data"] ?? [];
 
     return data
         .map(
           (e) => ProviderServicePackagesModel.fromJson(
-        e as Map<String, dynamic>,
-      ),
-    )
+            e as Map<String, dynamic>,
+          ),
+        )
         .toList();
   } on DioException catch (e) {
     throw Exception(

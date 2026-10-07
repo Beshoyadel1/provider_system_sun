@@ -21,8 +21,13 @@ class _ProviderChatPageState extends State<ProviderChatPage> {
   void initState() {
     super.initState();
     final cubit = getIt<ProviderChatCubit>();
-    cubit.clearSelectedChat();
     cubit.init();
+  }
+
+  @override
+  void dispose() {
+    getIt<ProviderChatCubit>().clearSelectedChat();
+    super.dispose();
   }
 
   @override

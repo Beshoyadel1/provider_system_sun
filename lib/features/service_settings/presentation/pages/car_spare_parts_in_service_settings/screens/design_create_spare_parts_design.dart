@@ -1,16 +1,18 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
 import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/custom_widget/text_empty_view_data.dart';
-import 'package:sun_web_system/features/service_settings/presentation/bloc/Details_container_setting_cubit/Details_container_setting_cubit.dart';
 import 'package:sun_web_system/features/service_settings/presentation/bloc/get_products_by_category_cubit/get_products_by_category_cubit.dart';
 import 'package:sun_web_system/features/service_settings/presentation/bloc/get_products_by_category_cubit/get_products_by_category_state.dart';
 import 'package:sun_web_system/features/service_settings/presentation/custom_widget/container_car_spare_parts_details_widget.dart';
-import 'package:sun_web_system/features/service_settings/presentation/pages/car_spare_parts_in_service_settings/sub/edit_delete_spare_parts_in_service_settings/edit_delete_spare_parts_in_service_settings.dart';
+import 'package:sun_web_system/core/language/language_cubit/language_cubit.dart';
+import 'product_details_page.dart';
 
 class DesignCreateSparePartsDesign extends StatelessWidget {
-  const DesignCreateSparePartsDesign({super.key});
+  final int categoryId;
+  final int? branchId;
+  const DesignCreateSparePartsDesign(
+      {super.key, required this.categoryId, this.branchId});
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,18 @@ class DesignCreateSparePartsDesign extends StatelessWidget {
 
         if (state is GetProductsByCategoryLoading) {
           return const Center(child: CircularProgressIndicator());
+        }
+
+        if (state is GetProductsByCategoryError) {
+          final ar = LanguageCubit.get(context).isAllAppLanguageArabic;
+          return Column(children: [
+            Text(state.message),
+            TextButton(
+              onPressed: () => cubit.getProductsByCategory(
+                  categoryId: categoryId, branchId: branchId),
+              child: Text(ar ? 'إعادة المحاولة' : 'Retry'),
+            ),
+          ]);
         }
 
         if (data.isEmpty) {
@@ -62,30 +76,31 @@ class DesignCreateSparePartsDesign extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 5),
                         child: ContainerCarSparePartsDetailsWidget(
                             nameCategoryProduct:
-                                item.category!.getName(context),
+                                item.category?.getName(context) ?? '',
                             nameBrandCar: item.brands.isNotEmpty
                                 ? item.brands.first.getBrandName(context)
                                 : "",
                             nameProduct: item.getName(context),
-                            stock: (item.inStock ?? 0).toString(),
+                            stock: item.displayStock.toString(),
+                            stockLabel: LanguageCubit.get(context)
+                                    .isAllAppLanguageArabic
+                                ? 'إجمالي المخزون'
+                                : 'Total stock',
                             priceProduct: (item.price ?? 0).toString(),
                             imageProductBytes: item.image,
                             imageCarBrandBytes: item.brands.isNotEmpty
                                 ? item.brands.first.image
                                 : null,
                             onTap: () async {
-                              final result = await Navigator.push(
+                              await Navigator.push(
                                 context,
-                                NavigateToPageWidget(
-                                    EditDeleteSparePartsInServiceSettings(
-                                  product: item,
+                                NavigateToPageWidget(ProductDetailsPage(
+                                  productId: item.id,
                                 )),
                               );
-
-                              if (result == true) {
-                                context
-                                    .read<DetailsContainerSettingCubit>()
-                                    .collapse();
+                              if (context.mounted) {
+                                await cubit.getProductsByCategory(
+                                    categoryId: categoryId, branchId: branchId);
                               }
                             }),
                       ),

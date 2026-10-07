@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/features/service_settings/presentation/custom_widget/provider_service_branches.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/service_settings/data/response/get_prov_services_response/get_prov_services_response.dart';
 import 'package:sun_web_system/core/theming/fonts.dart';
@@ -28,6 +28,7 @@ class ServiceCardPetrol extends StatefulWidget {
 
 class _ServiceCardPetrolState extends State<ServiceCardPetrol> {
   final _formKey = GlobalKey<FormState>();
+  late List<int> selectedBranchIds;
 
   late TextEditingController nameController,
       latinController,
@@ -38,6 +39,7 @@ class _ServiceCardPetrolState extends State<ServiceCardPetrol> {
   @override
   void initState() {
     super.initState();
+    selectedBranchIds = List.of(widget.service.provService.branchIds);
 
     nameController =
         TextEditingController(text: widget.service.provService.name);
@@ -47,6 +49,15 @@ class _ServiceCardPetrolState extends State<ServiceCardPetrol> {
         TextEditingController(text: widget.service.provService.cost.toString());
     latinController =
         TextEditingController(text: widget.service.provService.latinname);
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    latinController.dispose();
+    priceController.dispose();
+    costController.dispose();
+    super.dispose();
   }
 
   @override
@@ -109,6 +120,11 @@ class _ServiceCardPetrolState extends State<ServiceCardPetrol> {
                     ),
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: ProviderServiceBranchesSummary(
+                      branchIds: service.branchIds),
+                ),
                 AnimatedSize(
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeInOut,
@@ -129,6 +145,11 @@ class _ServiceCardPetrolState extends State<ServiceCardPetrol> {
                                     EnterPriceCostPetrolService(
                                         priceController: priceController,
                                         costController: costController),
+                                    ProviderServiceBranchesField(
+                                      branchIds: selectedBranchIds,
+                                      onChanged: (ids) => setState(
+                                          () => selectedBranchIds = ids),
+                                    ),
                                     const SelectTaxPage(),
                                   ],
                                 ),
@@ -153,8 +174,14 @@ class _ServiceCardPetrolState extends State<ServiceCardPetrol> {
                                           return;
                                         }
 
+                                        if (taxCubit.selectedTax == null) {
+                                          AppSnackBar.showError(
+                                              AppLanguageKeys.enterYourData);
+                                          return;
+                                        }
                                         final request =
                                             UpdateProvServiceRequest(
+                                          branchIds: selectedBranchIds,
                                           id: service.id,
                                           serviceId: service.serviceid,
                                           provId: service.provid,
@@ -215,7 +242,8 @@ class _ServiceCardPetrolState extends State<ServiceCardPetrol> {
                                           ),
                                         );
 
-                                        if (confirm == true) {
+                                        if (confirm == true &&
+                                            context.mounted) {
                                           context
                                               .read<ProvServicesCubit>()
                                               .deleteProvService(
@@ -254,7 +282,7 @@ class _ServiceCardPetrolState extends State<ServiceCardPetrol> {
       }).toList(),
       "cars": service.brands.expand((b) => b.models).map((m) {
         return {
-          "id": m.id ?? 0,
+          "id": m.id,
           "carbrandid": m.carbrandid,
           "carmodelid": m.carmodelid,
           "price": m.price,

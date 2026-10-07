@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:sun_web_system/features/service_requests/presentation/pages/service_requests_page.dart';
 import 'package:sun_web_system/core/setup_git_it.dart';
 import 'package:sun_web_system/features/cars_haraj_page/presentation/ui/car_haraj_orders_page/car_haraj_orders_page.dart';
 import 'package:sun_web_system/features/cars_haraj_page/presentation/ui/cars_haraj_statistics_page/cars_haraj_statistics_page.dart';
@@ -226,6 +227,7 @@ class PagesOfAllApp {
   static const int oilChangeServiceStaticsPageNumber = 533;
   static const int viewEmployeesPageNumber = 534;
   static const int viewAllWarrantyNumber = 535;
+  static const int serviceRequestsPageNumber = 536;
 
 }
 
@@ -270,6 +272,12 @@ void getPages(BuildContext context,  int branchId) {
       ),
     ),
 
+    const PageNodeModel(
+      name: AppLanguageKeys.serviceRequest,
+      number: PagesOfAllApp.serviceRequestsPageNumber,
+      image: AppImageKeys.pages,
+      page: ServiceRequestsPage(),
+    ),
     ...services.map(
           (service) {
             final serviceId = service.id ?? 0;

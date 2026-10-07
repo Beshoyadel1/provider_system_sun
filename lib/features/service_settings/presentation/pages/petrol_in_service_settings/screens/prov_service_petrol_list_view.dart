@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
@@ -39,7 +38,9 @@ class ProvServicePetrolListView extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             itemCount: services.length,
             itemBuilder: (context, index) {
-              return ServiceCardPetrol(service: services[index]);
+              return ServiceCardPetrol(
+                  key: ValueKey(services[index].provService.id),
+                  service: services[index]);
             },
           );
         }

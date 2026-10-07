@@ -18,6 +18,8 @@ class NotificationDialogService {
   final NotificationNavigationService navigation;
 
   bool _isShowing = false;
+  int _generation = 0;
+  Future<void> _queue = Future.value();
 
   bool get isShowing => _isShowing;
 
@@ -25,7 +27,30 @@ class NotificationDialogService {
     required String title,
     required String subtitle,
     required Future<void> Function() onView,
+  }) {
+    final generation = _generation;
+    _queue = _queue.then((_) => _show(
+      title: title, subtitle: subtitle, onView: onView, generation: generation,
+    )).catchError((Object error) { debugPrint('Notification dialog: $error'); });
+    return _queue;
+  }
+
+  Future<void> dismiss() async {
+    _generation++;
+    if (_isShowing) {
+      _isShowing = false;
+      navigatorKey.currentState?.pop();
+    }
+    await _audio.stop();
+  }
+
+  Future<void> _show({
+    required String title,
+    required String subtitle,
+    required Future<void> Function() onView,
+    required int generation,
   }) async {
+    if (generation != _generation) return;
     final navContext = navigatorKey.currentContext;
 
     if (navContext == null || !navContext.mounted) {
@@ -34,18 +59,9 @@ class NotificationDialogService {
 
     await _audio.play();
 
-    if (_isShowing) {
-      navigatorKey.currentState?.pop();
-
-      _isShowing = false;
-
-      await Future.delayed(
-        const Duration(milliseconds: 150),
-      );
-    }
-
     final activeContext = navigatorKey.currentContext;
-    if (activeContext == null || !activeContext.mounted) {
+    if (generation != _generation || activeContext == null || !activeContext.mounted) {
+      await _audio.stop();
       return;
     }
 
@@ -57,6 +73,7 @@ class NotificationDialogService {
       subTitle: subtitle,
       onClose: () async {
         await _audio.stop();
+        if (generation != _generation) return;
 
         _isShowing = false;
 
@@ -64,6 +81,7 @@ class NotificationDialogService {
       },
       onView: () async {
         await _audio.stop();
+        if (generation != _generation) return;
 
         _isShowing = false;
 
@@ -75,5 +93,6 @@ class NotificationDialogService {
     );
 
     _isShowing = false;
+    await _audio.stop();
   }
 }

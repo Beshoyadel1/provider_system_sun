@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/features/service_settings/presentation/custom_widget/provider_service_branches.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:sun_web_system/core/pages_widgets/text_form_field_widget.dart';
@@ -22,6 +23,7 @@ class CreatePackageDialog extends StatefulWidget {
 
 class _CreatePackageDialogState extends State<CreatePackageDialog> {
   final _formKey = GlobalKey<FormState>();
+  List<int> selectedBranchIds = [];
 
   final nameController = TextEditingController();
   final latinNameController = TextEditingController();
@@ -39,6 +41,7 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
 
     if (isEdit) {
       final p = widget.package!;
+      selectedBranchIds = List.of(p.effectiveBranchIds);
 
       nameController.text = p.package.name;
       latinNameController.text = p.package.latinName;
@@ -46,14 +49,12 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
 
       itemsControllers = p.items
           .expand(
-            (item) => item.item
-            .split(',')
-            .map((e) => e.trim()),
-      )
+            (item) => item.item.split(',').map((e) => e.trim()),
+          )
           .where((e) => e.isNotEmpty)
           .map(
             (e) => TextEditingController(text: e),
-      )
+          )
           .toList();
     }
   }
@@ -90,13 +91,11 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
           borderRadius: BorderRadius.circular(18),
         ),
         contentPadding:
-        const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-
+            const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         title: Column(
           children: [
             TextInAppWidget(
-              text:
-              isEdit ? AppLanguageKeys.edit : AppLanguageKeys.create,
+              text: isEdit ? AppLanguageKeys.edit : AppLanguageKeys.create,
               textSize: 20,
               fontWeightIndex: FontSelectionData.boldFontFamily,
               textColor: AppColors.orangeColor,
@@ -106,7 +105,6 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
             Divider(color: AppColors.darkColor.withOpacity(0.1)),
           ],
         ),
-
         content: SizedBox(
           width: 480,
           child: SingleChildScrollView(
@@ -115,10 +113,17 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  ProviderServiceBranchesField(
+                    branchIds: selectedBranchIds,
+                    availableBranches:
+                        widget.package?.availableBranches ?? const [],
+                    onChanged: (ids) => setState(() => selectedBranchIds = ids),
+                  ),
+                  const SizedBox(height: 14),
                   _sectionTitle(AppLanguageKeys.name),
                   const SizedBox(height: 6),
                   TextFormFieldWidget(
-                   // text: AppLanguageKeys.name,
+                    // text: AppLanguageKeys.name,
                     textFormController: nameController,
                     hintText: AppLanguageKeys.name,
                     fillColor: AppColors.transparent,
@@ -133,13 +138,11 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
                       return null;
                     },
                   ),
-
                   const SizedBox(height: 14),
-
                   _sectionTitle(AppLanguageKeys.latinName),
                   const SizedBox(height: 6),
                   TextFormFieldWidget(
-                   // text: AppLanguageKeys.latinName,
+                    // text: AppLanguageKeys.latinName,
                     textFormController: latinNameController,
                     hintText: AppLanguageKeys.latinName,
                     fillColor: AppColors.transparent,
@@ -154,28 +157,24 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
                       return null;
                     },
                   ),
-
                   const SizedBox(height: 20),
                   _sectionTitle(AppLanguageKeys.items),
                   const SizedBox(height: 10),
-
                   Column(
-                    children:
-                    List.generate(itemsControllers.length, (index) {
+                    children: List.generate(itemsControllers.length, (index) {
                       return Padding(
-                        padding:
-                        const EdgeInsets.only(bottom: 10),
+                        padding: const EdgeInsets.only(bottom: 10),
                         child: Row(
                           spacing: 10,
                           children: [
                             Expanded(
                               child: TextFormFieldWidget(
-                               // text: "Item ${index + 1}",
-                                textFormController:
-                                itemsControllers[index],
+                                // text: "Item ${index + 1}",
+                                textFormController: itemsControllers[index],
                                 hintText: AppLanguageKeys.items,
                                 fillColor: AppColors.transparent,
-                                borderColor: AppColors.darkColor.withOpacity(0.2),
+                                borderColor:
+                                    AppColors.darkColor.withOpacity(0.2),
                                 hintTextSize: 12,
                                 hintTextColor: AppColors.orangeColor,
                                 textSize: 15,
@@ -187,27 +186,20 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
                                 },
                               ),
                             ),
-
                             if (itemsControllers.length > 1)
                               Container(
-                                margin:
-                                const EdgeInsets.only(left: 6),
+                                margin: const EdgeInsets.only(left: 6),
                                 decoration: BoxDecoration(
-                                  color:
-                                  Colors.red.withOpacity(0.08),
-                                  borderRadius:
-                                  BorderRadius.circular(8),
+                                  color: Colors.red.withOpacity(0.08),
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: IconButton(
                                   icon: const Icon(Icons.close,
-                                      size: 18,
-                                      color: AppColors.redColor),
+                                      size: 18, color: AppColors.redColor),
                                   onPressed: () {
                                     setState(() {
-                                      itemsControllers[index]
-                                          .dispose();
-                                      itemsControllers
-                                          .removeAt(index);
+                                      itemsControllers[index].dispose();
+                                      itemsControllers.removeAt(index);
                                     });
                                   },
                                 ),
@@ -217,55 +209,45 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
                       );
                     }),
                   ),
-
                   Align(
                     alignment: Alignment.centerLeft,
                     child: InkWell(
                       borderRadius: BorderRadius.circular(8),
                       onTap: () {
                         setState(() {
-                          itemsControllers
-                              .add(TextEditingController());
+                          itemsControllers.add(TextEditingController());
                         });
                       },
-                      child:const Padding(
-                        padding:
-                         EdgeInsets.symmetric(vertical: 6),
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 6),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(Icons.add,
-                                size: 18,
-                                color: AppColors.orangeColor),
-                             SizedBox(width: 5),
+                                size: 18, color: AppColors.orangeColor),
+                            SizedBox(width: 5),
                             TextInAppWidget(
                               text: AppLanguageKeys.add,
                               textSize: 13,
-                              textColor:
-                              AppColors.orangeColor,
+                              textColor: AppColors.orangeColor,
                             ),
                           ],
                         ),
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 20),
-
                   Row(
                     children: [
                       Expanded(
                         child: Column(
-                          crossAxisAlignment:
-                          CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            _sectionTitle(
-                                AppLanguageKeys.price),
+                            _sectionTitle(AppLanguageKeys.price),
                             const SizedBox(height: 6),
                             TextFormFieldWidget(
-                             // text: AppLanguageKeys.price,
-                              textFormController:
-                              priceController,
+                              // text: AppLanguageKeys.price,
+                              textFormController: priceController,
                               isDigitDot: true,
                               hintText: AppLanguageKeys.price,
                               fillColor: AppColors.transparent,
@@ -286,11 +268,9 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
                       const SizedBox(width: 12),
                       Expanded(
                         child: Column(
-                          crossAxisAlignment:
-                          CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            _sectionTitle(
-                                AppLanguageKeys.taxes),
+                            _sectionTitle(AppLanguageKeys.taxes),
                             const SizedBox(height: 6),
                             const SelectTaxPackages(),
                           ],
@@ -303,9 +283,8 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
             ),
           ),
         ),
-
-        actionsPadding: const EdgeInsets.symmetric(
-            horizontal: 20, vertical: 12),
+        actionsPadding:
+            const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -315,39 +294,33 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
               textColor: AppColors.darkColor,
             ),
           ),
-
-          BlocBuilder<ProviderPackagesCubit,
-              ProviderPackagesState>(
+          BlocBuilder<ProviderPackagesCubit, ProviderPackagesState>(
             builder: (context, state) {
-              final isLoading =
-              state is ProviderPackagesLoading;
+              final isLoading = state is ProviderPackagesLoading;
 
               return ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.orangeColor,
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 18, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
                   shape: RoundedRectangleBorder(
-                    borderRadius:
-                    BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
                 onPressed: isLoading ? null : _submit,
                 child: isLoading
                     ? const SizedBox(
-                  height: 18,
-                  width: 18,
-                  child:
-                  CircularProgressIndicator(
-                      strokeWidth: 2),
-                )
+                        height: 18,
+                        width: 18,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
                     : TextInAppWidget(
-                  text: isEdit
-                      ? AppLanguageKeys.edit
-                      : AppLanguageKeys.create,
-                  textSize: 14,
-                  textColor: AppColors.whiteColor,
-                ),
+                        text: isEdit
+                            ? AppLanguageKeys.edit
+                            : AppLanguageKeys.create,
+                        textSize: 14,
+                        textColor: AppColors.whiteColor,
+                      ),
               );
             },
           ),
@@ -384,21 +357,28 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
 
     if (isEdit) {
       context.read<ProviderPackagesCubit>().updatePackage(
-        id: widget.package!.package.id,
-        name: nameController.text,
-        latinName: latinNameController.text,
-        items: items,
-        price: double.parse(priceController.text),
-        tax: taxCubit.selectedTax!.taxId,
-      );
+            id: widget.package!.package.id,
+            branchIds: selectedBranchIds,
+            serviceIds: widget.package!.services
+                .map((service) => service.id)
+                .whereType<int>()
+                .toList(),
+            cost: widget.package!.package.cost,
+            name: nameController.text,
+            latinName: latinNameController.text,
+            items: items,
+            price: double.parse(priceController.text),
+            tax: taxCubit.selectedTax!.taxId,
+          );
     } else {
       context.read<ProviderPackagesCubit>().createPackage(
-        name: nameController.text,
-        latinName: latinNameController.text,
-        items: items,
-        price: double.parse(priceController.text),
-        tax: taxCubit.selectedTax!.taxId,
-      );
+            branchIds: selectedBranchIds,
+            name: nameController.text,
+            latinName: latinNameController.text,
+            items: items,
+            price: double.parse(priceController.text),
+            tax: taxCubit.selectedTax!.taxId,
+          );
     }
   }
 }

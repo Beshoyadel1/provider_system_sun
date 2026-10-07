@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
@@ -11,12 +10,21 @@ import '../../../../../../features/service_settings/presentation/bloc/prov_servi
 import '../../../../../../features/service_settings/presentation/pages/car_spare_parts_in_service_settings/screens/list_data_car_spare_parts_in_service_settings.dart';
 import '../../../../../../core/theming/colors.dart';
 
-class CarSparePartsInServiceSettings extends StatelessWidget {
+class CarSparePartsInServiceSettings extends StatefulWidget {
   final String textServiceScreen;
   final Uint8List imageMemory;
 
   const CarSparePartsInServiceSettings(
       {super.key, required this.textServiceScreen, required this.imageMemory});
+
+  @override
+  State<CarSparePartsInServiceSettings> createState() =>
+      _CarSparePartsInServiceSettingsState();
+}
+
+class _CarSparePartsInServiceSettingsState
+    extends State<CarSparePartsInServiceSettings> {
+  int _revision = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -40,23 +48,23 @@ class CarSparePartsInServiceSettings extends StatelessWidget {
                 Expanded(
                   child: SingleChildScrollView(
                       child: ListDataCarSparePartsInServiceSettings(
-                        textServiceScreen: textServiceScreen,
-                        imageMemory: imageMemory,
-                      )),
+                    key: ValueKey(_revision),
+                    textServiceScreen: widget.textServiceScreen,
+                    imageMemory: widget.imageMemory,
+                  )),
                 ),
               ],
             ),
           ),
         ),
         floatingActionButton: FloatingActionButtonScreen(
-         onPressed: (){
-           Navigator.push(
-             context,
-             NavigateToPageWidget(
-                 const AddSparePartsInServiceSettings()
-             ),
-           );
-         },
+          onPressed: () async {
+            final saved = await Navigator.push<bool>(
+              context,
+              NavigateToPageWidget(const AddSparePartsInServiceSettings()),
+            );
+            if (saved == true && mounted) setState(() => _revision++);
+          },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       ),

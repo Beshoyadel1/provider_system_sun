@@ -15,6 +15,10 @@ Future<GetUserNotificationResponse> getUserNotificationFunction({
       ApiLink.getUserNotification,
     );
 
+    if ((response.statusCode ?? 500) >= 400 ||
+        (response.data is Map && (response.data['success'] == false || response.data['status'] == false))) {
+      throw Exception('Failed to load notifications');
+    }
     return GetUserNotificationResponse.fromJson(response.data);
   } catch (e) {
     throw Exception(

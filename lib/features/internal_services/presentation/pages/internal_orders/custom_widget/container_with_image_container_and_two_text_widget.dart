@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
+import 'package:sun_web_system/core/pages_widgets/general_widgets/memory_image_with_fallback.dart';
 import '../../../../../../core/theming/colors.dart';
 import '../../../../../../core/theming/fonts.dart';
 import '../../../../../../core/theming/text_styles.dart';
@@ -40,9 +41,11 @@ class ContainerWithImageContainerAndTwoTextWidget extends StatelessWidget {
               color: AppColors.pinkColor,
               borderRadius: BorderRadius.all(Radius.circular(20)),
             ),
-            child: imagePath != null
-                ? Image.memory(imagePath!, width: 30)
-                : const SizedBox(width: 30),
+            child: MemoryImageWithFallback(
+              bytes: imagePath,
+              width: 30,
+              fallback: const SizedBox(width: 30),
+            ),
           ),
           const SizedBox(width: 10),
           Expanded(

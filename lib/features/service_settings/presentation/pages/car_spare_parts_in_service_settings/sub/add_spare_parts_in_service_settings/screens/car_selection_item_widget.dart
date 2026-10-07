@@ -57,7 +57,7 @@ class _CarSelectionItemWidgetState extends State<CarSelectionItemWidget> {
             border: Border.all(color: Colors.grey.shade300),
             borderRadius: BorderRadius.circular(12),
           ),
-          child: BlocBuilder<SelectCarModelSettingCubit,
+          child: Material(type: MaterialType.transparency, child: BlocBuilder<SelectCarModelSettingCubit,
               SelectCarModelSettingState>(
             builder: (context, state) {
               if (state.isLoadingBrands) {
@@ -284,7 +284,7 @@ class _CarSelectionItemWidgetState extends State<CarSelectionItemWidget> {
                 ],
               );
             },
-          ),
+          )),
         ),
       ],
     );

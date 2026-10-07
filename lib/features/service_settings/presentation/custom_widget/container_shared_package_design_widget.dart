@@ -1,16 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sun_web_system/features/car_model_settings/presentation/custom_widget/container_edit_delete_widget.dart';
 import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/custom_widget/row_number_coin_widget.dart';
 import 'package:sun_web_system/features/service_settings/presentation/custom_widget/container_package_widget.dart';
 import 'package:sun_web_system/features/service_settings/presentation/custom_widget/row_text_correct.dart';
-import '../../../../../core/language/language_constant.dart';
 import '../../../../../core/theming/assets.dart';
 import '../../../../../core/theming/colors.dart';
 
 class ContainerSharedPackageDesignWidget extends StatelessWidget {
   final String textPackage, price;
   final List<String> items;
+  final Widget? branches;
   final void Function()? onPressedDelete, onPressedEdit;
 
   const ContainerSharedPackageDesignWidget({
@@ -18,6 +17,7 @@ class ContainerSharedPackageDesignWidget extends StatelessWidget {
     required this.textPackage,
     required this.price,
     required this.items,
+    this.branches,
     this.onPressedDelete,
     this.onPressedEdit,
   });
@@ -26,7 +26,7 @@ class ContainerSharedPackageDesignWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 220,
-      height: 275,
+      height: branches == null ? 275 : 325,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
@@ -43,7 +43,6 @@ class ContainerSharedPackageDesignWidget extends StatelessWidget {
       child: Column(
         spacing: 20,
         mainAxisSize: MainAxisSize.max,
-
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -66,7 +65,7 @@ class ContainerSharedPackageDesignWidget extends StatelessWidget {
             sizeText: 15,
             imageSrc: AppImageKeys.coin,
           ),
-
+          if (branches != null) branches!,
           Expanded(
             child: ListView.builder(
               itemCount: items.length,

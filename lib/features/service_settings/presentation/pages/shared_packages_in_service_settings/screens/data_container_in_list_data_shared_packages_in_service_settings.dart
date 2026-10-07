@@ -1,5 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/features/service_settings/presentation/bloc/provider_packages_cubit/provider_packages_cubit.dart';
+import 'package:sun_web_system/features/service_settings/presentation/bloc/provider_packages_cubit/provider_packages_state.dart';
+import 'package:sun_web_system/features/service_settings/presentation/custom_widget/provider_service_branches.dart';
 import '../../../../../../core/language/language_constant.dart';
 import '../../../../../../core/theming/assets.dart';
 import '../../../../../../features/service_settings/presentation/pages/shared_packages_in_service_settings/screens/list_data_of_packages_in_shared_packages_in_service_settings.dart';
@@ -11,8 +14,8 @@ class DataContainerInListDataSharedPackagesInServiceSettings
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.all(15.0),
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
       child: Column(
         spacing: 30,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -22,11 +25,18 @@ class DataContainerInListDataSharedPackagesInServiceSettings
           //   text2: AppLanguageKeys.addDifferentServices,
           //   textContainer: AppLanguageKeys.back,
           // ),
-          IconCarOrangeTextOfCarSparePartsInServiceSettings(
+          const IconCarOrangeTextOfCarSparePartsInServiceSettings(
             text: AppLanguageKeys.servicePackage,
             imagePath: AppImageKeys.car4_service,
           ),
-          ListDataOfPackagesInSharedPackagesInServiceSettings()
+          BlocBuilder<ProviderPackagesCubit, ProviderPackagesState>(
+            builder: (context, state) => ProviderServiceBranchFilter(
+              branchId: context.read<ProviderPackagesCubit>().selectedBranchId,
+              enabled: state is! ProviderPackagesLoading,
+              onChanged: context.read<ProviderPackagesCubit>().selectBranch,
+            ),
+          ),
+          const ListDataOfPackagesInSharedPackagesInServiceSettings()
         ],
       ),
     );

@@ -5,15 +5,18 @@ import '../../../../../../../../features/order_status_design/presentation/custom
 
 class DesignBillOrder extends StatelessWidget {
   final OrderDetailsModel orderDetailsModel;
-  const DesignBillOrder({super.key,required this.orderDetailsModel});
+  const DesignBillOrder({super.key, required this.orderDetailsModel});
 
   @override
   Widget build(BuildContext context) {
-    return  DesignBillOrderWidget(
-      paymentMethod:orderDetailsModel.paymentmethod,
-      price:orderDetailsModel.totalprice.toString(),
-      tax: orderDetailsModel.taxamount.toString(),
-      totalPrice:orderDetailsModel.totalprice.toString(),
+    return DesignBillOrderWidget(
+      paymentMethod: orderDetailsModel.paymentmethod,
+      price: orderDetailsModel.totalprice == null
+          ? ''
+          : (orderDetailsModel.totalprice! - (orderDetailsModel.taxamount ?? 0))
+              .toStringAsFixed(2),
+      tax: (orderDetailsModel.taxamount ?? 0).toStringAsFixed(2),
+      totalPrice: orderDetailsModel.totalprice?.toStringAsFixed(2) ?? '',
     );
   }
 }

@@ -13,7 +13,11 @@ import 'package:sun_web_system/features/service_settings/presentation/validation
 import 'create_prov_service_state.dart';
 
 class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
-  CreateProvServiceCubit() : super(CreateProvServiceInitial());
+  CreateProvServiceCubit({Future<int> Function()? providerIdLoader})
+      : _providerIdLoader = providerIdLoader,
+        super(CreateProvServiceInitial());
+
+  final Future<int> Function()? _providerIdLoader;
 
   final CreateProvServiceRepository _repository = CreateProvServiceRepository();
 
@@ -172,12 +176,18 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
         return;
       }
 
-      final user = await AuthLocalStorage.getUser();
+      final providerId = _providerIdLoader != null
+          ? await _providerIdLoader()
+          : (await AuthLocalStorage.getUser())?.userid;
+      if (providerId == null || providerId <= 0) {
+        throw StateError('Provider not found');
+      }
 
       final updatedRequest = CreateProvServiceRequest(
           id: request.id,
+          branchIds: request.branchIds,
           serviceid: serviceId!,
-          provid: user?.userid ?? 5,
+          provid: providerId,
           taxid: request.taxid,
           name: request.name,
           latinname: request.latinname,
@@ -251,6 +261,7 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
     return GetProvServicesResponse(
       provService: ProvService(
         id: response.id,
+        branchIds: request.branchIds ?? const [],
         serviceid: response.serviceId,
         provid: response.providerId,
         taxid: response.taxId,

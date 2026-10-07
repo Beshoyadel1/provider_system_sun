@@ -1,3 +1,24 @@
+// Register before Firebase's listener so a click reaches the Flutter router.
+self.addEventListener('notificationclick', (event) => {
+  event.stopImmediatePropagation();
+  event.notification.close();
+  const stored = event.notification.data || {};
+  const payload = stored.FCM_MSG || stored.FCM_PAYLOAD || { data: stored };
+  event.waitUntil(clients.matchAll({ type: 'window', includeUncontrolled: true })
+    .then(async (windows) => {
+      const scope = new URL(self.registration.scope);
+      const target = windows.find((client) =>
+        new URL(client.url).origin === scope.origin && client.url.startsWith(scope.href));
+      if (target) {
+        await target.focus();
+        target.postMessage({ type: 'SUN_NOTIFICATION_CLICK', payload });
+      } else {
+        scope.searchParams.set('notificationClick', JSON.stringify(payload));
+        await clients.openWindow(scope.href);
+      }
+    }));
+});
+
 importScripts("https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js");
 importScripts("https://www.gstatic.com/firebasejs/10.7.0/firebase-messaging-compat.js");
 
@@ -32,26 +53,8 @@ messaging.onBackgroundMessage((payload) => {
         payload.data?.message ||
         "",
     icon: "/favicon.png",
-    data: payload.data,
+    data: { FCM_PAYLOAD: payload },
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);
-});
-
-self.addEventListener("notificationclick", (event) => {
-  event.notification.close();
-  event.waitUntil(
-    clients
-      .matchAll({ type: "window", includeUncontrolled: true })
-      .then((clientList) => {
-        for (const client of clientList) {
-          if (client.url && "focus" in client) {
-            return client.focus();
-          }
-        }
-        if (clients.openWindow) {
-          return clients.openWindow("/");
-        }
-      })
-  );
 });

@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import '../service_branch.dart';
 
 class PackageProviderServicePackagesModel {
+  final List<int> branchIds;
   final int id;
   final int provId;
   final String name;
@@ -10,6 +12,7 @@ class PackageProviderServicePackagesModel {
   final num cost;
 
   PackageProviderServicePackagesModel({
+    this.branchIds = const [],
     required this.id,
     required this.provId,
     required this.name,
@@ -20,9 +23,10 @@ class PackageProviderServicePackagesModel {
   });
 
   factory PackageProviderServicePackagesModel.fromJson(
-      Map<String, dynamic> json,
-      ) {
+    Map<String, dynamic> json,
+  ) {
     return PackageProviderServicePackagesModel(
+      branchIds: parseServiceBranchIds(json['branchIds']),
       id: json['id'] ?? 0,
       provId: json['provid'] ?? 0,
       name: json['name'] ?? '',
@@ -34,11 +38,8 @@ class PackageProviderServicePackagesModel {
   }
 
   String getLocalizedName(BuildContext context) {
-    final lang =
-        Localizations.localeOf(context).languageCode;
+    final lang = Localizations.localeOf(context).languageCode;
 
-    return lang == 'ar'
-        ? name
-        : latinName;
+    return lang == 'ar' ? name : latinName;
   }
 }

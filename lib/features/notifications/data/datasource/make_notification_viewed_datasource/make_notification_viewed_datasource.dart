@@ -8,11 +8,15 @@ Future<void> makeNotificationViewedFunction({
   required GetUserNewNotificationRequest request,
 }) async {
   try {
-    await Network.postDataWithBodyAndParams(
+    final response = await Network.postDataWithBodyAndParams(
       {},
       request.toJson(),
       ApiLink.makeNotificationViewed,
     );
+    if ((response.statusCode ?? 500) >= 400 ||
+        (response.data is Map && (response.data['success'] == false || response.data['status'] == false))) {
+      throw Exception('Failed to mark notifications as read');
+    }
   } catch (e) {
     throw Exception(
       e is DioException

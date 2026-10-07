@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/features/service_settings/presentation/custom_widget/provider_service_branches.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/theming/fonts.dart';
 import 'package:sun_web_system/core/theming/text_styles.dart';
@@ -31,6 +31,7 @@ class ServiceCard extends StatefulWidget {
 
 class _ServiceCardState extends State<ServiceCard> {
   final _formKey = GlobalKey<FormState>();
+  late List<int> selectedBranchIds;
 
   late TextEditingController nameController;
   late TextEditingController latinController;
@@ -42,6 +43,7 @@ class _ServiceCardState extends State<ServiceCard> {
   @override
   void initState() {
     super.initState();
+    selectedBranchIds = List.of(widget.service.provService.branchIds);
 
     nameController =
         TextEditingController(text: widget.service.provService.name);
@@ -133,6 +135,11 @@ class _ServiceCardState extends State<ServiceCard> {
                     ),
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: ProviderServiceBranchesSummary(
+                      branchIds: service.branchIds),
+                ),
                 AnimatedSize(
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeInOut,
@@ -150,6 +157,11 @@ class _ServiceCardState extends State<ServiceCard> {
                                       latinNameController: latinController,
                                     ),
                                     const SizedBox(height: 10),
+                                    ProviderServiceBranchesField(
+                                      branchIds: selectedBranchIds,
+                                      onChanged: (ids) => setState(
+                                          () => selectedBranchIds = ids),
+                                    ),
                                     const SelectTaxPage(),
                                     GeneralServicePricingWidget(
                                       isUnifiedPrice: isGeneralUnifiedPrice,
@@ -221,8 +233,14 @@ class _ServiceCardState extends State<ServiceCard> {
                                           return;
                                         }
 
+                                        if (taxCubit.selectedTax == null) {
+                                          AppSnackBar.showError(
+                                              AppLanguageKeys.enterYourData);
+                                          return;
+                                        }
                                         final request =
                                             UpdateProvServiceRequest(
+                                          branchIds: selectedBranchIds,
                                           id: service.id,
                                           serviceId: service.serviceid,
                                           provId: service.provid,
@@ -301,7 +319,8 @@ class _ServiceCardState extends State<ServiceCard> {
                                           ),
                                         );
 
-                                        if (confirm == true) {
+                                        if (confirm == true &&
+                                            context.mounted) {
                                           context
                                               .read<ProvServicesCubit>()
                                               .deleteProvService(

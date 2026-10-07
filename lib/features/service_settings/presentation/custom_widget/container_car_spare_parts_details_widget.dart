@@ -15,6 +15,7 @@ class ContainerCarSparePartsDetailsWidget extends StatelessWidget {
       priceProduct;
   final Uint8List? imageProductBytes;
   final Uint8List? imageCarBrandBytes;
+  final String stockLabel;
 
   final void Function()? onTap;
 
@@ -27,6 +28,7 @@ class ContainerCarSparePartsDetailsWidget extends StatelessWidget {
     required this.priceProduct,
     this.imageProductBytes,
     this.imageCarBrandBytes,
+    this.stockLabel = AppLanguageKeys.remainingQuantity,
     this.onTap,
   });
 
@@ -37,7 +39,7 @@ class ContainerCarSparePartsDetailsWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.greyColor.withOpacity(0.3)),
+        border: Border.all(color: AppColors.greyColor.withValues(alpha: 0.3)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,9 +70,7 @@ class ContainerCarSparePartsDetailsWidget extends StatelessWidget {
               ),
             ],
           ),
-
           Center(child: _buildImage(imageProductBytes, size: 80)),
-
           Center(
             child: TextInAppWidget(
               text: nameProduct,
@@ -80,7 +80,6 @@ class ContainerCarSparePartsDetailsWidget extends StatelessWidget {
               maxLines: 1,
             ),
           ),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             spacing: 10,
@@ -89,9 +88,9 @@ class ContainerCarSparePartsDetailsWidget extends StatelessWidget {
                 child: Row(
                   spacing: 3,
                   children: [
-                    const Flexible(
+                    Flexible(
                       child: TextInAppWidget(
-                        text: AppLanguageKeys.remainingQuantity,
+                        text: stockLabel,
                         textSize: 12,
                         textColor: AppColors.blueColor,
                         maxLines: 1,
@@ -113,13 +112,12 @@ class ContainerCarSparePartsDetailsWidget extends StatelessWidget {
               ),
             ],
           ),
-
           Center(
             child: InkWell(
               onTap: onTap,
               child: Container(
                 padding:
-                const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                 decoration: BoxDecoration(
                   color: AppColors.secondaryColor,
                   borderRadius: BorderRadius.circular(20),
@@ -141,8 +139,8 @@ class ContainerCarSparePartsDetailsWidget extends StatelessWidget {
     if (bytes != null && bytes.isNotEmpty) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(10),
-        child: Image.memory(bytes,
-            height: size, width: size, fit: BoxFit.cover),
+        child:
+            Image.memory(bytes, height: size, width: size, fit: BoxFit.cover),
       );
     }
 
@@ -150,7 +148,7 @@ class ContainerCarSparePartsDetailsWidget extends StatelessWidget {
       height: size,
       width: size,
       decoration: BoxDecoration(
-        color: AppColors.greyColor.withOpacity(0.2),
+        color: AppColors.greyColor.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(10),
       ),
       child: const Icon(Icons.directions_car, color: Colors.grey),

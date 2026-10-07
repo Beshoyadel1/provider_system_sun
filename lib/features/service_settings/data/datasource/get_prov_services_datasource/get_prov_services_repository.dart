@@ -15,7 +15,13 @@ Future<List<GetProvServicesResponse>> getProvServicesFunction({
       ApiLink.getProvServices,
     );
 
-    final res = response.data['data'];
+    final body = response.data;
+    if (body is! Map || body['success'] != true) {
+      throw FormatException(body is Map
+          ? body['message']?.toString() ?? 'Unable to load services'
+          : 'Invalid services response');
+    }
+    final res = body['data'];
 
     if (res == null) {
       return [];

@@ -51,7 +51,13 @@ class ChatThreadPanel extends StatelessWidget {
                   currentUserType: cubit.currentUserType,
                 ),
               ),
-              ChatComposeBar(
+              if (cubit.selectedChatIsClosed)
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Text(Localizations.localeOf(context).languageCode == 'ar'
+                      ? 'المحادثة مغلقة' : 'Conversation closed'),
+                )
+              else ChatComposeBar(
                 isSending: state.isSendingMessage,
                 onSend: (text) => cubit.sendMessage(text),
               ),
