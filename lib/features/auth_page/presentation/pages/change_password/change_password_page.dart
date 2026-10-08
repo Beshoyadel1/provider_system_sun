@@ -15,10 +15,12 @@ import '../../../../../features/auth_page/presentation/pages/login_page/login_wi
 
 class ChangePasswordPage extends StatefulWidget {
   final String email;
+  final bool returnToAccount;
 
   const ChangePasswordPage({
     super.key,
     required this.email,
+    this.returnToAccount = false,
   });
 
   @override
@@ -54,6 +56,12 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   // CHANGE PASSWORD
   // =========================================================
 
+  String? _validatePassword(String? value) {
+    return value == null || value.trim().isEmpty
+        ? AppLanguageKeys.authPasswordRequired
+        : null;
+  }
+
   void _changePassword() {
     if (!formKey.currentState!.validate()) {
       return;
@@ -82,145 +90,183 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     context.read<AuthCubit>().changePassword(
           user: widget.email,
           password: password,
+          updateStoredPassword: widget.returnToAccount,
         );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Row(
-        children: [
-          // ===================================================
-          // FORM
-          // ===================================================
+    return BlocBuilder<AuthCubit, AuthState>(
+      buildWhen: (previous, current) =>
+          previous is ChangePasswordLoading || current is ChangePasswordLoading,
+      builder: (context, state) => PopScope(
+        canPop: state is! ChangePasswordLoading,
+        child: Scaffold(
+          backgroundColor:
+              widget.returnToAccount ? AppColors.scaffoldColor : null,
+          body: Row(
+            children: [
+              // ===================================================
+              // FORM
+              // ===================================================
 
-          Expanded(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 40,
-                  child: AppBar(
-                    backgroundColor: AppColors.orangeColor,
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 32,
+              Expanded(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 40,
+                      child: AppBar(
+                        backgroundColor: widget.returnToAccount
+                            ? AppColors.scaffoldColor
+                            : AppColors.orangeColor,
+                      ),
                     ),
-                    child: Center(
-                      child: SingleChildScrollView(
-                        child: Form(
-                          key: formKey,
-                          autovalidateMode: AutovalidateMode.disabled,
-                          child: Column(
-                            spacing: 10,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // =================================
-                              // PASSWORD
-                              // =================================
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 32,
+                        ),
+                        child: Center(
+                          child: SingleChildScrollView(
+                            child: ConstrainedBox(
+                              constraints: const BoxConstraints(maxWidth: 500),
+                              child: Form(
+                                key: formKey,
+                                autovalidateMode: AutovalidateMode.disabled,
+                                child: Column(
+                                  spacing: 10,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    if (widget.returnToAccount)
+                                      const TextInAppWidget(
+                                        text: AppLanguageKeys.changePassword,
+                                        textColor: AppColors.darkColor,
+                                        textSize: 22,
+                                        fontWeightIndex:
+                                            FontSelectionData.boldFontFamily,
+                                      ),
+                                    // =================================
+                                    // PASSWORD
+                                    // =================================
 
-                              const TextInAppWidget(
-                                text: AppLanguageKeys.password,
-                                textColor: AppColors.darkColor,
-                                textSize: 20,
-                                fontWeightIndex:
-                                    FontSelectionData.semiBoldFontFamily,
+                                    const TextInAppWidget(
+                                      text: AppLanguageKeys.password,
+                                      textColor: AppColors.darkColor,
+                                      textSize: 20,
+                                      fontWeightIndex:
+                                          FontSelectionData.semiBoldFontFamily,
+                                    ),
+
+                                    UserTextFieldWidget(
+                                      type: UserFieldType.password,
+                                      controller: passwordController,
+                                      validator: _validatePassword,
+                                      readOnly: state is ChangePasswordLoading,
+                                      showPasswordVisibilityToggle: true,
+                                      showValidationMessage: true,
+                                    ),
+
+                                    // =================================
+                                    // CONFIRM PASSWORD
+                                    // =================================
+
+                                    const TextInAppWidget(
+                                      text: AppLanguageKeys.confirmPasswordKey,
+                                      textColor: AppColors.darkColor,
+                                      textSize: 20,
+                                      fontWeightIndex:
+                                          FontSelectionData.semiBoldFontFamily,
+                                    ),
+
+                                    UserTextFieldWidget(
+                                      type: UserFieldType.password,
+                                      controller: confirmPasswordController,
+                                      validator: _validatePassword,
+                                      readOnly: state is ChangePasswordLoading,
+                                      showPasswordVisibilityToggle: true,
+                                      showValidationMessage: true,
+                                    ),
+
+                                    // =================================
+                                    // BUTTON
+                                    // =================================
+
+                                    BlocConsumer<AuthCubit, AuthState>(
+                                      listenWhen: (
+                                        previous,
+                                        current,
+                                      ) =>
+                                          current is ChangePasswordSuccess ||
+                                          current is ChangePasswordError,
+                                      listener: (
+                                        context,
+                                        state,
+                                      ) {
+                                        // =========================
+                                        // SUCCESS
+                                        // =========================
+
+                                        if (state is ChangePasswordSuccess) {
+                                          AppSnackBar.showSuccess(
+                                            state.message,
+                                          );
+                                          Navigator.pop(context);
+                                          if (!widget.returnToAccount) {
+                                            Navigator.pop(context);
+                                          }
+                                        }
+
+                                        // =========================
+                                        // ERROR
+                                        // =========================
+
+                                        if (state is ChangePasswordError) {
+                                          AppSnackBar.showError(
+                                            state.message,
+                                          );
+                                        }
+                                      },
+                                      builder: (
+                                        context,
+                                        state,
+                                      ) {
+                                        final isLoading =
+                                            state is ChangePasswordLoading;
+
+                                        return LoginButtonWidget(
+                                          text: widget.returnToAccount
+                                              ? AppLanguageKeys.save
+                                              : AppLanguageKeys.send,
+                                          isLoading: isLoading,
+                                          onPressed: isLoading
+                                              ? null
+                                              : _changePassword,
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
                               ),
-
-                              UserTextFieldWidget(
-                                type: UserFieldType.password,
-                                controller: passwordController,
-                              ),
-
-                              // =================================
-                              // CONFIRM PASSWORD
-                              // =================================
-
-                              const TextInAppWidget(
-                                text: AppLanguageKeys.confirmPasswordKey,
-                                textColor: AppColors.darkColor,
-                                textSize: 20,
-                                fontWeightIndex:
-                                    FontSelectionData.semiBoldFontFamily,
-                              ),
-
-                              UserTextFieldWidget(
-                                type: UserFieldType.password,
-                                controller: confirmPasswordController,
-                              ),
-
-                              // =================================
-                              // BUTTON
-                              // =================================
-
-                              BlocConsumer<AuthCubit, AuthState>(
-                                listenWhen: (
-                                  previous,
-                                  current,
-                                ) =>
-                                    current is ChangePasswordSuccess ||
-                                    current is ChangePasswordError,
-                                listener: (
-                                  context,
-                                  state,
-                                ) {
-                                  // =========================
-                                  // SUCCESS
-                                  // =========================
-
-                                  if (state is ChangePasswordSuccess) {
-                                    AppSnackBar.showSuccess(
-                                      state.message,
-                                    );
-                                    Navigator.pop(context);
-                                    Navigator.pop(context);
-                                  }
-
-                                  // =========================
-                                  // ERROR
-                                  // =========================
-
-                                  if (state is ChangePasswordError) {
-                                    AppSnackBar.showError(
-                                      state.message,
-                                    );
-                                  }
-                                },
-                                builder: (
-                                  context,
-                                  state,
-                                ) {
-                                  final isLoading =
-                                      state is ChangePasswordLoading;
-
-                                  return LoginButtonWidget(
-                                    text: AppLanguageKeys.send,
-                                    isLoading: isLoading,
-                                    onPressed:
-                                        isLoading ? null : _changePassword,
-                                  );
-                                },
-                              ),
-                            ],
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+
+              // ===================================================
+              // IMAGE
+              // ===================================================
+
+              if (!widget.returnToAccount &&
+                  MediaQuery.of(context).size.width >
+                      ValuesOfAllApp.mobileWidth)
+                const LoginImage(),
+            ],
           ),
-
-          // ===================================================
-          // IMAGE
-          // ===================================================
-
-          if (MediaQuery.of(context).size.width > ValuesOfAllApp.mobileWidth)
-            const LoginImage(),
-        ],
+        ),
       ),
     );
   }

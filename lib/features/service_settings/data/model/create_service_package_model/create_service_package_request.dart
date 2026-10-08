@@ -68,10 +68,19 @@ class SupportedCarRequest {
     this.carModelIds,
   });
 
+  factory SupportedCarRequest.fromJson(Map<String, dynamic> json) =>
+      SupportedCarRequest(
+        carBrandId: int.tryParse(json['carbrandid']?.toString() ?? ''),
+        carModelIds: (json['carmodelids'] as List? ?? [])
+            .map((id) => int.tryParse(id.toString()))
+            .whereType<int>()
+            .toList(),
+      );
+
   Map<String, dynamic> toJson() {
     return {
       "carbrandid": carBrandId,
-      "carmodeliDs": carModelIds,
+      "carmodelids": carModelIds,
     };
   }
 }

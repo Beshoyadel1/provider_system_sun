@@ -10,7 +10,7 @@ class CarModelCreateServicePackageRequest {
   Map<String, dynamic> toJson() {
     return {
       "carbrandid": carBrandId,
-      "carmodeliDs": carModelIds,
+      "carmodelids": carModelIds,
     };
   }
 }

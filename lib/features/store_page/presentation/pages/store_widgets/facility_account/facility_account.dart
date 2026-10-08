@@ -8,8 +8,15 @@ import '../../../../../../../core/setup_git_it.dart';
 import '../../../../../../../features/store_page/data/model/facility_model/facility_model.dart';
 import '../../../../../../core/pages_widgets/general_widgets/custom_container.dart';
 
-class FacilityAccount extends StatelessWidget {
+class FacilityAccount extends StatefulWidget {
   const FacilityAccount({super.key});
+
+  @override
+  State<FacilityAccount> createState() => _FacilityAccountState();
+}
+
+class _FacilityAccountState extends State<FacilityAccount> {
+  final _navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
@@ -17,38 +24,55 @@ class FacilityAccount extends StatelessWidget {
       create: (context) => FacilityTabCubit(
         initialIndex: getIt<AppCubit>().takeFacilityAccountTabIndex(),
       ),
-      child: BlocBuilder<FacilityTabCubit, FacilityTabState>(
-        buildWhen: (previous, current) => current is ChangeIndexState,
-        builder: (context, state) {
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  CustomContainer(
-                    containerWidth: double.infinity,
-                    isSelected: false,
-                    typeWidget: Column(
-                      spacing: 10,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const TabsWidget(),
-                        facilityTabs[
-                                context.read<FacilityTabCubit>().selectedIndex]
-                            .content,
-                        // const SizedBox(height: 100),
-                        // const FacilityDataContent()
-                      ],
-                    ),
-                    onTap: () {},
-                  ),
-                  const SizedBox(height: 20),
-                ],
-              ),
-            ),
-          );
-        },
+      child: NavigatorPopHandler<Object?>(
+        onPopWithResult: (_) => _navigatorKey.currentState?.maybePop(),
+        child: Navigator(
+          key: _navigatorKey,
+          onGenerateRoute: (_) => MaterialPageRoute<void>(
+            builder: (_) => const _FacilityAccountContent(),
+          ),
+        ),
       ),
+    );
+  }
+}
+
+class _FacilityAccountContent extends StatelessWidget {
+  const _FacilityAccountContent();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<FacilityTabCubit, FacilityTabState>(
+      buildWhen: (previous, current) => current is ChangeIndexState,
+      builder: (context, state) {
+        return Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                CustomContainer(
+                  containerWidth: double.infinity,
+                  isSelected: false,
+                  typeWidget: Column(
+                    spacing: 10,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const TabsWidget(),
+                      facilityTabs[
+                              context.read<FacilityTabCubit>().selectedIndex]
+                          .content,
+                      // const SizedBox(height: 100),
+                      // const FacilityDataContent()
+                    ],
+                  ),
+                  onTap: () {},
+                ),
+                const SizedBox(height: 20),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

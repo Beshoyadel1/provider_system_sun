@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sun_web_system/core/language/language_cubit/language_cubit.dart';
+import 'product_form_widgets.dart';
 
 class ProductMoneyField extends StatelessWidget {
   final TextEditingController controller;
@@ -10,13 +11,10 @@ class ProductMoneyField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ar = LanguageCubit.get(context).isAllAppLanguageArabic;
-    return TextFormField(
+    return ProductTextField(
+      label: cost ? (ar ? 'التكلفة' : 'Cost') : (ar ? 'السعر' : 'Price'),
       controller: controller,
       keyboardType: const TextInputType.numberWithOptions(decimal: true),
-      decoration: InputDecoration(
-          labelText:
-              cost ? (ar ? 'التكلفة' : 'Cost') : (ar ? 'السعر' : 'Price'),
-          border: const OutlineInputBorder()),
       validator: (value) {
         final amount = num.tryParse(value?.trim() ?? '');
         return amount == null || !amount.isFinite || amount < 0

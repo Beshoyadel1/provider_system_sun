@@ -53,6 +53,7 @@ class _ExpansionContainerSparePartsSettingWidgetState
         width: 50,
         height: 50,
         fit: BoxFit.cover,
+        errorBuilder: (_, __, ___) => _imageFallback(),
       );
     }
 
@@ -63,9 +64,14 @@ class _ExpansionContainerSparePartsSettingWidgetState
         width: 50,
         height: 50,
         fit: BoxFit.cover,
+        errorBuilder: (_, __, ___) => _imageFallback(),
       );
     }
 
+    return _imageFallback();
+  }
+
+  Widget _imageFallback() {
     return Container(
       width: 50,
       height: 50,

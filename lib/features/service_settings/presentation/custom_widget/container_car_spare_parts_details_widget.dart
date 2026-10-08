@@ -139,11 +139,20 @@ class ContainerCarSparePartsDetailsWidget extends StatelessWidget {
     if (bytes != null && bytes.isNotEmpty) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(10),
-        child:
-            Image.memory(bytes, height: size, width: size, fit: BoxFit.cover),
+        child: Image.memory(
+          bytes,
+          height: size,
+          width: size,
+          fit: BoxFit.cover,
+          errorBuilder: (_, __, ___) => _imageFallback(size),
+        ),
       );
     }
 
+    return _imageFallback(size);
+  }
+
+  Widget _imageFallback(double size) {
     return Container(
       height: size,
       width: size,

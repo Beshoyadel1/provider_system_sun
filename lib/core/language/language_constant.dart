@@ -28,6 +28,7 @@ class AppLanguageKeys {
 
   static const String signupOtpMessage = 'signupOtpMessage';
   static const String forgotPasswordOtpMessage = 'forgotPasswordOtpMessage';
+  static const String changePassword = 'changePassword';
 
   static const String phoneNumberNotFound = 'phoneNumberNotFound';
   static const String failedToSendVerificationCode =

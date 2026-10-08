@@ -97,10 +97,13 @@ class ProviderPackagesCubit extends Cubit<ProviderPackagesState> {
   Future<void> createPackage({
     required String name,
     required String latinName,
-    required String items,
+    required List<PackageItemRequest> items,
     required num price,
     required int tax,
     required List<int> branchIds,
+    required num cost,
+    required List<int> serviceIds,
+    required List<SupportedCarRequest> supportedCars,
   }) async {
     if (isClosed) return;
     emit(ProviderPackagesLoading());
@@ -114,23 +117,12 @@ class ProviderPackagesCubit extends Cubit<ProviderPackagesState> {
           branchIds: branchIds,
           name: name,
           latinName: latinName,
-          items: [
-            PackageItemRequest(
-              packageId: 0,
-              item: items,
-              latinItem: items,
-            ),
-          ],
+          items: items,
           taxId: tax,
           price: price,
-          cost: 0,
-          serviceIds: [6],
-          supportedCars: [
-            SupportedCarRequest(
-              carBrandId: 1,
-              carModelIds: [1, 2],
-            ),
-          ],
+          cost: cost,
+          serviceIds: serviceIds,
+          supportedCars: supportedCars,
         ),
       );
 
@@ -145,12 +137,13 @@ class ProviderPackagesCubit extends Cubit<ProviderPackagesState> {
     required int id,
     required String name,
     required String latinName,
-    required String items,
+    required List<PackageItemRequest> items,
     required num price,
     required int tax,
     required List<int> branchIds,
-    List<int>? serviceIds,
-    num? cost,
+    required List<int> serviceIds,
+    required num cost,
+    List<SupportedCarRequest>? supportedCars,
   }) async {
     if (isClosed) return;
     emit(ProviderPackagesLoading());
@@ -168,14 +161,9 @@ class ProviderPackagesCubit extends Cubit<ProviderPackagesState> {
           taxId: tax,
           price: price,
           cost: cost,
-          items: [
-            PackageItemRequest(
-              packageId: id,
-              item: items,
-              latinItem: items,
-            ),
-          ],
+          items: items,
           serviceIds: serviceIds,
+          supportedCars: supportedCars,
         ),
       );
 

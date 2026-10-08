@@ -5,6 +5,7 @@ import 'package:sun_web_system/core/theming/colors.dart';
 import 'package:sun_web_system/features/store_page/presentation/bloc/branch_cubit/branch_cubit.dart';
 import 'package:sun_web_system/features/store_page/presentation/bloc/branch_cubit/branch_state.dart';
 import '../../data/model/service_branch.dart';
+import 'branch_filter_dropdown.dart';
 
 String _branchName(ServiceBranch branch, bool ar) {
   final preferred = ar ? branch.name : branch.latinName;
@@ -16,9 +17,12 @@ String _branchName(ServiceBranch branch, bool ar) {
           : '${ar ? 'فرع' : 'Branch'} #${branch.id}';
 }
 
-Map<int, ServiceBranch> _catalog(BranchCubit cubit) => {
+Map<int, ServiceBranch> _catalog(BranchCubit cubit,
+        {bool activeOnly = false}) =>
+    {
       for (final branch in cubit.branches)
-        if ((branch.branchId ?? 0) > 0)
+        if ((branch.branchId ?? 0) > 0 &&
+            (!activeOnly || branch.isActive == true))
           branch.branchId!: ServiceBranch(
             id: branch.branchId!,
             name: branch.branchName ?? '',
@@ -147,25 +151,16 @@ class ProviderServiceBranchFilter extends StatelessWidget {
           ),
         ]);
       }
-      final branches = _catalog(cubit);
-      if (branchId != null && !branches.containsKey(branchId)) {
-        branches[branchId!] = ServiceBranch(id: branchId!);
-      }
-      return DropdownButtonFormField<int>(
+      final branches = _catalog(cubit, activeOnly: true);
+      return BranchFilterDropdown(
         key: ValueKey('service-branch-filter-$branchId'),
-        initialValue: branchId ?? 0,
-        isExpanded: true,
-        decoration: InputDecoration(
-          labelText: ar ? 'فلترة حسب الفرع' : 'Filter by branch',
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-        ),
-        items: [
-          DropdownMenuItem(
-              value: 0, child: Text(ar ? 'كل الفروع' : 'All branches')),
+        value: branchId ?? 0,
+        label: ar ? 'فلترة حسب الفرع' : 'Filter by branch',
+        items: {
+          0: ar ? 'كل الفروع' : 'All branches',
           for (final branch in branches.values)
-            DropdownMenuItem(
-                value: branch.id, child: Text(_branchName(branch, ar))),
-        ],
+            branch.id: _branchName(branch, ar),
+        },
         onChanged:
             enabled ? (value) => onChanged(value == 0 ? null : value) : null,
       );

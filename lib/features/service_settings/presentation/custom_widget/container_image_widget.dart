@@ -29,6 +29,7 @@ class ContainerImageWidget extends StatelessWidget {
       child = Image.memory(
         imageMemory!,
         fit: BoxFit.cover,
+        errorBuilder: (_, __, ___) => _defaultIcon(),
       );
 
       // ✅ 2. لو فيه imagePath

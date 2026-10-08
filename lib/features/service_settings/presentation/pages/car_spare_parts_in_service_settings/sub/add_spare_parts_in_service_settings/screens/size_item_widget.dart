@@ -1,21 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
+import 'package:sun_web_system/core/language/language_cubit/language_cubit.dart';
 import 'package:sun_web_system/core/theming/colors.dart';
 import 'package:sun_web_system/core/theming/fonts.dart';
 import 'package:sun_web_system/core/theming/text_styles.dart';
-import 'package:sun_web_system/features/service_settings/presentation/pages/car_spare_parts_in_service_settings/sub/add_spare_parts_in_service_settings/screens/size_controllers.dart';
-import 'package:sun_web_system/features/service_settings/presentation/custom_widget/text_with_text_form_field_as_column2_widget.dart';
+import 'size_controllers.dart';
+import 'product_form_widgets.dart';
 import 'product_money_field.dart';
 import 'product_stocks_editor.dart';
 
 class SizeItemWidget extends StatelessWidget {
-  final SizeControllers controllers;
-  final double itemWidth;
-  final VoidCallback? onDelete;
-  final VoidCallback? onAdd;
-  final bool showDelete;
-  final String title;
-
   const SizeItemWidget({
     super.key,
     required this.title,
@@ -25,85 +19,65 @@ class SizeItemWidget extends StatelessWidget {
     this.onAdd,
     this.showDelete = true,
   });
+  final SizeControllers controllers;
+  final double itemWidth;
+  final VoidCallback? onDelete, onAdd;
+  final bool showDelete;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      spacing: 10,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        TextInAppWidget(
-          text: title,
-          textSize: 13,
-          fontWeightIndex: FontSelectionData.regularFontFamily,
-          textColor: AppColors.blackColor,
-        ),
-        Container(
-          margin: const EdgeInsets.only(bottom: 15),
-          padding: const EdgeInsets.all(15),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(color: Colors.grey.shade300),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Column(
+    final ar = LanguageCubit.get(context).isAllAppLanguageArabic;
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.whiteColor,
+        border: Border.all(color: AppColors.cardStroke),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(children: [
+            Expanded(
+                child: TextInAppWidget(
+                    text: title,
+                    textSize: 13,
+                    textColor: AppColors.darkColor,
+                    fontWeightIndex: FontSelectionData.mediumFontFamily)),
+            IconButton(
+                tooltip: ar ? 'إضافة مقاس' : 'Add size',
+                onPressed: onAdd,
+                icon: const Icon(Icons.add_circle_outline,
+                    size: 22, color: AppColors.orangeColor)),
+            if (showDelete)
+              IconButton(
+                  tooltip: ar ? 'حذف المقاس' : 'Remove size',
+                  onPressed: onDelete,
+                  icon: const Icon(Icons.delete_outline,
+                      size: 22, color: AppColors.redColor)),
+          ]),
+          const SizedBox(height: 8),
+          ProductCardsWrap(
+            minCardWidth: 140,
+            maxCardWidth: 190,
             children: [
-              LayoutBuilder(builder: (context, constraints) {
-                final fieldWidth = constraints.maxWidth > 500
-                    ? (constraints.maxWidth - 10) / 2
-                    : constraints.maxWidth;
-                return Wrap(
-                  spacing: 10,
-                  runSpacing: 15,
-                  children: [
-                    _item(
-                        fieldWidth,
-                        TextWithTextFormFieldAsColumn2Widget(
-                          text: AppLanguageKeys.name,
-                          textFormController: controllers.nameController,
-                        )),
-                    _item(
-                        fieldWidth,
-                        TextWithTextFormFieldAsColumn2Widget(
-                          text: AppLanguageKeys.latinName,
-                          textFormController: controllers.latinNameController,
-                        )),
-                    _item(
-                        fieldWidth,
-                        ProductMoneyField(
-                            controller: controllers.priceController)),
-                    _item(
-                        fieldWidth,
-                        ProductMoneyField(
-                            controller: controllers.costController,
-                            cost: true)),
-                  ],
-                );
-              }),
-              const SizedBox(height: 10),
-              ProductStocksEditor(stocks: controllers.stocks),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    onPressed: onAdd,
-                    icon: const Icon(Icons.add, color: Colors.green),
-                  ),
-                  if (showDelete)
-                    IconButton(
-                      onPressed: onDelete,
-                      icon: const Icon(Icons.delete, color: Colors.red),
-                    ),
-                ],
-              ),
+              ProductTextField(
+                  label: AppLanguageKeys.name,
+                  controller: controllers.nameController),
+              ProductTextField(
+                  label: AppLanguageKeys.latinName,
+                  controller: controllers.latinNameController,
+                  latin: true),
+              ProductMoneyField(controller: controllers.priceController),
+              ProductMoneyField(
+                  controller: controllers.costController, cost: true),
             ],
           ),
-        ),
-      ],
+          const SizedBox(height: 12),
+          ProductStocksEditor(stocks: controllers.stocks),
+        ],
+      ),
     );
   }
-}
-
-Widget _item(double width, Widget child) {
-  return SizedBox(width: width, child: child);
 }

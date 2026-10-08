@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:sun_web_system/core/pages_widgets/general_widgets/memory_image_with_fallback.dart';
 import 'package:sun_web_system/features/store_page/presentation/bloc/branch_cubit/branch_cubit.dart';
 import 'package:sun_web_system/features/service_settings/presentation/custom_widget/provider_service_branches.dart';
 import 'package:sun_web_system/features/service_settings/presentation/bloc/prov_services_cubit/prov_services_state.dart';
@@ -135,10 +136,22 @@ class _ExpansionContainerSettingPetrolWidgetState
                   child: Row(
                     children: [
                       Flexible(
-                        child: (widget.imageMemory == null ||
-                                widget.imageMemory!.isEmpty)
-                            ? Image.asset(widget.imagePath ?? '')
-                            : Image.memory(widget.imageMemory!, width: 50),
+                        child: MemoryImageWithFallback(
+                          bytes: widget.imageMemory,
+                          width: 50,
+                          fallback: widget.imagePath?.isNotEmpty == true
+                              ? Image.asset(
+                                  widget.imagePath!,
+                                  errorBuilder: (_, __, ___) => const Icon(
+                                    Icons.image_not_supported_outlined,
+                                    color: AppColors.greyColor,
+                                  ),
+                                )
+                              : const Icon(
+                                  Icons.image_not_supported_outlined,
+                                  color: AppColors.greyColor,
+                                ),
+                        ),
                       ),
                       const SizedBox(width: 5),
                       TextInAppWidget(

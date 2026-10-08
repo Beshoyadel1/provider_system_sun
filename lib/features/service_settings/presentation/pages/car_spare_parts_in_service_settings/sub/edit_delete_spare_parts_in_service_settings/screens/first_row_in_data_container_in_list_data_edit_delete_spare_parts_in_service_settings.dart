@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:sun_web_system/core/pages_widgets/general_widgets/memory_image_with_fallback.dart';
 import 'package:flutter/cupertino.dart';
 import '../../../../../../../../core/utilies/map_of_all_app.dart';
 import '../../../../../../../../features/service_settings/presentation/custom_widget/button_edit_delete_setting_widget.dart';
@@ -42,17 +43,16 @@ class FirstRowInDataContainerInListDataEditDeleteSparePartsInServiceSettings
           ),
         ],
       ),
-      child: imageProduct != null
-          ? Image.memory(
-        imageProduct!,
+      child: MemoryImageWithFallback(
+        bytes: imageProduct,
         width: 50,
         height: 50,
         fit: BoxFit.cover,
-      )
-          : const Icon(
-        Icons.image_not_supported,
-        size: 40,
-        color: Colors.grey,
+        fallback: const Icon(
+          Icons.image_not_supported,
+          size: 40,
+          color: Colors.grey,
+        ),
       ),
     );
 

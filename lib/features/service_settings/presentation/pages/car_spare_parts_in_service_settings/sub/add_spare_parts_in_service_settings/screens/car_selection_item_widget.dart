@@ -1,24 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
+import 'package:sun_web_system/core/language/language_cubit/language_cubit.dart';
+import 'package:sun_web_system/core/pages_widgets/general_widgets/memory_image_with_fallback.dart';
+import 'package:sun_web_system/core/theming/colors.dart';
+import 'package:sun_web_system/core/theming/text_styles.dart';
 import 'package:sun_web_system/features/service_settings/presentation/bloc/car_selection_cubit/CarSelectionCubit.dart';
 import 'package:sun_web_system/features/service_settings/presentation/bloc/select_car_model_setting_cubit/select_car_model_setting_cubit.dart';
 import 'package:sun_web_system/features/service_settings/presentation/bloc/select_car_model_setting_cubit/select_car_model_setting_state.dart';
 import 'car_selection_controller.dart';
-
-import 'package:sun_web_system/core/theming/colors.dart';
-import 'package:sun_web_system/core/theming/fonts.dart';
-import 'package:sun_web_system/core/theming/text_styles.dart';
+import 'product_form_widgets.dart';
 
 class CarSelectionItemWidget extends StatefulWidget {
-  final CarSelectionController controller;
-  final VoidCallback? onAdd;
-  final VoidCallback? onDelete;
-  final VoidCallback? onSelectionChanged;
-  final Set<int> unavailableBrandIds;
-  final bool isAllBrandsSelectedElsewhere;
-  final bool showDelete;
-
   const CarSelectionItemWidget({
     super.key,
     required this.controller,
@@ -29,301 +22,224 @@ class CarSelectionItemWidget extends StatefulWidget {
     this.isAllBrandsSelectedElsewhere = false,
     this.showDelete = true,
   });
+  final CarSelectionController controller;
+  final VoidCallback? onAdd, onDelete, onSelectionChanged;
+  final Set<int> unavailableBrandIds;
+  final bool isAllBrandsSelectedElsewhere, showDelete;
 
   @override
   State<CarSelectionItemWidget> createState() => _CarSelectionItemWidgetState();
 }
 
 class _CarSelectionItemWidgetState extends State<CarSelectionItemWidget> {
+  String? _modelsError;
+
+  Future<void> _selectBrand(int value) async {
+    final carCubit = context.read<CarSelectionCubit>();
+    setState(() {
+      _modelsError = null;
+      widget.controller.isAllBrandsSelected = value == -1;
+      widget.controller.brandId = value == -1 ? null : value;
+      widget.controller.selectedModelIds.clear();
+      widget.controller.models.clear();
+      widget.controller.isLoading = value != -1;
+    });
+    widget.onSelectionChanged?.call();
+    if (value == -1) return;
+    try {
+      final models = await carCubit.getModels(value);
+      if (!mounted || widget.controller.brandId != value) return;
+      setState(() {
+        widget.controller.models = models;
+        widget.controller.isLoading = false;
+      });
+    } catch (error) {
+      if (!mounted || widget.controller.brandId != value) return;
+      setState(() {
+        widget.controller.isLoading = false;
+        _modelsError = error.toString();
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final carCubit = context.read<CarSelectionCubit>();
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const TextInAppWidget(
-          text: AppLanguageKeys.brands,
-          textSize: 11,
-          fontWeightIndex: FontSelectionData.regularFontFamily,
-          textColor: AppColors.blackColor,
-        ),
-        const SizedBox(height: 10),
-        Container(
-          margin: const EdgeInsets.only(bottom: 15),
-          padding: const EdgeInsets.all(15),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(color: Colors.grey.shade300),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Material(type: MaterialType.transparency, child: BlocBuilder<SelectCarModelSettingCubit,
-              SelectCarModelSettingState>(
-            builder: (context, state) {
-              if (state.isLoadingBrands) {
-                return const CircularProgressIndicator();
-              }
-
-              final brands = state.brands;
-              final availableBrands = brands.where((brand) {
-                if (widget.isAllBrandsSelectedElsewhere) {
-                  return brand.id == widget.controller.brandId;
-                }
-
-                return brand.id == widget.controller.brandId ||
-                    !widget.unavailableBrandIds.contains(brand.id);
-              });
-
-              return Column(
-                spacing: 15,
-                children: [
-                  Column(
-                    spacing: 10,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const TextInAppWidget(
-                        text: AppLanguageKeys.selectCarBrand,
-                        textSize: 11,
-                        fontWeightIndex: FontSelectionData.regularFontFamily,
-                        textColor: AppColors.blackColor,
+    final ar = LanguageCubit.get(context).isAllAppLanguageArabic;
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.whiteColor,
+        border: Border.all(color: AppColors.cardStroke),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child:
+          BlocBuilder<SelectCarModelSettingCubit, SelectCarModelSettingState>(
+        builder: (context, state) {
+          final availableBrands = state.brands.where((brand) {
+            if (widget.isAllBrandsSelectedElsewhere) {
+              return brand.id == widget.controller.brandId;
+            }
+            return brand.id == widget.controller.brandId ||
+                !widget.unavailableBrandIds.contains(brand.id);
+          });
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (state.isLoadingBrands)
+                const LinearProgressIndicator(color: AppColors.orangeColor)
+              else
+                ProductDropdownField<int>(
+                  label: AppLanguageKeys.selectCarBrand,
+                  value: widget.controller.isAllBrandsSelected
+                      ? -1
+                      : widget.controller.brandId,
+                  items: [
+                    if (widget.controller.isAllBrandsSelected ||
+                        (!widget.isAllBrandsSelectedElsewhere &&
+                            widget.unavailableBrandIds.isEmpty))
+                      const DropdownMenuItem<int>(
+                        value: -1,
+                        child: TextInAppWidget(
+                            text: AppLanguageKeys.allBrands,
+                            textSize: 13,
+                            textColor: AppColors.darkColor),
                       ),
-                      SizedBox(
-                        height: 35,
-                        child: DropdownButtonFormField<int>(
-                          isDense: true,
-                          isExpanded: true,
-                          value: widget.controller.isAllBrandsSelected
-                              ? -1
-                              : widget.controller.brandId,
-                          items: [
-                            if (widget.controller.isAllBrandsSelected ||
-                                (!widget.isAllBrandsSelectedElsewhere &&
-                                    widget.unavailableBrandIds.isEmpty))
-                              const DropdownMenuItem<int>(
-                                value: -1,
-                                child: TextInAppWidget(
-                                  text: AppLanguageKeys.allBrands,
-                                  textSize: 11,
-                                  fontWeightIndex:
-                                      FontSelectionData.regularFontFamily,
-                                  textColor: AppColors.blackColor,
-                                ),
+                    for (final brand in availableBrands)
+                      DropdownMenuItem<int>(
+                        value: brand.id,
+                        child: Row(children: [
+                          MemoryImageWithFallback(
+                              bytes: brand.image,
+                              width: 22,
+                              height: 22,
+                              fallback: const Icon(
+                                  Icons.directions_car_outlined,
+                                  size: 20,
+                                  color: AppColors.darkGreyColor)),
+                          const SizedBox(width: 8),
+                          Expanded(
+                              child: TextInAppWidget(
+                                  text: brand.getName(context),
+                                  textSize: 13,
+                                  textColor: AppColors.darkColor,
+                                  maxLines: 1,
+                                  isEllipsisTextOverflow: true)),
+                        ]),
+                      ),
+                  ],
+                  onChanged: (value) {
+                    if (value != null) _selectBrand(value);
+                  },
+                ),
+              if (widget.controller.brandId != null) ...[
+                const SizedBox(height: 12),
+                if (widget.controller.isLoading)
+                  const LinearProgressIndicator(color: AppColors.orangeColor)
+                else if (_modelsError != null)
+                  TextButton(
+                    onPressed: () => _selectBrand(widget.controller.brandId!),
+                    child: TextInAppWidget(
+                        text: ar
+                            ? 'تعذر تحميل الموديلات، أعد المحاولة'
+                            : 'Unable to load models. Retry',
+                        textSize: 12,
+                        textColor: AppColors.orangeColor),
+                  )
+                else if (widget.controller.models.isEmpty)
+                  TextInAppWidget(
+                      text: ar ? 'لا توجد موديلات' : 'No models',
+                      textSize: 12,
+                      textColor: AppColors.darkGreyColor)
+                else
+                  ProductFieldLabel(
+                    label: AppLanguageKeys.selectCarModel,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: AppColors.cardStroke),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(maxHeight: 192),
+                        child: SingleChildScrollView(
+                          child: Column(children: [
+                            _modelCheckbox(
+                              AppLanguageKeys.allModels,
+                              widget.controller.selectedModelIds.length ==
+                                  widget.controller.models.length,
+                              (selected) => setState(() {
+                                widget.controller.selectedModelIds =
+                                    selected == true
+                                        ? widget.controller.models
+                                            .map((model) => model.id!)
+                                            .toList()
+                                        : [];
+                              }),
+                            ),
+                            const Divider(
+                                height: 1, color: AppColors.cardStroke),
+                            for (final model in widget.controller.models)
+                              _modelCheckbox(
+                                model.name ?? '',
+                                widget.controller.selectedModelIds
+                                    .contains(model.id),
+                                (selected) => setState(() {
+                                  if (selected == true) {
+                                    widget.controller.selectedModelIds
+                                        .add(model.id!);
+                                  } else {
+                                    widget.controller.selectedModelIds
+                                        .remove(model.id);
+                                  }
+                                }),
                               ),
-                            ...availableBrands.map((brand) {
-                              return DropdownMenuItem<int>(
-                                value: brand.id,
-                                child: Row(
-                                  children: [
-                                    brand.image != null
-                                        ? Image.memory(brand.image!,
-                                            width: 25, height: 25)
-                                        : const Icon(Icons.directions_car,
-                                            size: 20),
-                                    const SizedBox(width: 8),
-                                    Expanded(
-                                      child: TextInAppWidget(
-                                        text: brand.getName(context),
-                                        textSize: 12,
-                                        fontWeightIndex:
-                                            FontSelectionData.regularFontFamily,
-                                        textColor: AppColors.blackColor,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }),
-                          ],
-                          onChanged: (value) async {
-                            if (value == null) return;
-
-                            if (value == -1) {
-                              setState(() {
-                                widget.controller.isAllBrandsSelected = true;
-                                widget.controller.brandId = null;
-                                widget.controller.selectedModelIds.clear();
-                                widget.controller.models.clear();
-                              });
-                              widget.onSelectionChanged?.call();
-                              return;
-                            }
-
-                            setState(() {
-                              widget.controller.isAllBrandsSelected = false;
-                              widget.controller.brandId = value;
-                              widget.controller.selectedModelIds.clear();
-                              widget.controller.models.clear();
-                              widget.controller.isLoading = true;
-                            });
-                            widget.onSelectionChanged?.call();
-
-                            final models = await carCubit.getModels(value);
-
-                            setState(() {
-                              widget.controller.models = models;
-                              widget.controller.isLoading = false;
-                            });
-                          },
-                          decoration: _inputDecoration(),
-                          icon: const Icon(Icons.arrow_drop_down),
+                          ]),
                         ),
                       ),
-                    ],
-                  ),
-                  if (widget.controller.brandId == null)
-                    const SizedBox()
-                  else if (widget.controller.isLoading)
-                    const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: CircularProgressIndicator(),
-                    )
-                  else if (widget.controller.models.isEmpty)
-                    const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(
-                        "لا توجد موديلات",
-                        style: TextStyle(color: Colors.grey),
-                      ),
-                    )
-                  else
-                    Column(
-                      spacing: 10,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const TextInAppWidget(
-                          text: AppLanguageKeys.selectCarModel,
-                          textSize: 11,
-                          fontWeightIndex: FontSelectionData.regularFontFamily,
-                          textColor: AppColors.blackColor,
-                        ),
-                        Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey.shade300),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Column(
-                            children: [
-                              Material(
-                                color: Colors.transparent,
-                                child: CheckboxListTile(
-                                  activeColor: AppColors.orangeColor,
-                                  value: widget
-                                          .controller.selectedModelIds.length ==
-                                      widget.controller.models.length,
-                                  dense: true,
-                                  controlAffinity:
-                                      ListTileControlAffinity.leading,
-                                  title: const TextInAppWidget(
-                                    text: AppLanguageKeys.allModels,
-                                    textSize: 13,
-                                  ),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      if (value == true) {
-                                        widget.controller.selectedModelIds =
-                                            widget.controller.models
-                                                .map((e) => e.id!)
-                                                .toList();
-                                      } else {
-                                        widget.controller.selectedModelIds
-                                            .clear();
-                                      }
-                                    });
-                                  },
-                                ),
-                              ),
-                              const Divider(),
-                              ...widget.controller.models.map((model) {
-                                final isSelected = widget
-                                    .controller.selectedModelIds
-                                    .contains(model.id);
-
-                                return Material(
-                                  color: Colors.transparent,
-                                  child: CheckboxListTile(
-                                    activeColor: AppColors.orangeColor,
-                                    value: isSelected,
-                                    dense: true,
-                                    controlAffinity:
-                                        ListTileControlAffinity.leading,
-                                    title: Text(model.name ?? ""),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        if (value == true) {
-                                          widget.controller.selectedModelIds
-                                              .add(model.id!);
-                                        } else {
-                                          widget.controller.selectedModelIds
-                                              .remove(model.id);
-                                        }
-                                      });
-                                    },
-                                  ),
-                                );
-                              }).toList(),
-                            ],
-                          ),
-                        ),
-                      ],
                     ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                        onPressed: widget.onAdd,
-                        icon: const Icon(Icons.add, color: Colors.green),
-                      ),
-                      if (widget.showDelete)
-                        IconButton(
-                          onPressed: widget.onDelete,
-                          icon: const Icon(Icons.delete, color: Colors.red),
-                        ),
-                    ],
                   ),
-                ],
-              );
-            },
-          )),
-        ),
-      ],
+              ],
+              const SizedBox(height: 4),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                IconButton(
+                  tooltip: ar ? 'إضافة ماركة' : 'Add brand',
+                  onPressed: widget.onAdd,
+                  icon: const Icon(Icons.add_circle_outline,
+                      color: AppColors.orangeColor, size: 22),
+                ),
+                if (widget.showDelete)
+                  IconButton(
+                    tooltip: ar ? 'حذف الماركة' : 'Remove brand',
+                    onPressed: widget.onDelete,
+                    icon: const Icon(Icons.delete_outline,
+                        color: AppColors.redColor, size: 22),
+                  ),
+              ]),
+            ],
+          );
+        },
+      ),
     );
   }
 
-  InputDecoration _inputDecoration() {
-    return InputDecoration(
-      filled: true,
-      fillColor: AppColors.transparent,
-      contentPadding: const EdgeInsets.all(5),
-      errorStyle: const TextStyle(
-        height: 0.01,
-        fontSize: 1,
-        color: AppColors.redColor,
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(15),
-        borderSide: BorderSide(
-          color: AppColors.darkColor.withOpacity(0.2),
+  Widget _modelCheckbox(
+          String name, bool selected, ValueChanged<bool?> onChanged) =>
+      Material(
+        type: MaterialType.transparency,
+        child: CheckboxListTile(
+          value: selected,
+          onChanged: onChanged,
+          activeColor: AppColors.orangeColor,
+          checkColor: AppColors.whiteColor,
+          dense: true,
+          visualDensity: VisualDensity.compact,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 6),
+          controlAffinity: ListTileControlAffinity.leading,
+          title: TextInAppWidget(
+              text: name,
+              textSize: 13,
+              textColor: AppColors.darkColor,
+              maxLines: 2,
+              isEllipsisTextOverflow: true),
         ),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(15),
-        borderSide: BorderSide(
-          color: AppColors.darkColor.withOpacity(0.2),
-          width: 1.5,
-        ),
-      ),
-      errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(15),
-        borderSide: const BorderSide(color: AppColors.redColor),
-      ),
-      focusedErrorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(15),
-        borderSide: const BorderSide(
-          color: AppColors.redColor,
-          width: 1.5,
-        ),
-      ),
-    );
-  }
+      );
 }

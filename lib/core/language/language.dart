@@ -14,6 +14,7 @@ class AppLocalizations {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'ar': {
+      AppLanguageKeys.changePassword: 'تغيير كلمة المرور',
       //status//
       AppLanguageKeys.notSold: 'لم يتم البيع',
       AppLanguageKeys.sold: 'تم البيع',
@@ -1478,6 +1479,7 @@ class AppLocalizations {
       AppLanguageKeys.from: "من",
     },
     'en': {
+      AppLanguageKeys.changePassword: 'Change password',
       //status//
       AppLanguageKeys.notSold: 'Not Sold',
       AppLanguageKeys.sold: 'Sold',

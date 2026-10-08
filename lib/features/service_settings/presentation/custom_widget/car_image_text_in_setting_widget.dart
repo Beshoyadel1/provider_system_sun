@@ -132,6 +132,11 @@ class CarImageTextInSettingWidget extends StatelessWidget {
           width: 50,
           height: 30,
           fit: BoxFit.cover,
+          errorBuilder: (_, __, ___) => const Icon(
+            Icons.directions_car,
+            size: 28,
+            color: Colors.grey,
+          ),
         ),
       );
     }

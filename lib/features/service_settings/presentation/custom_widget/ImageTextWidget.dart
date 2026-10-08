@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/core/pages_widgets/general_widgets/memory_image_with_fallback.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:sun_web_system/core/theming/colors.dart';
 import 'package:sun_web_system/core/theming/fonts.dart';
@@ -26,18 +27,14 @@ class ImageTextWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             color: Colors.grey.shade100,
           ),
-          child: image != null
-              ? ClipRRect(
+          child: ClipRRect(
             borderRadius: BorderRadius.circular(12),
-            child: Image.memory(
-              image!,
+            child: MemoryImageWithFallback(
+              bytes: image,
               fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return _buildIcon();
-              },
+              fallback: _buildIcon(),
             ),
-          )
-              : _buildIcon(),
+          ),
         ),
 
         const SizedBox(width: 10),

@@ -13,6 +13,7 @@ import 'package:sun_web_system/features/auth_page/presentation/pages/login_page/
 import 'package:sun_web_system/features/internal_services/presentation/cubit/order_funcations/order_functions.dart';
 import 'package:sun_web_system/features/store_page/presentation/bloc/facility_cubit/facility_tab_cubit/facility_tab_cubit.dart';
 import '../../general_widgets_in_store/attach_file.dart';
+import 'account_change_password_button.dart';
 
 class FacilityDataContent extends StatefulWidget {
   const FacilityDataContent({
@@ -86,7 +87,7 @@ class FacilityDataContentState extends State<FacilityDataContent> {
   Future<void> _loadUser() async {
     final user = await AuthLocalStorage.getUser();
 
-    if (user == null) {
+    if (!mounted || user == null) {
       return;
     }
 
@@ -441,7 +442,9 @@ class FacilityDataContentState extends State<FacilityDataContent> {
           builder: (context, state) {
             final isLoading = state is AuthUpdateLoading;
 
-            return Row(
+            return Wrap(
+              spacing: 10,
+              runSpacing: 10,
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -474,8 +477,9 @@ class FacilityDataContentState extends State<FacilityDataContent> {
                           textSize: 13,
                         ),
                 ),
-                const SizedBox(
-                  width: 10,
+                AccountChangePasswordButton(
+                  user: _savedUser,
+                  enabled: !isLoading,
                 ),
                 if (isEditMode)
                   ElevatedButton(

@@ -820,6 +820,7 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> changePassword({
     required String user,
     required String password,
+    bool updateStoredPassword = false,
   }) async {
     if (isClosed) return;
 
@@ -837,6 +838,10 @@ class AuthCubit extends Cubit<AuthState> {
       if (isClosed) return;
 
       if (result.success) {
+        if (updateStoredPassword) {
+          await AuthLocalStorage.savePassword(password);
+          if (isClosed) return;
+        }
         emit(
           ChangePasswordSuccess(
             result.message,

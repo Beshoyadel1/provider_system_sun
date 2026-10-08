@@ -1,5 +1,6 @@
 import 'package:sun_web_system/features/service_settings/data/model/get_provider_service_packages_model/package_provider_service_packages_model.dart';
 import '../service_branch.dart';
+import '../create_service_package_model/create_service_package_request.dart';
 import 'package:sun_web_system/features/service_settings/data/model/get_provider_service_packages_model/service_provider_service_packages_model.dart';
 
 import 'package:sun_web_system/features/service_settings/data/model/get_provider_service_packages_model/package_item_model.dart';
@@ -18,6 +19,7 @@ class ProviderServicePackagesModel {
   final List<ServiceProviderServicePackagesModel> services;
 
   final List<PackageItemModel> items;
+  final List<SupportedCarRequest>? supportedCars;
 
   ProviderServicePackagesModel({
     this.branchIds = const [],
@@ -25,6 +27,7 @@ class ProviderServicePackagesModel {
     required this.package,
     required this.services,
     required this.items,
+    this.supportedCars,
   });
 
   factory ProviderServicePackagesModel.fromJson(
@@ -32,6 +35,12 @@ class ProviderServicePackagesModel {
   ) {
     return ProviderServicePackagesModel(
       branchIds: parseServiceBranchIds(json['branchIds']),
+      supportedCars: json['supportedCars'] is List
+          ? (json['supportedCars'] as List)
+              .map((car) => SupportedCarRequest.fromJson(
+                  Map<String, dynamic>.from(car as Map)))
+              .toList()
+          : null,
       availableBranches:
           parseAvailableServiceBranches(json['availableBranches']),
       package: PackageProviderServicePackagesModel.fromJson(
