@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../data/model/order_employee_assignment.dart';
 import '../../../../../../../../../features/order_status_design/presentation/cubit/order_status_cubit/order_status_cubit.dart';
 import '../../../../../../../../../features/order_status_design/presentation/cubit/order_status_cubit/order_status_state.dart';
 import '../../../../../../../../../features/order_status_design/presentation/custom_widget/order_status_actions_widget.dart';
@@ -34,7 +35,6 @@ class ListOrderDetails extends StatelessWidget {
             ),
           )..getOrderDetails(),
         ),
-
         BlocProvider<OrderStatusCubit>(
           create: (_) => OrderStatusCubit(),
         ),
@@ -42,9 +42,7 @@ class ListOrderDetails extends StatelessWidget {
       child: BlocListener<OrderStatusCubit, OrderStatusState>(
         listener: (context, state) {
           if (state is OrderStatusSuccess) {
-            context
-                .read<GetOrderDetailsCubit>()
-                .getOrderDetails(force: true);
+            context.read<GetOrderDetailsCubit>().getOrderDetails(force: true);
           }
 
           if (state is OrderStatusError) {
@@ -93,11 +91,9 @@ class ListOrderDetails extends StatelessWidget {
                         status: orderDetails.status ?? 0,
                         id: orderDetails.id.toString(),
                       ),
-
                       ViewListDataOrder(
                         orderDetailsModel: orderDetails,
                       ),
-
                       if (!isMobile)
                         Row(
                           spacing: 10,
@@ -107,39 +103,35 @@ class ListOrderDetails extends StatelessWidget {
                               flex: 2,
                               child: Column(
                                 spacing: 10,
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   DesignCarDataOrders(
                                     orderDetailsModel: orderDetails,
                                   ),
-
                                   OrderStatusActionsWidget(
                                     status: orderDetails.status,
                                     orderId: orderDetails.id ?? 0,
+                                    assignment:
+                                        OrderEmployeeAssignment.fromOrder(
+                                            orderDetails, order),
                                   ),
                                 ],
                               ),
                             ),
-
                             Expanded(
                               child: Column(
                                 spacing: 10,
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   DataTimeLineTileOrderDetailsWidget(
                                     orderStatus: orderDetails.status,
                                   ),
-
                                   DesignNotesOrder(
                                     note: orderDetails.notes ?? "",
                                   ),
-
                                   ContainerContactWithCustomerOrderDetails(
                                     orderDetailsModel: orderDetails,
                                   ),
-
                                   DesignBillOrder(
                                     orderDetailsModel: orderDetails,
                                   ),
@@ -156,24 +148,21 @@ class ListOrderDetails extends StatelessWidget {
                             DesignCarDataOrders(
                               orderDetailsModel: orderDetails,
                             ),
-
                             OrderStatusActionsWidget(
                               status: orderDetails.status,
                               orderId: orderDetails.id ?? 0,
+                              assignment: OrderEmployeeAssignment.fromOrder(
+                                  orderDetails, order),
                             ),
-
                             DataTimeLineTileOrderDetailsWidget(
                               orderStatus: orderDetails.status,
                             ),
-
                             DesignNotesOrder(
                               note: orderDetails.notes ?? "",
                             ),
-
                             ContainerContactWithCustomerOrderDetails(
                               orderDetailsModel: orderDetails,
                             ),
-
                             DesignBillOrder(
                               orderDetailsModel: orderDetails,
                             ),

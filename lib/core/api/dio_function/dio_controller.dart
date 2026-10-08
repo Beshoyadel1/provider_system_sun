@@ -50,7 +50,10 @@ class Network {
           compact: false,
           maxWidth: 120,
           logPrint: (message) => debugPrint(message.toString()),
-          filter: (options, _) => options.uri.path.startsWith('/Order/'),
+          filter: (options, _) =>
+              options.uri.path.startsWith('/Order/') ||
+              options.uri.path ==
+                  '/EmployeeService/GetProviderEmployeesByServices',
         ),
       );
     }

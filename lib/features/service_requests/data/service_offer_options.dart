@@ -1,6 +1,5 @@
-import '../../../core/api/dio_function/api_constants.dart';
-import '../../../core/api/dio_function/dio_controller.dart';
 import '../../auth_page/data/model/create_user_model/create_user_request.dart';
+import '../../employee/data/datasource/get_provider_employees_by_services/get_provider_employees_by_services_repository.dart';
 import '../../service_settings/data/datasource/get_prov_services_datasource/get_prov_services_repository.dart';
 import '../../service_settings/data/request/get_prov_services_request/get_prov_services_request.dart';
 import '../../service_settings/data/response/get_prov_services_response/get_prov_services_response.dart';
@@ -39,25 +38,10 @@ class ServiceOfferOptions {
   Future<List<CreateUserRequest>> employees(
       int providerId, int branchId, List<int> serviceIds) {
     final ids = serviceIds.toSet().toList()..sort();
-    return _load('employees:$providerId:$branchId:${ids.join(',')}', () async {
-      final response = await Network.postDataWithBody({
-        'providerId': providerId,
-        'serviceIds': ids,
-        'branchId': branchId,
-      }, ApiLink.getProviderEmployeesByServices);
-      final body = response.data;
-      if (body is! Map || body['success'] != true) {
-        throw Exception(body is Map
-            ? body['message'] ?? 'Could not load employees'
-            : 'Invalid employees response');
-      }
-      final data = body['data'];
-      if (data is! List) throw Exception('Invalid employees response');
-      return data
-          .map((item) => CreateUserRequest.fromJson(
-              Map<String, dynamic>.from(item as Map)))
-          .toList(growable: false);
-    });
+    return _load(
+        'employees:$providerId:$branchId:${ids.join(',')}',
+        () => getProviderEmployeesByServices(
+            providerId: providerId, branchId: branchId, serviceIds: ids));
   }
 
   void reset() => _cache.clear();

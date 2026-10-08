@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/order_status_design/presentation/cubit/order_status_cubit/order_status_cubit.dart';
 import 'package:sun_web_system/features/order_status_design/presentation/custom_widget/show_order_status_confirmation_dialog.dart';
+import '../../data/model/order_employee_assignment.dart';
+import '../cubit/order_status_cubit/order_status_state.dart';
+import 'order_employee_assignment_dialog.dart';
 
 import '../../../../../../../core/api/dio_function/api_constants.dart';
 import '../../../../../../../core/language/language_constant.dart';
@@ -9,18 +12,30 @@ import '../../../../../../../core/theming/colors.dart';
 import '../../../../../../../core/theming/fonts.dart';
 import '../../../../../../../core/theming/text_styles.dart';
 
-
-class OrderStatusActionsWidget extends StatelessWidget {
+class OrderStatusActionsWidget extends StatefulWidget {
   final int? status;
   final int orderId;
   final double? textSize;
+  final OrderEmployeeAssignment assignment;
 
   const OrderStatusActionsWidget({
     super.key,
     required this.status,
     required this.orderId,
+    required this.assignment,
     this.textSize,
   });
+
+  @override
+  State<OrderStatusActionsWidget> createState() =>
+      _OrderStatusActionsWidgetState();
+}
+
+class _OrderStatusActionsWidgetState extends State<OrderStatusActionsWidget> {
+  bool _acting = false;
+  int? get status => widget.status;
+  int get orderId => widget.orderId;
+  double? get textSize => widget.textSize;
 
   // ============================================================
   // STATUS CHECK
@@ -28,16 +43,13 @@ class OrderStatusActionsWidget extends StatelessWidget {
 
   bool get _isNewOrder =>
       status == OrderStatus.newOrderForProvider ||
-          status == OrderStatus.newOrderForCompany;
+      status == OrderStatus.newOrderForCompany;
 
-  bool get _isWaitingAppointment =>
-      status == OrderStatus.waitingAppointment;
+  bool get _isWaitingAppointment => status == OrderStatus.waitingAppointment;
 
-  bool get _isEmployeeInRoad =>
-      status == OrderStatus.employeeInRoad;
+  bool get _isEmployeeInRoad => status == OrderStatus.employeeInRoad;
 
-  bool get _isWorkInProgress =>
-      status == OrderStatus.workInProgress;
+  bool get _isWorkInProgress => status == OrderStatus.workInProgress;
 
   // ============================================================
   // BUILD
@@ -177,16 +189,16 @@ class OrderStatusActionsWidget extends StatelessWidget {
   // ============================================================
 
   Widget _buildActions(
-      BuildContext context, {
-        required List<_ActionData> actions,
-      }) {
+    BuildContext context, {
+    required List<_ActionData> actions,
+  }) {
     return Wrap(
       spacing: 20,
       runSpacing: 10,
       alignment: WrapAlignment.center,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: actions.map(
-            (action) {
+        (action) {
           return _buildActionButton(
             context,
             action: action,
@@ -201,30 +213,33 @@ class OrderStatusActionsWidget extends StatelessWidget {
   // ============================================================
 
   Widget _buildActionButton(
-      BuildContext context, {
-        required _ActionData action,
-      }) {
+    BuildContext context, {
+    required _ActionData action,
+  }) {
     return InkWell(
       onTap: () async {
-        final bool? confirmed =
-        await showOrderStatusConfirmationDialog(
-          context,
-          actionText: action.text,
-          actionColor: action.dialogColor,
-        );
-
-        if (confirmed != true) {
-          return;
+        final cubit = context.read<OrderStatusCubit>();
+        if (_acting || cubit.state is OrderStatusLoading) return;
+        setState(() => _acting = true);
+        try {
+          List<int>? employeeIds;
+          if (action.nextStatus == OrderStatus.waitingAppointment) {
+            employeeIds = await showOrderEmployeeAssignmentDialog(context,
+                assignment: widget.assignment);
+            if (employeeIds == null || employeeIds.isEmpty) return;
+          } else {
+            final confirmed = await showOrderStatusConfirmationDialog(context,
+                actionText: action.text, actionColor: action.dialogColor);
+            if (confirmed != true) return;
+          }
+          if (!mounted) return;
+          await cubit.updateOrderStatus(
+              orderId: orderId,
+              status: action.nextStatus,
+              employeeIds: employeeIds ?? const []);
+        } finally {
+          if (mounted) setState(() => _acting = false);
         }
-
-        if (!context.mounted) {
-          return;
-        }
-
-        context.read<OrderStatusCubit>().updateOrderStatus(
-          orderId: orderId,
-          status: action.nextStatus,
-        );
       },
       borderRadius: BorderRadius.circular(20),
       child: Container(
@@ -252,8 +267,7 @@ class OrderStatusActionsWidget extends StatelessWidget {
             TextInAppWidget(
               text: action.text,
               textSize: textSize ?? 15,
-              fontWeightIndex:
-              FontSelectionData.regularFontFamily,
+              fontWeightIndex: FontSelectionData.regularFontFamily,
               textColor: action.color,
             ),
           ],

@@ -3,13 +3,15 @@ class UpdateOrderStatusRequest {
   final int status;
   final int changedById;
   final int changedByType;
+  final List<int> employeeIds;
 
   UpdateOrderStatusRequest({
     required this.orderId,
     required this.status,
     required this.changedById,
     required this.changedByType,
-  });
+    List<int> employeeIds = const [],
+  }) : employeeIds = List.unmodifiable(employeeIds.toSet().toList()..sort());
 
   Map<String, dynamic> toJson() {
     return {
@@ -17,6 +19,7 @@ class UpdateOrderStatusRequest {
       "status": status,
       "changedById": changedById,
       "changedByType": changedByType,
+      if (employeeIds.isNotEmpty) "employeeIds": employeeIds.join(','),
     };
   }
 }

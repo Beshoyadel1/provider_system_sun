@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
 import 'package:sun_web_system/core/theming/auth_local_storage.dart';
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/create_user_request.dart';
 import 'package:sun_web_system/features/notifications/data/notification_updates.dart';
@@ -28,8 +29,10 @@ class OrderStatusCubit extends Cubit<OrderStatusState> {
   Future<void> updateOrderStatus({
     required int orderId,
     required int status,
+    List<int> employeeIds = const [],
   }) async {
     if (isClosed || state is OrderStatusLoading) return;
+    final selectedIds = List<int>.unmodifiable(employeeIds);
     emit(OrderStatusLoading());
     try {
       final user = await _userLoader();
@@ -37,11 +40,18 @@ class OrderStatusCubit extends Cubit<OrderStatusState> {
         throw Exception('Please sign in again');
       }
       if (orderId <= 0) throw Exception('Invalid order ID');
+      if (status == OrderStatus.waitingAppointment &&
+          (selectedIds.isEmpty || selectedIds.any((id) => id <= 0))) {
+        throw Exception(
+            'Select at least one employee before accepting the order');
+      }
       final request = UpdateOrderStatusRequest(
         orderId: orderId,
         status: status,
         changedById: user.userid!,
         changedByType: user.type!,
+        employeeIds:
+            status == OrderStatus.waitingAppointment ? selectedIds : const [],
       );
       final isSuccess = await _statusWriter(updateOrderStatusRequest: request);
       if (isClosed) return;
