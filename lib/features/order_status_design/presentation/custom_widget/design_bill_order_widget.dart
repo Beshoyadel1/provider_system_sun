@@ -59,7 +59,7 @@ class DesignBillOrderWidget extends StatelessWidget {
                     textColor: AppColors.blackColor,
                   ),
                   const TextInAppWidget(
-                    text: AppLanguageKeys.dirham,
+                    text: AppLanguageKeys.sar,
                     textSize: 16,
                     fontWeightIndex: FontSelectionData.regularFontFamily,
                     textColor: AppColors.blackColor,
@@ -78,11 +78,23 @@ class DesignBillOrderWidget extends StatelessWidget {
                 fontWeightIndex: FontSelectionData.regularFontFamily,
                 textColor: AppColors.greyColor,
               ),
-              TextInAppWidget(
-                text: tax ?? '',
-                textSize: 16,
-                fontWeightIndex: FontSelectionData.regularFontFamily,
-                textColor: AppColors.blackColor,
+              Row(
+                spacing: 10,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextInAppWidget(
+                    text: tax ?? '',
+                    textSize: 16,
+                    fontWeightIndex: FontSelectionData.regularFontFamily,
+                    textColor: AppColors.blackColor,
+                  ),
+                  const TextInAppWidget(
+                    text: AppLanguageKeys.sar,
+                    textSize: 16,
+                    fontWeightIndex: FontSelectionData.regularFontFamily,
+                    textColor: AppColors.blackColor,
+                  ),
+                ],
               ),
             ],
           ),
@@ -110,7 +122,7 @@ class DesignBillOrderWidget extends StatelessWidget {
                     textColor: AppColors.orangeColor,
                   ),
                   const TextInAppWidget(
-                    text: AppLanguageKeys.dirham,
+                    text: AppLanguageKeys.sar,
                     textSize: 16,
                     fontWeightIndex: FontSelectionData.regularFontFamily,
                     textColor: AppColors.orangeColor,

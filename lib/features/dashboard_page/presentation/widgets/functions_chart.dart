@@ -2,6 +2,8 @@ import 'dart:ui';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/core/language/language.dart';
+import 'package:sun_web_system/core/language/language_constant.dart';
 import '../../../../../core/theming/colors.dart';
 import '../../../../../core/theming/fonts.dart';
 import '../../../../../core/theming/formate.dart';
@@ -59,7 +61,7 @@ void showTooltipOverlay(
                 ),
                 const SizedBox(height: 4),
                 TextInAppWidget(
-                  text: '${spot.y.toInt()} ريال',
+                  text: '${spot.y.toInt()} ${AppLocalizations.of(context).translate(AppLanguageKeys.sar)}',
                   textColor: AppColors.seaBlueColor,
                   fontWeightIndex: FontSelectionData.regularFontFamily,
                   textSize: 14,

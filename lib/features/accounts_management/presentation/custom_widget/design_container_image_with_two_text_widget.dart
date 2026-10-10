@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/core/language/language.dart';
+import 'package:sun_web_system/core/language/language_constant.dart';
 import '../../../../../../../features/accounts_management/presentation/custom_widget/title_with_sub_title.dart';
 import '../../../../../../../features/service_settings/presentation/custom_widget/container_image_widget.dart';
 import '../../../../../../core/theming/assets.dart';
@@ -60,7 +62,7 @@ class DesignContainerImageWithTwoTextWidget extends StatelessWidget {
           ),
           TitleWithSubTitle(
             title: title ?? 'أجمالي الارصدة ',
-            subTitle: subTitle ?? '50000 ريال',
+            subTitle: subTitle ?? '50000 ${AppLocalizations.of(context).translate(AppLanguageKeys.sar)}',
             textSizeTitle: textSizeTitle ?? 15,
             textSizeSubTitle: textSizeSubTitle ?? 14,
             subTitleColor: subTitleColor ?? AppColors.orangeColor,

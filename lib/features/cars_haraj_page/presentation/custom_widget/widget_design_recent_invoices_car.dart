@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/core/language/language.dart';
 import '../../../../../../../core/language/language_constant.dart';
 import '../../../../../../../core/pages_widgets/general_widgets/custom_container.dart';
 import '../../../../../../../core/theming/colors.dart';
@@ -127,7 +128,7 @@ class _InvoiceItem extends StatelessWidget {
 
               TextInAppWidget(
                 text:
-                '${invoice.amount?.toStringAsFixed(2) ?? '0.00'} ر.س',
+                '${invoice.amount?.toStringAsFixed(2) ?? '0.00'} ${AppLocalizations.of(context).translate(AppLanguageKeys.sar)}',
                 textSize: 13,
                 fontWeightIndex:
                 FontSelectionData.boldFontFamily,

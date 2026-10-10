@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/core/language/language.dart';
+import 'package:sun_web_system/core/language/language_constant.dart';
 
 import '../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../core/setup_git_it.dart';
@@ -260,7 +262,7 @@ class _ServiceRequestsViewState extends State<_ServiceRequestsView> {
                       ),
                       _InfoRow(
                         label: _t('السعر المقترح', 'Requested price'),
-                        value: '${_money(request.price)} ${_t('ر.س', 'SAR')}',
+                        value: '${_money(request.price)} ${AppLocalizations.of(context).translate(AppLanguageKeys.sar)}',
                       ),
                       _InfoRow(
                         label: _t('الموعد', 'Appointment'),
@@ -586,7 +588,7 @@ class _RequestCard extends StatelessWidget {
                     child: Text(
                       '${_t('السعر المطلوب', 'Requested price')}: '
                       '${_ServiceRequestsViewState._money(request.price)} '
-                      '${_t('ر.س', 'SAR')}',
+                      '${AppLocalizations.of(context).translate(AppLanguageKeys.sar)}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -799,13 +801,13 @@ class _OffersSection extends StatelessWidget {
                     Text(
                       '${_t('السعر', 'Price')}: '
                       '${_ServiceRequestsViewState._money(offer.price.price)} '
-                      '${_t('ر.س', 'SAR')}',
+                      '${AppLocalizations.of(context).translate(AppLanguageKeys.sar)}',
                       style: const TextStyle(fontWeight: FontWeight.w700),
                     ),
                     Text(
                       '${_t('الإجمالي شامل الضريبة', 'Total with tax')}: '
                       '${_ServiceRequestsViewState._money(offer.price.totalPrice)} '
-                      '${_t('ر.س', 'SAR')}',
+                      '${AppLocalizations.of(context).translate(AppLanguageKeys.sar)}',
                     ),
                     Text(
                       '${_t('الفرع', 'Branch')}: '

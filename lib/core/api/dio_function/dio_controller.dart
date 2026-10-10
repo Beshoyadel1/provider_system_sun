@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
-import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+// import 'package:flutter/foundation.dart';
+// import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
 import '../../constants.dart';
 
@@ -40,23 +40,24 @@ class Network {
       ),
     );
 
-    if (kDebugMode) {
-      // Log after adding lang so the URL shows the query actually sent.
-      dio.interceptors.add(
-        PrettyDioLogger(
-          requestBody: true,
-          responseBody: true,
-          error: true,
-          compact: false,
-          maxWidth: 120,
-          logPrint: (message) => debugPrint(message.toString()),
-          filter: (options, _) =>
-              options.uri.path.startsWith('/Order/') ||
-              options.uri.path ==
-                  '/EmployeeService/GetProviderEmployeesByServices',
-        ),
-      );
-    }
+    // PrettyDioLogger is temporarily disabled. Uncomment this block and its imports to enable it.
+    // if (kDebugMode) {
+    //   // Log after adding lang so the URL shows the query actually sent.
+    //   dio.interceptors.add(
+    //     PrettyDioLogger(
+    //       requestBody: true,
+    //       responseBody: true,
+    //       error: true,
+    //       compact: false,
+    //       maxWidth: 120,
+    //       logPrint: (message) => debugPrint(message.toString()),
+    //       filter: (options, _) =>
+    //           options.uri.path.startsWith('/Order/') ||
+    //           options.uri.path ==
+    //               '/EmployeeService/GetProviderEmployeesByServices',
+    //     ),
+    //   );
+    // }
 
     return dio;
   }

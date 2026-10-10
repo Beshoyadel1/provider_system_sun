@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/core/language/language.dart';
 import '../../../../../../../../core/language/language_constant.dart';
 import '../../../../../../../../core/pages_widgets/general_widgets/custom_container.dart';
 import '../../../../../../../../core/theming/colors.dart';
@@ -141,7 +142,7 @@ class DesignCarDataOrdersWidget extends StatelessWidget {
                       ),
 
                       const TextInAppWidget(
-                        text: AppLanguageKeys.dirham,
+                        text: AppLanguageKeys.sar,
                         textSize: 16,
                         fontWeightIndex:
                         FontSelectionData.mediumFontFamily,
@@ -329,7 +330,7 @@ class DesignCarDataOrdersWidget extends StatelessWidget {
                             ),
 
                             TextInAppWidget(
-                              text: price,
+                              text: '$price ${AppLocalizations.of(context).translate(AppLanguageKeys.sar)}',
                               textSize: 12,
                               fontWeightIndex:
                               FontSelectionData
@@ -359,7 +360,7 @@ class DesignCarDataOrdersWidget extends StatelessWidget {
 
                         const TextInAppWidget(
                           text:
-                          AppLanguageKeys.dirham,
+                          AppLanguageKeys.sar,
                           textSize: 16,
                           fontWeightIndex:
                           FontSelectionData

@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/core/language/language.dart';
 import '../../../../../../../core/pages_widgets/general_widgets/custom_container.dart';
 import '../../../../../../../features/cars_haraj_page/data/model/get_car_details_model/get_car_details_model.dart';
 import '../../../../../../../core/language/language_constant.dart';
@@ -81,7 +82,7 @@ class WidgetDesignFuelConsumptionCar extends StatelessWidget {
           _ValueRow(
             title: AppLanguageKeys.totalConsumption,
             value:
-            '${fuelConsumption?.totalConsumption?.toStringAsFixed(2) ?? '0.00'} ر.س',
+            '${fuelConsumption?.totalConsumption?.toStringAsFixed(2) ?? '0.00'} ${AppLocalizations.of(context).translate(AppLanguageKeys.sar)}',
           ),
 
           const SizedBox(height: 12),
@@ -89,7 +90,7 @@ class WidgetDesignFuelConsumptionCar extends StatelessWidget {
           _ValueRow(
             title: AppLanguageKeys.expectedSpend,
             value:
-            '${fuelConsumption?.expectedSpend?.toStringAsFixed(2) ?? '0.00'} ر.س',
+            '${fuelConsumption?.expectedSpend?.toStringAsFixed(2) ?? '0.00'} ${AppLocalizations.of(context).translate(AppLanguageKeys.sar)}',
           ),
         ],
       ),

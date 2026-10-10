@@ -150,7 +150,6 @@ class AppLocalizations {
       AppLanguageKeys.valueAddedTax: 'ضريبة القيمة المضافة',
       AppLanguageKeys.dubaiPlate: 'لوحة دبي :',
       AppLanguageKeys.totalVehicle: 'إجمالي المركبة',
-      AppLanguageKeys.dirham: 'درهم',
       AppLanguageKeys.serviceTypes: 'أنواع الخدمات',
       AppLanguageKeys.orderDate: 'تاريخ الطلب',
       AppLanguageKeys.expectedDeliveryDate: 'موعد التسليم المتوقع',
@@ -777,7 +776,7 @@ class AppLocalizations {
       AppLanguageKeys.reviewsKey: 'التقييمات',
       AppLanguageKeys.socialPagesAndPoliciesKey: 'صفحات التواصل والسياسات',
       AppLanguageKeys.logoutKey: 'تسجيل الخروج',
-      AppLanguageKeys.priceKey: '450.00ريال',
+      AppLanguageKeys.priceKey: '450.00 ريال',
 
       //End///
 
@@ -1068,7 +1067,7 @@ class AppLocalizations {
       AppLanguageKeys.pricePerCategory: 'سعر لكل فئة',
       AppLanguageKeys.generalUnifiedPrice: 'سعر موحد عام',
       AppLanguageKeys.priceByBrandAndModel: 'حسب الماركة والموديل',
-      AppLanguageKeys.sar: 'ريال سعودي',
+      AppLanguageKeys.sar: 'ريال',
       AppLanguageKeys.add: 'إضافة',
       AppLanguageKeys.carWash: 'غسيل سيارات',
       AppLanguageKeys.battery: 'بطارية',
@@ -1617,7 +1616,6 @@ class AppLocalizations {
       AppLanguageKeys.valueAddedTax: 'Value Added Tax',
       AppLanguageKeys.dubaiPlate: 'Dubai Plate :',
       AppLanguageKeys.totalVehicle: 'Total Vehicle',
-      AppLanguageKeys.dirham: 'AED',
       AppLanguageKeys.serviceTypes: 'Service Types',
       AppLanguageKeys.orderDate: 'Order Date',
       AppLanguageKeys.expectedDeliveryDate: 'Expected Delivery Date',

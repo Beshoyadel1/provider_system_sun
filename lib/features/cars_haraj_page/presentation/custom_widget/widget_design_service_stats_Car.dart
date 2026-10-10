@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/core/language/language.dart';
 import '../../../../../../../core/language/language_constant.dart';
 import '../../../../../../../core/pages_widgets/general_widgets/custom_container.dart';
 import '../../../../../../../core/theming/colors.dart';
@@ -58,7 +59,7 @@ class WidgetDesignServiceStatsCar extends StatelessWidget {
 
                     TextInAppWidget(
                       text:
-                      '${summary?.totalInvoices?.toStringAsFixed(2) ?? '0.00'} ر.س',
+                      '${summary?.totalInvoices?.toStringAsFixed(2) ?? '0.00'} ${AppLocalizations.of(context).translate(AppLanguageKeys.sar)}',
                       textSize: 18,
                       fontWeightIndex:
                       FontSelectionData.boldFontFamily,
