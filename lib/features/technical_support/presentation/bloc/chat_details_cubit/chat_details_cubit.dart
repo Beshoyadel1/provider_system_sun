@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -76,7 +77,7 @@ class ChatDetailsCubit
 
         emit(
           ChatDetailsError(
-            'User not found',
+            AppLanguageKeys.userNotFound,
           ),
         );
 
@@ -490,7 +491,7 @@ class ChatDetailsCubit
 
         emit(
           ChatDetailsError(
-            'User not found',
+            AppLanguageKeys.userNotFound,
           ),
         );
 

@@ -370,7 +370,7 @@ class AuthCubit extends Cubit<AuthState> {
       if (oldUser == null) {
         emit(
           AuthUpdateError(
-            'User not found',
+            AppLanguageKeys.userNotFound,
           ),
         );
 
@@ -430,7 +430,7 @@ class AuthCubit extends Cubit<AuthState> {
 
         gender: request.gender ?? oldUser.gender,
 
-        age: request.age ?? oldUser.age,
+        birthdate: request.birthdate ?? oldUser.birthdate,
 
         type: oldUser.type,
 

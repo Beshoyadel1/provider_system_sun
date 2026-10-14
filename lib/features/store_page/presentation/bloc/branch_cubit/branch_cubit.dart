@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/theming/auth_local_storage.dart';
 import 'package:sun_web_system/features/store_page/data/datasource/add_branch_datasource/add_branch_repository.dart';
@@ -29,10 +30,10 @@ class BranchCubit extends Cubit<BranchState> {
   Future<void> _initUser() async {
     final session = _session;
     final user = await AuthLocalStorage.getUser();
-    if (isClosed || session != _session) throw StateError('Session changed');
+    if (isClosed || session != _session) throw StateError(AppLanguageKeys.accountChanged);
     final userId = user?.userid;
     if (userId == null) {
-      throw Exception('User not found');
+      throw Exception(AppLanguageKeys.userNotFound);
     }
 
     if (myUserId != null && myUserId != userId) {

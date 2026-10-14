@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/theming/auth_local_storage.dart';
@@ -49,7 +50,7 @@ class ProviderEmployeesCubit extends Cubit<ProviderEmployeesState> {
       if (user == null || user.userid == null) {
         emit(
           BranchEmployeesError(
-            'User not found',
+            AppLanguageKeys.userNotFound,
           ),
         );
         return;
@@ -303,7 +304,7 @@ class ProviderEmployeesCubit extends Cubit<ProviderEmployeesState> {
           user.userid == null) {
         emit(
           ProviderEmployeesError(
-            'User not found',
+            AppLanguageKeys.userNotFound,
           ),
         );
 
@@ -364,7 +365,7 @@ class ProviderEmployeesCubit extends Cubit<ProviderEmployeesState> {
       if (oldEmployee == null) {
         emit(
           EmployeeUpdateError(
-            'Employee not selected',
+            AppLanguageKeys.employeeNotSelected,
           ),
         );
 
@@ -441,9 +442,7 @@ class ProviderEmployeesCubit extends Cubit<ProviderEmployeesState> {
         request.email ??
             oldEmployee.email,
 
-        age:
-        request.age ??
-            oldEmployee.age,
+        birthdate: request.birthdate ?? oldEmployee.birthdate,
 
         gender:
         request.gender ??
@@ -535,8 +534,7 @@ class ProviderEmployeesCubit extends Cubit<ProviderEmployeesState> {
           email:
           updateRequest.email,
 
-          age:
-          updateRequest.age,
+          birthdate: updateRequest.birthdate,
 
           gender:
           updateRequest.gender,

@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:flutter/cupertino.dart';
 import '../../../../../../../../core/theming/assets.dart';
 import '../../../../../../../../core/theming/colors.dart';
@@ -16,7 +17,7 @@ class ColumnPackingDateWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextInAppWidget(
-          text: title ?? 'تاريخ التعبئة',
+          text: title ?? AppLanguageKeys.fillingDate,
           textSize: 9,
           fontWeightIndex: FontSelectionData.regularFontFamily,
           textColor: AppColors.greyColor,

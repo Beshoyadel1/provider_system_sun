@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:flutter/material.dart';
 import 'package:sun_web_system/features/store_page/presentation/bloc/branch_cubit/branch_cubit.dart';
 import 'package:sun_web_system/features/service_settings/presentation/custom_widget/provider_service_branches.dart';
@@ -29,7 +30,7 @@ class ListDataOfPackagesInSharedPackagesInServiceSettings
         /// ERROR
         if (state is ProviderPackagesError) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message)),
+            SnackBar(content: LocalizedText(state.message)),
           );
         }
       },
@@ -146,7 +147,7 @@ class ListDataOfPackagesInSharedPackagesInServiceSettings
           }
 
           if (state is ProviderPackagesError) {
-            return Text(state.message);
+            return LocalizedText(state.message);
           }
 
           return const SizedBox();

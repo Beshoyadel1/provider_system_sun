@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/theming/auth_local_storage.dart';
 import '../../../../../features/technical_support/presentation/bloc/work_team_cubit/work_team_state.dart';
@@ -15,7 +16,7 @@ class WorkTeamCubit extends Cubit<WorkTeamState> {
       final user = await AuthLocalStorage.getUser();
 
       if (user == null) {
-        emit(WorkTeamError("User not found"));
+        emit(WorkTeamError(AppLanguageKeys.userNotFound));
         return;
       }
 

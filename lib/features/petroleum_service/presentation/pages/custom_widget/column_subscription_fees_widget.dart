@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/custom_widget/row_text_icon_orange.dart';
 import '../../../../../../../../core/theming/assets.dart';
@@ -18,7 +19,7 @@ class ColumnSubscriptionFeesWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextInAppWidget(
-          text: title ?? 'رسوم الاشتراك',
+          text: title ?? AppLanguageKeys.subscriptionFee,
           textSize: 9,
           fontWeightIndex: FontSelectionData.regularFontFamily,
           textColor: AppColors.greyColor,

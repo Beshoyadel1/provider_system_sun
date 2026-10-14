@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:flutter/foundation.dart';
 import '../../../../../../features/notifications/data/datasource/parsers/receive_notification_parser/receive_notification_parser.dart';
 import '../../../../../../features/notifications/domain/repository/notification_repository/notification_repository.dart';
@@ -67,7 +68,7 @@ class ReceiveNotificationHandler {
           combined.contains("محادثة");
 
       await _dialogService.show(
-        title: title.isNotEmpty ? title : "إشعار جديد",
+        title: title.isNotEmpty ? title : AppLanguageKeys.newNotification,
         subtitle: subtitle,
         onView: () async {
           if (isChat) {

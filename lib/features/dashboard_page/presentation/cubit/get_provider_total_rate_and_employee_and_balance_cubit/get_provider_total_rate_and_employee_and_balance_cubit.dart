@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/theming/auth_local_storage.dart';
 import 'package:sun_web_system/features/dashboard_page/data/datasource/get_provider_total_rate_and_employee_and_balance_datasource/get_provider_total_rate_and_employee_and_balance_repository.dart';
@@ -24,7 +25,7 @@ class GetProviderTotalRateAndEmployeeAndBalanceCubit
     if (isClosed) return;
 
     if (user == null) {
-      emit(GetProviderTotalRateAndEmployeeAndBalanceError("User not found"));
+      emit(GetProviderTotalRateAndEmployeeAndBalanceError(AppLanguageKeys.userNotFound));
       return;
     }
 
@@ -40,7 +41,7 @@ class GetProviderTotalRateAndEmployeeAndBalanceCubit
     if (result != null) {
       emit(GetProviderTotalRateAndEmployeeAndBalanceSuccess(result));
     } else {
-      emit(GetProviderTotalRateAndEmployeeAndBalanceError("Error loading data"));
+      emit(GetProviderTotalRateAndEmployeeAndBalanceError(AppLanguageKeys.errorLoadingData));
     }
   }
 }

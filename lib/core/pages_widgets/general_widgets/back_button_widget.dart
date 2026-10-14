@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:flutter/material.dart';
 
 import '../../pages_widgets/button_widget.dart';
@@ -14,7 +15,7 @@ class BackButtonWidget extends StatelessWidget {
         Padding(
           padding: const EdgeInsetsDirectional.only(start: 20, top: 20),
           child: ButtonWidget(
-            text: 'Back_Button',
+            text: AppLanguageKeys.backButtonKey,
             fontWeightIndex: FontSelectionData.semiBoldFontFamily,
             onTap: () {
               Navigator.pop(context);

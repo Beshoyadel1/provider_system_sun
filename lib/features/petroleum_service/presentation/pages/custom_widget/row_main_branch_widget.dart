@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:flutter/cupertino.dart';
 import '../../../../../../../../core/theming/assets.dart';
 import '../../../../../../../../core/theming/colors.dart';
@@ -16,7 +17,7 @@ class RowMainBranchWidget extends StatelessWidget {
       children: [
         Image.asset(imagePath!),
         TextInAppWidget(
-          text: nameBranch ?? 'فرع الرئيسي',
+          text: nameBranch ?? AppLanguageKeys.mainBranchKey,
           textSize: 9,
           fontWeightIndex: FontSelectionData.regularFontFamily,
           textColor: AppColors.greyColor,

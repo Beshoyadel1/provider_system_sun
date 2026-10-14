@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'dart:typed_data';
 import 'package:sun_web_system/core/pages_widgets/general_widgets/memory_image_with_fallback.dart';
 import 'package:sun_web_system/features/store_page/presentation/bloc/branch_cubit/branch_cubit.dart';
@@ -187,7 +188,7 @@ class _ExpansionContainerSettingWidgetState
                 }
 
                 if (brands.isEmpty) {
-                  return const Text("No Brands");
+                  return const LocalizedText(AppLanguageKeys.noBrandsAvailable);
                 }
 
                 return BlocBuilder<DetailsContainerSettingCubit,

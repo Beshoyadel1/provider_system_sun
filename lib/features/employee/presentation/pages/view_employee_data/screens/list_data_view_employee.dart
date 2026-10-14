@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -42,7 +43,7 @@ class ListDataViewEmployee extends StatelessWidget {
 
         if (state is BranchEmployeesError) {
           return Center(
-            child: Text(state.message),
+            child: LocalizedText(state.message),
           );
         }
 

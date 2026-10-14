@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -111,7 +112,7 @@ class HaragCubit extends Cubit<HaragState> {
       if (user == null) {
         emit(
           GetHarageChatError(
-            message: 'User not found',
+            message: AppLanguageKeys.userNotFound,
             currentPage: state.currentPage,
             pageCount: state.pageCount,
           ),
@@ -608,7 +609,7 @@ class HaragCubit extends Cubit<HaragState> {
       emit(
         const SendMessageError(
           message:
-          'Invalid Harage ID',
+          AppLanguageKeys.invalidHarageId,
         ),
       );
 
@@ -627,7 +628,7 @@ class HaragCubit extends Cubit<HaragState> {
         emit(
           const SendMessageError(
             message:
-            'User not found',
+            AppLanguageKeys.userNotFound,
           ),
         );
 
@@ -649,7 +650,7 @@ class HaragCubit extends Cubit<HaragState> {
         emit(
           const SendMessageError(
             message:
-            'Invalid user information',
+            AppLanguageKeys.invalidUserInformation,
           ),
         );
 
@@ -1260,7 +1261,7 @@ class HaragCubit extends Cubit<HaragState> {
         emit(
           UserHaragesError(
             message:
-            'User not found',
+            AppLanguageKeys.userNotFound,
             currentPage:
             currentPage,
             pageCount:
@@ -1504,7 +1505,7 @@ class HaragCubit extends Cubit<HaragState> {
         emit(
           const CreateHarageError(
             message:
-            'User not found',
+            AppLanguageKeys.userNotFound,
           ),
         );
         return;
@@ -1738,7 +1739,7 @@ class HaragCubit extends Cubit<HaragState> {
         emit(
           const HaragBrandsError(
             message:
-            'No brands with models found',
+            AppLanguageKeys.noBrandsWithModels,
           ),
         );
         return;
@@ -1788,7 +1789,7 @@ class HaragCubit extends Cubit<HaragState> {
         emit(
           const HaragModelsError(
             message:
-            'No models found',
+            AppLanguageKeys.noModelsAvailable,
           ),
         );
         return;

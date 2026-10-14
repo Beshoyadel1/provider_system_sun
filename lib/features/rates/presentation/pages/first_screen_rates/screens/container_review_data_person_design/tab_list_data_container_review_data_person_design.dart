@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sun_web_system/features/rates/presentation/pages/first_screen_rates/screens/container_review_data_person_design/container_review_data_person_design.dart';
 import 'package:sun_web_system/features/rates/data/model/get_provider_details_rates_model/rate_item.dart';
@@ -31,7 +32,7 @@ class TabListDataContainerReviewDataPersonDesign extends StatelessWidget {
                 imagePathPerson:
                 rates[firstIndex].userImage ?? AppImageKeys.person22,
                 date: rates[firstIndex].username ?? '',
-                textWithDate: 'مركز صيانة جيد',
+                textWithDate: AppLanguageKeys.noComment,
                 rate: rates[firstIndex].rate ?? 0,
                 textReview: rates[firstIndex].message ?? '',
               ),
@@ -43,7 +44,7 @@ class TabListDataContainerReviewDataPersonDesign extends StatelessWidget {
                   imagePathPerson:
                   rates[secondIndex].userImage ?? AppImageKeys.person22,
                   date: rates[secondIndex].username ?? '',
-                  textWithDate: 'مركز صيانة جيد',
+                  textWithDate: AppLanguageKeys.noComment,
                   rate: rates[secondIndex].rate ?? 0,
                   textReview: rates[secondIndex].message ?? '',
                 ),

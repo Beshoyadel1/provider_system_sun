@@ -185,7 +185,7 @@ class ColumnOfPagesWidget extends StatelessWidget {
 
                     Expanded(
                       child: TextInAppWidget(
-                        text: pageNode.name,
+                        text: pageNode.getName(context),
                         textSize: 14,
                         textColor: pageNode.number ==
                             appCubit.selectedPageIndex

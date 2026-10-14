@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
@@ -5,6 +6,7 @@ import 'package:sun_web_system/core/pages_widgets/general_widgets/snakbar.dart';
 import 'package:sun_web_system/core/theming/auth_local_storage.dart';
 import 'package:sun_web_system/core/theming/colors.dart';
 import 'package:sun_web_system/core/theming/text_styles.dart';
+import 'package:sun_web_system/core/utilies/birthdate.dart';
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/create_user_request.dart';
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/provider_details_request.dart';
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_cubit.dart';
@@ -43,7 +45,7 @@ class FacilityDataContentState extends State<FacilityDataContent> {
 
   final genderController = TextEditingController();
 
-  final ageController = TextEditingController();
+  final birthdateController = TextEditingController();
 
   final dateController = TextEditingController();
 
@@ -113,7 +115,7 @@ class FacilityDataContentState extends State<FacilityDataContent> {
 
     emailController.text = user.email ?? '';
 
-    ageController.text = user.age?.toString() ?? '';
+    birthdateController.text = Birthdate.toDisplay(user.birthdate);
 
     genderController.text = user.gender?.toString() ?? '';
 
@@ -153,7 +155,7 @@ class FacilityDataContentState extends State<FacilityDataContent> {
 
     if (user == null) {
       throw Exception(
-        'User not found',
+        AppLanguageKeys.userNotFound,
       );
     }
 
@@ -172,11 +174,7 @@ class FacilityDataContentState extends State<FacilityDataContent> {
               genderController.text,
             )
           : user.gender,
-      age: ageController.text.isNotEmpty
-          ? int.tryParse(
-              ageController.text,
-            )
-          : user.age,
+      birthdate: Birthdate.parse(birthdateController.text) ?? user.birthdate,
       image: facilityCubit.images['image'] ?? user.image,
       providerDetails: ProviderDetailsRequest(
         id: oldProvider?.id,
@@ -257,7 +255,7 @@ class FacilityDataContentState extends State<FacilityDataContent> {
     phoneController.dispose();
     emailController.dispose();
     genderController.dispose();
-    ageController.dispose();
+    birthdateController.dispose();
     dateController.dispose();
     nationalityController.dispose();
     approvalIdController.dispose();
@@ -341,11 +339,11 @@ class FacilityDataContentState extends State<FacilityDataContent> {
               width: 250,
             ),
             UserTextFieldWidget(
-              controller: ageController,
-              text: AppLanguageKeys.age,
+              controller: birthdateController,
+              text: AppLanguageKeys.birthdate,
               readOnly: !isEditMode,
               width: 250,
-              type: UserFieldType.number,
+              type: UserFieldType.birthdate,
             ),
             UserTextFieldWidget(
               controller: dateController,
@@ -434,7 +432,7 @@ class FacilityDataContentState extends State<FacilityDataContent> {
             if (state is AuthUpdateError) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text(state.error),
+                  content: LocalizedText(state.error),
                 ),
               );
             }

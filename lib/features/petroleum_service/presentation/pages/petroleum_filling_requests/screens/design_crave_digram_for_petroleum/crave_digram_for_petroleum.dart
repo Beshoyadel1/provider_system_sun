@@ -1,3 +1,5 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,7 +32,7 @@ class CraveDigramForPetroleum extends StatelessWidget {
 
           if (state is PetrolChartError) {
             return Center(
-              child: Text(state.message),
+              child: LocalizedText(state.message),
             );
           }
 
@@ -39,7 +41,7 @@ class CraveDigramForPetroleum extends StatelessWidget {
 
             if (data.isEmpty) {
               return const Center(
-                child: Text("No Data Available"),
+                child: LocalizedText(AppLanguageKeys.noDataAvailable),
               );
             }
 

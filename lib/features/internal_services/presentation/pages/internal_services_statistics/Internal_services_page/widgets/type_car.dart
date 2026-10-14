@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:flutter/material.dart';
 import '../../../../../../../core/theming/assets.dart';
 import '../../../../../../../core/theming/colors.dart';
@@ -19,14 +20,14 @@ class TypeCar extends StatelessWidget {
             //   fit: BoxFit.contain,
             // ),
              TextInAppWidget(
-                text: 'Ariya', textSize: 14, textColor: AppColors.darkColor),
+                text: AppLanguageKeys.ariya, textSize: 14, textColor: AppColors.darkColor),
           ],
         ),
          SizedBox(
           width: 10,
         ),
          TextInAppWidget(
-            text: 'Nissan', textSize: 14, textColor: AppColors.darkColor),
+            text: AppLanguageKeys.nissan, textSize: 14, textColor: AppColors.darkColor),
       ],
     );
   }

@@ -38,7 +38,7 @@ class DesignProductOilWidget extends StatelessWidget {
           ),
           //Image.asset(AppImageKeys.testOil),
           TextInAppWidget(
-            text: 'أسم زيوت 1',
+            text: AppLanguageKeys.oilProductName,
             textSize: 9,
             fontWeightIndex: FontSelectionData.regularFontFamily,
             textColor: AppColors.greyColor,
@@ -47,7 +47,7 @@ class DesignProductOilWidget extends StatelessWidget {
             spacing: 5,
             children: [
               TextInAppWidget(
-                text: 'باقي 5 قطع',
+                text: AppLanguageKeys.remainingFivePieces,
                 textSize: 9,
                 fontWeightIndex: FontSelectionData.regularFontFamily,
                 textColor: AppColors.blueColor,

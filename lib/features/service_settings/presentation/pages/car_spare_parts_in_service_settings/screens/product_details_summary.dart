@@ -12,7 +12,7 @@ class ProductDetailsSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ar = LanguageCubit.get(context).isAllAppLanguageArabic;
+    final ar = LanguageCubit.isArabic(context);
     final heading = Column(
       key: const ValueKey('product-details-heading'),
       crossAxisAlignment: CrossAxisAlignment.start,

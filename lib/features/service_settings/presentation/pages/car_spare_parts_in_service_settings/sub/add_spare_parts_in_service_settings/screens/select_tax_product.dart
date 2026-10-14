@@ -15,7 +15,7 @@ class SelectTaxProduct extends StatelessWidget {
   Widget build(BuildContext context) => BlocBuilder<GetTaxCubit, GetTaxState>(
         builder: (context, state) {
           final cubit = context.read<GetTaxCubit>();
-          final ar = LanguageCubit.get(context).isAllAppLanguageArabic;
+          final ar = LanguageCubit.isArabic(context);
           if (state is GetTaxLoading || state is GetTaxInitial) {
             return ProductFieldLabel(
               label: AppLanguageKeys.taxes,

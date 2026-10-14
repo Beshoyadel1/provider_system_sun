@@ -1,6 +1,7 @@
 import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
 import 'package:sun_web_system/core/theming/auth_local_storage.dart';
 import 'package:sun_web_system/core/setup_git_it.dart';
+import 'package:sun_web_system/core/utilies/birthdate.dart';
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/create_user_emp_request.dart';
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_cubit.dart';
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_state.dart';
@@ -54,7 +55,7 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
   final phoneController = TextEditingController();
   final emailController = TextEditingController();
   final genderController = TextEditingController();
-  final ageController = TextEditingController();
+  final birthdateController = TextEditingController();
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
@@ -120,7 +121,7 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
 
     genderController.text = '${employee.gender ?? 0}';
 
-    ageController.text = '${employee.age ?? 0}';
+    birthdateController.text = Birthdate.toDisplay(employee.birthdate);
 
     isActive = employee.isActive ?? false;
 
@@ -138,7 +139,7 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
     phoneController.dispose();
     emailController.dispose();
     genderController.dispose();
-    ageController.dispose();
+    birthdateController.dispose();
     usernameController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
@@ -207,9 +208,7 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
       email: safe(
         emailController.text,
       ),
-      age: int.tryParse(
-        ageController.text.trim(),
-      ),
+      birthdate: Birthdate.parse(birthdateController.text),
       gender: int.tryParse(
         genderController.text.trim(),
       ),
@@ -304,6 +303,7 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
       username: usernameController.text.trim(),
       phone: phone,
       email: emailController.text.trim(),
+      birthdate: Birthdate.parse(birthdateController.text),
       password: password,
       image: image,
       type: UserType.employeeUser,
@@ -452,6 +452,14 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
                   text: AppLanguageKeys.gender,
                   type: UserFieldType.gender,
                   validator: isCreateMode ? _requiredFieldValidator : null,
+                  readOnly: isViewMode,
+                  width: 250,
+                  height: 40,
+                ),
+                UserTextFieldWidget(
+                  controller: birthdateController,
+                  text: AppLanguageKeys.birthdate,
+                  type: UserFieldType.birthdate,
                   readOnly: isViewMode,
                   width: 250,
                   height: 40,

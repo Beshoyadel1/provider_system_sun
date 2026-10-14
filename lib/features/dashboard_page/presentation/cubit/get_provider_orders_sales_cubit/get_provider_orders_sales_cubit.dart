@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/theming/auth_local_storage.dart';
 import 'package:sun_web_system/features/dashboard_page/data/datasource/get_provider_orders_sales_datasource/get_provider_orders_sales_repository.dart';
@@ -29,7 +30,7 @@ class GetProviderOrdersSalesCubit
       if (user == null) {
         emit(
           GetProviderOrdersSalesError(
-            "User not found",
+            AppLanguageKeys.userNotFound,
           ),
         );
         return;
@@ -66,7 +67,7 @@ class GetProviderOrdersSalesCubit
 
       emit(
         GetProviderOrdersSalesError(
-          "Error loading data",
+          AppLanguageKeys.errorLoadingData,
         ),
       );
     } catch (e) {

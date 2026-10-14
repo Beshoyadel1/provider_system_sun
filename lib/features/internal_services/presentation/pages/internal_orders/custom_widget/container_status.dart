@@ -45,7 +45,7 @@ class ContainerStatus extends StatelessWidget {
         return AppLanguageKeys.cancelledByUser;
 
       default:
-        return 'Error Type';
+        return AppLanguageKeys.unknownType;
     }
   }
 

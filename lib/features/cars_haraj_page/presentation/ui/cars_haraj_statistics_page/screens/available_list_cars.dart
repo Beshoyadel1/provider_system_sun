@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,7 +27,7 @@ class AvailableListCars extends StatelessWidget {
 
         if (state is UserHaragesError) {
           return Center(
-            child: Text(state.message),
+            child: LocalizedText(state.message),
           );
         }
 

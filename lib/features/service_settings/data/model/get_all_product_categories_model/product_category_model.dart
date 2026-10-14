@@ -38,8 +38,6 @@ class ProductCategoryModel {
   }
 
   String getName(BuildContext context) {
-    final isArabic = LanguageCubit.get(context).isAllAppLanguageArabic;
-
-    return isArabic ? (name ?? "") : (latinName ?? "");
+    return LanguageCubit.localizedValue(context, name, latinName);
   }
 }

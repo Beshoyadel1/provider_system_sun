@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:flutter/services.dart';
+import 'package:sun_web_system/core/utilies/birthdate.dart';
+import 'package:sun_web_system/core/theming/fonts.dart';
 import '../../../../../../core/language/language.dart';
 import '../../../../../../core/language/language_constant.dart';
 import '../../../../../../core/theming/text_styles.dart';
@@ -14,6 +17,7 @@ enum UserFieldType {
   name,
   password,
   gender,
+  birthdate,
   number,
 }
 
@@ -58,6 +62,85 @@ class UserTextFieldWidget extends StatelessWidget {
   final bool showPasswordVisibilityToggle;
   final AutovalidateMode phoneAutovalidateMode;
 
+  Future<void> _selectBirthdate(BuildContext context) async {
+    final today = DateUtils.dateOnly(DateTime.now());
+    final firstDate = DateTime(1900);
+    final current = Birthdate.parse(controller.text);
+    final initialDate = current == null || current.isAfter(today)
+        ? today
+        : current.isBefore(firstDate)
+            ? firstDate
+            : current;
+
+    final picked = await showDialog<DateTime>(
+      context: context,
+      builder: (dialogContext) {
+        final theme = Theme.of(dialogContext);
+        return Theme(
+          data: theme.copyWith(
+            colorScheme: theme.colorScheme.copyWith(
+              primary: AppColors.orangeColor,
+              onPrimary: AppColors.whiteColor,
+              surface: AppColors.whiteColor,
+              onSurface: AppColors.darkColor,
+              onSurfaceVariant: AppColors.darkGreyColor,
+              surfaceTint: AppColors.transparent,
+            ),
+            textTheme: theme.textTheme.apply(
+              fontFamily: AppFonts.readexProFontFamily,
+              bodyColor: AppColors.darkColor,
+              displayColor: AppColors.darkColor,
+            ),
+            datePickerTheme: theme.datePickerTheme.copyWith(
+              backgroundColor: AppColors.whiteColor,
+              surfaceTintColor: AppColors.transparent,
+              headerBackgroundColor: AppColors.whiteColor,
+              headerForegroundColor: AppColors.darkColor,
+              subHeaderForegroundColor: AppColors.darkGreyColor,
+              dividerColor: AppColors.lightGreyColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18),
+                side: const BorderSide(color: AppColors.lightGreyColor),
+              ),
+              cancelButtonStyle: TextButton.styleFrom(
+                foregroundColor: AppColors.darkGreyColor,
+                textStyle: const TextStyle(
+                  fontFamily: AppFonts.readexProFontFamily,
+                  fontSize: 14,
+                ),
+              ),
+              confirmButtonStyle: TextButton.styleFrom(
+                backgroundColor: AppColors.orangeColor,
+                foregroundColor: AppColors.whiteColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                textStyle: const TextStyle(
+                  fontFamily: AppFonts.readexProFontFamily,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ),
+          child: DatePickerDialog(
+            initialDate: initialDate,
+            firstDate: firstDate,
+            lastDate: today,
+            initialCalendarMode: DatePickerMode.year,
+            initialEntryMode: DatePickerEntryMode.calendarOnly,
+            helpText: AppLocalizations.of(dialogContext)
+                .translate(text ?? AppLanguageKeys.birthdate),
+          ),
+        );
+      },
+    );
+    if (picked == null || !context.mounted) return;
+
+    controller.text = Birthdate.toDisplay(picked);
+    onChanged?.call(controller.text);
+  }
+
   @override
   Widget build(BuildContext context) {
     final bool isMobile = MediaQuery.of(context).size.width < 600;
@@ -68,37 +151,42 @@ class UserTextFieldWidget extends StatelessWidget {
 
     switch (type) {
       case UserFieldType.phone:
-        if (readOnly) {
-          child = TextFormFieldWidget(
-            textFormController: controller,
-            text: text ?? "",
-            isColumn: true,
-            readOnly: true,
-            textSize: 16,
-            borderColor: borderColor ?? AppColors.darkGreyColor,
-            fillColor: fillColor ?? AppColors.whiteColor,
-            textFormHeight: fieldHeight,
-            maxLines: 1,
-            isDigit: true,
-            validator: validator,
-            showValidationMessage: showValidationMessage,
-            onChanged: onChanged,
-          );
-        } else {
-          child = PhoneTextField(
-            controller: controller,
-            aboveText: text,
-            height: fieldHeight,
-            autovalidateMode: phoneAutovalidateMode,
-            validator: validator,
-            showValidationMessage: showValidationMessage,
-            borderColor: borderColor ?? AppColors.darkGreyColor,
-            fillColor: fillColor ?? AppColors.whiteColor,
-            onChanged: onChanged,
-            focusedBorderColor:
-                focusedBorderColor ?? borderColor ?? AppColors.darkGreyColor,
-          );
-        }
+        child = PhoneTextField(
+          controller: controller,
+          aboveText: text,
+          isReadOnly: readOnly,
+          height: fieldHeight,
+          autovalidateMode: phoneAutovalidateMode,
+          validator: validator,
+          showValidationMessage: showValidationMessage,
+          borderColor: borderColor ?? AppColors.darkGreyColor,
+          fillColor: fillColor ?? AppColors.whiteColor,
+          onChanged: onChanged,
+          focusedBorderColor:
+              focusedBorderColor ?? borderColor ?? AppColors.darkGreyColor,
+        );
+        break;
+
+      case UserFieldType.birthdate:
+        child = TextFormFieldWidget(
+          textFormController: controller,
+          text: text ?? AppLanguageKeys.birthdate,
+          isColumn: true,
+          readOnly: true,
+          isDatePicker: !readOnly,
+          onPressedDate: () => _selectBirthdate(context),
+          suffixIcon: Icons.calendar_month_outlined,
+          suffixOnPressed: readOnly ? null : () => _selectBirthdate(context),
+          hintText: 'YYYY-MM-DD',
+          textSize: 16,
+          borderColor: borderColor ?? AppColors.darkGreyColor,
+          fillColor: fillColor ?? AppColors.whiteColor,
+          focusBorderColor: focusedBorderColor ?? borderColor,
+          textFormHeight: fieldHeight,
+          maxLines: 1,
+          validator: validator,
+          showValidationMessage: showValidationMessage,
+        );
         break;
 
       // =========================================================
@@ -371,6 +459,8 @@ class _GenderFieldState extends State<GenderField> {
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButtonFormField<String>(
+              errorBuilder: (context, message) =>
+                  LocalizedValidationText(message),
               initialValue: selectedValue,
               isExpanded: true,
               decoration: const InputDecoration.collapsed(
@@ -448,8 +538,21 @@ class PhoneTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (isReadOnly) {
+      // Account data arrives after the first frame. Recreate the phone field
+      // when its saved value changes, since IntlPhoneField reads it only once.
+      return ValueListenableBuilder<TextEditingValue>(
+        valueListenable: controller,
+        builder: (context, value, child) => _buildField(context, value.text),
+      );
+    }
+
+    return _buildField(context, controller.text);
+  }
+
+  Widget _buildField(BuildContext context, String value) {
     // الرقم الموجود بالفعل في controller
-    final String phoneValue = controller.text.trim();
+    final String phoneValue = value.trim();
 
     // IntlPhoneField يحتاج + في initialValue
     final String? initialPhone = phoneValue.isEmpty
@@ -469,6 +572,7 @@ class PhoneTextField extends StatelessWidget {
             ),
           ),
         FormField<String>(
+          key: isReadOnly ? ValueKey(phoneValue) : null,
           initialValue: controller.text,
           autovalidateMode: autovalidateMode,
           validator: (value) {
@@ -487,85 +591,101 @@ class PhoneTextField extends StatelessWidget {
             return null;
           },
           builder: (field) => SizedBox(
-            height: showValidationMessage ? null : (height! + 20),
-            child: IntlPhoneField(
-              initialValue: initialPhone,
-              initialCountryCode: 'SA',
-              languageCode: Localizations.localeOf(context).languageCode,
-              disableLengthCheck: false,
-              autovalidateMode: autovalidateMode,
-              readOnly: isReadOnly,
-              keyboardType: TextInputType.number,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-              ],
-              style: const TextStyle(fontSize: 14, height: 1.2),
-              dropdownTextStyle: const TextStyle(fontSize: 14),
-              decoration: InputDecoration(
-                errorText: field.errorText,
-                errorStyle: showValidationMessage
-                    ? const TextStyle(
-                        height: 1.2,
-                        fontSize: 12,
-                        color: AppColors.redColor,
-                      )
-                    : const TextStyle(
-                        height: 0.01,
-                        fontSize: 1,
-                        color: AppColors.redColor,
-                      ),
-                filled: true,
-                fillColor: fillColor,
-                isDense: true,
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 8,
+            height: showValidationMessage
+                ? null
+                : (height ?? 40) + (isReadOnly ? 0 : 20),
+            child: Directionality(
+              textDirection: TextDirection.ltr,
+              child: IntlPhoneField(
+                initialValue: initialPhone,
+                initialCountryCode: 'SA',
+                languageCode: Localizations.localeOf(context).languageCode,
+                disableLengthCheck: isReadOnly,
+                autovalidateMode: autovalidateMode,
+                readOnly: isReadOnly,
+                enabled: !isReadOnly,
+                showDropdownIcon: !isReadOnly,
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+                style: const TextStyle(
+                  fontSize: 14,
+                  height: 1.2,
+                  color: AppColors.darkColor,
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(color: borderColor),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(
-                    color: focusedBorderColor,
-                    width: 1.5,
+                dropdownTextStyle: const TextStyle(fontSize: 14),
+                decoration: InputDecoration(
+                  errorText:
+                      localizedValidationMessage(context, field.errorText),
+                  errorStyle: showValidationMessage
+                      ? const TextStyle(
+                          height: 1.2,
+                          fontSize: 12,
+                          color: AppColors.redColor,
+                        )
+                      : const TextStyle(
+                          height: 0.01,
+                          fontSize: 1,
+                          color: AppColors.redColor,
+                        ),
+                  filled: true,
+                  fillColor: fillColor,
+                  isDense: true,
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 8,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(color: borderColor),
+                  ),
+                  disabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(color: borderColor),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: focusedBorderColor,
+                      width: 1.5,
+                    ),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(
+                      color: AppColors.redColor,
+                      width: 1.5,
+                    ),
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(
+                      color: AppColors.redColor,
+                      width: 1.5,
+                    ),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(color: borderColor),
                   ),
                 ),
-                errorBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(
-                    color: AppColors.redColor,
-                    width: 1.5,
-                  ),
-                ),
-                focusedErrorBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(
-                    color: AppColors.redColor,
-                    width: 1.5,
-                  ),
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(color: borderColor),
-                ),
-              ),
-              flagsButtonPadding: const EdgeInsets.only(left: 6, right: 4),
-              dropdownIconPosition: IconPosition.trailing,
-              dropdownIcon: const Icon(Icons.arrow_drop_down, size: 18),
-              onChanged: isReadOnly
-                  ? null
-                  : (phone) {
-                      final localNumber = phone.number.trim();
-                      final value = localNumber.isEmpty
-                          ? ''
-                          : phone.completeNumber.replaceFirst('+', '');
+                flagsButtonPadding: const EdgeInsets.only(left: 6, right: 4),
+                dropdownIconPosition: IconPosition.trailing,
+                dropdownIcon: const Icon(Icons.arrow_drop_down, size: 18),
+                onChanged: isReadOnly
+                    ? null
+                    : (phone) {
+                        final localNumber = phone.number.trim();
+                        final value = localNumber.isEmpty
+                            ? ''
+                            : phone.completeNumber.replaceFirst('+', '');
 
-                      controller.text = value;
-                      field.didChange(value);
-                      onChanged?.call(value);
-                    },
+                        controller.text = value;
+                        field.didChange(value);
+                        onChanged?.call(value);
+                      },
+              ),
             ),
           ),
         ),

@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/theming/auth_local_storage.dart';
 import 'package:sun_web_system/features/service_settings/data/repository/products_repository.dart';
@@ -32,7 +33,7 @@ class CreateProductCubit extends Cubit<CreateProductState> {
     try {
       final providerId = await providerIdLoader();
       if (providerId <= 0) {
-        throw const ProductApiException('Provider ID is required');
+        throw const ProductApiException(AppLanguageKeys.providerNotFound);
       }
       final body = request.copyWith(
           provId: providerId,
@@ -42,7 +43,7 @@ class CreateProductCubit extends Cubit<CreateProductState> {
       final int savedId;
       if (update) {
         if (productId == null || productId! <= 0) {
-          throw const ProductApiException('Product ID is required');
+          throw const ProductApiException(AppLanguageKeys.productIdRequired);
         }
         await writer.updateProduct(productId!, body);
         savedId = productId!;

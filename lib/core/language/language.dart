@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'language_constant.dart';
@@ -14,6 +15,92 @@ class AppLocalizations {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'ar': {
+      AppLanguageKeys.pageNotFound: 'الصفحة غير موجودة',
+      AppLanguageKeys.unknownLocation: 'موقع غير معروف',
+      AppLanguageKeys.sampleCategoryOne: 'تصنيف 1',
+      AppLanguageKeys.sampleCategoryTwo: 'تصنيف 2',
+      AppLanguageKeys.sampleCategoryThree: 'تصنيف 3',
+      AppLanguageKeys.sampleStoreOfferOne: 'عرض المتجر 1',
+      AppLanguageKeys.sampleStoreOfferTwo: 'عرض المتجر 2',
+      AppLanguageKeys.sampleStoreOfferThree: 'عرض المتجر 3',
+      AppLanguageKeys.selectAtLeastOneBrand: 'اختر ماركة واحدة على الأقل',
+      AppLanguageKeys.chooseBrandPricingOption: 'اختر طريقة التسعير لكل ماركة',
+      AppLanguageKeys.enterSelectedItemPrice: 'أدخل السعر لكل عنصر محدد',
+      AppLanguageKeys.loadSelectedBrandModels:
+          'يرجى تحميل موديلات الماركات المحددة',
+      AppLanguageKeys.newNotification: 'إشعار جديد',
+
+      AppLanguageKeys.waitForServices: 'انتظر تحميل الخدمات',
+      AppLanguageKeys.retryLoadingServices: 'أعد تحميل الخدمات',
+      AppLanguageKeys.selectAtLeastOneService: 'اختر خدمة واحدة على الأقل',
+      AppLanguageKeys.selectBrandAndModels: 'حدد الماركة والموديلات لكل سيارة',
+      AppLanguageKeys.waitForBranches: 'انتظر تحميل الفروع',
+      AppLanguageKeys.retryLoadingBranches: 'تعذر تحميل الفروع، أعد المحاولة',
+      AppLanguageKeys.selectAtLeastOneBranch: 'اختر فرعًا واحدًا على الأقل',
+      AppLanguageKeys.addStockBranch: 'أضف فرعًا واحدًا على الأقل للمخزون',
+      AppLanguageKeys.checkSelectedBranches: 'راجع الفروع المختارة',
+      AppLanguageKeys.validNonNegativeQuantity: 'أدخل كمية صحيحة لا تقل عن صفر',
+      AppLanguageKeys.validNonNegativeAmount:
+          'أدخل مبلغًا صحيحًا لا يقل عن صفر',
+      AppLanguageKeys.selectProductCategory: 'اختر فئة المنتج',
+      AppLanguageKeys.selectProductTax: 'اختر الضريبة',
+      AppLanguageKeys.addAtLeastOneSize: 'أضف مقاسًا واحدًا على الأقل',
+      AppLanguageKeys.enterValidValue: 'أدخل قيمة صحيحة',
+      AppLanguageKeys.remainingFivePieces: 'باقي 5 قطع',
+      AppLanguageKeys.fiveThousandPoints: '5000 نقطة',
+
+      AppLanguageKeys.totalBalance: 'إجمالي الأرصدة',
+      AppLanguageKeys.thisFieldRequired: 'هذا الحقل مطلوب',
+      AppLanguageKeys.confirmExit: 'تأكيد الخروج',
+      AppLanguageKeys.areYouSureToLeave: 'هل أنت متأكد من الخروج؟',
+      AppLanguageKeys.noBrandsAvailable: 'لا توجد ماركات متاحة',
+      AppLanguageKeys.noCategory: 'لا توجد فئة',
+      AppLanguageKeys.noDataAvailable: 'لا توجد بيانات متاحة',
+      AppLanguageKeys.errorLoadingTransactions: 'تعذر تحميل المعاملات',
+      AppLanguageKeys.errorLoadingPackages: 'تعذر تحميل الباقات',
+      AppLanguageKeys.errorLoadingData: 'تعذر تحميل البيانات',
+      AppLanguageKeys.invalidPrice: 'يرجى إدخال سعر صحيح',
+      AppLanguageKeys.invalidDurationValue: 'يرجى إدخال مدة صحيحة',
+      AppLanguageKeys.warrantyIdUnavailable: 'رقم الضمان غير متاح',
+      AppLanguageKeys.providerNotFound: 'لم يتم العثور على مزود الخدمة',
+      AppLanguageKeys.failedToApproveProvider: 'تعذر اعتماد مزود الخدمة',
+      AppLanguageKeys.failedToGetWarranties: 'تعذر تحميل الضمانات',
+      AppLanguageKeys.warrantyIdRequired: 'رقم الضمان مطلوب للتعديل',
+      AppLanguageKeys.accountChanged: 'تم تغيير الحساب',
+      AppLanguageKeys.invalidOfferId: 'رقم العرض غير صالح',
+      AppLanguageKeys.employeeNotSelected: 'يرجى اختيار موظف',
+      AppLanguageKeys.facilityDataNotReady: 'بيانات المنشأة غير جاهزة',
+      AppLanguageKeys.invalidHarageId: 'رقم إعلان السيارة غير صالح',
+      AppLanguageKeys.invalidUserInformation: 'بيانات المستخدم غير صالحة',
+      AppLanguageKeys.noBrandsWithModels: 'لا توجد ماركات لها موديلات',
+      AppLanguageKeys.noModelsAvailable: 'لا توجد موديلات متاحة',
+      AppLanguageKeys.selectAtLeastOneDay: 'يرجى اختيار يوم واحد على الأقل',
+      AppLanguageKeys.locationPermissionDenied: 'تم رفض إذن الوصول للموقع',
+      AppLanguageKeys.locationPermissionDeniedForever:
+          'يرجى تفعيل إذن الموقع من الإعدادات',
+      AppLanguageKeys.pleaseSignInAgain: 'يرجى تسجيل الدخول مرة أخرى',
+      AppLanguageKeys.invalidOrderId: 'رقم الطلب غير صالح',
+      AppLanguageKeys.selectEmployeeBeforeAccepting:
+          'يرجى اختيار موظف واحد على الأقل قبل قبول الطلب',
+      AppLanguageKeys.failedToUpdateOrderStatus: 'تعذر تحديث حالة الطلب',
+      AppLanguageKeys.productIdRequired: 'رقم المنتج مطلوب',
+      AppLanguageKeys.userPointsCount: 'عدد نقاط المستخدم',
+      AppLanguageKeys.oilProductName: 'اسم منتج الزيت',
+      AppLanguageKeys.nissanAllModels: 'نيسان (جميع الموديلات)',
+      AppLanguageKeys.nissan: 'نيسان',
+      AppLanguageKeys.ariya: 'أريا',
+      AppLanguageKeys.executiveDirector: 'المدير التنفيذي',
+      AppLanguageKeys.deleteOffer: 'حذف العرض',
+      AppLanguageKeys.confirmDeleteOffer: 'هل أنت متأكد من حذف هذا العرض؟',
+      AppLanguageKeys.refuseRequest: 'رفض الطلب',
+      AppLanguageKeys.confirmRefuseRequest:
+          'لن يظهر الطلب لك مرة أخرى بعد الرفض. هل تريد المتابعة؟',
+      AppLanguageKeys.refuse: 'رفض',
+      AppLanguageKeys.userNameKey: 'اسم المستخدم',
+      AppLanguageKeys.forgetPassword: 'نسيت كلمة المرور؟',
+      AppLanguageKeys.dontHaveAccount: 'ليس لديك حساب؟',
+      AppLanguageKeys.yourName: 'اسمك',
+
       AppLanguageKeys.changePassword: 'تغيير كلمة المرور',
       //status//
       AppLanguageKeys.notSold: 'لم يتم البيع',
@@ -157,8 +244,8 @@ class AppLocalizations {
       AppLanguageKeys.orderDetailsNumber: 'تفاصيل طلب رقم #',
       AppLanguageKeys.notificationConnected: 'الإشعارات متصلة',
       AppLanguageKeys.notificationReconnecting:
-          'جارٍ إعادة الاتصال الإشعارات...',
-      AppLanguageKeys.notificationConnecting: 'جارٍ الاتصال الإشعارات...',
+          'جارٍ إعادة الاتصال بالإشعارات...',
+      AppLanguageKeys.notificationConnecting: 'جارٍ الاتصال بالإشعارات...',
       AppLanguageKeys.notificationDisconnectedTapToReconnect:
           'الإشعارات غير متصلة (اضغط لإعادة الاتصال)',
       AppLanguageKeys.youHaveOrderUpdate: 'لديك تحديث على الطلب.',
@@ -297,7 +384,7 @@ class AppLocalizations {
       AppLanguageKeys.filling: 'التعبئة',
       AppLanguageKeys.fillingDate: 'تاريخ التعبئة',
       AppLanguageKeys.gender: 'الجنس',
-      AppLanguageKeys.age: 'العمر',
+      AppLanguageKeys.birthdate: 'تاريخ الميلاد',
       AppLanguageKeys.order: 'طلب',
       AppLanguageKeys.authCompanyNameRequired: 'اسم الشركة مطلوب',
       AppLanguageKeys.authEmailRequired: 'البريد الإلكتروني مطلوب',
@@ -649,7 +736,7 @@ class AppLocalizations {
       AppLanguageKeys.imageRequirementsKey:
           'المقاس لا يقل عن (100px ارتفاع * 250px عرض) من نوع ( jpg, jpeg, png , gif ) ولا يتجاوز 5 ميجابيت لكل صوره بحد اقصي 10 صور',
       AppLanguageKeys.facilityNameKey: 'اسم المنشأة',
-      AppLanguageKeys.facilityNameENKey: 'أسم المنشأة EN',
+      AppLanguageKeys.facilityNameENKey: 'اسم المنشأة EN',
       AppLanguageKeys.activityTypeKey: 'نوع النشاط',
       AppLanguageKeys.emailAgainKey: 'الايميل',
       AppLanguageKeys.phoneAgainKey: 'رقم الهاتف',
@@ -700,7 +787,7 @@ class AppLocalizations {
       AppLanguageKeys.facilityManagementAgainKey: 'إدارة المنشأة',
       AppLanguageKeys.facilityAccountKey: 'حساب المنشأة',
       AppLanguageKeys.carModelsTitleKey: 'موديل السيارات',
-      AppLanguageKeys.serviceSettingsTitleKey: 'إعدادت الخدمات',
+      AppLanguageKeys.serviceSettingsTitleKey: 'إعدادات الخدمات',
       AppLanguageKeys.nameKey: 'اسم',
       AppLanguageKeys.newUserKey: 'مستخدم جديد',
       AppLanguageKeys.introTextKey:
@@ -724,7 +811,7 @@ class AppLocalizations {
       AppLanguageKeys.increasePercentKey: 'زيادة 3%',
       AppLanguageKeys.maintenanceAndRepairKey: 'الصيانة والاصلاح',
       AppLanguageKeys.revenueFromOrderKey: 'ايراد من طلب 10054',
-      AppLanguageKeys.jobTitleKey: 'أسم الوظيفة',
+      AppLanguageKeys.jobTitleKey: 'اسم الوظيفة',
       AppLanguageKeys.employeeNameKey: 'محمد عبد الله',
       AppLanguageKeys.requestsCountKey: '120 طلب',
       AppLanguageKeys.topEmployeesKey: 'الموظفون الاعلي أداءا',
@@ -739,7 +826,7 @@ class AppLocalizations {
       AppLanguageKeys.expectedEndDateKey: 'توقع انتهاء الطلب',
       AppLanguageKeys.notesKey: 'الملاحظات',
       AppLanguageKeys.washingAndCleaningKey: 'غسيل ونظافة',
-      AppLanguageKeys.jobNameKey: 'أسم الوظيفة',
+      AppLanguageKeys.jobNameKey: 'اسم الوظيفة',
       AppLanguageKeys.internalServiceKey: 'خدمات داخلية',
       AppLanguageKeys.newOrdersListKey: 'الطلبات الجديدة',
       AppLanguageKeys.newOrdersFromServicesKey:
@@ -829,7 +916,7 @@ class AppLocalizations {
       AppLanguageKeys.membersCount: 'عدد الأعضاء',
       AppLanguageKeys.searchInMessages: 'بحث في الرسائل',
 
-      AppLanguageKeys.employeeNameEn: 'اسم الموظف EN',
+      AppLanguageKeys.employeeNameEn: 'اسم الموظف بالإنجليزية',
       AppLanguageKeys.employeeId: 'رقم الهوية',
       AppLanguageKeys.joiningDate: 'تاريخ الانضمام',
       AppLanguageKeys.address: 'العنوان',
@@ -845,8 +932,8 @@ class AppLocalizations {
       AppLanguageKeys.branches: 'الفروع',
       AppLanguageKeys.workingHours: 'مواعيد العمل',
       AppLanguageKeys.bankAccount: 'حساب البنك',
-      AppLanguageKeys.establishmentName: 'أسم المنشأة',
-      AppLanguageKeys.establishmentNameEn: 'أسم المنشأة EN',
+      AppLanguageKeys.establishmentName: 'اسم المنشأة',
+      AppLanguageKeys.establishmentNameEn: 'اسم المنشأة EN',
       AppLanguageKeys.activityType: 'نوع النشاط',
       AppLanguageKeys.commercialRegistration: 'السجل التجاري',
       AppLanguageKeys.taxNumber: 'الرقم الضريبي',
@@ -1019,7 +1106,7 @@ class AppLocalizations {
       AppLanguageKeys.internalServicesProfit: 'أرباح من خدمات الداخلية',
       AppLanguageKeys.internalServicesRating: 'تقييم لخدمات الداخلية',
       AppLanguageKeys.afterReceivingRequests: 'بعد استقبال طلبات',
-      AppLanguageKeys.jobName: 'أسم الوظيفة',
+      AppLanguageKeys.jobName: 'اسم الوظيفة',
       AppLanguageKeys.requestStatus: 'حالة الطلب',
       AppLanguageKeys.underService: 'تحت الخدمة',
       AppLanguageKeys.requestDate: 'تاريخ الطلب',
@@ -1033,7 +1120,7 @@ class AppLocalizations {
           'إعدادات صلاحيات المستخدمين داخل النظام',
       AppLanguageKeys.addNewEmployee: 'إضافة موظف جديد',
       AppLanguageKeys.employeeSettings: 'إعدادات موظفين المستخدمين داخل النظام',
-      AppLanguageKeys.employeeName: 'أسم الموظف',
+      AppLanguageKeys.employeeName: 'اسم الموظف',
       AppLanguageKeys.jobTitle: 'اسم الوظيفة',
       AppLanguageKeys.accountStatus: 'حالة الحساب',
       AppLanguageKeys.active: 'مفعل',
@@ -1043,7 +1130,7 @@ class AppLocalizations {
       AppLanguageKeys.userPermissions: 'صلاحيات المستخدم',
       AppLanguageKeys.statistics: 'الاحصائيات',
       AppLanguageKeys.servicesSettings: 'إعدادات خدمات',
-      AppLanguageKeys.carModelSettings: 'إعدادت موديل السيارات',
+      AppLanguageKeys.carModelSettings: 'إعدادات موديل السيارات',
       AppLanguageKeys.accountManagement: 'ادارة الحسابات',
       AppLanguageKeys.permissionsManagement: 'ادارة الصلاحيات',
       AppLanguageKeys.organizationManagement: 'ادارة المنشأة',
@@ -1156,7 +1243,7 @@ class AppLocalizations {
       AppLanguageKeys.waitingForOffers: 'في انتظار استقبال العروض',
       AppLanguageKeys.serviceCenterOffers: 'العروض المقدمة من مراكز الخدمة',
       AppLanguageKeys.mobileMaintenanceOffer: 'صيانة متنقلة',
-      AppLanguageKeys.repairCenterName: 'أسم مركز الاصلاح',
+      AppLanguageKeys.repairCenterName: 'اسم مركز الاصلاح',
       AppLanguageKeys.acceptOffer: 'قبول العرض',
       AppLanguageKeys.rejectRequest: 'رفض الطلب',
       AppLanguageKeys.withinOneDay: 'خلال يوم واحد',
@@ -1296,7 +1383,7 @@ class AppLocalizations {
       AppLanguageKeys.yourCarAddress: 'عنوان سيارتك',
       AppLanguageKeys.addAddress: 'أضافة عنوان',
       AppLanguageKeys.creditCards: 'كروت الأئتمان البنكي',
-      AppLanguageKeys.cardName: 'أسم الكارت',
+      AppLanguageKeys.cardName: 'اسم الكارت',
       AppLanguageKeys.cardNumber: 'رقم الكارت',
       AppLanguageKeys.cvv: '3 ارقام CVV',
       AppLanguageKeys.expiryDate: 'تاريخ الانتهاء',
@@ -1400,7 +1487,7 @@ class AppLocalizations {
       AppLanguageKeys.forgotPassword: 'نسيت كلمة المرور',
       AppLanguageKeys.redeemFromHere: "استرد من هنا",
       AppLanguageKeys.loginAsAGuestUser: 'دخول كضيف مستخدم',
-      AppLanguageKeys.userName: 'أسم المستخدم',
+      AppLanguageKeys.userName: 'اسم المستخدم',
       AppLanguageKeys.email: 'الايميل',
       AppLanguageKeys.resetPassword: 'إعادة كلمة المرور',
       AppLanguageKeys.createAnAccount: 'إنشاء حساب',
@@ -1418,7 +1505,7 @@ class AppLocalizations {
           'لاستعراض خدمات ومراكز الموديل سيارتك',
       AppLanguageKeys.chooseTheCategory: 'أختر الفئة ',
       AppLanguageKeys.modelYear: 'سنة الموديل',
-      AppLanguageKeys.yourCarName: 'أسم سيارتك',
+      AppLanguageKeys.yourCarName: 'اسم سيارتك',
       AppLanguageKeys.exampleModelName: '(مثال سيارتي الهوندا - سيارة زوجتي )',
       AppLanguageKeys.chooseYourCarModel: 'أختر موديل سيارتك',
       AppLanguageKeys.youCanSearchToSelectYourCarCategory:
@@ -1478,6 +1565,99 @@ class AppLocalizations {
       AppLanguageKeys.from: "من",
     },
     'en': {
+      AppLanguageKeys.pageNotFound: 'Page not found',
+      AppLanguageKeys.unknownLocation: 'Unknown location',
+      AppLanguageKeys.sampleCategoryOne: 'Category 1',
+      AppLanguageKeys.sampleCategoryTwo: 'Category 2',
+      AppLanguageKeys.sampleCategoryThree: 'Category 3',
+      AppLanguageKeys.sampleStoreOfferOne: 'Store offer 1',
+      AppLanguageKeys.sampleStoreOfferTwo: 'Store offer 2',
+      AppLanguageKeys.sampleStoreOfferThree: 'Store offer 3',
+      AppLanguageKeys.selectAtLeastOneBrand: 'Select at least one brand',
+      AppLanguageKeys.chooseBrandPricingOption:
+          'Choose a pricing option for each brand',
+      AppLanguageKeys.enterSelectedItemPrice:
+          'Enter a price for each selected item',
+      AppLanguageKeys.loadSelectedBrandModels:
+          'Please load models for the selected brands',
+      AppLanguageKeys.newNotification: 'New notification',
+
+      AppLanguageKeys.waitForServices: 'Wait for services to load',
+      AppLanguageKeys.retryLoadingServices: 'Retry loading services',
+      AppLanguageKeys.selectAtLeastOneService: 'Select at least one service',
+      AppLanguageKeys.selectBrandAndModels:
+          'Select a brand and models for each car',
+      AppLanguageKeys.waitForBranches: 'Wait for branches to load',
+      AppLanguageKeys.retryLoadingBranches:
+          'Unable to load branches. Please retry',
+      AppLanguageKeys.selectAtLeastOneBranch: 'Select at least one branch',
+      AppLanguageKeys.addStockBranch: 'Add at least one stock branch',
+      AppLanguageKeys.checkSelectedBranches: 'Check selected branches',
+      AppLanguageKeys.validNonNegativeQuantity:
+          'Enter a valid non-negative quantity',
+      AppLanguageKeys.validNonNegativeAmount:
+          'Enter a valid non-negative amount',
+      AppLanguageKeys.selectProductCategory: 'Select product category',
+      AppLanguageKeys.selectProductTax: 'Select tax',
+      AppLanguageKeys.addAtLeastOneSize: 'Add at least one size',
+      AppLanguageKeys.enterValidValue: 'Enter a valid value',
+      AppLanguageKeys.remainingFivePieces: '5 pieces remaining',
+      AppLanguageKeys.fiveThousandPoints: '5000 points',
+
+      AppLanguageKeys.totalBalance: 'Total balances',
+      AppLanguageKeys.thisFieldRequired: 'This field is required',
+      AppLanguageKeys.confirmExit: 'Confirm exit',
+      AppLanguageKeys.areYouSureToLeave: 'Are you sure you want to leave?',
+      AppLanguageKeys.noBrandsAvailable: 'No brands available',
+      AppLanguageKeys.noCategory: 'No category',
+      AppLanguageKeys.noDataAvailable: 'No data available',
+      AppLanguageKeys.errorLoadingTransactions: 'Unable to load transactions',
+      AppLanguageKeys.errorLoadingPackages: 'Unable to load packages',
+      AppLanguageKeys.errorLoadingData: 'Unable to load data',
+      AppLanguageKeys.invalidPrice: 'Please enter a valid price',
+      AppLanguageKeys.invalidDurationValue: 'Please enter a valid duration',
+      AppLanguageKeys.warrantyIdUnavailable: 'Warranty ID is unavailable',
+      AppLanguageKeys.providerNotFound: 'Provider not found',
+      AppLanguageKeys.failedToApproveProvider: 'Unable to approve provider',
+      AppLanguageKeys.failedToGetWarranties: 'Unable to load warranties',
+      AppLanguageKeys.warrantyIdRequired: 'Warranty ID is required for update',
+      AppLanguageKeys.accountChanged: 'Account changed',
+      AppLanguageKeys.invalidOfferId: 'Invalid offer ID',
+      AppLanguageKeys.employeeNotSelected: 'Please select an employee',
+      AppLanguageKeys.facilityDataNotReady: 'Facility data is not ready',
+      AppLanguageKeys.invalidHarageId: 'Invalid car listing ID',
+      AppLanguageKeys.invalidUserInformation: 'Invalid user information',
+      AppLanguageKeys.noBrandsWithModels: 'No brands with models found',
+      AppLanguageKeys.noModelsAvailable: 'No models available',
+      AppLanguageKeys.selectAtLeastOneDay: 'Please select at least one day',
+      AppLanguageKeys.locationPermissionDenied: 'Location permission denied',
+      AppLanguageKeys.locationPermissionDeniedForever:
+          'Please enable location permission in settings',
+      AppLanguageKeys.pleaseSignInAgain: 'Please sign in again',
+      AppLanguageKeys.invalidOrderId: 'Invalid order ID',
+      AppLanguageKeys.selectEmployeeBeforeAccepting:
+          'Select at least one employee before accepting the order',
+      AppLanguageKeys.failedToUpdateOrderStatus:
+          'Unable to update order status',
+      AppLanguageKeys.productIdRequired: 'Product ID is required',
+      AppLanguageKeys.userPointsCount: 'User points',
+      AppLanguageKeys.oilProductName: 'Oil product name',
+      AppLanguageKeys.nissanAllModels: 'Nissan (all models)',
+      AppLanguageKeys.nissan: 'Nissan',
+      AppLanguageKeys.ariya: 'Ariya',
+      AppLanguageKeys.executiveDirector: 'Executive director',
+      AppLanguageKeys.deleteOffer: 'Delete offer',
+      AppLanguageKeys.confirmDeleteOffer:
+          'Are you sure you want to delete this offer?',
+      AppLanguageKeys.refuseRequest: 'Refuse request',
+      AppLanguageKeys.confirmRefuseRequest:
+          'This request will no longer appear after refusal. Continue?',
+      AppLanguageKeys.refuse: 'Refuse',
+      AppLanguageKeys.userNameKey: 'Username',
+      AppLanguageKeys.forgetPassword: 'Forgot password?',
+      AppLanguageKeys.dontHaveAccount: 'Don\'t have an account?',
+      AppLanguageKeys.yourName: 'Your name',
+
       AppLanguageKeys.changePassword: 'Change password',
       //status//
       AppLanguageKeys.notSold: 'Not Sold',
@@ -1762,7 +1942,7 @@ class AppLocalizations {
       AppLanguageKeys.filling: 'Filling',
       AppLanguageKeys.fillingDate: 'Filling Date',
       AppLanguageKeys.gender: 'Gender',
-      AppLanguageKeys.age: 'Age',
+      AppLanguageKeys.birthdate: 'Date of birth',
       AppLanguageKeys.order: 'Order',
       AppLanguageKeys.authCompanyNameRequired: 'Company name is required',
       AppLanguageKeys.authEmailRequired: 'Email is required',
@@ -2465,7 +2645,8 @@ Providers will be notified of any major changes via the platform or email.
       AppLanguageKeys.contactAndPoliciesPages: 'Contact & Policy Pages',
       AppLanguageKeys.contactUs: 'Contact Us',
       AppLanguageKeys.aboutSun: 'About San',
-      AppLanguageKeys.aboutLoadError: 'Unable to load content. Please try again.',
+      AppLanguageKeys.aboutLoadError:
+          'Unable to load content. Please try again.',
       AppLanguageKeys.aboutRetry: 'Retry',
       AppLanguageKeys.aboutEmpty: 'No content is available yet.',
       AppLanguageKeys.privacyPolicy: 'Privacy Policy',
@@ -2972,7 +3153,27 @@ Providers will be notified of any major changes via the platform or email.
   }
 
   String translate(String key) {
-    return _localizedValues[locale.languageCode]![key] ?? key;
+    final values =
+        _localizedValues[locale.languageCode] ?? _localizedValues['ar']!;
+    if (values.containsKey(key)) return values[key]!;
+    for (final prefix in ['Exception: ', 'Bad state: ']) {
+      if (key.startsWith(prefix)) {
+        final messageKey = key.substring(prefix.length);
+        if (values.containsKey(messageKey)) return values[messageKey]!;
+      }
+    }
+    return key;
+  }
+
+  // FormField keeps its last validation result. Resolve that result back to
+  // its key so an already visible error follows subsequent locale changes.
+  String translateValidationMessage(String message) {
+    for (final values in _localizedValues.values) {
+      for (final entry in values.entries) {
+        if (entry.value == message) return translate(entry.key);
+      }
+    }
+    return translate(message);
   }
 }
 
@@ -2981,12 +3182,13 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
 
   @override
   bool isSupported(Locale locale) {
-    return supportedLocales.contains(locale);
+    return supportedLocales
+        .any((supported) => supported.languageCode == locale.languageCode);
   }
 
   @override
-  Future<AppLocalizations> load(Locale locale) async {
-    return AppLocalizations(locale);
+  Future<AppLocalizations> load(Locale locale) {
+    return SynchronousFuture(AppLocalizations(locale));
   }
 
   @override

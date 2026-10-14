@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sun_web_system/features/car_model_settings/presentation/custom_widget/container_list_car_data_service_setting_widget.dart';
 import '../../../../../../core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
@@ -14,7 +15,7 @@ class ContainerListCarDataServiceSetting extends StatelessWidget {
       children: [
         ContainerListCarDataServiceSettingWidget(
           imagePath: AppImageKeys.logo10,
-          nameModel: 'نيسان (جميع الفئات)',
+          nameModel: AppLanguageKeys.nissanAllModels,
           onTap: () {
             Navigator.pop(context);
             Navigator.of(context).push(

@@ -18,10 +18,13 @@ class _AuthGateState extends State<AuthGate> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthCubit, AuthState>(
+      // Saving account data must keep the current page mounted. Its own
+      // listeners handle loading, success and errors without changing access.
+      buildWhen: (previous, current) =>
+          current is! AuthUpdateLoading &&
+          current is! AuthUpdateSuccess &&
+          current is! AuthUpdateError,
       builder: (context, state) {
-
-        print("AUTH STATE => $state");
-
         if (state is AuthLoading) {
           return const Scaffold(
             body: Center(
@@ -30,13 +33,9 @@ class _AuthGateState extends State<AuthGate> {
           );
         }
 
-        if (state is AuthIncompleteProfile ||
-            state is AuthUpdateLoading ||
-            state is AuthUpdateSuccess ||
-            state is AuthUpdateError) {
+        if (state is AuthIncompleteProfile) {
           return const FacilityAccountCheck();
         }
-
 
         if (state is AuthAuthenticated) {
           WidgetsBinding.instance.addPostFrameCallback((_) {

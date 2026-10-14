@@ -9,9 +9,10 @@ import '../../../../../../core/theming/colors.dart';
 class AddedMaintenanceAndInternalServicesInServiceSettings
     extends StatelessWidget {
   final String textServiceScreen;
+  final String? latinTextServiceScreen;
   final Uint8List imageMemory;
   const AddedMaintenanceAndInternalServicesInServiceSettings(
-      {super.key, required this.textServiceScreen, required this.imageMemory});
+      {super.key, required this.textServiceScreen, this.latinTextServiceScreen, required this.imageMemory});
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +36,7 @@ class AddedMaintenanceAndInternalServicesInServiceSettings
                       child:
                           ListDataAddedMaintenanceAndInternalServicesInServiceSettings(
                     textServiceScreen: textServiceScreen,
+                    latinTextServiceScreen: latinTextServiceScreen,
                     imageMemory: imageMemory,
                   )),
                 ),

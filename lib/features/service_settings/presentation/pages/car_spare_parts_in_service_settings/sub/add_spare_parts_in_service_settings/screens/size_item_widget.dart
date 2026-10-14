@@ -27,7 +27,7 @@ class SizeItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ar = LanguageCubit.get(context).isAllAppLanguageArabic;
+    final ar = LanguageCubit.isArabic(context);
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(

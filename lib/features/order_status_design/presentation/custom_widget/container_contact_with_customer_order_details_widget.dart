@@ -53,7 +53,7 @@ class ContainerContactWithCustomerOrderDetailsWidget extends StatelessWidget {
                     ),
                   ),
                   TextInAppWidget(
-                    text: nameCustomer ?? "user",
+                    text: nameCustomer ?? AppLanguageKeys.userName,
                     textSize: 14,
                     fontWeightIndex: FontSelectionData.regularFontFamily,
                     textColor: AppColors.blackColor,

@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/theming/auth_local_storage.dart';
 import 'package:sun_web_system/features/service_settings/data/repository/products_repository.dart';
@@ -21,7 +22,7 @@ class GetProductsByCategoryCubit extends Cubit<GetProductsByCategoryState> {
     final user = await AuthLocalStorage.getUser();
     final id = user?.userid;
     if (id == null || id <= 0) {
-      throw const ProductApiException('User not found');
+      throw const ProductApiException(AppLanguageKeys.userNotFound);
     }
     return id;
   }

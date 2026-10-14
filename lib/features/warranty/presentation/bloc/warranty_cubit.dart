@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/theming/auth_local_storage.dart';
 import 'package:sun_web_system/features/warranty/data/datasource/approve_provider_datasource/approve_provider_datasource.dart';
@@ -39,7 +40,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
       if (providerId == null || providerId <= 0) {
         emit(
           const WarrantyApproveProviderError(
-            'Provider ID not found',
+            AppLanguageKeys.providerNotFound,
           ),
         );
         return;
@@ -61,7 +62,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
       } else {
         emit(
           const WarrantyApproveProviderError(
-            'Failed to approve provider',
+            AppLanguageKeys.failedToApproveProvider,
           ),
         );
       }
@@ -105,7 +106,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
       } else {
         emit(
           const WarrantyError(
-            'Failed to get warranties',
+            AppLanguageKeys.failedToGetWarranties,
           ),
         );
       }
@@ -219,7 +220,7 @@ class WarrantyCubit extends Cubit<WarrantyState> {
     if (id == null || id <= 0) {
       emit(
         const WarrantyUpdateError(
-          'Warranty ID is required for update',
+          AppLanguageKeys.warrantyIdRequired,
         ),
       );
 

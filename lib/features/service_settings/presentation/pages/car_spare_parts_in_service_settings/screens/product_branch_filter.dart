@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/language/language_cubit/language_cubit.dart';
@@ -13,7 +14,7 @@ class ProductBranchFilter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ar = LanguageCubit.get(context).isAllAppLanguageArabic;
+    final ar = LanguageCubit.isArabic(context);
     return BlocBuilder<BranchCubit, BranchState>(builder: (context, state) {
       final cubit = context.read<BranchCubit>();
       if (state is BranchLoading || state is BranchInitial) {
@@ -22,7 +23,7 @@ class ProductBranchFilter extends StatelessWidget {
       if (state is BranchError) {
         return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(ar ? 'تعذر تحميل فلتر الفروع' : 'Unable to load branch filter'),
-          Text(state.message),
+          LocalizedText(state.message),
           TextButton(
             onPressed: cubit.getProviderBranches,
             child: Text(ar ? 'إعادة المحاولة' : 'Retry'),

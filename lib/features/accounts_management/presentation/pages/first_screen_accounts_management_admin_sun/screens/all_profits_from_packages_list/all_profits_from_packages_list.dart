@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../../../../../core/language/language_constant.dart';
@@ -40,7 +41,7 @@ class AllProfitsFromPackagesList extends StatelessWidget {
 
 
               if (state is PackageError) {
-                return const Text("Error loading packages");
+                return const LocalizedText(AppLanguageKeys.errorLoadingPackages);
               }
 
               if (state is PackageSuccess) {

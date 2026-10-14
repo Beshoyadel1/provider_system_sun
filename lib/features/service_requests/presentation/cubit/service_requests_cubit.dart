@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/theming/auth_local_storage.dart';
@@ -51,7 +52,7 @@ class ServiceRequestsCubit extends Cubit<ServiceRequestsState> {
   static Future<int> _loadStoredProviderId() async {
     final user = await AuthLocalStorage.getUser();
     final id = user?.userid;
-    if (id == null || id <= 0) throw Exception('User not found');
+    if (id == null || id <= 0) throw Exception(AppLanguageKeys.userNotFound);
     return id;
   }
 
@@ -66,7 +67,7 @@ class ServiceRequestsCubit extends Cubit<ServiceRequestsState> {
     if (providerId != null) return providerId!;
     final session = _session;
     final id = await _providerIdLoader();
-    if (session != _session) throw StateError('Account changed');
+    if (session != _session) throw StateError(AppLanguageKeys.accountChanged);
     providerId = id;
     return id;
   }
@@ -321,7 +322,7 @@ class ServiceRequestsCubit extends Cubit<ServiceRequestsState> {
     }
     await _offerOperation(() async {
       final offerId = await _repository.createOffer(request);
-      if (offerId <= 0) throw StateError('Invalid offer ID');
+      if (offerId <= 0) throw StateError(AppLanguageKeys.invalidOfferId);
     }, request.serviceRequestId);
   }
 

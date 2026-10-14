@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/store_page/data/model/get_provider_branches_model/provider_branch_model.dart';
@@ -51,7 +52,7 @@ class _AddBranchUIState extends State<AddBranchUI> {
 
         if (state is BranchError) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message)),
+            SnackBar(content: LocalizedText(state.message)),
           );
         }
       },

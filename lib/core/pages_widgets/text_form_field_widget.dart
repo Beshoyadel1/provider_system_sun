@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../language/language.dart';
+import '../language/language_constant.dart';
 import '../language/language_cubit/language_cubit.dart';
-import '../setup_git_it.dart';
 import '../theming/colors.dart';
 import '../theming/fonts.dart';
 
@@ -116,7 +116,6 @@ class TextFormFieldWidget extends StatefulWidget {
 
 class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
   final FocusNode internalFocusNode = FocusNode();
-  final LanguageCubit _languageCubit = getIt<LanguageCubit>();
 
   @override
   void dispose() {
@@ -159,7 +158,7 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
         AppLocalizations.of(context).translate(widget.text ?? ''),
         style: TextStyle(
           fontSize: widget.textSize ??
-              (_languageCubit.isAllAppLanguageArabic
+              (LanguageCubit.isArabic(context)
                   ? size.width * 0.05
                   : size.width * 0.045),
           fontWeight:
@@ -177,6 +176,7 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
       height: widget.showValidationMessage ? null : widget.textFormHeight,
       child: TextFormField(
         onChanged: widget.onChanged,
+        onTap: widget.isDatePicker == true ? widget.onPressedDate : null,
         controller: widget.textFormController,
         focusNode: widget.focusNode ?? internalFocusNode,
         readOnly: widget.readOnly ?? false,
@@ -198,18 +198,23 @@ class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
 
             if (result == null) return null;
 
-            return AppLocalizations.of(context).translate(result);
+            return result;
           }
 
           if (widget.isValidator == true) {
             if (value == null || value.trim().isEmpty) {
-              return AppLocalizations.of(context)
-                  .translate('this Field Required');
+              return AppLanguageKeys.thisFieldRequired;
             }
           }
 
           return null;
         },
+        errorBuilder: (context, message) => Text(
+          AppLocalizations.of(context).translateValidationMessage(message),
+          style: widget.showValidationMessage
+              ? const TextStyle(height: 1.2, fontSize: 12, color: AppColors.redColor)
+              : const TextStyle(height: 0.01, fontSize: 1, color: AppColors.redColor),
+        ),
         style: TextStyle(
           fontSize: widget.textSize ?? 16,
           fontWeight:

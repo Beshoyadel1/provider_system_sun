@@ -62,21 +62,11 @@ class TopEmployee {
   }
 
   String getName(BuildContext context) {
-    final isArabic =
-        LanguageCubit.get(context).isAllAppLanguageArabic;
-
-    return isArabic
-        ? (employeeName ?? "")
-        : (employeeLatinName ?? "");
+    return LanguageCubit.localizedValue(context, employeeName, employeeLatinName);
   }
 
   String getJobName(BuildContext context) {
-    final isArabic =
-        LanguageCubit.get(context).isAllAppLanguageArabic;
-
-    return isArabic
-        ? (jobName ?? "")
-        : (jobLatinName ?? "");
+    return LanguageCubit.localizedValue(context, jobName, jobLatinName);
   }
 }
 
@@ -103,11 +93,6 @@ class AccountBalance {
   }
 
   String getName(BuildContext context) {
-    final isArabic =
-        LanguageCubit.get(context).isAllAppLanguageArabic;
-
-    return isArabic
-        ? (serviceName ?? "")
-        : (serviceLatinName ?? "");
+    return LanguageCubit.localizedValue(context, serviceName, serviceLatinName);
   }
 }

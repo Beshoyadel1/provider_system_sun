@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/language/language_cubit/language_cubit.dart';
@@ -44,7 +45,7 @@ class ProviderServiceBranchesField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ar = LanguageCubit.get(context).isAllAppLanguageArabic;
+    final ar = LanguageCubit.isArabic(context);
     return BlocBuilder<BranchCubit, BranchState>(builder: (context, state) {
       final cubit = context.read<BranchCubit>();
       final names = {
@@ -78,7 +79,7 @@ class ProviderServiceBranchesField extends StatelessWidget {
           decoration: InputDecoration(
             labelText: ar ? 'الفروع المتاحة' : 'Available branches',
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-            errorText: field.errorText,
+            errorText: localizedValidationMessage(context, field.errorText),
           ),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -133,7 +134,7 @@ class ProviderServiceBranchFilter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ar = LanguageCubit.get(context).isAllAppLanguageArabic;
+    final ar = LanguageCubit.isArabic(context);
     return BlocBuilder<BranchCubit, BranchState>(builder: (context, state) {
       final cubit = context.read<BranchCubit>();
       if (state is BranchLoading || state is BranchInitial) {
@@ -180,7 +181,7 @@ class ProviderServiceBranchesSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ar = LanguageCubit.get(context).isAllAppLanguageArabic;
+    final ar = LanguageCubit.isArabic(context);
     return BlocBuilder<BranchCubit, BranchState>(builder: (context, state) {
       final names = {
         ..._catalog(context.read<BranchCubit>()),

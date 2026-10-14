@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/theming/auth_local_storage.dart';
 import 'package:sun_web_system/features/service_settings/data/datasource/create_service_package_datasource/create_service_package_repository.dart';
@@ -41,7 +42,7 @@ class ProviderPackagesCubit extends Cubit<ProviderPackagesState> {
     if (_providerIdLoader != null) return _providerIdLoader();
     final user = await AuthLocalStorage.getUser();
     final id = user?.userid;
-    if (id == null || id <= 0) throw StateError('Provider not found');
+    if (id == null || id <= 0) throw StateError(AppLanguageKeys.providerNotFound);
     return id;
   }
 

@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../../../../core/theming/colors.dart';
@@ -30,7 +31,7 @@ class FilterDesignOrderServicesType extends StatelessWidget {
         }
 
         if (state is GetProviderInternalOrderError) {
-          return Center(child: Text(state.message));
+          return Center(child: LocalizedText(state.message));
         }
 
         if (state is GetProviderInternalOrderSuccess) {

@@ -46,7 +46,7 @@ class CarModel {
 
   String getBrand(BuildContext context) {
     final isArabic =
-        LanguageCubit.get(context).isAllAppLanguageArabic;
+        LanguageCubit.isArabic(context);
 
     return isArabic
         ? (brandName ?? '')

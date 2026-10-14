@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sun_web_system/features/service_settings/data/model/get_products_by_category_model/product_model_get_products_by_category.dart';
@@ -18,7 +19,7 @@ class BrandOfSpareParts extends StatelessWidget {
     return SectionCard(
       title: AppLanguageKeys.selectCarBrand,
       child: brands.isEmpty
-          ? const Text('No brands available')
+          ? const LocalizedText(AppLanguageKeys.noBrandsAvailable)
           : Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: brands.map((brand) {

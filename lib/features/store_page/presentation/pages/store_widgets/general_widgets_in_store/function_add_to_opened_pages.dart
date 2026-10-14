@@ -12,6 +12,7 @@ Future<void> addToOpenedPages(
   if (shouldPop) {
     PageNodeWithIDModel pageNodeWithID = PageNodeWithIDModel(
       name: findPageByNumber(appCubit.selectedPageIndex, appPages)?.name ?? '',
+      latinName: findPageByNumber(appCubit.selectedPageIndex, appPages)?.latinName,
       number: appCubit.selectedPageIndex,
       page: findPageByNumber(appCubit.selectedPageIndex, appPages)?.page,
       id: ((appCubit.openedPages

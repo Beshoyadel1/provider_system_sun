@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -38,13 +39,13 @@ class RowMessageSupportWidget extends StatelessWidget {
                     spacing: 5,
                     children: [
                       TextInAppWidget(
-                        text:userName??'الأدمن',
+                        text:userName??AppLanguageKeys.admin,
                         textSize: 15,
                         fontWeightIndex: FontSelectionData.regularFontFamily,
                         textColor: AppColors.blackColor,
                       ),
                       TextInAppWidget(
-                        text:message?? 'تمام',
+                        text:message?? AppLanguageKeys.noComment,
                         textSize: 11,
                         fontWeightIndex: FontSelectionData.regularFontFamily,
                         textColor: AppColors.greyColor,

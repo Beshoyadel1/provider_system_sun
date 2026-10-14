@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:flutter/material.dart';
 import 'package:sun_web_system/features/petroleum_service/data/model/get_provider_petrol_sales_chart_model/petrol_chart_point.dart';
 import 'package:sun_web_system/features/petroleum_service/presentation/cubit/chart_cubit.dart';
@@ -26,7 +27,7 @@ class DigramForPetroleum extends StatelessWidget {
 
           if (state is PetrolChartError) {
             return Center(
-              child: Text(state.message),
+              child: LocalizedText(state.message),
             );
           }
 

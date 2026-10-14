@@ -23,9 +23,9 @@ class PartOfCategoryAndOffers extends StatelessWidget {
         SelectTimeProfitServiceWidget(
           hint: AppLanguageKeys.category,
           options: [
-            'تصنيف 1',
-            'تصنيف 2',
-            'تصنيف 3',
+            AppLanguageKeys.sampleCategoryOne,
+            AppLanguageKeys.sampleCategoryTwo,
+            AppLanguageKeys.sampleCategoryThree,
           ],
           backGroundColor: AppColors.whiteColor,
           textColor: AppColors.greyColor,
@@ -35,9 +35,9 @@ class PartOfCategoryAndOffers extends StatelessWidget {
         SelectTimeProfitServiceWidget(
           hint: AppLanguageKeys.storeOffers,
           options: [
-            'عروض المتجر 1',
-            'عروض المتجر 2',
-            'عروض المتجر 3',
+            AppLanguageKeys.sampleStoreOfferOne,
+            AppLanguageKeys.sampleStoreOfferTwo,
+            AppLanguageKeys.sampleStoreOfferThree,
           ],
           backGroundColor: AppColors.whiteColor,
           textColor: AppColors.greyColor,

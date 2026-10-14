@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/cars_haraj_page/data/datasource/get_car_brand_models_datasource/get_car_brand_repository.dart';
 import 'package:sun_web_system/features/service_settings/data/model/get_car_brand_models/car_model_data_model.dart';
@@ -54,7 +55,7 @@ class SelectCarModelSettingCubit
   String? validateAllWithMessage() {
     final brands = state.brands;
 
-    if (brands.isEmpty) return "No brands";
+    if (brands.isEmpty) return AppLanguageKeys.noBrandsAvailable;
 
     bool hasAny = false;
 
@@ -69,13 +70,13 @@ class SelectCarModelSettingCubit
       hasAny = true;
 
       if (input.selectedOption == null) {
-        return "Choose option for ${brand.name}";
+        return AppLanguageKeys.chooseBrandPricingOption;
       }
 
       if (input.selectedOption == 0) {
         if (input.unifiedPrice == null ||
             input.unifiedPrice!.trim().isEmpty) {
-          return "Enter price for ${brand.name}";
+          return AppLanguageKeys.enterSelectedItemPrice;
         }
       }
 
@@ -83,20 +84,20 @@ class SelectCarModelSettingCubit
         final models = getModelsForBrand(brandId);
 
         if (models.isEmpty) {
-          return "Models not loaded for ${brand.name}";
+          return AppLanguageKeys.loadSelectedBrandModels;
         }
 
         for (final model in models) {
           final price = input.modelPrices[model.id];
 
           if (price == null || price.trim().isEmpty) {
-            return "Enter price for ${model.name}";
+            return AppLanguageKeys.enterSelectedItemPrice;
           }
         }
       }
     }
 
-    if (!hasAny) return "Select at least one brand";
+    if (!hasAny) return AppLanguageKeys.selectAtLeastOneBrand;
 
     return null;
   }

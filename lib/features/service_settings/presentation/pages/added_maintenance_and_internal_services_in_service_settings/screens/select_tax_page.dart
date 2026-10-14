@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/language/language.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
@@ -24,6 +25,7 @@ class SelectTaxPage extends StatelessWidget {
 
         if (state is GetTaxSuccess) {
           return DropdownButtonFormField<int>(
+            errorBuilder: (context, message) => LocalizedValidationText(message),
             value: taxCubit.selectedTax?.taxId,
 
             items: taxCubit.taxes.map((tax) {

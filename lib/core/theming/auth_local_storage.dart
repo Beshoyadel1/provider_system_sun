@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:sun_web_system/core/utilies/birthdate.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../../../../../core/api/dio_function/api_constants.dart';
 import '../../../../../../features/auth_page/data/datasource/login_datasource/login_repository.dart';
@@ -155,7 +156,7 @@ class AuthLocalStorage {
     String? email,
     String? password,
     int? gender,
-    int? age,
+    DateTime? birthdate,
     int? type,
     String? nationality,
     bool? isActive,
@@ -208,6 +209,8 @@ class AuthLocalStorage {
       jsonDecode(savedData),
     );
 
+    data.remove('age');
+
     // =========================================================
     // CREATE USER
     // =========================================================
@@ -236,8 +239,8 @@ class AuthLocalStorage {
       data['gender'] = gender;
     }
 
-    if (age != null) {
-      data['age'] = age;
+    if (birthdate != null) {
+      data['birthdate'] = Birthdate.toJson(birthdate);
     }
 
     if (type != null) {

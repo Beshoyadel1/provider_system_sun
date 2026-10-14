@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/cubit/app_cubit/app_cubit.dart';
@@ -83,8 +84,7 @@ class ListViewAllWarranty extends StatelessWidget {
 
           if (state is WarrantyError) {
             return Center(
-              child: Text(
-                state.message,
+              child: LocalizedText(state.message,
               ),
             );
           }

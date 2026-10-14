@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -26,7 +27,7 @@ class SquareMapWidget extends StatelessWidget {
             context,
           ).showSnackBar(
             SnackBar(
-              content: Text(state.message),
+              content: LocalizedText(state.message),
             ),
           );
         }
@@ -56,7 +57,7 @@ class SquareMapWidget extends StatelessWidget {
         }
         if (state is LocationError) {
           return Center(
-            child: Text(state.message),
+            child: LocalizedText(state.message),
           );
         }
         return const SizedBox.shrink();

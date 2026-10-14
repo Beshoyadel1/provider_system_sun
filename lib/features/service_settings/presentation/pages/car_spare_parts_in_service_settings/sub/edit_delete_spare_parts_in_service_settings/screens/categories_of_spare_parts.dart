@@ -22,7 +22,7 @@ class CategoriesOfSpareParts extends StatelessWidget {
         spacing: 5,
         children: [
           TextInAppWidget(
-            text: categoryName.isEmpty ? 'No Category' : categoryName,
+            text: categoryName.isEmpty ? AppLanguageKeys.noCategory : categoryName,
             textSize: 14,
             fontWeightIndex: FontSelectionData.regularFontFamily,
             textColor: AppColors.blackColor,

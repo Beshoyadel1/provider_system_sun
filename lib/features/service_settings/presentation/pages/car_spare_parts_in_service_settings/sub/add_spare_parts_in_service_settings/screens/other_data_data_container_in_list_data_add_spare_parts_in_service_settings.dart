@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:sun_web_system/core/language/language_cubit/language_cubit.dart';
 import 'package:sun_web_system/features/store_page/presentation/bloc/branch_cubit/branch_cubit.dart';
 import 'product_money_field.dart';
@@ -146,7 +147,7 @@ class _OtherDataDataContainerInListDataAddSparePartsInServiceSettingsState
 
   @override
   Widget build(BuildContext context) {
-    final ar = LanguageCubit.get(context).isAllAppLanguageArabic;
+    final ar = LanguageCubit.isArabic(context);
     return LayoutBuilder(builder: (context, constraints) {
       return MultiBlocProvider(
         providers: [
@@ -376,7 +377,7 @@ class _OtherDataDataContainerInListDataAddSparePartsInServiceSettingsState
                                       ),
                                       if (field.hasError)
                                         TextInAppWidget(
-                                            text: field.errorText!,
+                                            text: localizedValidationMessage(context, field.errorText)!,
                                             textSize: 11,
                                             textColor: AppColors.redColor),
                                     ],

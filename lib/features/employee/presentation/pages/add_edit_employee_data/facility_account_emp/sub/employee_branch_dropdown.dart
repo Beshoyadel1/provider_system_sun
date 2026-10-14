@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
@@ -167,8 +168,7 @@ class EmployeeBranchDropdown extends StatelessWidget {
               if (state is BranchError && branches.isEmpty)
                 Padding(
                   padding: const EdgeInsets.only(top: 5),
-                  child: Text(
-                    state.message,
+                  child: LocalizedText(state.message,
                     style: const TextStyle(
                       color: AppColors.redColor,
                       fontSize: 12,

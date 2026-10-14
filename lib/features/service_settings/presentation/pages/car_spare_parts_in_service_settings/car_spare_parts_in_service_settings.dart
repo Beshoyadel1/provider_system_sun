@@ -12,10 +12,11 @@ import '../../../../../../core/theming/colors.dart';
 
 class CarSparePartsInServiceSettings extends StatefulWidget {
   final String textServiceScreen;
+  final String? latinTextServiceScreen;
   final Uint8List imageMemory;
 
   const CarSparePartsInServiceSettings(
-      {super.key, required this.textServiceScreen, required this.imageMemory});
+      {super.key, required this.textServiceScreen, this.latinTextServiceScreen, required this.imageMemory});
 
   @override
   State<CarSparePartsInServiceSettings> createState() =>
@@ -50,6 +51,7 @@ class _CarSparePartsInServiceSettingsState
                       child: ListDataCarSparePartsInServiceSettings(
                     key: ValueKey(_revision),
                     textServiceScreen: widget.textServiceScreen,
+                    latinTextServiceScreen: widget.latinTextServiceScreen,
                     imageMemory: widget.imageMemory,
                   )),
                 ),

@@ -550,7 +550,7 @@ class _WidgetDesignChatsHaragState
 
                 if (harageId == 0) {
                   AppSnackBar.showError(
-                    'Invalid Harage ID',
+                    AppLanguageKeys.invalidHarageId,
                   );
                   return;
                 }

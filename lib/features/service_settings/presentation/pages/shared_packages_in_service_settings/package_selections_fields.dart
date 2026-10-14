@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:flutter/material.dart';
 import 'package:sun_web_system/core/language/language_cubit/language_cubit.dart';
 import 'package:sun_web_system/core/theming/colors.dart';
@@ -39,7 +40,7 @@ class _PackageServicesFieldState extends State<PackageServicesField> {
 
   @override
   Widget build(BuildContext context) {
-    final ar = LanguageCubit.get(context).isAllAppLanguageArabic;
+    final ar = LanguageCubit.isArabic(context);
     return FutureBuilder<List<ServiceSettingModel>>(
       future: _services,
       builder: (context, snapshot) {
@@ -88,7 +89,7 @@ class _PackageServicesFieldState extends State<PackageServicesField> {
                       },
                     ),
                 ]),
-              if (field.hasError) _error(field.errorText!),
+              if (field.hasError) _error(localizedValidationMessage(context, field.errorText)!),
             ],
           ),
         );
@@ -144,7 +145,7 @@ class _PackageCarsFieldState extends State<PackageCarsField> {
 
   @override
   Widget build(BuildContext context) {
-    final ar = LanguageCubit.get(context).isAllAppLanguageArabic;
+    final ar = LanguageCubit.isArabic(context);
     return FormField<List<PackageCarSelection>>(
       validator: (_) => widget.cars.any(
                   (car) => (car.brandId ?? 0) <= 0 || car.modelIds.isEmpty) ||
@@ -292,7 +293,7 @@ class _PackageCarsFieldState extends State<PackageCarsField> {
                 ),
               ),
             ],
-            if (field.hasError) _error(field.errorText!),
+            if (field.hasError) _error(localizedValidationMessage(context, field.errorText)!),
           ],
         ),
       ),

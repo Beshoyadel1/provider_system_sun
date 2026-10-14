@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:sun_web_system/core/utilies/birthdate.dart';
 
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/employee_wrapper_request.dart';
 
@@ -15,7 +16,7 @@ class CreateUserEmpRequest {
   final String? email;
   final String? password;
   final int? gender;
-  final int? age;
+  final DateTime? birthdate;
   final int? type;
   final String? nationality;
   final bool? isActive;
@@ -38,7 +39,7 @@ class CreateUserEmpRequest {
     this.email,
     this.password,
     this.gender,
-    this.age,
+    this.birthdate,
     this.type,
     this.nationality,
     this.isActive,
@@ -70,7 +71,7 @@ class CreateUserEmpRequest {
 
       gender: json["gender"],
 
-      age: json["age"],
+      birthdate: Birthdate.parse(json["birthdate"]),
 
       type: json["type"],
 
@@ -170,8 +171,8 @@ class CreateUserEmpRequest {
       data["gender"] = gender;
     }
 
-    if (age != null) {
-      data["age"] = age;
+    if (birthdate != null) {
+      data["birthdate"] = Birthdate.toJson(birthdate!);
     }
 
     if (type != null) {

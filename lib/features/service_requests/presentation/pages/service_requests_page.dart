@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/language/language.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
@@ -376,24 +377,18 @@ class _ServiceRequestsViewState extends State<_ServiceRequestsView> {
 
   Future<void> _confirmDeleteOffer(ServiceRequestOffer offer) async {
     final confirmed = await _confirm(
-      title: _t('حذف العرض', 'Delete offer'),
-      message: _t(
-        'هل أنت متأكد من حذف هذا العرض؟',
-        'Are you sure you want to delete this offer?',
-      ),
-      confirmText: _t('حذف', 'Delete'),
+      title: AppLanguageKeys.deleteOffer,
+      message: AppLanguageKeys.confirmDeleteOffer,
+      confirmText: AppLanguageKeys.delete,
     );
     if (confirmed) await _cubit.deleteOffer(offer.id);
   }
 
   Future<void> _confirmRefuse() async {
     final confirmed = await _confirm(
-      title: _t('رفض الطلب', 'Refuse request'),
-      message: _t(
-        'لن يظهر الطلب لك مرة أخرى بعد الرفض. هل تريد المتابعة؟',
-        'This request will no longer appear after refusal. Continue?',
-      ),
-      confirmText: _t('رفض', 'Refuse'),
+      title: AppLanguageKeys.refuseRequest,
+      message: AppLanguageKeys.confirmRefuseRequest,
+      confirmText: AppLanguageKeys.refuse,
     );
     if (confirmed) await _cubit.refuseSelectedRequest();
   }
@@ -409,22 +404,22 @@ class _ServiceRequestsViewState extends State<_ServiceRequestsView> {
           builder: (context) => AlertDialog(
             backgroundColor: AppColors.whiteColor,
             surfaceTintColor: AppColors.whiteColor,
-            title: Text(title),
-            content: Text(message),
+            title: LocalizedText(title),
+            content: LocalizedText(message),
             actions: [
               TextButton(
                 style: TextButton.styleFrom(
                   foregroundColor: AppColors.darkGreyColor,
                 ),
                 onPressed: () => Navigator.pop(context, false),
-                child: Text(_t('إلغاء', 'Cancel')),
+                child: const LocalizedText(AppLanguageKeys.cancel),
               ),
               FilledButton(
                 style: FilledButton.styleFrom(
                   backgroundColor: AppColors.darkorangeColor,
                 ),
                 onPressed: () => Navigator.pop(context, true),
-                child: Text(confirmText),
+                child: LocalizedText(confirmText),
               ),
             ],
           ),

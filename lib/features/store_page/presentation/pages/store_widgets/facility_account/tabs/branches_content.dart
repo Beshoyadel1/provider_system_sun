@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/store_page/presentation/bloc/branch_cubit/branch_cubit.dart';
@@ -20,7 +21,7 @@ class BranchesContent extends StatelessWidget {
           }
 
           if (state is BranchError) {
-            return Center(child: Text(state.message));
+            return Center(child: LocalizedText(state.message));
           }
 
           if (state is BranchSuccess) {

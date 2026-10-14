@@ -1,3 +1,5 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:flutter/material.dart';
 
 Future<bool?> showBackDialog({required BuildContext context}) {
@@ -9,8 +11,7 @@ Future<bool?> showBackDialog({required BuildContext context}) {
         title: const SizedBox(
           width: 300,
           child: Center(
-            child: Text(
-              "Confirm_Exit",
+            child: LocalizedText(AppLanguageKeys.confirmExit,
               softWrap: true,
               textAlign: TextAlign.center,
             ),
@@ -20,8 +21,7 @@ Future<bool?> showBackDialog({required BuildContext context}) {
           height: 50,
           width: 300,
           child: Center(
-            child: Text(
-              "Are_You_Sure_To_Leave",
+            child: LocalizedText(AppLanguageKeys.areYouSureToLeave,
               softWrap: true,
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -37,11 +37,11 @@ Future<bool?> showBackDialog({required BuildContext context}) {
               children: [
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(true),
-                  child: Text("OK"),
+                  child: LocalizedText(AppLanguageKeys.okKey),
                 ),
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(false),
-                  child: Text("Cancel"),
+                  child: LocalizedText(AppLanguageKeys.cancel),
                 ),
               ]),
         ],

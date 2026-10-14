@@ -11,7 +11,7 @@ class IsNewSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ProductToggleField(
-        label: LanguageCubit.get(context).isAllAppLanguageArabic
+        label: LanguageCubit.isArabic(context)
             ? 'الحالة'
             : 'Condition',
         value: initialValue,

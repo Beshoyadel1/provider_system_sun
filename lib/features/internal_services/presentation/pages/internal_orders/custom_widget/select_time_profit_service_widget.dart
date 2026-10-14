@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../../features/employee/presentation/bloc/option_dashboard_cubit/option_dashboard_cubit.dart';
@@ -177,7 +178,7 @@ class _SelectTimeProfitServiceWidgetState
                           Padding(
                             padding: const EdgeInsets.only(top: 5),
                             child: TextInAppWidget(
-                              text: formFieldState.errorText!,
+                              text: localizedValidationMessage(context, formFieldState.errorText)!,
                               textColor: AppColors.redColor,
                               textSize: 12,
                             ),

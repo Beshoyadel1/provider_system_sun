@@ -784,7 +784,7 @@ class WarrantyDataViewState extends State<WarrantyDataView> {
 
     if (price == null) {
       AppSnackBar.showError(
-        'Invalid price',
+        AppLanguageKeys.invalidPrice,
       );
 
       return;
@@ -828,7 +828,7 @@ class WarrantyDataViewState extends State<WarrantyDataView> {
     if (durationValue == null ||
         durationValue <= 0) {
       AppSnackBar.showError(
-        'Invalid duration value',
+        AppLanguageKeys.invalidDurationValue,
       );
 
       return;
@@ -864,7 +864,7 @@ class WarrantyDataViewState extends State<WarrantyDataView> {
 
     if (id == null || id <= 0) {
       AppSnackBar.showError(
-        'Warranty ID is not available',
+        AppLanguageKeys.warrantyIdUnavailable,
       );
 
       return;
@@ -881,7 +881,7 @@ class WarrantyDataViewState extends State<WarrantyDataView> {
 
     if (price == null) {
       AppSnackBar.showError(
-        'Invalid price',
+        AppLanguageKeys.invalidPrice,
       );
 
       return;
@@ -914,7 +914,7 @@ class WarrantyDataViewState extends State<WarrantyDataView> {
     if (durationValue == null ||
         durationValue <= 0) {
       AppSnackBar.showError(
-        'Invalid duration value',
+        AppLanguageKeys.invalidDurationValue,
       );
 
       return;

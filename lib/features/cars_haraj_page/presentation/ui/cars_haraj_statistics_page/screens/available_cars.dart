@@ -72,7 +72,7 @@ class AvailableCars extends StatelessWidget {
                       fit: BoxFit.contain,
                     ),
               TextInAppWidget(
-                  text: brandName ?? 'نيسان',
+                  text: brandName ?? AppLanguageKeys.nissan,
                   textSize: 14,
                   textColor: AppColors.darkColor),
             ],

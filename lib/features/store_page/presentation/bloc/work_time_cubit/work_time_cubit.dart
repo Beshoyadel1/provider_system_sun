@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/theming/auth_local_storage.dart';
 import 'package:sun_web_system/features/store_page/data/datasource/delete_provider_work_time_datasource/delete_provider_work_time_repository.dart';
@@ -72,12 +73,12 @@ class UpdateWorkTimeCubit extends Cubit<WorkTimeState> {
     await _initUser();
 
     if (selectedDays.isEmpty) {
-      emit(WorkTimeError("Select at least one day"));
+      emit(WorkTimeError(AppLanguageKeys.selectAtLeastOneDay));
       return;
     }
 
     if (fromTime == null || toTime == null) {
-      emit(WorkTimeError("Select time"));
+      emit(WorkTimeError(AppLanguageKeys.selectTime));
       return;
     }
 
@@ -101,12 +102,12 @@ class UpdateWorkTimeCubit extends Cubit<WorkTimeState> {
     await _initUser();
 
     if (selectedDays.isEmpty) {
-      emit(WorkTimeError("Select at least one day"));
+      emit(WorkTimeError(AppLanguageKeys.selectAtLeastOneDay));
       return;
     }
 
     if (fromTime == null || toTime == null) {
-      emit(WorkTimeError("Select time"));
+      emit(WorkTimeError(AppLanguageKeys.selectTime));
       return;
     }
 

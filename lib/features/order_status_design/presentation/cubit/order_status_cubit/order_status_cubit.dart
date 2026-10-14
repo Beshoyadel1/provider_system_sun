@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
 import 'package:sun_web_system/core/theming/auth_local_storage.dart';
@@ -37,13 +38,13 @@ class OrderStatusCubit extends Cubit<OrderStatusState> {
     try {
       final user = await _userLoader();
       if (user?.userid == null || user!.userid! <= 0 || user.type == null) {
-        throw Exception('Please sign in again');
+        throw Exception(AppLanguageKeys.pleaseSignInAgain);
       }
-      if (orderId <= 0) throw Exception('Invalid order ID');
+      if (orderId <= 0) throw Exception(AppLanguageKeys.invalidOrderId);
       if (status == OrderStatus.waitingAppointment &&
           (selectedIds.isEmpty || selectedIds.any((id) => id <= 0))) {
         throw Exception(
-            'Select at least one employee before accepting the order');
+            AppLanguageKeys.selectEmployeeBeforeAccepting);
       }
       final request = UpdateOrderStatusRequest(
         orderId: orderId,
@@ -55,7 +56,7 @@ class OrderStatusCubit extends Cubit<OrderStatusState> {
       );
       final isSuccess = await _statusWriter(updateOrderStatusRequest: request);
       if (isClosed) return;
-      if (!isSuccess) throw Exception('Failed to update order status');
+      if (!isSuccess) throw Exception(AppLanguageKeys.failedToUpdateOrderStatus);
       _updates.add(NotificationPayload({
         'type': 'update_order_status',
         'orderId': orderId,

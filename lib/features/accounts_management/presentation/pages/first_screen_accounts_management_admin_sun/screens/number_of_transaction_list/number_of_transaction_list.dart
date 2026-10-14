@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:flutter/cupertino.dart';
 import '../../../../../../../core/language/language_constant.dart';
 import '../../../../../../../core/pages_widgets/general_widgets/custom_container.dart';
@@ -35,7 +36,7 @@ class NumberOfTransactionList extends StatelessWidget {
             }
 
             if (state is ProviderBalanceError) {
-              return const Text("Error loading transactions");
+              return const LocalizedText(AppLanguageKeys.errorLoadingTransactions);
             }
 
             if (state is ProviderBalanceSuccess) {

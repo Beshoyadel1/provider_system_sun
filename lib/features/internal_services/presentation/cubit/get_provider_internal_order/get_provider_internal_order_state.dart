@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'dart:async';
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/create_user_request.dart';
 import '../../../data/response/get_provider_orders_response/get_provider_orders_response.dart';
@@ -131,7 +132,7 @@ class GetProviderInternalOrderCubit
       if (isClosed || version != _loadVersion) return;
       if (user?.userid == null || user!.userid! <= 0) {
         if (!isClosed) {
-          emit(const GetProviderInternalOrderError("User not found"));
+          emit(const GetProviderInternalOrderError(AppLanguageKeys.userNotFound));
         }
         return;
       }

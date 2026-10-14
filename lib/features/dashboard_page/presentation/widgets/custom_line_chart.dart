@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:sun_web_system/features/dashboard_page/presentation/cubit/get_provider_orders_sales_cubit/get_provider_orders_sales_cubit.dart';
@@ -46,7 +47,7 @@ class _CustomLineChartState extends State<CustomLineChart> {
         if (state is GetProviderOrdersSalesError) {
           return SizedBox(
             height: 300,
-            child: Center(child: Text(state.message)),
+            child: Center(child: LocalizedText(state.message)),
           );
         }
 

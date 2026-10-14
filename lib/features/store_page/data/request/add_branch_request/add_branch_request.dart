@@ -42,13 +42,13 @@ class AddBranchRequest {
   }
 
   String? getBranchName(BuildContext context) {
-    final isArabic = LanguageCubit.get(context).isAllAppLanguageArabic;
+    final isArabic = LanguageCubit.isArabic(context);
 
     return isArabic ? branchName : branchLatinName;
   }
 
   String? getAddressText(BuildContext context) {
-    final isArabic = LanguageCubit.get(context).isAllAppLanguageArabic;
+    final isArabic = LanguageCubit.isArabic(context);
 
     return isArabic ? addressText : addressLatinText;
   }

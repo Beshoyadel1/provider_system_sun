@@ -1,6 +1,85 @@
 import '../../../../core/utilies/map_of_all_app.dart';
 
 class AppLanguageKeys {
+  static const String pageNotFound = 'pageNotFound';
+  static const String unknownLocation = 'unknownLocation';
+  static const String sampleCategoryOne = 'sampleCategoryOne';
+  static const String sampleCategoryTwo = 'sampleCategoryTwo';
+  static const String sampleCategoryThree = 'sampleCategoryThree';
+  static const String sampleStoreOfferOne = 'sampleStoreOfferOne';
+  static const String sampleStoreOfferTwo = 'sampleStoreOfferTwo';
+  static const String sampleStoreOfferThree = 'sampleStoreOfferThree';
+  static const String selectAtLeastOneBrand = 'selectAtLeastOneBrand';
+  static const String chooseBrandPricingOption = 'chooseBrandPricingOption';
+  static const String enterSelectedItemPrice = 'enterSelectedItemPrice';
+  static const String loadSelectedBrandModels = 'loadSelectedBrandModels';
+  static const String newNotification = 'newNotification';
+
+  static const String waitForServices = 'waitForServices';
+  static const String retryLoadingServices = 'retryLoadingServices';
+  static const String selectAtLeastOneService = 'selectAtLeastOneService';
+  static const String selectBrandAndModels = 'selectBrandAndModels';
+  static const String waitForBranches = 'waitForBranches';
+  static const String retryLoadingBranches = 'retryLoadingBranches';
+  static const String selectAtLeastOneBranch = 'selectAtLeastOneBranch';
+  static const String addStockBranch = 'addStockBranch';
+  static const String checkSelectedBranches = 'checkSelectedBranches';
+  static const String validNonNegativeQuantity = 'validNonNegativeQuantity';
+  static const String validNonNegativeAmount = 'validNonNegativeAmount';
+  static const String selectProductCategory = 'selectProductCategory';
+  static const String selectProductTax = 'selectProductTax';
+  static const String addAtLeastOneSize = 'addAtLeastOneSize';
+  static const String enterValidValue = 'enterValidValue';
+  static const String remainingFivePieces = 'remainingFivePieces';
+  static const String fiveThousandPoints = 'fiveThousandPoints';
+
+  static const String totalBalance = 'totalBalance';
+  static const String thisFieldRequired = 'thisFieldRequired';
+  static const String confirmExit = 'confirmExit';
+  static const String areYouSureToLeave = 'areYouSureToLeave';
+  static const String noBrandsAvailable = 'noBrandsAvailable';
+  static const String noCategory = 'noCategory';
+  static const String noDataAvailable = 'noDataAvailable';
+  static const String errorLoadingTransactions = 'errorLoadingTransactions';
+  static const String errorLoadingPackages = 'errorLoadingPackages';
+  static const String errorLoadingData = 'errorLoadingData';
+  static const String invalidPrice = 'invalidPrice';
+  static const String invalidDurationValue = 'invalidDurationValue';
+  static const String warrantyIdUnavailable = 'warrantyIdUnavailable';
+  static const String providerNotFound = 'providerNotFound';
+  static const String failedToApproveProvider = 'failedToApproveProvider';
+  static const String failedToGetWarranties = 'failedToGetWarranties';
+  static const String warrantyIdRequired = 'warrantyIdRequired';
+  static const String accountChanged = 'accountChanged';
+  static const String invalidOfferId = 'invalidOfferId';
+  static const String employeeNotSelected = 'employeeNotSelected';
+  static const String facilityDataNotReady = 'facilityDataNotReady';
+  static const String invalidHarageId = 'invalidHarageId';
+  static const String invalidUserInformation = 'invalidUserInformation';
+  static const String noBrandsWithModels = 'noBrandsWithModels';
+  static const String noModelsAvailable = 'noModelsAvailable';
+  static const String selectAtLeastOneDay = 'selectAtLeastOneDay';
+  static const String locationPermissionDenied = 'locationPermissionDenied';
+  static const String locationPermissionDeniedForever =
+      'locationPermissionDeniedForever';
+  static const String pleaseSignInAgain = 'pleaseSignInAgain';
+  static const String invalidOrderId = 'invalidOrderId';
+  static const String selectEmployeeBeforeAccepting =
+      'selectEmployeeBeforeAccepting';
+  static const String failedToUpdateOrderStatus = 'failedToUpdateOrderStatus';
+  static const String productIdRequired = 'productIdRequired';
+  static const String userPointsCount = 'userPointsCount';
+  static const String oilProductName = 'oilProductName';
+  static const String nissanAllModels = 'nissanAllModels';
+  static const String nissan = 'nissan';
+  static const String ariya = 'ariya';
+  static const String executiveDirector = 'executiveDirector';
+  static const String deleteOffer = 'deleteOffer';
+  static const String confirmDeleteOffer = 'confirmDeleteOffer';
+  static const String refuseRequest = 'refuseRequest';
+  static const String confirmRefuseRequest = 'confirmRefuseRequest';
+  static const String refuse = 'refuse';
+
   //status//
 
   static const String notSold = 'notSold';
@@ -290,7 +369,7 @@ class AppLanguageKeys {
       'phoneNumberAtLeastSixDigits';
   static const String createNewPassword = 'createNewPassword';
   static const String gender = 'gender';
-  static const String age = 'age';
+  static const String birthdate = 'birthdate';
 
   //end//
 
@@ -1196,7 +1275,7 @@ class AppLanguageKeys {
 
   ////Insurance////
   static const String insuranceOffers = 'insuranceOffers';
-  static const String insuranceOffersOnly = 'insuranceOffers';
+  static const String insuranceOffersOnly = 'insuranceOffersOnly';
   static const String comprehensiveInsurance = 'comprehensiveInsurance';
   static const String thirdPartyInsurance = 'thirdPartyInsurance';
   static const String bestOffer = 'bestOffer';

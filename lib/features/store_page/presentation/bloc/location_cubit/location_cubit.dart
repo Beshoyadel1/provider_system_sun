@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,7 +33,7 @@ class LocationCubit extends Cubit<LocationState> {
 
       bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
-        emit(LocationError("Location service disabled"));
+        emit(LocationError(AppLanguageKeys.locationServiceDisabled));
         return;
       }
 
@@ -40,13 +41,13 @@ class LocationCubit extends Cubit<LocationState> {
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
-          emit(LocationError("Permission denied"));
+          emit(LocationError(AppLanguageKeys.locationPermissionDenied));
           return;
         }
       }
 
       if (permission == LocationPermission.deniedForever) {
-        emit(LocationError("Permission denied forever"));
+        emit(LocationError(AppLanguageKeys.locationPermissionDeniedForever));
         return;
       }
 
@@ -78,7 +79,7 @@ class LocationCubit extends Cubit<LocationState> {
           data["address"]["village"] ??
           "Unknown location";
     } else {
-      return "Unknown location";
+      return AppLanguageKeys.unknownLocation;
     }
   }
 
@@ -100,7 +101,7 @@ class LocationCubit extends Cubit<LocationState> {
           final displayName = data[0]["display_name"];
           emit(LocationLoaded(LatLng(lat, lon), displayName));
         } else {
-          emit(LocationError("Location not found"));
+          emit(LocationError(AppLanguageKeys.locationNotFound));
         }
       }
     } catch (e) {

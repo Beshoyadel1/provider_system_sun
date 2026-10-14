@@ -116,15 +116,11 @@ class ProductModelGetProductsByCategory {
   }
 
   String getName(BuildContext context) {
-    final isArabic = LanguageCubit.get(context).isAllAppLanguageArabic;
-
-    return isArabic ? (name ?? "") : (latinName ?? "");
+    return LanguageCubit.localizedValue(context, name, latinName);
   }
 
   String getDescription(BuildContext context) {
-    final isArabic = LanguageCubit.get(context).isAllAppLanguageArabic;
-
-    return isArabic ? (description ?? "") : (latinDesc ?? "");
+    return LanguageCubit.localizedValue(context, description, latinDesc);
   }
 }
 
@@ -158,9 +154,7 @@ class BrandModel {
   }
 
   String getBrandName(BuildContext context) {
-    final isArabic = LanguageCubit.get(context).isAllAppLanguageArabic;
-
-    return isArabic ? (brandName ?? "") : (brandLatinName ?? "");
+    return LanguageCubit.localizedValue(context, brandName, brandLatinName);
   }
 }
 

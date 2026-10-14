@@ -9,9 +9,10 @@ import '../../../../../core/theming/colors.dart';
 
 class PetrolInServiceSettings extends StatelessWidget {
   final String textServiceScreen;
+  final String? latinTextServiceScreen;
   final Uint8List imageMemory;
   const PetrolInServiceSettings(
-      {super.key, required this.textServiceScreen, required this.imageMemory});
+      {super.key, required this.textServiceScreen, this.latinTextServiceScreen, required this.imageMemory});
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +35,7 @@ class PetrolInServiceSettings extends StatelessWidget {
                         child: ListDataPetrolInServiceSettings(
                           imageMemory: imageMemory,
                           textServiceScreen: textServiceScreen,
+                    latinTextServiceScreen: latinTextServiceScreen,
                         ))),
               ),
             ],

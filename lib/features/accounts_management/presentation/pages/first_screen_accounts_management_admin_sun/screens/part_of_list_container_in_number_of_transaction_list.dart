@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:flutter/cupertino.dart';
 import '../../../../../../core/pages_widgets/general_widgets/custom_container.dart';
 import '../../../../../../features/accounts_management/presentation/custom_widget/design_container_image_with_two_text_widget.dart';
@@ -25,8 +26,8 @@ class PartOfListContainerInFirstScreenAccountsManagementAdminSun extends Statele
             borderRadius: BorderRadius.circular(12),
             typeWidget: const DesignContainerImageWithTwoTextWidget(
               imagePath: AppImageKeys.account_sun2,
-              title: 'عدد النقاط للمستخدم',
-              subTitle: ' 5000 نقطة ',
+              title: AppLanguageKeys.userPointsCount,
+              subTitle: AppLanguageKeys.fiveThousandPoints,
             ),
           );
         },

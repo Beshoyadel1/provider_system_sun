@@ -13,7 +13,7 @@ class AddSparePartsInServiceSettings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ar = LanguageCubit.get(context).isAllAppLanguageArabic;
+    final ar = LanguageCubit.isArabic(context);
     return Scaffold(
       backgroundColor: AppColors.scaffoldColor,
       appBar: AppBar(

@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/theming/auth_local_storage.dart';
 import '../../../../../../../features/accounts_management/data/datasource/get_provider_balance_details_datasource/get_provider_balance_details_repository.dart';
@@ -16,7 +17,7 @@ class ProviderBalanceCubit extends Cubit<ProviderBalanceState> {
       final user = await AuthLocalStorage.getUser();
 
       if (user == null) {
-        emit(ProviderBalanceError("User not found"));
+        emit(ProviderBalanceError(AppLanguageKeys.userNotFound));
         return;
       }
 
@@ -29,7 +30,7 @@ class ProviderBalanceCubit extends Cubit<ProviderBalanceState> {
       );
 
       if (data == null) {
-        emit(ProviderBalanceError("No data"));
+        emit(ProviderBalanceError(AppLanguageKeys.noDataAvailable));
         return;
       }
 

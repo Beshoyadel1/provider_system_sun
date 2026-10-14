@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../../../../../../core/pages_widgets/general_widgets/custom_container.dart';
@@ -27,7 +28,7 @@ class ButtonWithTextIcon extends StatelessWidget {
             size: 24,
           ),
           TextInAppWidget(
-            text: text??'sss',
+            text: text??AppLanguageKeys.empty,
             textSize: 15,
             textColor: AppColors.whiteColor,
             fontWeightIndex: FontSelectionData.semiBoldFontFamily,

@@ -180,7 +180,7 @@ class CreateProvServiceCubit extends Cubit<CreateProvServiceState> {
           ? await _providerIdLoader()
           : (await AuthLocalStorage.getUser())?.userid;
       if (providerId == null || providerId <= 0) {
-        throw StateError('Provider not found');
+        throw StateError(AppLanguageKeys.providerNotFound);
       }
 
       final updatedRequest = CreateProvServiceRequest(

@@ -12,7 +12,7 @@ class ProductInventoryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ar = LanguageCubit.get(context).isAllAppLanguageArabic;
+    final ar = LanguageCubit.isArabic(context);
     final hasSizes = product.sizes.isNotEmpty;
     return Container(
       padding: const EdgeInsets.all(16),
@@ -103,7 +103,7 @@ class _SizeStockCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ar = LanguageCubit.get(context).isAllAppLanguageArabic;
+    final ar = LanguageCubit.isArabic(context);
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -210,7 +210,7 @@ class ProductBranchStockTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ar = LanguageCubit.get(context).isAllAppLanguageArabic;
+    final ar = LanguageCubit.isArabic(context);
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: DecoratedBox(

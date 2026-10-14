@@ -282,7 +282,8 @@ void getPages(BuildContext context,  int branchId) {
           (service) {
             final serviceId = service.id ?? 0;
         return PageNodeModel(
-          name: service.getName(context),
+          name: service.name ?? '',
+          latinName: service.latinName,
           imageUint8List: service.image,
           number: service.id ?? 0,
           children: [

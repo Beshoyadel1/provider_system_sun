@@ -10,9 +10,10 @@ import 'package:sun_web_system/features/store_page/presentation/bloc/branch_cubi
 
 class ListDataCarSparePartsInServiceSettings extends StatelessWidget {
   final String textServiceScreen;
+  final String? latinTextServiceScreen;
   final Uint8List imageMemory;
   const ListDataCarSparePartsInServiceSettings(
-      {super.key, required this.textServiceScreen, required this.imageMemory});
+      {super.key, required this.textServiceScreen, this.latinTextServiceScreen, required this.imageMemory});
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +40,7 @@ class ListDataCarSparePartsInServiceSettings extends StatelessWidget {
           ],
           child: DataContainerInListDataCarSparePartsInServiceSettings(
             textServiceScreen: textServiceScreen,
+                    latinTextServiceScreen: latinTextServiceScreen,
             imageMemory: imageMemory,
           )),
     );

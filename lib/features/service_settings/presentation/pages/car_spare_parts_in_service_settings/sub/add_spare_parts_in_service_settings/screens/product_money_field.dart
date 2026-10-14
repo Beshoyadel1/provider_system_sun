@@ -10,7 +10,7 @@ class ProductMoneyField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ar = LanguageCubit.get(context).isAllAppLanguageArabic;
+    final ar = LanguageCubit.isArabic(context);
     return ProductTextField(
       label: cost ? (ar ? 'التكلفة' : 'Cost') : (ar ? 'السعر' : 'Price'),
       controller: controller,

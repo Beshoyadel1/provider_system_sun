@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'dart:typed_data';
 import 'package:sun_web_system/core/pages_widgets/general_widgets/memory_image_with_fallback.dart';
 import 'package:flutter/cupertino.dart';
@@ -61,7 +62,7 @@ class FirstRowInDataContainerInListDataEditDeleteSparePartsInServiceSettings
       spacing: 10,
       children: [
         TextInAppWidget(
-          text: nameProduct??'أسم قطع غيار',
+          text: nameProduct??AppLanguageKeys.partName,
           textSize: 16,
           fontWeightIndex: FontSelectionData.mediumFontFamily,
           textColor: AppColors.blackColor,

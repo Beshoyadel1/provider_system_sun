@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,10 +15,11 @@ import 'product_branch_filter.dart';
 class DataContainerInListDataCarSparePartsInServiceSettings
     extends StatelessWidget {
   final String textServiceScreen;
+  final String? latinTextServiceScreen;
   final Uint8List imageMemory;
 
   const DataContainerInListDataCarSparePartsInServiceSettings(
-      {super.key, required this.textServiceScreen, required this.imageMemory});
+      {super.key, required this.textServiceScreen, this.latinTextServiceScreen, required this.imageMemory});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class DataContainerInListDataCarSparePartsInServiceSettings
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           IconCarOrangeTextOfAddedMaintenanceAndInternalServices(
-            text: textServiceScreen,
+            text: LanguageCubit.localizedValue(context, textServiceScreen, latinTextServiceScreen),
             imageMemory: imageMemory,
           ),
           const ProductBranchFilter(),
@@ -74,9 +76,9 @@ class DataContainerInListDataCarSparePartsInServiceSettings
               }
 
               if (state is GetAllProductCategoriesError) {
-                final ar = LanguageCubit.get(context).isAllAppLanguageArabic;
+                final ar = LanguageCubit.isArabic(context);
                 return Column(children: [
-                  Text(state.error),
+                  LocalizedText(state.error),
                   TextButton(
                     onPressed: context
                         .read<GetAllProductCategoriesCubit>()

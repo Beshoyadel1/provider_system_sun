@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:sun_web_system/core/language/language.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:sun_web_system/core/language/language_cubit/language_cubit.dart';
@@ -122,6 +123,7 @@ class ProductTextField extends StatelessWidget {
   Widget build(BuildContext context) => ProductFieldLabel(
         label: label,
         child: TextFormField(
+          errorBuilder: (context, message) => LocalizedValidationText(message),
           controller: controller,
           minLines: lines,
           maxLines: lines,
@@ -159,6 +161,7 @@ class ProductDropdownField<T> extends StatelessWidget {
   Widget build(BuildContext context) => ProductFieldLabel(
         label: label,
         child: DropdownButtonFormField<T>(
+          errorBuilder: (context, message) => LocalizedValidationText(message),
           key: ValueKey(value),
           initialValue: value,
           isDense: true,
@@ -376,7 +379,7 @@ class ProductImagePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ar = LanguageCubit.get(context).isAllAppLanguageArabic;
+    final ar = LanguageCubit.isArabic(context);
     final placeholder = Center(
       child: Column(mainAxisSize: MainAxisSize.min, children: [
         const Icon(Icons.add_photo_alternate_outlined,

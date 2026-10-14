@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sun_web_system/features/rates/data/model/get_provider_details_rates_model/rate_item.dart';
 import 'package:sun_web_system/features/rates/presentation/pages/first_screen_rates/screens/container_review_data_person_design/container_review_data_person_design.dart';
@@ -25,7 +26,7 @@ class MobileListDataContainerReviewDataPersonDesign extends StatelessWidget {
           imagePathPerson:
           rates[index].userImage ?? AppImageKeys.person22,
           date: rates[index].username ?? '',
-          textWithDate: 'مركز صيانة جيد',
+          textWithDate: AppLanguageKeys.noComment,
           rate: rates[index].rate ?? 0,
           textReview: rates[index].message ?? '',
         );

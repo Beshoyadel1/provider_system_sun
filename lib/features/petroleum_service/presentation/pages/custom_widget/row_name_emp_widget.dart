@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:flutter/cupertino.dart';
 import '../../../../../../../../core/theming/assets.dart';
 import '../../../../../../../../core/theming/colors.dart';
@@ -30,7 +31,7 @@ class RowNameEmpWidget extends StatelessWidget {
           spacing: 5,
           children: [
             TextInAppWidget(
-              text: title ?? 'أسم العامل',
+              text: title ?? AppLanguageKeys.employeeName,
               textSize: textSizeTitle ?? 9,
               fontWeightIndex: FontSelectionData.regularFontFamily,
               textColor: textColorTitle ?? AppColors.greyColor,

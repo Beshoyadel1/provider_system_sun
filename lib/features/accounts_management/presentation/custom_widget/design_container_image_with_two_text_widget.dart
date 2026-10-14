@@ -61,7 +61,7 @@ class DesignContainerImageWithTwoTextWidget extends StatelessWidget {
             height: imageContainerHeight,
           ),
           TitleWithSubTitle(
-            title: title ?? 'أجمالي الارصدة ',
+            title: title ?? AppLanguageKeys.totalBalance,
             subTitle: subTitle ?? '50000 ${AppLocalizations.of(context).translate(AppLanguageKeys.sar)}',
             textSizeTitle: textSizeTitle ?? 15,
             textSizeSubTitle: textSizeSubTitle ?? 14,

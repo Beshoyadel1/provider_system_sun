@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/theming/auth_local_storage.dart';
 import '../../../../../../../features/accounts_management/data/datasource/get_package_datasource/get_package_repository.dart';
@@ -15,7 +16,7 @@ class PackageCubit extends Cubit<PackageState> {
       final user = await AuthLocalStorage.getUser();
 
       if (user == null) {
-        emit(PackageError("User not found"));
+        emit(PackageError(AppLanguageKeys.userNotFound));
         return;
       }
 

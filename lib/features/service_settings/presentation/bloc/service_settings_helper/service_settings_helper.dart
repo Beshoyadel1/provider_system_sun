@@ -24,7 +24,7 @@ class ServiceSettingsHelper {
     return isArabic ? service.name ?? '' : service.latinName ?? '';
   }
 
-  static void handleNavigation(BuildContext context, int? id ,String textServiceScreen, Uint8List? imageMemory) {
+  static void handleNavigation(BuildContext context, int? id ,String textServiceScreen, Uint8List? imageMemory, [String? latinTextServiceScreen]) {
     switch (id) {
       case 1:
         Navigator.push(
@@ -32,7 +32,8 @@ class ServiceSettingsHelper {
           NavigateToPageWidget(
             AddedMaintenanceAndInternalServicesInServiceSettings(
               imageMemory: imageMemory!,
-              textServiceScreen:textServiceScreen ,
+              textServiceScreen: textServiceScreen,
+              latinTextServiceScreen: latinTextServiceScreen,
             ),
           ),
         );
@@ -44,7 +45,8 @@ class ServiceSettingsHelper {
           NavigateToPageWidget(
              InternalMaintenanceAndServicesInServiceSettings(
               imageMemory: imageMemory!,
-              textServiceScreen:textServiceScreen ,
+              textServiceScreen: textServiceScreen,
+              latinTextServiceScreen: latinTextServiceScreen,
             ),
           ),
         );
@@ -56,7 +58,8 @@ class ServiceSettingsHelper {
           NavigateToPageWidget(
              CarSparePartsInServiceSettings(
                imageMemory: imageMemory!,
-               textServiceScreen:textServiceScreen ,
+               textServiceScreen: textServiceScreen,
+              latinTextServiceScreen: latinTextServiceScreen,
              ),
           ),
         );
@@ -75,7 +78,8 @@ class ServiceSettingsHelper {
           NavigateToPageWidget(
              PetrolInServiceSettings(
                imageMemory: imageMemory!,
-               textServiceScreen:textServiceScreen ,
+               textServiceScreen: textServiceScreen,
+              latinTextServiceScreen: latinTextServiceScreen,
              ),
           ),
         );

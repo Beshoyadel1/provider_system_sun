@@ -10,9 +10,10 @@ import '../../../../../../core/theming/colors.dart';
 class ListDataAddedMaintenanceAndInternalServicesInServiceSettings
     extends StatelessWidget {
   final String textServiceScreen;
+  final String? latinTextServiceScreen;
   final Uint8List imageMemory;
   const ListDataAddedMaintenanceAndInternalServicesInServiceSettings(
-      {super.key,required this.textServiceScreen,required this.imageMemory});
+      {super.key,required this.textServiceScreen, this.latinTextServiceScreen,required this.imageMemory});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,8 @@ class ListDataAddedMaintenanceAndInternalServicesInServiceSettings
       child: BlocProvider(
           create: (_) => ServiceSettingsCubit()..getServices(parentId: 1),
            child: DataContainerInListDataAddedMaintenanceAndInternalServicesInServiceSettings(
-             textServiceScreen:textServiceScreen ,
+             textServiceScreen:textServiceScreen,
+                    latinTextServiceScreen: latinTextServiceScreen,
              imageMemory:imageMemory ,
            )
       ),

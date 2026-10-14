@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
@@ -122,7 +123,7 @@ class _BankAccountContentState extends State<BankAccountContent> {
 
             if (state is AuthUpdateError) {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.error)),
+                SnackBar(content: LocalizedText(state.error)),
               );
             }
           },

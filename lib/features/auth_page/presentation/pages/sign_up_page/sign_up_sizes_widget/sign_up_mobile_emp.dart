@@ -6,6 +6,7 @@ import 'package:sun_web_system/features/auth_page/data/model/create_user_model/c
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/provider_details_request.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:sun_web_system/core/pages_widgets/general_widgets/snakbar.dart';
+import 'package:sun_web_system/core/utilies/birthdate.dart';
 import 'package:sun_web_system/core/theming/assets.dart';
 import 'package:sun_web_system/core/theming/colors.dart';
 import 'package:sun_web_system/core/theming/fonts.dart';
@@ -33,6 +34,7 @@ class _SignUpMobileEmpState extends State<SignUpMobileEmp> {
       TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
+  final TextEditingController birthdateController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
@@ -80,6 +82,7 @@ class _SignUpMobileEmpState extends State<SignUpMobileEmp> {
     facilityLatinNameController.dispose();
     phoneController.dispose();
     emailController.dispose();
+    birthdateController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
     super.dispose();
@@ -153,6 +156,11 @@ class _SignUpMobileEmpState extends State<SignUpMobileEmp> {
                       text: AppLanguageKeys.emailKey,
                       validator: _emailValidator,
                       showValidationMessage: true,
+                    ),
+                    UserTextFieldWidget(
+                      type: UserFieldType.birthdate,
+                      controller: birthdateController,
+                      text: AppLanguageKeys.birthdate,
                     ),
                     UserTextFieldWidget(
                       type: UserFieldType.password,
@@ -253,6 +261,9 @@ class _SignUpMobileEmpState extends State<SignUpMobileEmp> {
                                             username: username,
                                             phone: phone,
                                             email: email,
+                                            birthdate: Birthdate.parse(
+                                              birthdateController.text,
+                                            ),
                                             password: password,
                                             type: UserType.providerUser,
                                             providerDetails:

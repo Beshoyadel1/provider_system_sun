@@ -17,7 +17,7 @@ class SizesOfSpareParts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isArabic =
-        LanguageCubit.get(context).isAllAppLanguageArabic;
+        LanguageCubit.isArabic(context);
 
     return SectionCard(
       title: isArabic ? 'الأحجام' : 'Sizes',

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/language/language.dart';
 import '../../core/language/language_cubit/language_cubit.dart';
-import '../../core/setup_git_it.dart';
 import '../pages_widgets/general_widgets/font_selection.dart';
 
 class TextInAppWidget extends StatefulWidget {
@@ -46,7 +45,6 @@ class TextInAppWidget extends StatefulWidget {
 }
 
 class _TextInAppWidgetState extends State<TextInAppWidget> {
-  final LanguageCubit _languageCubit = getIt<LanguageCubit>();
 
   @override
   Widget build(BuildContext context) {
@@ -64,10 +62,10 @@ class _TextInAppWidgetState extends State<TextInAppWidget> {
                 ? TextOverflow.ellipsis
                 : null,
             fontSize: widget.textSize != null
-                ? (_languageCubit.isAllAppLanguageArabic
+                ? (LanguageCubit.isArabic(context)
                     ? widget.textSize
                     : widget.textSize! - 2)
-                : (_languageCubit.isAllAppLanguageArabic
+                : (LanguageCubit.isArabic(context)
                     ? size.width * 0.05
                     : size.width * 0.04),
             fontWeight:

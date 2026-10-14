@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,7 +20,7 @@ class ProductStocksEditor extends StatefulWidget {
 class _ProductStocksEditorState extends State<ProductStocksEditor> {
   @override
   Widget build(BuildContext context) {
-    final ar = LanguageCubit.get(context).isAllAppLanguageArabic;
+    final ar = LanguageCubit.isArabic(context);
     return BlocBuilder<BranchCubit, BranchState>(builder: (context, state) {
       final cubit = context.read<BranchCubit>();
       final branches = {
@@ -198,7 +199,7 @@ class _ProductStocksEditorState extends State<ProductStocksEditor> {
               Padding(
                   padding: const EdgeInsets.only(top: 6),
                   child: TextInAppWidget(
-                      text: field.errorText!,
+                      text: localizedValidationMessage(context, field.errorText)!,
                       textSize: 11,
                       textColor: AppColors.redColor)),
           ],

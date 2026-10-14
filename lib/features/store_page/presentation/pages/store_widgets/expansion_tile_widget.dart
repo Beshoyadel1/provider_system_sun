@@ -64,7 +64,7 @@ class _ExpansionTileWidgetState extends State<ExpansionTileWidget> {
                 ),
               Expanded(
                 child: TextInAppWidget(
-                  text: widget.pages.name,
+                  text: widget.pages.getName(context),
                   textSize: 14,
                   textColor: widget.pages.number == _appCubit.selectedPageIndex
                       ? AppColors.secondaryColor

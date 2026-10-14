@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/dashboard_page/presentation/cubit/get_provider_total_rate_and_employee_and_balance_cubit/get_provider_total_rate_and_employee_and_balance_cubit.dart';
@@ -49,7 +50,7 @@ class EmployeesPerformance extends StatelessWidget {
                 }
 
                 if (state is GetProviderTotalRateAndEmployeeAndBalanceError) {
-                  return const Text("Error");
+                  return const LocalizedText(AppLanguageKeys.errorLoadingData);
                 }
 
                 if (state is GetProviderTotalRateAndEmployeeAndBalanceSuccess) {

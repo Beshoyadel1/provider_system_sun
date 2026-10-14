@@ -16,7 +16,7 @@ class SelectProductCategory extends StatelessWidget {
       BlocBuilder<GetAllProductCategoriesCubit, GetAllProductCategoriesState>(
         builder: (context, state) {
           final cubit = context.read<GetAllProductCategoriesCubit>();
-          final ar = LanguageCubit.get(context).isAllAppLanguageArabic;
+          final ar = LanguageCubit.isArabic(context);
           if (state is GetAllProductCategoriesLoading ||
               state is GetAllProductCategoriesInitial) {
             return ProductFieldLabel(

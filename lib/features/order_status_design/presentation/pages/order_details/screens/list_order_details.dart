@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:flutter/material.dart';
 import '../../../../data/model/order_employee_assignment.dart';
 import '../../../../../../../../../features/order_status_design/presentation/cubit/order_status_cubit/order_status_cubit.dart';
@@ -48,7 +49,7 @@ class ListOrderDetails extends StatelessWidget {
           if (state is OrderStatusError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(state.message),
+                content: LocalizedText(state.message),
               ),
             );
           }
@@ -68,8 +69,7 @@ class ListOrderDetails extends StatelessWidget {
               return Center(
                 child: Padding(
                   padding: const EdgeInsets.all(40),
-                  child: Text(
-                    state.message,
+                  child: LocalizedText(state.message,
                     textAlign: TextAlign.center,
                   ),
                 ),

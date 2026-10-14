@@ -122,7 +122,7 @@ class _FacilityAccountCheckState extends State<FacilityAccountCheck> {
 
                                                 if (dataState == null) {
                                                   AppSnackBar.showError(
-                                                    'Facility data is not ready',
+                                                    AppLanguageKeys.facilityDataNotReady,
                                                   );
 
                                                   return;

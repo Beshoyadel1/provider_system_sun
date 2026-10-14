@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/theming/auth_local_storage.dart';
 import 'package:sun_web_system/features/service_settings/presentation/bloc/prov_services_cubit/prov_services_state.dart';
@@ -59,7 +60,7 @@ class ProvServicesCubit extends Cubit<ProvServicesState> {
 
     final user = await AuthLocalStorage.getUser();
     final id = user?.userid;
-    if (id == null || id <= 0) throw StateError('Provider not found');
+    if (id == null || id <= 0) throw StateError(AppLanguageKeys.providerNotFound);
     return id;
   }
 

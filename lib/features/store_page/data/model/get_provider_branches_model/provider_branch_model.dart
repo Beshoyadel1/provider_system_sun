@@ -49,12 +49,10 @@ class ProviderBranchModel {
   }
 
   String getBranchName(BuildContext context) {
-    final isArabic = LanguageCubit.get(context).isAllAppLanguageArabic;
-    return isArabic ? (branchName ?? "") : (branchLatinName ?? "");
+    return LanguageCubit.localizedValue(context, branchName, branchLatinName);
   }
 
   String getAddressText(BuildContext context) {
-    final isArabic = LanguageCubit.get(context).isAllAppLanguageArabic;
-    return isArabic ? (addressText ?? "") : (addressLatinText ?? "");
+    return LanguageCubit.localizedValue(context, addressText, addressLatinText);
   }
 }

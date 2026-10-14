@@ -1,4 +1,6 @@
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/core/language/localized_text.dart';
 
 import '../../../../core/setup_git_it.dart';
 import '../../../../core/theming/auth_local_storage.dart';
@@ -82,7 +84,7 @@ class _ServiceOfferDialogState extends State<ServiceOfferDialog> {
       final user = await AuthLocalStorage.getUser();
       final providerId = user?.userid;
       if (providerId == null || providerId <= 0) {
-        throw Exception('User not found');
+        throw Exception(AppLanguageKeys.userNotFound);
       }
 
       final branchCubit = getIt<BranchCubit>();
@@ -359,6 +361,7 @@ class _ServiceOfferDialogState extends State<ServiceOfferDialog> {
     required String label,
   }) {
     return TextFormField(
+      errorBuilder: (context, message) => LocalizedValidationText(message),
       controller: controller,
       cursorColor: AppColors.orangeColor,
       keyboardType: const TextInputType.numberWithOptions(decimal: true),

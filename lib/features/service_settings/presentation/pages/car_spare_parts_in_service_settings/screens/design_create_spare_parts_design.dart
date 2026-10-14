@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
@@ -27,9 +28,9 @@ class DesignCreateSparePartsDesign extends StatelessWidget {
         }
 
         if (state is GetProductsByCategoryError) {
-          final ar = LanguageCubit.get(context).isAllAppLanguageArabic;
+          final ar = LanguageCubit.isArabic(context);
           return Column(children: [
-            Text(state.message),
+            LocalizedText(state.message),
             TextButton(
               onPressed: () => cubit.getProductsByCategory(
                   categoryId: categoryId, branchId: branchId),
@@ -82,8 +83,7 @@ class DesignCreateSparePartsDesign extends StatelessWidget {
                                 : "",
                             nameProduct: item.getName(context),
                             stock: item.displayStock.toString(),
-                            stockLabel: LanguageCubit.get(context)
-                                    .isAllAppLanguageArabic
+                            stockLabel: LanguageCubit.isArabic(context)
                                 ? 'إجمالي المخزون'
                                 : 'Total stock',
                             priceProduct: (item.price ?? 0).toString(),

@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/language/language_constant.dart';
@@ -103,12 +104,12 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final ar = LanguageCubit.get(context).isAllAppLanguageArabic;
+    final ar = LanguageCubit.isArabic(context);
     return BlocListener<ProviderPackagesCubit, ProviderPackagesState>(
       listener: (context, state) {
         if (state is ProviderPackagesError) {
           ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(state.message)));
+              .showSnackBar(SnackBar(content: LocalizedText(state.message)));
         }
         if (state is ProviderPackagesCreateSuccess ||
             state is ProviderPackagesUpdateSuccess) {
@@ -339,7 +340,7 @@ class _CreatePackageDialogState extends State<CreatePackageDialog> {
     final taxCubit = context.read<GetTaxCubit>();
     final tax = taxCubit.selectedTax;
     if (taxCubit.state is! GetTaxSuccess || tax == null) {
-      final ar = LanguageCubit.get(context).isAllAppLanguageArabic;
+      final ar = LanguageCubit.isArabic(context);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: TextInAppWidget(
           text: ar ? 'اختر الضريبة بعد تحميلها' : 'Select a tax after loading',

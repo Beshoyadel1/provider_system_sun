@@ -1,3 +1,5 @@
+import 'package:sun_web_system/core/language/language_cubit/language_cubit.dart';
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,10 +12,11 @@ import '../../../../../../features/service_settings/presentation/pages/added_mai
 
 class DataContainerInListDataPetrolInServiceSettings extends StatelessWidget {
   final String textServiceScreen;
+  final String? latinTextServiceScreen;
   final Uint8List imageMemory;
 
   const DataContainerInListDataPetrolInServiceSettings(
-      {super.key, required this.textServiceScreen, required this.imageMemory});
+      {super.key, required this.textServiceScreen, this.latinTextServiceScreen, required this.imageMemory});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +27,7 @@ class DataContainerInListDataPetrolInServiceSettings extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           IconCarOrangeTextOfAddedMaintenanceAndInternalServices(
-            text: textServiceScreen,
+            text: LanguageCubit.localizedValue(context, textServiceScreen, latinTextServiceScreen),
             imageMemory: imageMemory,
           ),
           BlocBuilder<ServiceSettingsCubit, ServiceSettingsState>(
@@ -38,7 +41,7 @@ class DataContainerInListDataPetrolInServiceSettings extends StatelessWidget {
               }
 
               if (state is ServiceSettingsError) {
-                return Text(state.message);
+                return LocalizedText(state.message);
               }
               if (state is ServiceSettingsSuccess) {
                 return Column(

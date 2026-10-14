@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../features/notifications/presentation/pages/notification_bell/notification_bell.dart';
 import '../../../../../core/cubit/app_cubit/app_cubit.dart';
@@ -37,7 +38,7 @@ class _AppBarForPageState extends State<AppBarForPage> {
         .firstOrNull;
 
     if (page != null) {
-      return page.name;
+      return page.getName(context);
     }
 
     // Search children pages
@@ -47,11 +48,11 @@ class _AppBarForPageState extends State<AppBarForPage> {
           .firstOrNull;
 
       if (child != null) {
-        return child.name;
+        return child.getName(context);
       }
     }
 
-    return 'Page Not Found';
+    return AppLanguageKeys.pageNotFound;
   }
 
   void _handleResponsiveMenu(bool isMobile) {

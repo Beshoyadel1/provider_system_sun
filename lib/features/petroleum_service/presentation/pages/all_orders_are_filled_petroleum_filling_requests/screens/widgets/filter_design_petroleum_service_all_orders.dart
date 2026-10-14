@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/internal_services/presentation/cubit/get_provider_internal_order/get_provider_internal_order_cubit.dart';
@@ -25,7 +26,7 @@ class FilterDesignPetroleumServiceAllOrders extends StatelessWidget {
         }
 
         if (state is GetProviderInternalOrderError) {
-          return Center(child: Text(state.message));
+          return Center(child: LocalizedText(state.message));
         }
 
         if (state is GetProviderInternalOrderSuccess) {
