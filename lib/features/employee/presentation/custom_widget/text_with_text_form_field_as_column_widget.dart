@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:sun_web_system/core/pages_widgets/text_form_field_widget.dart';
 import 'package:sun_web_system/core/theming/colors.dart';
 import 'package:sun_web_system/core/theming/fonts.dart';
 import 'package:sun_web_system/core/theming/text_styles.dart';
 import 'package:sun_web_system/features/employee/presentation/bloc/option_dashboard_cubit/option_dashboard_cubit.dart';
-
+import 'package:sun_web_system/features/auth_page/presentation/pages/login_page/login_widgets/user_text_field_widget.dart';
 
 class TextWithTextFormFieldAsColumnWidget extends StatelessWidget {
   final String text, hint;
   final List<String>? options;
   final TextEditingController textFormController = TextEditingController();
   final int? maxLines;
+  final bool isPhone;
   final double? textFormWidth, textFormHeight, borderRadius, textSize;
 
   TextWithTextFormFieldAsColumnWidget(
@@ -20,6 +20,7 @@ class TextWithTextFormFieldAsColumnWidget extends StatelessWidget {
       required this.text,
       required this.hint,
       this.options,
+      this.isPhone = false,
       this.maxLines,
       this.textFormWidth,
       this.textFormHeight,
@@ -39,81 +40,92 @@ class TextWithTextFormFieldAsColumnWidget extends StatelessWidget {
             textColor: AppColors.blackColor,
           ),
           const SizedBox(height: 8),
-          options != null && options!.isNotEmpty
-              ? BlocProvider(
-                  create: (_) => OptionDashboardCubit(),
-                  child: BlocBuilder<OptionDashboardCubit, String?>(
-                    buildWhen: (previous, current) => previous != current,
-                    builder: (context, selectedOption) {
-                      return SizedBox(
-                        height: textFormHeight ?? 35,
-                        child: InputDecorator(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.circular(borderRadius ?? 25),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 8),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<String>(
-                              dropdownColor: AppColors.whiteColor,
-                              isExpanded: true,
-                              value: selectedOption,
-                              hint: TextInAppWidget(
-                                text: hint,
-                                textSize: 13,
-                                fontWeightIndex:
-                                    FontSelectionData.regularFontFamily,
-                                textColor: AppColors.darkColor.withOpacity(0.4),
+          if (isPhone)
+            PhoneTextField(
+              controller: textFormController,
+              height: textFormHeight ?? 35,
+              fillColor: AppColors.transparent,
+              borderColor: AppColors.darkColor.withValues(alpha: 0.2),
+              showValidationMessage: true,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+            )
+          else
+            options != null && options!.isNotEmpty
+                ? BlocProvider(
+                    create: (_) => OptionDashboardCubit(),
+                    child: BlocBuilder<OptionDashboardCubit, String?>(
+                      buildWhen: (previous, current) => previous != current,
+                      builder: (context, selectedOption) {
+                        return SizedBox(
+                          height: textFormHeight ?? 35,
+                          child: InputDecorator(
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.circular(borderRadius ?? 25),
                               ),
-                              items: options!
-                                  .map(
-                                    (option) => DropdownMenuItem(
-                                      value: option,
-                                      child: TextInAppWidget(
-                                        text: option,
-                                        textSize: 13,
-                                        fontWeightIndex:
-                                            FontSelectionData.regularFontFamily,
-                                        textColor: AppColors.blackColor,
+                              contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 8),
+                            ),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton<String>(
+                                dropdownColor: AppColors.whiteColor,
+                                isExpanded: true,
+                                value: selectedOption,
+                                hint: TextInAppWidget(
+                                  text: hint,
+                                  textSize: 13,
+                                  fontWeightIndex:
+                                      FontSelectionData.regularFontFamily,
+                                  textColor: AppColors.darkColor
+                                      .withValues(alpha: 0.4),
+                                ),
+                                items: options!
+                                    .map(
+                                      (option) => DropdownMenuItem(
+                                        value: option,
+                                        child: TextInAppWidget(
+                                          text: option,
+                                          textSize: 13,
+                                          fontWeightIndex: FontSelectionData
+                                              .regularFontFamily,
+                                          textColor: AppColors.blackColor,
+                                        ),
                                       ),
-                                    ),
-                                  )
-                                  .toList(),
-                              onChanged: (value) {
-                                context
-                                    .read<OptionDashboardCubit>()
-                                    .selectOption(value);
-                                textFormController.text = value ?? "";
-                              },
+                                    )
+                                    .toList(),
+                                onChanged: (value) {
+                                  context
+                                      .read<OptionDashboardCubit>()
+                                      .selectOption(value);
+                                  textFormController.text = value ?? "";
+                                },
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
+                  )
+                : TextFormFieldWidget(
+                    textFormController: textFormController,
+                    fillColor: AppColors.transparent,
+                    borderColor: AppColors.darkColor.withValues(alpha: 0.2),
+                    hintText: hint,
+                    hintTextSize: 11,
+                    hintTextColor: AppColors.darkColor.withValues(alpha: 0.4),
+                    textSize: 11,
+                    contentPadding: const EdgeInsetsGeometry.all(5),
+                    textFormHeight: maxLines != null && maxLines! > 1
+                        ? null
+                        : (textFormHeight ?? 35),
+                    maxLines: maxLines,
+                    textFormWidth: textFormWidth,
+                    focusedBorderRadius:
+                        BorderRadius.circular(borderRadius ?? 15),
+                    enabledBorderRadius:
+                        BorderRadius.circular(borderRadius ?? 15),
                   ),
-                )
-              : TextFormFieldWidget(
-                  textFormController: textFormController,
-                  fillColor: AppColors.transparent,
-                  borderColor: AppColors.darkColor.withOpacity(0.2),
-                  hintText: hint,
-                  hintTextSize: 11,
-                  hintTextColor: AppColors.darkColor.withOpacity(0.4),
-                  textSize: 11,
-                  contentPadding: EdgeInsetsGeometry.all(5),
-                  textFormHeight: maxLines != null && maxLines! > 1
-                      ? null
-                      : (textFormHeight ?? 35),
-                  maxLines: maxLines,
-                  textFormWidth: textFormWidth,
-                  focusedBorderRadius:
-                      BorderRadius.circular(borderRadius ?? 15),
-                  enabledBorderRadius:
-                      BorderRadius.circular(borderRadius ?? 15),
-                ),
         ],
       ),
     );

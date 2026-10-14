@@ -2,11 +2,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_cubit.dart';
-import 'package:sun_web_system/features/auth_page/presentation/pages/auth_gate.dart';
 import 'package:sun_web_system/features/logout_dashboard/presentation/first_screen_logout_dashboard/screens/first_part_in_logout_dashboard.dart';
 import 'package:sun_web_system/features/logout_dashboard/presentation/first_screen_logout_dashboard/screens/last_two_button_in_logout_dashboard.dart';
-import '../../../../../../features/auth_page/presentation/pages/login_page/login_page.dart';
-import '../../../../../../core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
 import '../../../../../../core/theming/colors.dart';
 
 class LogoutDashboard extends StatelessWidget {
@@ -32,16 +29,13 @@ class LogoutDashboard extends StatelessWidget {
             children: [
               const FirstPartInLogoutDashboard(),
               LastTwoButtonInLogoutDashboard(
-                  onTapConfirm: () async {
-                    await context.read<AuthCubit>().logout(context);
-                    if (context.mounted) {
-                      Navigator.push(
-                        context,
-                        NavigateToPageWidget(const AuthGate()),
-                      );
-                    }
-                  },
-                onTapCancel: (){
+                onTapConfirm: () async {
+                  await context.read<AuthCubit>().logout();
+                  if (context.mounted) {
+                    Navigator.of(context).popUntil((route) => route.isFirst);
+                  }
+                },
+                onTapCancel: () {
                   Navigator.pop(context);
                 },
               ),

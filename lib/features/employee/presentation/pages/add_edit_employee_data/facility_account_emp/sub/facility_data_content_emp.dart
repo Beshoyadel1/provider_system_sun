@@ -183,6 +183,8 @@ class _FacilityDataContentEmpState extends State<FacilityDataContentEmp> {
 
     if (current == null) return;
 
+    if (!(_formKey.currentState?.validate() ?? false)) return;
+
     final facilityCubit = context.read<FacilityTabCubit>();
 
     final serviceCubit = context.read<ServicePermissionCubit>();

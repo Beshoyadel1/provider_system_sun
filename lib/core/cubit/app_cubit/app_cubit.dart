@@ -109,6 +109,24 @@ class AppCubit extends Cubit<AppStates> {
 
   List<PageNodeWithIDModel> openedPages = [];
 
+  Future<void> resetSession() async {
+    selectedPageIndex = PagesOfAllApp.dashboardPageNumber;
+    selectedPageFromOpenedPagesIndex = -1;
+    _pendingFacilityAccountTabIndex = null;
+    openedPages.clear();
+    data.clear();
+    isMenuOpen = true;
+    emit(ChangeSelectedPageIndexState());
+
+    final prefs = await SharedPreferences.getInstance();
+    // Saved page drafts use concatenated numeric page/id keys. Language is
+    // an application preference and is retained when changing accounts.
+    final draftKeys = prefs.getKeys().where(RegExp(r'^\d+-?\d+$').hasMatch);
+    for (final key in draftKeys.toList()) {
+      await prefs.remove(key);
+    }
+  }
+
   void navigateToPage(int pageNumber) {
     selectedPageIndex = pageNumber;
     selectedPageFromOpenedPagesIndex = -1;

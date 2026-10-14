@@ -7,6 +7,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
 import 'package:sun_web_system/core/services/fcm_service.dart';
 import 'package:sun_web_system/core/theming/auth_local_storage.dart';
+import 'package:sun_web_system/core/cubit/app_cubit/app_cubit.dart';
+import 'package:sun_web_system/core/setup_git_it.dart';
+import 'package:sun_web_system/features/store_page/presentation/bloc/branch_cubit/branch_cubit.dart';
+import 'package:sun_web_system/features/auth_page/data/model/login_model/login_result.dart';
 import 'package:sun_web_system/features/auth_page/data/datasource/send_verification_code_datasource/send_verification_code_datasource.dart';
 import 'package:sun_web_system/features/auth_page/data/datasource/update_user_datasource/update_user_repository.dart';
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/provider_details_request.dart';
@@ -31,8 +35,55 @@ enum OtpPurpose {
   signup,
 }
 
+typedef AuthLoginHandler = Future<LoginResult> Function({
+  required LoginRequest loginRequest,
+});
+
+typedef AuthNotificationInitializer = Future<void> Function({
+  required int userId,
+  required int userType,
+  String? registeredToken,
+});
+
 class AuthCubit extends Cubit<AuthState> {
-  AuthCubit() : super(AuthInitial());
+  AuthCubit({
+    AuthLoginHandler? loginHandler,
+    Future<String> Function()? tokenLoader,
+    AuthNotificationInitializer? notificationInitializer,
+    Future<void> Function()? notificationDisconnector,
+  })  : _loginHandler = loginHandler ?? loginFunction,
+        _tokenLoader = tokenLoader ??
+            (() =>
+                FcmService.instance.getToken(vapidKey: FcmConfig.webVapidKey)),
+        _notificationInitializer =
+            notificationInitializer ?? FcmService.instance.init,
+        _notificationDisconnector =
+            notificationDisconnector ?? FcmService.instance.disconnect,
+        super(AuthInitial());
+
+  final AuthLoginHandler _loginHandler;
+  final Future<String> Function() _tokenLoader;
+  final AuthNotificationInitializer _notificationInitializer;
+  final Future<void> Function() _notificationDisconnector;
+  Future<void>? _logoutFuture;
+
+  bool _isCurrentSession(int revision) =>
+      !isClosed && AuthLocalStorage.isCurrentSession(revision);
+
+  void _resetTemporaryData() {
+    _checkUser = null;
+    phoneNumber = '';
+    _timer?.cancel();
+    _pendingSignup = null;
+    verificationEmail = verificationPhone = null;
+    otpCode = '';
+    _otpPurpose = null;
+    _isOtpVerified = isOtpError = false;
+    _isResendingOtp = _isCompletingSignup = _isStartingSignup = false;
+    secondsRemaining = 0;
+    isPasswordVisible = isConfirmPasswordVisible = false;
+    _isConfirmPasswordObscure = true;
+  }
 
   static AuthCubit get(context) => BlocProvider.of(context);
 
@@ -68,22 +119,25 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> init() async {
+    await _logoutFuture;
+    if (isClosed) return;
+    final revision = AuthLocalStorage.beginSession();
+    _resetTemporaryData();
     emit(AuthLoading());
-
-    // Pre-fetch FCM token in the background so it is ready before user logs in
-    unawaited(FcmService.instance.getToken(vapidKey: FcmConfig.webVapidKey));
 
     final localUser = await AuthLocalStorage.getUser();
     final password = await AuthLocalStorage.getPassword();
 
-    if (localUser == null || password == null) {
+    if (!_isCurrentSession(revision)) return;
+    if (localUser == null || password == null || localUser.email == null) {
       emit(AuthUnauthenticated());
       return;
     }
 
-    final fcmToken = await FcmService.instance.getToken(vapidKey: FcmConfig.webVapidKey);
+    final fcmToken = await _tokenLoader();
+    if (!_isCurrentSession(revision)) return;
 
-    final result = await loginFunction(
+    final result = await _loginHandler(
       loginRequest: LoginRequest(
         user: localUser.email!,
         password: password,
@@ -91,20 +145,27 @@ class AuthCubit extends Cubit<AuthState> {
         fcmToken: fcmToken.isNotEmpty ? fcmToken : null,
       ),
     );
+    if (!_isCurrentSession(revision)) return;
 
     // Login API failed
     if (!result.success || result.user == null) {
-      await _forceLogout();
+      await _forceLogout(revision);
       return;
     }
 
     final apiUser = result.user!;
 
+    if (!await AuthLocalStorage.saveSession(apiUser, password,
+        revision: revision)) {
+      return;
+    }
+    if (!_isCurrentSession(revision)) return;
+
     print("INIT => Local user == API user");
 
     // Initialize FCM and sync token with backend
     try {
-      await FcmService.instance.init(
+      await _notificationInitializer(
         userId: apiUser.userid ?? 0,
         userType: apiUser.type ?? UserType.providerUser,
         registeredToken: fcmToken,
@@ -112,27 +173,44 @@ class AuthCubit extends Cubit<AuthState> {
     } catch (e) {
       debugPrint("FCM Init Note: $e");
     }
+    if (!_isCurrentSession(revision)) return;
 
     // Check facility completion
     await _checkFacilityCompletion(apiUser);
   }
 
-  Future<void> _forceLogout() async {
-    await AuthLocalStorage.clearUser();
-    await AuthLocalStorage.clearPassword();
+  Future<void> _forceLogout(int revision) async {
+    if (!_isCurrentSession(revision)) return;
+    _resetTemporaryData();
+    if (!await AuthLocalStorage.clearSession(revision: revision)) return;
+    if (!_isCurrentSession(revision)) return;
 
     try {
-      await FcmService.instance.disconnect();
+      await _notificationDisconnector();
     } catch (_) {}
+    if (!_isCurrentSession(revision)) return;
+
+    if (getIt.isRegistered<AppCubit>()) {
+      await getIt<AppCubit>().resetSession();
+    }
+    if (getIt.isRegistered<BranchCubit>()) {
+      getIt<BranchCubit>().reset();
+    }
+    if (!_isCurrentSession(revision)) return;
 
     emit(AuthUnauthenticated());
   }
 
   Future<void> login(LoginRequest request) async {
+    await _logoutFuture;
+    if (isClosed) return;
+    final revision = AuthLocalStorage.beginSession();
+    _resetTemporaryData();
     emit(AuthLoginLoading());
 
     // Retrieve or confirm current FCM token before login API call
-    final fcmToken = await FcmService.instance.getToken(vapidKey: FcmConfig.webVapidKey);
+    final fcmToken = await _tokenLoader();
+    if (!_isCurrentSession(revision)) return;
     final String? tokenToSend = fcmToken.isNotEmpty ? fcmToken : null;
 
     final effectiveRequest = LoginRequest(
@@ -146,9 +224,10 @@ class AuthCubit extends Cubit<AuthState> {
       print("AuthCubit: Login called with FCM Token => $tokenToSend");
     }
 
-    final result = await loginFunction(
+    final result = await _loginHandler(
       loginRequest: effectiveRequest,
     );
+    if (!_isCurrentSession(revision)) return;
 
     if (!result.success || result.user == null) {
       emit(
@@ -161,14 +240,15 @@ class AuthCubit extends Cubit<AuthState> {
 
     final apiUser = result.user!;
 
-    // First login → save API user
-    await AuthLocalStorage.saveUser(apiUser);
-    // Save password for auto-login after restart
-    await AuthLocalStorage.savePassword(effectiveRequest.password);
+    if (!await AuthLocalStorage.saveSession(apiUser, effectiveRequest.password,
+        revision: revision)) {
+      return;
+    }
+    if (!_isCurrentSession(revision)) return;
 
     // Initialize FCM and sync token with backend
     try {
-      await FcmService.instance.init(
+      await _notificationInitializer(
         userId: apiUser.userid ?? 0,
         userType: apiUser.type ?? UserType.providerUser,
         registeredToken: tokenToSend,
@@ -176,6 +256,7 @@ class AuthCubit extends Cubit<AuthState> {
     } catch (e) {
       debugPrint("FCM Init Note: $e");
     }
+    if (!_isCurrentSession(revision)) return;
 
     emit(
       AuthLoginSuccess(
@@ -186,13 +267,18 @@ class AuthCubit extends Cubit<AuthState> {
     await _checkFacilityCompletion(apiUser);
   }
 
-  Future<void> logout(BuildContext context) async {
+  Future<void> logout() {
+    return _logoutFuture ??= _logout();
+  }
+
+  Future<void> _logout() async {
+    final revision = AuthLocalStorage.beginSession();
     emit(AuthLoading());
-    _forceLogout();
-    // if (context.mounted) {
-    //   Navigator.pop(context);
-    // }
-    emit(AuthUnauthenticated());
+    try {
+      await _forceLogout(revision);
+    } finally {
+      _logoutFuture = null;
+    }
   }
 
   Future<void> _checkFacilityCompletion(CreateUserRequest user) async {
@@ -211,7 +297,9 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> reCheckFacility() async {
+    final revision = AuthLocalStorage.sessionRevision;
     final user = _checkUser ?? await AuthLocalStorage.getUser();
+    if (!_isCurrentSession(revision)) return;
 
     if (user == null) {
       print("RECHECK => AuthUnauthenticated");
@@ -249,7 +337,9 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> checkAuth() async {
+    final revision = AuthLocalStorage.sessionRevision;
     final isLoggedIn = await AuthLocalStorage.isLoggedIn();
+    if (!_isCurrentSession(revision)) return;
     if (state is AuthUpdateLoading || state is AuthUpdateSuccess) {
       return;
     }
@@ -269,11 +359,13 @@ class AuthCubit extends Cubit<AuthState> {
     CreateUserRequest request,
   ) async {
     if (isClosed) return false;
+    final revision = AuthLocalStorage.sessionRevision;
 
     emit(AuthUpdateLoading());
 
     try {
       final oldUser = await AuthLocalStorage.getUser();
+      if (!_isCurrentSession(revision)) return false;
 
       if (oldUser == null) {
         emit(
@@ -375,13 +467,17 @@ class AuthCubit extends Cubit<AuthState> {
         createUserRequest: mergedRequest,
       );
 
-      if (isClosed) {
+      if (!_isCurrentSession(revision)) {
         return false;
       }
       if (result.success) {
-        await AuthLocalStorage.saveUser(
+        if (!await AuthLocalStorage.saveUser(
           mergedRequest,
-        );
+          revision: revision,
+        )) {
+          return false;
+        }
+        if (!_isCurrentSession(revision)) return false;
 
         emit(
           AuthUpdateSuccess(
@@ -404,7 +500,7 @@ class AuthCubit extends Cubit<AuthState> {
 
       return false;
     } catch (e) {
-      if (isClosed) {
+      if (!_isCurrentSession(revision)) {
         return false;
       }
 
@@ -825,6 +921,7 @@ class AuthCubit extends Cubit<AuthState> {
     if (isClosed) return;
 
     emit(ChangePasswordLoading());
+    final revision = AuthLocalStorage.sessionRevision;
 
     try {
       final result = await changePasswordFunction(
@@ -835,12 +932,15 @@ class AuthCubit extends Cubit<AuthState> {
         ),
       );
 
-      if (isClosed) return;
+      if (!_isCurrentSession(revision)) return;
 
       if (result.success) {
         if (updateStoredPassword) {
-          await AuthLocalStorage.savePassword(password);
-          if (isClosed) return;
+          if (!await AuthLocalStorage.savePassword(password,
+              revision: revision)) {
+            return;
+          }
+          if (!_isCurrentSession(revision)) return;
         }
         emit(
           ChangePasswordSuccess(
@@ -855,7 +955,7 @@ class AuthCubit extends Cubit<AuthState> {
         );
       }
     } catch (e) {
-      if (isClosed) return;
+      if (!_isCurrentSession(revision)) return;
 
       emit(
         ChangePasswordError(

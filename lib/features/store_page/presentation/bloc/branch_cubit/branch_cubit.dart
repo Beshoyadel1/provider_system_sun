@@ -15,9 +15,21 @@ class BranchCubit extends Cubit<BranchState> {
   final Set<int> _pendingDeletedBranchIds = <int>{};
 
   int? myUserId;
+  int _session = 0;
+
+  void reset() {
+    _session++;
+    myUserId = null;
+    branches = [];
+    _pendingDeletedBranchIds.clear();
+    selectedBranchId = 0;
+    if (!isClosed) emit(BranchInitial());
+  }
 
   Future<void> _initUser() async {
+    final session = _session;
     final user = await AuthLocalStorage.getUser();
+    if (isClosed || session != _session) throw StateError('Session changed');
     final userId = user?.userid;
     if (userId == null) {
       throw Exception('User not found');
@@ -34,8 +46,10 @@ class BranchCubit extends Cubit<BranchState> {
   int selectedBranchId = 0;
 
   Future<void> getProviderBranches({bool fromSubmit = false}) async {
+    final session = _session;
     try {
       await _initUser();
+      if (isClosed || session != _session) return;
       emit(BranchLoading());
 
       final fetchedBranches = await getProviderBranchesFunction(
@@ -43,6 +57,8 @@ class BranchCubit extends Cubit<BranchState> {
           providerId: myUserId!,
         ),
       );
+
+      if (isClosed || session != _session) return;
 
       // A read immediately after a successful soft delete can briefly return
       // stale active data. Keep deleted branches hidden until the API confirms
@@ -66,6 +82,7 @@ class BranchCubit extends Cubit<BranchState> {
         ),
       );
     } catch (e) {
+      if (isClosed || session != _session) return;
       final error = e.toString().replaceAll(
             "Exception: ",
             "",

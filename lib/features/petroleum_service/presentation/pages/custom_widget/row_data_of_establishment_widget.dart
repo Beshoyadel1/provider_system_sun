@@ -4,6 +4,7 @@ import '../../../../../../../core/language/language_constant.dart';
 
 class RowDataOfEstablishmentWidget extends StatelessWidget {
   final String? text1, text2, text3, text4, hint1, hint2, hint3, hint4;
+  final bool secondFieldIsPhone;
 
   const RowDataOfEstablishmentWidget(
       {super.key,
@@ -11,6 +12,7 @@ class RowDataOfEstablishmentWidget extends StatelessWidget {
       this.hint1,
       this.text2,
       this.hint2,
+      this.secondFieldIsPhone = false,
       this.text3,
       this.hint3,
       this.text4,
@@ -29,6 +31,7 @@ class RowDataOfEstablishmentWidget extends StatelessWidget {
         TextWithTextFormFieldAsColumnWidget(
           text: text2 ?? AppLanguageKeys.establishmentNameEn,
           hint: hint2 ?? '',
+          isPhone: secondFieldIsPhone,
           textFormHeight: 30,
         ),
         TextWithTextFormFieldAsColumnWidget(

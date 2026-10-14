@@ -36,6 +36,7 @@ class UserTextFieldWidget extends StatelessWidget {
     this.validator,
     this.showValidationMessage = false,
     this.showPasswordVisibilityToggle = false,
+    this.phoneAutovalidateMode = AutovalidateMode.disabled,
   });
   final void Function(String)? onChanged;
   final TextEditingController controller;
@@ -55,6 +56,7 @@ class UserTextFieldWidget extends StatelessWidget {
   final String? Function(String?)? validator;
   final bool showValidationMessage;
   final bool showPasswordVisibilityToggle;
+  final AutovalidateMode phoneAutovalidateMode;
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +89,7 @@ class UserTextFieldWidget extends StatelessWidget {
             controller: controller,
             aboveText: text,
             height: fieldHeight,
+            autovalidateMode: phoneAutovalidateMode,
             validator: validator,
             showValidationMessage: showValidationMessage,
             borderColor: borderColor ?? AppColors.darkGreyColor,
@@ -428,6 +431,7 @@ class PhoneTextField extends StatelessWidget {
     this.fillColor = AppColors.whiteColor,
     this.focusedBorderColor = AppColors.darkGreyColor,
     this.showValidationMessage = false,
+    this.autovalidateMode = AutovalidateMode.disabled,
   });
   final void Function(String)? onChanged;
   final String? Function(String?)? validator;
@@ -440,6 +444,7 @@ class PhoneTextField extends StatelessWidget {
   final Color fillColor;
   final Color focusedBorderColor;
   final bool showValidationMessage;
+  final AutovalidateMode autovalidateMode;
 
   @override
   Widget build(BuildContext context) {
@@ -465,6 +470,7 @@ class PhoneTextField extends StatelessWidget {
           ),
         FormField<String>(
           initialValue: controller.text,
+          autovalidateMode: autovalidateMode,
           validator: (value) {
             final number = value?.trim() ?? '';
             final result = validator?.call(number);
@@ -487,7 +493,7 @@ class PhoneTextField extends StatelessWidget {
               initialCountryCode: 'SA',
               languageCode: Localizations.localeOf(context).languageCode,
               disableLengthCheck: false,
-              autovalidateMode: AutovalidateMode.disabled,
+              autovalidateMode: autovalidateMode,
               readOnly: isReadOnly,
               keyboardType: TextInputType.number,
               inputFormatters: [

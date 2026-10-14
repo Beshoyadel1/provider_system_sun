@@ -1,8 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import '../../../../custom_widget/column_text_with_container_establishment_data_widget.dart';
-import '../../../../../../../../core/theming/colors.dart';
-import '../../../../../../../../core/theming/fonts.dart';
-import '../../../../../../../../core/theming/text_styles.dart';
 import '../../../../custom_widget/row_data_of_establishment_widget.dart';
 import '../../../../../../../../core/language/language_constant.dart';
 
@@ -11,7 +8,7 @@ class DataViewEstablishmentData extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       spacing: 20,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -24,6 +21,7 @@ class DataViewEstablishmentData extends StatelessWidget {
         RowDataOfEstablishmentWidget(
           text1: AppLanguageKeys.password,
           text2: AppLanguageKeys.phoneNumber,
+          secondFieldIsPhone: true,
           text3: AppLanguageKeys.commercialRegistration,
           text4: AppLanguageKeys.taxNumber,
         ),

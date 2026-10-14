@@ -8,6 +8,30 @@ import '../../../../../../features/auth_page/data/model/create_user_model/create
 
 class AuthLocalStorage {
   static const FlutterSecureStorage _storage = FlutterSecureStorage();
+  static int _sessionRevision = 0;
+  static Future<void> _pendingWrites = Future<void>.value();
+
+  static int get sessionRevision => _sessionRevision;
+
+  static int beginSession() => ++_sessionRevision;
+
+  static bool isCurrentSession(int revision) => revision == _sessionRevision;
+
+  // Serialize credential writes and deletion so an older write cannot finish
+  // after logout or leave a user paired with another account's password.
+  static Future<bool> _writeForSession(
+    int revision,
+    Future<void> Function() write,
+  ) {
+    final result = _pendingWrites.then((_) async {
+      if (!isCurrentSession(revision)) return false;
+      await write();
+      return isCurrentSession(revision);
+    });
+    _pendingWrites =
+        result.then<void>((_) {}, onError: (Object _, StackTrace __) {});
+    return result;
+  }
 
   static const String userKey = "user_data";
   static const String passwordKey = "password";
@@ -28,14 +52,32 @@ class AuthLocalStorage {
     await _storage.delete(key: fcmTokenKey);
   }
 
-  static Future<void> saveUser(CreateUserRequest user) async {
-    await _storage.write(
-      key: userKey,
-      value: jsonEncode(user.toJson()),
-    );
+  static Future<bool> saveSession(
+    CreateUserRequest user,
+    String password, {
+    required int revision,
+  }) {
+    return _writeForSession(revision, () async {
+      await _storage.write(key: userKey, value: jsonEncode(user.toJson()));
+      await _storage.write(key: passwordKey, value: password);
+    });
+  }
+
+  static Future<bool> clearSession({required int revision}) {
+    return _writeForSession(revision, () async {
+      await _storage.delete(key: userKey);
+      await _storage.delete(key: passwordKey);
+    });
+  }
+
+  static Future<bool> saveUser(CreateUserRequest user, {int? revision}) {
+    return _writeForSession(revision ?? sessionRevision, () async {
+      await _storage.write(key: userKey, value: jsonEncode(user.toJson()));
+    });
   }
 
   static Future<CreateUserRequest?> getUser() async {
+    await _pendingWrites;
     final data = await _storage.read(key: userKey);
 
     if (data == null || data.isEmpty) return null;
@@ -44,58 +86,58 @@ class AuthLocalStorage {
   }
 
   static Future<bool> isLoggedIn() async {
+    await _pendingWrites;
     final data = await _storage.read(key: userKey);
     return data != null && data.isNotEmpty;
   }
 
   static Future<void> clearUser() async {
-    await _storage.delete(key: userKey);
+    await _writeForSession(
+        sessionRevision, () => _storage.delete(key: userKey));
   }
 
-  static Future<void> savePassword(String password) async {
-    await _storage.write(
-      key: passwordKey,
-      value: password,
-    );
+  static Future<bool> savePassword(String password, {int? revision}) {
+    return _writeForSession(revision ?? sessionRevision,
+        () => _storage.write(key: passwordKey, value: password));
   }
 
   static Future<String?> getPassword() async {
+    await _pendingWrites;
     return await _storage.read(
       key: passwordKey,
     );
   }
 
-  static Future<void> printPassword() async {
-    final password = await _storage.read(
-      key: passwordKey,
-    );
-
-    print("Password: $password");
-  }
-
   static Future<void> clearPassword() async {
-    await _storage.delete(
-      key: passwordKey,
-    );
+    await _writeForSession(
+        sessionRevision, () => _storage.delete(key: passwordKey));
   }
+
   static Future<bool> refreshAndSaveUser() async {
+    final revision = sessionRevision;
     final localUser = await getUser();
     final password = await getPassword();
 
-    if (localUser == null ||
+    if (!isCurrentSession(revision) ||
+        localUser == null ||
         password == null ||
         localUser.email == null) {
       return false;
     }
 
     final fcmToken = await getFcmToken();
+    if (!isCurrentSession(revision)) return false;
 
     final result = await loginFunction(
       loginRequest: LoginRequest(
         user: localUser.email!,
         password: password,
         type: UserType.providerUser,
-        fcmToken: fcmToken != null && fcmToken.isNotEmpty && !fcmToken.startsWith('fcm_web_') ? fcmToken : null,
+        fcmToken: fcmToken != null &&
+                fcmToken.isNotEmpty &&
+                !fcmToken.startsWith('fcm_web_')
+            ? fcmToken
+            : null,
       ),
     );
 
@@ -103,9 +145,7 @@ class AuthLocalStorage {
       return false;
     }
 
-    await saveUser(result.user!);
-
-    return true;
+    return saveUser(result.user!, revision: revision);
   }
 
   static Future<void> updateUserFields({
@@ -154,6 +194,8 @@ class AuthLocalStorage {
     DateTime? approvalEndDate,
     bool? approvalIsActive,
   }) async {
+    final revision = sessionRevision;
+    await _pendingWrites;
     final savedData = await _storage.read(
       key: userKey,
     );
@@ -162,8 +204,7 @@ class AuthLocalStorage {
       return;
     }
 
-    final Map<String, dynamic> data =
-    Map<String, dynamic>.from(
+    final Map<String, dynamic> data = Map<String, dynamic>.from(
       jsonDecode(savedData),
     );
 
@@ -236,8 +277,7 @@ class AuthLocalStorage {
     // =========================================================
 
     if (data['providerDetails'] is Map) {
-      final providerData =
-      Map<String, dynamic>.from(
+      final providerData = Map<String, dynamic>.from(
         data['providerDetails'],
       );
 
@@ -250,18 +290,15 @@ class AuthLocalStorage {
       }
 
       if (providerLatinName != null) {
-        providerData['latinname'] =
-            providerLatinName;
+        providerData['latinname'] = providerLatinName;
       }
 
       if (providerDescription != null) {
-        providerData['description'] =
-            providerDescription;
+        providerData['description'] = providerDescription;
       }
 
       if (providerLatinDescription != null) {
-        providerData['latindesc'] =
-            providerLatinDescription;
+        providerData['latindesc'] = providerLatinDescription;
       }
 
       if (provid != null) {
@@ -295,23 +332,19 @@ class AuthLocalStorage {
       }
 
       if (nationalAddress != null) {
-        providerData['nationaladdress'] =
-            nationalAddress;
+        providerData['nationaladdress'] = nationalAddress;
       }
 
       if (crimage != null) {
-        providerData['crimage'] =
-            base64Encode(crimage);
+        providerData['crimage'] = base64Encode(crimage);
       }
 
       if (vatnoimage != null) {
-        providerData['vatnoimage'] =
-            base64Encode(vatnoimage);
+        providerData['vatnoimage'] = base64Encode(vatnoimage);
       }
 
       if (ibanimage != null) {
-        providerData['ibanimage'] =
-            base64Encode(ibanimage);
+        providerData['ibanimage'] = base64Encode(ibanimage);
       }
 
       // =======================================================
@@ -319,8 +352,7 @@ class AuthLocalStorage {
       // =======================================================
 
       if (isApproved != null) {
-        providerData['isApproved'] =
-            isApproved;
+        providerData['isApproved'] = isApproved;
       }
 
       // =======================================================
@@ -331,17 +363,14 @@ class AuthLocalStorage {
           approvalStartDate != null ||
           approvalEndDate != null ||
           approvalIsActive != null) {
-
-        final approvalData =
-        providerData['approvalInfo'] is Map
+        final approvalData = providerData['approvalInfo'] is Map
             ? Map<String, dynamic>.from(
-          providerData['approvalInfo'],
-        )
+                providerData['approvalInfo'],
+              )
             : <String, dynamic>{};
 
         if (approvalInfoId != null) {
-          approvalData['approvalinfoid'] =
-              approvalInfoId;
+          approvalData['approvalinfoid'] = approvalInfoId;
         }
 
         if (approvalStartDate != null) {
@@ -350,30 +379,24 @@ class AuthLocalStorage {
         }
 
         if (approvalEndDate != null) {
-          approvalData['approvalenddate'] =
-              approvalEndDate.toIso8601String();
+          approvalData['approvalenddate'] = approvalEndDate.toIso8601String();
         }
 
         if (approvalIsActive != null) {
-          approvalData['isactive'] =
-              approvalIsActive;
+          approvalData['isactive'] = approvalIsActive;
         }
 
-        providerData['approvalInfo'] =
-            approvalData;
+        providerData['approvalInfo'] = approvalData;
       }
 
-      data['providerDetails'] =
-          providerData;
+      data['providerDetails'] = providerData;
     }
 
     // =========================================================
     // SAVE EXACT OLD DATA + ONLY CHANGES
     // =========================================================
 
-    await _storage.write(
-      key: userKey,
-      value: jsonEncode(data),
-    );
+    await _writeForSession(
+        revision, () => _storage.write(key: userKey, value: jsonEncode(data)));
   }
 }

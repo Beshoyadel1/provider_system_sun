@@ -100,7 +100,6 @@ class _FacilityAccountCheckState extends State<FacilityAccountCheck> {
                                 spacing: 10,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-
                                   Flexible(
                                     child: CustomContainer(
                                       containerWidth: 500,
@@ -163,19 +162,14 @@ class _FacilityAccountCheckState extends State<FacilityAccountCheck> {
                                       ),
                                     ),
                                   ),
-
                                   Flexible(
                                     child: CustomContainer(
                                       containerWidth: 500,
                                       isSelected: false,
-                                      onTap: () {
-                                        context
+                                      onTap: () async {
+                                        await context
                                             .read<AuthCubit>()
-                                            .clearCheckUser();
-
-                                        context.read<AuthCubit>().logout(
-                                              context,
-                                            );
+                                            .logout();
                                       },
                                       containerColor: AppColors.redColor,
                                       containerHeight: 45,
