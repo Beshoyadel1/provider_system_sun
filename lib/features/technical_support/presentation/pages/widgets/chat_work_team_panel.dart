@@ -34,14 +34,17 @@ class ChatWorkTeamPanel extends StatelessWidget {
                 padding: const EdgeInsets.all(16.0),
                 child: Row(
                   children: [
-                    Text(
+                    Expanded(
+                        child: Text(
                       isAr ? 'فريق العمل والدعم' : 'Work Team & Support',
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: AppColors.appBlackColor,
                       ),
-                    ),
+                    )),
                     const SizedBox(width: 8),
                     Container(
                       padding: const EdgeInsets.symmetric(
@@ -60,7 +63,6 @@ class ChatWorkTeamPanel extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const Spacer(),
                     IconButton(
                       icon: const Icon(Icons.refresh,
                           color: AppColors.appGrey, size: 20),
@@ -85,23 +87,34 @@ class ChatWorkTeamPanel extends StatelessWidget {
                           final member = members[index];
                           return WorkTeamMemberTile(
                             member: member,
-                            onTap: () {
+                            onTap: () async {
+                              if (member.usertype == UserType.adminUser) {
+                                await cubit.ensureMessagesLoaded();
+                                if (!context.mounted) return;
+                                if (!cubit.hasLoadedConversationSummaries) {
+                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                      content: Text(isAr
+                                          ? 'تعذّر تحميل المحادثات. حاول مرة أخرى.'
+                                          : 'Could not load conversations. Please try again.')));
+                                  return;
+                                }
+                              }
                               final langCode =
                                   Localizations.localeOf(context).languageCode;
                               final targetUserId =
                                   member.usertype == UserType.adminUser
-                                      ? 1
+                                      ? 0
                                       : (member.userid ?? 0);
                               final targetUserType = member.usertype ?? 0;
 
-                              GetAllMessagesModel? targetChat;
+                              GetAllMessagesModel? targetChat =
+                                  targetUserType == UserType.adminUser
+                                      ? cubit.supportChat()
+                                      : null;
                               for (final e in state.allMessages) {
-                                final matchesAdmin =
-                                    e.tousertype == UserType.adminUser &&
-                                        targetUserType == UserType.adminUser;
                                 final matchesUser = e.touser == targetUserId &&
                                     e.tousertype == targetUserType;
-                                if (matchesAdmin || matchesUser) {
+                                if (targetChat == null && matchesUser) {
                                   targetChat = e;
                                   break;
                                 }

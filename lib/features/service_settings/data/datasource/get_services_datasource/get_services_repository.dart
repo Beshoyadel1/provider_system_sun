@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:sun_web_system/core/api/api_result.dart';
 import '../../model/get_services_model/service_setting_model.dart';
 import '../../../../../core/api/dio_function/api_constants.dart';
 import '../../../../../core/api/dio_function/dio_controller.dart';
@@ -7,6 +8,7 @@ import '../../../../../core/api/dio_function/failures.dart';
 Future<List<ServiceSettingModel>> getServicesFunction() async {
   try {
     final response = await Network.getData(ApiLink.getServices);
+    ApiResult.requireSuccess(response);
 
     final List data = response.data['data'] ?? [];
 

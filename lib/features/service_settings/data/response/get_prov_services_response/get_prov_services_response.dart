@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 import '../../model/service_branch.dart';
 
 class GetProvServicesResponse {
@@ -10,6 +11,7 @@ class GetProvServicesResponse {
   });
 
   factory GetProvServicesResponse.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return GetProvServicesResponse(
       provService: json['provService'] != null
           ? ProvService.fromJson(json['provService'] as Map<String, dynamic>)
@@ -52,6 +54,7 @@ class ProvService {
   });
 
   factory ProvService.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return ProvService(
       branchIds: parseServiceBranchIds(json['branchIds']),
       id: json['id'] ?? 0,
@@ -77,6 +80,7 @@ class BrandItem {
   });
 
   factory BrandItem.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return BrandItem(
       provServiceBrand: json['provServiceBrand'] != null
           ? ProvServiceBrand.fromJson(
@@ -108,6 +112,7 @@ class ProvServiceBrand {
   });
 
   factory ProvServiceBrand.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return ProvServiceBrand(
       id: json['id'] ?? 0,
       provserviceid: json['provserviceid'] ?? 0,
@@ -138,6 +143,7 @@ class ModelItem {
   });
 
   factory ModelItem.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return ModelItem(
       id: json['id'] ?? 0,
       provserviceid: json['provserviceid'] ?? 0,

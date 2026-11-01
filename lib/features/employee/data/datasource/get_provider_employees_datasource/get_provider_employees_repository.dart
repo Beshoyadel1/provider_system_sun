@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:sun_web_system/core/api/api_result.dart';
 
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/create_user_request.dart';
 import 'package:sun_web_system/features/employee/data/request/get_provider_employees_request/get_provider_employees_repository.dart';
@@ -16,6 +17,7 @@ Future<List<CreateUserRequest>> getProviderEmployees({
       ApiLink.getProviderEmployees,
     );
 
+    ApiResult.requireSuccess(response);
     dynamic body;
 
     if (response.data is String) {
@@ -42,7 +44,7 @@ Future<List<CreateUserRequest>> getProviderEmployees({
             Map<String, dynamic>.from(item),
           ),
         );
-      } catch (e, s) {
+      } catch (e) {
         // print('================================');
         // print('FAILED ITEM => $item');
         // print('ERROR => $e');
@@ -54,7 +56,7 @@ Future<List<CreateUserRequest>> getProviderEmployees({
   //  print('EMPLOYEES COUNT => ${employees.length}');
 
     return employees;
-  } catch (e, s) {
+  } catch (e) {
     // print('API ERROR => $e');
     // print('STACK => $s');
     rethrow;

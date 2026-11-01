@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 class CreateServicePackageRequest {
   final List<int>? branchIds;
   final int? provId;
@@ -68,14 +69,16 @@ class SupportedCarRequest {
     this.carModelIds,
   });
 
-  factory SupportedCarRequest.fromJson(Map<String, dynamic> json) =>
-      SupportedCarRequest(
-        carBrandId: int.tryParse(json['carbrandid']?.toString() ?? ''),
+  factory SupportedCarRequest.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
+    return SupportedCarRequest(
+        carBrandId: int.tryParse((json['carbrandid'] ?? json['brandId'])?.toString() ?? ''),
         carModelIds: (json['carmodelids'] as List? ?? [])
             .map((id) => int.tryParse(id.toString()))
             .whereType<int>()
             .toList(),
       );
+  }
 
   Map<String, dynamic> toJson() {
     return {

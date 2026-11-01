@@ -32,6 +32,8 @@ class DesignCarDataOrders extends StatelessWidget {
                   isArabic ? car.brand?.brandname : car.brand?.brandlatinname,
               totalPriceCar: car.totalprice?.toString(),
               provServices: car.provServices ?? [],
+              products: car.products ?? [],
+              packages: car.servicePackages ?? [],
               isArabic: isArabic,
             ),
           ),

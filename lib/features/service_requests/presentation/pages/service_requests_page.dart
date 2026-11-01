@@ -1,3 +1,4 @@
+import '../widgets/service_request_server_filter.dart';
 import 'package:flutter/material.dart';
 import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -124,17 +125,21 @@ class _ServiceRequestsViewState extends State<_ServiceRequestsView> {
               'راجع طلبات العملاء وقدّم العرض المناسب',
               'Review customer requests and submit the right offer',
             ),
-            action: IconButton(
-              tooltip: _t('تحديث', 'Refresh'),
-              onPressed: () => _cubit.loadRequests(force: true),
-              icon: const Icon(Icons.refresh_rounded),
-              style: IconButton.styleFrom(
-                backgroundColor: AppColors.pinkColor,
-                foregroundColor: AppColors.orangeColor,
+            action: Row(mainAxisSize: MainAxisSize.min, children: [
+              IconButton(
+                tooltip: _t('تحديث', 'Refresh'),
+                onPressed: () => _cubit.loadRequests(force: true),
+                icon: const Icon(Icons.refresh_rounded),
+                style: IconButton.styleFrom(
+                  backgroundColor: AppColors.pinkColor,
+                  foregroundColor: AppColors.orangeColor,
+                ),
               ),
-            ),
+              const SizedBox(width: 8),
+              const ServiceRequestServerFilter(),
+            ]),
           ),
-          const SizedBox(height: 18),
+          const SizedBox(height: 12),
           Expanded(
             child: _cubit.requests.isEmpty
                 ? _EmptyRequests(
@@ -263,7 +268,8 @@ class _ServiceRequestsViewState extends State<_ServiceRequestsView> {
                       ),
                       _InfoRow(
                         label: _t('السعر المقترح', 'Requested price'),
-                        value: '${_money(request.price)} ${AppLocalizations.of(context).translate(AppLanguageKeys.sar)}',
+                        value:
+                            '${_money(request.price)} ${AppLocalizations.of(context).translate(AppLanguageKeys.sar)}',
                       ),
                       _InfoRow(
                         label: _t('الموعد', 'Appointment'),
@@ -795,15 +801,16 @@ class _OffersSection extends StatelessWidget {
                   children: [
                     Text(
                       '${_t('السعر', 'Price')}: '
-                      '${_ServiceRequestsViewState._money(offer.price.price)} '
+                      '${offer.price.hasPrice ? _ServiceRequestsViewState._money(offer.price.price) : '-'} '
                       '${AppLocalizations.of(context).translate(AppLanguageKeys.sar)}',
                       style: const TextStyle(fontWeight: FontWeight.w700),
                     ),
-                    Text(
-                      '${_t('الإجمالي شامل الضريبة', 'Total with tax')}: '
-                      '${_ServiceRequestsViewState._money(offer.price.totalPrice)} '
-                      '${AppLocalizations.of(context).translate(AppLanguageKeys.sar)}',
-                    ),
+                    if (offer.price.hasTotalPrice)
+                      Text(
+                        '${_t('الإجمالي شامل الضريبة', 'Total with tax')}: '
+                        '${_ServiceRequestsViewState._money(offer.price.totalPrice)} '
+                        '${AppLocalizations.of(context).translate(AppLanguageKeys.sar)}',
+                      ),
                     Text(
                       '${_t('الفرع', 'Branch')}: '
                       '${isArabic ? offer.branch.name : offer.branch.latinName}',

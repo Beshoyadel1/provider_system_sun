@@ -52,6 +52,8 @@ class UserWalletButton extends StatelessWidget {
         image: null,
         title: AppLanguageKeys.points,
         );
+      case PaymentMethodType.savedCard:
+        return (image: null, title: AppLanguageKeys.savedPaymentCard);
 
       default:
         return (

@@ -51,11 +51,40 @@ class AppCubit extends Cubit<AppStates> {
     emit(DropDownState());
   }
 
-  int selectedPageIndex = 1;
+  int selectedPageIndex = PagesOfAllApp.dashboardPageNumber;
   int selectedPageFromOpenedPagesIndex = -1;
+  final List<(int, int)> _pageHistory = [];
+  (int, int) _lastSelection = (PagesOfAllApp.dashboardPageNumber, -1);
+  bool get canGoBack =>
+      _pageHistory.isNotEmpty ||
+      selectedPageIndex != PagesOfAllApp.dashboardPageNumber;
+
+  bool goBack() {
+    if (!canGoBack) return false;
+    var previous = _pageHistory.isNotEmpty
+        ? _pageHistory.removeLast()
+        : (PagesOfAllApp.dashboardPageNumber, -1);
+    if (previous.$2 >= 0 &&
+        !openedPages.any(
+            (page) => page.number == previous.$1 && page.id == previous.$2)) {
+      previous = (previous.$1, -1);
+    }
+    selectedPageIndex = previous.$1;
+    selectedPageFromOpenedPagesIndex = previous.$2;
+    _lastSelection = previous;
+    data.clear();
+    emit(ChangeSelectedPageIndexState());
+    return true;
+  }
+
   int? _pendingFacilityAccountTabIndex;
 
   void changeSelectedPageIndex() {
+    final selection = (selectedPageIndex, selectedPageFromOpenedPagesIndex);
+    if (selection != _lastSelection) {
+      _pageHistory.add(_lastSelection);
+      _lastSelection = selection;
+    }
     emit(ChangeSelectedPageIndexState());
   }
 
@@ -110,6 +139,8 @@ class AppCubit extends Cubit<AppStates> {
   List<PageNodeWithIDModel> openedPages = [];
 
   Future<void> resetSession() async {
+    _pageHistory.clear();
+    _lastSelection = (PagesOfAllApp.dashboardPageNumber, -1);
     selectedPageIndex = PagesOfAllApp.dashboardPageNumber;
     selectedPageFromOpenedPagesIndex = -1;
     _pendingFacilityAccountTabIndex = null;

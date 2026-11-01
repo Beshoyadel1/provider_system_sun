@@ -6,18 +6,25 @@ import '../../../../../../../features/internal_services/data/model/get_provider_
 import '../../../../../../../features/internal_services/data/request/get_order_details_request/get_order_details_datasource.dart';
 import '../../../../../../../features/internal_services/presentation/cubit/get_order_details_cubit/get_order_details_state.dart';
 
-class GetOrderDetailsCubit
-    extends Cubit<GetOrderDetailsState> {
+class GetOrderDetailsCubit extends Cubit<GetOrderDetailsState> {
   GetOrderDetailsCubit({
     required this.getOrderDetailsDatasource,
     NotificationUpdates? updates,
-  }) : _updates = updates ?? NotificationUpdates.instance,
-       super(GetOrderDetailsInitial()) {
+  })  : _updates = updates ?? NotificationUpdates.instance,
+        super(GetOrderDetailsInitial()) {
     _subscription = _updates.stream.listen((payload) {
-      if (payload.isOrder && payload.orderId == getOrderDetailsDatasource.orderId) {
+      if (payload.isOrder &&
+          payload.orderId == getOrderDetailsDatasource.orderId) {
         _applyPatch(payload.orderPatch);
       }
     });
+    _updates.registerOrderConsumer(
+        this,
+        (payload) =>
+            payload.orderId == getOrderDetailsDatasource.orderId &&
+        (payload.kind == NotificationKind.deliveryStatus ||
+         payload.kind == NotificationKind.orderStatus ||
+         payload.kind == NotificationKind.orderAssigned));
   }
 
   final NotificationUpdates _updates;
@@ -38,7 +45,8 @@ class GetOrderDetailsCubit
     emit(GetOrderDetailsLoading());
 
     try {
-      final result = await _updates.getOrderDetails(getOrderDetailsDatasource.orderId, force: force);
+      final result = await _updates
+          .getOrderDetails(getOrderDetailsDatasource.orderId, force: force);
 
       orderDetails = result;
 
@@ -54,9 +62,9 @@ class GetOrderDetailsCubit
       emit(
         GetOrderDetailsError(
           message: e.toString().replaceFirst(
-            'Exception: ',
-            '',
-          ),
+                'Exception: ',
+                '',
+              ),
         ),
       );
     }
@@ -64,6 +72,7 @@ class GetOrderDetailsCubit
 
   @override
   Future<void> close() {
+    _updates.unregisterOrderConsumer(this);
     _subscription?.cancel();
     return super.close();
   }

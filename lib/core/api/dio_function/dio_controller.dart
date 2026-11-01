@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import '../api_json.dart';
 // import 'package:flutter/foundation.dart';
 // import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
@@ -36,6 +37,15 @@ class Network {
             'lang': _languageCode,
           };
           handler.next(options);
+        },
+        onResponse: (response, handler) {
+          response.data = ApiJson.decode(response.data);
+          handler.next(response);
+        },
+        onError: (error, handler) {
+          final response = error.response;
+          if (response != null) response.data = ApiJson.decode(response.data);
+          handler.next(error);
         },
       ),
     );

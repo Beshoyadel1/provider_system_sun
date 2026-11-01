@@ -26,9 +26,12 @@ class ChatThreadPanel extends StatelessWidget {
         final activeChat = state.selectedChat;
 
         if (activeChat == null) {
-          return const Scaffold(
+          return Scaffold(
             backgroundColor: AppColors.whiteColor,
-            body: ChatEmptyView(),
+            appBar: showBackButton
+                ? AppBar(leading: BackButton(onPressed: onBack))
+                : null,
+            body: const ChatEmptyView(),
           );
         }
 
@@ -41,8 +44,19 @@ class ChatThreadPanel extends StatelessWidget {
                 showBackButton: showBackButton,
                 onBack: onBack,
               ),
+              if (state.errorMessage != null)
+                TextButton.icon(
+                  onPressed:
+                      state.isLoadingOlder ? null : cubit.reloadSelectedChat,
+                  icon: const Icon(Icons.refresh),
+                  label: Text(Localizations.localeOf(context).languageCode ==
+                          'ar'
+                      ? 'تعذّر إتمام العملية. إعادة تحميل المحادثة'
+                      : 'Could not complete the request. Reload conversation'),
+                ),
               Expanded(
                 child: ChatMessagesScrollView(
+                  key: ValueKey(state.selectedConversationRevision),
                   messages: activeChat.messages ?? [],
                   noOldMessages: activeChat.noOldMessages,
                   isLoadingOlder: state.isLoadingOlder,
@@ -54,11 +68,15 @@ class ChatThreadPanel extends StatelessWidget {
               if (cubit.selectedChatIsClosed)
                 Padding(
                   padding: const EdgeInsets.all(16),
-                  child: Text(Localizations.localeOf(context).languageCode == 'ar'
-                      ? 'المحادثة مغلقة' : 'Conversation closed'),
-                )
-              else ChatComposeBar(
+                  child: Text(
+                      Localizations.localeOf(context).languageCode == 'ar'
+                          ? 'المحادثة مغلقة'
+                          : 'Conversation closed'),
+                ),
+              ChatComposeBar(
+                key: ValueKey(state.selectedConversationRevision),
                 isSending: state.isSendingMessage,
+                isClosed: cubit.selectedChatIsClosed,
                 onSend: (text) => cubit.sendMessage(text),
               ),
             ],

@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_result.dart';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,10 +18,11 @@ Future<void> createHarageFunction({
     );
 
 
-   await Network.postDataWithBody(
+   final response = await Network.postDataWithBody(
       jsonString,
       ApiLink.createHarage,
     );
+    ApiResult.requireSuccess(response);
 
   } catch (e) {
     debugPrint('CREATE ERROR: $e');

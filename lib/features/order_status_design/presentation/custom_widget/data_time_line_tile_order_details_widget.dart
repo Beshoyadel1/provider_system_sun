@@ -1,127 +1,89 @@
-import 'package:flutter/cupertino.dart';
-import '../../../../../../../../core/api/dio_function/api_constants.dart';
-import '../../../../../../../../core/language/language_constant.dart';
-import '../../../../../../../../features/order_status_design/presentation/custom_widget/time_line_tile_widget.dart';
-import '../../../../../../../core/theming/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import '../../../../core/api/dio_function/api_constants.dart';
+import '../../../internal_services/data/model/get_provider_orders_model/order_details_model.dart';
+import '../../../../core/theming/colors.dart';
 
 class DataTimeLineTileOrderDetailsWidget extends StatelessWidget {
+  const DataTimeLineTileOrderDetailsWidget(
+      {super.key,
+      this.orderStatus,
+      this.isOnSite = false,
+      this.history = const []});
   final int? orderStatus;
-
-  const DataTimeLineTileOrderDetailsWidget({
-    super.key,
-    this.orderStatus,
-  });
-
-  bool get _isRejected =>
-      orderStatus == OrderStatus.rejectedByCompany ||
-          orderStatus == OrderStatus.rejectedByProvider ||
-          orderStatus == OrderStatus.cancelledByUser;
-
-  int get _currentStep {
-    switch (orderStatus) {
-      case OrderStatus.newOrderForCompany:
-      case OrderStatus.newOrderForProvider:
-        return 0;
-
-      case OrderStatus.waitingAppointment:
-        return 1;
-
-      case OrderStatus.employeeInRoad:
-        return 2;
-
-      case OrderStatus.workInProgress:
-        return 3;
-
-      case OrderStatus.orderCompleted:
-        return 4;
-
-      default:
-        return -1;
-    }
-  }
-
-  Color _stepColor(int step) {
-    if (_isRejected) {
-      return AppColors.greyColor;
-    }
-
-    return _currentStep >= step
-        ? AppColors.orangeColor
-        : AppColors.greyColor;
-  }
-
+  final bool isOnSite;
+  final List<StatusHistory> history;
 
   @override
   Widget build(BuildContext context) {
+    final ar = Localizations.localeOf(context).languageCode == 'ar';
+    String t(String a, String e) => ar ? a : e;
+    String status(int? value) => value == null
+        ? '—'
+        : ar
+            ? OrderStatusToString.toArabic(value)
+            : OrderStatusToString.toEnglish(value);
+    final events = [...history]..sort((a, b) {
+        if (a.date == null) return b.date == null ? 0 : 1;
+        if (b.date == null) return -1;
+        return a.date!.compareTo(b.date!);
+      });
+    String actor(StatusHistory event) {
+      if (event.changedbyname?.trim().isNotEmpty == true)
+        return event.changedbyname!;
+      final role = switch (event.changedbytype) {
+        UserType.appUser => t('العميل', 'Customer'),
+        UserType.companyUser => t('الشركة', 'Company'),
+        UserType.driverUser => t('السائق', 'Driver'),
+        UserType.providerUser => t('مزود الخدمة', 'Provider'),
+        UserType.employeeUser => t('الموظف', 'Employee'),
+        UserType.adminUser => t('الإدارة', 'Administration'),
+        _ => t('غير متاح', 'Unavailable'),
+      };
+      return event.changedbyid == null ? role : '$role #${event.changedbyid}';
+    }
+
     return Container(
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: AppColors.whiteColor,
-        borderRadius: const BorderRadius.all(Radius.circular(20)),
-        border: Border.all(
-          color: AppColors.orangeColor.withOpacity(0.3),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.darkColor.withOpacity(0.1),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          TimeLineTileWidget(
-            isFirst: true,
-            title: AppLanguageKeys.createNewOrderKey,
-            colorAfterLine: _stepColor(0),
-            colorBorder: _stepColor(0),
-            textColor: _stepColor(0),
-            textColorTitle: _stepColor(0),
-          ),
-
-          TimeLineTileWidget(
-            text: '2',
-            title: AppLanguageKeys.waitingAppointment,
-            colorBeforeLine: _stepColor(0),
-            colorAfterLine: _stepColor(1),
-            colorBorder: _stepColor(1),
-            textColor: _stepColor(1),
-            textColorTitle: _stepColor(1),
-          ),
-
-          TimeLineTileWidget(
-            text: '3',
-            title: AppLanguageKeys.onTheWay,
-            colorBeforeLine: _stepColor(1),
-            colorAfterLine: _stepColor(2),
-            colorBorder: _stepColor(2),
-            textColor: _stepColor(2),
-            textColorTitle: _stepColor(2),
-          ),
-
-          TimeLineTileWidget(
-            text: '4',
-            title: AppLanguageKeys.workInProgress,
-            colorBeforeLine: _stepColor(2),
-            colorAfterLine: _stepColor(3),
-            colorBorder: _stepColor(3),
-            textColor: _stepColor(3),
-            textColorTitle: _stepColor(3),
-          ),
-
-          TimeLineTileWidget(
-            isLast: true,
-            text: '5',
-            title: AppLanguageKeys.orderCompleted,
-            colorBeforeLine: _stepColor(3),
-            colorBorder: _stepColor(4),
-            textColor: _stepColor(4),
-            textColorTitle: _stepColor(4),
-          ),
-        ],
-      )
-    );
+        width: double.infinity,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            border:
+                Border.all(color: AppColors.orangeColor.withValues(alpha: .3))),
+        child:
+            Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          Text(t('سجل حالات الطلب', 'Order status history'),
+              style: const TextStyle(fontWeight: FontWeight.bold)),
+          const SizedBox(height: 8),
+          if (events.isEmpty) ...[
+            Text(
+                '${t('الحالة الحالية', 'Current status')}: ${status(orderStatus)}'),
+            Text(t('لا يوجد سجل تغييرات متاح', 'No change history available')),
+          ],
+          for (final event in events)
+            Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Icon(Icons.history,
+                          color: AppColors.orangeColor, size: 20),
+                      const SizedBox(width: 8),
+                      Expanded(
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                            Text(event.oldstatus == null
+                                ? status(event.newstatus)
+                                : '${status(event.oldstatus)} → ${status(event.newstatus)}'),
+                            Text(actor(event)),
+                            Text(event.date == null
+                                ? t('التوقيت غير متاح', 'Time unavailable')
+                                : DateFormat('yyyy/MM/dd HH:mm')
+                                    .format(event.date!.toLocal())),
+                          ])),
+                    ])),
+        ]));
   }
 }

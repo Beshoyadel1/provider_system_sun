@@ -35,15 +35,33 @@
 <body>
   <script>
     const notificationClicks = [];
+    const notificationMessages = [];
     let notificationClickHandler = null;
+    let notificationMessageHandler = null;
     function deliverNotificationClick(payload) {
       const encoded = JSON.stringify(payload);
       if (notificationClickHandler) notificationClickHandler(encoded);
       else notificationClicks.push(encoded);
     }
+    function deliverNotificationMessage(payload) {
+      const encoded = JSON.stringify(payload);
+      if (notificationMessageHandler) notificationMessageHandler(encoded);
+      else notificationMessages.push(encoded);
+    }
     navigator.serviceWorker?.addEventListener('message', function (event) {
-      if (event.data?.type === 'SUN_NOTIFICATION_CLICK') {
-        deliverNotificationClick(event.data.payload);
+      const packet = event.data;
+      if (packet?.type === 'SUN_NOTIFICATION_CLICK') {
+        deliverNotificationClick(packet.payload);
+      } else if (packet?.type === 'SUN_NOTIFICATION_MESSAGE') {
+        deliverNotificationMessage(packet.payload);
+      } else if (packet?.isFirebaseMessaging === true) {
+        // With a visible window Firebase bypasses onBackgroundMessage and posts
+        // this SDK envelope directly. Do not depend on the lazy Dart adapter.
+        if (packet.messageType === 'push-received') {
+          deliverNotificationMessage(packet);
+        } else if (packet.messageType === 'notification-clicked') {
+          deliverNotificationClick(packet);
+        }
       }
     });
     const launchUrl = new URL(window.location.href);
@@ -57,6 +75,12 @@
       notificationClickHandler = handler;
       if (handler) {
         while (notificationClicks.length) handler(notificationClicks.shift());
+      }
+    };
+    window.registerNotificationMessageHandler = function (handler) {
+      notificationMessageHandler = handler;
+      if (handler) {
+        while (notificationMessages.length) handler(notificationMessages.shift());
       }
     };
     if ('serviceWorker' in navigator) {

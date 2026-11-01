@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -13,6 +14,7 @@ class GetHarageChatResponse {
   factory GetHarageChatResponse.fromJson(
       Map<String, dynamic> json,
       ) {
+    json = ApiJson.object(json);
     return GetHarageChatResponse(
       success: json['success'] ?? false,
       data: json['data'] != null
@@ -36,6 +38,7 @@ class GetHarageChatData {
   factory GetHarageChatData.fromJson(
       Map<String, dynamic> json,
       ) {
+    json = ApiJson.object(json);
     return GetHarageChatData(
       contributors: (json['contributors'] as List?)
           ?.map(
@@ -73,6 +76,7 @@ class GetHarageChatContributor {
   factory GetHarageChatContributor.fromJson(
       Map<String, dynamic> json,
       ) {
+    json = ApiJson.object(json);
     return GetHarageChatContributor(
       userId: json['userid'],
       userType: json['usertype'],
@@ -117,6 +121,7 @@ class GetHarageChatMessage {
   factory GetHarageChatMessage.fromJson(
       Map<String, dynamic> json,
       ) {
+    json = ApiJson.object(json);
     return GetHarageChatMessage(
       id: json['id'],
       fromUser: json['fromuser'],

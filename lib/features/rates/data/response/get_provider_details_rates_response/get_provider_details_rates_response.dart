@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 import '../../model/get_provider_details_rates_model/provider.dart';
 import '../../model/get_provider_details_rates_model/service_rates.dart';
 
@@ -16,6 +17,7 @@ class ProviderDetailsRatesResponse {
 
   factory ProviderDetailsRatesResponse.fromJson(
       Map<String, dynamic> json) {
+    json = ApiJson.object(json);
 
     final data =
         json['data'] as Map<String, dynamic>? ?? {};

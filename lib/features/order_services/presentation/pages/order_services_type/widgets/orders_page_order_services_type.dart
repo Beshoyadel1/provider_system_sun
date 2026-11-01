@@ -4,73 +4,48 @@ import '../../../../../../../../../features/internal_services/presentation/cubit
 import '../../../../../../../../../features/internal_services/presentation/cubit/tabs_cubit/tabs_cubit.dart';
 import '../../../../../../../../../features/order_services/presentation/pages/order_services_type/widgets/filters_tabs_widget_order_services_type.dart';
 import '../../../../../../../core/cubit/new_orders_cubit/new_orders_cubit.dart';
-import '../../../../../../../core/language/language_constant.dart';
 import '../../../../../../../core/pages_widgets/general_widgets/custom_container.dart';
-import '../../../../../../../core/theming/colors.dart';
-import '../../../../../../../core/theming/text_styles.dart';
+import 'order_server_filters.dart';
 import '../../../../../../../../../features/cars_haraj_page/data/model/filter_orders_model/filter_orders_model.dart';
 
 class OrdersPageMobileServicesStatistics extends StatelessWidget {
-  final int serviceId,branchId;
-  const OrdersPageMobileServicesStatistics({super.key, required this.cubit,required this.serviceId,required this.branchId});
+  final int serviceId, branchId;
+  const OrdersPageMobileServicesStatistics(
+      {super.key,
+      required this.cubit,
+      required this.serviceId,
+      required this.branchId});
 
   final NewOrdersCubit cubit;
 
   @override
   Widget build(BuildContext context) {
-    return CustomContainer(
-      isSelected: false,
-      onTap: () {},
-      typeWidget: Center(
-        child: Column(
-          spacing: 20,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Wrap(
-              alignment: WrapAlignment.spaceBetween,
-              runAlignment: WrapAlignment.spaceBetween,
-              crossAxisAlignment: WrapCrossAlignment.start,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => TabsCubit()),
+        BlocProvider(
+            create: (_) => GetProviderInternalOrderCubit()
+              ..loadInternalOrders(serviceId: serviceId, branchId: branchId)),
+      ],
+      child: CustomContainer(
+          isSelected: false,
+          onTap: () {},
+          typeWidget: Center(
+            child: Column(
+              spacing: 20,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextInAppWidget(
-                      text: AppLanguageKeys.allOrdersKey,
-                      textSize: 20,
-                      textColor: AppColors.darkColor,
-                    ),
-                    TextInAppWidget(
-                      text: AppLanguageKeys.ordersListFromServicesKey,
-                      textSize: 16,
-                      textColor: AppColors.darkGreyColor,
-                    ),
-                  ],
+                OrderFiltersHeader(branchId: branchId),
+                Expanded(
+                  child: FiltersTabsWidgetOrderServicesType(
+                      filterOptions: filterOrders,
+                      serviceId: serviceId,
+                      branchId: branchId),
                 ),
+                // Center(child: NumberIndicator())
               ],
             ),
-            Expanded(
-                child:  MultiBlocProvider(
-                  providers: [
-                    BlocProvider(create: (_) => TabsCubit()),
-                    BlocProvider(
-                      create: (_) => GetProviderInternalOrderCubit()
-                        ..loadInternalOrders(
-                          serviceId: serviceId,
-                            branchId:branchId,
-                          //orderType: mapOrderType(0),
-                        ),
-                    ),
-                  ],
-              child: FiltersTabsWidgetOrderServicesType(
-                filterOptions: filterOrders,
-                serviceId:serviceId,
-                  branchId:branchId
-              ),
-            )),
-            // Center(child: NumberIndicator())
-          ],
-        ),
-      ),
+          )),
     );
   }
 }

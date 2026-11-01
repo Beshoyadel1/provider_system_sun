@@ -1,4 +1,5 @@
 import 'dart:async';
+import '../../../core/api/api_json.dart';
 import 'model/notification_payload.dart';
 import '../../internal_services/data/model/get_provider_orders_model/order_details_model.dart';
 import '../../internal_services/data/datasource/get_order_details_datasource/get_order_details_datasource.dart';
@@ -22,11 +23,25 @@ class NotificationUpdates {
   final Map<int, Map<String, dynamic>> serviceRequests = {};
   final OrderDetailLoader _detailLoader;
   final Map<int, OrderDetailsModel> _details = {};
+  final Set<int> _staleDetails = {};
   final Map<int, Future<OrderDetailsModel>> _detailRequests = {};
   final Map<int, Map<String, dynamic>> _pendingDetailPatches = {};
   final Map<Object, bool Function(NotificationPayload)> _orderConsumers = {};
   int _session = 0;
   Stream<NotificationPayload> get stream => _controller.stream;
+
+  Map<String, dynamic> _mergeOrderPatch(
+          Map<String, dynamic> previous, Map<String, dynamic> incoming) =>
+      {
+        ...previous,
+        ...incoming,
+        if (previous['deliveryorder'] is Map &&
+            incoming['deliveryorder'] is Map)
+          'deliveryorder': ApiJson.object({
+            ...previous['deliveryorder'] as Map,
+            ...incoming['deliveryorder'] as Map,
+          }),
+      };
 
   void registerOrderConsumer(
       Object owner, bool Function(NotificationPayload) needsDetails) {
@@ -40,7 +55,8 @@ class NotificationUpdates {
   Future<OrderDetailsModel> getOrderDetails(int id,
       {bool force = false}) async {
     if (_detailRequests[id] != null) return _detailRequests[id]!;
-    if (!force && _details[id] != null) return _details[id]!;
+    if (!force && !_staleDetails.contains(id) && _details[id] != null)
+      return _details[id]!;
     final session = _session;
     _pendingDetailPatches[id] = {};
     final pending = () async {
@@ -52,11 +68,18 @@ class NotificationUpdates {
         final changes = _pendingDetailPatches[id] ?? <String, dynamic>{};
         result = result.applyNotificationPatch(changes);
         _details[id] = result;
+        _staleDetails.remove(id);
         // Fresh API fields supersede older patches.
         orders[id] = {
           ...after,
           'status': result.status,
-          'orderstatus': result.status
+          'orderstatus': result.status,
+          'statushistory': result.statusHistory?.map((event) => event.toJson()).toList(),
+          if (result.deliveryOrder != null)
+            'deliveryorder': result.deliveryOrder!.toJson(),
+          if (result.isDeliveryOrder != null)
+            'isdeliveryorder': result.isDeliveryOrder,
+          if (result.isOnSite != null) 'isonsite': result.isOnSite,
         };
       }
       return result;
@@ -89,6 +112,11 @@ class NotificationUpdates {
       'totalprice': details.totalprice,
       'orderdate': details.date?.toIso8601String(),
       'provid': details.provid,
+      if (details.deliveryOrder != null)
+        'deliveryorder': details.deliveryOrder!.toJson(),
+      'isdeliveryorder': details.isDeliveryOrder,
+      'isonsite': details.isOnSite,
+      'statusHistory': details.statusHistory?.map((event) => event.toJson()).toList(),
       'services': [
         for (final s in details.services ?? <Service>[])
           {
@@ -102,6 +130,7 @@ class NotificationUpdates {
     }..removeWhere((_, value) => value == null);
     add(NotificationPayload({
       ...payload.data,
+      'detailsRefreshed': true,
       'orderInfo': patch,
       if (patch['status'] != null) 'status': patch['status']
     },
@@ -116,15 +145,18 @@ class NotificationUpdates {
     if (payload.isOrder && id != null && id > 0) {
       orderEvents[id] = payload;
       orderVersions[id] = ++revision;
-      orders[id] = {...?orders[id], ...payload.orderPatch};
+      orders[id] = _mergeOrderPatch(orders[id] ?? {}, payload.orderPatch);
       if (_pendingDetailPatches.containsKey(id)) {
-        _pendingDetailPatches[id] = {
-          ..._pendingDetailPatches[id]!,
-          ...payload.orderPatch
-        };
+        _pendingDetailPatches[id] =
+            _mergeOrderPatch(_pendingDetailPatches[id]!, payload.orderPatch);
       }
       if (_details[id] != null) {
         _details[id] = _details[id]!.applyNotificationPatch(payload.orderPatch);
+      }
+      if ((payload.kind == NotificationKind.deliveryStatus ||
+          payload.kind == NotificationKind.orderStatus ||
+          payload.kind == NotificationKind.orderAssigned) && !payload.detailsRefreshed) {
+        _staleDetails.add(id);
       }
     }
     final requestId = payload.integer('requestId');
@@ -140,6 +172,7 @@ class NotificationUpdates {
   void reset() {
     _session++;
     _details.clear();
+    _staleDetails.clear();
     _detailRequests.clear();
     _pendingDetailPatches.clear();
     orders.clear();

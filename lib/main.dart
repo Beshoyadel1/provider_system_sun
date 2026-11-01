@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:sun_web_system/core/audio_service/audio_service.dart';
 import 'package:sun_web_system/core/services/fcm_service.dart';
+import 'package:sun_web_system/core/services/chat_route_observer.dart';
 import 'package:sun_web_system/firebase_options.dart';
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_cubit.dart';
 import 'package:sun_web_system/features/auth_page/presentation/pages/auth_gate.dart';
@@ -17,18 +18,22 @@ import '../../../core/language/language.dart';
 import '../../../core/setup_git_it.dart';
 
 final GlobalKey<ScaffoldState> scaffoldKeyDrawer = GlobalKey<ScaffoldState>();
-final GlobalKey<ScaffoldMessengerState> scaffoldKey = GlobalKey<ScaffoldMessengerState>();
+final GlobalKey<ScaffoldMessengerState> scaffoldKey =
+    GlobalKey<ScaffoldMessengerState>();
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
-    if (kIsWeb || (defaultTargetPlatform != TargetPlatform.windows && defaultTargetPlatform != TargetPlatform.linux)) {
+    if (kIsWeb ||
+        (defaultTargetPlatform != TargetPlatform.windows &&
+            defaultTargetPlatform != TargetPlatform.linux)) {
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
       );
       if (!kIsWeb) {
-        FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+        FirebaseMessaging.onBackgroundMessage(
+            firebaseMessagingBackgroundHandler);
       }
     }
   } catch (e) {
@@ -42,7 +47,8 @@ void main() async {
           create: (_) => getIt<NotificationCubit>(),
         ),
         BlocProvider<LanguageCubit>(
-          create: (_) => getIt<LanguageCubit>()..getLanguageFromSharedPreference(),
+          create: (_) =>
+              getIt<LanguageCubit>()..getLanguageFromSharedPreference(),
         ),
         BlocProvider<AuthCubit>(
           create: (_) => AuthCubit()..init(),
@@ -75,11 +81,11 @@ class _MyAppState extends State<MyApp> {
     return BlocProvider(
       create: (BuildContext context) => getIt<AppCubit>(),
       child: BlocBuilder<LanguageCubit, LanguageStates>(
-        buildWhen: (previous, current) =>
-        current is ChangeAllAppLanguageState,
+        buildWhen: (previous, current) => current is ChangeAllAppLanguageState,
         builder: (BuildContext context, state) {
           return MaterialApp(
             navigatorKey: navigatorKey,
+            navigatorObservers: [chatRouteObserver],
             scaffoldMessengerKey: scaffoldKey,
             supportedLocales: supportedLocales,
             locale: LanguageCubit.get(context).selectedLanguage,

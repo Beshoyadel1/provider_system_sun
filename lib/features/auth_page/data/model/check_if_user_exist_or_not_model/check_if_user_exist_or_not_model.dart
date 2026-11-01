@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 class CheckIfUserExistOrNotModel {
   final int? id;
   final String? phone;
@@ -12,6 +13,7 @@ class CheckIfUserExistOrNotModel {
   });
 
   factory CheckIfUserExistOrNotModel.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return CheckIfUserExistOrNotModel(
       id: json['id'],
       phone: json['phone'],

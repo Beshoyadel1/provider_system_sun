@@ -94,6 +94,8 @@ class AppLanguageKeys {
   static const String workInProgress = 'workInProgress';
   static const String orderCompleted = 'orderCompleted';
   static const String rejectedByProvider = 'rejectedByProvider';
+  static const String rejectOrder = 'rejectOrder';
+  static const String savedPaymentCard = 'savedPaymentCard';
   static const String cancelledByUser = 'cancelledByUser';
   static const String unknownType = 'unknownType';
   static const String acceptOrder = 'acceptOrder';

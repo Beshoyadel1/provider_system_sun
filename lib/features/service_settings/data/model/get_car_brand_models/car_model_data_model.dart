@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -20,6 +21,7 @@ class CarModelDataModel {
   factory CarModelDataModel.fromJson(
       Map<String, dynamic> json,
       ) {
+    json = ApiJson.object(json);
     final data =
         json['data'] as Map<String, dynamic>? ?? json;
 

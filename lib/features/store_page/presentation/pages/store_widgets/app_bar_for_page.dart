@@ -14,10 +14,12 @@ import '../../../../../core/utilies/map_of_all_app.dart';
 
 class AppBarForPage extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
+  final VoidCallback? onBack;
 
   const AppBarForPage({
     super.key,
     required this.scaffoldKey,
+    this.onBack,
   });
 
   @override
@@ -33,9 +35,7 @@ class _AppBarForPageState extends State<AppBarForPage> {
     final selectedIndex = _appCubit.selectedPageIndex;
 
     // Search main pages
-    final page = appPages
-        .where((e) => e.number == selectedIndex)
-        .firstOrNull;
+    final page = appPages.where((e) => e.number == selectedIndex).firstOrNull;
 
     if (page != null) {
       return page.getName(context);
@@ -43,9 +43,8 @@ class _AppBarForPageState extends State<AppBarForPage> {
 
     // Search children pages
     for (final parent in appPages) {
-      final child = parent.children
-          .where((e) => e.number == selectedIndex)
-          .firstOrNull;
+      final child =
+          parent.children.where((e) => e.number == selectedIndex).firstOrNull;
 
       if (child != null) {
         return child.getName(context);
@@ -110,12 +109,14 @@ class _AppBarForPageState extends State<AppBarForPage> {
           ),
           child: Row(
             children: [
+              if (_appCubit.canGoBack)
+                BackButton(onPressed: widget.onBack ?? _appCubit.goBack),
               ButtonWidget(
                 iconData: isMobile
                     ? Icons.menu_outlined
                     : _appCubit.isMenuOpen
-                    ? Icons.menu_outlined
-                    : Icons.menu_open,
+                        ? Icons.menu_outlined
+                        : Icons.menu_open,
                 iconColor: AppColors.darkColor,
                 buttonColor: Colors.transparent,
                 iconSize: 25,
@@ -129,7 +130,6 @@ class _AppBarForPageState extends State<AppBarForPage> {
                   _appCubit.toggleMenu();
                 },
               ),
-
               Expanded(
                 child: Container(
                   height: 60,
@@ -139,16 +139,12 @@ class _AppBarForPageState extends State<AppBarForPage> {
                     text: _getPageTitle(),
                     textSize: 20,
                     textColor: AppColors.darkColor,
-                    fontWeightIndex:
-                    FontSelectionData.mediumFontFamily,
+                    fontWeightIndex: FontSelectionData.mediumFontFamily,
                   ),
                 ),
               ),
-
               const NotificationBell(),
-
               const SizedBox(width: 10),
-
               const ChangeLanguageButton(),
             ],
           ),

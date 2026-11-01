@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import '../../../../../core/api/api_result.dart';
 import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
 import 'package:sun_web_system/core/api/dio_function/dio_controller.dart';
 import 'package:sun_web_system/core/api/dio_function/failures.dart';
@@ -28,16 +29,7 @@ Future<void> _saveProviderWorkTime({
 }) async {
   try {
     final response = await Network.postDataWithBody(request.toJson(), endpoint);
-    final responseData = response.data;
-
-    if (responseData is! Map) {
-      throw Exception('Invalid server response');
-    }
-
-    final data = Map<String, dynamic>.from(responseData);
-    if (data['success'] != true) {
-      throw Exception(data['message'] ?? 'Something went wrong');
-    }
+    ApiResult.requireSuccess(response);
   } catch (error) {
     if (error is DioException) {
       final data = error.response?.data;

@@ -1,3 +1,4 @@
+import '../../../custom_widget/order_delivery_widget.dart';
 import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:flutter/material.dart';
 import '../../../../data/model/order_employee_assignment.dart';
@@ -69,7 +70,8 @@ class ListOrderDetails extends StatelessWidget {
               return Center(
                 child: Padding(
                   padding: const EdgeInsets.all(40),
-                  child: LocalizedText(state.message,
+                  child: LocalizedText(
+                    state.message,
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -110,6 +112,8 @@ class ListOrderDetails extends StatelessWidget {
                                   ),
                                   OrderStatusActionsWidget(
                                     status: orderDetails.status,
+                                    isOnSite: orderDetails.isOnSite == true,
+                                    isDeliveryOrder: orderDetails.hasDelivery,
                                     orderId: orderDetails.id ?? 0,
                                     assignment:
                                         OrderEmployeeAssignment.fromOrder(
@@ -123,8 +127,13 @@ class ListOrderDetails extends StatelessWidget {
                                 spacing: 10,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  if (orderDetails.hasDelivery)
+                                    OrderDeliveryWidget(
+                                        delivery: orderDetails.deliveryOrder),
                                   DataTimeLineTileOrderDetailsWidget(
                                     orderStatus: orderDetails.status,
+                                    history: orderDetails.statusHistory ?? [],
+                                    isOnSite: orderDetails.isOnSite == true,
                                   ),
                                   DesignNotesOrder(
                                     note: orderDetails.notes ?? "",
@@ -150,12 +159,19 @@ class ListOrderDetails extends StatelessWidget {
                             ),
                             OrderStatusActionsWidget(
                               status: orderDetails.status,
+                              isOnSite: orderDetails.isOnSite == true,
+                              isDeliveryOrder: orderDetails.hasDelivery,
                               orderId: orderDetails.id ?? 0,
                               assignment: OrderEmployeeAssignment.fromOrder(
                                   orderDetails, order),
                             ),
+                            if (orderDetails.hasDelivery)
+                              OrderDeliveryWidget(
+                                  delivery: orderDetails.deliveryOrder),
                             DataTimeLineTileOrderDetailsWidget(
                               orderStatus: orderDetails.status,
+                              history: orderDetails.statusHistory ?? [],
+                              isOnSite: orderDetails.isOnSite == true,
                             ),
                             DesignNotesOrder(
                               note: orderDetails.notes ?? "",

@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 class GetTaxModel {
   final int taxId;
   final int taxPercentage;
@@ -9,6 +10,7 @@ class GetTaxModel {
 
   factory GetTaxModel.fromJson(
       Map<String, dynamic> json) {
+    json = ApiJson.object(json);
 
     final data =
         json['data'] as Map<String, dynamic>? ?? json;

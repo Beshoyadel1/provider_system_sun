@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_result.dart';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import '../../../../../../core/api/dio_function/api_constants.dart';
@@ -10,16 +11,19 @@ Future<void> changeHarageStatusFunction({
   required ChangeHarageStatusRequest request,
 }) async {
   try {
+    if (request.harageId <= 0 || !const [1, 2, 3, 4].contains(request.status)) {
+      throw ArgumentError('Invalid Harage ID or status');
+    }
     final jsonString = json.encode(
       request.toJson(),
     );
 
-    await Network.postDataWithBody(
+    final response = await Network.postDataWithBody(
       jsonString,
       ApiLink.changeHarageStatus,
     );
+    ApiResult.requireSuccess(response);
   } catch (e) {
-
     AppSnackBar.showError(
       e is DioException
           ? responseOfStatusCode(e.response?.statusCode)

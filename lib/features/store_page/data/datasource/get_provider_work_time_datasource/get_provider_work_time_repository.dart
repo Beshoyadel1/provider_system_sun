@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import '../../../../../core/api/api_result.dart';
 import '../../../../../features/store_page/data/request/get_provider_work_time_request/get_provider_work_time_request.dart';
 import '../../../../../features/store_page/data/model/upload_provider_work_times_model/work_time_model.dart';
 import '../../../../../core/api/dio_function/api_constants.dart';
@@ -10,21 +11,22 @@ Future<List<WorkTimeModel>> getProviderWorkTimeFunction({
 }) async {
   try {
     final response = await Network.postDataWithBodyAndParams(
-      {},
+      null,
       getProviderWorkTimeRequest.toJson(),
       ApiLink.getProviderWorkTime,
     );
 
-    final responseData = response.data;
-
-    final bool success = responseData["success"] ?? false;
-
-    /// 👇 لو مفيش بيانات
-    if (!success) {
-      return [];
+    final body = ApiResult.requireSuccess(response);
+    final data = body['data'];
+    if (data is! List || data.any((item) => item is! Map)) {
+      throw const FormatException('Invalid work times response');
     }
-
-    return WorkTimeModel.fromJsonList(responseData["data"]);
+    final times = WorkTimeModel.fromJsonList(data);
+    if (times
+        .any((time) => time.provid != getProviderWorkTimeRequest.providerId)) {
+      throw const FormatException('Work times do not belong to this provider');
+    }
+    return times;
   } catch (e) {
     if (e is DioException) {
       final data = e.response?.data;

@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 class PetrolChartPoint {
   final String label;
   final num value;
@@ -8,6 +9,7 @@ class PetrolChartPoint {
   });
 
   factory PetrolChartPoint.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return PetrolChartPoint(
       label: json['label'],
       value: json['value'],

@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:sun_web_system/core/api/api_json.dart';
 import '../notification_payload.dart';
 
 class GetUserNotificationResponse {
@@ -16,44 +17,102 @@ class GetUserNotificationResponse {
   });
 
   factory GetUserNotificationResponse.fromJson(Map<String, dynamic> json) {
-    final map = <String, dynamic>{};
-    json.forEach((k, v) => map[k.toString().toLowerCase()] = v);
-
-    final rawData = map["data"];
-    Map<String, dynamic> body = {};
-    if (rawData is Map) {
-      rawData.forEach((k, v) => body[k.toString().toLowerCase()] = v);
-    } else if (rawData is List) {
-      return GetUserNotificationResponse(
-        data: rawData
-            .map((e) => NotificationModel.fromJson(Map<String, dynamic>.from(e)))
-            .toList(),
-        pageCount: 1,
-        totalCount: rawData.length,
-        currentPage: 1,
-      );
-    }
-
-    final list = (body["data"] as List?) ?? (rawData as List?) ?? [];
-
-    int parseInt(dynamic v, int fallback) {
-      if (v == null) return fallback;
-      if (v is num) return v.toInt();
-      return int.tryParse(v.toString()) ?? fallback;
-    }
-
+    json = ApiJson.object(json);
+    _checkNotificationSuccess(json);
+    final raw = json.containsKey('data') ? json['data'] : json;
+    final body = raw is Map ? ApiJson.object(raw) : json;
+    final records = raw is List ? raw : body['items'] ?? body['data'];
+    final items = _notificationItems(records);
+    final total = _notificationInt(body['totalCount']) ?? items.length;
+    final size = _notificationInt(body['pageSize']);
+    final pages = _notificationInt(body['totalPages'] ?? body['pageCount']) ??
+        (size != null && size > 0
+            ? (total / size).ceil()
+            : items.isEmpty
+                ? 0
+                : 1);
     return GetUserNotificationResponse(
-      data: list
-          .map((e) => NotificationModel.fromJson(Map<String, dynamic>.from(e)))
-          .toList(),
-      pageCount: parseInt(body["pagecount"], 0),
-      totalCount: parseInt(body["totalcount"], 0),
-      currentPage: parseInt(body["currentpage"], 1),
+      data: items,
+      pageCount: pages,
+      totalCount: total,
+      currentPage:
+          _notificationInt(body['pageNumber'] ?? body['currentPage']) ?? 1,
     );
   }
 }
 
+/// A singleton response describes the latest notification, not the total unread
+/// set. The loader completes it from paginated history before updating the badge.
+class GetUserNewNotificationResponse {
+  const GetUserNewNotificationResponse(this.data, {required this.isComplete});
+
+  final List<NotificationModel> data;
+  final bool isComplete;
+
+  factory GetUserNewNotificationResponse.fromJson(dynamic raw) {
+    if (raw is List) {
+      return GetUserNewNotificationResponse(_notificationItems(raw),
+          isComplete: true);
+    }
+    if (raw == null) {
+      return const GetUserNewNotificationResponse([], isComplete: true);
+    }
+    if (raw is! Map) {
+      throw const FormatException('Invalid unread notifications response');
+    }
+    final root = ApiJson.object(raw);
+    _checkNotificationSuccess(root);
+    final data = root.containsKey('data') ? root['data'] : root;
+    if (data == null) {
+      return const GetUserNewNotificationResponse([], isComplete: true);
+    }
+    if (data is List) {
+      final page = GetUserNotificationResponse.fromJson(root);
+      return GetUserNewNotificationResponse(page.data,
+          isComplete: page.currentPage == 1 && page.pageCount <= 1);
+    }
+    if (data is Map) {
+      final body = ApiJson.object(data);
+      if (body.containsKey('items') || body['data'] is List) {
+        final page = GetUserNotificationResponse.fromJson({'data': body});
+        return GetUserNewNotificationResponse(page.data,
+            isComplete: page.currentPage == 1 && page.pageCount <= 1);
+      }
+      return GetUserNewNotificationResponse(_notificationItems([body]),
+          isComplete: false);
+    }
+    throw const FormatException('Invalid unread notifications response');
+  }
+}
+
+int? _notificationInt(dynamic value) =>
+    value is num ? value.toInt() : int.tryParse('$value');
+
+void _checkNotificationSuccess(Map<String, dynamic> body) {
+  if (body['success'] == false || body['status'] == false) {
+    throw FormatException(
+        body['message']?.toString() ?? 'Failed to load notifications');
+  }
+}
+
+List<NotificationModel> _notificationItems(dynamic raw) {
+  if (raw is! List) {
+    throw const FormatException('Invalid notifications list');
+  }
+  return raw.map((item) {
+    if (item is! Map) {
+      throw const FormatException('Invalid notification record');
+    }
+    final notification = NotificationModel.fromJson(ApiJson.object(item));
+    if ((notification.id ?? 0) <= 0) {
+      throw const FormatException('Notification ID is missing');
+    }
+    return notification;
+  }).toList();
+}
+
 class NotificationModel {
+  final NotificationPayload? payload;
   final String? localKey;
   final int? id;
   final String? title;
@@ -68,6 +127,7 @@ class NotificationModel {
   final DateTime? date;
 
   NotificationModel({
+    this.payload,
     this.localKey,
     this.id,
     this.title,
@@ -93,16 +153,25 @@ class NotificationModel {
       'date': payload.sentAt.toIso8601String(),
       ...nested,
       if (payload.notificationId != null) 'id': payload.notificationId,
-    }).copyWith(localKey: payload.key);
+    }).copyWith(localKey: payload.key, payload: payload);
   }
 
-  NotificationModel copyWith({bool? isViewed, String? localKey}) =>
+  NotificationModel copyWith(
+          {bool? isViewed, String? localKey, NotificationPayload? payload}) =>
       NotificationModel(
-        id: id, localKey: localKey ?? this.localKey,
-        title: title, latinTitle: latinTitle, description: description,
-        latinDesc: latinDesc, toUserId: toUserId, toUserType: toUserType,
-        fromUserId: fromUserId, fromUserType: fromUserType,
-        isViewed: isViewed ?? this.isViewed, date: date,
+        payload: payload ?? this.payload,
+        id: id,
+        localKey: localKey ?? this.localKey,
+        title: title,
+        latinTitle: latinTitle,
+        description: description,
+        latinDesc: latinDesc,
+        toUserId: toUserId,
+        toUserType: toUserType,
+        fromUserId: fromUserId,
+        fromUserType: fromUserType,
+        isViewed: isViewed ?? this.isViewed,
+        date: date,
       );
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) {
@@ -116,10 +185,7 @@ class NotificationModel {
     }
 
     bool? parseBool(dynamic v) {
-      if (v == null) return null;
-      if (v is bool) return v;
-      final str = v.toString().toLowerCase().trim();
-      return str == 'true' || str == '1';
+      return NotificationPayload.boolean(v);
     }
 
     DateTime? parseDate(dynamic v) {
@@ -143,6 +209,9 @@ class NotificationModel {
     }
 
     return NotificationModel(
+      payload: map['type'] != null || map['eventtype'] != null
+          ? NotificationPayload(json)
+          : null,
       id: parseInt(map["id"]),
       title: map["title"]?.toString(),
       latinTitle: map["latintitle"]?.toString(),
@@ -188,7 +257,9 @@ class NotificationModel {
   }
 
   bool get isOrderRelated {
-    final text = "${title ?? ''} ${latinTitle ?? ''} ${description ?? ''} ${latinDesc ?? ''}".toLowerCase();
+    final text =
+        "${title ?? ''} ${latinTitle ?? ''} ${description ?? ''} ${latinDesc ?? ''}"
+            .toLowerCase();
     return text.contains("order") ||
         text.contains("طلب") ||
         text.contains("خدمة") ||
@@ -197,7 +268,9 @@ class NotificationModel {
   }
 
   bool get isChatRelated {
-    final text = "${title ?? ''} ${latinTitle ?? ''} ${description ?? ''} ${latinDesc ?? ''}".toLowerCase();
+    final text =
+        "${title ?? ''} ${latinTitle ?? ''} ${description ?? ''} ${latinDesc ?? ''}"
+            .toLowerCase();
     return text.contains("chat") ||
         text.contains("message") ||
         text.contains("محادثة") ||

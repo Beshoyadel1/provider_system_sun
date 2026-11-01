@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 class GetProviderOrdersSalesModel {
   final List<DataPoint> dataPoints;
 
@@ -7,6 +8,7 @@ class GetProviderOrdersSalesModel {
 
   factory GetProviderOrdersSalesModel.fromJson(
       Map<String, dynamic> json) {
+    json = ApiJson.object(json);
 
     final data = json['data'];
 
@@ -28,6 +30,7 @@ class DataPoint {
   });
 
   factory DataPoint.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return DataPoint(
       label: json['label'] ?? '',
       value: (json['value'] ?? 0).toDouble(),

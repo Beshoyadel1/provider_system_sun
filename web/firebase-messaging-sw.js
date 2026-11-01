@@ -1,3 +1,7 @@
+// Firebase's default push scope is not the app URL. Derive the app directory
+// from this worker's script so both default and custom registrations work.
+const appUrl = new URL('./', self.location.href);
+
 // Register before Firebase's listener so a click reaches the Flutter router.
 self.addEventListener('notificationclick', (event) => {
   event.stopImmediatePropagation();
@@ -6,7 +10,7 @@ self.addEventListener('notificationclick', (event) => {
   const payload = stored.FCM_MSG || stored.FCM_PAYLOAD || { data: stored };
   event.waitUntil(clients.matchAll({ type: 'window', includeUncontrolled: true })
     .then(async (windows) => {
-      const scope = new URL(self.registration.scope);
+      const scope = new URL(appUrl);
       const target = windows.find((client) =>
         new URL(client.url).origin === scope.origin && client.url.startsWith(scope.href));
       if (target) {
@@ -36,8 +40,14 @@ if (!firebase.apps.length) {
 
 const messaging = firebase.messaging();
 
-messaging.onBackgroundMessage((payload) => {
-  console.log("[firebase-messaging-sw.js] Received background message ", payload);
+messaging.onBackgroundMessage(async (payload) => {
+  const scope = appUrl;
+  const windows = await clients.matchAll({ type: 'window', includeUncontrolled: true });
+  for (const client of windows) {
+    if (new URL(client.url).origin === scope.origin && client.url.startsWith(scope.href)) {
+      client.postMessage({ type: 'SUN_NOTIFICATION_MESSAGE', payload });
+    }
+  }
 
   // If payload already has a notification block, Firebase Web SDK displays it automatically
   if (payload.notification && (payload.notification.title || payload.notification.body)) {
@@ -56,5 +66,5 @@ messaging.onBackgroundMessage((payload) => {
     data: { FCM_PAYLOAD: payload },
   };
 
-  self.registration.showNotification(notificationTitle, notificationOptions);
+  await self.registration.showNotification(notificationTitle, notificationOptions);
 });

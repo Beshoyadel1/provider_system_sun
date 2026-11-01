@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 import 'package:flutter/foundation.dart';
 
 class EmployeeModel {
@@ -32,6 +33,7 @@ class EmployeeModel {
   factory EmployeeModel.fromJson(
       Map<String, dynamic> json,
       ) {
+    json = ApiJson.object(json);
     return EmployeeModel(
       id: _toInt(json["id"]),
       provid: _toInt(json["provid"]),

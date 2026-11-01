@@ -1238,81 +1238,43 @@ class HaragCubit extends Cubit<HaragState> {
   // GET USER HARAGES
   // ============================================================
 
-  Future<void> getUserHarages({
-    required int currentPage,
-  }) async {
-    final previousPageCount =
-        state.pageCount;
+  int? selectedHarageBranchId;
+  bool includeSuspended = false;
+  int haragePageSize = 20;
+  int _userHarageRevision = 0;
 
-    emit(
-      UserHaragesLoading(
-        currentPage:
-        currentPage,
-        pageCount:
-        previousPageCount,
-      ),
-    );
+  Future<void> applyHarageFilters({required int? branchId,
+      required bool showSuspended, required int pageSize}) async {
+    selectedHarageBranchId = branchId;
+    includeSuspended = showSuspended;
+    haragePageSize = pageSize;
+    await getUserHarages(currentPage: 1);
+  }
 
+  Future<void> getUserHarages({required int currentPage}) async {
+    if (isClosed) return;
+    final revision = ++_userHarageRevision;
+    final previousPageCount = state.pageCount;
+    emit(UserHaragesLoading(currentPage: currentPage, pageCount: previousPageCount));
     try {
-      final user =
-      await AuthLocalStorage.getUser();
-
-      if (user == null) {
-        emit(
-          UserHaragesError(
-            message:
-            AppLanguageKeys.userNotFound,
-            currentPage:
-            currentPage,
-            pageCount:
-            previousPageCount,
-          ),
-        );
-        return;
+      final user = await AuthLocalStorage.getUser();
+      if (isClosed || revision != _userHarageRevision) return;
+      if (user?.userid == null || user!.userid! <= 0 || user.type != 4) {
+        throw StateError(AppLanguageKeys.userNotFound);
       }
-
-      final response =
-      await getUserHaragesFunction(
-        getUserHaragesRequest:
-        GetUserHaragesRequest(
-          userId:
-          user.userid ?? 0,
-          userType:
-          user.type ?? 0,
-          pageNumber:
-          currentPage,
-        ),
-      );
-
-      userHaragesResponse =
-          response;
-
-      emit(
-        UserHaragesSuccess(
-          response:
-          response,
-          currentPage:
-          response?.data?.currentPage ??
-              currentPage,
-          pageCount:
-          response?.data?.pageCount ??
-              previousPageCount,
-        ),
-      );
-    } catch (e) {
-      emit(
-        UserHaragesError(
-          message:
-          e.toString().replaceFirst(
-            'Exception: ',
-            '',
-          ),
-          currentPage:
-          currentPage,
-          pageCount:
-          previousPageCount,
-        ),
-      );
+      final response = await getUserHaragesFunction(getUserHaragesRequest: GetUserHaragesRequest(
+        userId: user.userid!, userType: 4, pageNumber: currentPage,
+        branchId: selectedHarageBranchId, includeSuspended: includeSuspended,
+        pageSize: haragePageSize));
+      if (isClosed || revision != _userHarageRevision) return;
+      userHaragesResponse = response;
+      emit(UserHaragesSuccess(response: response,
+        currentPage: response?.data?.currentPage ?? currentPage,
+        pageCount: response?.data?.pageCount ?? previousPageCount));
+    } catch (error) {
+      if (isClosed || revision != _userHarageRevision) return;
+      emit(UserHaragesError(message: error.toString().replaceFirst('Exception: ', ''),
+        currentPage: currentPage, pageCount: previousPageCount));
     }
   }
 

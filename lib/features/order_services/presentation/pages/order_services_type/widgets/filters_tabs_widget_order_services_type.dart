@@ -9,7 +9,7 @@ import '../../../../../../../core/theming/colors.dart';
 import '../../../../../../../core/theming/text_styles.dart';
 
 class FiltersTabsWidgetOrderServicesType extends StatefulWidget {
-  final int serviceId,branchId;
+  final int serviceId, branchId;
   final List<filterOrdersModel> filterOptions;
 
   const FiltersTabsWidgetOrderServicesType({
@@ -19,14 +19,14 @@ class FiltersTabsWidgetOrderServicesType extends StatefulWidget {
     required this.branchId,
   });
 
-
   @override
-  State<FiltersTabsWidgetOrderServicesType> createState() => _FiltersTabsWidgetOrderServicesTypeState();
+  State<FiltersTabsWidgetOrderServicesType> createState() =>
+      _FiltersTabsWidgetOrderServicesTypeState();
 }
 
-class _FiltersTabsWidgetOrderServicesTypeState extends State<FiltersTabsWidgetOrderServicesType>
+class _FiltersTabsWidgetOrderServicesTypeState
+    extends State<FiltersTabsWidgetOrderServicesType>
     with SingleTickerProviderStateMixin {
-
   late TabController _tabController;
 
   @override
@@ -41,11 +41,11 @@ class _FiltersTabsWidgetOrderServicesTypeState extends State<FiltersTabsWidgetOr
         final tabIndex = _tabController.index;
         context.read<TabsCubit>().changeTab(tabIndex);
         context.read<GetProviderInternalOrderCubit>().loadInternalOrders(
-          serviceId: widget.serviceId,
-            branchId:widget.branchId,
-          orderType: mapOrderType(tabIndex),
-          pageNumber: 1,
-        );
+              serviceId: widget.serviceId,
+              branchId: widget.branchId,
+              orderType: mapOrderType(tabIndex),
+              pageNumber: 1,
+            );
       }
     });
   }
@@ -65,14 +65,13 @@ class _FiltersTabsWidgetOrderServicesTypeState extends State<FiltersTabsWidgetOr
               dividerColor: Colors.transparent,
               overlayColor: WidgetStateColor.transparent,
               tabs: List.generate(widget.filterOptions.length, (index) {
-
                 final isSelected = selectedIndex == index;
 
                 return Tab(
                   child: Container(
                     width: 150,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 8),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                     decoration: BoxDecoration(
                       color: isSelected
                           ? AppColors.orangeColor
@@ -90,14 +89,14 @@ class _FiltersTabsWidgetOrderServicesTypeState extends State<FiltersTabsWidgetOr
                 );
               }),
             ),
-
             const SizedBox(height: 20),
             Expanded(
               child: TabBarView(
                 controller: _tabController,
                 children: List.generate(
                   widget.filterOptions.length,
-                      (index) =>  FilterDesignOrderServicesType(serviceId: widget.serviceId,branchId:widget.branchId),
+                  (index) => FilterDesignOrderServicesType(
+                      serviceId: widget.serviceId, branchId: widget.branchId),
                 ),
               ),
             ),

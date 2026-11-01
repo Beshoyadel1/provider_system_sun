@@ -7,6 +7,7 @@ class OrderEmployeeAssignment {
     required this.providerId,
     required this.branchId,
     required Iterable<int> serviceIds,
+    this.isDeliveryOrder = false,
   }) : serviceIds = serviceIds.where((id) => id > 0).toSet().toList()..sort();
 
   factory OrderEmployeeAssignment.fromOrder(
@@ -18,6 +19,7 @@ class OrderEmployeeAssignment {
     return OrderEmployeeAssignment(
       providerId: details.provid ?? order.providerId,
       branchId: details.branchid ?? order.branchId,
+      isDeliveryOrder: details.hasDelivery,
       // Category IDs come from the order, never a sidebar category or a
       // provider's billed-service ID (provserviceid).
       serviceIds: detailIds?.isNotEmpty == true
@@ -29,9 +31,12 @@ class OrderEmployeeAssignment {
   final int? providerId;
   final int? branchId;
   final List<int> serviceIds;
+  final bool isDeliveryOrder;
 
   bool get isComplete =>
-      (providerId ?? 0) > 0 && (branchId ?? 0) > 0 && serviceIds.isNotEmpty;
+      (providerId ?? 0) > 0 &&
+      (branchId ?? 0) > 0 &&
+      (isDeliveryOrder || serviceIds.isNotEmpty);
 
   List<CreateUserRequest> eligibleEmployees(List<CreateUserRequest> employees) {
     final seen = <int>{};
@@ -44,7 +49,8 @@ class OrderEmployeeAssignment {
           employee.isActive != false &&
           details?.provid == providerId &&
           details?.branchid == branchId &&
-          serviceIds.any((id) => wrapper!.serviceIds.contains(id)) &&
+          (isDeliveryOrder ||
+              serviceIds.any((id) => wrapper!.serviceIds.contains(id))) &&
           seen.add(id);
     }).toList(growable: false);
   }

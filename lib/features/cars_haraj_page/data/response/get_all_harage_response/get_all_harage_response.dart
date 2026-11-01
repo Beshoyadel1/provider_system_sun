@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 import '../../../../../../features/cars_haraj_page/data/model/get_all_harage_model/harage_data.dart';
 
 class GetAllHarageResponse {
@@ -16,6 +17,7 @@ class GetAllHarageResponse {
   factory GetAllHarageResponse.fromJson(
       Map<String, dynamic> json,
       ) {
+    json = ApiJson.object(json);
     return GetAllHarageResponse(
       data: json['data'] is List
           ? (json['data'] as List)

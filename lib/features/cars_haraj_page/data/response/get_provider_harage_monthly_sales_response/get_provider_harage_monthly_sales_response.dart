@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 import '../../../../../../../../../features/cars_haraj_page/data/model/get_provider_harage_monthly_sales_model/harag_monthly_sale_model.dart';
 
 class GetProviderHarageMonthlySalesResponse {
@@ -9,6 +10,7 @@ class GetProviderHarageMonthlySalesResponse {
 
   factory GetProviderHarageMonthlySalesResponse.fromJson(
       Map<String, dynamic> json) {
+    json = ApiJson.object(json);
 
     final data = json['data'];
 

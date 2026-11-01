@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_result.dart';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import '../../request/create_product_request/create_product_request.dart';
@@ -11,10 +12,11 @@ Future<void> createProductApi({
   try {
     final jsonString = json.encode(request.toJson());
 
-    await Network.postDataWithBody(
+    final response = await Network.postDataWithBody(
       jsonString,
       ApiLink.createProduct,
     );
+    ApiResult.requireSuccess(response);
   } catch (e) {
     throw Exception(
       e is DioException

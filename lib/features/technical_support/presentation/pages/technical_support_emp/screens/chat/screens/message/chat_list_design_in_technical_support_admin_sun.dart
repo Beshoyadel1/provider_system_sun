@@ -46,7 +46,7 @@ class ChatListDesignInTechnicalSupportAdminSun extends StatelessWidget {
                 return TextDirectionTechnicalSupportAdminSun(
                   textMessage: msg.message,
                   isSender: isSender,
-                  timeMessage: OrderFunctions.formatTime(msg.date),
+                  timeMessage: OrderFunctions.formatTime(msg.date?.toLocal()),
                 );
               },
             );

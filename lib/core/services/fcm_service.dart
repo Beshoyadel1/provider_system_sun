@@ -1,4 +1,5 @@
 import 'dart:async';
+import '../api/api_json.dart';
 import 'package:sun_web_system/features/service_requests/presentation/cubit/service_requests_cubit.dart';
 import 'package:sun_web_system/features/service_requests/data/service_offer_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -17,6 +18,7 @@ import 'package:sun_web_system/features/notifications/presentation/module/notifi
 import 'package:sun_web_system/features/technical_support/data/model/chat_events/chat_events.dart';
 import 'package:sun_web_system/features/notifications/data/model/receive_message_notification_model/receive_message_notification_model.dart';
 import 'notification_clicks.dart';
+import 'fcm_message_transport.dart';
 import 'package:sun_web_system/features/technical_support/presentation/bloc/provider_chat_cubit/provider_chat_cubit.dart';
 
 @pragma('vm:entry-point')
@@ -29,8 +31,54 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 class FcmService {
-  FcmService._();
-  static final FcmService instance = FcmService._();
+  FcmService({
+    FcmMessageTransport? transport,
+    NotificationCubit? notificationCubit,
+    ProviderChatCubit? chatCubit,
+    NotificationUpdates? updates,
+    Future<void> Function()? playMessageSound,
+    Future<void> Function()? stopSounds,
+    Future<void> Function()? dismissDialog,
+    void Function(NotificationPayload)? openPayload,
+    void Function(NotificationPayload)? showOrderNotification,
+    void Function(String)? diagnosticLog,
+    void Function()? Function(void Function(Map<String, dynamic>, bool))?
+        webListener,
+  })  : _transport = transport,
+        _notificationCubit = notificationCubit,
+        _chatCubit = chatCubit,
+        _updates = updates ?? NotificationUpdates.instance,
+        _playMessageSound =
+            playMessageSound ?? AudioService.instance.playMessageSoundOnce,
+        _stopSounds = stopSounds ?? AudioService.instance.stopNotificationSound,
+        _dismissDialog = dismissDialog,
+        _openPayload = openPayload,
+        _showOrderNotification = showOrderNotification,
+        _diagnosticLog = diagnosticLog ?? debugPrint,
+        _webListener = webListener;
+  static final FcmService instance = FcmService();
+  final FcmMessageTransport? _transport;
+  final NotificationCubit? _notificationCubit;
+  final ProviderChatCubit? _chatCubit;
+  final NotificationUpdates _updates;
+  final Future<void> Function() _playMessageSound;
+  final Future<void> Function() _stopSounds;
+  final Future<void> Function()? _dismissDialog;
+  final void Function(NotificationPayload)? _openPayload,
+      _showOrderNotification;
+  final void Function(String) _diagnosticLog;
+  void _trace(String message) {
+    if (kDebugMode) _diagnosticLog('[FCM] $message');
+  }
+
+  final void Function()? Function(void Function(Map<String, dynamic>, bool))?
+      _webListener;
+  NotificationCubit get _notifications =>
+      _notificationCubit ?? getIt<NotificationCubit>();
+  ProviderChatCubit get _chat => _chatCubit ?? getIt<ProviderChatCubit>();
+  Future<void> _dismiss() =>
+      _dismissDialog?.call() ??
+      NotificationModule.instance.dialogService.dismiss();
   String? _fcmToken;
   String? get fcmToken => _fcmToken;
   bool _isInitialized = false, _uiReady = false;
@@ -59,49 +107,77 @@ class FcmService {
       _userId = userId;
       _userType = userType;
     }
-    getIt<NotificationCubit>().configureUser(userId, userType);
-    getIt<ServiceRequestsCubit>().configureUser(userId, userType);
-    final chat = getIt<ProviderChatCubit>();
+    _notifications.configureUser(userId, userType);
+    if (getIt.isRegistered<ServiceRequestsCubit>()) {
+      getIt<ServiceRequestsCubit>().configureUser(userId, userType);
+    }
+    final chat = _chat;
     chat.configureUser(userId, userType);
-    unawaited(getIt<NotificationCubit>().ensureLoaded());
+    unawaited(_notifications.ensureLoaded());
     // One initial conversation snapshot gives the sidebar its existing unread count.
     unawaited(chat.ensureMessagesLoaded());
     _syncedToken =
         registeredToken?.isNotEmpty == true ? registeredToken : _syncedToken;
     _fcmToken =
         registeredToken?.isNotEmpty == true ? registeredToken : _fcmToken;
-    if (!isSupported || _isInitialized) return;
+    if ((_transport == null && !isSupported) || _isInitialized) return;
     _isInitialized = true;
     final session = _session;
     try {
-      final messaging = FirebaseMessaging.instance;
-      await messaging.requestPermission(alert: true, badge: true, sound: true);
-      if (session != _session) return;
-      _stopWebClicks = listenForNotificationClicks((raw) {
+      void handleWebPayload(Map<String, dynamic> raw, bool opened) {
         if (session != _session) return;
         final notification = NotificationPayload.object(raw['notification']);
         _handlePayload(
             NotificationPayload(
-              NotificationPayload.object(raw['data']),
+              raw,
               title: notification['title']?.toString(),
               body: notification['body']?.toString(),
               messageId: (raw['messageId'] ?? raw['fcmMessageId'])?.toString(),
             ),
-            opened: true);
-      });
-      _tokenSubscription = messaging.onTokenRefresh.listen((token) {
+            opened: opened,
+            source:
+                raw['isFirebaseMessaging'] == true ? 'browser-sdk' : 'worker');
+      }
+
+      // Failure in the optional browser bridge must not disable foreground FCM.
+      try {
+        _stopWebClicks = _webListener != null
+            ? _webListener(handleWebPayload)
+            : listenForNotificationClicks((raw) => handleWebPayload(raw, true),
+                onMessage: (raw) => handleWebPayload(raw, false));
+        _trace('browser-bridge-ready');
+      } catch (e) {
+        debugPrint('FCM browser bridge: $e');
+      }
+      final transport = _transport ?? FirebaseMessageTransport();
+      _tokenSubscription = transport.tokenRefresh.listen((token) {
         if (session != _session) return;
         _fcmToken = token;
         unawaited(_syncTokenWithBackend(token, session));
       });
-      _messageSubscription = FirebaseMessaging.onMessage.listen((message) {
+      _messageSubscription = transport.messages.listen((message) {
         if (session == _session) _handleRemoteMessage(message, opened: false);
       });
-      _openSubscription =
-          FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      _openSubscription = transport.openedMessages.listen((message) {
         if (session == _session) _handleRemoteMessage(message, opened: true);
       });
-      final initial = await messaging.getInitialMessage();
+      _trace('listeners-ready');
+      // Install account-wide listeners before permission prompts or initial-click
+      // retrieval. Neither operation is allowed to tear down working listeners.
+      unawaited(transport
+          .requestPermission()
+          .timeout(const Duration(seconds: 10))
+          .catchError((Object e) {
+        debugPrint('FCM permission: $e');
+      }));
+      RemoteMessage? initial;
+      try {
+        initial = await transport
+            .getInitialMessage()
+            .timeout(const Duration(seconds: 10));
+      } catch (e) {
+        debugPrint('FCM initial message: $e');
+      }
       if (session != _session) return;
       if (initial != null) _handleRemoteMessage(initial, opened: true);
       // Login already registered its token and topics on the backend.
@@ -117,6 +193,8 @@ class FcmService {
         await _tokenSubscription?.cancel();
         await _messageSubscription?.cancel();
         await _openSubscription?.cancel();
+        // The browser bridge receives SDK worker packets independently. An SDK
+        // stream failure must not disconnect that working delivery path.
         _isInitialized = false;
       }
     }
@@ -195,7 +273,7 @@ class FcmService {
             await AuthLocalStorage.saveFcmToken(_fcmToken!);
           } catch (_) {}
           if (kDebugMode) {
-            print('FCM: Successfully obtained new token: $_fcmToken');
+            debugPrint('FCM: Registration token obtained.');
           }
           return _fcmToken!;
         }
@@ -251,16 +329,19 @@ class FcmService {
 
   Future<void> _writeToken(String clean, int session) async {
     try {
-      final response = await Network.postDataWithQuery({
-        'userId': _userId,
-        'userType': _userType,
-        'fcmToken': clean,
+      final response = await Network.postDataWithBody({
+        'UserId': _userId,
+        'UserType': _userType,
+        'FcmToken': clean,
       }, ApiLink.updateFcmToken);
       if (session != _session) return;
-      final body = response.data;
+      final body = response.data is Map
+          ? ApiJson.object(response.data as Map)
+          : null;
       if ((response.statusCode ?? 500) >= 400 ||
-          (body is Map &&
-              (body['status'] == false || body['success'] == false))) {
+          body == null ||
+          body['success'] != true ||
+          body['status'] == false) {
         throw StateError('Token update rejected');
       }
       _syncedToken = clean;
@@ -286,43 +367,59 @@ class FcmService {
     _handlePayload(payload, opened: opened);
   }
 
-  void _handlePayload(NotificationPayload payload, {required bool opened}) {
-    if (_userId == 0 || !payload.isFor(_userId, _userType)) return;
+  void _handlePayload(NotificationPayload payload,
+      {required bool opened, String source = 'flutter-sdk'}) {
+    _trace('received source=$source type=${payload.type} opened=$opened');
+    if (_userId == 0 || !payload.isFor(_userId, _userType)) {
+      _trace(
+          'dropped account-or-endpoints-mismatch keys=${payload.data.keys.join(',')}');
+      return;
+    }
+    if (payload.kind == NotificationKind.chat &&
+        (payload.integer('harageId') ?? 0) == 0 &&
+        !_chat.acceptsMessagePayload(payload)) {
+      // No message text or registration token is logged. These flags distinguish
+      // a delivery problem from an incomplete payload or a deleted conversation.
+      _trace('dropped chat-payload: id=${payload.integer('id')} '
+          'date=${payload.get('date')} '
+          'message-present=${payload.get('message') != null} '
+          'keys=${payload.data.keys.join(',')}');
+      return;
+    }
     try {
-      if (_remember(_processed, payload.key)) {
-        NotificationUpdates.instance.add(payload);
+      // A status without a transport ID can recur (open -> closed -> open).
+      // Content alone cannot identify that event across separate transitions.
+      final repeatableStatus = payload.kind == NotificationKind.chatStatus &&
+          payload.messageId?.isNotEmpty != true;
+      final firstDelivery = _remember(_processed, payload.key);
+      if (!firstDelivery) _trace('duplicate ${payload.kind.name}');
+      if (firstDelivery || (repeatableStatus && !opened)) {
+        final isChat = payload.kind == NotificationKind.chat;
+        final isHarag = isChat && (payload.integer('harageId') ?? 0) > 0;
+        final alreadyKnown = isChat &&
+            !isHarag &&
+            _chat.containsMessage(payload.integer('id') ?? 0);
+        _updates.add(payload);
         if (payload.isOrder) {
-          unawaited(NotificationUpdates.instance
-              .enrichOrder(payload)
-              .catchError((Object e) {
+          unawaited(_updates.enrichOrder(payload).catchError((Object e) {
             debugPrint('FCM missing order fields: $e');
           }));
         }
-        getIt<NotificationCubit>().applyPush(payload);
+        _notifications.applyPush(payload);
+        var shouldDisplay = !alreadyKnown;
         if (payload.kind == NotificationKind.chat) {
           final normalized = {
             for (final e in payload.data.entries)
               e.key.toLowerCase().replaceAll('_', ''): e.value
           };
-          normalized['message'] ??= payload.body;
-          normalized['fromusername'] ??= payload.title;
-          normalized['date'] ??= payload.sentAt.toIso8601String();
-          for (final field in ['viewed', 'isclosed']) {
-            normalized[field] =
-                '${normalized[field]}'.toLowerCase() == 'true' ||
-                    normalized[field] == '1';
-          }
           ChatEvents.instance.add(ReceiveMessageData.fromJson(normalized));
         } else if (payload.kind == NotificationKind.chatStatus) {
-          getIt<ProviderChatCubit>().applyChatStatus({
-            for (final e in payload.data.entries)
-              e.key.toLowerCase().replaceAll('_', ''): e.value
-          });
+          shouldDisplay = !opened && _chat.applyChatStatusPayload(payload);
         }
-        if (!opened) _displayWhenReady(payload, false);
+        if (!opened && shouldDisplay) _displayWhenReady(payload, false);
       }
       // A click still navigates when this message was already applied in foreground.
-      if (opened && _remember(_opened, payload.key)) {
+      if (opened && (repeatableStatus || _remember(_opened, payload.key))) {
         _displayWhenReady(payload, true);
       }
     } catch (e, stack) {
@@ -337,27 +434,41 @@ class FcmService {
       return;
     }
     if (opened) {
+      if (payload.kind == NotificationKind.chatStatus &&
+          NotificationPayload.boolean(payload.get('isclosed')) == true) {
+        return;
+      }
       final session = _session;
-      unawaited(NotificationModule.instance.dialogService.dismiss().then((_) {
+      unawaited(_dismiss().then((_) {
         if (session == _session) {
-          NotificationModule.instance.navigationService.openPayload(payload);
+          if (_openPayload != null) {
+            _openPayload(payload);
+          } else {
+            NotificationModule.instance.navigationService.openPayload(payload);
+          }
         }
       }));
     } else if (payload.kind == NotificationKind.chat) {
-      final active =
-          ChatEvents.instance.activeChatUserId == payload.integer('fromuser') &&
-              ChatEvents.instance.activeChatUserType ==
-                  payload.integer('fromusertype');
-      if (!active) unawaited(AudioService.instance.playMessageSoundOnce());
+      if (payload.integer('fromuser') == _userId &&
+          payload.integer('fromusertype') == _userType) {
+        return;
+      }
+      if (!_chat.isVisibleConversation(payload)) unawaited(_playMessageSound());
+    } else if (payload.kind == NotificationKind.chatStatus) {
+      unawaited(_playMessageSound());
     } else if (payload.kind == NotificationKind.serviceRequest) {
       final id = payload.integer('requestId');
       if (id == null || _serviceRequestSounds.add(id)) {
         if (_serviceRequestSounds.length > 500) {
           _serviceRequestSounds.remove(_serviceRequestSounds.first);
         }
-        unawaited(AudioService.instance.playMessageSoundOnce());
+        unawaited(_playMessageSound());
       }
     } else if (payload.isOrder) {
+      if (_showOrderNotification != null) {
+        _showOrderNotification(payload);
+        return;
+      }
       unawaited(NotificationModule.instance.dialogService.show(
         title: payload.title.isNotEmpty ? payload.title : 'إشعار جديد',
         subtitle: payload.body,
@@ -395,24 +506,24 @@ class FcmService {
     _pendingDisplay.clear();
     _stopWebClicks?.call();
     _stopWebClicks = null;
-    await NotificationModule.instance.dialogService.dismiss();
+    await _dismiss();
     await _tokenSubscription?.cancel();
     await _messageSubscription?.cancel();
     await _openSubscription?.cancel();
     _tokenSubscription = null;
     _messageSubscription = _openSubscription = null;
-    NotificationUpdates.instance.reset();
+    _updates.reset();
     ServiceOfferOptions.instance.reset();
     if (getIt.isRegistered<ServiceRequestsCubit>()) {
       getIt<ServiceRequestsCubit>().reset();
     }
-    if (getIt.isRegistered<NotificationCubit>()) {
-      getIt<NotificationCubit>().reset();
+    if (_notificationCubit != null || getIt.isRegistered<NotificationCubit>()) {
+      _notifications.reset();
     }
-    if (getIt.isRegistered<ProviderChatCubit>()) {
-      getIt<ProviderChatCubit>().reset();
+    if (_chatCubit != null || getIt.isRegistered<ProviderChatCubit>()) {
+      _chat.reset();
     }
-    await AudioService.instance.stopNotificationSound();
+    await _stopSounds();
     await AuthLocalStorage.deleteFcmToken();
   }
 }

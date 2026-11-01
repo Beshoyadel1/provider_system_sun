@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -17,6 +18,7 @@ class ServiceProviderServicePackagesModel {
   });
 
   factory ServiceProviderServicePackagesModel.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return ServiceProviderServicePackagesModel(
       id: json['id'],
       parentId: json['parentid'],

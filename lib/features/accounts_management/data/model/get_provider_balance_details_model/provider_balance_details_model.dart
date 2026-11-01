@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 import 'package:sun_web_system/features/accounts_management/data/model/get_provider_balance_details_model/recent_order_model.dart';
 
 class ProviderBalanceDetailsModel {
@@ -15,6 +16,7 @@ class ProviderBalanceDetailsModel {
 
   factory ProviderBalanceDetailsModel.fromJson(
       Map<String, dynamic> json) {
+    json = ApiJson.object(json);
 
     final data = json['data'];
 

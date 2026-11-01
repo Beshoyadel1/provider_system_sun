@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
@@ -27,6 +28,7 @@ class CarModel {
   });
 
   factory CarModel.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return CarModel(
       id: json['id'],
       carBrandId: json['carbrandid'],

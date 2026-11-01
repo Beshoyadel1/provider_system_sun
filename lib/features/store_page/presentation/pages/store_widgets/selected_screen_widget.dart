@@ -23,25 +23,18 @@ class _SelectedScreenWidgetState extends State<SelectedScreenWidget> {
         return current is ChangeSelectedPageIndexState;
       },
       builder: (BuildContext context, AppStates state) {
+        final draft = _appCubit.openedPages
+            .where((page) =>
+                page.number == _appCubit.selectedPageIndex &&
+                page.id == _appCubit.selectedPageFromOpenedPagesIndex)
+            .firstOrNull;
         return Expanded(
           child: Container(
             width: double.infinity,
             padding: const EdgeInsetsDirectional.all(5),
             color: Colors.grey.withValues(alpha: 0.1),
-            child: context.read<AppCubit>().selectedPageFromOpenedPagesIndex >=
-                        0 &&
-                    context.read<AppCubit>().openedPages.isNotEmpty
-                ? context
-                    .read<AppCubit>()
-                    .openedPages
-                    .where((element) =>
-                        element.id ==
-                        context
-                            .read<AppCubit>()
-                            .selectedPageFromOpenedPagesIndex)
-                    .first
-                    .page
-                : findPageByNumber(_appCubit.selectedPageIndex, appPages)?.page,
+            child: draft?.page ??
+                findPageByNumber(_appCubit.selectedPageIndex, appPages)?.page,
           ),
         );
       },

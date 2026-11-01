@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 class RateItem {
   final int? id;
   final int? orderId;
@@ -24,6 +25,7 @@ class RateItem {
   });
 
   factory RateItem.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return RateItem(
       id: json['id'],
       orderId: json['orderid'],

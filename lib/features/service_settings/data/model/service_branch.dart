@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 /// Branch fields shared by service and package API responses.
 class ServiceBranch {
   const ServiceBranch({required this.id, this.name = '', this.latinName = ''});
@@ -6,7 +7,9 @@ class ServiceBranch {
   final String name;
   final String latinName;
 
-  factory ServiceBranch.fromJson(Map<String, dynamic> json) => ServiceBranch(
+  factory ServiceBranch.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
+    return ServiceBranch(
         id: int.tryParse(
                 '${json['id'] ?? json['branchId'] ?? json['branchid']}') ??
             0,
@@ -15,6 +18,7 @@ class ServiceBranch {
         latinName:
             '${json['latinName'] ?? json['latinname'] ?? json['branchLatinName'] ?? json['branchlatinname'] ?? ''}',
       );
+  }
 }
 
 List<int> parseServiceBranchIds(dynamic value) => value is List

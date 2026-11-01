@@ -1,4 +1,5 @@
 import 'package:sun_web_system/core/language/language_constant.dart';
+import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
 import 'dart:async';
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/create_user_request.dart';
 import '../../../data/response/get_provider_orders_response/get_provider_orders_response.dart';
@@ -38,6 +39,17 @@ class GetProviderInternalOrderCubit
   int? _branchId;
   int _loadVersion = 0;
   int _pageNumber = 1;
+  int? _employeeId;
+  int _pageSize = 20;
+  int? get selectedEmployeeId => _employeeId;
+  int get pageSize => _pageSize;
+
+  Future<void> applyServerFilters({int? employeeId, int? pageSize}) {
+    _employeeId = employeeId;
+    if (pageSize != null && pageSize > 0) _pageSize = pageSize;
+    return loadInternalOrders(serviceId: _serviceId, branchId: _branchId,
+        orderType: _orderType, pageNumber: 1);
+  }
 
   Future<void> reload() => loadInternalOrders(
     orderType: _orderType,
@@ -48,6 +60,10 @@ class GetProviderInternalOrderCubit
 
   void _onNotification(NotificationPayload payload) {
     if (!payload.isOrder || isClosed || state is! GetProviderInternalOrderSuccess) return;
+    if (_employeeId != null && payload.kind == NotificationKind.orderAssigned) {
+      unawaited(reload());
+      return;
+    }
     final current = state as GetProviderInternalOrderSuccess;
     final id = payload.orderId;
     if (id == null) return;
@@ -71,6 +87,8 @@ class GetProviderInternalOrderCubit
   }
 
   bool _canInsert(NotificationPayload payload) {
+    // A compact notification cannot establish employee assignment membership.
+    if (_employeeId != null) return false;
     final p = payload.orderPatch;
     // Never put an order in an unrelated branch/category or infer filter enums.
     if (_branchId != null && int.tryParse('${p['branchid']}') != _branchId) return false;
@@ -85,16 +103,17 @@ class GetProviderInternalOrderCubit
   }
 
   bool _matchesOrderType(int status) {
-    // Current backend guide: -2/-1/0 early, 1/2 active, 3/4 completed/cancelled.
+    // Match the documented tab enum when a push moves an order between tabs.
     switch (_orderType) {
-      case 1: return status <= 0;
-      case 2: return status == 3 || status == 4;
-      case 3: return status == 1 || status == 2;
+      case OrderType.New: return OrderType.newOrders.contains(status);
+      case OrderType.current: return OrderType.currentOrders.contains(status);
+      case OrderType.done: return OrderType.doneOrders.contains(status);
       default: return true;
     }
   }
 
   bool _needsDetails(NotificationPayload payload) {
+    if (_employeeId != null) return false;
     if (!payload.isOrder || isClosed || state is! GetProviderInternalOrderSuccess) return false;
     final current = state as GetProviderInternalOrderSuccess;
     if (current.currentPage != 1 || current.orders.any((o) => o.id == payload.orderId)) return false;
@@ -115,6 +134,9 @@ class GetProviderInternalOrderCubit
     int? branchId,
   }) async {
     if (isClosed) return;
+    if ((_branchId ?? 0) != (branchId ?? 0) || _serviceId != serviceId) {
+      _employeeId = null;
+    }
     _serviceId = serviceId;
     _orderType = orderType;
     _branchId = branchId != null && branchId > 0 ? branchId : null;
@@ -139,6 +161,8 @@ class GetProviderInternalOrderCubit
 
       final request = GetProviderOrdersRequest(
           providerId: user.userid,
+          employeeId: _employeeId,
+          pageSize: _pageSize,
           pageNumber: pageNumber ?? 1,
           orderType: orderType,
           serviceId: serviceId,

@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_result.dart';
 import 'package:dio/dio.dart';
 import '../../../../../../../../../features/cars_haraj_page/data/request/delete_harage_request/delete_harage_request.dart';
 import '../../../../../core/api/dio_function/api_constants.dart';
@@ -9,16 +10,18 @@ Future<void> deleteHarageFunction({
   required DeleteHarageRequest deleteHarageRequest,
 }) async {
   try {
-    await Network.postDataWithBodyAndParams(
+    final response = await Network.postDataWithBodyAndParams(
       {},
       deleteHarageRequest.toJson(), // params
       ApiLink.deleteHarage,
     );
+    ApiResult.requireSuccess(response);
   } catch (e) {
     AppSnackBar.showError(
       e is DioException
           ? responseOfStatusCode(e.response?.statusCode)
           : e.toString(),
     );
+    rethrow;
   }
 }

@@ -9,14 +9,6 @@ class DesignBillOrder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DesignBillOrderWidget(
-      paymentMethod: orderDetailsModel.paymentmethod,
-      price: orderDetailsModel.totalprice == null
-          ? ''
-          : (orderDetailsModel.totalprice! - (orderDetailsModel.taxamount ?? 0))
-              .toStringAsFixed(2),
-      tax: (orderDetailsModel.taxamount ?? 0).toStringAsFixed(2),
-      totalPrice: orderDetailsModel.totalprice?.toStringAsFixed(2) ?? '',
-    );
+    return DesignBillOrderWidget(order: orderDetailsModel);
   }
 }

@@ -377,6 +377,9 @@ class NotificationTopic {
 
 class NotificationTypes {
   static const String chat = "chat";
+  static const String openCloseChat = "OpenCloseChat";
+  static const String supportTicket = "support_ticket";
+  static const String orderAssigned = "order_assigned";
   static const String newOrder = "new_order";
   static const String updateOrderStatus = "update_order_status";
   static const String cancelOrder = "cancel_order";
@@ -454,6 +457,7 @@ class OrderType {
     OrderStatus.workInProgress
   ];
   static const List<int> doneOrders = [
+    OrderStatus.rejectedByCompany,
     OrderStatus.orderCompleted,
     OrderStatus.cancelledByUser,
     OrderStatus.rejectedByProvider,
@@ -584,6 +588,7 @@ class PaymentMethodType {
   static const int visa = 3;
   static const int applePay = 4;
   static const int points = 5;
+  static const int savedCard = 6;
 }
 
 class PointsTransactionType {

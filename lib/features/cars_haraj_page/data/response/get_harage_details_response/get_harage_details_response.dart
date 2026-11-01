@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 import '../../../../../../features/cars_haraj_page/data/model/get_all_harage_model/harage_data.dart';
 
 class GetHarageDetailsResponse {
@@ -12,6 +13,7 @@ class GetHarageDetailsResponse {
   factory GetHarageDetailsResponse.fromJson(
       Map<String, dynamic> json,
       ) {
+    json = ApiJson.object(json);
     return GetHarageDetailsResponse(
       success: json['success'] ?? false,
 

@@ -15,6 +15,8 @@ class AppLocalizations {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'ar': {
+      AppLanguageKeys.rejectOrder: 'رفض الطلب',
+      AppLanguageKeys.savedPaymentCard: 'بطاقة بنكية محفوظة',
       AppLanguageKeys.pageNotFound: 'الصفحة غير موجودة',
       AppLanguageKeys.unknownLocation: 'موقع غير معروف',
       AppLanguageKeys.sampleCategoryOne: 'تصنيف 1',
@@ -1565,6 +1567,8 @@ class AppLocalizations {
       AppLanguageKeys.from: "من",
     },
     'en': {
+      AppLanguageKeys.rejectOrder: 'Reject order',
+      AppLanguageKeys.savedPaymentCard: 'Saved bank card',
       AppLanguageKeys.pageNotFound: 'Page not found',
       AppLanguageKeys.unknownLocation: 'Unknown location',
       AppLanguageKeys.sampleCategoryOne: 'Category 1',

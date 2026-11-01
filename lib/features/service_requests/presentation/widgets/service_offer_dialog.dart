@@ -64,7 +64,9 @@ class _ServiceOfferDialogState extends State<ServiceOfferDialog> {
   void initState() {
     super.initState();
     _priceController = TextEditingController(
-      text: widget.offer?.price.price.toStringAsFixed(2) ?? '',
+      text: widget.offer?.price.hasPrice == true
+          ? widget.offer!.price.price.toStringAsFixed(2)
+          : '',
     );
     _costController = TextEditingController(
       text: widget.offer?.cost.toStringAsFixed(2) ?? '',

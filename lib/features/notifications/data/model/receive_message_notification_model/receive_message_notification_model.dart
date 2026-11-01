@@ -206,7 +206,9 @@ class ReceiveMessageData {
           ?.toString(),
 
       message:
-      decodeArabic(
+      _getJsonValue(json, 'message') == null
+          ? null
+          : decodeArabic(
         _getJsonValue(
           json,
           'message',

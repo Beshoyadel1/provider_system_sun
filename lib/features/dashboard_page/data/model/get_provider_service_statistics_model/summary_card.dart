@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 
 class SummaryCard {
   final String? serviceName;
@@ -17,6 +18,7 @@ class SummaryCard {
   });
 
   factory SummaryCard.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return SummaryCard(
       serviceName: json['serviceName'],
       serviceLatinName: json['serviceLatinName'],

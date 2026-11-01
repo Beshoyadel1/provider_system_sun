@@ -1,53 +1,11 @@
 import 'dart:convert';
-import 'package:dio/dio.dart';
-import '../../request/send_message_request/send_message_request.dart';
-import '../../../../../core/api/dio_function/api_constants.dart';
-import '../../../../../core/pages_widgets/general_widgets/snakbar.dart';
-import '../../../../../core/api/dio_function/dio_controller.dart';
-import '../../../../../core/api/dio_function/failures.dart';
-
-import 'dart:convert';
-
-import 'package:dio/dio.dart';
-
-import '../../request/send_message_request/send_message_request.dart';
-import '../../../../../core/api/dio_function/api_constants.dart';
-import '../../../../../core/pages_widgets/general_widgets/snakbar.dart';
-import '../../../../../core/api/dio_function/dio_controller.dart';
-import '../../../../../core/api/dio_function/failures.dart';
-
-import 'dart:convert';
-
-import 'package:dio/dio.dart';
-
-import '../../request/send_message_request/send_message_request.dart';
+import '../../../../../core/api/api_result.dart';
 import '../../../../../core/api/dio_function/api_constants.dart';
 import '../../../../../core/api/dio_function/dio_controller.dart';
+import '../../request/send_message_request/send_message_request.dart';
 
-Future<void> sendMessageFunction({
-  required SendMessageRequest sendMessageRequest,
-}) async {
-  try {
-    final body =
-    sendMessageRequest.toJson();
-
-    final jsonString =
-    jsonEncode(body);
-
-    await Network.postDataWithBody(
-      jsonString,
-      ApiLink.sendMessage,
-    );
-
-
-
-  } on DioException catch (e) {
-
-
-    rethrow;
-
-  } catch (e, stackTrace) {
-
-    rethrow;
-  }
+Future<void> sendMessageFunction({required SendMessageRequest sendMessageRequest}) async {
+  final response = await Network.postDataWithBody(
+    jsonEncode(sendMessageRequest.toJson()), ApiLink.sendMessage);
+  ApiResult.requireSuccess(response);
 }

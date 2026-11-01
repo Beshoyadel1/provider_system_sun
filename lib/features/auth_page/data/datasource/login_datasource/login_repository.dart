@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import '../../../../../core/api/api_json.dart';
+import '../../model/login_model/user_response_reader.dart';
 import '../../../../../core/api/dio_function/api_constants.dart';
 import '../../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../../core/api/dio_function/failures.dart';
 import '../../../../../core/language/language_constant.dart';
-import '../../../../../features/auth_page/data/model/create_user_model/create_user_request.dart';
 import '../../../../../features/auth_page/data/model/login_model/login_result.dart';
 import '../../request/login_request/login_request.dart';
 
@@ -12,17 +13,26 @@ Future<LoginResult> loginFunction({
   required LoginRequest loginRequest,
 }) async {
   try {
+    if (loginRequest.type != UserType.providerUser) {
+      return LoginResult(success: false, message: AppLanguageKeys.loginFailed);
+    }
     final payload = loginRequest.toJson();
     final response = await Network.postDataWithBody(
       json.encode(payload),
       ApiLink.loginUser,
     );
 
-    final Map<String, dynamic> body = response.data;
+    if (response.data is! Map) {
+      return LoginResult(
+          success: false, message: AppLanguageKeys.invalidUserInformation);
+    }
+    final body = ApiJson.object(response.data);
 
-    final bool success = body["success"] ?? false;
+    final bool success = (response.statusCode ?? 500) < 400 &&
+        body['success'] == true &&
+        body['status'] != false;
 
-    final String message = body["message"] ??
+    final String message = body["message"]?.toString() ??
         (success
             ? AppLanguageKeys.accountLoginSuccessfully
             : AppLanguageKeys.loginFailed);
@@ -34,18 +44,8 @@ Future<LoginResult> loginFunction({
       );
     }
 
-    final List data = body["data"] ?? [];
-
-    if (data.isEmpty) {
-      return LoginResult(
-        success: false,
-        message: "لا يوجد بيانات مستخدم",
-      );
-    }
-
-    final user = CreateUserRequest.fromJson(
-      data.first,
-    );
+    final user = UserResponseReader.read(body['data'],
+        expectedType: UserType.providerUser);
 
     return LoginResult(
       success: true,
@@ -70,6 +70,9 @@ Future<LoginResult> loginFunction({
       success: false,
       message: errorMessage,
     );
+  } on FormatException {
+    return LoginResult(
+        success: false, message: AppLanguageKeys.invalidUserInformation);
   } catch (e) {
     return LoginResult(
       success: false,

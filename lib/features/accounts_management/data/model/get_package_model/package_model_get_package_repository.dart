@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 import 'package:flutter/cupertino.dart';
 
 class PackageModelGetPackageRepository {
@@ -21,6 +22,7 @@ class PackageModelGetPackageRepository {
 
   factory PackageModelGetPackageRepository.fromJson(
       Map<String, dynamic> json) {
+    json = ApiJson.object(json);
 
     final data = json['data'];
 

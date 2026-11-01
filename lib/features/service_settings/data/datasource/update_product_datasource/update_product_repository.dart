@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_result.dart';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import '../../../../../core/api/dio_function/api_constants.dart';
@@ -10,10 +11,11 @@ Future<void> updateProductApi({
   try {
     final jsonString = json.encode(body);
 
-    await Network.postDataWithBody(
+    final response = await Network.postDataWithBody(
       jsonString,
       ApiLink.updateProduct,
     );
+    ApiResult.requireSuccess(response);
   } catch (e) {
     throw Exception(
       e is DioException

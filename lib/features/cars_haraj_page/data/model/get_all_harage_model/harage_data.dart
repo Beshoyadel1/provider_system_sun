@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 import '../../../../../../features/cars_haraj_page/data/model/get_all_harage_model/car_model.dart';
 import '../../../../../../features/cars_haraj_page/data/model/get_all_harage_model/user_model.dart';
 import '../../../../../../features/cars_haraj_page/data/model/get_all_harage_model/harage_status_model.dart';
@@ -79,6 +80,7 @@ class HarageData {
   });
 
   factory HarageData.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return HarageData(
       id: json['id'],
       userid: json['userid'],

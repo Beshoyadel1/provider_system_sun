@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 class WorkTimeModel {
   final int? worktimeid;
   final int? provid;
@@ -28,6 +29,7 @@ class WorkTimeModel {
   });
 
   factory WorkTimeModel.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return WorkTimeModel(
       worktimeid: json['worktimeid'],
       provid: json['provid'],

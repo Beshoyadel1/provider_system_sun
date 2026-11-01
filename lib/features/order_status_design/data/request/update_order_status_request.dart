@@ -19,7 +19,9 @@ class UpdateOrderStatusRequest {
       "status": status,
       "changedById": changedById,
       "changedByType": changedByType,
-      if (employeeIds.isNotEmpty) "employeeIds": employeeIds.join(','),
     };
   }
+
+  // The current API example binds employeeIds to a JSON array body.
+  List<int> toBody() => employeeIds;
 }

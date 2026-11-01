@@ -8,9 +8,11 @@ import 'mobile_chat_page.dart';
 import 'widgets/chat_conversations_panel.dart';
 import 'widgets/chat_thread_panel.dart';
 import 'widgets/chat_work_team_panel.dart';
+import '../../../../core/services/chat_route_observer.dart';
 
 class ProviderChatPage extends StatefulWidget {
-  const ProviderChatPage({super.key});
+  const ProviderChatPage({super.key, this.isStandalone = false});
+  final bool isStandalone;
 
   @override
   State<ProviderChatPage> createState() => _ProviderChatPageState();
@@ -25,27 +27,46 @@ class _ProviderChatPageState extends State<ProviderChatPage> {
   }
 
   @override
-  void dispose() {
-    getIt<ProviderChatCubit>().clearSelectedChat();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: getIt<ProviderChatCubit>(),
-      child: Scaffold(
-        backgroundColor: AppColors.scaffoldBackground,
-        body: LayoutBuilder(
-          builder: (context, constraints) {
-            if (constraints.maxWidth < 600) {
-              return const _MobileChatLayout();
-            } else if (constraints.maxWidth < 1024) {
-              return const _TabletChatLayout();
-            } else {
-              return const _DesktopChatLayout();
-            }
-          },
+      child: BlocListener<ProviderChatCubit, ProviderChatState>(
+        listenWhen: (previous, current) =>
+            previous.closedSelectedChatRevision !=
+            current.closedSelectedChatRevision,
+        listener: (context, state) {
+          if (widget.isStandalone &&
+              (ModalRoute.of(context)?.isCurrent ?? false) &&
+              Navigator.of(context).canPop()) {
+            Navigator.of(context).pop();
+          }
+        },
+        child: ChatRouteVisibility(
+          cubit: getIt<ProviderChatCubit>(),
+          visible: MediaQuery.sizeOf(context).width >= 600,
+          child: Scaffold(
+            backgroundColor: AppColors.scaffoldBackground,
+            appBar: widget.isStandalone
+                ? AppBar(
+                    title: Text(
+                        Localizations.localeOf(context).languageCode == 'ar'
+                            ? 'المحادثات'
+                            : 'Conversations'),
+                  )
+                : null,
+            body: LayoutBuilder(
+              builder: (context, constraints) {
+                if (constraints.maxWidth < 600) {
+                  if (widget.isStandalone) return const ChatThreadPanel();
+                  return const _MobileChatLayout();
+                } else if (constraints.maxWidth < 1024) {
+                  return const _TabletChatLayout();
+                } else {
+                  return const _DesktopChatLayout();
+                }
+              },
+            ),
+          ),
         ),
       ),
     );

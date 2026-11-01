@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 class HaragDataPointsModel {
   final String label;
   final num value;
@@ -8,6 +9,7 @@ class HaragDataPointsModel {
   });
 
   factory HaragDataPointsModel.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return HaragDataPointsModel(
       label: json['label'] ?? '',
       value: json['value'] ?? 0,

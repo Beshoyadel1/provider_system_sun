@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import '../../pages_widgets/button_widget.dart';
 import '../../theming/colors.dart';
 import '../../theming/fonts.dart';
+import '../../../../../core/setup_git_it.dart';
+import '../../../../../core/cubit/app_cubit/app_cubit.dart';
 
 class BackButtonWidget extends StatelessWidget {
   const BackButtonWidget({super.key});
@@ -18,7 +20,11 @@ class BackButtonWidget extends StatelessWidget {
             text: AppLanguageKeys.backButtonKey,
             fontWeightIndex: FontSelectionData.semiBoldFontFamily,
             onTap: () {
-              Navigator.pop(context);
+              if (Navigator.of(context).canPop()) {
+                Navigator.of(context).maybePop();
+              } else if (getIt.isRegistered<AppCubit>()) {
+                getIt<AppCubit>().goBack();
+              }
             },
             textColor: AppColors.darkColor,
             buttonColor: Colors.transparent,

@@ -14,6 +14,8 @@ class ProviderChatState extends Equatable {
   final bool isLoadingOlder;
   final String? errorMessage;
   final bool chatClosed;
+  final int selectedConversationRevision;
+  final int closedSelectedChatRevision;
 
   const ProviderChatState({
     this.allMessages = const [],
@@ -28,6 +30,8 @@ class ProviderChatState extends Equatable {
     this.isLoadingOlder = false,
     this.errorMessage,
     this.chatClosed = false,
+    this.selectedConversationRevision = 0,
+    this.closedSelectedChatRevision = 0,
   });
 
   ProviderChatState copyWith({
@@ -45,20 +49,28 @@ class ProviderChatState extends Equatable {
     String? errorMessage,
     bool clearErrorMessage = false,
     bool? chatClosed,
+    int? selectedConversationRevision,
+    int? closedSelectedChatRevision,
   }) {
     return ProviderChatState(
       allMessages: allMessages ?? this.allMessages,
       filteredMessages: filteredMessages ?? this.filteredMessages,
       workTeam: workTeam ?? this.workTeam,
-      selectedChat: clearSelectedChat ? null : (selectedChat ?? this.selectedChat),
+      selectedChat:
+          clearSelectedChat ? null : (selectedChat ?? this.selectedChat),
       selectedTab: selectedTab ?? this.selectedTab,
       searchQuery: searchQuery ?? this.searchQuery,
       isLoadingMessages: isLoadingMessages ?? this.isLoadingMessages,
       isLoadingWorkTeam: isLoadingWorkTeam ?? this.isLoadingWorkTeam,
       isSendingMessage: isSendingMessage ?? this.isSendingMessage,
       isLoadingOlder: isLoadingOlder ?? this.isLoadingOlder,
-      errorMessage: clearErrorMessage ? null : (errorMessage ?? this.errorMessage),
+      errorMessage:
+          clearErrorMessage ? null : (errorMessage ?? this.errorMessage),
       chatClosed: chatClosed ?? this.chatClosed,
+      selectedConversationRevision:
+          selectedConversationRevision ?? this.selectedConversationRevision,
+      closedSelectedChatRevision:
+          closedSelectedChatRevision ?? this.closedSelectedChatRevision,
     );
   }
 
@@ -86,5 +98,7 @@ class ProviderChatState extends Equatable {
         isLoadingOlder,
         errorMessage,
         chatClosed,
+        selectedConversationRevision,
+        closedSelectedChatRevision,
       ];
 }

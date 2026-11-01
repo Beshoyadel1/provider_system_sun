@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 class CreateProvServiceResponse {
   final int id;
   final int serviceId;
@@ -22,6 +23,7 @@ class CreateProvServiceResponse {
   });
 
   factory CreateProvServiceResponse.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return CreateProvServiceResponse(
       id: (json['id'] as num?)?.toInt() ?? 0,
       serviceId: (json['serviceid'] as num?)?.toInt() ?? 0,

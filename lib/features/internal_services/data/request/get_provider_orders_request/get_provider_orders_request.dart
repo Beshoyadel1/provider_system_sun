@@ -5,6 +5,7 @@ class GetProviderOrdersRequest {
   final int? orderType;
   final int? serviceId;
   final int? branchId;
+  final int? pageSize;
 
   GetProviderOrdersRequest(
       {this.providerId,
@@ -12,7 +13,7 @@ class GetProviderOrdersRequest {
       this.pageNumber,
       this.orderType,
       this.serviceId,
-      this.branchId});
+      this.branchId, this.pageSize});
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -22,6 +23,7 @@ class GetProviderOrdersRequest {
       "orderType": orderType,
       "ServiceId": serviceId,
       "branchId": branchId,
+      'pageSize': pageSize,
     }..removeWhere((_, value) => value == null);
   }
 }

@@ -107,8 +107,7 @@ class NotificationCubit extends Cubit<NotificationState> {
     if (isClosed ||
         _userId == 0 ||
         !payload.isFor(_userId, _userType) ||
-        payload.kind == NotificationKind.chat ||
-        payload.kind == NotificationKind.chatStatus) {
+        payload.kind == NotificationKind.chat) {
       return;
     }
     final item = NotificationModel.fromPush(payload);
@@ -141,11 +140,16 @@ class NotificationCubit extends Cubit<NotificationState> {
         final arrivals = notifications
             .where((n) => (_arrivalRevision[_key(n)] ?? 0) > revision)
             .toList();
+        final existingPayloads = {
+          for (final n in notifications) _key(n): n.payload
+        };
         final merged = {
           for (final n in response.data)
-            _key(n): (_readRevision[_key(n)] ?? 0) > revision
-                ? n.copyWith(isViewed: true)
-                : n
+            _key(n): n.copyWith(
+              isViewed:
+                  (_readRevision[_key(n)] ?? 0) > revision ? true : n.isViewed,
+              payload: n.payload ?? existingPayloads[_key(n)],
+            )
         };
         for (final n in arrivals) {
           merged[_key(n)] = n;
@@ -192,7 +196,10 @@ class NotificationCubit extends Cubit<NotificationState> {
         }
         _unread.addAll(arrivals);
         _unreadLoaded = true;
-        newNotification = items.isEmpty ? null : items.last;
+        final unread = _unread.values.toList()
+          ..sort((a, b) =>
+              (b.date ?? DateTime(1970)).compareTo(a.date ?? DateTime(1970)));
+        newNotification = unread.isEmpty ? null : unread.first;
         _emitList();
       } catch (e) {
         if (_valid(session)) safeEmit(NotificationError(e.toString()));

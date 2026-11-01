@@ -1,11 +1,57 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import '../../../../core/api/api_result.dart';
 import '../../../../core/api/dio_function/api_constants.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../model/provider_chat_model.dart';
+import '../../../notifications/data/model/notification_payload.dart';
 
 class ProviderChatRepository {
   const ProviderChatRepository();
+
+  static List<Map<String, dynamic>> _records(dynamic raw) {
+    for (var depth = 0; depth < 8; depth++) {
+      if (raw == null) return [];
+      if (raw is String) {
+        raw = jsonDecode(raw);
+        continue;
+      }
+      if (raw is List) {
+        return raw
+            .whereType<Map>()
+            .map((m) => Map<String, dynamic>.from(m))
+            .toList();
+      }
+      if (raw is Map) {
+        if (NotificationPayload.value(raw, 'success') == false ||
+            NotificationPayload.value(raw, 'status') == false) {
+          throw StateError(
+              '${NotificationPayload.value(raw, 'message') ?? 'Could not load conversation'}');
+        }
+        if (NotificationPayload.value(raw, 'messages') is List) {
+          return [Map<String, dynamic>.from(raw)];
+        }
+        raw = NotificationPayload.value(raw, 'data');
+        continue;
+      }
+      break;
+    }
+    throw const FormatException('Invalid conversation response');
+  }
+
+  static List<ChatMessageModel> parseMessages(dynamic raw) {
+    final result = <ChatMessageModel>[];
+    for (final record in _records(raw)) {
+      final messages = NotificationPayload.value(record, 'messages');
+      if (messages is List) {
+        result.addAll(messages.whereType<Map>().map(
+            (m) => ChatMessageModel.fromJson(Map<String, dynamic>.from(m))));
+      } else {
+        result.add(ChatMessageModel.fromJson(record));
+      }
+    }
+    return result;
+  }
 
   /// Fetches all conversation summaries for the specified user.
   Future<List<GetAllMessagesModel>> getAllMessages({
@@ -24,22 +70,24 @@ class ProviderChatRepository {
         ApiLink.getUserChats,
       );
 
-      final responseData = response.data;
-      if (responseData == null) return [];
-
-      List rawList = [];
-      if (responseData is List) {
-        rawList = responseData;
-      } else if (responseData is Map && responseData['data'] is List) {
-        rawList = responseData['data'];
+      if ((response.statusCode ?? 500) >= 400) {
+        throw StateError('Could not load conversation');
       }
+      final responseData = response.data;
+      if (responseData == null)
+        throw const FormatException('Invalid conversation response');
+
+      final rawList = _records(responseData);
 
       return rawList
           .whereType<Map>()
-          .map((item) => GetAllMessagesModel.fromJson(Map<String, dynamic>.from(item)))
+          .map((item) =>
+              GetAllMessagesModel.fromJson(Map<String, dynamic>.from(item)))
           .toList();
     } on DioException catch (e) {
-      throw Exception(e.response?.data?['message'] ?? e.message ?? 'Failed to load conversations');
+      throw Exception(e.response?.data?['message'] ??
+          e.message ??
+          'Failed to load conversations');
     } catch (e) {
       throw Exception(e.toString());
     }
@@ -63,22 +111,24 @@ class ProviderChatRepository {
         ApiLink.getWorkTeamChat,
       );
 
-      final responseData = response.data;
-      if (responseData == null) return [];
-
-      List rawList = [];
-      if (responseData is List) {
-        rawList = responseData;
-      } else if (responseData is Map && responseData['data'] is List) {
-        rawList = responseData['data'];
+      if ((response.statusCode ?? 500) >= 400) {
+        throw StateError('Could not load conversation');
       }
+      final responseData = response.data;
+      if (responseData == null)
+        throw const FormatException('Invalid conversation response');
+
+      final rawList = _records(responseData);
 
       return rawList
           .whereType<Map>()
-          .map((item) => WorkTeamMemberModel.fromJson(Map<String, dynamic>.from(item)))
+          .map((item) =>
+              WorkTeamMemberModel.fromJson(Map<String, dynamic>.from(item)))
           .toList();
     } on DioException catch (e) {
-      throw Exception(e.response?.data?['message'] ?? e.message ?? 'Failed to load work team');
+      throw Exception(e.response?.data?['message'] ??
+          e.message ??
+          'Failed to load work team');
     } catch (e) {
       throw Exception(e.toString());
     }
@@ -97,6 +147,7 @@ class ProviderChatRepository {
         'fromUserType': fromUserType,
         'toUserId': toUserId,
         'toUserType': toUserType,
+        'isClosed': false,
       };
 
       final response = await Network.postDataWithBodyAndParams(
@@ -105,36 +156,18 @@ class ProviderChatRepository {
         ApiLink.getChatMessages,
       );
 
+      if ((response.statusCode ?? 500) >= 400) {
+        throw StateError('Could not load conversation');
+      }
       final responseData = response.data;
-      if (responseData == null) return [];
+      if (responseData == null)
+        throw const FormatException('Invalid conversation response');
 
-      List rawList = [];
-      if (responseData is List) {
-        rawList = responseData;
-      } else if (responseData is Map && responseData['data'] is List) {
-        rawList = responseData['data'];
-      }
-
-      if (rawList.isNotEmpty && rawList.first is Map) {
-        final firstMap = Map<String, dynamic>.from(rawList.first);
-        final messages = firstMap['Messages'] ?? firstMap['messages'];
-        if (messages is List) {
-          return messages
-              .whereType<Map>()
-              .map((item) =>
-                  ChatMessageModel.fromJson(Map<String, dynamic>.from(item)))
-              .toList();
-        }
-      }
-
-      return rawList
-          .whereType<Map>()
-          .map((item) =>
-              ChatMessageModel.fromJson(Map<String, dynamic>.from(item)))
-          .toList();
+      return parseMessages(responseData);
     } on DioException catch (e) {
-      throw Exception(
-          e.response?.data?['message'] ?? e.message ?? 'Failed to load chat messages');
+      throw Exception(e.response?.data?['message'] ??
+          e.message ??
+          'Failed to load chat messages');
     } catch (e) {
       throw Exception(e.toString());
     }
@@ -155,6 +188,7 @@ class ProviderChatRepository {
         'toUser': toUser,
         'toUserType': toUserType,
         'date': date,
+        'isClosed': false,
       };
 
       final response = await Network.postDataWithBodyAndParams(
@@ -163,22 +197,18 @@ class ProviderChatRepository {
         ApiLink.getOtherMessages,
       );
 
-      final responseData = response.data;
-      if (responseData == null) return [];
-
-      List rawList = [];
-      if (responseData is List) {
-        rawList = responseData;
-      } else if (responseData is Map && responseData['data'] is List) {
-        rawList = responseData['data'];
+      if ((response.statusCode ?? 500) >= 400) {
+        throw StateError('Could not load conversation');
       }
+      final responseData = response.data;
+      if (responseData == null)
+        throw const FormatException('Invalid conversation response');
 
-      return rawList
-          .whereType<Map>()
-          .map((item) => ChatMessageModel.fromJson(Map<String, dynamic>.from(item)))
-          .toList();
+      return parseMessages(responseData);
     } on DioException catch (e) {
-      throw Exception(e.response?.data?['message'] ?? e.message ?? 'Failed to load older messages');
+      throw Exception(e.response?.data?['message'] ??
+          e.message ??
+          'Failed to load older messages');
     } catch (e) {
       throw Exception(e.toString());
     }
@@ -196,7 +226,9 @@ class ProviderChatRepository {
       );
       return response.data;
     } on DioException catch (e) {
-      throw Exception(e.response?.data?['message'] ?? e.message ?? 'Failed to send message');
+      throw Exception(e.response?.data?['message'] ??
+          e.message ??
+          'Failed to send message');
     } catch (e) {
       throw Exception(e.toString());
     }
@@ -226,7 +258,8 @@ class ProviderChatRepository {
         queryParams,
         ApiLink.makeChatViewed,
       );
-      return response.statusCode == 200;
+      ApiResult.requireSuccess(response);
+      return true;
     } catch (_) {
       return false;
     }

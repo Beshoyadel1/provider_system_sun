@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 import 'package:flutter/material.dart';
 import '../../../../../core/language/language_cubit/language_cubit.dart';
 
@@ -16,6 +17,7 @@ class GetProviderTotalRateAndEmployeeAndBalanceModel {
 
   factory GetProviderTotalRateAndEmployeeAndBalanceModel.fromJson(
       Map<String, dynamic> json) {
+    json = ApiJson.object(json);
 
     final data = json['data'];
 
@@ -52,6 +54,7 @@ class TopEmployee {
   });
 
   factory TopEmployee.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return TopEmployee(
       employeeName: json['employeeName'],
       employeeLatinName: json['employeeLatinName'],
@@ -84,6 +87,7 @@ class AccountBalance {
   });
 
   factory AccountBalance.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return AccountBalance(
       serviceName: json['serviceName'],
       serviceLatinName: json['serviceLatinName'],

@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 import 'dart:typed_data';
 import 'package:sun_web_system/core/utilies/api_image.dart';
 
@@ -18,6 +19,7 @@ class ServiceModel {
   });
 
   factory ServiceModel.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return ServiceModel(
       id: json['id'] ?? 0,
       parentId: json['parentid'] ?? 0,

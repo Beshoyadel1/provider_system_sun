@@ -5,6 +5,8 @@ import '../../../../core/theming/fonts.dart';
 
 import '../../../auth_page/data/model/create_user_model/create_user_request.dart';
 import '../../../employee/data/datasource/get_provider_employees_by_services/get_provider_employees_by_services_repository.dart';
+import '../../../employee/data/datasource/get_provider_employees_datasource/get_provider_employees_repository.dart';
+import '../../../employee/data/request/get_provider_employees_request/get_provider_employees_repository.dart';
 import '../../data/model/order_employee_assignment.dart';
 
 Future<List<int>?> showOrderEmployeeAssignmentDialog(
@@ -21,10 +23,14 @@ class OrderEmployeeAssignmentDialog extends StatefulWidget {
     super.key,
     required this.assignment,
     this.employeesLoader = getProviderEmployeesByServices,
+    this.branchEmployeesLoader = getProviderEmployees,
   });
 
   final OrderEmployeeAssignment assignment;
   final ProviderServiceEmployeesLoader employeesLoader;
+  final Future<List<CreateUserRequest>> Function({
+    required GetProviderEmployeesRepository request,
+  }) branchEmployeesLoader;
 
   @override
   State<OrderEmployeeAssignmentDialog> createState() =>
@@ -43,7 +49,9 @@ class _OrderEmployeeAssignmentDialogState
           .contains(employee.employeeDetails!.employeeDetails!.id)));
 
   bool get _canConfirm =>
-      !_loading && _selectedIds.isNotEmpty && _coversServices;
+      !_loading &&
+      _selectedIds.isNotEmpty &&
+      (widget.assignment.isDeliveryOrder || _coversServices);
 
   String _t(String ar, String en) =>
       Localizations.localeOf(context).languageCode == 'ar' ? ar : en;
@@ -66,11 +74,18 @@ class _OrderEmployeeAssignmentDialogState
     });
     try {
       final assignment = widget.assignment;
-      final employees = await widget.employeesLoader(
-        providerId: assignment.providerId!,
-        branchId: assignment.branchId!,
-        serviceIds: assignment.serviceIds,
-      );
+      final employees = assignment.isDeliveryOrder
+          ? await widget.branchEmployeesLoader(
+              request: GetProviderEmployeesRepository(
+                provId: assignment.providerId!,
+                branchId: assignment.branchId!,
+              ),
+            )
+          : await widget.employeesLoader(
+              providerId: assignment.providerId!,
+              branchId: assignment.branchId!,
+              serviceIds: assignment.serviceIds,
+            );
       if (!mounted) return;
       setState(() {
         _employees = assignment.eligibleEmployees(employees);
@@ -87,10 +102,13 @@ class _OrderEmployeeAssignmentDialogState
 
   Widget _content() {
     if (!widget.assignment.isComplete) {
-      return Text(_t(
-        'بيانات فرع الطلب أو نوع الخدمة ناقصة. حدّث تفاصيل الطلب ثم حاول مجددًا.',
-        'The order branch or service details are missing. Refresh the order and try again.',
-      ));
+      return Text(widget.assignment.isDeliveryOrder
+          ? _t('بيانات فرع الطلب ناقصة. حدّث تفاصيل الطلب ثم حاول مجددًا.',
+              'The order branch details are missing. Refresh the order and try again.')
+          : _t(
+              'بيانات فرع الطلب أو نوع الخدمة ناقصة. حدّث تفاصيل الطلب ثم حاول مجددًا.',
+              'The order branch or service details are missing. Refresh the order and try again.',
+            ));
     }
     if (_loading) {
       return const SizedBox(
@@ -109,22 +127,32 @@ class _OrderEmployeeAssignmentDialogState
       ]);
     }
     if (_employees.isEmpty) {
-      return Text(_t(
-        'لا يوجد موظفون متاحون في فرع الطلب مسندة إليهم خدمات هذا الطلب.',
-        'No available employees in this branch are assigned to the order services.',
-      ));
+      return Text(widget.assignment.isDeliveryOrder
+          ? _t('لا يوجد موظفون متاحون في فرع الطلب لإسناد التوصيل إليهم.',
+              'No available employees in this branch to assign delivery to.')
+          : _t(
+              'لا يوجد موظفون متاحون في فرع الطلب مسندة إليهم خدمات هذا الطلب.',
+              'No available employees in this branch are assigned to the order services.',
+            ));
     }
     return Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(_t('اختر موظفًا أو أكثر من فرع الطلب لتنفيذ الخدمة.',
-              'Select one or more employees from the order branch to perform the service.')),
+          Text(widget.assignment.isDeliveryOrder
+              ? _t('اختر موظفي التوصيل من فريقك في فرع الطلب.',
+                  'Select delivery employees from your team in the order branch.')
+              : _t('اختر موظفًا أو أكثر من فرع الطلب لتنفيذ الخدمة.',
+                  'Select one or more employees from the order branch to perform the service.')),
           const SizedBox(height: 12),
           Column(
             mainAxisSize: MainAxisSize.min,
             children: _employees.map((employee) {
               final id = employee.employeeDetails!.employeeDetails!.id!;
+              final details = employee.employeeDetails!.employeeDetails!;
+              final job = Localizations.localeOf(context).languageCode == 'ar'
+                  ? details.jobname ?? details.joblatinname
+                  : details.joblatinname ?? details.jobname;
               final selected = _selectedIds.contains(id);
               return Padding(
                 padding: const EdgeInsets.only(bottom: 8),
@@ -162,24 +190,35 @@ class _OrderEmployeeAssignmentDialogState
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
                             color: AppColors.darkColor)),
-                    subtitle: employee.phone?.isNotEmpty == true
-                        ? Text(employee.phone!,
-                            textDirection: TextDirection.ltr,
-                            textAlign:
-                                Directionality.of(context) == TextDirection.rtl
-                                    ? TextAlign.right
-                                    : TextAlign.left,
-                            style: const TextStyle(
-                                fontFamily: AppFonts.readexProFontFamily,
-                                fontSize: 12,
-                                color: AppColors.darkGreyColor))
+                    subtitle: job?.trim().isNotEmpty == true ||
+                            employee.phone?.isNotEmpty == true
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (job?.trim().isNotEmpty == true) Text(job!),
+                              if (employee.phone?.isNotEmpty == true)
+                                Text(employee.phone!,
+                                    textDirection: TextDirection.ltr,
+                                    textAlign: Directionality.of(context) ==
+                                            TextDirection.rtl
+                                        ? TextAlign.right
+                                        : TextAlign.left,
+                                    style: const TextStyle(
+                                        fontFamily:
+                                            AppFonts.readexProFontFamily,
+                                        fontSize: 12,
+                                        color: AppColors.darkGreyColor)),
+                            ],
+                          )
                         : null,
                   ),
                 ),
               );
             }).toList(),
           ),
-          if (_selectedIds.isNotEmpty && !_coversServices)
+          if (!widget.assignment.isDeliveryOrder &&
+              _selectedIds.isNotEmpty &&
+              !_coversServices)
             Text(
                 _t('اختر موظفين لتغطية كل خدمات الطلب.',
                     'Select employees to cover all the order services.'),
@@ -230,8 +269,10 @@ class _OrderEmployeeAssignmentDialogState
                   color: AppColors.orangeColor, size: 24)),
           const SizedBox(width: 12),
           Expanded(
-              child: Text(
-                  _t('إسناد الطلب للموظفين', 'Assign order to employees'))),
+              child: Text(widget.assignment.isDeliveryOrder
+                  ? _t('إسناد التوصيل لموظفي الفرع',
+                      'Assign delivery to branch employees')
+                  : _t('إسناد الطلب للموظفين', 'Assign order to employees'))),
         ]),
         content: SizedBox(
           width: 440,

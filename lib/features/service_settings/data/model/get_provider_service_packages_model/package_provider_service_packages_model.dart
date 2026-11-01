@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 import 'package:flutter/cupertino.dart';
 import '../service_branch.dart';
 
@@ -25,6 +26,7 @@ class PackageProviderServicePackagesModel {
   factory PackageProviderServicePackagesModel.fromJson(
     Map<String, dynamic> json,
   ) {
+    json = ApiJson.object(json);
     return PackageProviderServicePackagesModel(
       branchIds: parseServiceBranchIds(json['branchIds']),
       id: json['id'] ?? 0,

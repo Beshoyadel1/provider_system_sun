@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 import 'package:sun_web_system/features/employee/data/model/employee_model/employee_model.dart';
 
 
@@ -16,6 +17,7 @@ class EmployeeWrapperRequest {
     if (json == null || json is! Map) {
       return const EmployeeWrapperRequest();
     }
+    json = ApiJson.object(json);
 
     // =========================================================
     // EMPLOYEE DETAILS
@@ -189,6 +191,7 @@ class EmployeePermissionsModel {
   factory EmployeePermissionsModel.fromJson(
       Map<String, dynamic> json,
       ) {
+    json = ApiJson.object(json);
     return EmployeePermissionsModel(
       employeeid: _toInt(
         json["employeeid"],

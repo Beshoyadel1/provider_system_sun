@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_result.dart';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import '../../../../../../../../../features/cars_haraj_page/data/request/create_update_harage_request/create_update_harage_request.dart';
@@ -14,10 +15,11 @@ Future<void> updateHarageFunction({
       createUpdateHarageRequest.toUpdateJson(),
     );
 
-     await Network.postDataWithBody(
+     final response = await Network.postDataWithBody(
       jsonString,
       ApiLink.updateHarage,
     );
+    ApiResult.requireSuccess(response);
 
 
   } catch (e) {

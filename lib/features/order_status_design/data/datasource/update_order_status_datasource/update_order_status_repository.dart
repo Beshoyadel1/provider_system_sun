@@ -9,7 +9,7 @@ Future<bool> updateOrderStatusFunction({
 }) async {
   try {
     final response = await Network.postDataWithBodyAndParams(
-      null,
+      updateOrderStatusRequest.toBody(),
       updateOrderStatusRequest.toJson(),
       ApiLink.updateOrderStatus,
     );

@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_result.dart';
 import 'package:dio/dio.dart';
 import '../../request/delete_product_request/delete_product_request.dart';
 import '../../../../../core/api/dio_function/api_constants.dart';
@@ -10,11 +11,12 @@ Future<void> deleteProductFunction({
   required DeleteProductRequest deleteProductRequest,
 }) async {
   try {
-    await Network.postDataWithBodyAndParams(
+    final response = await Network.postDataWithBodyAndParams(
       {},
       deleteProductRequest.toJson(), // params
         ApiLink.deleteProduct
     );
+    ApiResult.requireSuccess(response);
     AppSnackBar.showSuccess(AppLanguageKeys.deleteProductSuccess);
   } catch (e) {
     AppSnackBar.showError(
@@ -22,5 +24,6 @@ Future<void> deleteProductFunction({
           ? responseOfStatusCode(e.response?.statusCode)
           : e.toString(),
     );
+    rethrow;
   }
 }

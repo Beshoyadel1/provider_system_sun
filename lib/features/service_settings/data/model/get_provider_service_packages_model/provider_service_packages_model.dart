@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 import 'package:sun_web_system/features/service_settings/data/model/get_provider_service_packages_model/package_provider_service_packages_model.dart';
 import '../service_branch.dart';
 import '../create_service_package_model/create_service_package_request.dart';
@@ -33,12 +34,14 @@ class ProviderServicePackagesModel {
   factory ProviderServicePackagesModel.fromJson(
     Map<String, dynamic> json,
   ) {
+    json = ApiJson.object(json);
     return ProviderServicePackagesModel(
       branchIds: parseServiceBranchIds(json['branchIds']),
-      supportedCars: json['supportedCars'] is List
-          ? (json['supportedCars'] as List)
+      supportedCars: (json['supportedBrands'] ?? json['supportedCars']) is List
+          ? ((json['supportedBrands'] ?? json['supportedCars']) as List)
+              .whereType<Map>()
               .map((car) => SupportedCarRequest.fromJson(
-                  Map<String, dynamic>.from(car as Map)))
+                  Map<String, dynamic>.from(car)))
               .toList()
           : null,
       availableBranches:

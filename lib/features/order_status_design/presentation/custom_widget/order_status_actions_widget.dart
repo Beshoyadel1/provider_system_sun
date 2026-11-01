@@ -1,3 +1,4 @@
+import '../../data/model/provider_order_actions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/features/order_status_design/presentation/cubit/order_status_cubit/order_status_cubit.dart';
@@ -17,12 +18,16 @@ class OrderStatusActionsWidget extends StatefulWidget {
   final int orderId;
   final double? textSize;
   final OrderEmployeeAssignment assignment;
+  final bool isDeliveryOrder;
+  final bool isOnSite;
 
   const OrderStatusActionsWidget({
     super.key,
     required this.status,
     required this.orderId,
     required this.assignment,
+    this.isDeliveryOrder = false,
+    this.isOnSite = false,
     this.textSize,
   });
 
@@ -41,152 +46,51 @@ class _OrderStatusActionsWidgetState extends State<OrderStatusActionsWidget> {
   // STATUS CHECK
   // ============================================================
 
-  bool get _isNewOrder =>
-      status == OrderStatus.newOrderForProvider ||
-      status == OrderStatus.newOrderForCompany;
-
-  bool get _isWaitingAppointment => status == OrderStatus.waitingAppointment;
-
-  bool get _isEmployeeInRoad => status == OrderStatus.employeeInRoad;
-
-  bool get _isWorkInProgress => status == OrderStatus.workInProgress;
-
-  // ============================================================
-  // BUILD
-  // ============================================================
-
   @override
   Widget build(BuildContext context) {
-    if (status == null) {
-      return const SizedBox.shrink();
-    }
-
-    // ============================================================
-    // NEW ORDER
-    // ============================================================
-
-    if (_isNewOrder) {
-      return _buildActions(
-        context,
-        actions: const [
-          _ActionData(
-            text: AppLanguageKeys.acceptOrder,
-            icon: Icons.check_circle_outline,
-            backgroundColor: AppColors.partGreenMixColor,
-            color: AppColors.whiteColor,
-            dialogColor: AppColors.greenColor,
-            nextStatus: OrderStatus.waitingAppointment,
-          ),
-          _ActionData(
-            text: AppLanguageKeys.rejectedByProvider,
-            icon: Icons.close,
-            backgroundColor: AppColors.partPinkMixColor,
-            color: AppColors.whiteColor,
-            dialogColor: AppColors.redColor,
-            nextStatus: OrderStatus.rejectedByProvider,
-          ),
-          _ActionData(
-            text: AppLanguageKeys.cancelledByUser,
-            icon: Icons.cancel_outlined,
-            backgroundColor: AppColors.blackColor,
-            color: AppColors.whiteColor,
-            dialogColor: AppColors.darkColor,
-            nextStatus: OrderStatus.cancelledByUser,
-          ),
-        ],
-      );
-    }
-
-    // ============================================================
-    // WAITING APPOINTMENT
-    // ============================================================
-
-    if (_isWaitingAppointment) {
-      return _buildActions(
-        context,
-        actions: const [
-          _ActionData(
-            text: AppLanguageKeys.employeeInRound,
-            icon: Icons.airport_shuttle_outlined,
-            backgroundColor: AppColors.blueColor,
-            color: AppColors.whiteColor,
-            dialogColor: AppColors.blueColor,
-            nextStatus: OrderStatus.employeeInRoad,
-          ),
-          _ActionData(
-            text: AppLanguageKeys.cancelledByUser,
-            icon: Icons.cancel_outlined,
-            backgroundColor: AppColors.blackColor,
-            color: AppColors.whiteColor,
-            dialogColor: AppColors.darkColor,
-            nextStatus: OrderStatus.cancelledByUser,
-          ),
-        ],
-      );
-    }
-
-    // ============================================================
-    // EMPLOYEE IN ROAD
-    // ============================================================
-
-    if (_isEmployeeInRoad) {
-      return _buildActions(
-        context,
-        actions: const [
-          _ActionData(
-            text: AppLanguageKeys.workInProgress,
-            icon: Icons.settings_outlined,
-            backgroundColor: AppColors.orangeColor,
-            color: AppColors.whiteColor,
-            dialogColor: AppColors.orangeColor,
-            nextStatus: OrderStatus.workInProgress,
-          ),
-          _ActionData(
-            text: AppLanguageKeys.cancelledByUser,
-            icon: Icons.cancel_outlined,
-            backgroundColor: AppColors.blackColor,
-            color: AppColors.whiteColor,
-            dialogColor: AppColors.darkColor,
-            nextStatus: OrderStatus.cancelledByUser,
-          ),
-        ],
-      );
-    }
-
-    // ============================================================
-    // WORK IN PROGRESS
-    // ============================================================
-
-    if (_isWorkInProgress) {
-      return _buildActions(
-        context,
-        actions: const [
-          _ActionData(
-            text: AppLanguageKeys.orderCompleted,
-            icon: Icons.done_all,
-            backgroundColor: AppColors.greenColor,
-            color: AppColors.whiteColor,
-            dialogColor: AppColors.greenColor,
-            nextStatus: OrderStatus.orderCompleted,
-          ),
-          _ActionData(
-            text: AppLanguageKeys.cancelledByUser,
-            icon: Icons.cancel_outlined,
-            backgroundColor: AppColors.blackColor,
-            color: AppColors.whiteColor,
-            dialogColor: AppColors.darkColor,
-            nextStatus: OrderStatus.cancelledByUser,
-          ),
-        ],
-      );
-    }
-
-    return const SizedBox.shrink();
+    final allowed = ProviderOrderActions.allowed(status,
+        isDeliveryOrder: widget.isDeliveryOrder, isOnSite: widget.isOnSite);
+    if (allowed.isEmpty) return const SizedBox.shrink();
+    const definitions = {
+      OrderStatus.waitingAppointment: _ActionData(
+          text: AppLanguageKeys.acceptOrder,
+          icon: Icons.check_circle_outline,
+          backgroundColor: AppColors.partGreenMixColor,
+          color: AppColors.whiteColor,
+          dialogColor: AppColors.greenColor,
+          nextStatus: OrderStatus.waitingAppointment),
+      OrderStatus.rejectedByProvider: _ActionData(
+          text: AppLanguageKeys.rejectOrder,
+          icon: Icons.close,
+          backgroundColor: AppColors.partPinkMixColor,
+          color: AppColors.whiteColor,
+          dialogColor: AppColors.redColor,
+          nextStatus: OrderStatus.rejectedByProvider),
+      OrderStatus.employeeInRoad: _ActionData(
+          text: AppLanguageKeys.employeeInRound,
+          icon: Icons.airport_shuttle_outlined,
+          backgroundColor: AppColors.blueColor,
+          color: AppColors.whiteColor,
+          dialogColor: AppColors.blueColor,
+          nextStatus: OrderStatus.employeeInRoad),
+      OrderStatus.workInProgress: _ActionData(
+          text: AppLanguageKeys.workInProgress,
+          icon: Icons.settings_outlined,
+          backgroundColor: AppColors.orangeColor,
+          color: AppColors.whiteColor,
+          dialogColor: AppColors.orangeColor,
+          nextStatus: OrderStatus.workInProgress),
+      OrderStatus.orderCompleted: _ActionData(
+          text: AppLanguageKeys.orderCompleted,
+          icon: Icons.done_all,
+          backgroundColor: AppColors.greenColor,
+          color: AppColors.whiteColor,
+          dialogColor: AppColors.greenColor,
+          nextStatus: OrderStatus.orderCompleted),
+    };
+    return _buildActions(context,
+        actions: [for (final next in allowed) definitions[next]!]);
   }
-
-  // ============================================================
-  // ACTIONS
-  // ============================================================
 
   Widget _buildActions(
     BuildContext context, {
@@ -236,6 +140,10 @@ class _OrderStatusActionsWidgetState extends State<OrderStatusActionsWidget> {
           await cubit.updateOrderStatus(
               orderId: orderId,
               status: action.nextStatus,
+              currentStatus: status!,
+              providerId: widget.assignment.providerId ?? 0,
+              isDeliveryOrder: widget.isDeliveryOrder,
+              isOnSite: widget.isOnSite,
               employeeIds: employeeIds ?? const []);
         } finally {
           if (mounted) setState(() => _acting = false);

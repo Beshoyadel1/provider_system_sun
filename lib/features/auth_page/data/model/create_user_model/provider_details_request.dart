@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -50,6 +51,7 @@ class ProviderDetailsRequest {
   factory ProviderDetailsRequest.fromJson(
       Map<String, dynamic> json,
       ) {
+    json = ApiJson.object(json);
     return ProviderDetailsRequest(
       id: json['id'],
       name: json['name'],
@@ -161,6 +163,7 @@ class ApprovalInfoModel {
   factory ApprovalInfoModel.fromJson(
       Map<String, dynamic> json,
       ) {
+    json = ApiJson.object(json);
     return ApprovalInfoModel(
       provid: json['provid'],
       approvalinfoid: json['approvalinfoid'],

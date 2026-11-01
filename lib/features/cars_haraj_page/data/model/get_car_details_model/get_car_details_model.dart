@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 import 'dart:typed_data';
 
 class GetCarDetailsModel {
@@ -18,6 +19,7 @@ class GetCarDetailsModel {
   });
 
   factory GetCarDetailsModel.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return GetCarDetailsModel(
       carInfo: json['carInfo'] != null
           ? CarInfoModel.fromJson(json['carInfo'])
@@ -78,6 +80,7 @@ class CarInfoModel {
   });
 
   factory CarInfoModel.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return CarInfoModel(
       id: json['id'],
       releaseDate: json['releasedate'],
@@ -116,6 +119,7 @@ class CarBrandModel {
   });
 
   factory CarBrandModel.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return CarBrandModel(
       carBrandId: json['carbrandid'],
       brandName: json['brandname'],
@@ -141,6 +145,7 @@ class CarModelBrandDataModel {
   });
 
   factory CarModelBrandDataModel.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return CarModelBrandDataModel(
       carModelId: json['carmodelid'],
       modelName: json['modelname'],
@@ -167,6 +172,7 @@ class SummaryModel {
   });
 
   factory SummaryModel.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return SummaryModel(
       totalInvoices: (json['totalInvoices'] as num?)?.toDouble(),
       totalPetrol: (json['totalPetrol'] as num?)?.toDouble(),
@@ -188,6 +194,7 @@ class FuelConsumptionModel {
   });
 
   factory FuelConsumptionModel.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return FuelConsumptionModel(
       consumptionPercentage:
       (json['consumptionPercentage'] as num?)?.toDouble(),
@@ -213,6 +220,7 @@ class ServiceStatsModel {
   });
 
   factory ServiceStatsModel.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return ServiceStatsModel(
       serviceName: json['serviceName'],
       serviceLatinName: json['serviceLatinName'],
@@ -236,6 +244,7 @@ class RecentInvoiceModel {
   });
 
   factory RecentInvoiceModel.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return RecentInvoiceModel(
       id: json['id'],
       date: json['date'] != null
@@ -251,6 +260,7 @@ class DriverModel {
   DriverModel();
 
   factory DriverModel.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return DriverModel();
   }
 }

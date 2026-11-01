@@ -12,7 +12,7 @@ class ChatEvents {
 
   final StreamController<ReceiveMessageData>
   _controller =
-  StreamController<ReceiveMessageData>.broadcast();
+  StreamController<ReceiveMessageData>.broadcast(sync: true);
 
   Stream<ReceiveMessageData> get stream =>
       _controller.stream;

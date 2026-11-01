@@ -45,16 +45,9 @@ class CreateUpdateHarageRequest {
     final Map<String, dynamic> json = {
       "USERID": userId,
       "USERTYPE": userType,
-
-      if (carId != null)
-        "CARID": carId,
-
-      if (carBrandId != null)
-        "CARBRANDID": carBrandId,
-
-      if (carModelId != null)
-        "CARMODELID": carModelId,
-
+      if (carId != null) "CARID": carId,
+      if (carBrandId != null) "CARBRANDID": carBrandId,
+      if (carModelId != null) "CARMODELID": carModelId,
       "ISNEW": isNew,
       "RELEASEDATE": releaseDate,
       "TRANSMISSIONTYPE": transmissionType,
@@ -65,10 +58,7 @@ class CreateUpdateHarageRequest {
       "PRICE": price,
       "COST": cost,
       "BRANCHID": branchId,
-
-      "Images": images
-          .map((image) => base64Encode(image))
-          .toList(),
+      "Images": images.map((image) => base64Encode(image)).toList(),
     };
 
     return json;
@@ -81,19 +71,9 @@ class CreateUpdateHarageRequest {
   Map<String, dynamic> toUpdateJson() {
     final Map<String, dynamic> json = {
       "ID": id,
-
-      "USERID": userId,
-      "USERTYPE": userType,
-
-      if (carId != null)
-        "CARID": carId,
-
-      if (carBrandId != null)
-        "CARBRANDID": carBrandId,
-
-      if (carModelId != null)
-        "CARMODELID": carModelId,
-
+      if (carId != null) "CARID": carId,
+      if (carBrandId != null) "CARBRANDID": carBrandId,
+      if (carModelId != null) "CARMODELID": carModelId,
       "ISNEW": isNew,
       "RELEASEDATE": releaseDate,
       "TRANSMISSIONTYPE": transmissionType,
@@ -104,12 +84,10 @@ class CreateUpdateHarageRequest {
       "PRICE": price,
       "COST": cost,
       "BRANCHID": branchId,
-
-      "Images": images
-          .map((image) => base64Encode(image))
-          .toList(),
+      "Images": images.map((image) => base64Encode(image)).toList(),
     };
 
+    json.removeWhere((_, value) => value == null);
     return json;
   }
 }

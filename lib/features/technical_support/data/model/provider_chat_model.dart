@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:intl/intl.dart';
 
 /// Represents an active or historical conversation item with another entity.
 class GetAllMessagesModel {
@@ -11,6 +12,7 @@ class GetAllMessagesModel {
   Uint8List? image;
   int unViewedMessagesCount;
   ChatMessageModel? directLastMessage;
+  final bool? isClosed;
 
   GetAllMessagesModel({
     this.touser,
@@ -21,9 +23,15 @@ class GetAllMessagesModel {
     this.image,
     this.unViewedMessagesCount = 0,
     this.directLastMessage,
+    this.isClosed,
   });
 
   factory GetAllMessagesModel.fromJson(Map<String, dynamic> json) {
+    json = {
+      ...json,
+      for (final e in json.entries)
+        e.key.toLowerCase().replaceAll('_', ''): e.value
+    };
     final rawImage = json['userImage'] ??
         json['userimage'] ??
         json['USERIMAGE'] ??
@@ -42,10 +50,11 @@ class GetAllMessagesModel {
     }
 
     ChatMessageModel? directLastMsg;
-    if (json['lastMessage'] is Map) {
+    final rawLastMessage = json['lastMessage'] ?? json['lastmessage'];
+    if (rawLastMessage is Map) {
       try {
         directLastMsg = ChatMessageModel.fromJson(
-            Map<String, dynamic>.from(json['lastMessage']));
+            Map<String, dynamic>.from(rawLastMessage));
       } catch (_) {}
     }
 
@@ -60,6 +69,16 @@ class GetAllMessagesModel {
     } else if (directLastMsg != null) {
       messagesList = [directLastMsg];
     }
+    if (directLastMsg != null &&
+        directLastMsg.id > 0 &&
+        !(messagesList?.any((m) => m.id == directLastMsg!.id) ?? false)) {
+      messagesList = [...?messagesList, directLastMsg];
+    }
+    messagesList?.sort((a, b) {
+      final compared =
+          (a.date ?? DateTime(1970)).compareTo(b.date ?? DateTime(1970));
+      return compared != 0 ? compared : a.id.compareTo(b.id);
+    });
 
     final toUserVal = json['userId'] ??
         json['userid'] ??
@@ -91,7 +110,10 @@ class GetAllMessagesModel {
           json['name'] ??
           json['NAME'],
       messages: messagesList ?? [],
-      noOldMessages: json['noOldMessages'] ?? json['NoOldMessages'] ?? false,
+      noOldMessages: ChatMessageModel._bool(json['nooldmessages']),
+      isClosed: json['isclosed'] == null
+          ? null
+          : ChatMessageModel._bool(json['isclosed']),
       image: decodedImage,
       unViewedMessagesCount: unviewedCount is num
           ? unviewedCount.toInt()
@@ -119,6 +141,25 @@ class GetAllMessagesModel {
     }
     return directLastMessage;
   }
+
+  GetAllMessagesModel copyWith({
+    int? touser,
+    List<ChatMessageModel>? messages,
+    bool? noOldMessages,
+    int? unViewedMessagesCount,
+  }) =>
+      GetAllMessagesModel(
+        touser: touser ?? this.touser,
+        tousertype: tousertype,
+        userName: userName,
+        messages: messages ?? this.messages,
+        noOldMessages: noOldMessages ?? this.noOldMessages,
+        image: image,
+        unViewedMessagesCount:
+            unViewedMessagesCount ?? this.unViewedMessagesCount,
+        directLastMessage: directLastMessage,
+        isClosed: isClosed,
+      );
 }
 
 /// Represents an individual chat message entity.
@@ -152,14 +193,12 @@ class ChatMessageModel {
   });
 
   factory ChatMessageModel.fromJson(Map<String, dynamic> json) {
-    DateTime? parsedDate;
-    var rawDate = json['date'] ?? json['DATE'] ?? json['Date'];
-    if (rawDate is String && rawDate.isNotEmpty) {
-      parsedDate = DateTime.tryParse(rawDate);
-    } else if (rawDate is DateTime) {
-      parsedDate = rawDate;
-    }
-    parsedDate ??= DateTime.now();
+    json = {
+      ...json,
+      for (final e in json.entries)
+        e.key.toLowerCase().replaceAll('_', ''): e.value
+    };
+    final parsedDate = parseDate(json['date'] ?? json['DATE'] ?? json['Date']);
 
     int parseNum(dynamic val) {
       if (val is num) return val.toInt();
@@ -168,6 +207,7 @@ class ChatMessageModel {
     }
 
     final rawFromUser = json['fromuser'] ??
+        json['fromuserid'] ??
         json['FROMUSER'] ??
         json['fromUser'] ??
         json['fromUserId'] ??
@@ -179,6 +219,7 @@ class ChatMessageModel {
         0;
 
     final rawToUser = json['touser'] ??
+        json['touserid'] ??
         json['TOUSER'] ??
         json['toUser'] ??
         json['toUserId'] ??
@@ -228,14 +269,11 @@ class ChatMessageModel {
       toUserType: parseNum(rawToUserType),
       message: rawMessage.toString(),
       date: parsedDate,
-      viewed: json['viewed'] == true ||
-          json['VIEWED'] == true ||
-          json['viewed'] == 1 ||
-          json['isviewed'] == true ||
-          json['isViewed'] == true,
-      isClosed: json['isclosed'] == true ||
-          json['ISCLOSED'] == true ||
-          json['isclosed'] == 1,
+      viewed: _bool(json['viewed'] ??
+          json['VIEWED'] ??
+          json['isviewed'] ??
+          json['isViewed']),
+      isClosed: _bool(json['isclosed'] ?? json['ISCLOSED'] ?? json['isClosed']),
       orderId: rawOrderId != null ? parseNum(rawOrderId) : null,
       harageId: rawHarageId != null ? parseNum(rawHarageId) : null,
       fromUserName: json['fromusername'] ??
@@ -268,6 +306,44 @@ class ChatMessageModel {
   bool isOutgoing(int myUserId, int myUserType) {
     return fromUser == myUserId && fromUserType == myUserType;
   }
+
+  static bool _bool(dynamic value) =>
+      value == true || '$value'.toLowerCase() == 'true' || '$value' == '1';
+
+  static DateTime? parseDate(dynamic raw) {
+    if (raw is DateTime) return raw;
+    final text = raw?.toString().trim() ?? '';
+    final iso = DateTime.tryParse(text);
+    if (iso != null) return iso;
+    // These formats are already supported by the legacy chat history model.
+    for (final pattern in ['MM/dd/yyyy HH:mm:ss', 'yyyy-MM-dd HH:mm:ss']) {
+      try {
+        return DateFormat(pattern).parseStrict(text);
+      } catch (_) {}
+    }
+    return null;
+  }
+
+  ChatMessageModel copyWith(
+          {int? id,
+          DateTime? date,
+          bool? viewed,
+          int? fromUserType,
+          int? toUserType}) =>
+      ChatMessageModel(
+        id: id ?? this.id,
+        fromUser: fromUser,
+        toUser: toUser,
+        fromUserType: fromUserType ?? this.fromUserType,
+        toUserType: toUserType ?? this.toUserType,
+        message: message,
+        date: date ?? this.date,
+        viewed: viewed ?? this.viewed,
+        isClosed: isClosed,
+        orderId: orderId,
+        harageId: harageId,
+        fromUserName: fromUserName,
+      );
 }
 
 /// Payload sent to the backend when sending a chat message.
@@ -278,6 +354,7 @@ class SendChatMessageModel {
   final int? toUserType;
   final int orderId;
   final String message;
+  final DateTime date;
 
   SendChatMessageModel({
     required this.fromUser,
@@ -286,10 +363,12 @@ class SendChatMessageModel {
     this.toUserType,
     required this.orderId,
     required this.message,
-  });
+    DateTime? date,
+  }) : date = date ?? DateTime.now();
 
   Map<String, dynamic> toJson() {
-    final nowIso = DateTime.now().toIso8601String();
+    // Local ISO strings omit the timezone; send an unambiguous UTC instant.
+    final utcIso = date.toUtc().toIso8601String();
     return {
       'ID': 0,
       'id': 0,
@@ -311,8 +390,8 @@ class SendChatMessageModel {
       'viewed': false,
       'ISCLOSED': false,
       'isclosed': false,
-      'DATE': nowIso,
-      'date': nowIso,
+      'DATE': utcIso,
+      'date': utcIso,
     };
   }
 }
@@ -350,8 +429,12 @@ class WorkTeamMemberModel {
       decodedImage = rawImage;
     }
 
-    final idVal = json['userid'] ?? json['USERID'] ?? json['userId'] ?? json['id'];
-    final typeVal = json['usertype'] ?? json['USERTYPE'] ?? json['userType'] ?? json['type'];
+    final idVal =
+        json['userid'] ?? json['USERID'] ?? json['userId'] ?? json['id'];
+    final typeVal = json['usertype'] ??
+        json['USERTYPE'] ??
+        json['userType'] ??
+        json['type'];
 
     return WorkTeamMemberModel(
       userid: idVal is num ? idVal.toInt() : int.tryParse('$idVal'),
@@ -359,7 +442,8 @@ class WorkTeamMemberModel {
       name: json['name'] ?? json['NAME'] ?? json['username'],
       latinname: json['latinname'] ?? json['LATINNAME'] ?? json['name'],
       jobname: json['jobname'] ?? json['JOBNAME'],
-      latinjobname: json['latinjobname'] ?? json['LATINJOBNAME'] ?? json['jobname'],
+      latinjobname:
+          json['latinjobname'] ?? json['LATINJOBNAME'] ?? json['jobname'],
       image: decodedImage,
     );
   }

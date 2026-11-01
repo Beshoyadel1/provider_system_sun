@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sun_web_system/core/language/language_cubit/language_cubit.dart';
 
@@ -29,6 +30,7 @@ class ProviderBranchModel {
   });
 
   factory ProviderBranchModel.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return ProviderBranchModel(
       branchId: json['branchid'],
       branchName: json['branchname'] ?? '',

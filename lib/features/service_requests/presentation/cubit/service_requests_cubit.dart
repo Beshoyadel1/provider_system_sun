@@ -33,6 +33,20 @@ class ServiceRequestsCubit extends Cubit<ServiceRequestsState> {
   int _userType = 4, _session = 0, _revision = 0, _views = 0, _selection = 0;
   bool _hasLoaded = false, _operationBusy = false;
   Future<void>? _listRequest;
+  List<int> selectedServiceIds = const [];
+  int _filterRevision = 0;
+
+  bool _matchesServices(ServiceRequestModel request) =>
+      selectedServiceIds.isEmpty || selectedServiceIds.contains(request.service.id);
+
+  Future<void> selectServices(List<int> ids) async {
+    selectedServiceIds = List.unmodifiable(ids.where((id) => id > 0).toSet().toList()..sort());
+    _filterRevision++;
+    requests = _sorted(requests.where(_matchesServices));
+    _hasLoaded = false;
+    _listRequest = null;
+    await loadRequests(force: true);
+  }
   final _details = <int, ServiceRequestModel>{};
   final _detailRequests = <int, Future<ServiceRequestModel>>{};
   final _pendingDetailPatches = <int, Map<String, dynamic>>{};
@@ -83,7 +97,12 @@ class ServiceRequestsCubit extends Cubit<ServiceRequestsState> {
 
   void markSeen() {
     if (_unread.isEmpty) return;
-    _unread.clear();
+    if (selectedServiceIds.isEmpty) {
+      _unread.clear();
+    } else {
+      final visible = requests.map((request) => request.id).toSet();
+      _unread.removeWhere(visible.contains);
+    }
     _changed();
   }
 
@@ -96,7 +115,12 @@ class ServiceRequestsCubit extends Cubit<ServiceRequestsState> {
     _versions[request.id] = ++_revision;
     final byId = {for (final r in requests) r.id: r};
     if (request.isOpen && !_removed.contains(request.id)) {
-      byId[request.id] = request;
+      if (_matchesServices(request)) {
+        byId[request.id] = request;
+        if (pageIsOpen) _unread.remove(request.id);
+      } else {
+        byId.remove(request.id);
+      }
     } else {
       byId.remove(request.id);
       _removed.add(request.id);
@@ -116,6 +140,7 @@ class ServiceRequestsCubit extends Cubit<ServiceRequestsState> {
 
   Future<void> loadRequests({bool force = false}) async {
     final session = _session;
+    final filterRevision = _filterRevision;
     try {
       final id = await _ensureProviderId();
       if (session != _session) return;
@@ -132,23 +157,24 @@ class ServiceRequestsCubit extends Cubit<ServiceRequestsState> {
       try {
         await pending;
       } finally {
-        if (session == _session) _listRequest = null;
+        if (session == _session && identical(_listRequest, pending)) _listRequest = null;
       }
     } catch (error) {
-      if (session == _session && !isClosed) {
+      if (session == _session && !isClosed && filterRevision == _filterRevision) {
         emit(ServiceRequestsError(_message(error)));
       }
     }
   }
 
   Future<void> _loadList(int id, int session) async {
+    final filterRevision = _filterRevision;
     final before = _revision;
     emit(const ServiceRequestsLoading());
-    final loaded = await _repository.getRequests(providerId: id);
-    if (session != _session || isClosed) return;
+    final loaded = await _repository.getRequests(providerId: id, serviceIds: selectedServiceIds);
+    if (session != _session || isClosed || filterRevision != _filterRevision) return;
     final byId = <int, ServiceRequestModel>{};
     for (final item in loaded) {
-      if (!item.isOpen || _removed.contains(item.id)) continue;
+      if (!item.isOpen || _removed.contains(item.id) || !_matchesServices(item)) continue;
       byId[item.id] = item.copyWith(
           hasMyOffer: _details[item.id]?.hasMyOffer ?? item.hasMyOffer);
       _pending.remove(item.id);
@@ -157,13 +183,15 @@ class ServiceRequestsCubit extends Cubit<ServiceRequestsState> {
     for (final item in requests) {
       if ((_versions[item.id] ?? 0) > before &&
           item.isOpen &&
+          _matchesServices(item) &&
           !_removed.contains(item.id)) {
         byId[item.id] = item;
       }
     }
-    _details.removeWhere((key, _) => !byId.containsKey(key));
+    if (selectedServiceIds.isEmpty) _details.removeWhere((key, _) => !byId.containsKey(key));
     requests = _sorted(byId.values);
     _hasLoaded = true;
+    if (pageIsOpen) markSeen();
     _changed();
     await _hydratePending();
   }
@@ -193,7 +221,12 @@ class ServiceRequestsCubit extends Cubit<ServiceRequestsState> {
     if (requestId == null || requestId <= 0 || _removed.contains(requestId)) {
       return;
     }
-    if (_received.add(requestId) && !pageIsOpen) _unread.add(requestId);
+    final incomingService = NotificationPayload.object(item['service']);
+    final incomingServiceId = int.tryParse('${incomingService['id']}');
+    if (_received.add(requestId) && (!pageIsOpen ||
+        (selectedServiceIds.isNotEmpty && !selectedServiceIds.contains(incomingServiceId)))) {
+      _unread.add(requestId);
+    }
     final patch = <String, dynamic>{...item, 'id': requestId};
     if (payload.get('status') != null) {
       patch['status'] = payload.integer('status');
@@ -436,6 +469,8 @@ class ServiceRequestsCubit extends Cubit<ServiceRequestsState> {
   }
 
   void reset() {
+    selectedServiceIds = const [];
+    _filterRevision++;
     _session++;
     _selection++;
     _revision = 0;

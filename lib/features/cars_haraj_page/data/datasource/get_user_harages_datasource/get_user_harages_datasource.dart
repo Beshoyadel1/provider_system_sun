@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:sun_web_system/core/api/api_result.dart';
 import 'package:sun_web_system/features/cars_haraj_page/data/request/get_user_harages_request/get_user_harages_request.dart';
 import '../../../../../core/api/dio_function/api_constants.dart';
 import '../../../../../core/api/dio_function/dio_controller.dart';
@@ -16,7 +17,7 @@ Future<GetUserHaragesResponse?> getUserHaragesFunction({
       ApiLink.getUserHarages,
     );
 
-    final responseData = response.data;
+    final responseData = ApiResult.requireSuccess(response);
 
     final bool success = responseData['success'] ?? false;
 

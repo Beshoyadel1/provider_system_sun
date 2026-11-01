@@ -48,10 +48,10 @@ int? mapOrderType(int tab) {
       return 1;
 
     case OrdersTabs.completed:
-      return 2;
+      return 3;
 
     case OrdersTabs.inProgress:
-      return 3;
+      return 2;
 
     case OrdersTabs.all:
     default:

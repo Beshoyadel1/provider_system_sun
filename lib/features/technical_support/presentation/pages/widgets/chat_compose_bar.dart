@@ -3,11 +3,13 @@ import '../../../../../../core/theming/colors.dart';
 
 class ChatComposeBar extends StatefulWidget {
   final bool isSending;
+  final bool isClosed;
   final ValueChanged<String> onSend;
 
   const ChatComposeBar({
     super.key,
     required this.isSending,
+    this.isClosed = false,
     required this.onSend,
   });
 
@@ -41,7 +43,7 @@ class _ChatComposeBarState extends State<ChatComposeBar> {
 
   void _submit() {
     final text = _controller.text.trim();
-    if (text.isEmpty || widget.isSending) return;
+    if (text.isEmpty || widget.isSending || widget.isClosed) return;
     widget.onSend(text);
     _controller.clear();
   }
@@ -68,13 +70,16 @@ class _ChatComposeBarState extends State<ChatComposeBar> {
                 ),
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: TextField(
+                  enabled: !widget.isClosed,
                   controller: _controller,
                   textInputAction: TextInputAction.send,
                   minLines: 1,
                   maxLines: 4,
                   onSubmitted: (_) => _submit(),
                   decoration: InputDecoration(
-                    hintText: isAr ? 'اكتب رسالتك هنا...' : 'Type a message...',
+                    hintText: widget.isClosed
+                        ? (isAr ? 'المحادثة مغلقة' : 'Conversation closed')
+                        : (isAr ? 'اكتب رسالتك هنا...' : 'Type a message...'),
                     hintStyle: const TextStyle(
                       color: AppColors.textSecondary,
                       fontSize: 13,
@@ -88,7 +93,7 @@ class _ChatComposeBarState extends State<ChatComposeBar> {
             ),
             const SizedBox(width: 8),
             MouseRegion(
-              cursor: (_hasContent && !widget.isSending)
+              cursor: (_hasContent && !widget.isSending && !widget.isClosed)
                   ? SystemMouseCursors.click
                   : SystemMouseCursors.basic,
               child: AnimatedContainer(
@@ -96,7 +101,7 @@ class _ChatComposeBarState extends State<ChatComposeBar> {
                 width: 44,
                 height: 44,
                 decoration: BoxDecoration(
-                  color: (_hasContent && !widget.isSending)
+                  color: (_hasContent && !widget.isSending && !widget.isClosed)
                       ? AppColors.mainColor
                       : AppColors.scaffoldBackground,
                   shape: BoxShape.circle,
@@ -120,7 +125,9 @@ class _ChatComposeBarState extends State<ChatComposeBar> {
                               : AppColors.appGrey,
                         ),
                   onPressed:
-                      (_hasContent && !widget.isSending) ? _submit : null,
+                      (_hasContent && !widget.isSending && !widget.isClosed)
+                          ? _submit
+                          : null,
                 ),
               ),
             ),

@@ -10,6 +10,7 @@ import '../request/service_offer_request.dart';
 abstract class ServiceRequestsRepository {
   Future<List<ServiceRequestModel>> getRequests({
     required int providerId,
+    List<int> serviceIds = const [],
   });
 
   Future<ServiceRequestModel> getDetails(int requestId);
@@ -28,9 +29,10 @@ class NetworkServiceRequestsRepository implements ServiceRequestsRepository {
   @override
   Future<List<ServiceRequestModel>> getRequests({
     required int providerId,
+    List<int> serviceIds = const [],
   }) async {
     final response = await _guard(() => Network.postDataWithBody(
-          {'providerId': providerId},
+          {'providerId': providerId, if (serviceIds.isNotEmpty) 'ServiceIds': serviceIds},
           ApiLink.getServiceRequestsForProvider,
         ));
     final data = _successfulData(response.data);

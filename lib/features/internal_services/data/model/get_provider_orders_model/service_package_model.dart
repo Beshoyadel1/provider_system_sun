@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 class ServicePackageModel {
   final String? packageName;
   final String? packageLatinName;
@@ -26,6 +27,7 @@ class ServicePackageModel {
   });
 
   factory ServicePackageModel.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return ServicePackageModel(
       packageName: json['packagename'],
       packageLatinName: json['packagelatinname'],

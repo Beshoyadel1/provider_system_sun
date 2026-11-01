@@ -12,14 +12,15 @@ class ChatDateChip extends StatelessWidget {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final yesterday = DateTime(now.year, now.month, now.day - 1);
-    final target = DateTime(date.year, date.month, date.day);
+    final localDate = date.toLocal();
+    final target = DateTime(localDate.year, localDate.month, localDate.day);
 
     if (target == today) {
       return isAr ? 'اليوم' : 'Today';
     } else if (target == yesterday) {
       return isAr ? 'أمس' : 'Yesterday';
     } else {
-      return DateFormat('d MMMM y', isAr ? 'ar' : 'en').format(date);
+      return DateFormat('d MMMM y', isAr ? 'ar' : 'en').format(localDate);
     }
   }
 

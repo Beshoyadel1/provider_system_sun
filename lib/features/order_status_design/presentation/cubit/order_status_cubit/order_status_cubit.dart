@@ -8,6 +8,7 @@ import 'package:sun_web_system/features/notifications/data/model/notification_pa
 import '../../../../../../../../../features/order_status_design/data/datasource/update_order_status_datasource/update_order_status_repository.dart';
 import '../../../../../../../../../features/order_status_design/data/request/update_order_status_request.dart';
 import '../../../../../../../../../features/order_status_design/presentation/cubit/order_status_cubit/order_status_state.dart';
+import '../../../data/model/provider_order_actions.dart';
 
 class OrderStatusCubit extends Cubit<OrderStatusState> {
   OrderStatusCubit({
@@ -30,6 +31,10 @@ class OrderStatusCubit extends Cubit<OrderStatusState> {
   Future<void> updateOrderStatus({
     required int orderId,
     required int status,
+    required int currentStatus,
+    required int providerId,
+    bool isDeliveryOrder = false,
+    bool isOnSite = false,
     List<int> employeeIds = const [],
   }) async {
     if (isClosed || state is OrderStatusLoading) return;
@@ -41,10 +46,16 @@ class OrderStatusCubit extends Cubit<OrderStatusState> {
         throw Exception(AppLanguageKeys.pleaseSignInAgain);
       }
       if (orderId <= 0) throw Exception(AppLanguageKeys.invalidOrderId);
+      if (user.type != UserType.providerUser ||
+          user.userid != providerId ||
+          !ProviderOrderActions.allowed(currentStatus,
+                  isDeliveryOrder: isDeliveryOrder, isOnSite: isOnSite)
+              .contains(status)) {
+        throw Exception(AppLanguageKeys.failedToUpdateOrderStatus);
+      }
       if (status == OrderStatus.waitingAppointment &&
           (selectedIds.isEmpty || selectedIds.any((id) => id <= 0))) {
-        throw Exception(
-            AppLanguageKeys.selectEmployeeBeforeAccepting);
+        throw Exception(AppLanguageKeys.selectEmployeeBeforeAccepting);
       }
       final request = UpdateOrderStatusRequest(
         orderId: orderId,
@@ -56,7 +67,8 @@ class OrderStatusCubit extends Cubit<OrderStatusState> {
       );
       final isSuccess = await _statusWriter(updateOrderStatusRequest: request);
       if (isClosed) return;
-      if (!isSuccess) throw Exception(AppLanguageKeys.failedToUpdateOrderStatus);
+      if (!isSuccess)
+        throw Exception(AppLanguageKeys.failedToUpdateOrderStatus);
       _updates.add(NotificationPayload({
         'type': 'update_order_status',
         'orderId': orderId,

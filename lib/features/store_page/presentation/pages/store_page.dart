@@ -9,7 +9,7 @@ import 'package:sun_web_system/features/store_page/presentation/bloc/work_time_c
 import 'package:sun_web_system/features/store_page/presentation/bloc/work_time_cubit/work_time_state.dart';
 import 'package:sun_web_system/features/store_page/domain/provider_profile_completion_status.dart';
 import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/app_bar_for_page.dart';
-import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/dialog_for_back.dart';
+import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/general_widgets_in_store/function_add_to_opened_pages.dart';
 import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/provider_profile_completion_dialog.dart';
 import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/pages_selection_bar.dart';
 import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/selected_screen_widget.dart';
@@ -57,7 +57,7 @@ class _StorePageState extends State<StorePage> {
       page: dashboardPage.page,
     );
 
-    _appCubit.selectedPageFromOpenedPagesIndex = dashboardPageWithID.id;
+    _appCubit.selectedPageFromOpenedPagesIndex = -1;
 
     _appCubit.selectedPageIndex = dashboardPageWithID.id;
 
@@ -104,6 +104,20 @@ class _StorePageState extends State<StorePage> {
     _appCubit.navigateToFacilityAccount(tabIndex: tabIndex);
   }
 
+  bool _goingBack = false;
+  Future<void> _goBack() async {
+    if (_goingBack || !_appCubit.canGoBack) return;
+    _goingBack = true;
+    try {
+      if (_appCubit.data.isNotEmpty) {
+        await addToOpenedPages(context: context, appCubit: _appCubit);
+      }
+      if (mounted) _appCubit.goBack();
+    } finally {
+      _goingBack = false;
+    }
+  }
+
   @override
   void dispose() {
     _workTimeCubit.close();
@@ -142,66 +156,67 @@ class _StorePageState extends State<StorePage> {
           },
         ),
       ],
-      child: PopScope(
-        canPop: false,
-        onPopInvokedWithResult: (
-          bool didPop,
-          Object? result,
-        ) async {
-          if (didPop) return;
+      child: BlocBuilder<AppCubit, AppStates>(
+        bloc: _appCubit,
+        buildWhen: (_, state) => state is ChangeSelectedPageIndexState,
+        builder: (context, state) => PopScope(
+          canPop: !_appCubit.canGoBack,
+          onPopInvokedWithResult: (bool didPop, Object? result) async {
+            if (didPop) return;
+            if (_scaffoldKeyDrawer.currentState?.isDrawerOpen ?? false) {
+              _scaffoldKeyDrawer.currentState?.closeDrawer();
+              return;
+            }
+            await _goBack();
+          },
+          child: Scaffold(
+            key: _scaffoldKeyDrawer,
+            backgroundColor: AppColors.whiteGreyColor,
+            drawer: isMobile
+                ? const Drawer(
+                    width: 256,
+                    child: PagesSelectionBar(),
+                  )
+                : null,
+            body: Row(
+              children: [
+                if (!isMobile)
+                  BlocBuilder<AppCubit, AppStates>(
+                    bloc: _appCubit,
+                    buildWhen: (previous, current) {
+                      return current is HideMenuState;
+                    },
+                    builder: (context, state) {
+                      if (!_appCubit.isMenuOpen) {
+                        return const SizedBox.shrink();
+                      }
 
-          final shouldPop = await showBackDialog(context: context) ?? false;
-
-          if (shouldPop && context.mounted) {
-            Navigator.of(context).pop();
-          }
-        },
-        child: Scaffold(
-          key: _scaffoldKeyDrawer,
-          backgroundColor: AppColors.whiteGreyColor,
-          drawer: isMobile
-              ? const Drawer(
-                  width: 256,
-                  child: PagesSelectionBar(),
-                )
-              : null,
-          body: Row(
-            children: [
-              if (!isMobile)
-                BlocBuilder<AppCubit, AppStates>(
-                  bloc: _appCubit,
-                  buildWhen: (previous, current) {
-                    return current is HideMenuState;
-                  },
-                  builder: (context, state) {
-                    if (!_appCubit.isMenuOpen) {
-                      return const SizedBox.shrink();
-                    }
-
-                    return const PagesSelectionBar();
-                  },
+                      return const PagesSelectionBar();
+                    },
+                  ),
+                Expanded(
+                  child: Column(
+                    children: [
+                      AppBarForPage(
+                        scaffoldKey: _scaffoldKeyDrawer,
+                        onBack: _goBack,
+                      ),
+                      BlocBuilder<BranchCubit, BranchState>(
+                        bloc: _branchCubit,
+                        builder: (context, state) {
+                          return KeyedSubtree(
+                            key: ValueKey(
+                              'selected_screen_${_branchCubit.selectedBranchId}',
+                            ),
+                            child: const SelectedScreenWidget(),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-              Expanded(
-                child: Column(
-                  children: [
-                    AppBarForPage(
-                      scaffoldKey: _scaffoldKeyDrawer,
-                    ),
-                    BlocBuilder<BranchCubit, BranchState>(
-                      bloc: _branchCubit,
-                      builder: (context, state) {
-                        return KeyedSubtree(
-                          key: ValueKey(
-                            'selected_screen_${_branchCubit.selectedBranchId}',
-                          ),
-                          child: const SelectedScreenWidget(),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

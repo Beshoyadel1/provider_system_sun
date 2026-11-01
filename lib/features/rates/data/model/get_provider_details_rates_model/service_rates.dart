@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 import 'package:sun_web_system/features/rates/data/model/get_provider_details_rates_model/rate_item.dart';
 
 
@@ -19,6 +20,7 @@ class ServiceRates {
   });
 
   factory ServiceRates.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return ServiceRates(
       id: json['id'],
       parentId: json['parentid'],

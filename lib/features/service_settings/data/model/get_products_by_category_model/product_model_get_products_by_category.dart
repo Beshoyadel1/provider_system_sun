@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
@@ -56,6 +57,7 @@ class ProductModelGetProductsByCategory {
 
   factory ProductModelGetProductsByCategory.fromJson(
       Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     final data = json['data'] as Map<String, dynamic>? ?? json;
     final stocks = _readStocks(data['branchStocks']);
 
@@ -141,6 +143,7 @@ class BrandModel {
   });
 
   factory BrandModel.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return BrandModel(
       brandId: json['brandid'] ?? 0,
       brandName: json['brandname']?.toString() ?? "",
@@ -170,6 +173,7 @@ class CarModel {
   });
 
   factory CarModel.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return CarModel(
       modelId: json['modelid'] ?? 0,
       modelName: json['modelname']?.toString() ?? "",
@@ -192,6 +196,7 @@ class ProviderModel {
   });
 
   factory ProviderModel.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return ProviderModel(
       id: json['id'] ?? 0,
       name: json['name']?.toString() ?? "",
@@ -228,6 +233,7 @@ class ProductSizeModel {
 
   factory ProductSizeModel.fromJson(Map<String, dynamic> json,
       {List<ProductBranchStock> productStocks = const []}) {
+    json = ApiJson.object(json);
     final id = _readInt(json['id']);
     return ProductSizeModel(
       id: id,
@@ -265,8 +271,9 @@ class ProductBranchStock {
     required this.isActive,
   });
 
-  factory ProductBranchStock.fromJson(Map<String, dynamic> json) =>
-      ProductBranchStock(
+  factory ProductBranchStock.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
+    return ProductBranchStock(
         branchId: _readInt(json['branchId']) ?? 0,
         // Zero is a real size ID in the observed API response, unlike null.
         sizeId: _readInt(json['sizeId']),
@@ -275,6 +282,7 @@ class ProductBranchStock {
         inStock: _readInt(json['inStock']) ?? 0,
         isActive: json['isActive'] == true,
       );
+  }
 
   String getBranchName(bool isArabic) {
     final preferred = isArabic ? branchName : branchLatinName;

@@ -1,82 +1,86 @@
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:sun_web_system/core/pages_widgets/general_widgets/memory_image_with_fallback.dart';
-import '../../../../../../../../core/pages_widgets/general_widgets/custom_container.dart';
-import '../../../../../../../../core/theming/fonts.dart';
-import '../../../../../../../../core/theming/text_styles.dart';
-import '../../../../../../../../features/order_status_design/presentation/pages/calling_in_service_request/ui/screens/container_call_in_data_calling_design.dart';
-import '../../../../../../../core/language/language_constant.dart';
-import '../../../../../../../core/theming/assets.dart';
-import '../../../../../../../core/theming/colors.dart';
+import 'package:flutter/services.dart';
+import '../../../../core/pages_widgets/general_widgets/memory_image_with_fallback.dart';
+import '../../../../core/theming/assets.dart';
+import '../../../../core/theming/colors.dart';
 
 class ContainerContactWithCustomerOrderDetailsWidget extends StatelessWidget {
-  final String? nameCustomer;
-  final Uint8List? imageUser;
-
   const ContainerContactWithCustomerOrderDetailsWidget(
-      {super.key, this.imageUser, this.nameCustomer});
+      {super.key,
+      this.nameCustomer,
+      this.imageUser,
+      this.phone,
+      this.onMessage});
+  final String? nameCustomer, phone;
+  final Uint8List? imageUser;
+  final VoidCallback? onMessage;
 
   @override
   Widget build(BuildContext context) {
-    return CustomContainer(
-      onTap: () {},
-      isSelected: true,
-      borderRadius: BorderRadius.circular(20),
-      border: Border.all(color: AppColors.orangeColor.withOpacity(0.4)),
-      typeWidget: Column(
-        spacing: 10,
-        children: [
-          const TextInAppWidget(
-            text: AppLanguageKeys.contactCustomer,
-            textSize: 15,
-            fontWeightIndex: FontSelectionData.regularFontFamily,
-            textColor: AppColors.blackColor,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                spacing: 10,
-                children: [
-                  CircleAvatar(
-                    radius: 25,
-                    backgroundColor: Colors.transparent,
-                    child: ClipOval(
-                      child: MemoryImageWithFallback(
-                        bytes: imageUser,
-                        width: 50,
-                        height: 50,
-                        fit: BoxFit.cover,
-                        fallback: Image.asset(AppImageKeys.person22,
-                            width: 50, height: 50, fit: BoxFit.cover),
-                      ),
-                    ),
-                  ),
-                  TextInAppWidget(
-                    text: nameCustomer ?? AppLanguageKeys.userName,
-                    textSize: 14,
-                    fontWeightIndex: FontSelectionData.regularFontFamily,
-                    textColor: AppColors.blackColor,
-                  ),
-                ],
-              ),
-              const Row(
-                spacing: 15,
-                children: [
-                  ContainerCallInDataCallingDesign(
-                    icon: Icons.call,
-                    width: 40,
-                  ),
-                  ContainerCallInDataCallingDesign(
-                    icon: Icons.message_outlined,
-                    width: 40,
-                  )
-                ],
-              ),
-            ],
-          )
-        ],
-      ),
+    final ar = Localizations.localeOf(context).languageCode == 'ar';
+    final number = phone?.trim();
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border:
+              Border.all(color: AppColors.orangeColor.withValues(alpha: 0.4))),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        Text(ar ? 'التواصل مع صاحب الطلب' : 'Contact order customer'),
+        const SizedBox(height: 10),
+        Row(children: [
+          ClipOval(
+              child: MemoryImageWithFallback(
+                  bytes: imageUser,
+                  width: 48,
+                  height: 48,
+                  fit: BoxFit.cover,
+                  fallback: Image.asset(AppImageKeys.person22,
+                      width: 48, height: 48))),
+          const SizedBox(width: 8),
+          Expanded(
+              child: Text(nameCustomer?.trim().isNotEmpty == true
+                  ? nameCustomer!
+                  : '—')),
+          IconButton(
+              key: const Key('order-contact-phone'),
+              icon: const Icon(Icons.phone_outlined),
+              tooltip: ar ? 'عرض الرقم' : 'Show phone number',
+              onPressed: number?.isNotEmpty != true
+                  ? null
+                  : () => showDialog<void>(
+                      context: context,
+                      builder: (dialogContext) => AlertDialog(
+                            title: Text(ar ? 'رقم الهاتف' : 'Phone number'),
+                            content: SelectableText(number!,
+                                textDirection: TextDirection.ltr),
+                            actions: [
+                              TextButton(
+                                  onPressed: () async {
+                                    await Clipboard.setData(
+                                        ClipboardData(text: number));
+                                    if (dialogContext.mounted)
+                                      Navigator.of(dialogContext).pop();
+                                  },
+                                  child:
+                                      Text(ar ? 'نسخ الرقم' : 'Copy number')),
+                              TextButton(
+                                  onPressed: () =>
+                                      Navigator.of(dialogContext).pop(),
+                                  child: Text(ar ? 'إغلاق' : 'Close')),
+                            ],
+                          ))),
+          IconButton(
+              key: const Key('order-contact-chat'),
+              icon: const Icon(Icons.message_outlined),
+              tooltip: ar ? 'فتح المحادثة' : 'Open conversation',
+              onPressed: onMessage),
+        ]),
+        if (number?.isNotEmpty != true)
+          Text(ar ? 'رقم الهاتف غير متاح' : 'Phone number unavailable'),
+      ]),
     );
   }
 }

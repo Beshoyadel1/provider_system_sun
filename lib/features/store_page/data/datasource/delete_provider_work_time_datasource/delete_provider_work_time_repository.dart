@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import '../../../../../core/api/api_result.dart';
 import 'package:sun_web_system/features/store_page/data/request/delete_provider_work_time_request/delete_provider_work_time_request.dart';
 import '../../../../../core/api/dio_function/api_constants.dart';
 import '../../../../../core/api/dio_function/dio_controller.dart';
@@ -9,20 +10,12 @@ Future<void> deleteProviderWorkTimeFunction({
 }) async {
   try {
     final response = await Network.postDataWithBodyAndParams(
-      {},
+      null,
       deleteProviderWorkTimeRequest.toJson(),
       ApiLink.deleteProviderWorkTime,
     );
 
-    final responseData = response.data;
-    if (responseData is! Map) {
-      throw Exception('Invalid server response');
-    }
-
-    final data = Map<String, dynamic>.from(responseData);
-    if (data['success'] != true) {
-      throw Exception(data['message'] ?? 'Something went wrong');
-    }
+    ApiResult.requireSuccess(response);
   } catch (e) {
     if (e is DioException) {
       final data = e.response?.data;

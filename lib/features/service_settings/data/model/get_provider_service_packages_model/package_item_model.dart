@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 import 'package:flutter/material.dart';
 
 class PackageItemModel {
@@ -14,6 +15,7 @@ class PackageItemModel {
   factory PackageItemModel.fromJson(
       Map<String, dynamic> json,
       ) {
+    json = ApiJson.object(json);
     return PackageItemModel(
       packageId: json["packageid"] ?? 0,
       item: json["item"] ?? "",

@@ -73,7 +73,7 @@ class _SearchWithListDataChatAdminSunState
                         imageBytes: msg.userImage,
                         userName: msg.userName,
                         message: msg.lastMessage?.message ?? "",
-                        time: OrderFunctions.formatTime(msg.lastMessage?.date),
+                        time: OrderFunctions.formatTime(msg.lastMessage?.date?.toLocal()),
                         onTap: () {
                           if (msg.userId != null && msg.userId! > 0) {
                             context.read<ChatDetailsCubit>().loadChat(

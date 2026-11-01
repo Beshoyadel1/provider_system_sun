@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 import '../../../../../../../features/internal_services/data/model/get_provider_orders_model/order_model.dart';
 
 class GetProviderOrdersResponse {
@@ -14,6 +15,7 @@ class GetProviderOrdersResponse {
   });
 
   factory GetProviderOrdersResponse.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     if (json['success'] != true) {
       throw Exception(json['message'] ?? 'Failed to load orders');
     }

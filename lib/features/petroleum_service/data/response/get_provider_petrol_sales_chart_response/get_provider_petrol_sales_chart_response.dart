@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 import 'package:sun_web_system/features/petroleum_service/data/model/get_provider_petrol_sales_chart_model/petrol_chart_point.dart';
 
 class GetProviderPetrolSalesChartResponse {
@@ -9,6 +10,7 @@ class GetProviderPetrolSalesChartResponse {
 
   factory GetProviderPetrolSalesChartResponse.fromJson(
       Map<String, dynamic> json) {
+    json = ApiJson.object(json);
 
     final data = json['data'];
 

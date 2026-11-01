@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 import 'summary_card.dart';
 
 class ProviderStatisticsModel {
@@ -9,6 +10,7 @@ class ProviderStatisticsModel {
 
   factory ProviderStatisticsModel.fromJson(
       Map<String, dynamic> json) {
+    json = ApiJson.object(json);
 
     final data = json['data'];
 

@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 
 import '../../../../../../../features/internal_services/data/model/get_provider_main_service_statistics_model/data_points_model.dart';
 
@@ -9,6 +10,7 @@ class SalesChartModel {
   });
 
   factory SalesChartModel.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return SalesChartModel(
       dataPoints: (json["dataPoints"] as List? ?? [])
           .map((e) => DataPointsModel.fromJson(e))

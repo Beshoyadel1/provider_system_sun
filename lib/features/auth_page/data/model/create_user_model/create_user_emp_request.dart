@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:sun_web_system/core/utilies/birthdate.dart';
@@ -58,6 +59,7 @@ class CreateUserEmpRequest {
   factory CreateUserEmpRequest.fromJson(
       Map<String, dynamic> json,
       ) {
+    json = ApiJson.object(json);
     return CreateUserEmpRequest(
       userid: json["userid"],
 

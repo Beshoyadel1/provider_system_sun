@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -15,6 +16,7 @@ class SubServiceSummariesModel {
   });
   factory SubServiceSummariesModel.fromJson(
       Map<String, dynamic> json) {
+    json = ApiJson.object(json);
 
     return SubServiceSummariesModel(
       serviceName:

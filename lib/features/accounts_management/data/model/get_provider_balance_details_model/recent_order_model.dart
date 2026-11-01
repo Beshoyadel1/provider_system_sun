@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 class RecentOrderModel {
   final int orderId;
   final double totalAmount;
@@ -12,6 +13,7 @@ class RecentOrderModel {
   });
 
   factory RecentOrderModel.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return RecentOrderModel(
       orderId: json['orderId'] ?? 0,
       totalAmount: (json['totalAmount'] ?? 0).toDouble(),

@@ -70,7 +70,7 @@ class _ChatMessagesScrollViewState extends State<ChatMessagesScrollView> {
     DateTime? lastDate;
 
     for (final msg in widget.messages) {
-      final msgDate = msg.date;
+      final msgDate = msg.date?.toLocal();
       if (msgDate != null) {
         if (lastDate == null ||
             msgDate.year != lastDate.year ||
@@ -89,11 +89,17 @@ class _ChatMessagesScrollViewState extends State<ChatMessagesScrollView> {
   Widget build(BuildContext context) {
     final isAr = Localizations.localeOf(context).languageCode == 'ar';
     if (widget.messages.isEmpty) {
+      if (widget.isLoadingOlder) {
+        return const Center(
+            child: CircularProgressIndicator(color: AppColors.mainColor));
+      }
       return Center(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Text(
-            isAr ? 'لا توجد رسائل سابقة في هذه المحادثة' : 'No messages in this chat yet',
+            isAr
+                ? 'لا توجد رسائل سابقة في هذه المحادثة'
+                : 'No messages in this chat yet',
             style: const TextStyle(
               fontSize: 14,
               color: AppColors.textSecondary,

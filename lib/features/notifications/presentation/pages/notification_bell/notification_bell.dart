@@ -8,6 +8,7 @@ import '../../bloc/notification_cubit/notification_cubit.dart';
 import '../../bloc/notification_cubit/notification_state.dart';
 import 'package:sun_web_system/features/notifications/data/model/get_user_new_notification_model/get_user_new_notification_model.dart';
 import '../notifications_page/notifications_page.dart';
+import '../../services/navigation_service/navigation_service.dart';
 
 /// Notification icon with badge and dropdown overlay.
 class NotificationBell extends StatefulWidget {
@@ -270,7 +271,9 @@ class _NotificationDropdownContent extends StatelessWidget {
                             size: 40, color: AppColors.greyColor),
                         const SizedBox(height: 8),
                         TextInAppWidget(
-                          text: isAr ? 'لا توجد إشعارات حالياً' : 'No notifications',
+                          text: isAr
+                              ? 'لا توجد إشعارات حالياً'
+                              : 'No notifications',
                           textSize: 13,
                           textColor: AppColors.greyColor,
                         ),
@@ -289,6 +292,13 @@ class _NotificationDropdownContent extends StatelessWidget {
                     final item = displayList[index];
                     return _DropdownItem(
                       item: item,
+                      onTap: item.payload == null
+                          ? null
+                          : () {
+                              onClose();
+                              const NotificationNavigationService()
+                                  .openPayload(item.payload!);
+                            },
                     );
                   },
                 );
@@ -330,8 +340,9 @@ class _NotificationDropdownContent extends StatelessWidget {
 
 class _DropdownItem extends StatelessWidget {
   final NotificationModel item;
+  final VoidCallback? onTap;
 
-  const _DropdownItem({required this.item});
+  const _DropdownItem({required this.item, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -350,66 +361,67 @@ class _DropdownItem extends StatelessWidget {
     final isUnread = item.isViewed == false;
 
     return InkWell(
+      onTap: onTap,
       child: Container(
         color: isUnread
             ? AppColors.mainColor.withValues(alpha: 0.04)
             : AppColors.transparent,
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 4.0),
-            child: CircleAvatar(
-              radius: 4,
-              backgroundColor:
-                  isUnread ? AppColors.mainColor : AppColors.transparent,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 4.0),
+              child: CircleAvatar(
+                radius: 4,
+                backgroundColor:
+                    isUnread ? AppColors.mainColor : AppColors.transparent,
+              ),
             ),
-          ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: TextInAppWidget(
-                        text: title,
-                        textSize: 13,
-                        textColor: AppColors.darkColor,
-                        fontWeightIndex: FontSelectionData.semiBoldFontFamily,
-                        isEllipsisTextOverflow: true,
-                        maxLines: 1,
+            const SizedBox(width: 8),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: TextInAppWidget(
+                          text: title,
+                          textSize: 13,
+                          textColor: AppColors.darkColor,
+                          fontWeightIndex: FontSelectionData.semiBoldFontFamily,
+                          isEllipsisTextOverflow: true,
+                          maxLines: 1,
+                        ),
                       ),
-                    ),
-                    if (timeStr.isNotEmpty) ...[
-                      const SizedBox(width: 4),
-                      TextInAppWidget(
-                        text: timeStr,
-                        textSize: 10,
-                        textColor: AppColors.greyColor,
-                      ),
+                      if (timeStr.isNotEmpty) ...[
+                        const SizedBox(width: 4),
+                        TextInAppWidget(
+                          text: timeStr,
+                          textSize: 10,
+                          textColor: AppColors.greyColor,
+                        ),
+                      ],
                     ],
-                  ],
-                ),
-                if (description.isNotEmpty) ...[
-                  const SizedBox(height: 4),
-                  TextInAppWidget(
-                    text: description,
-                    textSize: 11,
-                    textColor: AppColors.darkColor.withValues(alpha: 0.7),
-                    isEllipsisTextOverflow: true,
-                    maxLines: 2,
                   ),
+                  if (description.isNotEmpty) ...[
+                    const SizedBox(height: 4),
+                    TextInAppWidget(
+                      text: description,
+                      textSize: 11,
+                      textColor: AppColors.darkColor.withValues(alpha: 0.7),
+                      isEllipsisTextOverflow: true,
+                      maxLines: 2,
+                    ),
+                  ],
                 ],
-              ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 }

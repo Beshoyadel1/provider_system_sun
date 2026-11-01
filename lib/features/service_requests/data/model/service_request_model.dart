@@ -1,3 +1,4 @@
+import 'package:sun_web_system/core/api/api_json.dart';
 import 'readable_api_text.dart';
 
 class ServiceRequestModel {
@@ -37,6 +38,7 @@ class ServiceRequestModel {
   final List<ServiceRequestOffer> offers;
 
   factory ServiceRequestModel.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return ServiceRequestModel(
       id: _asInt(json['id']),
       status: _asInt(json['status']),
@@ -89,7 +91,8 @@ class ServiceRequestModel {
 
   /// Applies only supplied fields; compact pushes must not erase cached details.
   ServiceRequestModel applyPatch(Map<String, dynamic> patch) {
-    final json = <String, dynamic>{
+    patch = ApiJson.object(patch);
+    final json = ApiJson.object(<String, dynamic>{
       'id': id,
       'status': status,
       'price': price,
@@ -126,7 +129,7 @@ class ServiceRequestModel {
         'chassisNo': car.chassisNo,
         'image': car.image
       },
-    };
+    });
     for (final entry in patch.entries) {
       if (entry.value is Map && json[entry.key] is Map) {
         json[entry.key] = {...json[entry.key] as Map, ...entry.value as Map};
@@ -159,6 +162,7 @@ class ServiceRequestUser {
   final String? image;
 
   factory ServiceRequestUser.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return ServiceRequestUser(
       id: _asInt(json['userId']),
       userType: _asInt(json['userType']),
@@ -184,6 +188,7 @@ class ServiceRequestService {
   final String? image;
 
   factory ServiceRequestService.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return ServiceRequestService(
       id: _asInt(json['id']),
       name: readableApiText(json['name']),
@@ -217,6 +222,7 @@ class ServiceRequestCar {
   final String? image;
 
   factory ServiceRequestCar.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return ServiceRequestCar(
       id: _asInt(json['id']),
       name: readableApiText(json['modelName'] ?? json['name']),
@@ -257,13 +263,15 @@ class ServiceRequestOffer {
   final ServiceRequestService service;
 
   factory ServiceRequestOffer.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
+    final price = ServiceOfferPrice.fromApi(json['price'], offer: json);
     return ServiceRequestOffer(
       id: _asInt(json['id']),
       serviceRequestId: _asInt(json['serviceRequestId']),
       status: _asInt(json['offerStatus']),
       date: _asDate(json['date']),
-      cost: _asDouble(json['cost']),
-      price: ServiceOfferPrice.fromJson(_asMap(json['price'])),
+      cost: _asNullableDouble(json['cost']) ?? price.cost,
+      price: price,
       provider: ServiceOfferProvider.fromJson(_asMap(json['provider'])),
       branch: ServiceOfferBranch.fromJson(_asMap(json['branch'])),
       employee: ServiceOfferEmployee.fromJson(_asMap(json['employee'])),
@@ -279,6 +287,8 @@ class ServiceOfferPrice {
     required this.taxPercentage,
     required this.taxAmount,
     required this.totalPrice,
+    this.hasPrice = true,
+    this.hasTotalPrice = true,
   });
 
   final double price;
@@ -287,14 +297,36 @@ class ServiceOfferPrice {
   final double taxAmount;
   final double totalPrice;
 
-  factory ServiceOfferPrice.fromJson(Map<String, dynamic> json) {
+  /// A numeric price does not imply a tax-inclusive total. Retain the legacy
+  /// numeric fields while recording which amounts the backend actually supplied.
+  final bool hasPrice;
+  final bool hasTotalPrice;
+
+  factory ServiceOfferPrice.fromApi(dynamic raw,
+      {Map<String, dynamic> offer = const {}}) {
+    final details = ApiJson.object(raw is Map ? raw : <String, dynamic>{});
+    final parent = ApiJson.object(offer);
+    double? amountOf(dynamic value) {
+      final amount = _asNullableDouble(value);
+      return amount?.isFinite == true ? amount : null;
+    }
+
+    final amount = amountOf(raw is Map ? details['price'] : raw);
+    final total = amountOf(details['totalPrice'] ?? parent['totalPrice']);
     return ServiceOfferPrice(
-      price: _asDouble(json['price']),
-      cost: _asDouble(json['cost']),
-      taxPercentage: _asDouble(json['taxPercentage']),
-      taxAmount: _asDouble(json['taxAmount']),
-      totalPrice: _asDouble(json['totalPrice']),
+      price: amount ?? 0,
+      cost: _asDouble(details['cost'] ?? parent['cost']),
+      taxPercentage:
+          _asDouble(details['taxPercentage'] ?? parent['taxPercentage']),
+      taxAmount: _asDouble(details['taxAmount'] ?? parent['taxAmount']),
+      totalPrice: total ?? 0,
+      hasPrice: amount != null,
+      hasTotalPrice: total != null,
     );
+  }
+
+  factory ServiceOfferPrice.fromJson(Map<String, dynamic> json) {
+    return ServiceOfferPrice.fromApi(json);
   }
 }
 
@@ -304,6 +336,7 @@ class ServiceOfferProvider {
   final String name;
 
   factory ServiceOfferProvider.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return ServiceOfferProvider(
       id: _asInt(json['id']),
       name: readableApiText(json['name']),
@@ -322,6 +355,7 @@ class ServiceOfferBranch {
   final String latinName;
 
   factory ServiceOfferBranch.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return ServiceOfferBranch(
       id: _asInt(json['id']),
       name: readableApiText(json['name']),
@@ -341,6 +375,7 @@ class ServiceOfferEmployee {
   final String job;
 
   factory ServiceOfferEmployee.fromJson(Map<String, dynamic> json) {
+    json = ApiJson.object(json);
     return ServiceOfferEmployee(
       id: _asInt(json['id']),
       name: readableApiText(json['name']),
