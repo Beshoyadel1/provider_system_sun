@@ -15,6 +15,21 @@ class AppLocalizations {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'ar': {
+      AppLanguageKeys.dashboardOverview: 'نظرة عامة',
+      AppLanguageKeys.dashboardServiceDistribution: 'توزيع الخدمات',
+      AppLanguageKeys.dashboardOrderSales: 'مبيعات الطلبات',
+      AppLanguageKeys.dashboardAllTime: 'كل الفترات',
+      AppLanguageKeys.dashboardChangePeriod: 'اختر الفترة',
+      AppLanguageKeys.dashboardResetPeriod: 'إلغاء الفترة المحددة',
+      AppLanguageKeys.dashboardChartUnavailable: 'تعذر تحميل الرسم',
+      AppLanguageKeys.dashboardNoSales: 'لا توجد مبيعات في الفترة',
+      AppLanguageKeys.dashboardNoBalanceDetails: 'لا تتوفر تفاصيل للرصيد',
+      AppLanguageKeys.dashboardAllTimePerformance: 'حتى الآن',
+      AppLanguageKeys.dashboardOrdersShort: 'طلب',
+      AppLanguageKeys.dashboardRetry: 'إعادة المحاولة',
+      AppLanguageKeys.dashboardRefresh: 'تحديث الإحصائيات',
+      AppLanguageKeys.dashboardOrderIncome: 'إيراد من طلب',
+
       AppLanguageKeys.rejectOrder: 'رفض الطلب',
       AppLanguageKeys.savedPaymentCard: 'بطاقة بنكية محفوظة',
       AppLanguageKeys.pageNotFound: 'الصفحة غير موجودة',
@@ -1567,6 +1582,22 @@ class AppLocalizations {
       AppLanguageKeys.from: "من",
     },
     'en': {
+      AppLanguageKeys.dashboardOverview: 'Overview',
+      AppLanguageKeys.dashboardServiceDistribution: 'Service distribution',
+      AppLanguageKeys.dashboardOrderSales: 'Order sales',
+      AppLanguageKeys.dashboardAllTime: 'All time',
+      AppLanguageKeys.dashboardChangePeriod: 'Select period',
+      AppLanguageKeys.dashboardResetPeriod: 'Clear selected period',
+      AppLanguageKeys.dashboardChartUnavailable: 'Chart unavailable',
+      AppLanguageKeys.dashboardNoSales: 'No sales in this period',
+      AppLanguageKeys.dashboardNoBalanceDetails:
+          'No balance breakdown available',
+      AppLanguageKeys.dashboardAllTimePerformance: 'All time',
+      AppLanguageKeys.dashboardOrdersShort: 'orders',
+      AppLanguageKeys.dashboardRetry: 'Retry',
+      AppLanguageKeys.dashboardRefresh: 'Refresh statistics',
+      AppLanguageKeys.dashboardOrderIncome: 'Income from order',
+
       AppLanguageKeys.rejectOrder: 'Reject order',
       AppLanguageKeys.savedPaymentCard: 'Saved bank card',
       AppLanguageKeys.pageNotFound: 'Page not found',

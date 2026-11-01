@@ -12,8 +12,7 @@ Future<StatisticsResponse> getProviderMainServiceStatisticsFunction({
   GetProviderMainServiceStatisticsRequest? request,
 }) async {
   try {
-    final response = await Network.postDataWithBodyAndParams(
-      {},
+    final response = await Network.postDataWithQuery(
       request?.toJson() ?? {},
       ApiLink.getProviderMainServiceStatistics,
     );

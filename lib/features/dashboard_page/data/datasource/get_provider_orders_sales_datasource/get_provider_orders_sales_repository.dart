@@ -2,31 +2,25 @@ import 'package:dio/dio.dart';
 import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
 import 'package:sun_web_system/core/api/dio_function/dio_controller.dart';
 import 'package:sun_web_system/core/api/dio_function/failures.dart';
-import 'package:sun_web_system/core/pages_widgets/general_widgets/snakbar.dart';
 import 'package:sun_web_system/features/dashboard_page/data/model/get_provider_orders_sales_model/get_provider_orders_sales_model.dart';
 import 'package:sun_web_system/features/dashboard_page/data/request/get_provider_orders_sales_request/get_provider_orders_sales_request.dart';
 
-
-Future<GetProviderOrdersSalesModel?>
-getProviderOrdersSalesFunction({
+Future<GetProviderOrdersSalesModel?> getProviderOrdersSalesFunction({
   required GetProviderOrdersSalesRequest request,
 }) async {
   try {
-    final response = await Network.postDataWithBodyAndParams(
-      {},
+    final response = await Network.postDataWithQuery(
       request.toJson(),
       ApiLink.getProviderOrdersSales,
     );
 
     final responseData = response.data;
 
-    final bool success =
-        responseData['success'] ?? false;
+    final bool success = responseData['success'] ?? false;
 
     if (!success) {
       throw Exception(
-        responseData['message'] ??
-            'Something went wrong',
+        responseData['message'] ?? 'Something went wrong',
       );
     }
 

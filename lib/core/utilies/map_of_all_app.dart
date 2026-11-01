@@ -5,21 +5,10 @@ import 'package:sun_web_system/features/cars_haraj_page/presentation/ui/car_hara
 import 'package:sun_web_system/features/cars_haraj_page/presentation/ui/cars_haraj_statistics_page/cars_haraj_statistics_page.dart';
 import 'package:sun_web_system/features/communication_and_policies_pages/presentation/pages/first_screen_communication_and_policies_pages/first_screen_communication_and_policies_pages.dart';
 import 'package:sun_web_system/features/employee/presentation/pages/view_employee_data/view_employee_data.dart';
-import 'package:sun_web_system/features/internal_services/presentation/pages/internal_orders/first_screen_internal_orders/first_screen_internal_orders.dart';
-import 'package:sun_web_system/features/internal_services/presentation/pages/internal_services_statistics/Internal_services_page/ui/internal_orders_page.dart';
 import 'package:sun_web_system/features/logout_dashboard/presentation/first_screen_logout_dashboard/logout_dashboard.dart';
-import 'package:sun_web_system/features/mobile_services/presentation/pages/mobile_services_orders/first_screen_mobile_services_orders/first_screen_mobile_services_orders.dart';
-import 'package:sun_web_system/features/mobile_services/presentation/pages/mobile_services_statistics/mobile_services_page/ui/mobile_services_statistics_page.dart';
-import 'package:sun_web_system/features/oil_change_services/presentation/pages/oil_change_services_statistics/oil_change_services_page/ui/oil_change_services_statistics_page.dart';
 import 'package:sun_web_system/features/order_services/presentation/pages/order_services_statistics/order_services_statistics.dart';
 import 'package:sun_web_system/features/order_services/presentation/pages/order_services_type/ui/order_services_type_page.dart';
-import 'package:sun_web_system/features/petroleum_service/presentation/pages/all_orders_are_filled_petroleum_filling_requests/screens/ui/petroleum_service_all_orders.dart';
-import 'package:sun_web_system/features/petroleum_service/presentation/pages/petroleum_filling_requests/petroleum_filling_requests.dart';
-import 'package:sun_web_system/features/rates/presentation/pages/first_screen_rates/first_screen_rates.dart';
 import 'package:sun_web_system/features/service_settings/presentation/bloc/cubit/service_settings_cubit/service_settings_cubit.dart';
-import 'package:sun_web_system/features/spare_parts/presentation/pages/spare_parts_orders/first_screen_spare_parts_orders/first_screen_spare_parts_orders.dart';
-import 'package:sun_web_system/features/spare_parts/presentation/pages/spare_parts_statistics/spare_parts_page/ui/spare_parts_statistics_page.dart';
-import 'package:sun_web_system/features/store_page/presentation/bloc/branch_cubit/branch_cubit.dart';
 import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/facility_account/facility_account.dart';
 import 'package:sun_web_system/features/store_page/presentation/pages/store_widgets/general_widgets_in_store/provider_branches_dropdown.dart';
 import 'package:sun_web_system/features/technical_support/presentation/pages/provider_chat_page.dart';
@@ -228,14 +217,13 @@ class PagesOfAllApp {
   static const int viewEmployeesPageNumber = 534;
   static const int viewAllWarrantyNumber = 535;
   static const int serviceRequestsPageNumber = 536;
-
 }
 
 List<PageNodeModel> appPages = [];
 
 final services = getIt<ServiceSettingsCubit>().allMainServices;
 
-void getPages(BuildContext context,  int branchId) {
+void getPages(BuildContext context, int branchId) {
   final services = getIt<ServiceSettingsCubit>().allMainServices;
 
   appPages.clear();
@@ -246,12 +234,12 @@ void getPages(BuildContext context,  int branchId) {
       page: ProviderBranchesDropdown(),
     ),
 
-
-    const PageNodeModel(
+    PageNodeModel(
       name: AppLanguageKeys.dashBoardPageKey,
       image: AppImageKeys.home,
       number: PagesOfAllApp.dashboardPageNumber,
-      page: DashboardPage(),
+      page: DashboardPage(
+          key: ValueKey('dashboard_$branchId'), branchId: branchId),
     ),
     const PageNodeModel(
       name: AppLanguageKeys.myAccount,
@@ -279,15 +267,14 @@ void getPages(BuildContext context,  int branchId) {
       page: ServiceRequestsPage(),
     ),
     ...services.map(
-          (service) {
-            final serviceId = service.id ?? 0;
+      (service) {
+        final serviceId = service.id ?? 0;
         return PageNodeModel(
           name: service.name ?? '',
           latinName: service.latinName,
           imageUint8List: service.image,
           number: service.id ?? 0,
           children: [
-
             if (serviceId != 4)
               PageNodeModel(
                 name: AppLanguageKeys.statistics,
@@ -300,7 +287,6 @@ void getPages(BuildContext context,  int branchId) {
                   branchId: branchId,
                 ),
               ),
-
             PageNodeModel(
               name: AppLanguageKeys.ordersSectionKey,
               number: serviceId + 10,
@@ -316,7 +302,6 @@ void getPages(BuildContext context,  int branchId) {
         );
       },
     ),
-
 
     // const PageNodeModel(
     //     name: AppLanguageKeys.oilChange,
@@ -366,17 +351,16 @@ void getPages(BuildContext context,  int branchId) {
         ]),
 
     const PageNodeModel(
-        name: AppLanguageKeys.accountManagementKey,
-        image: AppImageKeys.wallet,
-        number: PagesOfAllApp.walletPageNumber,
+      name: AppLanguageKeys.accountManagementKey,
+      image: AppImageKeys.wallet,
+      number: PagesOfAllApp.walletPageNumber,
       page: FirstScreenAccountsManagementAdminSun(),
     ),
     const PageNodeModel(
         name: AppLanguageKeys.technicalSupport,
         image: AppImageKeys.users,
         number: PagesOfAllApp.technicalSupportPageNumber,
-        page: ProviderChatPage()
-    ),
+        page: ProviderChatPage()),
     // const PageNodeModel(
     //     name: AppLanguageKeys.reviewsKey,
     //     image: AppImageKeys.star,

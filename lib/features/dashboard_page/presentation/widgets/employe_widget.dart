@@ -1,93 +1,51 @@
 import 'package:flutter/material.dart';
-import 'package:sun_web_system/features/dashboard_page/data/model/get_provider_total_rate_and_employee_and_balance_model/get_provider_total_rate_and_employee_and_balance_model.dart';
-import '../../../../../core/language/language_constant.dart';
-import '../../../../../core/theming/assets.dart';
-import '../../../../../core/theming/colors.dart';
-import '../../../../../core/theming/fonts.dart';
-import '../../../../../core/pages_widgets/general_widgets/custom_container.dart';
-import '../../../../../core/theming/text_styles.dart';
+import 'package:sun_web_system/core/theming/assets.dart';
+import 'package:sun_web_system/core/theming/colors.dart';
+import '../../data/model/get_provider_total_rate_and_employee_and_balance_model/get_provider_total_rate_and_employee_and_balance_model.dart';
 
 class EmployeWidget extends StatelessWidget {
-  final TopEmployee employee;
-
   const EmployeWidget({super.key, required this.employee});
-
+  final TopEmployee employee;
   @override
-  Widget build(BuildContext context) {
-    return CustomContainer(
-     // containerHeight: 70,
-      borderRadius: BorderRadius.circular(12),
-      isSelected: false,
-      onTap: () {},
-
-      typeWidget: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: Row(
-          children: [
-            /// 🔹 Avatar
-            CircleAvatar(
-              radius: 22,
-              backgroundColor:
-              AppColors.veryLightOrangeColor.withOpacity(0.3),
-              child: Image.asset(
-                AppImageKeys.profileImage,
-                height: 20,
-                width: 20,
-              ),
-            ),
-
-            const SizedBox(width: 10),
-
-            Expanded(
+  Widget build(BuildContext context) => Container(
+        padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 10),
+        decoration: BoxDecoration(
+            border: Border.all(color: const Color(0xFFE8EAF0)),
+            borderRadius: BorderRadius.circular(11)),
+        child: Row(children: [
+          CircleAvatar(
+              radius: 17,
+              backgroundColor: const Color(0xFFFFF0E9),
+              child: Image.asset(AppImageKeys.profileImage,
+                  width: 21, height: 21)),
+          const SizedBox(width: 8),
+          Expanded(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TextInAppWidget(
-                    text: employee.getName(context),
-                    textSize: 13,
-                    fontWeightIndex:
-                    FontSelectionData.boldFontFamily,
-                  ),
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                Text(employee.getName(context),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        fontSize: 11, fontWeight: FontWeight.w600)),
+                if (employee.getJobName(context).isNotEmpty) ...[
                   const SizedBox(height: 3),
-                  TextInAppWidget(
-                    text: employee.getJobName(context),
-                    textSize: 11,
-                    textColor: AppColors.darkGreyColor,
-                  ),
+                  Text(employee.getJobName(context),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          fontSize: 9, color: AppColors.darkGreyColor)),
                 ],
-              ),
-            ),
-
-            /// 🔹 Orders Count (Right side)
-            Container(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 10, vertical: 6),
+              ])),
+          const SizedBox(width: 6),
+          Container(
+              padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 5),
               decoration: BoxDecoration(
-                color: AppColors.orangeColor.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Row(
-                children: [
-                  const Icon(
-                    Icons.shopping_bag_outlined,
-                    size: 14,
-                    color: AppColors.orangeColor,
-                  ),
-                  const SizedBox(width: 4),
-                  TextInAppWidget(
-                    text: "${employee.orderCount ?? 0}",
-                    textSize: 12,
-                    textColor: AppColors.orangeColor,
-                    fontWeightIndex:
-                    FontSelectionData.boldFontFamily,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+                  color: const Color(0xFFFFF0E9),
+                  borderRadius: BorderRadius.circular(7)),
+              child: Text('${employee.orderCount ?? '—'}',
+                  style: const TextStyle(
+                      fontSize: 10, color: AppColors.orangeColor))),
+        ]),
+      );
 }

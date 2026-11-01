@@ -1,5 +1,6 @@
 import 'package:sun_web_system/core/api/api_json.dart';
 import 'package:flutter/material.dart';
+import '../dashboard_service.dart';
 import '../../../../../core/language/language_cubit/language_cubit.dart';
 
 class GetProviderTotalRateAndEmployeeAndBalanceModel {
@@ -19,20 +20,24 @@ class GetProviderTotalRateAndEmployeeAndBalanceModel {
       Map<String, dynamic> json) {
     json = ApiJson.object(json);
 
-    final data = json['data'];
+    final raw = json['data'];
+    if (raw is! Map) {
+      throw const FormatException('Invalid performance response');
+    }
+    final data = ApiJson.object(raw);
 
     return GetProviderTotalRateAndEmployeeAndBalanceModel(
-      averageRate: (data['averageRate'] ?? 0).toDouble(),
-      totalBalance: (data['totalBalance'] ?? 0).toDouble(),
-
+      averageRate: dashboardNumber(data['averageRate']),
+      totalBalance: dashboardNumber(data['totalBalance']),
       topEmployees: (data['topEmployees'] as List<dynamic>?)
-          ?.map((e) => TopEmployee.fromJson(e))
-          .toList() ??
+              ?.map((e) => TopEmployee.fromJson(e))
+              .toList() ??
           [],
-
-      accountsBalance: (data['accountsBalance'] as List<dynamic>?)
-          ?.map((e) => AccountBalance.fromJson(e))
-          .toList() ??
+      accountsBalance: (data['accountsBalance'] is List
+                  ? data['accountsBalance'] as List<dynamic>
+                  : null)
+              ?.map((e) => AccountBalance.fromJson(e))
+              .toList() ??
           [],
     );
   }
@@ -56,16 +61,17 @@ class TopEmployee {
   factory TopEmployee.fromJson(Map<String, dynamic> json) {
     json = ApiJson.object(json);
     return TopEmployee(
-      employeeName: json['employeeName'],
-      employeeLatinName: json['employeeLatinName'],
-      orderCount: json['orderCount'],
-      jobName: json['jobName'],
-      jobLatinName: json['jobLatinName'],
+      employeeName: json['employeeName']?.toString(),
+      employeeLatinName: json['employeeLatinName']?.toString(),
+      orderCount: dashboardInt(json['orderCount']),
+      jobName: json['jobName']?.toString(),
+      jobLatinName: json['jobLatinName']?.toString(),
     );
   }
 
   String getName(BuildContext context) {
-    return LanguageCubit.localizedValue(context, employeeName, employeeLatinName);
+    return LanguageCubit.localizedValue(
+        context, employeeName, employeeLatinName);
   }
 
   String getJobName(BuildContext context) {
@@ -89,10 +95,10 @@ class AccountBalance {
   factory AccountBalance.fromJson(Map<String, dynamic> json) {
     json = ApiJson.object(json);
     return AccountBalance(
-      serviceName: json['serviceName'],
-      serviceLatinName: json['serviceLatinName'],
-      amount: (json['amount'] ?? 0).toDouble(),
-      recentOrderId: json['recentOrderId'],
+      serviceName: json['serviceName']?.toString(),
+      serviceLatinName: json['serviceLatinName']?.toString(),
+      amount: dashboardNumber(json['amount']),
+      recentOrderId: dashboardInt(json['recentOrderId']),
     );
   }
 

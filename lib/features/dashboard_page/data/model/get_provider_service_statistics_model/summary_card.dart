@@ -1,6 +1,8 @@
 import 'package:sun_web_system/core/api/api_json.dart';
+import '../dashboard_service.dart';
 
 class SummaryCard {
+  final int? serviceId;
   final String? serviceName;
   final String? serviceLatinName;
   final int? orderCount;
@@ -9,6 +11,7 @@ class SummaryCard {
   final bool? isIncrease;
 
   SummaryCard({
+    this.serviceId,
     this.serviceName,
     this.serviceLatinName,
     this.orderCount,
@@ -20,18 +23,20 @@ class SummaryCard {
   factory SummaryCard.fromJson(Map<String, dynamic> json) {
     json = ApiJson.object(json);
     return SummaryCard(
-      serviceName: json['serviceName'],
-      serviceLatinName: json['serviceLatinName'],
-      orderCount: json['orderCount'],
-      totalAmount: (json['totalAmount'] ?? 0).toDouble(),
-      percentageChange: (json['percentageChange'] ?? 0).toDouble(),
+      serviceId: dashboardInt(json['mainServiceId'] ?? json['serviceId']),
+      serviceName: json['serviceName']?.toString(),
+      serviceLatinName: json['serviceLatinName']?.toString(),
+      orderCount: dashboardInt(json['orderCount']),
+      totalAmount: dashboardNumber(json['totalAmount']),
+      percentageChange: dashboardNumber(json['percentageChange']),
       isIncrease: json['isIncrease'],
     );
   }
 
+  int? get resolvedServiceId => DashboardService.resolve(
+      id: serviceId, arabic: serviceName, english: serviceLatinName);
+
   String getName(bool isArabic) {
-    return isArabic
-        ? (serviceName ?? '')
-        : (serviceLatinName ?? '');
+    return isArabic ? (serviceName ?? '') : (serviceLatinName ?? '');
   }
 }

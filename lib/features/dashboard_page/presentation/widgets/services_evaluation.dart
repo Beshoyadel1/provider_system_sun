@@ -1,79 +1,61 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/features/dashboard_page/presentation/cubit/get_provider_total_rate_and_employee_and_balance_cubit/get_provider_total_rate_and_employee_and_balance_cubit.dart';
-import 'package:sun_web_system/features/dashboard_page/presentation/cubit/get_provider_total_rate_and_employee_and_balance_cubit/get_provider_total_rate_and_employee_and_balance_state.dart';
-import '../../../../../core/language/language_constant.dart';
-import '../../../../../core/theming/assets.dart';
-import '../../../../../core/theming/colors.dart';
-import '../../../../../core/theming/fonts.dart';
-import '../../../../../core/pages_widgets/general_widgets/custom_container.dart';
-import '../../../../../core/theming/text_styles.dart';
+import 'package:sun_web_system/core/language/language_constant.dart';
+import 'package:sun_web_system/core/theming/assets.dart';
+import 'package:sun_web_system/core/theming/colors.dart';
+import '../cubit/get_provider_total_rate_and_employee_and_balance_cubit/get_provider_total_rate_and_employee_and_balance_cubit.dart';
+import '../cubit/get_provider_total_rate_and_employee_and_balance_cubit/get_provider_total_rate_and_employee_and_balance_state.dart';
+import 'dashboard_widgets.dart';
 
 class ServicesEvaluation extends StatelessWidget {
   const ServicesEvaluation({super.key});
-
   @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    bool isMobile = size.width <= 1280;
-    return CustomContainer(
-      padding: const EdgeInsets.all(10),
-      containerHeight: 100,
-      containerWidth:isMobile?double.infinity: 1000,
-      borderRadius: BorderRadius.circular(20),
-      isSelected: false,
-      onTap: () {},
-      typeWidget: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        spacing: 20,
-        children: [
-          Column(
-            spacing: 10,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const TextInAppWidget(
-                text: AppLanguageKeys.servicesRatingKey,
-                textSize: 16,
-                fontWeightIndex: FontSelectionData.regularFontFamily,
-              ),
-              Row(
-                spacing: 5,
+  Widget build(BuildContext context) => DashboardPanel(
+      height: 110,
+      padding: const EdgeInsets.all(14),
+      child: Row(children: [
+        Expanded(
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(
-                    Icons.star,
-                    color: AppColors.orangeColor,
-                    size: 35,
-                  ),
-                  BlocBuilder<GetProviderTotalRateAndEmployeeAndBalanceCubit,
+              const DashboardTitle(AppLanguageKeys.servicesRatingKey),
+              const SizedBox(height: 8),
+              BlocBuilder<GetProviderTotalRateAndEmployeeAndBalanceCubit,
                       GetProviderTotalRateAndEmployeeAndBalanceState>(
-                    builder: (context, state) {
-                      double rate = 0;
-
-                      if (state
-                          is GetProviderTotalRateAndEmployeeAndBalanceSuccess) {
-                        rate = state.data.averageRate ?? 0;
-                      }
-
-                      return TextInAppWidget(
-                        text: rate.toStringAsFixed(1),
-                        textSize: 16,
-                        fontWeightIndex: FontSelectionData.regularFontFamily,
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ],
-          ),
-          Image.asset(
-            AppImageKeys.starsIcons,
-            height: 98,
-            width: 79,
-            color: AppColors.orangeColor,
-          ),
-        ],
-      ),
-    );
-  }
+                  builder: (context, state) {
+                final rate =
+                    state is GetProviderTotalRateAndEmployeeAndBalanceSuccess
+                        ? state.data.averageRate
+                        : null;
+                return Row(children: [
+                  const Icon(Icons.star_rounded,
+                      color: AppColors.orangeColor, size: 29),
+                  const SizedBox(width: 6),
+                  if (state is GetProviderTotalRateAndEmployeeAndBalanceLoading)
+                    const SizedBox(
+                        width: 14,
+                        height: 14,
+                        child: CircularProgressIndicator(strokeWidth: 2))
+                  else
+                    Text(
+                        rate == null || rate < 0 || rate > 5
+                            ? '—'
+                            : rate.toStringAsFixed(1),
+                        style: const TextStyle(
+                            fontSize: 17, fontWeight: FontWeight.w600)),
+                  const SizedBox(width: 7),
+                  Flexible(
+                      child: Text(
+                          dashboardLabel(context,
+                              AppLanguageKeys.dashboardAllTimePerformance),
+                          style: const TextStyle(
+                              fontSize: 9, color: AppColors.darkGreyColor))),
+                ]);
+              }),
+            ])),
+        const SizedBox(width: 6),
+        Image.asset(AppImageKeys.starsIcons,
+            width: 42, height: 60, color: AppColors.orangeColor),
+      ]));
 }

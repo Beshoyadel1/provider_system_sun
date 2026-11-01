@@ -1,6 +1,23 @@
 import '../../../../core/utilies/map_of_all_app.dart';
 
 class AppLanguageKeys {
+  static const String dashboardOverview = 'dashboardOverview';
+  static const String dashboardServiceDistribution =
+      'dashboardServiceDistribution';
+  static const String dashboardOrderSales = 'dashboardOrderSales';
+  static const String dashboardAllTime = 'dashboardAllTime';
+  static const String dashboardChangePeriod = 'dashboardChangePeriod';
+  static const String dashboardResetPeriod = 'dashboardResetPeriod';
+  static const String dashboardChartUnavailable = 'dashboardChartUnavailable';
+  static const String dashboardNoSales = 'dashboardNoSales';
+  static const String dashboardNoBalanceDetails = 'dashboardNoBalanceDetails';
+  static const String dashboardAllTimePerformance =
+      'dashboardAllTimePerformance';
+  static const String dashboardOrdersShort = 'dashboardOrdersShort';
+  static const String dashboardRetry = 'dashboardRetry';
+  static const String dashboardRefresh = 'dashboardRefresh';
+  static const String dashboardOrderIncome = 'dashboardOrderIncome';
+
   static const String pageNotFound = 'pageNotFound';
   static const String unknownLocation = 'unknownLocation';
   static const String sampleCategoryOne = 'sampleCategoryOne';

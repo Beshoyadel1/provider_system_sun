@@ -1,71 +1,41 @@
 import 'package:sun_web_system/core/api/api_json.dart';
+import '../dashboard_service.dart';
+
 class GetProviderOrdersSalesModel {
   final List<DataPoint> dataPoints;
+  GetProviderOrdersSalesModel({required this.dataPoints});
 
-  GetProviderOrdersSalesModel({
-    required this.dataPoints,
-  });
-
-  factory GetProviderOrdersSalesModel.fromJson(
-      Map<String, dynamic> json) {
-    json = ApiJson.object(json);
-
-    final data = json['data'];
-
+  factory GetProviderOrdersSalesModel.fromJson(Map<String, dynamic> json) {
+    final data = ApiJson.object(json)['data'];
+    if (data is! Map) throw const FormatException('Invalid sales response');
+    final points = ApiJson.object(data)['dataPoints'];
+    if (points is! List) throw const FormatException('Invalid sales points');
     return GetProviderOrdersSalesModel(
-      dataPoints: (data['dataPoints'] as List<dynamic>)
-          .map((e) => DataPoint.fromJson(e))
-          .toList(),
-    );
+        dataPoints: points.asMap().entries.map((entry) {
+      final e = entry.value;
+      // The documentation also allows a plain numeric sequence. Its labels
+      // are ordinals, never invented dates.
+      if (e is num && e.isFinite) {
+        return DataPoint(label: '${entry.key + 1}', value: e.toDouble());
+      }
+      if (e is! Map) throw const FormatException('Invalid sales point');
+      return DataPoint.fromJson(Map<String, dynamic>.from(e));
+    }).toList());
   }
 }
 
 class DataPoint {
   final String label;
   final double value;
-
-  DataPoint({
-    required this.label,
-    required this.value,
-  });
+  const DataPoint({required this.label, required this.value});
 
   factory DataPoint.fromJson(Map<String, dynamic> json) {
-    json = ApiJson.object(json);
-    return DataPoint(
-      label: json['label'] ?? '',
-      value: (json['value'] ?? 0).toDouble(),
-    );
-  }
-
-  DateTime get date {
-    try {
-      final parts = label.split(" ");
-
-      final day = int.parse(parts[0]);
-      final month = _getMonth(parts[1]);
-
-      return DateTime(DateTime.now().year, month, day);
-    } catch (e) {
-      return DateTime.now();
+    final data = ApiJson.object(json);
+    final label = data['label'] ?? data['date'];
+    final value = dashboardNumber(data['value']);
+    if (label is! String || label.isEmpty || value == null) {
+      throw const FormatException('Invalid sales point');
     }
-  }
-
-  int _getMonth(String monthName) {
-    const months = {
-      "يناير": 1,
-      "فبراير": 2,
-      "مارس": 3,
-      "أبريل": 4,
-      "مايو": 5,
-      "يونيو": 6,
-      "يوليو": 7,
-      "أغسطس": 8,
-      "سبتمبر": 9,
-      "أكتوبر": 10,
-      "نوفمبر": 11,
-      "ديسمبر": 12,
-    };
-
-    return months[monthName] ?? 1;
+    return DataPoint(label: label, value: value);
   }
 }

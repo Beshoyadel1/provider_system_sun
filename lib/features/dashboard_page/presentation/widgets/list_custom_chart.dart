@@ -1,105 +1,60 @@
-import 'package:sun_web_system/core/language/localized_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sun_web_system/features/dashboard_page/presentation/cubit/get_provider_service_statistics_cubit/get_provider_service_statistics_cubit.dart';
-import 'package:sun_web_system/features/dashboard_page/presentation/cubit/get_provider_service_statistics_cubit/get_provider_service_statistics_state.dart';
-import 'package:sun_web_system/features/dashboard_page/presentation/widgets/custom_chart.dart';
-import '../../../../core/language/language_cubit/language_cubit.dart';
-import '../../../../core/language/language_cubit/language_states.dart';
-import '../../../../core/theming/assets.dart';
-import '../../../../core/theming/colors.dart';
+import 'package:sun_web_system/core/language/language_cubit/language_cubit.dart';
+import '../../data/model/dashboard_service.dart';
+import '../cubit/get_provider_service_statistics_cubit/get_provider_service_statistics_cubit.dart';
+import '../cubit/get_provider_service_statistics_cubit/get_provider_service_statistics_state.dart';
+import 'custom_chart.dart';
+import 'dashboard_widgets.dart';
 
 class ListCustomChart extends StatelessWidget {
-  const ListCustomChart({super.key});
-
+  const ListCustomChart({super.key, this.onRetry});
+  final VoidCallback? onRetry;
   @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<GetProviderServiceStatisticsCubit,
-        GetProviderServiceStatisticsState>(
-      builder: (context, state) {
-        if (state is GetProviderServiceStatisticsLoading) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
+  Widget build(BuildContext context) => BlocBuilder<
+          GetProviderServiceStatisticsCubit,
+          GetProviderServiceStatisticsState>(builder: (context, state) {
         if (state is GetProviderServiceStatisticsError) {
-          return Center(child: LocalizedText(state.message));
+          return DashboardPanel(
+              child: DashboardFeedback(failed: true, onRetry: onRetry));
         }
-
-        if (state is GetProviderServiceStatisticsSuccess) {
-          final data = state.data.summaryCards;
-
-          if (data.isEmpty) {
-            return const SizedBox();
-          }
-
-          return LayoutBuilder(
-            builder: (context, constraints) {
-              final width = constraints.maxWidth;
-
-              int itemsPerRow;
-              if (width > 1000) {
-                itemsPerRow = 4;
-              } else if (width > 600) {
-                itemsPerRow = 2;
-              } else {
-                itemsPerRow = 1;
-              }
-
-              final itemWidth =
-                  (width - ((itemsPerRow - 1) * 10)) / itemsPerRow;
-
-              return BlocBuilder<LanguageCubit, LanguageStates>(
-                builder: (context, langState) {
-                  final isArabic =
-                      context.watch<LanguageCubit>().isAllAppLanguageArabic;
-
-                  return Wrap(
-                    spacing: 10,
-                    runSpacing: 10,
-                    children: List.generate(data.length, (index) {
-                      final item = data[index];
-
-                      return SizedBox(
-                        width: itemWidth,
-                        height: 200,
-                        child: CustomChart(
-                          serviceName: item.getName(isArabic),
-                          orderCount: item.orderCount,
-                          totalAmount: item.totalAmount,
-                          percentage: item.percentageChange,
-                          isIncrease: item.isIncrease,
-                          image: _getImage(index),
-                          imageBackground: _getColor(index),
-                        ),
-                      );
-                    }),
-                  );
-                },
-              );
-            },
-          );
-        }
-
-        return const SizedBox();
-      },
-    );
-  }
-
-  Color _getColor(int index) {
-    final colors = [
-      AppColors.orangeColor,
-      AppColors.seaBlueColor,
-      AppColors.darkGreyColor,
-    ];
-    return colors[index % colors.length];
-  }
-
-  String _getImage(int index) {
-    final images = [
-      AppImageKeys.carServices,
-      AppImageKeys.truckBox,
-      AppImageKeys.spare,
-    ];
-    return images[index % images.length];
-  }
+        return LayoutBuilder(builder: (context, constraints) {
+          const gap = 14.0;
+          final width = ((constraints.maxWidth - gap * 4) / 5)
+              .clamp(205.0, double.infinity);
+          final success =
+              state is GetProviderServiceStatisticsSuccess ? state : null;
+          final cards = {
+            for (final card in success?.data.summaryCards ?? [])
+              card.resolvedServiceId: card
+          };
+          final row =
+              Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            for (final service in DashboardService.all) ...[
+              if (service.id != DashboardService.all.first.id)
+                const SizedBox(width: gap),
+              SizedBox(
+                  width: width,
+                  child: CustomChart(
+                    key: ValueKey('dashboard-service-${service.id}'),
+                    serviceId: service.id,
+                    serviceName: LanguageCubit.localizedValue(
+                        context,
+                        cards[service.id]?.serviceName ?? service.arabic,
+                        cards[service.id]?.serviceLatinName ?? service.english),
+                    orderCount: cards[service.id]?.orderCount,
+                    totalAmount: cards[service.id]?.totalAmount,
+                    percentage: cards[service.id]?.percentageChange,
+                    isIncrease: cards[service.id]?.isIncrease,
+                    points: success?.charts[service.id]?.points ?? [],
+                    loading: success == null ||
+                        success.charts[service.id]?.loading == true,
+                    failed: success?.charts[service.id]?.failed == true,
+                  )),
+            ],
+          ]);
+          return SingleChildScrollView(
+              scrollDirection: Axis.horizontal, child: row);
+        });
+      });
 }

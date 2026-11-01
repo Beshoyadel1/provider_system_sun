@@ -1,47 +1,38 @@
-import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:sun_web_system/core/theming/auth_local_storage.dart';
-import 'package:sun_web_system/features/dashboard_page/data/datasource/get_provider_total_rate_and_employee_and_balance_datasource/get_provider_total_rate_and_employee_and_balance_repository.dart';
-import 'package:sun_web_system/features/auth_page/data/datasource/login_datasource/login_repository.dart';
-import 'package:sun_web_system/features/dashboard_page/data/request/get_provider_total_rate_and_employee_and_balance_request/get_provider_total_rate_and_employee_and_balance_request.dart';
-import 'package:sun_web_system/features/dashboard_page/presentation/cubit/get_provider_total_rate_and_employee_and_balance_cubit/get_provider_total_rate_and_employee_and_balance_state.dart';
+import '../../../data/datasource/get_provider_total_rate_and_employee_and_balance_datasource/get_provider_total_rate_and_employee_and_balance_repository.dart';
+import '../../../data/request/get_provider_total_rate_and_employee_and_balance_request/get_provider_total_rate_and_employee_and_balance_request.dart';
+import 'get_provider_total_rate_and_employee_and_balance_state.dart';
 
 class GetProviderTotalRateAndEmployeeAndBalanceCubit
     extends Cubit<GetProviderTotalRateAndEmployeeAndBalanceState> {
-
   GetProviderTotalRateAndEmployeeAndBalanceCubit()
       : super(GetProviderTotalRateAndEmployeeAndBalanceInitial());
-
   static GetProviderTotalRateAndEmployeeAndBalanceCubit get(context) =>
       BlocProvider.of(context);
+  int _revision = 0;
 
-  Future<void> getProviderTotalRateAndEmployeeAndBalance() async {
+  Future<void> getProviderTotalRateAndEmployeeAndBalance(
+      {int? providerId, int? branchId}) async {
     if (isClosed) return;
-
+    final revision = ++_revision;
     emit(GetProviderTotalRateAndEmployeeAndBalanceLoading());
-
-    final user = await AuthLocalStorage.getUser();
-
-    if (isClosed) return;
-
-    if (user == null) {
-      emit(GetProviderTotalRateAndEmployeeAndBalanceError(AppLanguageKeys.userNotFound));
-      return;
-    }
-
-    final result =
-    await getProviderTotalRateAndEmployeeAndBalanceFunction(
-      request: GetProviderTotalRateAndEmployeeAndBalanceRequest(
-        providerId: user.userid ?? 0,
-      ),
-    );
-
-    if (isClosed) return;
-
-    if (result != null) {
+    try {
+      final id = providerId ?? (await AuthLocalStorage.getUser())?.userid;
+      if (isClosed || revision != _revision) return;
+      if (id == null || id <= 0) throw Exception(AppLanguageKeys.userNotFound);
+      final result = await getProviderTotalRateAndEmployeeAndBalanceFunction(
+          request: GetProviderTotalRateAndEmployeeAndBalanceRequest(
+              providerId: id, branchId: branchId));
+      if (isClosed || revision != _revision) return;
+      if (result == null) throw Exception(AppLanguageKeys.errorLoadingData);
       emit(GetProviderTotalRateAndEmployeeAndBalanceSuccess(result));
-    } else {
-      emit(GetProviderTotalRateAndEmployeeAndBalanceError(AppLanguageKeys.errorLoadingData));
+    } catch (_) {
+      if (!isClosed && revision == _revision) {
+        emit(GetProviderTotalRateAndEmployeeAndBalanceError(
+            AppLanguageKeys.errorLoadingData));
+      }
     }
   }
 }

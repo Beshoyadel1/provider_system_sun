@@ -1,74 +1,46 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/language/language_constant.dart';
-import '../../../../../core/theming/assets.dart';
-import '../../../../../core/theming/colors.dart';
-import '../../../../../core/theming/fonts.dart';
-import '../../../../../core/pages_widgets/general_widgets/custom_container.dart';
-import '../../../../../core/theming/text_styles.dart';
-
-import 'package:flutter/material.dart';
-import '../../../../../core/language/language_constant.dart';
-import '../../../../../core/theming/assets.dart';
-import '../../../../../core/theming/colors.dart';
-import '../../../../../core/theming/fonts.dart';
-import '../../../../../core/pages_widgets/general_widgets/custom_container.dart';
-import '../../../../../core/theming/text_styles.dart';
-
+import 'package:sun_web_system/core/language/language_constant.dart';
+import 'package:sun_web_system/core/theming/colors.dart';
 import '../../data/model/get_provider_total_rate_and_employee_and_balance_model/get_provider_total_rate_and_employee_and_balance_model.dart';
+import 'dashboard_widgets.dart';
 
 class DataAccountBalance extends StatelessWidget {
-  final AccountBalance item;
-
   const DataAccountBalance({super.key, required this.item});
-
+  final AccountBalance item;
   @override
-  Widget build(BuildContext context) {
-    return CustomContainer(
-      padding: const EdgeInsets.all(0),
-      isSelected: false,
-      onTap: () {},
-      borderRadius: BorderRadius.circular(10),
-      typeWidget: ListTile(
-        // leading: Image.asset(
-        //   AppImageKeys.maintenance,
-        //   height: 34,
-        //   width: 34,
-        // ),
-
-        title: TextInAppWidget(
-          text: item.getName(context),
-          textSize: 12,
-          fontWeightIndex: FontSelectionData.regularFontFamily,
-          textColor: AppColors.orangeColor,
-        ),
-
-        subtitle: Row(
-          children: [
-            const TextInAppWidget(
-              text: AppLanguageKeys.identity,
-              textSize: 12,
-              fontWeightIndex: FontSelectionData.regularFontFamily,
-              textColor: AppColors.darkColor,
-            ),
-            const SizedBox(width: 4),
-            Flexible(
-              child: TextInAppWidget(
-                text: ": ${item.recentOrderId ?? 0}",
-                textSize: 12,
-                fontWeightIndex: FontSelectionData.regularFontFamily,
-                textColor: AppColors.darkColor,
-              ),
-            ),
-          ],
-        ),
-
-        trailing: TextInAppWidget(
-          text: "${item.amount ?? 0}",
-          textSize: 16,
-          fontWeightIndex: FontSelectionData.regularFontFamily,
-          textColor: AppColors.greenColor,
-        ),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        decoration: BoxDecoration(
+            border: Border.all(color: const Color(0xFFE8EAF0)),
+            borderRadius: BorderRadius.circular(9)),
+        child: Row(children: [
+          const Icon(Icons.receipt_long_outlined,
+              size: 21, color: AppColors.orangeColor),
+          const SizedBox(width: 8),
+          Expanded(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                Text(item.getName(context),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        fontSize: 10, color: AppColors.orangeColor)),
+                if (item.recentOrderId != null) ...[
+                  const SizedBox(height: 3),
+                  Text(
+                      '${dashboardLabel(context, AppLanguageKeys.dashboardOrderIncome)} #${item.recentOrderId}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(fontSize: 9)),
+                ],
+              ])),
+          const SizedBox(width: 8),
+          Text(dashboardMoney(item.amount),
+              style: const TextStyle(
+                  fontSize: 11,
+                  color: Color(0xFF23A571),
+                  fontWeight: FontWeight.w500)),
+        ]),
+      );
 }

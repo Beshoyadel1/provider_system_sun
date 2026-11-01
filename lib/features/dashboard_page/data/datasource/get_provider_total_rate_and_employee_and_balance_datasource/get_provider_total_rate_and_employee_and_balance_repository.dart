@@ -2,35 +2,31 @@ import 'package:dio/dio.dart';
 import 'package:sun_web_system/features/dashboard_page/data/request/get_provider_total_rate_and_employee_and_balance_request/get_provider_total_rate_and_employee_and_balance_request.dart';
 import '../../model/get_provider_total_rate_and_employee_and_balance_model/get_provider_total_rate_and_employee_and_balance_model.dart';
 import '../../../../../core/api/dio_function/api_constants.dart';
-import '../../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../../core/api/dio_function/failures.dart';
 
 Future<GetProviderTotalRateAndEmployeeAndBalanceModel?>
-getProviderTotalRateAndEmployeeAndBalanceFunction({
+    getProviderTotalRateAndEmployeeAndBalanceFunction({
   required GetProviderTotalRateAndEmployeeAndBalanceRequest request,
 }) async {
   try {
-    final response = await Network.postDataWithBodyAndParams(
-      {},
+    final response = await Network.postDataWithQuery(
       request.toJson(),
       ApiLink.getProviderTotalRateAndEmployeeAndBalance,
     );
 
     final responseData = response.data;
 
-    final bool success =
-        responseData['success'] ?? false;
+    final bool success = responseData['success'] ?? false;
 
     if (!success) {
       throw Exception(
-        responseData['message'] ??
-            'Something went wrong',
+        responseData['message'] ?? 'Something went wrong',
       );
     }
 
-    return GetProviderTotalRateAndEmployeeAndBalanceModel
-        .fromJson(responseData);
+    return GetProviderTotalRateAndEmployeeAndBalanceModel.fromJson(
+        responseData);
   } catch (e) {
     if (e is DioException) {
       throw Exception(

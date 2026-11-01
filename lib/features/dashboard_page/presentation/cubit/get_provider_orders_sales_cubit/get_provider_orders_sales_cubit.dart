@@ -1,83 +1,40 @@
-import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:sun_web_system/core/theming/auth_local_storage.dart';
-import 'package:sun_web_system/features/dashboard_page/data/datasource/get_provider_orders_sales_datasource/get_provider_orders_sales_repository.dart';
-import 'package:sun_web_system/features/dashboard_page/data/request/get_provider_orders_sales_request/get_provider_orders_sales_request.dart';
-import 'package:sun_web_system/features/dashboard_page/presentation/cubit/get_provider_orders_sales_cubit/get_provider_orders_sales_state.dart';
+import '../../../data/datasource/get_provider_orders_sales_datasource/get_provider_orders_sales_repository.dart';
+import '../../../data/request/get_provider_orders_sales_request/get_provider_orders_sales_request.dart';
+import 'get_provider_orders_sales_state.dart';
 
-class GetProviderOrdersSalesCubit
-    extends Cubit<GetProviderOrdersSalesState> {
-  GetProviderOrdersSalesCubit()
-      : super(GetProviderOrdersSalesInitial());
+class GetProviderOrdersSalesCubit extends Cubit<GetProviderOrdersSalesState> {
+  GetProviderOrdersSalesCubit() : super(GetProviderOrdersSalesInitial());
+  static GetProviderOrdersSalesCubit get(context) => BlocProvider.of(context);
+  int _revision = 0;
 
-  static GetProviderOrdersSalesCubit get(context) =>
-      BlocProvider.of(context);
-
-  Future<void> getProviderOrdersSales() async {
+  Future<void> getProviderOrdersSales(
+      {int? providerId,
+      int? branchId,
+      String? startDate,
+      String? endDate}) async {
     if (isClosed) return;
-
+    final revision = ++_revision;
     emit(GetProviderOrdersSalesLoading());
-
     try {
-      // =========================================================
-      // GET LOCAL USER
-      // =========================================================
-
-      final user = await AuthLocalStorage.getUser();
-
-      if (isClosed) return;
-
-      if (user == null) {
-        emit(
-          GetProviderOrdersSalesError(
-            AppLanguageKeys.userNotFound,
-          ),
-        );
-        return;
-      }
-
-      // =========================================================
-      // API
-      // =========================================================
-
+      final id = providerId ?? (await AuthLocalStorage.getUser())?.userid;
+      if (isClosed || revision != _revision) return;
+      if (id == null || id <= 0) throw Exception(AppLanguageKeys.userNotFound);
       final result = await getProviderOrdersSalesFunction(
-        request: GetProviderOrdersSalesRequest(
-          providerId: user.userid ?? 0,
-        ),
-      );
-
-      if (isClosed) return;
-
-      // =========================================================
-      // SUCCESS
-      // =========================================================
-
-      if (result != null) {
-        emit(
-          GetProviderOrdersSalesSuccess(
-            result,
-          ),
-        );
-        return;
+          request: GetProviderOrdersSalesRequest(
+              providerId: id,
+              branchId: branchId,
+              startDate: startDate,
+              endDate: endDate));
+      if (isClosed || revision != _revision) return;
+      if (result == null) throw Exception(AppLanguageKeys.errorLoadingData);
+      emit(GetProviderOrdersSalesSuccess(result));
+    } catch (_) {
+      if (!isClosed && revision == _revision) {
+        emit(GetProviderOrdersSalesError(AppLanguageKeys.errorLoadingData));
       }
-
-      // =========================================================
-      // ERROR
-      // =========================================================
-
-      emit(
-        GetProviderOrdersSalesError(
-          AppLanguageKeys.errorLoadingData,
-        ),
-      );
-    } catch (e) {
-      if (isClosed) return;
-
-      emit(
-        GetProviderOrdersSalesError(
-          e.toString(),
-        ),
-      );
     }
   }
 }

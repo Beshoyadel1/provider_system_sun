@@ -12,17 +12,14 @@ class GetProviderMainServiceStatisticsRequest {
   final SalesChartModel? salesChart;
 
   GetProviderMainServiceStatisticsRequest(
-      {
-      this.providerId,
+      {this.providerId,
       this.mainServiceId,
       this.startDate,
       this.endDate,
       this.branchId,
       this.averageRate,
       this.subServiceSummaries,
-      this.salesChart
-      }
-      );
+      this.salesChart});
 
   factory GetProviderMainServiceStatisticsRequest.fromJson(
       Map<String, dynamic> json) {
@@ -42,16 +39,11 @@ class GetProviderMainServiceStatisticsRequest {
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      "providerId": providerId ,
-      "mainServiceId": mainServiceId,
-      "startDate": startDate,
-      "endDate": endDate,
-      "branchId": branchId,
-      "averageRate": averageRate,
-      "subServiceSummaries": subServiceSummaries?.toJson(),
-      "salesChart": salesChart?.toJson(),
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        'providerId': providerId,
+        'mainServiceId': mainServiceId,
+        if (startDate != null && startDate!.isNotEmpty) 'startDate': startDate,
+        if (endDate != null && endDate!.isNotEmpty) 'endDate': endDate,
+        if (branchId != null && branchId! > 0) 'branchId': branchId,
+      };
 }

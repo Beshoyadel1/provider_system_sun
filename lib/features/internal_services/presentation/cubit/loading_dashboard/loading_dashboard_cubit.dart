@@ -7,7 +7,7 @@ import 'loading_dashboard_state.dart';
 class InternalOrdersCubit extends Cubit<InternalOrdersState> {
   InternalOrdersCubit() : super(const InternalOrdersState());
 
-  Future<void> getStatistics({int? mainServiceId}) async {
+  Future<void> getStatistics({int? mainServiceId, int? branchId}) async {
     try {
       final user = await AuthLocalStorage.getUser();
 
@@ -16,10 +16,11 @@ class InternalOrdersCubit extends Cubit<InternalOrdersState> {
       final request = GetProviderMainServiceStatisticsRequest(
         providerId: user.userid,
         mainServiceId: mainServiceId,
+        branchId: branchId,
       );
 
       final result =
-      await getProviderMainServiceStatisticsFunction(request: request);
+          await getProviderMainServiceStatisticsFunction(request: request);
 
       emit(
         state.copyWith(

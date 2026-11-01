@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../../../../core/theming/colors.dart';
@@ -9,10 +8,10 @@ import '../../../../../../../../../features/order_services/presentation/pages/or
 import '../../../../../../../../../features/order_services/presentation/pages/order_services_statistics/screens/part_two_screen_first_screen_order_services_statistics/container_profits_from_ministry_of_order_services_statistics/container_profits_from_ministry_of_order_services_statistics.dart';
 import '../../../../../../../../../features/order_services/presentation/pages/order_services_statistics/screens/part_two_screen_first_screen_order_services_statistics/container_rate_service_order_services_statistics/container_rate_order_services_statistics.dart';
 
-
 class OrderServicesStatistics extends StatelessWidget {
-  final int serviceId,branchId;
-  const OrderServicesStatistics({super.key,required this.serviceId,required this.branchId});
+  final int serviceId, branchId;
+  const OrderServicesStatistics(
+      {super.key, required this.serviceId, required this.branchId});
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +21,7 @@ class OrderServicesStatistics extends StatelessWidget {
       create: (_) => InternalOrdersCubit()
         ..getStatistics(
           mainServiceId: serviceId,
+          branchId: branchId,
         ),
       child: Scaffold(
         backgroundColor: AppColors.scaffoldColor,
@@ -30,12 +30,15 @@ class OrderServicesStatistics extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-               Expanded(
+              Expanded(
                 flex: 2,
                 child: Padding(
                   padding: const EdgeInsets.all(20),
                   child: SingleChildScrollView(
-                    child: ListDataOrderServicesStatistics(serviceId: serviceId,branchId: branchId,),
+                    child: ListDataOrderServicesStatistics(
+                      serviceId: serviceId,
+                      branchId: branchId,
+                    ),
                   ),
                 ),
               ),

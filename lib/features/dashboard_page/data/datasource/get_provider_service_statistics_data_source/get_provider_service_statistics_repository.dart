@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:sun_web_system/features/dashboard_page/data/request/get_provider_service_statistics_request/get_provider_service_statistics_request.dart';
 import '../../model/get_provider_service_statistics_model/provider_statistics_model.dart';
 import '../../../../../core/api/dio_function/api_constants.dart';
-import '../../../../../core/pages_widgets/general_widgets/snakbar.dart';
 import '../../../../../core/api/dio_function/dio_controller.dart';
 import '../../../../../core/api/dio_function/failures.dart';
 
@@ -10,8 +9,7 @@ Future<ProviderStatisticsModel?> getProviderServiceStatisticsFunction({
   required GetProviderServiceStatisticsRequest request,
 }) async {
   try {
-    final response = await Network.postDataWithBodyAndParams(
-      {},
+    final response = await Network.postDataWithQuery(
       request.toJson(),
       ApiLink.getProviderServiceStatistics,
     );
