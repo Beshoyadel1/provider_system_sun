@@ -678,10 +678,6 @@ class HaragCubit extends Cubit<HaragState> {
       final now =
       DateTime.now();
 
-      final utcDate =
-      now.toUtc()
-          .toIso8601String();
-
       // ========================================================
       // REQUEST
       // ========================================================
@@ -694,9 +690,6 @@ class HaragCubit extends Cubit<HaragState> {
 
       final request =
       SendMessageRequest(
-        id:
-        0,
-
         fromuser:
         fromUser,
 
@@ -705,15 +698,6 @@ class HaragCubit extends Cubit<HaragState> {
 
         message:
         text,
-
-        date:
-        utcDate,
-
-        viewed:
-        true,
-
-        isclosed:
-        true,
 
         harageid:
         harageId,

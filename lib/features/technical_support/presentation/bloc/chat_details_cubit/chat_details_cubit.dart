@@ -525,8 +525,6 @@ class ChatDetailsCubit
 
       final request =
       SendMessageRequest(
-        id: 0,
-
         fromuser:
         user.userid!,
 
@@ -541,17 +539,6 @@ class ChatDetailsCubit
 
         message:
         message,
-
-        date:
-        now.toUtc()
-            .toIso8601String(),
-
-        // Don't send null values
-        viewed:
-        true,
-
-        isclosed:
-        false,
 
         harageid:
         0,

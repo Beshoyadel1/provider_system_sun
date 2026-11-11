@@ -352,56 +352,6 @@ class ChatMessageModel {
       );
 }
 
-/// Payload sent to the backend when sending a chat message.
-class SendChatMessageModel {
-  final int fromUser;
-  final int fromUserType;
-  final int? toUser;
-  final int? toUserType;
-  final int orderId;
-  final String message;
-  final DateTime date;
-
-  SendChatMessageModel({
-    required this.fromUser,
-    required this.fromUserType,
-    this.toUser,
-    this.toUserType,
-    required this.orderId,
-    required this.message,
-    DateTime? date,
-  }) : date = date ?? DateTime.now();
-
-  Map<String, dynamic> toJson() {
-    // Local ISO strings omit the timezone; send an unambiguous UTC instant.
-    final utcIso = date.toUtc().toIso8601String();
-    return {
-      'ID': 0,
-      'id': 0,
-      'FROMUSER': fromUser,
-      'fromuser': fromUser,
-      'FROMUSERTYPE': fromUserType,
-      'fromusertype': fromUserType,
-      'TOUSER': (toUser != null && toUser! > 0) ? toUser : 0,
-      'touser': (toUser != null && toUser! > 0) ? toUser : 0,
-      'TOUSERTYPE': (toUserType != null && toUserType! > 0) ? toUserType : 0,
-      'tousertype': (toUserType != null && toUserType! > 0) ? toUserType : 0,
-      'MESSAGE': message,
-      'message': message,
-      'ORDERID': orderId,
-      'orderid': orderId,
-      'HARAGEID': 0,
-      'harageid': 0,
-      'VIEWED': false,
-      'viewed': false,
-      'ISCLOSED': false,
-      'isclosed': false,
-      'DATE': utcIso,
-      'date': utcIso,
-    };
-  }
-}
-
 /// Team member representation for the Work Team panel (employees, technicians, and system admin).
 class WorkTeamMemberModel {
   final int? userid;

@@ -28,21 +28,18 @@ class ChatMessagesScrollView extends StatefulWidget {
 
 class _ChatMessagesScrollViewState extends State<ChatMessagesScrollView> {
   late final ScrollController _scrollController;
-  int _lastMessageCount = 0;
 
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController();
-    _lastMessageCount = widget.messages.length;
     _scrollToBottomPostFrame();
   }
 
   @override
   void didUpdateWidget(covariant ChatMessagesScrollView oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.messages.length > _lastMessageCount) {
-      _lastMessageCount = widget.messages.length;
+    if (oldWidget.messages.lastOrNull?.id != widget.messages.lastOrNull?.id) {
       _scrollToBottomPostFrame();
     }
   }
@@ -55,7 +52,7 @@ class _ChatMessagesScrollViewState extends State<ChatMessagesScrollView> {
 
   void _scrollToBottomPostFrame() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_scrollController.hasClients) {
+      if (mounted && _scrollController.hasClients) {
         _scrollController.animateTo(
           _scrollController.position.maxScrollExtent,
           duration: const Duration(milliseconds: 250),
