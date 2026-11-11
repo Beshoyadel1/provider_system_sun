@@ -29,7 +29,7 @@ Future<LoginResult> loginFunction({
     final body = ApiJson.object(response.data);
 
     final bool success = (response.statusCode ?? 500) < 400 &&
-        body['success'] == true &&
+        (body['success'] ?? body['status']) == true &&
         body['status'] != false;
 
     final String message = body["message"]?.toString() ??

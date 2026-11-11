@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:sun_web_system/core/theming/colors.dart';
 import 'package:sun_web_system/core/theming/fonts.dart';
 import 'package:sun_web_system/core/theming/text_styles.dart';
-
 import 'package:sun_web_system/features/auth_page/data/model/create_user_model/employee_wrapper_request.dart';
-
 import 'package:sun_web_system/features/employee/presentation/bloc/provider_employees_cubit/provider_employees_cubit.dart';
 import 'package:sun_web_system/features/employee/presentation/bloc/provider_employees_cubit/provider_employees_state.dart';
 
 enum EmployeePermissionType {
   acceptAllOrders,
-  changeOrderStatus,
+  acceptAndRefuseAndAssignOrders,
   harage,
   maintenanceAndInternalServices,
   mobileServices,
@@ -42,8 +39,8 @@ class PermissionWithIconText extends StatelessWidget {
       case EmployeePermissionType.acceptAllOrders:
         return permissions.acceptallorders ?? false;
 
-      case EmployeePermissionType.changeOrderStatus:
-        return permissions.changeorderstatus ?? false;
+      case EmployeePermissionType.acceptAndRefuseAndAssignOrders:
+        return permissions.acceptAndRefuseAndAssignOrders ?? false;
 
       case EmployeePermissionType.harage:
         return permissions.harage ?? false;
@@ -80,8 +77,8 @@ class PermissionWithIconText extends StatelessWidget {
         cubit.setAcceptAllOrders(value);
         break;
 
-      case EmployeePermissionType.changeOrderStatus:
-        cubit.setChangeOrderStatus(value);
+      case EmployeePermissionType.acceptAndRefuseAndAssignOrders:
+        cubit.setAcceptAndRefuseAndAssignOrders(value);
         break;
 
       case EmployeePermissionType.harage:

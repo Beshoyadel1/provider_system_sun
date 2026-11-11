@@ -9,6 +9,12 @@ class ChatEvents {
 
   int? activeChatUserId;
   int? activeChatUserType;
+  final Map<Object, int> _activeHarages = {};
+
+  void activateHarage(Object owner, int id) => _activeHarages[owner] = id;
+  void deactivateHarage(Object owner) => _activeHarages.remove(owner);
+  bool isHarageActive(int id) => _activeHarages.containsValue(id);
+  void clearActiveHarages() => _activeHarages.clear();
 
   final StreamController<ReceiveMessageData>
   _controller =
@@ -26,6 +32,7 @@ class ChatEvents {
   Future<void> dispose() async {
     activeChatUserId = null;
     activeChatUserType = null;
+    clearActiveHarages();
     await _controller.close();
   }
 }

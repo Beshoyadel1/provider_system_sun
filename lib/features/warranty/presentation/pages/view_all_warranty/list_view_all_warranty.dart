@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/cubit/app_cubit/app_cubit.dart';
 import 'package:sun_web_system/core/pages_widgets/general_widgets/snakbar.dart';
+import 'package:sun_web_system/core/services/fcm_service.dart';
 import 'package:sun_web_system/core/theming/auth_local_storage.dart';
 import 'package:sun_web_system/core/utilies/map_of_all_app.dart';
 import 'package:sun_web_system/features/order_status_design/presentation/custom_widget/show_order_status_confirmation_dialog.dart';
@@ -43,12 +44,12 @@ class ListViewAllWarranty extends StatelessWidget {
            await AuthLocalStorage.updateUserFields(
             isApproved: true,
           );
-           final refreshed = await AuthLocalStorage.refreshAndSaveUser();
+          final refreshed = await AuthLocalStorage.refreshAndSaveUser(
+            tokenLoader: () =>
+                FcmService.instance.getToken(promptForPermission: false),
+          );
 
-           if (!refreshed) {
-             // handle error
-             return;
-           }
+          if (!context.mounted || !refreshed) return;
           AppSnackBar.showSuccess(
             AppLanguageKeys.subscriptionSuccess,
           );

@@ -310,15 +310,21 @@ class ChatMessageModel {
   static bool _bool(dynamic value) =>
       value == true || '$value'.toLowerCase() == 'true' || '$value' == '1';
 
+  static final _zoneSuffix = RegExp(r'(?:[zZ]|[+-]\d{2}:?\d{2})$');
+
   static DateTime? parseDate(dynamic raw) {
-    if (raw is DateTime) return raw;
+    if (raw is DateTime) return raw.toUtc();
     final text = raw?.toString().trim() ?? '';
-    final iso = DateTime.tryParse(text);
+    if (text.isEmpty) return null;
+    // Chat API timestamps are UTC, including responses without a zone suffix.
+    final iso = DateTime.tryParse(
+      _zoneSuffix.hasMatch(text) ? text : '${text}Z',
+    );
     if (iso != null) return iso;
     // These formats are already supported by the legacy chat history model.
     for (final pattern in ['MM/dd/yyyy HH:mm:ss', 'yyyy-MM-dd HH:mm:ss']) {
       try {
-        return DateFormat(pattern).parseStrict(text);
+        return DateFormat(pattern).parseStrict(text, true);
       } catch (_) {}
     }
     return null;

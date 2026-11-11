@@ -98,6 +98,7 @@ class HaragCubit extends Cubit<HaragState> {
     required int harageId,
   }) async {
     selectedHarageId = harageId;
+    ChatEvents.instance.activateHarage(this, harageId);
 
     emit(
       GetHarageChatLoading(
@@ -1793,6 +1794,7 @@ class HaragCubit extends Cubit<HaragState> {
 
   @override
   Future<void> close() {
+    ChatEvents.instance.deactivateHarage(this);
     _subscription.cancel();
     return super.close();
   }

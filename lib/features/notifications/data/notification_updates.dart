@@ -25,6 +25,7 @@ class NotificationUpdates {
   final Map<int, OrderDetailsModel> _details = {};
   final Set<int> _staleDetails = {};
   final Map<int, Future<OrderDetailsModel>> _detailRequests = {};
+  final Set<int> _enrichingOrders = {};
   final Map<int, Map<String, dynamic>> _pendingDetailPatches = {};
   final Map<Object, bool Function(NotificationPayload)> _orderConsumers = {};
   int _session = 0;
@@ -55,8 +56,9 @@ class NotificationUpdates {
   Future<OrderDetailsModel> getOrderDetails(int id,
       {bool force = false}) async {
     if (_detailRequests[id] != null) return _detailRequests[id]!;
-    if (!force && !_staleDetails.contains(id) && _details[id] != null)
+    if (!force && !_staleDetails.contains(id) && _details[id] != null) {
       return _details[id]!;
+    }
     final session = _session;
     _pendingDetailPatches[id] = {};
     final pending = () async {
@@ -72,9 +74,13 @@ class NotificationUpdates {
         // Fresh API fields supersede older patches.
         orders[id] = {
           ...after,
-          'status': result.status,
-          'orderstatus': result.status,
-          'statushistory': result.statusHistory?.map((event) => event.toJson()).toList(),
+          if (result.status != null) ...{
+            'status': result.status,
+            'orderstatus': result.status,
+          },
+          if (result.statusHistory != null)
+            'statushistory':
+                result.statusHistory!.map((event) => event.toJson()).toList(),
           if (result.deliveryOrder != null)
             'deliveryorder': result.deliveryOrder!.toJson(),
           if (result.isDeliveryOrder != null)
@@ -97,52 +103,63 @@ class NotificationUpdates {
 
   Future<void> enrichOrder(NotificationPayload payload) async {
     final id = payload.orderId;
-    if (id == null || !needsOrderDetails(payload)) return;
+    if (id == null ||
+        id <= 0 ||
+        payload.detailsRefreshed ||
+        !needsOrderDetails(payload) ||
+        !_enrichingOrders.add(id)) {
+      return;
+    }
     final session = _session;
-    final details = await getOrderDetails(id);
-    if (session != _session) return;
-    final patch = {
-      'id': id,
-      'branchid': details.branchid,
-      'status': details.status,
-      'orderstatus': details.status,
-      'userid': details.userid,
-      'usertype': details.usertype,
-      'username': details.user?.username,
-      'totalprice': details.totalprice,
-      'orderdate': details.date?.toIso8601String(),
-      'provid': details.provid,
-      if (details.deliveryOrder != null)
-        'deliveryorder': details.deliveryOrder!.toJson(),
-      'isdeliveryorder': details.isDeliveryOrder,
-      'isonsite': details.isOnSite,
-      'statusHistory': details.statusHistory?.map((event) => event.toJson()).toList(),
-      'services': [
-        for (final s in details.services ?? <Service>[])
-          {
-            'id': s.id,
-            'parentid': s.parentid,
-            'name': s.name,
-            'latinname': s.latinname
-          }
-      ],
-      ...?orders[id],
-    }..removeWhere((_, value) => value == null);
-    add(NotificationPayload({
-      ...payload.data,
-      'detailsRefreshed': true,
-      'orderInfo': patch,
-      if (patch['status'] != null) 'status': patch['status']
-    },
-        title: payload.title,
-        body: payload.body,
-        messageId: payload.messageId,
-        sentAt: payload.sentAt));
+    try {
+      final details = await getOrderDetails(id);
+      if (session != _session) return;
+      final latest = orderEvents[id] ?? payload;
+      final patch = {
+        'id': id,
+        'branchid': details.branchid,
+        'status': details.status,
+        'orderstatus': details.status,
+        'userid': details.userid,
+        'usertype': details.usertype,
+        'username': details.user?.username,
+        'totalprice': details.totalprice,
+        'orderdate': details.date?.toIso8601String(),
+        'provid': details.provid,
+        'provname': details.providerInfo?.name,
+        'provlatinname': details.providerInfo?.latinname,
+        'branchname': details.providerInfo?.branchname,
+        'branchlatinname': details.providerInfo?.branchlatinname,
+        if (details.deliveryOrder != null)
+          'deliveryorder': details.deliveryOrder!.toJson(),
+        'isdeliveryorder': details.isDeliveryOrder,
+        'isonsite': details.isOnSite,
+        'statusHistory':
+            details.statusHistory?.map((event) => event.toJson()).toList(),
+        ...?orders[id],
+        if (details.services?.isNotEmpty == true)
+          'services':
+              details.services!.map((service) => service.toJson()).toList(),
+        if (details.provid != null && details.provid! > 0)
+          'provid': details.provid,
+      }..removeWhere((_, value) => value == null);
+      add(NotificationPayload({
+        ...latest.data,
+        'detailsRefreshed': true,
+        'orderInfo': patch,
+      },
+          title: latest.title,
+          body: latest.body,
+          messageId: latest.messageId,
+          sentAt: latest.sentAt));
+    } finally {
+      if (session == _session) _enrichingOrders.remove(id);
+    }
   }
 
   void add(NotificationPayload payload) {
-    final id = payload.orderId;
-    if (payload.isOrder && id != null && id > 0) {
+    final id = payload.isOrder ? payload.orderId : null;
+    if (id != null && id > 0) {
       orderEvents[id] = payload;
       orderVersions[id] = ++revision;
       orders[id] = _mergeOrderPatch(orders[id] ?? {}, payload.orderPatch);
@@ -154,8 +171,9 @@ class NotificationUpdates {
         _details[id] = _details[id]!.applyNotificationPatch(payload.orderPatch);
       }
       if ((payload.kind == NotificationKind.deliveryStatus ||
-          payload.kind == NotificationKind.orderStatus ||
-          payload.kind == NotificationKind.orderAssigned) && !payload.detailsRefreshed) {
+              payload.kind == NotificationKind.orderStatus ||
+              payload.kind == NotificationKind.orderAssigned) &&
+          !payload.detailsRefreshed) {
         _staleDetails.add(id);
       }
     }
@@ -174,6 +192,7 @@ class NotificationUpdates {
     _details.clear();
     _staleDetails.clear();
     _detailRequests.clear();
+    _enrichingOrders.clear();
     _pendingDetailPatches.clear();
     orders.clear();
     orderEvents.clear();

@@ -12,8 +12,8 @@ class GetUserNewNotificationRequest {
     return {
       "userId": userId,
       "userType": userType,
-      if (pageNumber != null) "pageNumber": pageNumber,
-      if (pageSize != null) "pageSize": pageSize,
+      "pageNumber": pageNumber,
+      "pageSize": pageSize,
     };
   }
 }

@@ -21,11 +21,17 @@ class GetUserNotificationResponse {
     _checkNotificationSuccess(json);
     final raw = json.containsKey('data') ? json['data'] : json;
     final body = raw is Map ? ApiJson.object(raw) : json;
-    final records = raw is List ? raw : body['items'] ?? body['data'];
+    final legacyRecords = body['data'];
+    final records = switch (raw) {
+      List list => list,
+      _ when legacyRecords is List => legacyRecords,
+      _ => body['items'],
+    };
     final items = _notificationItems(records);
     final total = _notificationInt(body['totalCount']) ?? items.length;
     final size = _notificationInt(body['pageSize']);
-    final pages = _notificationInt(body['totalPages'] ?? body['pageCount']) ??
+    final pages = _notificationInt(body['pageCount']) ??
+        _notificationInt(body['totalPages']) ??
         (size != null && size > 0
             ? (total / size).ceil()
             : items.isEmpty
@@ -35,8 +41,9 @@ class GetUserNotificationResponse {
       data: items,
       pageCount: pages,
       totalCount: total,
-      currentPage:
-          _notificationInt(body['pageNumber'] ?? body['currentPage']) ?? 1,
+      currentPage: _notificationInt(body['currentPage']) ??
+          _notificationInt(body['pageNumber']) ??
+          1,
     );
   }
 }

@@ -8,6 +8,6 @@ class NotificationAudioService {
   }
 
   Future<void> stop() async {
-    await AudioService.instance.stopNotificationSound();
+    await AudioService.instance.stopOrderSound();
   }
 }

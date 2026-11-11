@@ -17,13 +17,13 @@ import '../../../../../../../features/internal_services/presentation/cubit/get_p
 
 class GetProviderInternalOrderCubit
     extends Cubit<GetProviderInternalOrderState> {
-
   GetProviderInternalOrderCubit({
     NotificationUpdates? updates,
     Future<CreateUserRequest?> Function()? userLoader,
-    Future<GetProviderOrdersResponse> Function({required GetProviderOrdersRequest getProviderOrdersRequest})? ordersLoader,
-  })
-      : _updates = updates ?? NotificationUpdates.instance,
+    Future<GetProviderOrdersResponse> Function(
+            {required GetProviderOrdersRequest getProviderOrdersRequest})?
+        ordersLoader,
+  })  : _updates = updates ?? NotificationUpdates.instance,
         _userLoader = userLoader ?? AuthLocalStorage.getUser,
         _ordersLoader = ordersLoader ?? getProviderOrdersFunction,
         super(GetProviderInternalOrderInitial()) {
@@ -33,10 +33,13 @@ class GetProviderInternalOrderCubit
 
   final NotificationUpdates _updates;
   final Future<CreateUserRequest?> Function() _userLoader;
-  final Future<GetProviderOrdersResponse> Function({required GetProviderOrdersRequest getProviderOrdersRequest}) _ordersLoader;
+  final Future<GetProviderOrdersResponse> Function(
+          {required GetProviderOrdersRequest getProviderOrdersRequest})
+      _ordersLoader;
   StreamSubscription<NotificationPayload>? _subscription;
   int? _serviceId, _orderType;
   int? _branchId;
+  int? _providerId;
   int _loadVersion = 0;
   int _pageNumber = 1;
   int? _employeeId;
@@ -47,26 +50,35 @@ class GetProviderInternalOrderCubit
   Future<void> applyServerFilters({int? employeeId, int? pageSize}) {
     _employeeId = employeeId;
     if (pageSize != null && pageSize > 0) _pageSize = pageSize;
-    return loadInternalOrders(serviceId: _serviceId, branchId: _branchId,
-        orderType: _orderType, pageNumber: 1);
+    return loadInternalOrders(
+        serviceId: _serviceId,
+        branchId: _branchId,
+        orderType: _orderType,
+        pageNumber: 1);
   }
 
   Future<void> reload() => loadInternalOrders(
-    orderType: _orderType,
-    serviceId: _serviceId,
-    branchId: _branchId,
-    pageNumber: _pageNumber,
-  );
+        orderType: _orderType,
+        serviceId: _serviceId,
+        branchId: _branchId,
+        pageNumber: _pageNumber,
+      );
 
   void _onNotification(NotificationPayload payload) {
-    if (!payload.isOrder || isClosed || state is! GetProviderInternalOrderSuccess) return;
+    if (!payload.isOrder ||
+        isClosed ||
+        state is! GetProviderInternalOrderSuccess) {
+      return;
+    }
     if (_employeeId != null && payload.kind == NotificationKind.orderAssigned) {
       unawaited(reload());
       return;
     }
     final current = state as GetProviderInternalOrderSuccess;
     final id = payload.orderId;
-    if (id == null) return;
+    if (id == null || id <= 0) return;
+    final patch = _updates.orders[id] ?? payload.orderPatch;
+    if (!_matchesProvider(patch)) return;
     final orders = List<OrderModel>.from(current.orders);
     final index = orders.indexWhere((o) => o.id == id);
     var count = current.totalCount;
@@ -78,53 +90,105 @@ class GetProviderInternalOrderCubit
       } else {
         orders[index] = order;
       }
-    } else if (current.currentPage == 1 && _canInsert(payload)) {
-      orders.insert(0, OrderModel().applyPatch(payload.orderPatch));
+    } else if (current.currentPage == 1 && _canInsert(patch)) {
+      orders.insert(0, OrderModel().applyPatch(patch));
+      if (orders.length > _pageSize) orders.removeLast();
       count++;
-    } else { return; }
+    } else {
+      return;
+    }
+    final pageCount = count == current.totalCount
+        ? current.pageCount
+        : (count + _pageSize - 1) ~/ _pageSize;
     emit(GetProviderInternalOrderSuccess(orders,
-      currentPage: current.currentPage, pageCount: current.pageCount, totalCount: count));
+        currentPage: current.currentPage,
+        pageCount: pageCount,
+        totalCount: count));
   }
 
-  bool _canInsert(NotificationPayload payload) {
+  bool _canInsert(Map<String, dynamic> patch) {
     // A compact notification cannot establish employee assignment membership.
     if (_employeeId != null) return false;
-    final p = payload.orderPatch;
-    // Never put an order in an unrelated branch/category or infer filter enums.
-    if (_branchId != null && int.tryParse('${p['branchid']}') != _branchId) return false;
-    final status = int.tryParse('${p['orderstatus']}');
-    if (_orderType != null && (status == null || !_matchesOrderType(status))) return false;
-    if (_serviceId != null && _serviceId != 0 &&
-        payload.integer('serviceId') != _serviceId &&
-        !(p['services'] is List && (p['services'] as List).whereType<Map>().any(
-          (s) => int.tryParse('${s['id']}') == _serviceId ||
-                 int.tryParse('${s['parentid']}') == _serviceId))) { return false; }
-    return true;
+    if (_branchId != null &&
+        int.tryParse('${patch['branchid']}') != _branchId) {
+      return false;
+    }
+    final status = int.tryParse('${patch['orderstatus']}');
+    if (_orderType != null && (status == null || !_matchesOrderType(status))) {
+      return false;
+    }
+    return _serviceId == null ||
+        _serviceId == 0 ||
+        _serviceIds(patch).contains(_serviceId);
+  }
+
+  bool _matchesProvider(Map<String, dynamic> patch) {
+    final provider = int.tryParse('${patch['provid']}');
+    return _providerId == null ||
+        provider == null ||
+        provider <= 0 ||
+        provider == _providerId;
+  }
+
+  Set<int> _serviceIds(Map<String, dynamic> patch) {
+    final services = patch['services'];
+    return {
+      if (int.tryParse('${patch['serviceid']}') case final int id) id,
+      if (services is List)
+        for (final service in services.whereType<Map>()) ...[
+          if (int.tryParse('${service['id']}') case final int id) id,
+          if (int.tryParse('${service['parentid']}') case final int id) id,
+        ],
+    };
   }
 
   bool _matchesOrderType(int status) {
     // Match the documented tab enum when a push moves an order between tabs.
     switch (_orderType) {
-      case OrderType.New: return OrderType.newOrders.contains(status);
-      case OrderType.current: return OrderType.currentOrders.contains(status);
-      case OrderType.done: return OrderType.doneOrders.contains(status);
-      default: return true;
+      case OrderType.New:
+        return OrderType.newOrders.contains(status);
+      case OrderType.current:
+        return OrderType.currentOrders.contains(status);
+      case OrderType.done:
+        return OrderType.doneOrders.contains(status);
+      default:
+        return true;
     }
   }
 
   bool _needsDetails(NotificationPayload payload) {
     if (_employeeId != null) return false;
-    if (!payload.isOrder || isClosed || state is! GetProviderInternalOrderSuccess) return false;
+    if (!payload.isOrder ||
+        payload.detailsRefreshed ||
+        isClosed ||
+        state is! GetProviderInternalOrderSuccess) {
+      return false;
+    }
     final current = state as GetProviderInternalOrderSuccess;
-    if (current.currentPage != 1 || current.orders.any((o) => o.id == payload.orderId)) return false;
-    final p = payload.orderPatch;
-    final status = int.tryParse('${p['orderstatus']}');
+    if (current.currentPage != 1) return false;
+    final patch = _updates.orders[payload.orderId] ?? payload.orderPatch;
+    if (!_matchesProvider(patch)) return false;
+    final status = int.tryParse('${patch['orderstatus']}');
     if (status != null && !_matchesOrderType(status)) return false;
-    final branch = int.tryParse('${p['branchid']}');
-    if (_branchId != null && branch != null && branch != _branchId) return false;
-    return (_branchId != null && branch == null) ||
-        (_serviceId != null && _serviceId != 0 && p['services'] == null && payload.integer('serviceId') == null) ||
-        (_orderType != null && status == null);
+    final branch = int.tryParse('${patch['branchid']}');
+    if (_branchId != null && branch != null && branch != _branchId) {
+      return false;
+    }
+    final services = patch['services'];
+    if (_serviceId != null &&
+        _serviceId != 0 &&
+        services is List &&
+        services.isNotEmpty &&
+        !_serviceIds(patch).contains(_serviceId)) {
+      return false;
+    }
+    final order =
+        current.orders.where((o) => o.id == payload.orderId).firstOrNull;
+    if (order == null) return true;
+    return payload.kind == NotificationKind.newOrder &&
+        (order.orderStatus == null ||
+            order.username == null ||
+            order.orderDate == null);
   }
 
   Future<void> loadInternalOrders({
@@ -154,40 +218,52 @@ class GetProviderInternalOrderCubit
       if (isClosed || version != _loadVersion) return;
       if (user?.userid == null || user!.userid! <= 0) {
         if (!isClosed) {
-          emit(const GetProviderInternalOrderError(AppLanguageKeys.userNotFound));
+          emit(const GetProviderInternalOrderError(
+              AppLanguageKeys.userNotFound));
         }
         return;
       }
 
       final request = GetProviderOrdersRequest(
-          providerId: user.userid,
-          employeeId: _employeeId,
-          pageSize: _pageSize,
-          pageNumber: pageNumber ?? 1,
-          orderType: orderType,
-          serviceId: serviceId,
-          branchId: _branchId,
-        );
-      if (kDebugMode) debugPrint('[Orders] POST GetProviderOrders ${request.toJson()}');
+        providerId: user.userid,
+        employeeId: _employeeId,
+        pageSize: _pageSize,
+        pageNumber: pageNumber ?? 1,
+        orderType: orderType,
+        serviceId: serviceId,
+        branchId: _branchId,
+      );
+      _providerId = user.userid;
+      if (kDebugMode) {
+        debugPrint('[Orders] POST GetProviderOrders ${request.toJson()}');
+      }
       final response = await _ordersLoader(
         getProviderOrdersRequest: request,
       );
-      if (kDebugMode) debugPrint('[Orders] Received ${response.data.length} orders; total=${response.totalCount}');
+      if (kDebugMode) {
+        debugPrint(
+            '[Orders] Received ${response.data.length} orders; total=${response.totalCount}');
+      }
 
       if (!isClosed && version == _loadVersion) {
         emit(
-
           GetProviderInternalOrderSuccess(
-            response.data.map((order) =>
-                order.applyPatch((_updates.orderVersions[order.id] ?? 0) > notificationVersion
-                    ? _updates.orders[order.id] ?? {} : {})).toList(),
-            currentPage: response.currentPage,
+            response.data
+                .map((order) => order.applyPatch(
+                    (_updates.orderVersions[order.id] ?? 0) >
+                            notificationVersion
+                        ? _updates.orders[order.id] ?? {}
+                        : {}))
+                .toList(),
+            currentPage:
+                response.currentPage > 0 ? response.currentPage : _pageNumber,
             pageCount: response.pageCount,
             totalCount: response.totalCount,
           ),
         );
         for (final event in List.of(_updates.orderEvents.values)) {
-          if ((_updates.orderVersions[event.orderId] ?? 0) > notificationVersion) {
+          if ((_updates.orderVersions[event.orderId] ?? 0) >
+              notificationVersion) {
             _onNotification(event);
             unawaited(_updates.enrichOrder(event).catchError((Object e) {
               debugPrint('Missing order fields: $e');
@@ -195,13 +271,13 @@ class GetProviderInternalOrderCubit
           }
         }
       }
-
     } catch (e) {
       if (kDebugMode) debugPrint('[Orders] Load failed: $e');
       if (!isClosed && version == _loadVersion) {
-        emit(GetProviderInternalOrderError( e is DioException
-            ? responseOfStatusCode(e.response?.statusCode)
-            : e.toString().replaceFirst('Exception: ', ''),
+        emit(GetProviderInternalOrderError(
+          e is DioException
+              ? responseOfStatusCode(e.response?.statusCode)
+              : e.toString().replaceFirst('Exception: ', ''),
         ));
       }
     }

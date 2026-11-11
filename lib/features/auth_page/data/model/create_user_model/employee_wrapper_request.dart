@@ -117,7 +117,7 @@ class EmployeePermissionsModel {
   final int? employeeid;
 
   final bool? acceptallorders;
-  final bool? changeorderstatus;
+  final bool? acceptAndRefuseAndAssignOrders;
 
   final bool? harage;
   final bool? maintenanceandinternalservices;
@@ -129,7 +129,7 @@ class EmployeePermissionsModel {
   const EmployeePermissionsModel({
     this.employeeid,
     this.acceptallorders,
-    this.changeorderstatus,
+    this.acceptAndRefuseAndAssignOrders,
     this.harage,
     this.maintenanceandinternalservices,
     this.mobileservices,
@@ -201,8 +201,8 @@ class EmployeePermissionsModel {
         json["acceptallorders"],
       ),
 
-      changeorderstatus: _toBool(
-        json["changeorderstatus"],
+      acceptAndRefuseAndAssignOrders: _toBool(
+        json["acceptandrefuseandassignorders"],
       ),
 
       harage: _toBool(
@@ -243,8 +243,8 @@ class EmployeePermissionsModel {
       if (acceptallorders != null)
         "acceptallorders": acceptallorders,
 
-      if (changeorderstatus != null)
-        "changeorderstatus": changeorderstatus,
+      if (acceptAndRefuseAndAssignOrders != null)
+        "acceptandrefuseandassignorders": acceptAndRefuseAndAssignOrders,
 
       if (harage != null)
         "harage": harage,
@@ -274,7 +274,7 @@ class EmployeePermissionsModel {
   EmployeePermissionsModel copyWith({
     int? employeeid,
     bool? acceptallorders,
-    bool? changeorderstatus,
+    bool? acceptAndRefuseAndAssignOrders,
     bool? harage,
     bool? maintenanceandinternalservices,
     bool? mobileservices,
@@ -290,9 +290,8 @@ class EmployeePermissionsModel {
       acceptallorders ??
           this.acceptallorders,
 
-      changeorderstatus:
-      changeorderstatus ??
-          this.changeorderstatus,
+      acceptAndRefuseAndAssignOrders:
+          acceptAndRefuseAndAssignOrders ?? this.acceptAndRefuseAndAssignOrders,
 
       harage:
       harage ?? this.harage,
@@ -324,7 +323,7 @@ class EmployeePermissionsModel {
 EmployeePermissionsModel(
   employeeid: $employeeid,
   acceptallorders: $acceptallorders,
-  changeorderstatus: $changeorderstatus,
+  acceptAndRefuseAndAssignOrders: $acceptAndRefuseAndAssignOrders,
   harage: $harage,
   maintenanceandinternalservices: $maintenanceandinternalservices,
   mobileservices: $mobileservices,

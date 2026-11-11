@@ -88,7 +88,7 @@ class ProviderEmployeesCubit extends Cubit<ProviderEmployeesState> {
   EmployeePermissionsModel get emptyPermissions {
     return const EmployeePermissionsModel(
       acceptallorders: false,
-      changeorderstatus: false,
+      acceptAndRefuseAndAssignOrders: false,
       harage: false,
       maintenanceandinternalservices: false,
       mobileservices: false,
@@ -156,7 +156,7 @@ class ProviderEmployeesCubit extends Cubit<ProviderEmployeesState> {
 
   void updatePermission({
     bool? acceptallorders,
-    bool? changeorderstatus,
+    bool? acceptAndRefuseAndAssignOrders,
     bool? harage,
     bool? maintenanceandinternalservices,
     bool? mobileservices,
@@ -173,8 +173,7 @@ class ProviderEmployeesCubit extends Cubit<ProviderEmployeesState> {
           acceptallorders:
           acceptallorders,
 
-          changeorderstatus:
-          changeorderstatus,
+          acceptAndRefuseAndAssignOrders: acceptAndRefuseAndAssignOrders,
 
           harage:
           harage,
@@ -214,12 +213,12 @@ class ProviderEmployeesCubit extends Cubit<ProviderEmployeesState> {
   }
 
   // =========================================================
-  // CHANGE ORDER STATUS
+  // ACCEPT, REFUSE AND ASSIGN ORDERS
   // =========================================================
 
-  void setChangeOrderStatus(bool value) {
+  void setAcceptAndRefuseAndAssignOrders(bool value) {
     updatePermission(
-      changeorderstatus: value,
+      acceptAndRefuseAndAssignOrders: value,
     );
   }
 

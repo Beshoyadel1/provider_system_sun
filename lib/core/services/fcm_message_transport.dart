@@ -5,7 +5,6 @@ abstract class FcmMessageTransport {
   Stream<RemoteMessage> get messages;
   Stream<RemoteMessage> get openedMessages;
   Stream<String> get tokenRefresh;
-  Future<void> requestPermission();
   Future<RemoteMessage?> getInitialMessage();
 }
 
@@ -19,11 +18,6 @@ class FirebaseMessageTransport implements FcmMessageTransport {
       FirebaseMessaging.onMessageOpenedApp;
   @override
   Stream<String> get tokenRefresh => _messaging.onTokenRefresh;
-  @override
-  Future<void> requestPermission() async {
-    await _messaging.requestPermission(alert: true, badge: true, sound: true);
-  }
-
   @override
   Future<RemoteMessage?> getInitialMessage() => _messaging.getInitialMessage();
 }
