@@ -216,9 +216,7 @@ class AuthCubit extends Cubit<AuthState> {
         userId: apiUser.userid ?? 0,
         userType: apiUser.type ?? UserType.providerUser,
       );
-    } catch (e) {
-      debugPrint("FCM Init Note: $e");
-    }
+    } catch (_) {}
     if (!_isCurrentSession(revision)) return;
 
     if (!restoringSession) {

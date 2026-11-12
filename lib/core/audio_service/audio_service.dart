@@ -25,9 +25,7 @@ class AudioService {
       await player.setReleaseMode(ReleaseMode.release);
       if (version != _messageVersion) return;
       await player.play(AssetSource('sounds/notification.mp3'));
-    } catch (e) {
-      debugPrint('Message sound: $e');
-    }
+    } catch (_) {}
   }
 
   Future<void> startNotificationSound() async {
@@ -42,9 +40,7 @@ class AudioService {
       await player.setReleaseMode(ReleaseMode.loop);
       if (version != _orderVersion) return;
       await player.play(AssetSource('sounds/notification.mp3'));
-    } catch (e) {
-      debugPrint('Order sound: $e');
-    }
+    } catch (_) {}
   }
 
   Future<void> stopOrderSound() async {
@@ -55,9 +51,7 @@ class AudioService {
       } else {
         await _player?.stop();
       }
-    } catch (e) {
-      debugPrint('Stopping order sound: $e');
-    }
+    } catch (_) {}
   }
 
   Future<void> stopNotificationSound() async {
@@ -69,9 +63,7 @@ class AudioService {
       } else {
         await _messagePlayer?.stop();
       }
-    } catch (e) {
-      debugPrint('Stopping message sound: $e');
-    }
+    } catch (_) {}
     await orderStop;
   }
 }

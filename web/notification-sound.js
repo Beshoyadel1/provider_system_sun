@@ -9,7 +9,7 @@
     if (!event.isTrusted || !AudioContext) return;
     context ??= new AudioContext();
     if (context.state !== 'running') {
-      context.resume().catch((error) => console.debug('Notification audio:', error));
+      context.resume().catch(() => {});
     }
   }
 

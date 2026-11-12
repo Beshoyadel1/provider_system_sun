@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
-
 import '../../../../../../core/theming/auth_local_storage.dart';
 
 String decodeArabic(String? text) {
@@ -100,10 +98,6 @@ class ReceiveMessageNotificationModel {
     if (userType != null &&
         userType != 0 &&
         userType != currentUser.type) {
-      debugPrint(
-        '❌ UserType Not Match',
-      );
-
       return false;
     }
 

@@ -1,8 +1,6 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
 import '../../../../../../core/theming/auth_local_storage.dart';
 import '../../../../../../features/notifications/data/model/new_order_notifications_model/new_order_notifications_model.dart';
-import 'package:flutter/foundation.dart';
 
 int? _parseInt(dynamic value) {
   if (value == null) return null;
@@ -61,18 +59,15 @@ class UpdateOrderStatusModelNotification {
     if (userType != null &&
         userType != 0 &&
         userType != currentUser.type) {
-      debugPrint("❌ UserType Not Match");
       return false;
     }
 
     if (userId != null &&
         userId != 0 &&
         userId != currentUser.userid) {
-      debugPrint("❌ UserId Not Match");
       return false;
     }
 
-    debugPrint("✅ UpdateOrderStatus Accepted");
     return true;
   }
 }

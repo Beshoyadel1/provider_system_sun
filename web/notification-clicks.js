@@ -91,7 +91,7 @@
           }
         }
       })
-      .catch((error) => console.warn('[FCM] service worker startup failed', error));
+      .catch(() => {});
   }
 
   window.listenForSunNotificationClicks = (onNotification) => {

@@ -44,9 +44,7 @@ class SignalRStatusBar extends StatelessWidget {
               ? () async {
             try {
               await SignalRService.instance.reconnect();
-            } catch (e) {
-              debugPrint("Reconnect Error => $e");
-            }
+            } catch (_) {}
           }
               : null,
           child: Container(

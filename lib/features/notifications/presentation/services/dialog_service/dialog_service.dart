@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import '../../../../../../features/notifications/presentation/custom_widget/notification_dialog_helper.dart';
 import '../../../../../../features/notifications/presentation/services/navigation_service/navigation_service.dart';
@@ -37,9 +35,7 @@ class NotificationDialogService {
               onView: onView,
               generation: generation,
             ))
-        .catchError((Object error) {
-      debugPrint('Notification dialog: $error');
-    });
+        .catchError((Object _) {});
     return _queue;
   }
 
@@ -70,15 +66,11 @@ class NotificationDialogService {
     bool? shouldView;
     try {
       final result = navigator.push(route);
-      unawaited(_audio.play().catchError((Object error) {
-        debugPrint('Notification sound: $error');
-      }));
+      _audio.play().ignore();
       shouldView = await result;
     } finally {
       _route = null;
-      unawaited(_audio.stop().catchError((Object error) {
-        debugPrint('Stopping notification sound: $error');
-      }));
+      _audio.stop().ignore();
     }
     if (shouldView == true && generation == _generation) await onView();
   }

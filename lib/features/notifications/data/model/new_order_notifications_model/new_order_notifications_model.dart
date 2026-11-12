@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
 import '../../../../../../core/theming/auth_local_storage.dart';
 
 class NewOrderNotificationsModel {
@@ -117,7 +116,6 @@ class OrderInfo {
       return false;
     }
 
-    debugPrint("✅ Order Accepted for provider ${currentUser.userid}");
     return true;
   }
 }

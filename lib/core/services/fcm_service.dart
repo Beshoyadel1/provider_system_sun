@@ -22,9 +22,6 @@ import 'package:sun_web_system/features/technical_support/presentation/bloc/prov
 
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  if (kDebugMode) {
-    debugPrint('[FCM] payload source=background: ${message.toMap()}');
-  }
   if (Firebase.apps.isEmpty) {
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
@@ -42,7 +39,6 @@ class FcmService {
     Future<void> Function()? dismissDialog,
     void Function(NotificationPayload)? openPayload,
     void Function(NotificationPayload)? showOrderNotification,
-    void Function(String)? diagnosticLog,
     void Function()? Function(void Function(Map<String, dynamic>, bool))?
         webListener,
   })  : _transport = transport,
@@ -55,7 +51,6 @@ class FcmService {
         _dismissDialog = dismissDialog,
         _openPayload = openPayload,
         _showOrderNotification = showOrderNotification,
-        _diagnosticLog = diagnosticLog ?? debugPrint,
         _webListener = webListener;
   static final FcmService instance = FcmService();
   final FcmMessageTransport? _transport;
@@ -67,11 +62,6 @@ class FcmService {
   final Future<void> Function()? _dismissDialog;
   final void Function(NotificationPayload)? _openPayload,
       _showOrderNotification;
-  final void Function(String) _diagnosticLog;
-  void _trace(String message) {
-    if (kDebugMode) _diagnosticLog('[FCM] $message');
-  }
-
   final void Function()? Function(void Function(Map<String, dynamic>, bool))?
       _webListener;
   NotificationCubit get _notifications =>
@@ -129,11 +119,6 @@ class FcmService {
     try {
       void handleWebPayload(Map<String, dynamic> raw, bool opened) {
         if (!_isCurrentSession(session, revision)) return;
-        final source =
-            raw['isFirebaseMessaging'] == true ? 'browser-sdk' : 'worker';
-        if (kDebugMode) {
-          _trace('payload source=$source opened=$opened: $raw');
-        }
         final notification = NotificationPayload.object(raw['notification']);
         final data = Map<String, dynamic>.of(raw)..remove('sunOpened');
         _handlePayload(
@@ -147,8 +132,7 @@ class FcmService {
                       (raw['sentTime'] as num).toInt())
                   : DateTime.tryParse('${raw['sentAt'] ?? ''}'),
             ),
-            opened: opened,
-            source: source);
+            opened: opened);
       }
 
       // Failure in the optional browser bridge must not disable foreground FCM.
@@ -157,10 +141,7 @@ class FcmService {
             ? _webListener(handleWebPayload)
             : listenForNotificationClicks((raw) => handleWebPayload(raw, true),
                 onMessage: (raw) => handleWebPayload(raw, false));
-        _trace('browser-bridge-ready');
-      } catch (e) {
-        debugPrint('FCM browser bridge: $e');
-      }
+      } catch (_) {}
       final transport = _transport ?? FirebaseMessageTransport();
       _tokenSubscription = transport.tokenRefresh.listen((token) {
         final clean = token.trim();
@@ -178,17 +159,13 @@ class FcmService {
           _handleRemoteMessage(message, opened: true);
         }
       });
-      _trace('listeners-ready');
       RemoteMessage? initial;
       try {
         initial = await transport.getInitialMessage();
-      } catch (e) {
-        debugPrint('FCM initial message: $e');
-      }
+      } catch (_) {}
       if (!_isCurrentSession(session, revision)) return;
       if (initial != null) _handleRemoteMessage(initial, opened: true);
-    } catch (e) {
-      debugPrint('FCM init: $e');
+    } catch (_) {
       if (session == _session) {
         await _tokenSubscription?.cancel();
         await _messageSubscription?.cancel();
@@ -245,9 +222,7 @@ class FcmService {
     String? vapidKey,
     required bool promptForPermission,
   }) async {
-    var stage = promptForPermission ? 'permission-request' : 'permission-check';
     try {
-      _trace('$stage-started: ${kIsWeb ? 'web' : defaultTargetPlatform.name}');
       final messaging = FirebaseMessaging.instance;
       final permission = promptForPermission
           ? messaging.requestPermission(alert: true, badge: true, sound: true)
@@ -255,7 +230,6 @@ class FcmService {
       final settings = await permission;
       if (!AuthLocalStorage.isCurrentSession(revision)) return '';
       final status = settings.authorizationStatus;
-      _trace('permission-status: ${status.name}');
       if (status == AuthorizationStatus.denied ||
           status == AuthorizationStatus.deniedPermanently ||
           (!promptForPermission &&
@@ -264,15 +238,10 @@ class FcmService {
       }
 
       if (kIsWeb) {
-        stage = 'worker-activation';
-        _trace('$stage-started');
         await prepareFcmWorker().timeout(const Duration(seconds: 15));
         if (!AuthLocalStorage.isCurrentSession(revision)) return '';
-        _trace('worker-ready');
       }
 
-      stage = 'get-token';
-      _trace('$stage-started');
       final key = vapidKey?.trim();
       final effectiveKey =
           key == null || key.isEmpty ? FcmConfig.webVapidKey.trim() : key;
@@ -282,17 +251,10 @@ class FcmService {
           )
           .timeout(const Duration(seconds: kIsWeb ? 30 : 10));
       if (!AuthLocalStorage.isCurrentSession(revision)) return '';
-      final clean = token?.trim() ?? '';
-      _trace(clean.isEmpty ? 'get-token-empty' : 'get-token-ready');
-      return clean;
-    } on TimeoutException {
-      _trace('$stage-timeout');
-    } on FirebaseException catch (e) {
-      _trace('$stage-failed: ${e.code}');
-    } catch (e) {
-      _trace('$stage-failed: ${e.runtimeType}');
+      return token?.trim() ?? '';
+    } catch (_) {
+      return '';
     }
-    return '';
   }
 
   Future<String> _storeFetchedToken(
@@ -306,9 +268,7 @@ class FcmService {
   Future<void> _saveDeviceToken(String token, int revision) async {
     try {
       await AuthLocalStorage.saveFcmToken(token, revision: revision);
-    } catch (e) {
-      _trace('token-storage-failed: ${e.runtimeType}');
-    }
+    } catch (_) {}
   }
 
   bool _remember(Set<String> keys, String key) {
@@ -318,9 +278,6 @@ class FcmService {
   }
 
   void _handleRemoteMessage(RemoteMessage message, {required bool opened}) {
-    if (kDebugMode) {
-      _trace('payload source=flutter-sdk opened=$opened: ${message.toMap()}');
-    }
     final payload = NotificationPayload(message.data,
         title: message.notification?.title,
         body: message.notification?.body,
@@ -329,23 +286,15 @@ class FcmService {
     _handlePayload(payload, opened: opened);
   }
 
-  void _handlePayload(NotificationPayload payload,
-      {required bool opened, String source = 'flutter-sdk'}) {
-    _trace('received source=$source type=${payload.type} opened=$opened');
+  void _handlePayload(NotificationPayload payload, {required bool opened}) {
     if (_userId == 0) return;
     final isProviderChat = payload.kind == NotificationKind.chat &&
         (payload.integer('harageId') ?? 0) == 0;
     if (!payload.isFor(_userId, _userType)) {
-      _trace(
-          'dropped account-or-endpoints-mismatch keys=${payload.data.keys.join(',')}');
       if (isProviderChat) _chat.refreshVisibleChatFromPush(payload);
       return;
     }
     if (isProviderChat && !_chat.acceptsMessagePayload(payload)) {
-      _trace('dropped chat-payload: id=${payload.integer('id')} '
-          'date=${payload.get('date')} '
-          'message-present=${payload.get('message') != null} '
-          'keys=${payload.data.keys.join(',')}');
       _chat.refreshVisibleChatFromPush(payload);
       return;
     }
@@ -355,7 +304,6 @@ class FcmService {
       final repeatableStatus = payload.kind == NotificationKind.chatStatus &&
           payload.messageId?.isNotEmpty != true;
       final firstDelivery = _remember(_processed, payload.key);
-      if (!firstDelivery) _trace('duplicate ${payload.kind.name}');
       if (firstDelivery || (repeatableStatus && !opened)) {
         final isChat = payload.kind == NotificationKind.chat;
         final isHarag = isChat && (payload.integer('harageId') ?? 0) > 0;
@@ -364,9 +312,7 @@ class FcmService {
             _chat.containsMessage(payload.integer('id') ?? 0);
         _updates.add(payload);
         if (payload.isOrder) {
-          unawaited(_updates.enrichOrder(payload).catchError((Object e) {
-            debugPrint('FCM missing order fields: $e');
-          }));
+          _updates.enrichOrder(payload).ignore();
         }
         var shouldDisplay = !alreadyKnown;
         if (payload.kind == NotificationKind.chat) {
@@ -383,10 +329,7 @@ class FcmService {
       if (opened && (repeatableStatus || _remember(_opened, payload.key))) {
         _displayWhenReady(payload, true);
       }
-    } catch (e, stack) {
-      debugPrint('FCM handling: $e');
-      debugPrintStack(stackTrace: stack);
-    }
+    } catch (_) {}
   }
 
   void _displayWhenReady(NotificationPayload payload, bool opened) {
@@ -413,15 +356,13 @@ class FcmService {
           NotificationPayload.boolean(payload.get('isclosed')) == true) {
         return;
       }
-      unawaited(() async {
+      () async {
         await _dismiss();
         if (!_isCurrentSession(session, revision)) return;
         await _stopSounds();
         openPayload();
       }()
-          .catchError((Object error) {
-        debugPrint('Notification click: $error');
-      }));
+          .ignore();
     } else if (payload.kind == NotificationKind.chat) {
       if (payload.integer('fromuser') == _userId &&
           payload.integer('fromusertype') == _userType) {
@@ -455,7 +396,7 @@ class FcmService {
       ));
       showBrowserNotification(title, payload.body, onClick: () {
         if (_isCurrentSession(session, revision)) {
-          _handlePayload(payload, opened: true, source: 'browser-notification');
+          _handlePayload(payload, opened: true);
         }
       });
     }
