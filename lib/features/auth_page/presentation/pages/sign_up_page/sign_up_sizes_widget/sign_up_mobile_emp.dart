@@ -8,7 +8,6 @@ import 'package:sun_web_system/core/language/language_constant.dart';
 import 'package:sun_web_system/core/pages_widgets/general_widgets/snakbar.dart';
 import 'package:sun_web_system/core/utilies/birthdate.dart';
 import 'package:sun_web_system/core/theming/assets.dart';
-import 'package:sun_web_system/core/theming/colors.dart';
 import 'package:sun_web_system/core/theming/fonts.dart';
 import 'package:sun_web_system/core/theming/text_styles.dart';
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_cubit.dart';
@@ -94,197 +93,176 @@ class _SignUpMobileEmpState extends State<SignUpMobileEmp> {
       key: _formKey,
       autovalidateMode: AutovalidateMode.disabled,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 10,
         children: [
-          SizedBox(
-            height: 40,
-            child: AppBar(backgroundColor: AppColors.orangeColor),
+          const LoginLanguageButtonWidget(),
+          Image.asset(
+            AppImageKeys.sarLogo,
+            height: 50,
+            width: 170,
+            fit: BoxFit.fill,
           ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: 10,
-                  children: [
-                    const LoginLanguageButtonWidget(),
-                    Image.asset(
-                      AppImageKeys.sarLogo,
-                      height: 50,
-                      width: 170,
-                      fit: BoxFit.fill,
-                    ),
-                    const TextInAppWidget(
-                      text: AppLanguageKeys.signUpTitleKey,
-                      textSize: 25,
-                      fontWeightIndex: FontSelectionData.boldFontFamily,
-                    ),
-                    UserTextFieldWidget(
-                      type: UserFieldType.name,
-                      controller: usernameController,
-                      text: AppLanguageKeys.userName,
-                      validator: _requiredField,
-                      showValidationMessage: true,
-                    ),
-                    UserTextFieldWidget(
-                      type: UserFieldType.name,
-                      controller: facilityNameController,
-                      text: AppLanguageKeys.serviceProviderNameAr,
-                      validator: _requiredField,
-                      showValidationMessage: true,
-                    ),
-                    UserTextFieldWidget(
-                      type: UserFieldType.name,
-                      controller: facilityLatinNameController,
-                      text: AppLanguageKeys.serviceProviderNameEn,
-                      validator: _requiredField,
-                      showValidationMessage: true,
-                    ),
-                    UserTextFieldWidget(
-                      type: UserFieldType.phone,
-                      controller: phoneController,
-                      text: AppLanguageKeys.phoneNumberKey,
-                      validator: AuthCubit.employeePhoneValidationError,
-                      showValidationMessage: true,
-                      onChanged: (value) {
-                        // print('PHONE NUMBER => $value');
-                      },
-                    ),
-                    UserTextFieldWidget(
-                      type: UserFieldType.email,
-                      controller: emailController,
-                      text: AppLanguageKeys.emailKey,
-                      validator: _emailValidator,
-                      showValidationMessage: true,
-                    ),
-                    UserTextFieldWidget(
-                      type: UserFieldType.birthdate,
-                      controller: birthdateController,
-                      text: AppLanguageKeys.birthdate,
-                    ),
-                    UserTextFieldWidget(
-                      type: UserFieldType.password,
-                      controller: passwordController,
-                      text: AppLanguageKeys.password,
-                      validator: _passwordValidator,
-                      showValidationMessage: true,
-                      showPasswordVisibilityToggle: true,
-                    ),
-                    UserTextFieldWidget(
-                      type: UserFieldType.password,
-                      controller: confirmPasswordController,
-                      text: AppLanguageKeys.confirmPasswordKey,
-                      validator: _confirmPasswordValidator,
-                      showValidationMessage: true,
-                      showPasswordVisibilityToggle: true,
-                    ),
-                    const SizedBox(height: 10),
-                    BlocListener<AuthCubit, AuthState>(
-                      listenWhen: (previous, current) =>
-                          current is AuthSignupSuccess ||
-                          current is AuthSignupError,
-                      listener: (context, state) {
-                        if (state is AuthSignupSuccess) {
-                          final cubit = context.read<AuthCubit>();
+          const TextInAppWidget(
+            text: AppLanguageKeys.signUpTitleKey,
+            textSize: 25,
+            fontWeightIndex: FontSelectionData.boldFontFamily,
+          ),
+          UserTextFieldWidget(
+            type: UserFieldType.name,
+            controller: usernameController,
+            text: AppLanguageKeys.userName,
+            validator: _requiredField,
+            showValidationMessage: true,
+          ),
+          UserTextFieldWidget(
+            type: UserFieldType.name,
+            controller: facilityNameController,
+            text: AppLanguageKeys.serviceProviderNameAr,
+            validator: _requiredField,
+            showValidationMessage: true,
+          ),
+          UserTextFieldWidget(
+            type: UserFieldType.name,
+            controller: facilityLatinNameController,
+            text: AppLanguageKeys.serviceProviderNameEn,
+            validator: _requiredField,
+            showValidationMessage: true,
+          ),
+          UserTextFieldWidget(
+            type: UserFieldType.phone,
+            controller: phoneController,
+            text: AppLanguageKeys.phoneNumberKey,
+            validator: AuthCubit.employeePhoneValidationError,
+            showValidationMessage: true,
+            onChanged: (value) {
+              // print('PHONE NUMBER => $value');
+            },
+          ),
+          UserTextFieldWidget(
+            type: UserFieldType.email,
+            controller: emailController,
+            text: AppLanguageKeys.emailKey,
+            validator: _emailValidator,
+            showValidationMessage: true,
+          ),
+          UserTextFieldWidget(
+            type: UserFieldType.birthdate,
+            controller: birthdateController,
+            text: AppLanguageKeys.birthdate,
+          ),
+          UserTextFieldWidget(
+            type: UserFieldType.password,
+            controller: passwordController,
+            text: AppLanguageKeys.password,
+            validator: _passwordValidator,
+            showValidationMessage: true,
+            showPasswordVisibilityToggle: true,
+          ),
+          UserTextFieldWidget(
+            type: UserFieldType.password,
+            controller: confirmPasswordController,
+            text: AppLanguageKeys.confirmPasswordKey,
+            validator: _confirmPasswordValidator,
+            showValidationMessage: true,
+            showPasswordVisibilityToggle: true,
+          ),
+          const SizedBox(height: 10),
+          BlocListener<AuthCubit, AuthState>(
+            listenWhen: (previous, current) =>
+                current is AuthSignupSuccess || current is AuthSignupError,
+            listener: (context, state) {
+              if (state is AuthSignupSuccess) {
+                final cubit = context.read<AuthCubit>();
 
-                          final email = cubit.verificationEmail;
-                          final phone = cubit.verificationPhone;
+                final email = cubit.verificationEmail;
+                final phone = cubit.verificationPhone;
 
-                          if (email == null ||
-                              email.trim().isEmpty ||
-                              phone == null ||
-                              phone.trim().isEmpty) {
-                            AppSnackBar.showError(
-                              AppLanguageKeys.somethingWentWrong,
-                            );
+                if (email == null ||
+                    email.trim().isEmpty ||
+                    phone == null ||
+                    phone.trim().isEmpty) {
+                  AppSnackBar.showError(
+                    AppLanguageKeys.somethingWentWrong,
+                  );
+                  return;
+                }
+
+                Navigator.push(
+                  context,
+                  NavigateToPageWidget(
+                    BlocProvider.value(
+                      value: cubit,
+                      child: OtpPage(
+                        email: email,
+                        purpose: OtpPurpose.signup,
+                      ),
+                    ),
+                  ),
+                );
+
+                return;
+              }
+
+              if (state is AuthSignupError) {
+                AppSnackBar.showError(
+                  state.message,
+                );
+              }
+            },
+            child: BlocBuilder<AuthCubit, AuthState>(
+              buildWhen: (previous, current) =>
+                  current is AuthSignupLoading ||
+                  current is AuthSignupSuccess ||
+                  current is AuthSignupError ||
+                  previous is AuthSignupLoading,
+              builder: (context, state) {
+                final isLoading = state is AuthSignupLoading;
+
+                return LoginButtonWidget(
+                  text: AppLanguageKeys.signUpTitleKey,
+                  isLoading: isLoading,
+                  onPressed: isLoading
+                      ? null
+                      : () {
+                          // ==========================================
+                          // 1. RUN FORM VALIDATION FIRST
+                          // ==========================================
+
+                          if (!_formKey.currentState!.validate()) {
                             return;
                           }
 
-                          Navigator.push(
-                            context,
-                            NavigateToPageWidget(
-                              BlocProvider.value(
-                                value: cubit,
-                                child: OtpPage(
+                          final username = usernameController.text.trim();
+                          final facilityName =
+                              facilityNameController.text.trim();
+                          final facilityLatinName =
+                              facilityLatinNameController.text.trim();
+                          final phone = phoneController.text.trim();
+                          final email = emailController.text.trim();
+                          final password = passwordController.text.trim();
+
+                          context.read<AuthCubit>().signup(
+                                CreateUserRequest(
+                                  username: username,
+                                  phone: phone,
                                   email: email,
-                                  purpose: OtpPurpose.signup,
+                                  birthdate: Birthdate.parse(
+                                    birthdateController.text,
+                                  ),
+                                  password: password,
+                                  type: UserType.providerUser,
+                                  providerDetails: ProviderDetailsRequest(
+                                    name: facilityName,
+                                    latinname: facilityLatinName,
+                                  ),
                                 ),
-                              ),
-                            ),
-                          );
-
-                          return;
-                        }
-
-                        if (state is AuthSignupError) {
-                          AppSnackBar.showError(
-                            state.message,
-                          );
-                        }
-                      },
-                      child: BlocBuilder<AuthCubit, AuthState>(
-                        buildWhen: (previous, current) =>
-                            current is AuthSignupLoading ||
-                            current is AuthSignupSuccess ||
-                            current is AuthSignupError ||
-                            previous is AuthSignupLoading,
-                        builder: (context, state) {
-                          final isLoading = state is AuthSignupLoading;
-
-                          return LoginButtonWidget(
-                            text: AppLanguageKeys.signUpTitleKey,
-                            isLoading: isLoading,
-                            onPressed: isLoading
-                                ? null
-                                : () {
-                                    // ==========================================
-                                    // 1. RUN FORM VALIDATION FIRST
-                                    // ==========================================
-
-                                    if (!_formKey.currentState!.validate()) {
-                                      return;
-                                    }
-
-                                    final username =
-                                        usernameController.text.trim();
-                                    final facilityName =
-                                        facilityNameController.text.trim();
-                                    final facilityLatinName =
-                                        facilityLatinNameController.text.trim();
-                                    final phone = phoneController.text.trim();
-                                    final email = emailController.text.trim();
-                                    final password =
-                                        passwordController.text.trim();
-
-                                    context.read<AuthCubit>().signup(
-                                          CreateUserRequest(
-                                            username: username,
-                                            phone: phone,
-                                            email: email,
-                                            birthdate: Birthdate.parse(
-                                              birthdateController.text,
-                                            ),
-                                            password: password,
-                                            type: UserType.providerUser,
-                                            providerDetails:
-                                                ProviderDetailsRequest(
-                                              name: facilityName,
-                                              latinname: facilityLatinName,
-                                            ),
-                                          ),
-                                          languageCode:
-                                              Localizations.localeOf(context)
-                                                  .languageCode,
-                                        );
-                                  },
-                          );
+                                languageCode: Localizations.localeOf(context)
+                                    .languageCode,
+                              );
                         },
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                  ],
-                ),
-              ),
+                );
+              },
             ),
           ),
         ],
