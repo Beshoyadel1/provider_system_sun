@@ -310,15 +310,21 @@ class ChatMessageModel {
   static bool _bool(dynamic value) =>
       value == true || '$value'.toLowerCase() == 'true' || '$value' == '1';
 
+  static final _zoneSuffix = RegExp(r'(?:[zZ]|[+-]\d{2}:?\d{2})$');
+
   static DateTime? parseDate(dynamic raw) {
-    if (raw is DateTime) return raw;
+    if (raw is DateTime) return raw.toUtc();
     final text = raw?.toString().trim() ?? '';
-    final iso = DateTime.tryParse(text);
+    if (text.isEmpty) return null;
+    // Chat API timestamps are UTC, including responses without a zone suffix.
+    final iso = DateTime.tryParse(
+      _zoneSuffix.hasMatch(text) ? text : '${text}Z',
+    );
     if (iso != null) return iso;
     // These formats are already supported by the legacy chat history model.
     for (final pattern in ['MM/dd/yyyy HH:mm:ss', 'yyyy-MM-dd HH:mm:ss']) {
       try {
-        return DateFormat(pattern).parseStrict(text);
+        return DateFormat(pattern).parseStrict(text, true);
       } catch (_) {}
     }
     return null;
@@ -344,56 +350,6 @@ class ChatMessageModel {
         harageId: harageId,
         fromUserName: fromUserName,
       );
-}
-
-/// Payload sent to the backend when sending a chat message.
-class SendChatMessageModel {
-  final int fromUser;
-  final int fromUserType;
-  final int? toUser;
-  final int? toUserType;
-  final int orderId;
-  final String message;
-  final DateTime date;
-
-  SendChatMessageModel({
-    required this.fromUser,
-    required this.fromUserType,
-    this.toUser,
-    this.toUserType,
-    required this.orderId,
-    required this.message,
-    DateTime? date,
-  }) : date = date ?? DateTime.now();
-
-  Map<String, dynamic> toJson() {
-    // Local ISO strings omit the timezone; send an unambiguous UTC instant.
-    final utcIso = date.toUtc().toIso8601String();
-    return {
-      'ID': 0,
-      'id': 0,
-      'FROMUSER': fromUser,
-      'fromuser': fromUser,
-      'FROMUSERTYPE': fromUserType,
-      'fromusertype': fromUserType,
-      'TOUSER': (toUser != null && toUser! > 0) ? toUser : 0,
-      'touser': (toUser != null && toUser! > 0) ? toUser : 0,
-      'TOUSERTYPE': (toUserType != null && toUserType! > 0) ? toUserType : 0,
-      'tousertype': (toUserType != null && toUserType! > 0) ? toUserType : 0,
-      'MESSAGE': message,
-      'message': message,
-      'ORDERID': orderId,
-      'orderid': orderId,
-      'HARAGEID': 0,
-      'harageid': 0,
-      'VIEWED': false,
-      'viewed': false,
-      'ISCLOSED': false,
-      'isclosed': false,
-      'DATE': utcIso,
-      'date': utcIso,
-    };
-  }
 }
 
 /// Team member representation for the Work Team panel (employees, technicians, and system admin).

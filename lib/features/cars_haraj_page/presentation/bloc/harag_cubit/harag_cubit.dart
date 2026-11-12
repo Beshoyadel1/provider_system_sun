@@ -98,6 +98,7 @@ class HaragCubit extends Cubit<HaragState> {
     required int harageId,
   }) async {
     selectedHarageId = harageId;
+    ChatEvents.instance.activateHarage(this, harageId);
 
     emit(
       GetHarageChatLoading(
@@ -677,10 +678,6 @@ class HaragCubit extends Cubit<HaragState> {
       final now =
       DateTime.now();
 
-      final utcDate =
-      now.toUtc()
-          .toIso8601String();
-
       // ========================================================
       // REQUEST
       // ========================================================
@@ -693,9 +690,6 @@ class HaragCubit extends Cubit<HaragState> {
 
       final request =
       SendMessageRequest(
-        id:
-        0,
-
         fromuser:
         fromUser,
 
@@ -704,15 +698,6 @@ class HaragCubit extends Cubit<HaragState> {
 
         message:
         text,
-
-        date:
-        utcDate,
-
-        viewed:
-        true,
-
-        isclosed:
-        true,
 
         harageid:
         harageId,
@@ -1793,6 +1778,7 @@ class HaragCubit extends Cubit<HaragState> {
 
   @override
   Future<void> close() {
+    ChatEvents.instance.deactivateHarage(this);
     _subscription.cancel();
     return super.close();
   }

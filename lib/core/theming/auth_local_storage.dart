@@ -38,19 +38,16 @@ class AuthLocalStorage {
   static const String passwordKey = "password";
   static const String fcmTokenKey = "fcm_token";
 
-  static Future<void> saveFcmToken(String token) async {
-    await _storage.write(
-      key: fcmTokenKey,
-      value: token,
+  static Future<bool> saveFcmToken(String token, {required int revision}) {
+    return _writeForSession(
+      revision,
+      () => _storage.write(key: fcmTokenKey, value: token),
     );
   }
 
   static Future<String?> getFcmToken() async {
+    await _pendingWrites;
     return await _storage.read(key: fcmTokenKey);
-  }
-
-  static Future<void> deleteFcmToken() async {
-    await _storage.delete(key: fcmTokenKey);
   }
 
   static Future<bool> saveSession(
@@ -68,6 +65,7 @@ class AuthLocalStorage {
     return _writeForSession(revision, () async {
       await _storage.delete(key: userKey);
       await _storage.delete(key: passwordKey);
+      await _storage.delete(key: fcmTokenKey);
     });
   }
 
@@ -114,7 +112,9 @@ class AuthLocalStorage {
         sessionRevision, () => _storage.delete(key: passwordKey));
   }
 
-  static Future<bool> refreshAndSaveUser() async {
+  static Future<bool> refreshAndSaveUser({
+    required Future<String> Function() tokenLoader,
+  }) async {
     final revision = sessionRevision;
     final localUser = await getUser();
     final password = await getPassword();
@@ -126,7 +126,7 @@ class AuthLocalStorage {
       return false;
     }
 
-    final fcmToken = await getFcmToken();
+    final fcmToken = await tokenLoader();
     if (!isCurrentSession(revision)) return false;
 
     final result = await loginFunction(
@@ -134,11 +134,7 @@ class AuthLocalStorage {
         user: localUser.email!,
         password: password,
         type: UserType.providerUser,
-        fcmToken: fcmToken != null &&
-                fcmToken.isNotEmpty &&
-                !fcmToken.startsWith('fcm_web_')
-            ? fcmToken
-            : null,
+        fcmToken: fcmToken,
       ),
     );
 

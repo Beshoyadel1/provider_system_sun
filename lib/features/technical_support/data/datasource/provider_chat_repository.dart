@@ -4,6 +4,8 @@ import '../../../../core/api/api_result.dart';
 import '../../../../core/api/dio_function/api_constants.dart';
 import '../../../../core/api/dio_function/dio_controller.dart';
 import '../model/provider_chat_model.dart';
+import '../request/send_message_request/send_message_request.dart';
+import 'send_message_datasource/send_message_repository.dart';
 import '../../../notifications/data/model/notification_payload.dart';
 
 class ProviderChatRepository {
@@ -215,22 +217,15 @@ class ProviderChatRepository {
   }
 
   /// Sends a new chat message to the recipient.
-  Future<dynamic> sendChatMessage({
-    required SendChatMessageModel message,
+  Future<Map<String, dynamic>> sendChatMessage({
+    required SendMessageRequest message,
   }) async {
     try {
-      final bodyString = jsonEncode(message.toJson());
-      final response = await Network.postDataWithBody(
-        bodyString,
-        ApiLink.sendMessage,
-      );
-      return response.data;
+      return await sendMessageFunction(sendMessageRequest: message);
     } on DioException catch (e) {
       throw Exception(e.response?.data?['message'] ??
           e.message ??
           'Failed to send message');
-    } catch (e) {
-      throw Exception(e.toString());
     }
   }
 

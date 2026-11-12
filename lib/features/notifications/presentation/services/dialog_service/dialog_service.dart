@@ -11,17 +11,16 @@ class NotificationDialogService {
     NotificationAudioService? audioService,
     NotificationNavigationService? navigationService,
   })  : _audio = audioService ?? const NotificationAudioService(),
-        navigation =
-            navigationService ?? const NotificationNavigationService();
+        navigation = navigationService ?? const NotificationNavigationService();
 
   final NotificationAudioService _audio;
   final NotificationNavigationService navigation;
 
-  bool _isShowing = false;
+  DialogRoute<bool>? _route;
   int _generation = 0;
   Future<void> _queue = Future.value();
 
-  bool get isShowing => _isShowing;
+  bool get isShowing => _route?.isActive == true;
 
   Future<void> show({
     required String title,
@@ -29,19 +28,23 @@ class NotificationDialogService {
     required Future<void> Function() onView,
   }) {
     final generation = _generation;
-    _queue = _queue.then((_) => _show(
-      title: title, subtitle: subtitle, onView: onView, generation: generation,
-    )).catchError((Object error) { debugPrint('Notification dialog: $error'); });
+    _queue = _queue
+        .then((_) => _show(
+              title: title,
+              subtitle: subtitle,
+              onView: onView,
+              generation: generation,
+            ))
+        .catchError((Object _) {});
     return _queue;
   }
 
   Future<void> dismiss() async {
     _generation++;
-    if (_isShowing) {
-      _isShowing = false;
-      navigatorKey.currentState?.pop();
+    final route = _route;
+    if (route != null && route.isActive) {
+      route.navigator?.removeRoute(route);
     }
-    await _audio.stop();
   }
 
   Future<void> _show({
@@ -50,49 +53,25 @@ class NotificationDialogService {
     required Future<void> Function() onView,
     required int generation,
   }) async {
-    if (generation != _generation) return;
-    final navContext = navigatorKey.currentContext;
-
-    if (navContext == null || !navContext.mounted) {
+    final navigator = navigatorKey.currentState;
+    if (generation != _generation || navigator == null || !navigator.mounted) {
       return;
     }
-
-    await _audio.play();
-
-    final activeContext = navigatorKey.currentContext;
-    if (generation != _generation || activeContext == null || !activeContext.mounted) {
-      await _audio.stop();
-      return;
-    }
-
-    _isShowing = true;
-
-    await NotificationDialogHelper.show(
-      context: activeContext,
+    final route = NotificationDialogHelper.createRoute(
+      context: navigator.context,
       title: title,
       subTitle: subtitle,
-      onClose: () async {
-        await _audio.stop();
-        if (generation != _generation) return;
-
-        _isShowing = false;
-
-        navigatorKey.currentState?.pop();
-      },
-      onView: () async {
-        await _audio.stop();
-        if (generation != _generation) return;
-
-        _isShowing = false;
-
-        navigatorKey.currentState?.pop();
-
-        // استدعاء الـ Action القادم من الـ Handler
-        await onView();
-      },
     );
-
-    _isShowing = false;
-    await _audio.stop();
+    _route = route;
+    bool? shouldView;
+    try {
+      final result = navigator.push(route);
+      _audio.play().ignore();
+      shouldView = await result;
+    } finally {
+      _route = null;
+      _audio.stop().ignore();
+    }
+    if (shouldView == true && generation == _generation) await onView();
   }
 }

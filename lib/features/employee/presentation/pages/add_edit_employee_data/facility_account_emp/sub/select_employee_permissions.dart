@@ -39,8 +39,8 @@ class SelectEmployeePermissions extends StatelessWidget {
           ),
 
           PermissionWithIconText(
-            permission: EmployeePermissionType.changeOrderStatus,
-            text: AppLanguageKeys.changeOrderStatus,
+            permission: EmployeePermissionType.acceptAndRefuseAndAssignOrders,
+            text: AppLanguageKeys.acceptAndRefuseAndAssignOrders,
             icon: Icons.sync_alt,
             readOnly: !isEditMode,
           ),
@@ -118,11 +118,11 @@ class SelectEmployeePermissions extends StatelessWidget {
           );
         }
 
-        if (permissions.changeorderstatus == true) {
+        if (permissions.acceptAndRefuseAndAssignOrders == true) {
           selectedPermissions.add(
             const PermissionWithIconText(
-              permission: EmployeePermissionType.changeOrderStatus,
-              text: AppLanguageKeys.changeOrderStatus,
+              permission: EmployeePermissionType.acceptAndRefuseAndAssignOrders,
+              text: AppLanguageKeys.acceptAndRefuseAndAssignOrders,
               icon: Icons.sync_alt,
               readOnly: true,
             ),

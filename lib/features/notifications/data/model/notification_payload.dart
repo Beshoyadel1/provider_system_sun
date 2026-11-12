@@ -45,6 +45,7 @@ class NotificationPayload {
             value(data, 'body')?.toString() ??
             value(data, 'message')?.toString() ??
             value(data, 'description')?.toString() ??
+            value(object(value(data, 'notification')), 'body')?.toString() ??
             value(object(value(data, 'notification')), 'description')
                 ?.toString() ??
             '';
@@ -66,15 +67,20 @@ class NotificationPayload {
     return null;
   }
 
-  static Map<String, dynamic> object(dynamic raw) {
+  static dynamic _decodeJson(dynamic raw) {
     if (raw is String) {
       try {
-        raw = jsonDecode(raw);
+        return jsonDecode(raw);
       } catch (_) {
-        return {};
+        return null;
       }
     }
-    return raw is Map ? Map<String, dynamic>.from(raw) : {};
+    return raw;
+  }
+
+  static Map<String, dynamic> object(dynamic raw) {
+    final decoded = _decodeJson(raw);
+    return decoded is Map ? Map<String, dynamic>.from(decoded) : {};
   }
 
   /// The existing API/SignalR models accept data -> data envelopes, including
@@ -82,14 +88,21 @@ class NotificationPayload {
   static Map<String, dynamic> unwrap(Map<String, dynamic> raw) {
     final result = <String, dynamic>{};
     var current = raw;
+    dynamic envelopeUserId, envelopeUserType;
     for (var depth = 0; depth < 8; depth++) {
-      for (final entry in current.entries) {
-        result[entry.key.toLowerCase().replaceAll('_', '')] = entry.value;
-      }
       final nested = object(value(current, 'data'));
-      if (nested.isEmpty || identical(nested, current)) break;
+      for (final entry in current.entries) {
+        final key = entry.key.toLowerCase().replaceAll('_', '');
+        if (key != 'data' || nested.isEmpty) result[key] = entry.value;
+      }
+      if (nested.isEmpty) break;
+      envelopeUserId ??= value(current, 'userId');
+      envelopeUserType ??= value(current, 'userType');
       current = nested;
     }
+    // Keep legacy envelope recipients even when inner order data has USERID.
+    if (envelopeUserId != null) result['envelopeuserid'] = envelopeUserId;
+    if (envelopeUserType != null) result['envelopeusertype'] = envelopeUserType;
     result['fromuser'] ??= result['fromuserid'];
     result['touser'] ??= result['touserid'];
     return result;
@@ -97,16 +110,25 @@ class NotificationPayload {
 
   dynamic get(String key) => value(data, key);
   int? integer(String key) => int.tryParse('${get(key)}');
-  String get type {
-    final primary = get('type')?.toString().trim();
-    return (primary?.isNotEmpty == true
-            ? primary!
-            : '${get('eventType') ?? ''}')
-        .toLowerCase()
-        .replaceAll('_', '');
+  static String _eventName(dynamic raw) =>
+      '${raw ?? ''}'.toLowerCase().replaceAll(RegExp(r'[\s_-]'), '');
+
+  late final String type = _readType();
+  String _readType() {
+    final candidates = [
+      get('type'),
+      get('eventType'),
+      value(notification, 'type'),
+      value(notification, 'eventType'),
+    ].map(_eventName);
+    return candidates.firstWhere(
+      (event) => _kindFor(event) != NotificationKind.general,
+      orElse: () =>
+          candidates.firstWhere((event) => event.isNotEmpty, orElse: () => ''),
+    );
   }
 
-  NotificationKind get kind {
+  static NotificationKind _kindFor(String type) {
     switch (type) {
       case 'neworder':
         return NotificationKind.newOrder;
@@ -140,6 +162,27 @@ class NotificationPayload {
     }
   }
 
+  late final NotificationKind kind = _readKind();
+  NotificationKind _readKind() {
+    final explicit = _kindFor(type);
+    if (explicit != NotificationKind.general) return explicit;
+    final order = object(get('orderInfo'));
+    final orderId = integer('orderId');
+    final id = ((orderId ?? 0) > 0 ? orderId : null) ??
+        int.tryParse('${value(order, 'id') ?? value(order, 'orderId')}');
+    final status = integer('orderStatus') ??
+        integer('status') ??
+        int.tryParse(
+            '${value(order, 'orderStatus') ?? value(order, 'status')}');
+    // Some legacy pushes carry an order record without an event name.
+    if ((id ?? 0) <= 0 || (order.isEmpty && integer('orderStatus') == null)) {
+      return explicit;
+    }
+    return status == null || OrderType.newOrders.contains(status)
+        ? NotificationKind.newOrder
+        : NotificationKind.orderStatus;
+  }
+
   bool get isOrder => const {
         NotificationKind.newOrder,
         NotificationKind.orderStatus,
@@ -148,9 +191,52 @@ class NotificationPayload {
         NotificationKind.offerAccepted,
       }.contains(kind);
 
-  Map<String, dynamic> get orderPatch {
+  late final Map<String, dynamic> orderPatch =
+      Map.unmodifiable(_readOrderPatch());
+  Map<String, dynamic> _readOrderPatch() {
     final raw = object(get('orderInfo'));
-    final patch = {for (final e in raw.entries) e.key.toLowerCase(): e.value};
+    final patch = {
+      for (final e in raw.entries)
+        e.key.toLowerCase().replaceAll('_', ''): e.value,
+    };
+    for (final field in const [
+      'branchId',
+      'branchName',
+      'branchLatinName',
+      'serviceId',
+      'services',
+      'username',
+      'orderDate',
+      'totalPrice',
+      'provid',
+      'isDeliveryOrder',
+      'provServices',
+      'servicePackages',
+      'car',
+    ]) {
+      final key = field.toLowerCase();
+      patch[key] ??= get(field);
+    }
+    patch['provid'] ??= get('providerId') ?? value(raw, 'providerId');
+    if (_hasFlatOrderCreator) {
+      patch['userid'] ??= get('userId');
+      patch['usertype'] ??= get('userType');
+    }
+    for (final field in const ['services', 'provservices', 'servicepackages']) {
+      final list = _decodeJson(patch[field]);
+      if (list is List) patch[field] = list;
+    }
+    if (patch['services'] case final List services) {
+      patch['services'] = [
+        for (final service in services.whereType<Map>())
+          {
+            for (final e in service.entries)
+              e.key.toString().toLowerCase().replaceAll('_', ''): e.value,
+          },
+      ];
+    }
+    final isDelivery = boolean(patch['isdeliveryorder']);
+    if (isDelivery != null) patch['isdeliveryorder'] = isDelivery;
     final delivery =
         object(get('deliveryOrder') ?? value(raw, 'deliveryOrder'));
     if (kind == NotificationKind.deliveryStatus && !detailsRefreshed) {
@@ -171,13 +257,15 @@ class NotificationPayload {
       patch['isdeliveryorder'] = true;
     }
     if (delivery.isNotEmpty) patch['deliveryorder'] = delivery;
-    final id = integer('orderId') ??
-        int.tryParse('${patch['id']}') ??
+    final explicitId = integer('orderId');
+    final id = ((explicitId ?? 0) > 0 ? explicitId : null) ??
+        int.tryParse('${patch['id'] ?? patch['orderid']}') ??
         int.tryParse('${value(delivery, 'orderId')}');
     if (id != null) patch['id'] = id;
     final status = (detailsRefreshed
             ? int.tryParse('${patch['orderstatus'] ?? patch['status']}')
-            : integer('status') ??
+            : integer('orderStatus') ??
+                integer('status') ??
                 int.tryParse('${patch['orderstatus'] ?? patch['status']}')) ??
         ((type == 'ordercancelled' || type == 'cancelorder')
             ? OrderStatus.cancelledByUser
@@ -198,12 +286,12 @@ class NotificationPayload {
     if (!patch.containsKey('orderdate') && patch['date'] != null) {
       patch['orderdate'] = patch['date'];
     }
-    return patch;
+    return patch..removeWhere((_, value) => value == null);
   }
 
   int? get orderId => int.tryParse('${orderPatch['id']}');
   bool get detailsRefreshed => boolean(get('detailsRefreshed')) == true;
-  Map<String, dynamic> get notification => object(get('notification'));
+  late final Map<String, dynamic> notification = object(get('notification'));
   int? get notificationId =>
       integer('notificationId') ?? int.tryParse('${value(notification, 'id')}');
 
@@ -238,6 +326,20 @@ class NotificationPayload {
     }
   }
 
+  bool get _hasFlatOrderCreator {
+    final type = integer('userType');
+    if (type != null &&
+        type != UserType.appUser &&
+        type != UserType.companyUser) {
+      return false;
+    }
+    return get('username') != null ||
+        (type != null &&
+            (integer('envelopeUserId') != null ||
+                integer('provid') != null ||
+                integer('providerId') != null));
+  }
+
   /// Recipient fields are separate from the order creator's USERID/USERTYPE.
   bool isFor(int userId, int userType) {
     if (kind == NotificationKind.deliveryStatus) {
@@ -246,8 +348,9 @@ class NotificationPayload {
       final providerId = integer('provid') ??
           integer('providerId') ??
           int.tryParse('${value(delivery, 'provid')}');
-      if (providerId != null && providerId > 0 && providerId != userId)
+      if (providerId != null && providerId > 0 && providerId != userId) {
         return false;
+      }
     }
     // Harag already has a group-chat consumer that validates the ad and its
     // contributors. Its broadcast messages can omit TOUSER/TOUSERTYPE.
@@ -263,11 +366,24 @@ class NotificationPayload {
         userType != UserType.providerUser) {
       return false;
     }
+    final hasOrder = isOrder;
+    if (hasOrder && userType == UserType.providerUser) {
+      final providerId = int.tryParse('${orderPatch['provid']}');
+      if (providerId != null && providerId > 0 && providerId != userId) {
+        return false;
+      }
+    }
+    final useFlatRecipient =
+        kind != NotificationKind.chat && (!hasOrder || !_hasFlatOrderCreator);
     final recipientId = integer('toUserId') ??
         integer('toUser') ??
-        (kind == NotificationKind.chat ? null : integer('userId'));
+        int.tryParse('${value(notification, 'toUserId')}') ??
+        (hasOrder ? integer('envelopeUserId') : null) ??
+        (useFlatRecipient ? integer('userId') : null);
     final recipientType = integer('toUserType') ??
-        (kind == NotificationKind.chat ? null : integer('userType'));
+        int.tryParse('${value(notification, 'toUserType')}') ??
+        (hasOrder ? integer('envelopeUserType') : null) ??
+        (useFlatRecipient ? integer('userType') : null);
     return (recipientId == null || recipientId == 0 || recipientId == userId) &&
         (recipientType == null ||
             recipientType == 0 ||

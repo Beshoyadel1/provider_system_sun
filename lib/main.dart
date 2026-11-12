@@ -36,9 +36,7 @@ void main() async {
             firebaseMessagingBackgroundHandler);
       }
     }
-  } catch (e) {
-    debugPrint("Firebase init note: $e");
-  }
+  } catch (_) {}
   setupGetIt();
   runApp(
     MultiBlocProvider(

@@ -33,81 +33,26 @@
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
+  <script src="notification-clicks.js"></script>
+  <script src="notification-sound.js"></script>
   <script>
-    const notificationClicks = [];
-    const notificationMessages = [];
-    let notificationClickHandler = null;
-    let notificationMessageHandler = null;
-    function deliverNotificationClick(payload) {
-      const encoded = JSON.stringify(payload);
-      if (notificationClickHandler) notificationClickHandler(encoded);
-      else notificationClicks.push(encoded);
-    }
-    function deliverNotificationMessage(payload) {
-      const encoded = JSON.stringify(payload);
-      if (notificationMessageHandler) notificationMessageHandler(encoded);
-      else notificationMessages.push(encoded);
-    }
-    navigator.serviceWorker?.addEventListener('message', function (event) {
-      const packet = event.data;
-      if (packet?.type === 'SUN_NOTIFICATION_CLICK') {
-        deliverNotificationClick(packet.payload);
-      } else if (packet?.type === 'SUN_NOTIFICATION_MESSAGE') {
-        deliverNotificationMessage(packet.payload);
-      } else if (packet?.isFirebaseMessaging === true) {
-        // With a visible window Firebase bypasses onBackgroundMessage and posts
-        // this SDK envelope directly. Do not depend on the lazy Dart adapter.
-        if (packet.messageType === 'push-received') {
-          deliverNotificationMessage(packet);
-        } else if (packet.messageType === 'notification-clicked') {
-          deliverNotificationClick(packet);
-        }
-      }
-    });
-    const launchUrl = new URL(window.location.href);
-    const launchNotification = launchUrl.searchParams.get('notificationClick');
-    if (launchNotification) {
-      try { deliverNotificationClick(JSON.parse(launchNotification)); } catch (_) {}
-      launchUrl.searchParams.delete('notificationClick');
-      history.replaceState(history.state, '', launchUrl);
-    }
-    window.registerNotificationClickHandler = function (handler) {
-      notificationClickHandler = handler;
-      if (handler) {
-        while (notificationClicks.length) handler(notificationClicks.shift());
-      }
-    };
-    window.registerNotificationMessageHandler = function (handler) {
-      notificationMessageHandler = handler;
-      if (handler) {
-        while (notificationMessages.length) handler(notificationMessages.shift());
-      }
-    };
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function () {
-        navigator.serviceWorker.register('/firebase-messaging-sw.js', { scope: '/' }).catch(function (error) {
-          console.warn('Firebase Messaging Service Worker registration failed: ', error);
-        });
-      });
-    }
-
-    window.showBrowserNotification = function(title, body) {
+    window.showBrowserNotification = function(title, body, onClick) {
+      const show = function() {
+        try {
+          const notification = new Notification(title, { body: body, icon: '/favicon.png' });
+          notification.onclick = function() {
+            notification.close();
+            window.focus();
+            if (onClick) onClick();
+          };
+        } catch {}
+      };
       if (!('Notification' in window)) return;
       if (Notification.permission === 'granted') {
-        try {
-          new Notification(title, { body: body, icon: '/favicon.png' });
-        } catch (e) {
-          console.warn('Notification display failed: ', e);
-        }
+        show();
       } else if (Notification.permission !== 'denied') {
         Notification.requestPermission().then(function(permission) {
-          if (permission === 'granted') {
-            try {
-              new Notification(title, { body: body, icon: '/favicon.png' });
-            } catch (e) {
-              console.warn('Notification display failed: ', e);
-            }
-          }
+          if (permission === 'granted') show();
         });
       }
     };

@@ -4,7 +4,6 @@ import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/a
 import 'package:sun_web_system/features/auth_page/presentation/bloc/auth_cubit/auth_state.dart';
 import 'package:sun_web_system/features/auth_page/presentation/pages/check_email_exist/check_email_exist_page.dart';
 import '../../../../../../core/api/dio_function/api_constants.dart';
-import '../../../../../../core/services/fcm_service.dart';
 import '../../../../../../core/theming/colors.dart';
 import '../../../../../../core/pages_widgets/general_widgets/navigate_to_page_widget.dart';
 import '../../../../../../core/pages_widgets/general_widgets/snakbar.dart';
@@ -33,8 +32,6 @@ class _LoginWidgetState extends State<LoginWidget> {
     super.initState();
     userNameController = TextEditingController();
     passwordController = TextEditingController();
-    // Warm up FCM token in advance so it's ready before login
-    FcmService.instance.getToken(vapidKey: FcmConfig.webVapidKey);
   }
 
   @override

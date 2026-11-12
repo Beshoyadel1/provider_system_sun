@@ -174,7 +174,8 @@ class AppLanguageKeys {
       'employeeAvailablePermissions';
   static const String employeePermissions = 'employeePermissions';
   static const String acceptAllOrders = 'acceptAllOrders';
-  static const String changeOrderStatus = 'changeOrderStatus';
+  static const String acceptAndRefuseAndAssignOrders =
+      'acceptAndRefuseAndAssignOrders';
   static const String maintenance = 'maintenance';
   static const String noServicesAssigned = 'noServicesAssigned';
   static const String orders = 'orders';

@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sun_web_system/core/api/dio_function/api_constants.dart';
@@ -42,7 +41,6 @@ typedef AuthLoginHandler = Future<LoginResult> Function({
 typedef AuthNotificationInitializer = Future<void> Function({
   required int userId,
   required int userType,
-  String? registeredToken,
 });
 
 class AuthCubit extends Cubit<AuthState> {
@@ -52,9 +50,7 @@ class AuthCubit extends Cubit<AuthState> {
     AuthNotificationInitializer? notificationInitializer,
     Future<void> Function()? notificationDisconnector,
   })  : _loginHandler = loginHandler ?? loginFunction,
-        _tokenLoader = tokenLoader ??
-            (() =>
-                FcmService.instance.getToken(vapidKey: FcmConfig.webVapidKey)),
+        _tokenLoader = tokenLoader ?? FcmService.instance.getToken,
         _notificationInitializer =
             notificationInitializer ?? FcmService.instance.init,
         _notificationDisconnector =
@@ -134,49 +130,15 @@ class AuthCubit extends Cubit<AuthState> {
       return;
     }
 
-    final fcmToken = await _tokenLoader();
-    if (!_isCurrentSession(revision)) return;
-
-    final result = await _loginHandler(
-      loginRequest: LoginRequest(
+    await _login(
+      LoginRequest(
         user: localUser.email!,
         password: password,
         type: UserType.providerUser,
-        fcmToken: fcmToken.isNotEmpty ? fcmToken : null,
       ),
+      revision: revision,
+      restoringSession: true,
     );
-    if (!_isCurrentSession(revision)) return;
-
-    // Login API failed
-    if (!result.success || result.user == null) {
-      await _forceLogout(revision);
-      return;
-    }
-
-    final apiUser = result.user!;
-
-    if (!await AuthLocalStorage.saveSession(apiUser, password,
-        revision: revision)) {
-      return;
-    }
-    if (!_isCurrentSession(revision)) return;
-
-    print("INIT => Local user == API user");
-
-    // Initialize FCM and sync token with backend
-    try {
-      await _notificationInitializer(
-        userId: apiUser.userid ?? 0,
-        userType: apiUser.type ?? UserType.providerUser,
-        registeredToken: fcmToken,
-      );
-    } catch (e) {
-      debugPrint("FCM Init Note: $e");
-    }
-    if (!_isCurrentSession(revision)) return;
-
-    // Check facility completion
-    await _checkFacilityCompletion(apiUser);
   }
 
   Future<void> _forceLogout(int revision) async {
@@ -207,11 +169,17 @@ class AuthCubit extends Cubit<AuthState> {
     final revision = AuthLocalStorage.beginSession();
     _resetTemporaryData();
     emit(AuthLoginLoading());
+    await _login(request, revision: revision, restoringSession: false);
+  }
 
-    // Retrieve or confirm current FCM token before login API call
-    final fcmToken = await _tokenLoader();
+  Future<void> _login(
+    LoginRequest request, {
+    required int revision,
+    required bool restoringSession,
+  }) async {
+    final fcmToken = (await _tokenLoader()).trim();
     if (!_isCurrentSession(revision)) return;
-    final String? tokenToSend = fcmToken.isNotEmpty ? fcmToken : null;
+    final tokenToSend = fcmToken.isEmpty ? null : fcmToken;
 
     final effectiveRequest = LoginRequest(
       user: request.user,
@@ -220,21 +188,17 @@ class AuthCubit extends Cubit<AuthState> {
       fcmToken: tokenToSend,
     );
 
-    if (kDebugMode) {
-      print("AuthCubit: Login called with FCM Token => $tokenToSend");
-    }
-
     final result = await _loginHandler(
       loginRequest: effectiveRequest,
     );
     if (!_isCurrentSession(revision)) return;
 
     if (!result.success || result.user == null) {
-      emit(
-        AuthLoginError(
-          result.message,
-        ),
-      );
+      if (restoringSession) {
+        await _forceLogout(revision);
+      } else {
+        emit(AuthLoginError(result.message));
+      }
       return;
     }
 
@@ -246,23 +210,18 @@ class AuthCubit extends Cubit<AuthState> {
     }
     if (!_isCurrentSession(revision)) return;
 
-    // Initialize FCM and sync token with backend
+    // Start the notification listeners after the login saves the session.
     try {
       await _notificationInitializer(
         userId: apiUser.userid ?? 0,
         userType: apiUser.type ?? UserType.providerUser,
-        registeredToken: tokenToSend,
       );
-    } catch (e) {
-      debugPrint("FCM Init Note: $e");
-    }
+    } catch (_) {}
     if (!_isCurrentSession(revision)) return;
 
-    emit(
-      AuthLoginSuccess(
-        message: result.message,
-      ),
-    );
+    if (!restoringSession) {
+      emit(AuthLoginSuccess(message: result.message));
+    }
 
     await _checkFacilityCompletion(apiUser);
   }

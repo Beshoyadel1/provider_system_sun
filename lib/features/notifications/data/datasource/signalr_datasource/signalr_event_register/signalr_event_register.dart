@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:signalr_core/signalr_core.dart';
 import '../../../../../../core/api/dio_function/api_constants.dart';
 
@@ -34,14 +33,10 @@ class SignalREventRegister {
   }
   void register(HubConnection connection) {
     unregister(connection);
-    debugPrint("✅ Registering SignalR Events");
 
     connection.on(
       SignalRTypes.receiveNotification,
-          (args) {
-        debugPrint("🔥 ReceiveNotification Event Fired");
-        onReceiveNotification(args);
-      },
+      onReceiveNotification,
     );
     // connection.on(
     //   SignalRTypes.receiveMessage,

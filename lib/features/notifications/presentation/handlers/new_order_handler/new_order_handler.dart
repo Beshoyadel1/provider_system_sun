@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import '../../../../../../core/language/language_constant.dart';
 import '../../../../../../features/internal_services/presentation/cubit/order_funcations/order_functions.dart';
 import '../../../../../../features/notifications/data/datasource/parsers/new_order_parser/new_order_parser.dart';
@@ -55,9 +54,6 @@ class NewOrderHandler {
           _navigationService.openDashboardOrders();
         },
       );
-    } catch (e, s) {
-      debugPrint("NewOrder Error => $e");
-      debugPrintStack(stackTrace: s);
-    }
+    } catch (_) {}
   }
 }

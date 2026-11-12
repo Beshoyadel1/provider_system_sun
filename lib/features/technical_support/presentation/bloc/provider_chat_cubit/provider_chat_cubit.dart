@@ -9,6 +9,7 @@ import 'package:sun_web_system/features/technical_support/data/datasource/provid
 import 'package:sun_web_system/features/technical_support/data/model/chat_events/chat_events.dart';
 import 'package:sun_web_system/features/technical_support/data/model/chat_identity.dart';
 import 'package:sun_web_system/features/technical_support/data/model/provider_chat_model.dart';
+import 'package:sun_web_system/features/technical_support/data/request/send_message_request/send_message_request.dart';
 import 'provider_chat_state.dart';
 
 class ProviderChatCubit extends Cubit<ProviderChatState> {
@@ -29,13 +30,14 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
   Future<void>? _summaryRequest;
   final Map<String, bool> _closedChats = {};
   final Map<String, Timer> _readTimers = {};
-  final Set<String> _loadedThreads = {}, _loadingThreads = {};
+  final Set<String> _loadedThreads = {}, _pendingHistoryRefreshes = {};
+  final Map<String, bool> _loadingThreads = {};
   final Map<String, ChatIdentity> _assignedPeers = {};
   final Map<String, int> _supportEpochs = {},
       _statusEpochs = {},
       _readRevisions = {};
   final Map<int, int> _arrivalRevisions = {};
-  final Map<int, Set<int>> _knownIdsAtSend = {};
+  final Map<int, int> _sendAnchors = {};
   final Set<int> _matchedMessageIds = {}, _deletedMessageIds = {};
   int _nextSupportEpoch = 0, _revision = 0, _sendSerial = 0;
   ChatIdentity? _sendingPeer;
@@ -59,11 +61,72 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
         (payload.integer('harageId') ?? 0) == 0;
   }
 
+  void refreshVisibleChatFromPush(NotificationPayload payload) {
+    final selected = state.selectedChat;
+    if (isClosed ||
+        !_chatVisible ||
+        selected == null ||
+        currentUserId <= 0 ||
+        currentUserType <= 0 ||
+        payload.kind != NotificationKind.chat ||
+        payload.contextId('harageId') != 0 ||
+        _deletedMessageIds.contains(payload.integer('id'))) {
+      return;
+    }
+
+    final peer = _identity(selected);
+    if (peer.type == UserType.adminUser && payload.contextId('orderId') != 0) {
+      return;
+    }
+    final pushPeer = payload.chatPeer(currentUserId, currentUserType);
+    if (pushPeer != null) {
+      if (_resolve(pushPeer).key != peer.key) return;
+    } else {
+      final account = ChatIdentity(currentUserId, currentUserType);
+      bool matchesField(String field, int expected) {
+        final value = payload.get(field)?.toString().trim() ?? '';
+        return value.isEmpty ||
+            value.toLowerCase() == 'null' ||
+            int.tryParse(value) == expected;
+      }
+
+      bool matchesEndpoint(String prefix, ChatIdentity endpoint) =>
+          matchesField('${prefix}user', endpoint.id) &&
+          matchesField('${prefix}usertype', endpoint.type);
+
+      final incoming =
+          matchesEndpoint('from', peer) && matchesEndpoint('to', account);
+      final outgoing =
+          matchesEndpoint('from', account) && matchesEndpoint('to', peer);
+      if (!incoming && !outgoing) return;
+    }
+
+    _refreshVisibleHistory();
+  }
+
+  String? _loadingKey(ChatIdentity peer) => _loadingThreads.keys
+      .where((key) => (_assignedPeers[key]?.key ?? key) == peer.key)
+      .firstOrNull;
+
+  void _refreshVisibleHistory() {
+    final selected = state.selectedChat;
+    if (isClosed || !_chatVisible || selected == null || selectedChatIsClosed) {
+      return;
+    }
+    final loadingKey = _loadingKey(_identity(selected));
+    if (loadingKey != null) {
+      _pendingHistoryRefreshes.add(loadingKey);
+      return;
+    }
+    unawaited(getOlderMessages(initialLoad: true, force: true, silent: true));
+  }
+
   void setChatVisibility(bool visible, {Object? owner}) {
     if (owner != null) {
       if (!visible && _visibleOwner != null && _visibleOwner != owner) return;
       _visibleOwner = owner;
     }
+    final becameVisible = visible && !_chatVisible;
     _chatVisible = visible;
     final selected = state.selectedChat;
     if (isClosed || !visible || selected == null) return;
@@ -76,6 +139,7 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
           unViewedMessagesCount: 0));
       unawaited(markChatViewed(peer.id, peer.type));
     }
+    if (becameVisible) _refreshVisibleHistory();
   }
 
   int get currentUserId => _cachedUserId;
@@ -157,8 +221,7 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
         final peer = _messagePeer(message);
         final localIndex = result.indexWhere((m) =>
             m.id < 0 &&
-            _knownIdsAtSend.containsKey(m.id) &&
-            !_knownIdsAtSend[m.id]!.contains(message.id) &&
+            message.id > (_sendAnchors[m.id] ?? message.id) &&
             m.isOutgoing(currentUserId, currentUserType) &&
             peer?.key == _messagePeer(m)?.key &&
             m.message == message.message &&
@@ -171,7 +234,7 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
                         1000)));
         if (localIndex >= 0) {
           _matchedMessageIds.add(message.id);
-          _knownIdsAtSend.remove(result[localIndex].id);
+          _sendAnchors.remove(result[localIndex].id);
           if (index < 0) {
             index = localIndex;
           } else {
@@ -188,12 +251,24 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
             viewed: message.viewed || result[index].viewed);
       }
     }
-    result.sort((a, b) {
-      final date =
-          (a.date ?? DateTime(1970)).compareTo(b.date ?? DateTime(1970));
-      return date != 0 ? date : a.id.compareTo(b.id);
-    });
+    result.sort(_compareMessages);
     return result;
+  }
+
+  int _messageSequence(ChatMessageModel message) =>
+      message.id >= 0 ? message.id : _sendAnchors[message.id] ?? 0;
+
+  int _compareMessages(ChatMessageModel? first, ChatMessageModel? second) {
+    if (first == null) return second == null ? 0 : -1;
+    if (second == null) return 1;
+    // Confirmed IDs order messages even when push and history timestamps differ.
+    // Pending replies follow the newest confirmed message known when they were sent.
+    final sequence =
+        _messageSequence(first).compareTo(_messageSequence(second));
+    if (sequence != 0) return sequence;
+    if (first.id < 0 || second.id < 0) return second.id.compareTo(first.id);
+    return (first.date ?? DateTime(1970))
+        .compareTo(second.date ?? DateTime(1970));
   }
 
   ChatIdentity? _messagePeer(ChatMessageModel message) {
@@ -243,8 +318,7 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
       {GetAllMessagesModel? selected,
       bool clearSelected = false,
       bool supportRemoved = false}) {
-    chats.sort((a, b) => (b.lastMessage?.date ?? DateTime(1970))
-        .compareTo(a.lastMessage?.date ?? DateTime(1970)));
+    chats.sort((a, b) => _compareMessages(b.lastMessage, a.lastMessage));
     final active = clearSelected
         ? null
         : selected ??
@@ -267,8 +341,7 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
               active.lastMessage?.isClosed ??
               false),
       isLoadingOlder: active != null &&
-          _loadingThreads.any((key) =>
-              (_assignedPeers[key]?.key ?? key) == _identity(active).key),
+          _loadingThreads[_loadingKey(_identity(active))] == true,
     ));
   }
 
@@ -602,7 +675,7 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
       _deletedMessageIds.addAll(
           (chat.messages ?? []).where((m) => m.id > 0).map((m) => m.id));
       for (final m in chat.messages ?? <ChatMessageModel>[]) {
-        _knownIdsAtSend.remove(m.id);
+        _sendAnchors.remove(m.id);
       }
     }
     _ignoreRemoteSupport = true;
@@ -611,6 +684,7 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
       _supportEpochs[key] = ++_nextSupportEpoch;
       _loadedThreads.remove(key);
       _loadingThreads.remove(key);
+      _pendingHistoryRefreshes.remove(key);
       _readTimers.remove(key)?.cancel();
     }
     if (keys.contains(_assignedPeers[pending.key]?.key)) {
@@ -736,43 +810,39 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
         toUser: chat.touser!,
         toUserType: chat.tousertype!,
         message: trimmed,
-        date: _now(),
+        date: _now().toUtc(),
         viewed: true,
         orderId: orderId);
-    _knownIdsAtSend[outgoing.id] =
-        (chat.messages ?? []).where((m) => m.id > 0).map((m) => m.id).toSet();
+    _sendAnchors[outgoing.id] = state.allMessages.fold(0, (latest, chat) {
+      final message = chat.lastMessage;
+      if (message == null) return latest;
+      final sequence = _messageSequence(message);
+      return sequence > latest ? sequence : latest;
+    });
     _put(chat.copyWith(
         messages: _mergeMessages(chat.messages ?? [], [outgoing])));
     emit(state.copyWith(isSendingMessage: true, clearErrorMessage: true));
     try {
       final response = await chatRepository.sendChatMessage(
-          message: SendChatMessageModel(
-              fromUser: currentUserId,
-              fromUserType: currentUserType,
-              toUser: outgoing.toUser,
-              toUserType: outgoing.toUserType,
-              date: outgoing.date,
-              orderId: orderId ?? 0,
+          message: SendMessageRequest(
+              fromuser: outgoing.fromUser,
+              fromusertype: outgoing.fromUserType,
+              touser: outgoing.toUser,
+              tousertype: outgoing.toUserType,
+              orderid: orderId,
               message: trimmed));
-      final root = NotificationPayload.object(response);
-      if (response == false ||
-          NotificationPayload.value(root, 'status') == false ||
-          NotificationPayload.value(root, 'success') == false) {
-        throw StateError(
-            '${NotificationPayload.value(root, 'message') ?? 'Failed to send message'}');
-      }
-      final nested =
-          NotificationPayload.object(NotificationPayload.value(root, 'data'));
-      final result = nested.isNotEmpty ? nested : root;
-      final returned = NotificationPayload(result);
+      final data = NotificationPayload.value(response, 'data');
+      final nested = NotificationPayload.object(data);
+      final returned =
+          NotificationPayload(nested.isNotEmpty ? nested : response);
       final returnedId = returned.integer('id');
-      final returnedDate = ChatMessageModel.parseDate(returned.get('date'));
+      final returnedDate = ChatMessageModel.parseDate(
+          returned.get('date') ?? (data is String ? data : null));
       // A generic success envelope may also have an ID. Only a message-shaped
       // response for this exact send can acknowledge the local message.
       final rawPeer = returned.chatPeer(currentUserId, currentUserType);
       final matchesSend = returnedId != null &&
           returnedId > 0 &&
-          returnedDate != null &&
           returned.contextId('orderId') == (outgoing.orderId ?? 0) &&
           returned.contextId('harageId') == 0 &&
           returned.integer('fromuser') == outgoing.fromUser &&
@@ -788,29 +858,37 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
         }
         return;
       }
+      final latest = _find(_resolve(targetPeer));
+      final messages = latest?.messages;
+      if (latest == null || messages == null) return;
       if (matchesSend) {
-        _knownIdsAtSend.remove(outgoing.id);
+        _sendAnchors.remove(outgoing.id);
         _matchedMessageIds.add(returnedId);
-        final peer = _messagePeer(outgoing)!;
-        final latest = _find(peer);
-        if (latest != null) {
-          final existing =
-              latest.messages?.where((m) => m.id == returnedId).firstOrNull;
-          // An earlier echo already has the backend timestamp and canonical data.
-          final acknowledged =
-              existing ?? outgoing.copyWith(id: returnedId, date: returnedDate);
-          final messages = latest.messages?.where((m) => m.id != outgoing.id) ??
-              <ChatMessageModel>[];
-          _put(latest.copyWith(
-              messages: _mergeMessages(messages, [acknowledged])));
-        }
+        final existing = messages.where((m) => m.id == returnedId).firstOrNull;
+        final acknowledged =
+            existing ?? outgoing.copyWith(id: returnedId, date: returnedDate);
+        _put(latest.copyWith(
+            messages: _mergeMessages(
+                messages.where((m) => m.id != outgoing.id), [acknowledged])));
+      } else if (returnedDate != null &&
+          messages.any((m) => m.id == outgoing.id)) {
+        // A timestamp-only response confirms the send. Keep the local ID until
+        // the server message arrives through a push or conversation history.
+        final updated = messages
+            .map(
+                (m) => m.id == outgoing.id ? m.copyWith(date: returnedDate) : m)
+            .toList();
+        _put(latest.copyWith(
+            messages: _mergeMessages(updated,
+                messages.where((m) => m.id > 0 && m.date == returnedDate),
+                fromHistory: true)));
       }
     } catch (e) {
       if (!_requestValid(session, targetPeer, epoch) || serial != _sendSerial) {
         return;
       }
-      _knownIdsAtSend.remove(outgoing.id);
-      final latest = _find(_messagePeer(outgoing)!);
+      _sendAnchors.remove(outgoing.id);
+      final latest = _find(_resolve(targetPeer));
       if (latest != null) {
         _put(latest.copyWith(
             messages:
@@ -829,8 +907,11 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
   Future<void> reloadSelectedChat() =>
       getOlderMessages(initialLoad: true, force: true);
 
-  Future<void> getOlderMessages(
-      {bool initialLoad = false, bool force = false}) async {
+  Future<void> getOlderMessages({
+    bool initialLoad = false,
+    bool force = false,
+    bool silent = false,
+  }) async {
     final chat = state.selectedChat;
     if (isClosed ||
         chat == null ||
@@ -840,16 +921,17 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
     }
     final peer = _identity(chat);
     if (peer.type == UserType.adminUser && _ignoreRemoteSupport) return;
-    if (_loadingThreads
-            .any((key) => (_assignedPeers[key]?.key ?? key) == peer.key) ||
+    if (_loadingKey(peer) != null ||
         (initialLoad && !force && _loadedThreads.contains(peer.key)) ||
         (!initialLoad && chat.noOldMessages)) {
       return;
     }
     final session = _session;
     final epoch = _epoch(peer);
-    _loadingThreads.add(peer.key);
-    emit(state.copyWith(isLoadingOlder: true, clearErrorMessage: true));
+    _loadingThreads[peer.key] = !silent;
+    if (!silent) {
+      emit(state.copyWith(isLoadingOlder: true, clearErrorMessage: true));
+    }
     try {
       final fetched = initialLoad
           ? await chatRepository.getChatMessages(
@@ -863,7 +945,8 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
               toUser: peer.id,
               toUserType: peer.type,
               date: (chat.messages?.firstOrNull?.date ??
-                      DateTime.now().add(const Duration(days: 1)))
+                      _now().add(const Duration(days: 1)))
+                  .toUtc()
                   .toIso8601String());
       if (!_requestValid(session, peer, epoch)) return;
       final resolved = _resolve(peer);
@@ -894,14 +977,19 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
         unawaited(markChatViewed(resolved.id, resolved.type));
       }
     } catch (e) {
-      if (_requestValid(session, peer, epoch)) {
+      if (!silent && _requestValid(session, peer, epoch)) {
         emit(state.copyWith(
             errorMessage: e.toString().replaceFirst('Exception: ', '')));
       }
     } finally {
       if (_requestValid(session, peer, epoch)) {
         _loadingThreads.remove(peer.key);
-        _publish(List.of(state.allMessages));
+        if (!silent) _publish(List.of(state.allMessages));
+        if (_pendingHistoryRefreshes.remove(peer.key) &&
+            state.selectedChat != null &&
+            _identity(state.selectedChat!).key == _resolve(peer).key) {
+          _refreshVisibleHistory();
+        }
       }
     }
   }
@@ -917,8 +1005,10 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
           fromUserType: currentUserType,
           toUser: toUser,
           toUserType: toUserType);
-      if (!success && _requestValid(session, peer, epoch) &&
-          state.selectedChat != null && _identity(state.selectedChat!).key == peer.key) {
+      if (!success &&
+          _requestValid(session, peer, epoch) &&
+          state.selectedChat != null &&
+          _identity(state.selectedChat!).key == peer.key) {
         emit(state.copyWith(errorMessage: 'Could not update read status'));
       }
       // Acknowledging reads never reloads history or clears newer unread arrivals.
@@ -932,7 +1022,7 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
         (payload.integer('id') ?? 0) <= 0 ||
         _deletedMessageIds.contains(payload.integer('id')) ||
         ChatMessageModel.parseDate(payload.get('date')) == null ||
-        payload.get('message') == null) {
+        (payload.get('message') == null && payload.body.isEmpty)) {
       return false;
     }
     if (['orderId', 'harageId'].any((key) => payload.contextId(key) == null)) {
@@ -1060,12 +1150,13 @@ class ProviderChatCubit extends Cubit<ProviderChatState> {
     _closedChats.clear();
     _loadedThreads.clear();
     _loadingThreads.clear();
+    _pendingHistoryRefreshes.clear();
     _assignedPeers.clear();
     _supportEpochs.clear();
     _statusEpochs.clear();
     _readRevisions.clear();
     _arrivalRevisions.clear();
-    _knownIdsAtSend.clear();
+    _sendAnchors.clear();
     _matchedMessageIds.clear();
     _deletedMessageIds.clear();
     _nextSupportEpoch = _revision = 0;
